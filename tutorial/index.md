@@ -157,6 +157,86 @@ TODO: groonga の実行形式にパスを通すなどする (apt で groonga 入
 ## droonga frontend を構築する
 
 
+### nvm をインストールする
+
+    $ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
+    $ source ~/.bash_profile
+
+### Node.js をインストールする
+
+    $ nvm install 0.10.16
+    $ nvm alias default 0.10
+
+Node.js のバージョンを表示して、先ほどインストールした `0.10.16` であることを確認してみましょう。
+
+    vagrant@precise64:~$ node --version
+    v0.10.16
+
+### express-droonga をインストールする
+
+    $ cd ~
+    $ mkdir frontend
+    $ cd frontend
+
+以下のような `package.json` を用意します。
+
+    {
+      "name": "frontend",
+      "description": "frontend",
+      "version": "0.0.0",
+      "author": "Droonga project",
+      "dependencies": {
+        "express": "*",
+        "express-droonga": "git+https://github.com/droonga/express-droonga.git"
+      }
+    }
+
+(express-droonga がリリースされたあと:)
+
+    {
+      "name": "frontend",
+      "description": "frontend",
+      "version": "0.0.0",
+      "author": "Droonga project",
+      "dependencies": {
+        "express": "*",
+        "express-droonga": "*"
+      }
+    }
+
+パッケージをインストールします。
+
+    $ npm install
+
+
+### frontend を作成する
+
+以下のような内容で frontend.js を作成します。
+
+    var express = require('express'),
+        droonga = require('express-droonga');
+    
+    var application = express();
+    var server = require('http').createServer(application);
+    server.listen(3000); // the port to communicate with clients
+    
+    application.droonga({
+      prefix: '/droonga',
+      tag:    'droonga',
+      server: server // this is required to initialize Socket.IO API!
+    });
+
+frontend.js を実行します。
+
+    vagrant@precise64:~/frontend$ node frontend.js
+       info  - socket.io started
+
+
+### 動作を確認
+
+WIP
+
+
   [droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
