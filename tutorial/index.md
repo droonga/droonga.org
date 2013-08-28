@@ -433,3 +433,4 @@ TODO: 以上のように、...
   [groonga]: http://groonga.org/
   [vagrant]: http://www.vagrantup.com/
   [ruby]: http://www.ruby-lang.org/
+  [rbenv]: https://github.com/sstephenson/rbenv
