@@ -418,9 +418,46 @@ Webブラウザから `http://192.168.33.10:3000` を開いてみてください
 
 Web ブラウザから Socket.IO 経由でリクエストが frontend に送信され、それが backend に送られ、検索結果が frontend に返され、さらに Web ブラウザに返されます。
 
-TODO: 全文検索を行う場合の例も示す
+今度は全文検索を行ってみましょう。先ほどと同様に「阿佐ヶ谷」を店名に含むたいやき屋を検索します。`index.html` の `socket.emit()` の呼び出しを書き換え、以下の様な `index.html` を用意します。
 
-TODO: 以上のように、...
+    <html>
+      <head>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          var socket = io.connect('http://localhost:3000');
+          socket.on('search.result', function (data) {
+            alert(JSON.stringify(data));
+          });
+          socket.emit('search', { queries: {
+            result: {
+              source: 'Shops',
+              condition: {
+                query: '阿佐ヶ谷',
+                matchTo: '_key'
+              },
+              output: {
+                 elements: [
+                   'startTime',
+                   'elapsedTime',
+                   'count',
+                   'attributes',
+                   'records'
+                 ],
+                 attributes: ['_key']
+              }
+            }
+          }});
+        </script>
+      </head>
+    <body>
+    </body>
+    </html>
+
+ブラウザで再度 `http://192.168.33.10:3000` を開くと、以下のような検索結果が alert で表示されます。
+
+    {"result":{"count":2,"records":[["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]],"startTime":"2013-08-28T09:23:14+00:00","elapsedTime":0.0030717849731445312}}
+
+このように、Socket.IO を利用して、リクエストとレスポンスを非同期に送受信する検索クライアントを作成することができました。
 
 
 ## まとめ
