@@ -394,8 +394,8 @@ index.html:
           }});
         </script>
       </head>
-    <body>
-    </body>
+      <body>
+      </body>
     </html>
 
 `socket.emit()` でクエリを送信します。クエリの処理が完了し、結果が戻ってくると、 `socket.on('search.result', ...)` のコールバックが呼ばれ、alert にその結果が表示されます。
@@ -449,8 +449,8 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
           }});
         </script>
       </head>
-    <body>
-    </body>
+      <body>
+      </body>
     </html>
 
 ブラウザで再度 `http://192.168.33.10:3000` を開くと、以下のような検索結果が alert で表示されます。
