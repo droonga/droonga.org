@@ -358,6 +358,75 @@ frontend.js を実行します。
 以上 2 件が検索結果として該当することがわかりました。
 
 
+### Socket.IO を用いた非同期処理
+
+先ほど作った `frontend.js` は、実は REST API だけでなく、 Socket.IO にも対応しています (`express-droonga` のおかげです)。Socket.io 経由で frontend へリクエストを送ると、処理が完了した時点で frontend から結果を送り返してもらえます。この仕組を利用すると、クライアントアプリケーションと frontend の間でリクエストとレスポンスを別々に送り合う、非同期な通信を行うことができます。
+
+ここでは、Webブラウザを「クライアントアプリケーション」とし、frontend との間で Socket.IO を利用して通信するアプリケーションを作成してみましょう。
+
+
+frontend ディレクトリの下に以下の内容の `index.html` を配置します。
+
+index.html:
+
+    <html>
+      <head>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+          var socket = io.connect('http://localhost:3000');
+          socket.on('search.result', function (data) {
+            alert(JSON.stringify(data));
+          });
+          socket.emit('search', { queries: {
+            result: {
+              source: 'Shops',
+              output: {
+                 elements: [
+                   'startTime',
+                   'elapsedTime',
+                   'count',
+                   'attributes',
+                   'records'
+                 ],
+                 attributes: ['_key']
+              }
+            }
+          }});
+        </script>
+      </head>
+    <body>
+    </body>
+    </html>
+
+`socket.emit()` でクエリを送信します。クエリの処理が完了し、結果が戻ってくると、 `socket.on('search.result', ...)` のコールバックが呼ばれ、alert にその結果が表示されます。
+
+TODO: 'search' とそのパラメータについて、REST なリクエストとの関連性について書く
+
+では、この `index.html` を frontend でホストできるようにするため、`frontend.js` の末尾に以下を追加します。
+
+    application.get('/', function(req, res) {
+      res.sendfile(__dirname + '/index.html');
+    });
+
+これで、`http://localhost:3000/` をリクエストすると、先の `index.html` が返されるようになります。
+
+TODO: vagrant で VM の外で起動したWebブラウザから中のサーバを 192.168.33.10 として叩けるようにする方法を書く (チュートリアル全体を通して Vagrant じゃないほうが簡単な気がしてきた...)
+
+Webブラウザから `http://192.168.33.10:3000` を開いてみてください。以下のように検索結果が alert で表示されれば成功です。
+
+    {"result":{"count":36,"records":[["根津のたいやき"],["たい焼 カタオカ"],["そばたいやき空"],["車"],["広瀬屋"],["さざれ"],["おめで鯛焼き本舗錦糸町東急店"],["尾長屋 錦糸町店"],["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]],"startTime":"2013-08-28T08:42:25+00:00","elapsedTime":0.0002415180206298828}}
+
+Web ブラウザから Socket.IO 経由でリクエストが frontend に送信され、それが backend に送られ、検索結果が frontend に返され、さらに Web ブラウザに返されます。
+
+TODO: 全文検索を行う場合の例も示す
+
+TODO: 以上のように、...
+
+
+## まとめ
+
+
+
   [droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
