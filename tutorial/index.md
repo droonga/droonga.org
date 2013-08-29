@@ -159,13 +159,12 @@ taiyaki.conf:
       queue_name jobqueue23003
     </match>
 
-
 ### fluent-plugin-droonga を起動してみる
 
-    vagrant@precise64:~/backend$ fluentd --config taiyaki.conf
-    2013-08-21 05:33:14 +0000 [info]: starting fluentd-0.10.36
-    2013-08-21 05:33:14 +0000 [info]: reading config file path="taiyaki.conf"
-    2013-08-21 05:33:14 +0000 [info]: using configuration file: <ROOT>
+    $ fluentd --config taiyaki.conf
+    2013-08-29 12:25:12 +0900 [info]: starting fluentd-0.10.36
+    2013-08-29 12:25:12 +0900 [info]: reading config file path="taiyaki.conf"
+    2013-08-29 12:25:12 +0900 [info]: using configuration file: <ROOT>
       <source>
         type forward
         port 23003
@@ -177,8 +176,8 @@ taiyaki.conf:
         queue_name jobqueue23003
       </match>
     </ROOT>
-    2013-08-21 05:33:14 +0000 [info]: adding source type="forward"
-    2013-08-21 05:33:14 +0000 [info]: adding match pattern="droonga.message" type="droonga"
+    2013-08-29 12:25:12 +0900 [info]: adding source type="forward"
+    2013-08-29 12:25:12 +0900 [info]: adding match pattern="droonga.message" type="droonga"
 
 これで、たい焼きデータベースを検索できる droonga backend の準備ができました。
 引き続き droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
