@@ -8,7 +8,7 @@ droonga を使った検索システムを自分で構築できるようになる
 
 ## 前提条件
 
-* Ubuntu Server を自分でセットアップしたり、基本的な操作ができること
+* [Ubuntu][] Server を自分でセットアップしたり、基本的な操作ができること
 * Ruby と Node.js の基本的な知識があること
 
 ## 概要
@@ -477,6 +477,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
 
 
 
+  [Ubuntu]: http://www.ubuntu.com/
   [droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
