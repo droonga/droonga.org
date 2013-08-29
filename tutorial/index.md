@@ -190,6 +190,8 @@ taiyaki.conf:
 
 ## droonga frontend を構築する
 
+droonga frontend を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のライブラリです。ユーザは、ユースケースに応じた droonga frontend を Node.js アプリケーション作成し、そのアプリケーションに `express-droonga` を組み込む形で利用します。
+
 ### nvm をインストールする
 
 Ubuntu 13.04 標準の Node.js は、バージョンが `0.6.19` と古いため、express-droonga に必要なパッケージを利用することができません。
