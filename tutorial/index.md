@@ -190,7 +190,7 @@ taiyaki.conf:
 ### nvm をインストールする
 
 Ubuntu 13.04 標準の Node.js は、バージョンが `0.6.19` と古いため、express-droonga に必要なパッケージを利用することができません。
-ここでは [nvm][] を利用して、新しい Node.js をセットアップします。
+ここでは [nvm][] (Node Version Manager) を利用して、新しい Node.js をセットアップします。
 
     $ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
     $ source ~/.profile
@@ -461,3 +461,4 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
   [express-droonga]: https://github.com/droonga/express-droonga
   [groonga]: http://groonga.org/
   [ruby]: http://www.ruby-lang.org/
+  [nvm]: https://github.com/creationix/nvm
