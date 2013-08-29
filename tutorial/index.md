@@ -214,7 +214,7 @@ Node.js のバージョンを表示して、先ほどインストールした `0
 
 以下のような `package.json` を用意します。
 
-(express-droonga がリリースされるまで:)
+package.json (express-droonga がリリースされるまで):
 
     {
       "name": "frontend",
@@ -228,7 +228,7 @@ Node.js のバージョンを表示して、先ほどインストールした `0
       }
     }
 
-(express-droonga がリリースされたあと:)
+package.json (express-droonga がリリースされたあと):
 
     {
       "name": "frontend",
