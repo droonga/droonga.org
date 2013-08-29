@@ -36,61 +36,27 @@ Ubuntu Server のセットアップが完了し、コンソールにアクセス
 
 TODO: backendって何
 
-TODO: fluent-plugin-droonga は Ruby を利用しているので、Ruby を準備します。なるべく新しい Ruby を維持できるように rbenv と ruby-build を使います。的なこと。
 
+### 必要なパッケージをインストールする
 
-### 必要なパッケージをインストール
+fluent-plugin-droonga をセットアップするために必要なパッケージをインストールします。
 
-
-Ruby をビルドするにあたって、 git-core と build-essential のパッケージが必要になりますので、インストールしておきます。
-
-    $ sudo apt-get install -y git-core build-essential
-
-### rbenv と ruby-build をセットアップする
-
-rbenv を [ドキュメント][rbenv] にしたがってセットアップします。
-
-    $ git clone https://github.com/sstephenson/rbenv.git .rbenv
-    $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-    $ echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-    $ exec $SHELL -l
-
-ruby-build も [ドキュメント][ruby-build] にしたがってインストールします。
-
-    $ git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-
-### Ruby をビルドする
-
-rbenv と ruby-build がセットアップできたので、これらを使って [Ruby][ruby] を build します。
-
-    vagrant@precise64:~$ rbenv install 2.0.0-p247
-
-このバージョンの Ruby をデフォルトで使用するように設定しましょう。
-
-    vagrant@precise64:~$ rbenv global 2.0.0-p247
-
-Ruby のバージョンを表示して、先ほどインストールした `2.0.0p247` であることを確認してみましょう。
-
-    vagrant@precise64:~$ ruby --version
-    ruby 2.0.0p247 (2013-06-27 revision 41674) [x86_64-linux]
-
-確かに、先ほどインストールしたバージョンの Ruby が使われていることがわかりました。
-
+    $ sudo apt-get install -y ruby ruby-dev build-essential
 
 ### fluent-plugin-droonga をインストールする
+
+    $ sudo apt-get install git-core
 
     $ git clone https://github.com/droonga/fluent-plugin-droonga.git
     $ cd fluent-plugin-droonga
     $ gem build fluent-plugin-droonga.gemspec
-    $ gem install fluent-plugin-droonga
-    $ rbenv rehash
+    $ sudo gem install fluent-plugin-droonga
 
 (fluent-plugin-droonga がリリースされた後:)
 
-    $ gem install fluent-plugin-droonga
-    $ rbenv rehash
+    $ sudo gem install fluent-plugin-droonga
 
-droonga backend を構築するのに必要なパッケージがセットアップできたので、引き続き backend の設定に移ります。
+droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
 
 
 ### groonga データベースを用意する
