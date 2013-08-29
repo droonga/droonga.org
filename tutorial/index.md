@@ -150,13 +150,14 @@ taiyaki.conf:
 
     <source>
       type forward
-      port 23003
+      port 24224
     </source>
     <match droonga.message>
       type droonga
       n_workers 2
       database taiyaki/db
-      queue_name jobqueue23003
+      queue_name jobqueue24224
+      handlers search
     </match>
 
 ### fluent-plugin-droonga を起動してみる
