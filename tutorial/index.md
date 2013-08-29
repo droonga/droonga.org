@@ -65,7 +65,6 @@ TODO: なぜこの手順が必要なの？
 
     $ mkdir backend
     $ cd backend
-    $ mkdir taiyaki
 
 例として、たい焼き屋を検索できるデータベースを作成しましょう。
 [groongaで高速な位置情報検索](http://www.clear-code.com/blog/2011/9/13.html) に出てくるたいやき屋データをもとに、店名で全文検索ができるように変更を加えた以下のデータを利用します。
@@ -127,6 +126,8 @@ shop.ddl:
 TODO: groonga の実行形式にパスを通すなどする (apt で groonga 入れた方がいいかも)
 
 ddl.grn と shops.grn をデータベースに読み込みます。
+
+    $ mkdir taiyaki
 
     $ groonga -n taiyaki/db < ddl.grn
     $ groonga taiyaki/db < shops.grn
