@@ -9,7 +9,6 @@ droonga を使った検索システムを自分で構築できるようになる
 ## 前提条件
 
 * Ubuntu Linux 上で基本的な操作ができること
-* [Vagrant][vagrant] がマシンにインストールされており、基本的な操作ができること
 * Ruby と Node.js の基本的な知識があること
 
 ## 概要
@@ -28,15 +27,10 @@ droonga を使った検索システムを自分で構築できるようになる
 
 TODO: ブロック図があるとよいとおもう
 
-## 実験用のVMを用意する
+## 実験用のマシンを用意する
 
-    $ vagrant init precise64 http://files.vagrantup.com/precise64.box
-
-TODO: config.vm.customize ["modifyvm", :id, "--memory", 2048] を指定する
-
-    $ vagrant up
-
-    $ vagrant ssh
+本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.04 64bit` をセットアップし、その上に droonga を構築します。
+Ubuntu Server のセットアップが完了し、コンソールにアクセス出来る状態になったと仮定し、以降の手順を説明していきます。
 
 ## droonga backend を構築する
 
