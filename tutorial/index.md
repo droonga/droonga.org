@@ -44,6 +44,8 @@ TODO: backendって何
 
 ### fluent-plugin-droonga をインストールする
 
+(fluent-plugin-droonga がリリースされるまで:)
+
     $ sudo apt-get install git-core
 
     $ git clone https://github.com/droonga/fluent-plugin-droonga.git
@@ -211,6 +213,8 @@ Node.js のバージョンを表示して、先ほどインストールした `0
     $ cd frontend
 
 以下のような `package.json` を用意します。
+
+(express-droonga がリリースされるまで:)
 
     {
       "name": "frontend",
