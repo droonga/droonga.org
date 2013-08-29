@@ -245,7 +245,7 @@ Node.js のバージョンを表示して、先ほどインストールした `0
 
 ### frontend を作成する
 
-以下のような内容で frontend.js を作成します。
+以下のような内容で `frontend.js` を作成します。
 
     var express = require('express'),
         droonga = require('express-droonga');
@@ -260,7 +260,7 @@ Node.js のバージョンを表示して、先ほどインストールした `0
       server: server // this is required to initialize Socket.IO API!
     });
 
-frontend.js を実行します。
+`frontend.js` を実行します。
 
     $ node frontend.js
        info  - socket.io started
@@ -341,7 +341,7 @@ frontend.js を実行します。
 ここでは、Webブラウザを「クライアントアプリケーション」とし、frontend との間で Socket.IO を利用して通信するアプリケーションを作成してみましょう。
 
 
-frontend ディレクトリの下に以下の内容の `index.html` を配置します。
+`frontend` ディレクトリの下に以下の内容の `index.html` を配置します。
 
 index.html:
 
