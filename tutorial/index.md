@@ -179,6 +179,7 @@ taiyaki.conf:
     </ROOT>
     2013-08-29 12:25:12 +0900 [info]: adding source type="forward"
     2013-08-29 12:25:12 +0900 [info]: adding match pattern="droonga.message" type="droonga"
+    2013-08-29 12:25:12 +0900 [info]: listening fluent socket on 0.0.0.0:24224
 
 これで、たい焼きデータベースを検索できる droonga backend の準備ができました。
 引き続き droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
