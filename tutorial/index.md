@@ -251,6 +251,8 @@ package.json (express-droonga がリリースされたあと):
 
 以下のような内容で `frontend.js` を作成します。
 
+frontend.js:
+
     var express = require('express'),
         droonga = require('express-droonga');
     
