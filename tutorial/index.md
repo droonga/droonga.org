@@ -127,7 +127,7 @@ shops.grn:
 TODO: groonga の実行形式にパスを通すなどする (apt で groonga 入れた方がいいかも) export PATH=/var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local/bin:$PATH
 
 
-ddl.grn と shops.grn をデータベースに読み込みます。
+`ddl.grn` と `shops.grn` をデータベースに読み込みます。
 
     $ mkdir taiyaki
 
