@@ -378,7 +378,22 @@ index.html:
 
 TODO: 'search' とそのパラメータについて、REST なリクエストとの関連性について書く
 
-では、この `index.html` を frontend でホストできるようにするため、`frontend.js` の末尾に以下を追加します。
+では、この `index.html` を frontend でホストできるようにするため、`frontend.js` を以下のように書き換えます。
+
+frontend.js:
+
+    var express = require('express'),
+        droonga = require('express-droonga');
+
+    var application = express();
+    var server = require('http').createServer(application);
+    server.listen(3000); // the port to communicate with clients
+
+    application.droonga({
+      prefix: '/droonga',
+      tag:    'droonga',
+      server: server // this is required to initialize Socket.IO API!
+    });
 
     application.get('/', function(req, res) {
       res.sendfile(__dirname + '/index.html');
