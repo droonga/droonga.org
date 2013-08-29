@@ -32,16 +32,15 @@ TODO: ブロック図があるとよいとおもう
 本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.04 64bit` をセットアップし、その上に droonga を構築します。
 Ubuntu Server のセットアップが完了し、コンソールにアクセス出来る状態になったと仮定し、以降の手順を説明していきます。
 
+## 必要なパッケージをインストールする
+
+droonga をセットアップするために必要になるパッケージをインストールします。
+
+    $ sudo apt-get install -y ruby ruby-dev build-essential
+
 ## droonga backend を構築する
 
 TODO: backendって何
-
-
-### 必要なパッケージをインストールする
-
-fluent-plugin-droonga をセットアップするために必要なパッケージをインストールします。
-
-    $ sudo apt-get install -y ruby ruby-dev build-essential
 
 ### fluent-plugin-droonga をインストールする
 
