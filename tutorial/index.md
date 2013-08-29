@@ -461,4 +461,3 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
   [express-droonga]: https://github.com/droonga/express-droonga
   [groonga]: http://groonga.org/
   [ruby]: http://www.ruby-lang.org/
-  [rbenv]: https://github.com/sstephenson/rbenv
