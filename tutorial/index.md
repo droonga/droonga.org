@@ -80,7 +80,7 @@ ddl.grn:
     table_create Term TABLE_PAT_KEY ShortText --default_tokenizer TokenBigram --normalizer NormalizerAuto
     column_create Term shops__key COLUMN_INDEX|WITH_POSITION Shops _key
 
-shop.ddl:
+shops.grn:
 
     load --table Shops
     [
