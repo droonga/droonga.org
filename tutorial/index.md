@@ -146,6 +146,8 @@ ddl.grn と shops.grn をデータベースに読み込みます。
 
 以下の内容で `taiyaki.conf` を作成します。
 
+taiyaki.conf:
+
     <source>
       type forward
       port 23003
