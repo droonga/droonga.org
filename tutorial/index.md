@@ -186,21 +186,23 @@ taiyaki.conf:
 
 ## droonga frontend を構築する
 
-
 ### nvm をインストールする
 
+Ubuntu 13.04 標準の Node.js は、バージョンが `0.6.19` と古いため、express-droonga に必要なパッケージを利用することができません。
+ここでは [nvm][] を利用して、新しい Node.js をセットアップします。
+
     $ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-    $ source ~/.bash_profile
+    $ source ~/.profile
 
 ### Node.js をインストールする
 
-    $ nvm install 0.10.16
+    $ nvm install 0.10.17
     $ nvm alias default 0.10
 
-Node.js のバージョンを表示して、先ほどインストールした `0.10.16` であることを確認してみましょう。
+Node.js のバージョンを表示して、先ほどインストールした `0.10.17` であることを確認してみましょう。
 
-    vagrant@precise64:~$ node --version
-    v0.10.16
+    $ node --version
+    v0.10.17
 
 ### express-droonga をインストールする
 
