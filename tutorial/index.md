@@ -349,7 +349,7 @@ index.html:
       <head>
         <script src="/socket.io/socket.io.js"></script>
         <script>
-          var socket = io.connect('http://localhost:3000');
+          var socket = io.connect();
           socket.on('search.result', function (data) {
             alert(JSON.stringify(data));
           });
@@ -400,7 +400,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
       <head>
         <script src="/socket.io/socket.io.js"></script>
         <script>
-          var socket = io.connect('http://localhost:3000');
+          var socket = io.connect();
           socket.on('search.result', function (data) {
             alert(JSON.stringify(data));
           });
