@@ -217,6 +217,7 @@ Node.js のバージョンを表示して、先ほどインストールした `0
       "description": "frontend",
       "version": "0.0.0",
       "author": "Droonga project",
+      "private": true,
       "dependencies": {
         "express": "*",
         "express-droonga": "git+https://github.com/droonga/express-droonga.git"
@@ -230,13 +231,14 @@ Node.js のバージョンを表示して、先ほどインストールした `0
       "description": "frontend",
       "version": "0.0.0",
       "author": "Droonga project",
+      "private": true,
       "dependencies": {
         "express": "*",
         "express-droonga": "*"
       }
     }
 
-パッケージをインストールします。
+必要なパッケージをインストールします。
 
     $ npm install
 
