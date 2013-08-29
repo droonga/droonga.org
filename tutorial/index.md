@@ -9,7 +9,6 @@ droonga を使った検索システムを自分で構築できるようになる
 ## 前提条件
 
 * Ubuntu Linux 上で基本的な操作ができること
-* [Vagrant][vagrant] がマシンにインストールされており、基本的な操作ができること
 * Ruby と Node.js の基本的な知識があること
 
 ## 概要
@@ -28,75 +27,36 @@ droonga を使った検索システムを自分で構築できるようになる
 
 TODO: ブロック図があるとよいとおもう
 
-## 実験用のVMを用意する
+## 実験用のマシンを用意する
 
-    $ vagrant init precise64 http://files.vagrantup.com/precise64.box
-
-TODO: config.vm.customize ["modifyvm", :id, "--memory", 2048] を指定する
-
-    $ vagrant up
-
-    $ vagrant ssh
+本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.04 64bit` をセットアップし、その上に droonga を構築します。
+Ubuntu Server のセットアップが完了し、コンソールにアクセス出来る状態になったと仮定し、以降の手順を説明していきます。
 
 ## droonga backend を構築する
 
 TODO: backendって何
 
-TODO: fluent-plugin-droonga は Ruby を利用しているので、Ruby を準備します。なるべく新しい Ruby を維持できるように rbenv と ruby-build を使います。的なこと。
 
+### 必要なパッケージをインストールする
 
-### 必要なパッケージをインストール
+fluent-plugin-droonga をセットアップするために必要なパッケージをインストールします。
 
-
-Ruby をビルドするにあたって、 git-core と build-essential のパッケージが必要になりますので、インストールしておきます。
-
-    $ sudo apt-get install -y git-core build-essential
-
-### rbenv と ruby-build をセットアップする
-
-rbenv を [ドキュメント][rbenv] にしたがってセットアップします。
-
-    $ git clone https://github.com/sstephenson/rbenv.git .rbenv
-    $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-    $ echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-    $ exec $SHELL -l
-
-ruby-build も [ドキュメント][ruby-build] にしたがってインストールします。
-
-    $ git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-
-### Ruby をビルドする
-
-rbenv と ruby-build がセットアップできたので、これらを使って [Ruby][ruby] を build します。
-
-    vagrant@precise64:~$ rbenv install 2.0.0-p247
-
-このバージョンの Ruby をデフォルトで使用するように設定しましょう。
-
-    vagrant@precise64:~$ rbenv global 2.0.0-p247
-
-Ruby のバージョンを表示して、先ほどインストールした `2.0.0p247` であることを確認してみましょう。
-
-    vagrant@precise64:~$ ruby --version
-    ruby 2.0.0p247 (2013-06-27 revision 41674) [x86_64-linux]
-
-確かに、先ほどインストールしたバージョンの Ruby が使われていることがわかりました。
-
+    $ sudo apt-get install -y ruby ruby-dev build-essential
 
 ### fluent-plugin-droonga をインストールする
+
+    $ sudo apt-get install git-core
 
     $ git clone https://github.com/droonga/fluent-plugin-droonga.git
     $ cd fluent-plugin-droonga
     $ gem build fluent-plugin-droonga.gemspec
-    $ gem install fluent-plugin-droonga
-    $ rbenv rehash
+    $ sudo gem install fluent-plugin-droonga
 
 (fluent-plugin-droonga がリリースされた後:)
 
-    $ gem install fluent-plugin-droonga
-    $ rbenv rehash
+    $ sudo gem install fluent-plugin-droonga
 
-droonga backend を構築するのに必要なパッケージがセットアップできたので、引き続き backend の設定に移ります。
+droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
 
 
 ### groonga データベースを用意する
@@ -105,7 +65,6 @@ TODO: なぜこの手順が必要なの？
 
     $ mkdir backend
     $ cd backend
-    $ mkdir taiyaki
 
 例として、たい焼き屋を検索できるデータベースを作成しましょう。
 [groongaで高速な位置情報検索](http://www.clear-code.com/blog/2011/9/13.html) に出てくるたいやき屋データをもとに、店名で全文検索ができるように変更を加えた以下のデータを利用します。
@@ -121,7 +80,7 @@ ddl.grn:
     table_create Term TABLE_PAT_KEY ShortText --default_tokenizer TokenBigram --normalizer NormalizerAuto
     column_create Term shops__key COLUMN_INDEX|WITH_POSITION Shops _key
 
-shop.ddl:
+shops.grn:
 
     load --table Shops
     [
@@ -164,36 +123,49 @@ shop.ddl:
     ["たいやきひいらぎ", "35.647701,139.711517"]
     ]
 
-TODO: groonga の実行形式にパスを通すなどする (apt で groonga 入れた方がいいかも)
+TODO: groonga の実行形式にパスを通すなどする (apt で groonga 入れた方がいいかも) export PATH=/var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local/bin:$PATH
+
 
 ddl.grn と shops.grn をデータベースに読み込みます。
 
+    $ mkdir taiyaki
+
     $ groonga -n taiyaki/db < ddl.grn
+    [[0,1377746344.07873,0.00172567367553711],true]
+    [[0,1377746344.08076,0.00132012367248535],true]
+    [[0,1377746344.0823,0.00146889686584473],true]
+    [[0,1377746344.08399,0.00826168060302734],true]
+    [[0,1377746344.09256,0.0015711784362793],true]
+    [[0,1377746344.09426,0.00776529312133789],true]
+
     $ groonga taiyaki/db < shops.grn
+    [[0,1377746350.64192,0.00465011596679688],36]
 
 
 ### fluent-plugin-droonga を起動するための設定ファイルを用意する
 
 以下の内容で `taiyaki.conf` を作成します。
 
+taiyaki.conf:
+
     <source>
       type forward
-      port 23003
+      port 24224
     </source>
     <match droonga.message>
       type droonga
       n_workers 2
       database taiyaki/db
-      queue_name jobqueue23003
+      queue_name jobqueue24224
+      handlers search
     </match>
-
 
 ### fluent-plugin-droonga を起動してみる
 
-    vagrant@precise64:~/backend$ fluentd --config taiyaki.conf
-    2013-08-21 05:33:14 +0000 [info]: starting fluentd-0.10.36
-    2013-08-21 05:33:14 +0000 [info]: reading config file path="taiyaki.conf"
-    2013-08-21 05:33:14 +0000 [info]: using configuration file: <ROOT>
+    $ fluentd --config taiyaki.conf
+    2013-08-29 12:25:12 +0900 [info]: starting fluentd-0.10.36
+    2013-08-29 12:25:12 +0900 [info]: reading config file path="taiyaki.conf"
+    2013-08-29 12:25:12 +0900 [info]: using configuration file: <ROOT>
       <source>
         type forward
         port 23003
@@ -205,8 +177,8 @@ ddl.grn と shops.grn をデータベースに読み込みます。
         queue_name jobqueue23003
       </match>
     </ROOT>
-    2013-08-21 05:33:14 +0000 [info]: adding source type="forward"
-    2013-08-21 05:33:14 +0000 [info]: adding match pattern="droonga.message" type="droonga"
+    2013-08-29 12:25:12 +0900 [info]: adding source type="forward"
+    2013-08-29 12:25:12 +0900 [info]: adding match pattern="droonga.message" type="droonga"
 
 これで、たい焼きデータベースを検索できる droonga backend の準備ができました。
 引き続き droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
@@ -214,21 +186,23 @@ ddl.grn と shops.grn をデータベースに読み込みます。
 
 ## droonga frontend を構築する
 
-
 ### nvm をインストールする
 
+Ubuntu 13.04 標準の Node.js は、バージョンが `0.6.19` と古いため、express-droonga に必要なパッケージを利用することができません。
+ここでは [nvm][] を利用して、新しい Node.js をセットアップします。
+
     $ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-    $ source ~/.bash_profile
+    $ source ~/.profile
 
 ### Node.js をインストールする
 
-    $ nvm install 0.10.16
+    $ nvm install 0.10.17
     $ nvm alias default 0.10
 
-Node.js のバージョンを表示して、先ほどインストールした `0.10.16` であることを確認してみましょう。
+Node.js のバージョンを表示して、先ほどインストールした `0.10.17` であることを確認してみましょう。
 
-    vagrant@precise64:~$ node --version
-    v0.10.16
+    $ node --version
+    v0.10.17
 
 ### express-droonga をインストールする
 
@@ -243,6 +217,7 @@ Node.js のバージョンを表示して、先ほどインストールした `0
       "description": "frontend",
       "version": "0.0.0",
       "author": "Droonga project",
+      "private": true,
       "dependencies": {
         "express": "*",
         "express-droonga": "git+https://github.com/droonga/express-droonga.git"
@@ -256,13 +231,14 @@ Node.js のバージョンを表示して、先ほどインストールした `0
       "description": "frontend",
       "version": "0.0.0",
       "author": "Droonga project",
+      "private": true,
       "dependencies": {
         "express": "*",
         "express-droonga": "*"
       }
     }
 
-パッケージをインストールします。
+必要なパッケージをインストールします。
 
     $ npm install
 
@@ -286,7 +262,7 @@ Node.js のバージョンを表示して、先ほどインストールした `0
 
 frontend.js を実行します。
 
-    vagrant@precise64:~/frontend$ node frontend.js
+    $ node frontend.js
        info  - socket.io started
 
 
@@ -294,7 +270,7 @@ frontend.js を実行します。
 
 準備が整いました。 frontend に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    vagrant@precise64:~$ curl "http://localhost:3000/droonga/tables/Shops?attributes=_key"
+    $ curl "http://localhost:3000/droonga/tables/Shops?attributes=_key"
     {
       "result": {
         "count": 36,
@@ -339,7 +315,7 @@ frontend.js を実行します。
 
 もう少し複雑なクエリを試してみましょう。例えば、店名に「阿佐ヶ谷」を含むたいやき屋を検索します。`query` パラメータにクエリ `阿佐ヶ谷` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
-    vagrant@precise64:~$ curl "http://localhost:3000/droonga/tables/Shops?query=%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7&match_to=_key&attributes=_key"
+    $ curl "http://localhost:3000/droonga/tables/Shops?query=%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7&match_to=_key&attributes=_key"
     {
       "result": {
         "count": 2,
@@ -373,7 +349,7 @@ index.html:
       <head>
         <script src="/socket.io/socket.io.js"></script>
         <script>
-          var socket = io.connect('http://localhost:3000');
+          var socket = io.connect();
           socket.on('search.result', function (data) {
             alert(JSON.stringify(data));
           });
@@ -402,17 +378,32 @@ index.html:
 
 TODO: 'search' とそのパラメータについて、REST なリクエストとの関連性について書く
 
-では、この `index.html` を frontend でホストできるようにするため、`frontend.js` の末尾に以下を追加します。
+では、この `index.html` を frontend でホストできるようにするため、`frontend.js` を以下のように書き換えます。
+
+frontend.js:
+
+    var express = require('express'),
+        droonga = require('express-droonga');
+
+    var application = express();
+    var server = require('http').createServer(application);
+    server.listen(3000); // the port to communicate with clients
+
+    application.droonga({
+      prefix: '/droonga',
+      tag:    'droonga',
+      server: server // this is required to initialize Socket.IO API!
+    });
 
     application.get('/', function(req, res) {
       res.sendfile(__dirname + '/index.html');
     });
 
-これで、`http://localhost:3000/` をリクエストすると、先の `index.html` が返されるようになります。
+Web ブラウザにサーバの IP アドレスを入れて、リクエストを送信してみましょう。
+以降、サーバの IP アドレスが `192.0.2.1` であったとします。
+`http://192.0.2.1:3000/` をリクエストすると、先の `index.html` が返されるようになります。
 
-TODO: vagrant で VM の外で起動したWebブラウザから中のサーバを 192.168.33.10 として叩けるようにする方法を書く (チュートリアル全体を通して Vagrant じゃないほうが簡単な気がしてきた...)
-
-Webブラウザから `http://192.168.33.10:3000` を開いてみてください。以下のように検索結果が alert で表示されれば成功です。
+Webブラウザから `http://192.0.2.1:3000` を開いてみてください。以下のように検索結果が alert で表示されれば成功です。
 
     {"result":{"count":36,"records":[["根津のたいやき"],["たい焼 カタオカ"],["そばたいやき空"],["車"],["広瀬屋"],["さざれ"],["おめで鯛焼き本舗錦糸町東急店"],["尾長屋 錦糸町店"],["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]],"startTime":"2013-08-28T08:42:25+00:00","elapsedTime":0.0002415180206298828}}
 
@@ -424,7 +415,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
       <head>
         <script src="/socket.io/socket.io.js"></script>
         <script>
-          var socket = io.connect('http://localhost:3000');
+          var socket = io.connect();
           socket.on('search.result', function (data) {
             alert(JSON.stringify(data));
           });
@@ -453,7 +444,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
       </body>
     </html>
 
-ブラウザで再度 `http://192.168.33.10:3000` を開くと、以下のような検索結果が alert で表示されます。
+ブラウザで再度 `http://192.0.2.1:3000` を開くと、以下のような検索結果が alert で表示されます。
 
     {"result":{"count":2,"records":[["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]],"startTime":"2013-08-28T09:23:14+00:00","elapsedTime":0.0030717849731445312}}
 
@@ -468,6 +459,5 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
   [groonga]: http://groonga.org/
-  [vagrant]: http://www.vagrantup.com/
   [ruby]: http://www.ruby-lang.org/
   [rbenv]: https://github.com/sstephenson/rbenv
