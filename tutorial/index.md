@@ -54,7 +54,7 @@ Node.js のライブラリとして提供されており、ユーザは作成す
                                              この部分を構築します
 ```
 
-ユーザは droonga frontend に、Web ブラウザなどを用いて接続します。ユーザが検索操作を行うと、リクエストは droonga frontend に届き、それが droonga backend に送られます。実際の検索処理は droonga backend が行います。検索結果は、droonga backend から droonga frontend に渡され、最終的にユーザに返ります。
+ユーザは droonga frontend に、Web ブラウザなどを用いて接続します。droonga frontend はユーザの操作に応じて droonga backend へリクエストを送信します。実際の検索処理は droonga backend が行います。検索結果は、droonga backend から droonga frontend に渡され、最終的にユーザに返ります。
 
 ## 実験用のマシンを用意する
 
