@@ -54,6 +54,8 @@ Node.js のライブラリとして提供されており、ユーザは作成す
                                              この部分を構築します
 ```
 
+ユーザは droonga frontend に、Web ブラウザなどを用いて接続します。ユーザが検索操作を行うと、リクエストは droonga frontend に届き、それが droonga backend に送られます。実際の検索処理は droonga backend が行います。検索結果は、droonga backend から droonga frontend に渡され、最終的にユーザに返ります。
+
 ## 実験用のマシンを用意する
 
 本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.04 64bit` をセットアップし、その上に droonga を構築します。
