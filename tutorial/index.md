@@ -23,7 +23,7 @@ droonga は複数のパッケージから構成されています。ユーザは
 
 #### fluent-plugin-droonga
 
-[fluent-plugin-droonga]() は droonga における分散データ処理の要となるパッケージです。リクエストに基いて実際のデータ処理を行います。[Fluentd]() のプラグインとして実装されています。
+[fluent-plugin-droonga] は droonga における分散データ処理の要となるパッケージです。リクエストに基いて実際のデータ処理を行います。[Fluentd] のプラグインとして実装されています。
 
 #### express-droonga
 
@@ -35,7 +35,7 @@ Node.js のライブラリとして提供されており、ユーザは作成す
 
 #### groonga
 
-[groonga]() はオープンソースのカラムストア機能付き全文検索エンジンです。droonga は groonga を利用して構築されています。
+[groonga] はオープンソースのカラムストア機能付き全文検索エンジンです。droonga は groonga を利用して構築されています。
 
 ## チュートリアルでつくるプロダクトの全体像
 
