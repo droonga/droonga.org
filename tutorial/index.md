@@ -440,7 +440,11 @@ index.html:
 
 `socket.emit()` でクエリを送信します。クエリの処理が完了し、結果が戻ってくると、 `socket.on('search.result', ...)` のコールバックが呼ばれ、alert にその結果が表示されます。
 
-TODO: 'search' とそのパラメータについて、REST なリクエストとの関連性について書く
+`socket.emit()` の第1引数 `'search'` は、このリクエストが検索リクエストであることを指定しています。
+第2引数でどのような検索を行うかを指定しています。
+詳しくは [Message format: search feature](https://github.com/droonga/express-droonga/wiki/Message-format:-search-feature) を参照してください。
+ところで、前のセクションでは、REST API を利用して検索を行いました。
+REST API を利用した場合は、 `express-droonga` が内部で REST リクエストから上記の形式のメッセージへと変換し、`fluent-plugin-droonga` に送信するようになっています。
 
 では、この `index.html` を frontend でホストできるようにするため、`frontend.js` を以下のように書き換えます。
 
