@@ -1,3 +1,8 @@
+---
+title: droonga チュートリアル
+layout: default
+---
+
 # droonga チュートリアル
 
 !! WORK IN PROGRESS !!
@@ -41,18 +46,16 @@ Node.js のライブラリとして提供されており、ユーザは作成す
 
 チュートリアルでは、以下の様な構成のプロダクトを構築します。
 
-```
-                                                Fluent protocol
-+-------------+              +------------------+  ------->  +-----------------+
-| Web Browser |  <-------->  | droonga frontend |            | droonga backend |
-+-------------+   HTTP       +------------------+  <-------  +-----------------+
-                  Socket.IO    w/express-droonga   Socket.IO   w/fluent-plugin
-                                                                       -droonga
+                                                    Fluent protocol
+    +-------------+              +------------------+  ------->  +-----------------+
+    | Web Browser |  <-------->  | droonga frontend |            | droonga backend |
+    +-------------+   HTTP       +------------------+  <-------  +-----------------+
+                      Socket.IO    w/express-droonga   Socket.IO   w/fluent-plugin
+                                                                           -droonga
 
 
-                             \-------------------------------------------------/
-                                             この部分を構築します
-```
+                                 \-------------------------------------------------/
+                                                 この部分を構築します
 
 ユーザは droonga frontend に、Web ブラウザなどを用いて接続します。droonga frontend はユーザの操作に応じて droonga backend へリクエストを送信します。実際の検索処理は droonga backend が行います。検索結果は、droonga backend から droonga frontend に渡され、最終的にユーザに返ります。
 
