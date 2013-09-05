@@ -26,11 +26,11 @@ droonga は複数のパッケージから構成されています。ユーザは
 
 #### fluent-plugin-droonga
 
-[fluent-plugin-droonga] は droonga における分散データ処理の要となるパッケージです。リクエストに基いて実際のデータ処理を行います。[Fluentd] のプラグインとして実装されています。
+[fluent-plugin-droonga][] は droonga における分散データ処理の要となるパッケージです。リクエストに基いて実際のデータ処理を行います。[Fluentd] のプラグインとして実装されています。
 
 #### express-droonga
 
-[express-droonga] は droonga フロントエンドアプリケーションを構築する際に使うフレームワークです。
+[express-droonga][] は droonga フロントエンドアプリケーションを構築する際に使うフレームワークです。
 express-droonga を活用することで、スケーラブルかつリアルタイム性の高い検索アプリケーションを構築することができます。
 express-droonga には、 fluent-plugin-droonga に対しリクエストを送ったり、fluend-plugin-droonga から返ってくるレスポンスを処理するなど、個別のアプリケーションに依らない、fluent-plugin-droonga を使う上で一般的な処理がまとめられています。
 
