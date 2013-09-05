@@ -5,8 +5,6 @@ layout: default
 
 # droonga チュートリアル
 
-!! WORK IN PROGRESS !!
-
 ## チュートリアルのゴール
 
 droonga を使った検索システムを自分で構築できるようになる。
@@ -524,6 +522,8 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
 
 ## まとめ
 
+[Ubuntu Linux][] 上に [droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [express-droonga][] をセットアップしました。
+これらのパッケージを利用して構築した frontend / backend からなるアプリケーションを用いて、実際に検索を行いました。
 
 
   [Ubuntu]: http://www.ubuntu.com/
