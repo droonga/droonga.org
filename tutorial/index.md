@@ -12,7 +12,7 @@ droonga を使った検索システムを自分で構築できるようになる
 ## 前提条件
 
 * [Ubuntu][] Server を自分でセットアップしたり、基本的な操作ができること
-* Ruby と Node.js の基本的な知識があること
+* [Ruby][] と [Node.js][] の基本的な知識があること
 
 ## 概要
 
@@ -34,7 +34,7 @@ droonga は複数のパッケージから構成されています。ユーザは
 express-droonga を活用することで、スケーラブルかつリアルタイム性の高い検索アプリケーションを構築することができます。
 express-droonga には、 fluent-plugin-droonga に対しリクエストを送ったり、fluend-plugin-droonga から返ってくるレスポンスを処理するなど、個別のアプリケーションに依らない、fluent-plugin-droonga を使う上で一般的な処理がまとめられています。
 
-Node.js のライブラリとして提供されており、ユーザは作成するアプリケーションに組み込んで使います。
+[Node.js][] のライブラリとして提供されており、ユーザは作成するアプリケーションに組み込んで使います。
 
 #### groonga
 
@@ -531,7 +531,8 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
   [groonga]: http://groonga.org/
-  [ruby]: http://www.ruby-lang.org/
+  [Ruby]: http://www.ruby-lang.org/
   [nvm]: https://github.com/creationix/nvm
   [Socket.IO]: http://socket.io/
   [Fluentd]: http://fluentd.org/
+  [Node.js]: http://nodejs.org/
