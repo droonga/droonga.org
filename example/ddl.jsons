@@ -1,0 +1,6 @@
+{"id":"0","dataset":"Taiyaki","type":"table_create", "replyTo":"localhost:23003/output", "body":{ "name":"Shops", "flags":"TABLE_HASH_KEY", "key_type":"ShortText"}}
+{"id":"1","dataset":"Taiyaki","type":"column_create", "replyTo":"localhost:23003/output", "body":{ "table":"Shops", "name":"location", "flags":"COLUMN_SCALAR", "type":"WGS84GeoPoint"}}
+{"id":"2","dataset":"Taiyaki","type":"table_create", "replyTo":"localhost:23003/output", "body":{ "name":"Locations", "flags":"TABLE_PAT_KEY", "key_type":"WGS84GeoPoint"}}
+{"id":"3","dataset":"Taiyaki","type":"column_create", "replyTo":"localhost:23003/output", "body":{ "table":"Locations", "name":"shop", "flags":"COLUMN_INDEX", "type":"Shops", "source":"location"}}
+{"id":"4","dataset":"Taiyaki","type":"table_create", "replyTo":"localhost:23003/output", "body":{ "name":"Term", "flags":"TABLE_PAT_KEY", "key_type":"ShortText", "default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
+{"id":"5","dataset":"Taiyaki","type":"column_create", "replyTo":"localhost:23003/output", "body":{ "table":"Term", "name":"shops__key", "flags":"COLUMN_INDEX|WITH_POSITION", "type":"Shops", "source":"_key"}}
