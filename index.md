@@ -12,6 +12,7 @@ layout: default
 * [fluent-plugin-droonga](https://github.com/droonga/fluent-plugin-droonga)
 * [express-droonga](https://github.com/droonga/express-droonga)
 * [groonga](http://groonga.org/)
+* [droonga.org](https://github.com/droonga/droonga.org) (the source of this site)
 
 ## Documents
 
