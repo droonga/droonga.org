@@ -463,9 +463,11 @@ frontend.js:
       server: server // this is required to initialize Socket.IO API!
     });
 
+    //========== 追加箇所ここから ==========
     application.get('/', function(req, res) {
       res.sendfile(__dirname + '/index.html');
     });
+    //========== 追加箇所ここまで ==========
 
 Web ブラウザにサーバの IP アドレスを入れて、リクエストを送信してみましょう。
 以降、サーバの IP アドレスが `192.0.2.1` であったとします。
