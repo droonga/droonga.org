@@ -415,7 +415,7 @@ index.html:
         <script>
           var socket = io.connect();
           socket.on('search.result', function (data) {
-            alert(JSON.stringify(data));
+            document.body.textContent += JSON.stringify(data);
           });
           socket.emit('search', { queries: {
             result: {
