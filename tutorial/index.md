@@ -256,7 +256,7 @@ Ubuntu 13.04 標準の Node.js は、バージョンが `0.6.19` と古いため
 
 ### Node.js をインストールする
 
-    $ nvm install 0.10.17
+    $ nvm install v0.10.17
     $ nvm alias default 0.10
 
 Node.js のバージョンを表示して、先ほどインストールした `0.10.17` であることを確認してみましょう。
