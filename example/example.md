@@ -73,8 +73,6 @@ layout: default
       name localhost:23003/taiyaki
       type droonga
       proxy true
-      n_workers 0
-      handlers proxy
     </match>
     <match output.message>
       type stdout
