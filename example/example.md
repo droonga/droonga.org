@@ -146,7 +146,7 @@ shop.jsons
 
 fluent-catで流し込みます。
 
-    fluent-cat -p 23003 taiyaki < shop.jsons
+    fluent-cat -p 23003 taiyaki < shops.jsons
 
 ## 検索
 
