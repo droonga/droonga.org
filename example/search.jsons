@@ -1,0 +1,1 @@
+{"id":"search:0", "type":"search", "replyTo":"localhost:23003/output", "dataset":"Taiyaki", "body":{"queries":{"result":{"source":"Shops", "condition":{"query":"阿佐ヶ谷", "matchTo":"_key"}, "output":{"elements":["startTime", "elapsedTime", "count", "attributes", "records"], "attributes":["_key"]}}}}}
