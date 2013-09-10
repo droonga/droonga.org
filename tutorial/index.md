@@ -487,7 +487,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
         <script>
           var socket = io.connect();
           socket.on('search.result', function (data) {
-            alert(JSON.stringify(data));
+            document.body.textContent += JSON.stringify(data);
           });
           socket.emit('search', { queries: {
             result: {
@@ -514,7 +514,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
       </body>
     </html>
 
-ブラウザで再度 `http://192.0.2.1:3000` を開くと、以下のような検索結果が alert で表示されます。
+ブラウザで再度 `http://192.0.2.1:3000` を開くと、以下のような検索結果が表示されます。
 
     {"result":{"count":2,"records":[["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]],"startTime":"2013-08-28T09:23:14+00:00","elapsedTime":0.0030717849731445312}}
 
