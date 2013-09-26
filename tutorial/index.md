@@ -69,7 +69,7 @@ droonga をセットアップするために必要になるパッケージをイ
 
 ## droonga backend を構築する
 
-droonga backend は、デーベースを保持し、実際の検索を担当する部分です。
+droonga backend は、データベースを保持し、実際の検索を担当する部分です。
 このセクションでは、 fluent-plugin-droonga をインストールし、検索対象となるデータを準備します。
 
 ### fluent-plugin-droonga をインストールする
