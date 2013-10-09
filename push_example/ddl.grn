@@ -1,0 +1,50 @@
+table_create Postername TABLE_HASH_KEY ShortText
+table_create Poster TABLE_HASH_KEY ShortText
+table_create Beuser TABLE_HASH_KEY ShortText
+table_create Email TABLE_HASH_KEY ShortText
+table_create Site TABLE_HASH_KEY ShortText
+table_create Host TABLE_HASH_KEY ShortText
+table_create Category TABLE_HASH_KEY ShortText
+table_create Board TABLE_HASH_KEY ShortText
+column_create Board name COLUMN_SCALAR ShortText
+table_create Thread TABLE_PAT_KEY ShortText
+column_create Thread alive COLUMN_SCALAR Time
+column_create Thread buzz COLUMN_SCALAR Float
+column_create Thread created COLUMN_SCALAR Time
+column_create Thread lastmod COLUMN_SCALAR Time
+column_create Thread name COLUMN_SCALAR ShortText
+column_create Thread ncomments COLUMN_SCALAR Int32
+column_create Thread size COLUMN_SCALAR Int32
+column_create Thread snip COLUMN_SCALAR ShortText
+table_create Comment TABLE_NO_KEY
+column_create Comment body COLUMN_SCALAR ShortText
+column_create Comment date COLUMN_SCALAR Time
+column_create Comment num COLUMN_SCALAR Int32
+column_create Comment status COLUMN_SCALAR Int32
+table_create Term TABLE_PAT_KEY ShortText --default_tokenizer TokenBigram --normalizer NormalizerAuto
+column_create Term thread_name COLUMN_INDEX|WITH_POSITION Thread name
+column_create Term thread__key COLUMN_INDEX|WITH_POSITION Thread _key
+column_create Term comment_body COLUMN_INDEX|WITH_POSITION Comment body
+column_create Comment thread COLUMN_SCALAR Thread
+column_create Comment postername COLUMN_SCALAR Postername
+column_create Comment posterid COLUMN_SCALAR Poster
+column_create Comment email COLUMN_SCALAR Email
+column_create Comment beid COLUMN_SCALAR Beuser
+column_create Thread comment_thread COLUMN_INDEX Comment thread
+column_create Thread board COLUMN_SCALAR Board
+column_create Board thread_board COLUMN_INDEX Thread board
+column_create Board host COLUMN_SCALAR Host
+column_create Board category COLUMN_SCALAR Category
+column_create Host site COLUMN_SCALAR Site
+
+table_create User TABLE_HASH_KEY ShortText
+table_create Route TABLE_HASH_KEY ShortText
+table_create Query TABLE_HASH_KEY ShortText
+table_create Keyword TABLE_PAT_KEY ShortText --normalizer NormalizerAuto
+column_create User subscriptions COLUMN_VECTOR Query
+column_create User route COLUMN_SCALAR Route
+column_create Query keywords COLUMN_VECTOR Keyword
+column_create Query subscribers COLUMN_INDEX User subscriptions
+column_create Keyword queries COLUMN_INDEX Query keywords
+
+column_create Thread queries COLUMN_VECTOR Query

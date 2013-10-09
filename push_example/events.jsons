@@ -1,0 +1,4 @@
+{"table":"Comment", "values":{"thread":"fuga/000", "body" : "abc aaa bb"}}
+{"table":"Thread", "key":"hoge/000", "values":{"name" : "abc aaa bb"}}
+{"table":"Comment", "values":{"thread":"fuga/000", "body" : "ddd eee"}}
+{"table":"Comment", "values":{"thread":"hoge/000", "body" : "fff ggg"}}

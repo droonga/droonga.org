@@ -1,0 +1,3 @@
+{"user":"user1", "route":"localhost:23003/output", "condition":["||", "aaa", "bbb"]}
+{"user":"user2", "route":"localhost:23003/output", "condition":["&&", "aaa", "bbb"]}
+{"user":"user3", "route":"localhost:23003/output", "condition":["-", "aaa", "bbb"]}
