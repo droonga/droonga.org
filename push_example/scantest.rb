@@ -34,13 +34,13 @@ end
 def unsubscribe(request)
   user, condition, query, route = parse_request(request)
   query_table = @context['Query']
-  query = query_table[query]
-  return unless query
+  query_record = query_table[query]
+  return unless query_record
   user_table = @context['User']
   user_record = user_table[user]
   return unless user_record
-  subscriptions = user_record.subscriptions.select do |q|
-    q != query
+  subscriptions = user_record.subscriptions.select do |query|
+    query != query_record
   end
   user_record.subscriptions = subscriptions
   # todo: update Thread.queries value when subscribers no longer exist
