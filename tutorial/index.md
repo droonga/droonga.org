@@ -1,13 +1,13 @@
 ---
-title: droonga チュートリアル
+title: Droonga チュートリアル
 layout: default
 ---
 
-# droonga チュートリアル
+# Droonga チュートリアル
 
 ## チュートリアルのゴール
 
-droonga を使った検索システムを自分で構築できるようになる。
+Droonga を使った検索システムを自分で構築できるようになる。
 
 ## 前提条件
 
@@ -16,21 +16,21 @@ droonga を使った検索システムを自分で構築できるようになる
 
 ## 概要
 
-### droonga とは
+### Droonga とは
 
 分散データ処理エンジンです。 "distributed-groonga" に由来します。
 
-droonga は複数のパッケージから構成されています。ユーザは、これらのパッケージを組み合わせて利用することで、全文検索をはじめとするスケーラブルな分散データ処理システムを構築することができます。
+Droonga は複数のパッケージから構成されています。ユーザは、これらのパッケージを組み合わせて利用することで、全文検索をはじめとするスケーラブルな分散データ処理システムを構築することができます。
 
-### droonga を構成するパッケージ
+### Droonga を構成するパッケージ
 
 #### fluent-plugin-droonga
 
-[fluent-plugin-droonga][] は droonga における分散データ処理の要となるパッケージです。リクエストに基いて実際のデータ処理を行います。[Fluentd] のプラグインとして実装されています。
+[fluent-plugin-droonga][] は Droonga における分散データ処理の要となるパッケージです。リクエストに基いて実際のデータ処理を行います。[Fluentd] のプラグインとして実装されています。
 
 #### express-droonga
 
-[express-droonga][] は droonga フロントエンドアプリケーションを構築する際に使うフレームワークです。
+[express-droonga][] は Droonga フロントエンドアプリケーションを構築する際に使うフレームワークです。
 express-droonga を活用することで、スケーラブルかつリアルタイム性の高い検索アプリケーションを構築することができます。
 express-droonga には、 fluent-plugin-droonga に対しリクエストを送ったり、fluend-plugin-droonga から返ってくるレスポンスを処理するなど、個別のアプリケーションに依らない、fluent-plugin-droonga を使う上で一般的な処理がまとめられています。
 
@@ -38,14 +38,14 @@ express-droonga には、 fluent-plugin-droonga に対しリクエストを送�
 
 #### groonga
 
-[groonga] はオープンソースのカラムストア機能付き全文検索エンジンです。droonga は groonga を利用して構築されています。
+[groonga] はオープンソースのカラムストア機能付き全文検索エンジンです。Droonga は groonga を利用して構築されています。
 
 ## チュートリアルでつくるプロダクトの全体像
 
 チュートリアルでは、以下の様な構成のプロダクトを構築します。
 
     +-------------+              +------------------+             +-----------------+
-    | Web Browser |  <-------->  | droonga frontend |  <------->  | droonga backend |
+    | Web Browser |  <-------->  | Droonga frontend |  <------->  | Droonga backend |
     +-------------+   HTTP /     +------------------+   Fluent    +-----------------+
                       Socket.IO    w/express-droonga    protocol    w/fluent-plugin
                                                                             -droonga
@@ -54,22 +54,22 @@ express-droonga には、 fluent-plugin-droonga に対しリクエストを送�
                                  \--------------------------------------------------/
                                                  この部分を構築します
 
-ユーザは droonga frontend に、Web ブラウザなどを用いて接続します。droonga frontend はユーザの操作に応じて droonga backend へリクエストを送信します。実際の検索処理は droonga backend が行います。検索結果は、droonga backend から droonga frontend に渡され、最終的にユーザに返ります。
+ユーザは Droonga frontend に、Web ブラウザなどを用いて接続します。Droonga frontend はユーザの操作に応じて droonga backend へリクエストを送信します。実際の検索処理は droonga backend が行います。検索結果は、droonga backend から droonga frontend に渡され、最終的にユーザに返ります。
 
 ## 実験用のマシンを用意する
 
-本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.04 64bit` をセットアップし、その上に droonga による検索システムを構築します。
+本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.04 64bit` をセットアップし、その上に Droonga による検索システムを構築します。
 Ubuntu Server のセットアップが完了し、コンソールにアクセス出来る状態になったと仮定し、以降の手順を説明していきます。
 
 ## セットアップに必要なパッケージをインストールする
 
-droonga をセットアップするために必要になるパッケージをインストールします。
+Droonga をセットアップするために必要になるパッケージをインストールします。
 
     $ sudo apt-get install -y ruby ruby-dev build-essential
 
-## droonga backend を構築する
+## Droonga backend を構築する
 
-droonga backend は、データベースを保持し、実際の検索を担当する部分です。
+Droonga backend は、データベースを保持し、実際の検索を担当する部分です。
 このセクションでは、 fluent-plugin-droonga をインストールし、検索対象となるデータを準備します。
 
 ### fluent-plugin-droonga をインストールする
@@ -87,15 +87,15 @@ droonga backend は、データベースを保持し、実際の検索を担当�
 
     $ sudo gem install fluent-plugin-droonga
 
-droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
+Droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
 
 
 ### groonga データベースを用意する
 
-現在 droonga は活発に開発が進められていますが、データベースのスキーマを操作したり、データをデータベースに読み込む機能はまだ実装されていません。
+現在 Droonga は活発に開発が進められていますが、データベースのスキーマを操作したり、データをデータベースに読み込む機能はまだ実装されていません。
 ここでは、 groonga コマンドを使用して、検索対象のデータベースを直接作成します。
 
-まず droonga backend 用のディレクトリを作成します。
+まず Droonga backend 用のディレクトリを作成します。
 
     $ mkdir backend
     $ cd backend
@@ -238,13 +238,13 @@ taiyaki.conf:
     2013-08-29 12:25:12 +0900 [info]: adding match pattern="droonga.message" type="droonga"
     2013-08-29 12:25:12 +0900 [info]: listening fluent socket on 0.0.0.0:24224
 
-これで、たい焼きデータベースを検索できる droonga backend の準備ができました。
-引き続き droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
+これで、たい焼きデータベースを検索できる Droonga backend の準備ができました。
+引き続き Droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
 
 
-## droonga frontend を構築する
+## Droonga frontend を構築する
 
-droonga frontend を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のライブラリです。ユーザは、ユースケースに応じた droonga frontend を Node.js アプリケーション作成し、そのアプリケーションに `express-droonga` を組み込む形で利用します。
+Droonga frontend を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のライブラリです。ユーザは、ユースケースに応じた droonga frontend を Node.js アプリケーション作成し、そのアプリケーションに `express-droonga` を組み込む形で利用します。
 
 ### nvm をインストールする
 
@@ -523,12 +523,12 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
 
 ## まとめ
 
-[Ubuntu Linux][Ubuntu] 上に [droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [express-droonga][] をセットアップしました。
+[Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [express-droonga][] をセットアップしました。
 これらのパッケージを利用して構築した frontend / backend からなるアプリケーションを用いて、実際に検索を行いました。
 
 
   [Ubuntu]: http://www.ubuntu.com/
-  [droonga]: https://droonga.org/
+  [Droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
   [groonga]: http://groonga.org/
