@@ -36,9 +36,9 @@ express-droonga には、 fluent-plugin-droonga に対しリクエストを送�
 
 [Node.js][] のライブラリとして提供されており、ユーザは作成するアプリケーションに組み込んで使います。
 
-#### groonga
+#### Groonga
 
-[groonga] はオープンソースのカラムストア機能付き全文検索エンジンです。Droonga は groonga を利用して構築されています。
+[Groonga] はオープンソースのカラムストア機能付き全文検索エンジンです。Droonga は Groonga を利用して構築されています。
 
 ## チュートリアルでつくるプロダクトの全体像
 
@@ -90,7 +90,7 @@ Droonga backend は、データベースを保持し、実際の検索を担当�
 Droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
 
 
-### groonga データベースを用意する
+### Groonga データベースを用意する
 
 現在 Droonga は活発に開発が進められていますが、データベースのスキーマを操作したり、データをデータベースに読み込む機能はまだ実装されていません。
 ここでは、 groonga コマンドを使用して、検索対象のデータベースを直接作成します。
@@ -158,7 +158,7 @@ shops.grn:
     ]
 
 groonga コマンドを実行するため、groonga のあるディレクトリに PATH を設定します。
-先ほど fluent-plugin-droonga をインストールした際に、rroonga(Ruby 用groonga ラッパーライブラリ)が自動的にインストールされており、
+先ほど fluent-plugin-droonga をインストールした際に、rroonga(Ruby 用Groonga ラッパーライブラリ)が自動的にインストールされており、
 その過程で groonga がビルドされているはずです。今回はそのディレクトリに PATH を設定することにします。
 `gem contents` コマンドを使って、 rroonga パッケージに含まれているファイルの中から groonga のバイナリを探します。
 
@@ -531,7 +531,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
   [Droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
-  [groonga]: http://groonga.org/
+  [Groonga]: http://groonga.org/
   [Ruby]: http://www.ruby-lang.org/
   [nvm]: https://github.com/creationix/nvm
   [Socket.IO]: http://socket.io/
