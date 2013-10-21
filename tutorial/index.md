@@ -93,7 +93,7 @@ Droonga backend を構築するのに必要なパッケージがすべてセッ�
 ### Groonga データベースを用意する
 
 現在 Droonga は活発に開発が進められていますが、データベースのスキーマを操作したり、データをデータベースに読み込む機能はまだ実装されていません。
-ここでは、 groonga コマンドを使用して、検索対象のデータベースを直接作成します。
+ここでは、 `groonga` コマンドを使用して、検索対象のデータベースを直接作成します。
 
 まず Droonga backend 用のディレクトリを作成します。
 
@@ -159,8 +159,8 @@ shops.grn:
 
 groonga コマンドを実行するため、groonga のあるディレクトリに PATH を設定します。
 先ほど fluent-plugin-droonga をインストールした際に、rroonga(Ruby 用Groonga ラッパーライブラリ)が自動的にインストールされており、
-その過程で groonga がビルドされているはずです。今回はそのディレクトリに PATH を設定することにします。
-`gem contents` コマンドを使って、 rroonga パッケージに含まれているファイルの中から groonga のバイナリを探します。
+その過程で `groonga` がビルドされているはずです。今回はそのディレクトリに PATH を設定することにします。
+`gem contents` コマンドを使って、 rroonga パッケージに含まれているファイルの中から `groonga` のバイナリを探します。
 
     $ gem contents rroonga | grep /vendor/local/bin/groonga$
     /var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local/bin/groonga
@@ -180,7 +180,7 @@ rroonga のバージョンなどによって表示される内容が異なるか
 
     configure options: < '--prefix=/var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local' '--disable-static' '--disable-document'>
 
-以上のように、groonga のバージョンや configure option が表示されれば成功です。
+以上のように、`groonga` のバージョンや configure option が表示されれば成功です。
 
 
 `ddl.grn` と `shops.grn` をデータベースに読み込みます。
