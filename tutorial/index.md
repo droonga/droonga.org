@@ -225,13 +225,13 @@ taiyaki.conf:
     2013-08-29 12:25:12 +0900 [info]: using configuration file: <ROOT>
       <source>
         type forward
-        port 23003
+        port 24224
       </source>
       <match droonga.message>
         type droonga
         n_workers 0
         database taiyaki/db
-        queue_name jobqueue23003
+        queue_name jobqueue24224
       </match>
     </ROOT>
     2013-08-29 12:25:12 +0900 [info]: adding source type="forward"
