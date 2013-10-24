@@ -54,7 +54,7 @@ express-droonga には、 fluent-plugin-droonga に対しリクエストを送�
                                  \--------------------------------------------------/
                                                  この部分を構築します
 
-ユーザは Droonga frontend に、Web ブラウザなどを用いて接続します。Droonga frontend はユーザの操作に応じて droonga backend へリクエストを送信します。実際の検索処理は droonga backend が行います。検索結果は、droonga backend から droonga frontend に渡され、最終的にユーザに返ります。
+ユーザは Droonga frontend に、Web ブラウザなどを用いて接続します。Droonga frontend はユーザの操作に応じて Droonga backend へリクエストを送信します。実際の検索処理は Droonga backend が行います。検索結果は、Droonga backend から Droonga frontend に渡され、最終的にユーザに返ります。
 
 ## 実験用のマシンを用意する
 
@@ -244,7 +244,7 @@ taiyaki.conf:
 
 ## Droonga frontend を構築する
 
-Droonga frontend を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のライブラリです。ユーザは、ユースケースに応じた droonga frontend を Node.js アプリケーション作成し、そのアプリケーションに `express-droonga` を組み込む形で利用します。
+Droonga frontend を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のライブラリです。ユーザは、ユースケースに応じた Droonga frontend を Node.js アプリケーション作成し、そのアプリケーションに `express-droonga` を組み込む形で利用します。
 
 ### nvm をインストールする
 
