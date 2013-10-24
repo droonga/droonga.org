@@ -211,7 +211,7 @@ taiyaki.conf:
     </source>
     <match droonga.message>
       type droonga
-      n_workers 2
+      n_workers 0
       database taiyaki/db
       queue_name jobqueue24224
       handlers search
@@ -229,7 +229,7 @@ taiyaki.conf:
       </source>
       <match droonga.message>
         type droonga
-        n_workers 2
+        n_workers 0
         database taiyaki/db
         queue_name jobqueue23003
       </match>
