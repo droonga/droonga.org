@@ -321,7 +321,13 @@ frontend.js:
     application.droonga({
       prefix: '/droonga',
       tag:    'droonga',
-      server: server // this is required to initialize Socket.IO API!
+      server: server, // this is required to initialize Socket.IO API!
+      plugins: [
+        droonga.API_REST,
+        droonga.API_SOCKET_IO,
+        droonga.API_GROONGA,
+        droonga.API_DROONGA
+      ]
     });
 
 `frontend.js` を実行します。
