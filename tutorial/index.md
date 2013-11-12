@@ -198,6 +198,8 @@ catalog.json:
 
 - TODO: grnコマンドからの変換のやり方があったほうがいいかも
 
+データを投入しましょう。スキーマを定義した `ddl.jsons` と、たいやき屋のデータ `shops.jsons` を用意します。
+
 ddl.jsons:
 
     {"id":"ddl:0","dataset":"Taiyaki","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Shops","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
@@ -209,6 +211,7 @@ ddl.jsons:
 
 
 shops.jsons:
+
     {"id":"shops:0","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"根津のたいやき","values":{"location":"35.720253,139.762573"}}}
     {"id":"shops:1","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たい焼 カタオカ","values":{"location":"35.712521,139.715591"}}}
     {"id":"shops:2","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"そばたいやき空","values":{"location":"35.683712,139.659088"}}}
@@ -247,90 +250,11 @@ shops.jsons:
     {"id":"shops:35","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たいやきひいらぎ","values":{"location":"35.647701,139.711517"}}}
 
 
-- TODO: groonga コマンドは使わないので削除してよい
+fluentd を起動した状態で別の端末を開き、以下のようにして `dll.jsons` と `shops.jsons` を投入します:
 
-groonga コマンドを実行するため、groonga のあるディレクトリに PATH を設定します。
-先ほど fluent-plugin-droonga をインストールした際に、rroonga(Ruby 用Groonga ラッパーライブラリ)が自動的にインストールされており、
-その過程で `groonga` がビルドされているはずです。今回はそのディレクトリに PATH を設定することにします。
-`gem contents` コマンドを使って、 rroonga パッケージに含まれているファイルの中から `groonga` のバイナリを探します。
+    $ fluent-cat taiyaki.message < ddl.jsons
+    $ fluent-cat taiyaki.message < shops.jsons
 
-    $ gem contents rroonga | grep /vendor/local/bin/groonga$
-    /var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local/bin/groonga
-
-rroonga のバージョンなどによって表示される内容が異なるかもしれません。
-今回は `/var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local/bin` に PATH を設定します。
-
-    $ export PATH=/var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local/bin:$PATH
-
-(必要に応じて `.profile` に追記してください)
-
-
-では、PATH が正しく設定されたか確認してみます。
-
-    $ groonga --version
-    groonga 3.0.5 [linux-gnu,x86_64,utf8,match-escalation-threshold=0,nfkc,zlib,lzo,epoll]
-
-    configure options: < '--prefix=/var/lib/gems/1.9.1/gems/rroonga-3.0.5/vendor/local' '--disable-static' '--disable-document'>
-
-以上のように、`groonga` のバージョンや configure option が表示されれば成功です。
-
-- TODO fluent-cat で投入する
-
-`ddl.grn` と `shops.grn` をデータベースに読み込みます。
-
-    $ mkdir taiyaki
-
-    $ groonga -n taiyaki/db < ddl.grn
-    [[0,1377746344.07873,0.00172567367553711],true]
-    [[0,1377746344.08076,0.00132012367248535],true]
-    [[0,1377746344.0823,0.00146889686584473],true]
-    [[0,1377746344.08399,0.00826168060302734],true]
-    [[0,1377746344.09256,0.0015711784362793],true]
-    [[0,1377746344.09426,0.00776529312133789],true]
-
-    $ groonga taiyaki/db < shops.grn
-    [[0,1377746350.64192,0.00465011596679688],36]
-
-
-### fluent-plugin-droonga を起動するための設定ファイルを用意する
-
-- TODO: DB作成よりも先に起動するようにするのでここは削除
-
-以下の内容で `taiyaki.conf` を作成します。
-
-taiyaki.conf:
-
-    <source>
-      type forward
-      port 24224
-    </source>
-    <match droonga.message>
-      type droonga
-      n_workers 0
-      database taiyaki/db
-      queue_name jobqueue24224
-      handlers search
-    </match>
-
-### fluent-plugin-droonga を起動してみる
-
-    2013-08-29 12:25:12 +0900 [info]: starting fluentd-0.10.36
-    2013-08-29 12:25:12 +0900 [info]: reading config file path="taiyaki.conf"
-    2013-08-29 12:25:12 +0900 [info]: using configuration file: <ROOT>
-      <source>
-        type forward
-        port 24224
-      </source>
-      <match droonga.message>
-        type droonga
-        n_workers 0
-        database taiyaki/db
-        queue_name jobqueue24224
-      </match>
-    </ROOT>
-    2013-08-29 12:25:12 +0900 [info]: adding source type="forward"
-    2013-08-29 12:25:12 +0900 [info]: adding match pattern="droonga.message" type="droonga"
-    2013-08-29 12:25:12 +0900 [info]: listening fluent socket on 0.0.0.0:24224
 
 これで、たい焼きデータベースを検索できる Droonga backend の準備ができました。
 引き続き Droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
