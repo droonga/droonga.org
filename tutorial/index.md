@@ -32,7 +32,7 @@ Droonga は複数のパッケージから構成されています。ユーザは
 
 [express-droonga][] は Droonga フロントエンドアプリケーションを構築する際に使うフレームワークです。
 express-droonga を活用することで、スケーラブルかつリアルタイム性の高い検索アプリケーションを構築することができます。
-express-droonga には、 fluent-plugin-droonga に対しリクエストを送ったり、fluend-plugin-droonga から返ってくるレスポンスを処理するなど、個別のアプリケーションに依らない、fluent-plugin-droonga を使う上で一般的な処理がまとめられています。
+express-droonga には、 fluent-plugin-droonga に対しリクエストを送ったり、fluent-plugin-droonga から返ってくるレスポンスを処理するなど、個別のアプリケーションに依らない、fluent-plugin-droonga を使う上で一般的な処理がまとめられています。
 
 [Node.js][] のライブラリとして提供されており、ユーザは作成するアプリケーションに組み込んで使います。
 
