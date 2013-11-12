@@ -10,8 +10,8 @@ layout: default
 
 ## Droongaコマンド
 
- * [search](./search/):データの検索
- * [add](./add/):レコードの追加
+ * [search](./search/)：データの検索
+ * [add](./add/)：レコードの追加
 
 ## Groonga互換コマンド
 
