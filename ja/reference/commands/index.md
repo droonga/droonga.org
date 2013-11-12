@@ -1,10 +1,7 @@
 ---
 layout: default
+title: コマンドリファレンス
 ---
-
-<div class="jumbotron">
-<h1>コマンドリファレンス</h1>
-</div>
 
 以下のコマンドを利用できます。
 

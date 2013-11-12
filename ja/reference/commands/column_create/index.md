@@ -1,10 +1,7 @@
 ---
 layout: default
+title: column_create
 ---
-
-<div class="jumbotron">
-<h1>column_create</h1>
-</div>
 
 ## 概要
 

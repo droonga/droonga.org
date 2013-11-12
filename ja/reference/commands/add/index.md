@@ -1,10 +1,7 @@
 ---
 layout: default
+title: add
 ---
-
-<div class="jumbotron">
-<h1>add</h1>
-</div>
 
 ## 概要
 

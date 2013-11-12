@@ -1,10 +1,7 @@
 ---
 layout: default
+title: select
 ---
-
-<div class="jumbotron">
-<h1>select</h1>
-</div>
 
 ## 概要
 

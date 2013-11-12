@@ -2,9 +2,7 @@
 layout: default
 ---
 
-<div class="jumbotron">
-<h1>リファレンス</h1>
-</div>
+# リファレンス
 
  * [catalog.json](./catalog/)
  * [コマンドリファレンス](./commands/)

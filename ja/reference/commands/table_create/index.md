@@ -1,10 +1,7 @@
 ---
 layout: default
+title: table_create
 ---
-
-<div class="jumbotron">
-<h1>table_create</h1>
-</div>
 
 ## 概要
 

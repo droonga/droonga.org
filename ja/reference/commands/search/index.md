@@ -1,10 +1,7 @@
 ---
 layout: default
+title: search
 ---
-
-<div class="jumbotron">
-<h1>search</h1>
-</div>
 
 ## 概要
 
