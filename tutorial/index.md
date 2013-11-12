@@ -100,8 +100,19 @@ Droonga backend を構築するのに必要なパッケージがすべてセッ�
     $ mkdir backend
     $ cd backend
 
+### Droonga を起動する
+
+- TODO: fluent.conf を書く
+- TODO: catalog.json を書く (1x1 configuration)
+- TODO: catalog.json の説明へのリンク
+
+### データベースを作成する
+
 例として、たい焼き屋を検索できるデータベースを作成しましょう。
 [groongaで高速な位置情報検索](http://www.clear-code.com/blog/2011/9/13.html) に出てくるたいやき屋データをもとに、店名で全文検索ができるように変更を加えた以下のデータを利用します。
+
+- TODO: 例示の fixture を json 形式に書き換える
+- TODO: grnコマンドからの変換のやり方があったほうがいいかも
 
 ddl.grn:
 
@@ -157,6 +168,8 @@ shops.grn:
     ["たいやきひいらぎ", "35.647701,139.711517"]
     ]
 
+- TODO: groonga コマンドは使わないので削除してよい
+
 groonga コマンドを実行するため、groonga のあるディレクトリに PATH を設定します。
 先ほど fluent-plugin-droonga をインストールした際に、rroonga(Ruby 用Groonga ラッパーライブラリ)が自動的にインストールされており、
 その過程で `groonga` がビルドされているはずです。今回はそのディレクトリに PATH を設定することにします。
@@ -182,6 +195,7 @@ rroonga のバージョンなどによって表示される内容が異なるか
 
 以上のように、`groonga` のバージョンや configure option が表示されれば成功です。
 
+- TODO fluent-cat で投入する
 
 `ddl.grn` と `shops.grn` をデータベースに読み込みます。
 
@@ -200,6 +214,8 @@ rroonga のバージョンなどによって表示される内容が異なるか
 
 
 ### fluent-plugin-droonga を起動するための設定ファイルを用意する
+
+- TODO: DB作成よりも先に起動するようにするのでここは削除
 
 以下の内容で `taiyaki.conf` を作成します。
 
