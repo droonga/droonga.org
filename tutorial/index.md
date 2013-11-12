@@ -168,9 +168,33 @@ catalog.json:
 
 ### fluent-plugin-droonga を起動する
 
+以下のようにして fluentd-plugin-droonga を起動します。
+
+    $ fluentd --config fluentd.conf
+    2013-11-12 14:14:20 +0900 [info]: starting fluentd-0.10.40
+    2013-11-12 14:14:20 +0900 [info]: reading config file path="fluentd.conf"
+    2013-11-12 14:14:20 +0900 [info]: gem 'fluent-plugin-droonga' version '0.0.1'
+    2013-11-12 14:14:20 +0900 [info]: gem 'fluentd' version '0.10.40'
+    2013-11-12 14:14:20 +0900 [info]: using configuration file: <ROOT>
+      <source>
+        type forward
+        port 23003
+      </source>
+      <match taiyaki.message>
+        name localhost:23003/taiyaki
+        type droonga
+        proxy true
+      </match>
+      <match output.message>
+        type stdout
+      </match>
+    </ROOT>
+    2013-11-12 14:14:20 +0900 [info]: adding source type="forward"
+    2013-11-12 14:14:20 +0900 [info]: adding match pattern="taiyaki.message" type="droonga"
+    2013-11-12 14:14:20 +0900 [info]: adding match pattern="output.message" type="stdout"
+    2013-11-12 14:14:20 +0900 [info]: listening fluent socket on 0.0.0.0:23003
 
 ### データベースを作成する
-
 
 - TODO: 例示の fixture を json 形式に書き換える
 - TODO: grnコマンドからの変換のやり方があったほうがいいかも
@@ -296,7 +320,6 @@ taiyaki.conf:
 
 ### fluent-plugin-droonga を起動してみる
 
-    $ fluentd --config taiyaki.conf
     2013-08-29 12:25:12 +0900 [info]: starting fluentd-0.10.36
     2013-08-29 12:25:12 +0900 [info]: reading config file path="taiyaki.conf"
     2013-08-29 12:25:12 +0900 [info]: using configuration file: <ROOT>
