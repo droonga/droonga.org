@@ -196,19 +196,56 @@ catalog.json:
 
 ### データベースを作成する
 
-- TODO: 例示の fixture を json 形式に書き換える
 - TODO: grnコマンドからの変換のやり方があったほうがいいかも
 
-ddl.grn:
+ddl.jsons:
 
-    table_create Shops TABLE_HASH_KEY ShortText
-    column_create Shops location COLUMN_SCALAR WGS84GeoPoint
+    {"id":"ddl:0","dataset":"Taiyaki","type":"table_create","replyTo":"localhost:23003/output","body":{"name":"Shops","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
+    {"id":"ddl:1","dataset":"Taiyaki","type":"column_create","replyTo":"localhost:23003/output","body":{"table":"Shops","name":"location","flags":"COLUMN_SCALAR","type":"WGS84GeoPoint"}}
+    {"id":"ddl:2","dataset":"Taiyaki","type":"table_create","replyTo":"localhost:23003/output","body":{"name":"Locations","flags":"TABLE_PAT_KEY","key_type":"WGS84GeoPoint"}}
+    {"id":"ddl:3","dataset":"Taiyaki","type":"column_create","replyTo":"localhost:23003/output","body":{"table":"Locations","name":"shop","flags":"COLUMN_INDEX","type":"Shops","source":"location"}}
+    {"id":"ddl:4","dataset":"Taiyaki","type":"table_create","replyTo":"localhost:23003/output","body":{"name":"Term","flags":"TABLE_PAT_KEY","key_type":"ShortText","default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
+    {"id":"ddl:5","dataset":"Taiyaki","type":"column_create","replyTo":"localhost:23003/output","body":{"table":"Term","name":"shops__key","flags":"COLUMN_INDEX|WITH_POSITION","type":"Shops","source":"_key"}}
 
-    table_create Locations TABLE_PAT_KEY WGS84GeoPoint
-    column_create Locations shop COLUMN_INDEX Shops location
 
-    table_create Term TABLE_PAT_KEY ShortText --default_tokenizer TokenBigram --normalizer NormalizerAuto
-    column_create Term shops__key COLUMN_INDEX|WITH_POSITION Shops _key
+shops.jsons:
+    {"id":"shops:0","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"根津のたいやき","values":{"location":"35.720253,139.762573"}}}
+    {"id":"shops:1","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たい焼 カタオカ","values":{"location":"35.712521,139.715591"}}}
+    {"id":"shops:2","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"そばたいやき空","values":{"location":"35.683712,139.659088"}}}
+    {"id":"shops:3","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"車","values":{"location":"35.721516,139.706207"}}}
+    {"id":"shops:4","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"広瀬屋","values":{"location":"35.714844,139.685608"}}}
+    {"id":"shops:5","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"さざれ","values":{"location":"35.714653,139.685043"}}}
+    {"id":"shops:6","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"おめで鯛焼き本舗錦糸町東急店","values":{"location":"35.700516,139.817154"}}}
+    {"id":"shops:7","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"尾長屋 錦糸町店","values":{"location":"35.698254,139.81105"}}}
+    {"id":"shops:8","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たいやき工房白家 阿佐ヶ谷店","values":{"location":"35.705517,139.638611"}}}
+    {"id":"shops:9","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たいやき本舗 藤家 阿佐ヶ谷店","values":{"location":"35.703938,139.637115"}}}
+    {"id":"shops:10","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"みよし","values":{"location":"35.644539,139.537323"}}}
+    {"id":"shops:11","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"寿々屋 菓子","values":{"location":"35.628922,139.695755"}}}
+    {"id":"shops:12","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たい焼き / たつみや","values":{"location":"35.665501,139.638657"}}}
+    {"id":"shops:13","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たい焼き鉄次 大丸東京店","values":{"location":"35.680912,139.76857"}}}
+    {"id":"shops:14","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"吾妻屋","values":{"location":"35.700817,139.647598"}}}
+    {"id":"shops:15","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"ほんま門","values":{"location":"35.722736,139.652573"}}}
+    {"id":"shops:16","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"浪花家","values":{"location":"35.730061,139.796234"}}}
+    {"id":"shops:17","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"代官山たい焼き黒鯛","values":{"location":"35.650345,139.704834"}}}
+    {"id":"shops:18","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たいやき神田達磨 八重洲店","values":{"location":"35.681461,139.770599"}}}
+    {"id":"shops:19","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"柳屋 たい焼き","values":{"location":"35.685341,139.783981"}}}
+    {"id":"shops:20","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たい焼き写楽","values":{"location":"35.716969,139.794846"}}}
+    {"id":"shops:21","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たかね 和菓子","values":{"location":"35.698601,139.560913"}}}
+    {"id":"shops:22","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たい焼き ちよだ","values":{"location":"35.642601,139.652817"}}}
+    {"id":"shops:23","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"ダ・カーポ","values":{"location":"35.627346,139.727356"}}}
+    {"id":"shops:24","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"松島屋","values":{"location":"35.640556,139.737381"}}}
+    {"id":"shops:25","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"銀座 かずや","values":{"location":"35.673508,139.760895"}}}
+    {"id":"shops:26","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"ふるや古賀音庵 和菓子","values":{"location":"35.680603,139.676071"}}}
+    {"id":"shops:27","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"蜂の家 自由が丘本店","values":{"location":"35.608021,139.668106"}}}
+    {"id":"shops:28","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"薄皮たい焼き あづきちゃん","values":{"location":"35.64151,139.673203"}}}
+    {"id":"shops:29","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"横浜 くりこ庵 浅草店","values":{"location":"35.712013,139.796829"}}}
+    {"id":"shops:30","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"夢ある街のたいやき屋さん戸越銀座店","values":{"location":"35.616199,139.712524"}}}
+    {"id":"shops:31","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"何故屋","values":{"location":"35.609039,139.665833"}}}
+    {"id":"shops:32","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"築地 さのきや","values":{"location":"35.66592,139.770721"}}}
+    {"id":"shops:33","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"しげ田","values":{"location":"35.672626,139.780273"}}}
+    {"id":"shops:34","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"にしみや 甘味処","values":{"location":"35.671825,139.774628"}}}
+    {"id":"shops:35","replyTo":"localhost:23003/output","dataset":"Taiyaki","type":"add","body":{"table":"Shops","key":"たいやきひいらぎ","values":{"location":"35.647701,139.711517"}}}
+
 
 shops.grn:
 
