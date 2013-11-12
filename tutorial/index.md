@@ -3,8 +3,6 @@ title: Droonga チュートリアル
 layout: default
 ---
 
-# Droonga チュートリアル
-
 ## チュートリアルのゴール
 
 Droonga を使った検索システムを自分で構築できるようになる。
