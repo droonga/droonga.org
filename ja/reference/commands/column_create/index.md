@@ -8,7 +8,7 @@ layout: default
 
 ## 概要
 
-column_create は、テーブルにカラムを作成します。
+`column_create` は、テーブルにカラムを作成します。
 
 このコマンドは[Groonga の `column_create` コマンド](http://groonga.org/ja/docs/reference/commands/column_create.html)と互換性があります。
 

@@ -8,7 +8,7 @@ layout: default
 
 ## 概要
 
-table_create は、テーブルを作成します。
+`table_create` は、テーブルを作成します。
 
 このコマンドは[Groonga の `table_create` コマンド](http://groonga.org/ja/docs/reference/commands/table_create.html)と互換性があります。
 
