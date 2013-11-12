@@ -58,7 +58,7 @@ express-droonga には、 fluent-plugin-droonga に対しリクエストを送�
 
 ## 実験用のマシンを用意する
 
-本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.04 64bit` をセットアップし、その上に Droonga による検索システムを構築します。
+本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.10 64bit` をセットアップし、その上に Droonga による検索システムを構築します。
 Ubuntu Server のセットアップが完了し、コンソールにアクセス出来る状態になったと仮定し、以降の手順を説明していきます。
 
 ## セットアップに必要なパッケージをインストールする
