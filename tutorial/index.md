@@ -76,7 +76,7 @@ Droonga backend は、データベースを保持し、実際の検索を担当�
 
 (fluent-plugin-droonga がリリースされるまで:)
 
-    $ sudo apt-get install git-core
+    $ sudo apt-get install git
 
     $ git clone https://github.com/droonga/fluent-plugin-droonga.git
     $ cd fluent-plugin-droonga
