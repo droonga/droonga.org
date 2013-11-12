@@ -56,6 +56,10 @@ express-droonga には、 fluent-plugin-droonga に対しリクエストを送�
 
 ユーザは Droonga frontend に、Web ブラウザなどを用いて接続します。Droonga frontend はユーザの操作に応じて Droonga backend へリクエストを送信します。実際の検索処理は Droonga backend が行います。検索結果は、Droonga backend から Droonga frontend に渡され、最終的にユーザに返ります。
 
+例として、たい焼き屋を検索できるデータベースを作成することにします。
+[groongaで高速な位置情報検索](http://www.clear-code.com/blog/2011/9/13.html) に出てくるたいやき屋データをもとに、変更を加えたデータを利用します。
+
+
 ## 実験用のマシンを用意する
 
 本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.10 64bit` をセットアップし、その上に Droonga による検索システムを構築します。
@@ -90,26 +94,83 @@ Droonga backend は、データベースを保持し、実際の検索を担当�
 Droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
 
 
-### Groonga データベースを用意する
-
-現在 Droonga は活発に開発が進められていますが、データベースのスキーマを操作したり、データをデータベースに読み込む機能はまだ実装されていません。
-ここでは、 `groonga` コマンドを使用して、検索対象のデータベースを直接作成します。
+### fluent-plugin-droonga を起動するための設定ファイルを用意する
 
 まず Droonga backend 用のディレクトリを作成します。
 
     $ mkdir backend
     $ cd backend
 
-### Droonga を起動する
+以下の内容で `fluentd.conf` と `catalog.json` を作成します。
 
-- TODO: fluent.conf を書く
-- TODO: catalog.json を書く (1x1 configuration)
+fluentd.conf:
+
+    <source>
+      type forward
+      port 23003
+    </source>
+    <match taiyaki.message>
+      name localhost:23003/taiyaki
+      type droonga
+      proxy true
+    </match>
+    <match output.message>
+      type stdout
+    </match>
+
+catalog.json:
+
+    {
+      "effective_date": "2013-09-01T00:00:00Z",
+      "zones": ["localhost:23003/taiyaki"],
+      "farms": {
+        "localhost:23003/taiyaki": {
+          "device": ".",
+          "capacity": 10
+        }
+      },
+      "datasets": {
+        "Taiyaki": {
+          "workers": 0,
+          "plugins": ["search", "groonga", "add"],
+          "number_of_replicas": 2,
+          "number_of_partitions": 2,
+          "partition_key": "_key",
+          "date_range": "infinity",
+          "ring": {
+            "localhost:23041": {
+              "weight": 50,
+              "partitions": {
+                "2013-09-01": [
+                  "localhost:23003/taiyaki.000",
+                  "localhost:23003/taiyaki.001"
+                ]
+              }
+            },
+            "localhost:23042": {
+              "weight": 50,
+              "partitions": {
+                "2013-09-01": [
+                  "localhost:23003/taiyaki.002",
+                  "localhost:23003/taiyaki.003"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "plugins": ["select"]
+      }
+    }
+
 - TODO: catalog.json の説明へのリンク
+
+### fluent-plugin-droonga を起動する
+
 
 ### データベースを作成する
 
-例として、たい焼き屋を検索できるデータベースを作成しましょう。
-[groongaで高速な位置情報検索](http://www.clear-code.com/blog/2011/9/13.html) に出てくるたいやき屋データをもとに、店名で全文検索ができるように変更を加えた以下のデータを利用します。
 
 - TODO: 例示の fixture を json 形式に書き換える
 - TODO: grnコマンドからの変換のやり方があったほうがいいかも
