@@ -8,16 +8,32 @@ layout: default
 
 ## 概要
 
+table_create は、テーブルを作成します。
+
+このコマンドは[Groonga の `table_create` コマンド](http://groonga.org/ja/docs/reference/commands/table_create.html)と互換性があります。
 
 ## 構文
 
-
-## 使い方
-
+    {
+      "name"              : "テーブル名",
+      "flags"             : "テーブルのフラグ",
+      "key_type"          : "主キーの型",
+      "value_type"        : "値の型",
+      "default_tokenizer" : "デフォルトトークナイザー",
+      "normalizer"        : "ノーマライザー"
+    }
 
 ## パラメータ
 
+`name` 以外のパラメータはすべて省略可能です。
+
+すべてのパラメータは[Groonga の `table_create` コマンドの引数](http://groonga.org/ja/docs/reference/commands/table_create.html#parameters)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
 ## レスポンス
 
+ * 型：真偽型
+ * 値：テーブルの作成の成否を示す真偽値。
+
+ * `true`：テーブルの作成に成功した。
+ * `false`：テーブルの作成に失敗した。
 
