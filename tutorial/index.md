@@ -65,7 +65,7 @@ Ubuntu Server のセットアップが完了し、コンソールにアクセス
 
 Droonga をセットアップするために必要になるパッケージをインストールします。
 
-    $ sudo apt-get install -y ruby ruby-dev build-essential
+    $ sudo apt-get install -y ruby ruby-dev build-essential nodejs npm
 
 ## Droonga backend を構築する
 
@@ -246,24 +246,6 @@ taiyaki.conf:
 
 Droonga frontend を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のライブラリです。ユーザは、ユースケースに応じた Droonga frontend を Node.js アプリケーション作成し、そのアプリケーションに `express-droonga` を組み込む形で利用します。
 
-### nvm をインストールする
-
-Ubuntu 13.04 標準の Node.js は、バージョンが `0.6.19` と古いため、express-droonga に必要なパッケージを利用することができません。
-ここでは [nvm][] (Node Version Manager) を利用して、新しい Node.js をセットアップします。
-
-    $ wget -qO- https://raw.github.com/creationix/nvm/master/install.sh | sh
-    $ source ~/.profile
-
-### Node.js をインストールする
-
-    $ nvm install v0.10.17
-    $ nvm alias default 0.10
-
-Node.js のバージョンを表示して、先ほどインストールした `0.10.17` であることを確認してみましょう。
-
-    $ node --version
-    v0.10.17
-
 ### express-droonga をインストールする
 
     $ cd ~
@@ -332,7 +314,7 @@ frontend.js:
 
 `frontend.js` を実行します。
 
-    $ node frontend.js
+    $ nodejs frontend.js
        info  - socket.io started
 
 
