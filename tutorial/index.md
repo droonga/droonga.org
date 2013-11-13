@@ -251,26 +251,26 @@ fluentd を起動した状態で別の端末を開き、以下のようにして
 
 
 これで、たい焼きデータベースを検索するための Droonga Engine ができました。
-引き続き Droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
+引き続き Protocol Adapter を構築して、検索リクエストを受け付けられるようにしましょう。
 
 
-## Droonga frontend を構築する
+## Protocol Adapter を構築する
 
-Droonga frontend を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のライブラリです。ユーザは、ユースケースに応じた Droonga frontend を Node.js アプリケーション作成し、そのアプリケーションに `express-droonga` を組み込む形で利用します。
+Protocol Adapter を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のパッケージです。
 
 ### express-droonga をインストールする
 
     $ cd ~
-    $ mkdir frontend
-    $ cd frontend
+    $ mkdir protocol-adapter
+    $ cd protocol-adapter
 
 以下のような `package.json` を用意します。
 
 package.json:
 
     {
-      "name": "frontend",
-      "description": "frontend",
+      "name": "protocol-adapter",
+      "description": "Droonga Protocol Adapter",
       "version": "0.0.0",
       "author": "Droonga Project",
       "private": true,
@@ -285,11 +285,11 @@ package.json:
     $ npm install
 
 
-### frontend を作成する
+### Protocol Adapter を作成する
 
-以下のような内容で `frontend.js` を作成します。
+以下のような内容で `application.js` を作成します。
 
-frontend.js:
+server.js:
 
     var express = require('express'),
         droonga = require('express-droonga');
@@ -310,15 +310,15 @@ frontend.js:
       ]
     });
 
-`frontend.js` を実行します。
+`application.js` を実行します。
 
-    $ nodejs frontend.js
+    $ nodejs application.js
        info  - socket.io started
 
 
 ### 動作を確認
 
-準備が整いました。 frontend に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
+準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
     $ curl "http://localhost:3000/droonga/tables/Shops?attributes=_key"
     {
