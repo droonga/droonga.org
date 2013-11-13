@@ -289,7 +289,7 @@ package.json:
 
 以下のような内容で `application.js` を作成します。
 
-server.js:
+application.js:
 
     var express = require('express'),
         droonga = require('express-droonga');
