@@ -19,4 +19,4 @@ layout: default
 
 ## Documents
 
-* [Droonga tutorial (in Japanese)](/tutorial)
+* [Droonga tutorial (in Japanese)](/ja/tutorial)
