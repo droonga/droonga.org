@@ -3,6 +3,9 @@ title: Droonga チュートリアル
 layout: documents
 ---
 
+* TOC
+{:toc}
+
 ## チュートリアルのゴール
 
 Droonga を使った検索システムを自分で構築できるようになる。
