@@ -5,9 +5,6 @@ layout: default
 
 # Droonga チュートリアル
 
-- TODO: Droonga frontoend -> Protocol Adapter
-- TODO: Droonga backend -> Droonga Engine
-
 ## チュートリアルのゴール
 
 Droonga を使った検索システムを自分で構築できるようになる。
@@ -415,12 +412,13 @@ application.js:
 
 ### Socket.IO を用いた非同期処理
 
-先ほど作った `frontend.js` は、実は REST API だけでなく、 [Socket.IO][] にも対応しています (`express-droonga` のおかげです)。Socket.IO 経由で frontend へリクエストを送ると、処理が完了した時点で frontend から結果を送り返してもらえます。この仕組を利用すると、クライアントアプリケーションと frontend の間でリクエストとレスポンスを別々に送り合う、非同期な通信を行うことができます。
+Droonga の Protocol Adapter は、 REST API だけでなく、 [Socket.IO][] にも対応しています。Socket.IO 経由で Protocol Adapter へリクエストを送ると、処理が完了した時点で Protocol Adapter から結果を送り返してもらえます。この仕組を利用すると、クライアントアプリケーションと Droonga の間でリクエストとレスポンスを別々に送り合う、非同期な通信を行うことができます。
 
-ここでは、Webブラウザを「クライアントアプリケーション」とし、frontend との間で Socket.IO を利用して通信するアプリケーションを作成してみましょう。
+ここでは、Webブラウザを「クライアントアプリケーション」とし、Protocol Adapter との間で Socket.IO を利用して通信するアプリケーションを作成してみましょう。
 
+Protocol Adapter から `index.html` を配信し、Webブラウザに渡すことにしましょう。
+`protocol-adapter` ディレクトリの下に以下の内容の `index.html` を配置します。
 
-`frontend` ディレクトリの下に以下の内容の `index.html` を配置します。
 
 index.html:
 
@@ -434,7 +432,7 @@ index.html:
           });
           socket.emit('search', { queries: {
             result: {
-              source: 'Shops',
+              source: 'Shop',
               output: {
                  elements: [
                    'startTime',
@@ -461,21 +459,28 @@ index.html:
 ところで、前のセクションでは、REST API を利用して検索を行いました。
 REST API を利用した場合は、 `express-droonga` が内部で REST リクエストから上記の形式のメッセージへと変換し、`fluent-plugin-droonga` に送信するようになっています。
 
-では、この `index.html` を frontend でホストできるようにするため、`frontend.js` を以下のように書き換えます。
+では、この `index.html` を Protocol Adapter でホストできるようにするため、`application.js` を以下のように書き換えます。
 
-frontend.js:
+application.js:
 
     var express = require('express'),
         droonga = require('express-droonga');
-
+    
     var application = express();
     var server = require('http').createServer(application);
     server.listen(3000); // the port to communicate with clients
-
+    
     application.droonga({
       prefix: '/droonga',
-      tag:    'droonga',
-      server: server // this is required to initialize Socket.IO API!
+      tag: 'taiyaki',
+      defaultDataset: 'Taiyaki',
+      server: server, // this is required to initialize Socket.IO API!
+      plugins: [
+        droonga.API_REST,
+        droonga.API_SOCKET_IO,
+        droonga.API_GROONGA,
+        droonga.API_DROONGA
+      ]
     });
 
     //========== 追加箇所ここから ==========
@@ -490,9 +495,9 @@ Web ブラウザにサーバの IP アドレスを入れて、リクエストを
 
 Webブラウザから `http://192.0.2.1:3000` を開いてみてください。以下のように検索結果が表示されれば成功です。
 
-    {"result":{"count":36,"records":[["根津のたいやき"],["たい焼 カタオカ"],["そばたいやき空"],["車"],["広瀬屋"],["さざれ"],["おめで鯛焼き本舗錦糸町東急店"],["尾長屋 錦糸町店"],["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]],"startTime":"2013-08-28T08:42:25+00:00","elapsedTime":0.0002415180206298828}}
+    "result":{"count":36,"records":[["たい焼 カタオカ"],["根津のたいやき"],["そばたいやき空"],["さざれ"],["おめで鯛焼き本舗錦糸町東急店"],["尾長屋 錦糸町店"],["たいやき本舗 藤家 阿佐ヶ谷店"],["みよし"],["たい焼き / たつみや"],["吾妻屋"],["たいやき神田達磨 八重洲店"],["車"],["広瀬屋"],["たいやき工房白家 阿佐ヶ谷店"],["寿々屋 菓子"],["たい焼き鉄次 大丸東京店"],["ほんま門"],["浪花家"],["代官山たい焼き黒鯛"],["ダ・カーポ"]]}}
 
-Web ブラウザから Socket.IO 経由でリクエストが frontend に送信され、それが backend に送られ、検索結果が frontend に返され、さらに Web ブラウザに返されます。
+Web ブラウザから Socket.IO 経由でリクエストが Protocol Adapter に送信され、それが Engine に送られ、検索結果が Protocol Adapter に返され、さらに Web ブラウザに返されます。
 
 今度は全文検索を行ってみましょう。先ほどと同様に「阿佐ヶ谷」を店名に含むたいやき屋を検索します。`index.html` の `socket.emit()` の呼び出しを書き換え、以下の様な `index.html` を用意します。
 
@@ -506,7 +511,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
           });
           socket.emit('search', { queries: {
             result: {
-              source: 'Shops',
+              source: 'Shop',
               condition: {
                 query: '阿佐ヶ谷',
                 matchTo: '_key'
@@ -531,7 +536,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
 
 ブラウザで再度 `http://192.0.2.1:3000` を開くと、以下のような検索結果が表示されます。
 
-    {"result":{"count":2,"records":[["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]],"startTime":"2013-08-28T09:23:14+00:00","elapsedTime":0.0030717849731445312}}
+    {"result":{"count":2,"records":[["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]]}}
 
 このように、Socket.IO を利用して、リクエストとレスポンスを非同期に送受信する検索クライアントを作成することができました。
 
@@ -539,7 +544,7 @@ Web ブラウザから Socket.IO 経由でリクエストが frontend に送信�
 ## まとめ
 
 [Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [express-droonga][] をセットアップしました。
-これらのパッケージを利用して構築した frontend / backend からなるアプリケーションを用いて、実際に検索を行いました。
+これらのパッケージを利用することで、Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
 
 
   [Ubuntu]: http://www.ubuntu.com/
