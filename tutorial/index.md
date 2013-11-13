@@ -272,7 +272,7 @@ package.json:
       "name": "frontend",
       "description": "frontend",
       "version": "0.0.0",
-      "author": "Droonga project",
+      "author": "Droonga Project",
       "private": true,
       "dependencies": {
         "express": "*",
