@@ -23,25 +23,26 @@ Droonga を使った検索システムを自分で構築できるようになる
 
 分散データ処理エンジンです。 "distributed-groonga" に由来します。
 
-Droonga は複数のパッケージから構成されています。ユーザは、これらのパッケージを組み合わせて利用することで、全文検索をはじめとするスケーラブルな分散データ処理システムを構築することができます。
+Droonga は複数のコンポーネントから構成されています。ユーザは、これらのパッケージを組み合わせて利用することで、全文検索をはじめとするスケーラブルな分散データ処理システムを構築することができます。
 
-### Droonga を構成するパッケージ
+### Droonga を構成するコンポーネント
 
-#### fluent-plugin-droonga
+#### Droonga Engine
 
-[fluent-plugin-droonga][] は Droonga における分散データ処理の要となるパッケージです。リクエストに基いて実際のデータ処理を行います。[Fluentd] のプラグインとして実装されています。
+Droonga Engine は Droonga における分散データ処理の要となるコンポーネントです。リクエストに基いて実際のデータ処理を行います。
 
-#### express-droonga
+このコンポーネントは [Fluentd] のプラグインとして実装されており、 [fluent-plugin-droonga][] パッケージとして提供されます。
 
-[express-droonga][] は Droonga フロントエンドアプリケーションを構築する際に使うフレームワークです。
-express-droonga を活用することで、スケーラブルかつリアルタイム性の高い検索アプリケーションを構築することができます。
-express-droonga には、 fluent-plugin-droonga に対しリクエストを送ったり、fluent-plugin-droonga から返ってくるレスポンスを処理するなど、個別のアプリケーションに依らない、fluent-plugin-droonga を使う上で一般的な処理がまとめられています。
+[fluent-plugin-droonga][] は検索エンジンとして、オープンソースのカラムストア機能付き全文検索エンジン [Groonga][] を使用しています。
 
-[Node.js][] のライブラリとして提供されており、ユーザは作成するアプリケーションに組み込んで使います。
+#### Protocol Adapter
 
-#### Groonga
+Protocol Adapter は、Droonga を様々なプロトコルで利用できるようにするためのアダプタです。
 
-[Groonga] はオープンソースのカラムストア機能付き全文検索エンジンです。Droonga は Groonga を利用して構築されています。
+このコンポーネントは [Node.js][] のパッケージとして実装されており、[express-droonga][] パッケージとして提供されます。
+
+Droonga Engine は fluentd プロトコルで通信を行います。Protocol Adapter は、ユーザがアプリケーションを構築する際に利用しやすいよう、 Droonga Engine の機能を HTTP や Socket.io などのインタフェースで提供します。
+
 
 ## チュートリアルでつくるプロダクトの全体像
 
