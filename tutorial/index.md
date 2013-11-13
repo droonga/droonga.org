@@ -74,24 +74,24 @@ Droonga をセットアップするために必要になるパッケージをイ
 
     $ sudo apt-get install -y ruby ruby-dev build-essential nodejs npm
 
-## Droonga backend を構築する
+## Droonga Engine を構築する
 
-Droonga backend は、データベースを保持し、実際の検索を担当する部分です。
+Droonga Engine は、データベースを保持し、実際の検索を担当する部分です。
 このセクションでは、 fluent-plugin-droonga をインストールし、検索対象となるデータを準備します。
 
 ### fluent-plugin-droonga をインストールする
 
     $ sudo gem install fluent-plugin-droonga
 
-Droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
+Droonga Engine を構築するのに必要なパッケージがセットアップできました。引き続き設定に移ります。
 
 
-### fluent-plugin-droonga を起動するための設定ファイルを用意する
+### Droonga Engine を起動するための設定ファイルを用意する
 
-まず Droonga backend 用のディレクトリを作成します。
+まず Droonga Engine 用のディレクトリを作成します。
 
-    $ mkdir backend
-    $ cd backend
+    $ mkdir engine
+    $ cd engine
 
 以下の内容で `fluentd.conf` と `catalog.json` を作成します。
 
@@ -249,7 +249,7 @@ fluentd を起動した状態で別の端末を開き、以下のようにして
     $ fluent-cat taiyaki.message < shops.jsons
 
 
-これで、たい焼きデータベースを検索できる Droonga backend の準備ができました。
+これで、たい焼きデータベースを検索するための Droonga Engine ができました。
 引き続き Droonga frontend を構築して、検索リクエストを受け付けられるようにしましょう。
 
 
