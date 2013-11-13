@@ -81,17 +81,6 @@ Droonga backend は、データベースを保持し、実際の検索を担当�
 
 ### fluent-plugin-droonga をインストールする
 
-(fluent-plugin-droonga がリリースされるまで:)
-
-    $ sudo apt-get install git
-
-    $ git clone https://github.com/droonga/fluent-plugin-droonga.git
-    $ cd fluent-plugin-droonga
-    $ gem build fluent-plugin-droonga.gemspec
-    $ sudo gem install fluent-plugin-droonga
-
-(fluent-plugin-droonga がリリースされた後:)
-
     $ sudo gem install fluent-plugin-droonga
 
 Droonga backend を構築するのに必要なパッケージがすべてセットアップできました。引き続き backend の設定に移ります。
