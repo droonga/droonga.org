@@ -1,8 +1,7 @@
 ---
 layout: default
+title: リファレンス
 ---
-
-# リファレンス
 
  * [catalog.json](./catalog/)
  * [コマンドリファレンス](./commands/)
