@@ -58,7 +58,7 @@ Droonga Engine は fluentd プロトコルで通信を行います。Protocol Ad
                                  \--------------------------------------------------/
                                                  この部分を構築します
 
-ユーザは Protocol Adapter に、Web ブラウザなどを用いて接続します。Protocol Adapter は Droonga backend へリクエストを送信します。実際の検索処理は Droonga Engine が行います。検索結果は、Droonga Engine から Protocol Adapter に渡され、最終的にユーザに返ります。
+ユーザは Protocol Adapter に、Web ブラウザなどを用いて接続します。Protocol Adapter は Droonga Engine へリクエストを送信します。実際の検索処理は Droonga Engine が行います。検索結果は、Droonga Engine から Protocol Adapter に渡され、最終的にユーザに返ります。
 
 例として、たい焼き屋を検索できるデータベースシステムを作成することにします。
 [groongaで高速な位置情報検索](http://www.clear-code.com/blog/2011/9/13.html) に出てくるたいやき屋データをもとに、変更を加えたデータを利用します。
