@@ -265,21 +265,7 @@ Droonga frontend を構築するために、 `express-droonga` を使用しま�
 
 以下のような `package.json` を用意します。
 
-package.json (express-droonga がリリースされるまで):
-
-    {
-      "name": "frontend",
-      "description": "frontend",
-      "version": "0.0.0",
-      "author": "Droonga project",
-      "private": true,
-      "dependencies": {
-        "express": "*",
-        "express-droonga": "git+https://github.com/droonga/express-droonga.git"
-      }
-    }
-
-package.json (express-droonga がリリースされたあと):
+package.json:
 
     {
       "name": "frontend",
