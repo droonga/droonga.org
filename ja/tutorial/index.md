@@ -187,9 +187,8 @@ catalog.json:
 
 ### データベースを作成する
 
-- TODO: grnコマンドからの変換のやり方があったほうがいいかも
-
-データを投入しましょう。スキーマを定義した `ddl.jsons` と、たいやき屋のデータ `shops.jsons` を用意します。
+Dronga Engine が起動したので、データを投入しましょう。
+スキーマを定義した `ddl.jsons` と、たいやき屋のデータ `shops.jsons` を用意します。
 
 ddl.jsons:
 
