@@ -152,8 +152,10 @@ catalog.json:
       }
     }
 
-- TODO: この catalog.json が何をするかについての説明
-- TODO: catalog.json の説明へのリンク
+この `catalog.json` では、 `Taiyaki` データセットを定義し、2組のレプリカ×2個のパーティションで構成するよう指示しています。
+この例では、全てのレプリカ及びパーティションは、ローカル(一つの `fluent-plugin-droonga` の管理下)に配置します。
+
+`catalog.json` の詳細については [catalog.json](/ja/reference/catalog) を参照してください。
 
 ### fluent-plugin-droonga を起動する
 
