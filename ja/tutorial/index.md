@@ -239,7 +239,7 @@ shops.jsons:
     {"id":"shops:35","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たいやきひいらぎ","values":{"location":"35.647701,139.711517"}}}
 
 
-fluentd を起動した状態で別の端末を開き、以下のようにして `dll.jsons` と `shops.jsons` を投入します:
+fluentd を起動した状態で別の端末を開き、以下のようにして `ddl.jsons` と `shops.jsons` を投入します:
 
     $ fluent-cat taiyaki.message < ddl.jsons
     $ fluent-cat taiyaki.message < shops.jsons
