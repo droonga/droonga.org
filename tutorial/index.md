@@ -300,7 +300,8 @@ application.js:
     
     application.droonga({
       prefix: '/droonga',
-      tag:    'droonga',
+      tag: 'taiyaki',
+      defaultDataset: 'Taiyaki',
       server: server, // this is required to initialize Socket.IO API!
       plugins: [
         droonga.API_REST,
