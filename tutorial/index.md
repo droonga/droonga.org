@@ -44,15 +44,15 @@ Protocol Adapter は、Droonga を様々なプロトコルで利用できるよ�
 Droonga Engine は fluentd プロトコルで通信を行います。Protocol Adapter は、ユーザがアプリケーションを構築する際に利用しやすいよう、 Droonga Engine の機能を HTTP や Socket.io などのインタフェースで提供します。
 
 
-## チュートリアルでつくるプロダクトの全体像
+## チュートリアルでつくるシステムの全体像
 
-チュートリアルでは、以下の様な構成のプロダクトを構築します。
+チュートリアルでは、以下の様な構成のシステムを構築します。
 
-    +-------------+              +------------------+             +-----------------+
-    | Web Browser |  <-------->  | Droonga frontend |  <------->  | Droonga backend |
-    +-------------+   HTTP /     +------------------+   Fluent    +-----------------+
-                      Socket.IO    w/express-droonga    protocol    w/fluent-plugin
-                                                                            -droonga
+    +-------------+              +------------------+             +----------------+
+    | Web Browser |  <-------->  | Protocol Adapter |  <------->  | Droonga Engine |
+    +-------------+   HTTP /     +------------------+   Fluent    +----------------+
+                      Socket.IO   w/express-droonga     protocol   w/fluent-plugin
+                                                                           -droonga
 
 
                                  \--------------------------------------------------/
