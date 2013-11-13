@@ -5,6 +5,9 @@ layout: default
 
 # Droonga チュートリアル
 
+- TODO: Droonga frontoend -> Protocol Adapter
+- TODO: Droonga backend -> Droonga Engine
+
 ## チュートリアルのゴール
 
 Droonga を使った検索システムを自分で構築できるようになる。
@@ -164,6 +167,7 @@ catalog.json:
       }
     }
 
+- TODO: この catalog.json が何をするかについての説明
 - TODO: catalog.json の説明へのリンク
 
 ### fluent-plugin-droonga を起動する
