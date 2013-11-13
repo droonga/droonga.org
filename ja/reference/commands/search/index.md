@@ -1,6 +1,6 @@
 ---
-layout: default
 title: search
+layout: documents
 ---
 
 ## 概要

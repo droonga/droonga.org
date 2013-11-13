@@ -1,6 +1,6 @@
 ---
-layout: default
 title: add
+layout: documents
 ---
 
 ## 概要

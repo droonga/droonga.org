@@ -1,6 +1,6 @@
 ---
-layout: default
 title: select
+layout: documents
 ---
 
 ## 概要

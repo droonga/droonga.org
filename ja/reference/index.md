@@ -1,6 +1,6 @@
 ---
-layout: default
 title: リファレンス
+layout: documents
 ---
 
  * [catalog.json](./catalog/)

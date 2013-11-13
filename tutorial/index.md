@@ -1,6 +1,6 @@
 ---
 title: Droonga tutorial
-layout: default
+layout: documents
 ---
 
 Not yet available in English. See [Japanese version](/ja/tutorial).

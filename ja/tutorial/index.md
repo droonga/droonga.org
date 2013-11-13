@@ -1,6 +1,6 @@
 ---
 title: Droonga チュートリアル
-layout: default
+layout: documents
 ---
 
 ## チュートリアルのゴール

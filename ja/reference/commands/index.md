@@ -1,6 +1,6 @@
 ---
-layout: default
 title: コマンドリファレンス
+layout: documents
 ---
 
 以下のコマンドを利用できます。

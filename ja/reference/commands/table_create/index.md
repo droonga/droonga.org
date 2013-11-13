@@ -1,6 +1,6 @@
 ---
-layout: default
 title: table_create
+layout: documents
 ---
 
 ## 概要

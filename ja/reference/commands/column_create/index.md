@@ -1,6 +1,6 @@
 ---
-layout: default
 title: column_create
+layout: documents
 ---
 
 ## 概要
