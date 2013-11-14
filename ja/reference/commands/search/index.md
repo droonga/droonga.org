@@ -108,6 +108,7 @@ layout: documents
 省略時の既定値
 : なし。
 
+検索条件を指定した場合、検索条件に該当したすべてのレコードがその後の処理の対象となります。
 検索条件の指定を省略した場合、データソースに含まれるすべてのレコードがその後の処理の対象となります。
 
 ##### スクリプト構文形式の文字列による検索条件 {#query-condition-script-syntax-string}
@@ -228,6 +229,9 @@ layout: documents
 省略時の既定値
 : なし。
 
+`condition` の指定に従って検索した結果のすべてのレコードについて、指定に基づいてソートした結果がその後の処理の対象となります。
+取り出すレコードの範囲を指定した場合、指定に基づいてソートした結果から、さらに指定の範囲のレコードを取り出した結果がその後の処理の対象となります。
+
 ##### 基本的なソート条件の指定 {#query-sortBy-array}
 
 ソート条件はカラム名の文字列の配列として指定します。
@@ -274,11 +278,34 @@ layout: documents
       "limit"  : 10
     }
 
-これらの指定は `output` における `offset` および `limit` の指定よりも高速に動作します。
+これらの指定を行った場合、取り出されたレコードのみがその後の処理の対象となります。
+そのため、 `output` における `offset` および `limit` の指定よりも高速に動作します。
 
+
+#### `groupBy`
+
+概要
+: 処理対象のレコードを集約する条件を指定します。
+
+値
+: 以下のパターンのいずれかをとります。
+  
+  1. 単純な集約条件（カラム名または式）の文字列。
+  2. 複雑な集約条件を指定するハッシュ。 
+
+指定の省略
+: 可能。
+
+省略時の既定値
+: なし。
+
+`sortBy` に従って取り出されたすべてのレコードを、指定に基づいて集約した結果がその後の処理の対象となります。
+
+##### 基本的な集約条件の指定 {#query-groupBy-string}
+
+##### 複雑な集約条件の指定 {#query-groupBy-hash}
 
 <!--
-
           "groupBy": {"key": "name", "maxNSubRecords": 2},
           // a String or an Object.
           //
@@ -287,8 +314,23 @@ layout: documents
           // An Object: "key" value is the group key. "maxNSubRecords"
           //            value is an integer number to control the maximum number
           //            of sub-records to be stored in each grouped record.
+-->
 
-          "output": {
+#### `output`
+
+概要
+: 処理結果の出力形式を指定します。
+
+値
+: 出力形式を指定するハッシュ。 
+
+指定の省略
+: 可能。
+
+省略時の既定値
+: なし（結果を出力しない）。
+
+<!--
           // an Object specifying how to output the result of this query.
           // The result is output only when this element is assigned.
           // Otherwise, the result is only calculated and stored
@@ -327,41 +369,99 @@ layout: documents
                   { "label": "comment", "source": "comment"}
                 ]
               }
-            ]
-          }
-        },
-        "facetName": {
-          "source": "mainSearch",
-          "groupBy": "name",
-          "sortBy": {
-            "keys": ["count"],
-            "offset": 0,
-            "limit": 100
-          },...
-        },
-        "facetJob": {
-          "source": "mainSearch",
-          "groupBy": "job",
-          "sortBy": {
-            "keys": ["count"],
-            "offset": 0,
-            "limit": 100
-          },...
-        },
-        "facetHour": {
-          "source": "mainSearch",
-          "groupBy": "dateToHour(date)",
-          // not implemented yet
-          "sortBy": {
-            "keys": ["count"],
-            "offset": 0,
-            "limit": 100
-          },...
-        }
-      }
-    }
 -->
+
 
 ## レスポンス
 
+このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果を値としたハッシュを返却します。
 
+<!--
+
+## Response message body
+
+### Simple output (records are presented as simple array)
+
+    {
+      "mainSearch": { // search results
+        "startTime": "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime": 123.456, // msec, Number type
+        "count": 123,
+        "attributes": [
+          { "name": "name", "type": "ShortText", "vector": false },
+          { "name": "age", "type": "UInt32", "vector": false }
+        ],
+        "records": [ ["a", 10], ["b", 20] ]
+      },
+      "facetJob": {
+        "startTime": "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime": 123.456, // msec, Number type
+        "count": 3,
+        "attributes": [
+          { "name": "name", "type": "ShortText", "vector": false },
+          { "name": "count", "type": "UInt32", "vector": false },
+          { "name": "income", "type": "UInt32", "vector": false }
+        ],
+        "records": [ ["NEET", 10, 0], ["programmer", 9, 100], ["writer", 8, 200] ]
+      },
+      "facetPrefecture": {
+        "startTime": "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime": 123.456, // msec, Number type
+        "count": 3,
+        "attributes": [
+          { "name": "value", "type": "ShortText", "vector": false },
+          { "name": "count", "type": "UInt32", "vector": false }
+        ],
+        "records": [ ["Tokyo", 10], ["Osaka", 9], ["Hokkaido", 8] ]
+      }
+    }
+
+### Complex output (records are presented as an array of hashes)
+
+
+    {
+      "mainSearch": { // search results
+        "startTime": "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime": 123.456, // msec, Number type
+        "count": 123,
+        "attributes": {
+          "name": { "type": "ShortText", "vector": false },
+          "age": { "type": "UInt32", "vector": false }
+        },
+        "records": [
+          { "name": "a", "age": 10 },
+          { "name": "b", "age": 20 }
+        ]
+      },
+      "facetJob": {
+        "startTime": "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime": 123.456, // msec, Number type
+        "count": 3,
+        "attributes": {
+          "name": { "type": "ShortText", "vector": false },
+          "count": { "type": "UInt32", "vector": false },
+          "income": { "type": "UInt32", "vector": false }
+        },
+        "records": [
+          { "name": "NEET", "count": 10, "income": 0 },
+          { "name": "programmer", "count": 9, "income": 100 },
+          { "name": "writer", "count": 8, "income": 200 }
+        ]
+      },
+      "facetPrefecture": {
+        "startTime": "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime": 123.456, // msec, Number type
+        "count": 3,
+        "attributes": {
+          "value": { "type": "ShortText", "vector": false },
+          "count": { "type": "UInt32", "vector": false }
+        },
+        "records": [
+          { "value": "Tokyo", "count": 10 },
+          { "value": "Osaka", "count": 9 },
+          { "value": "Hokkaido", "count: 8 }
+        ]
+      }
+    }
+
+-->
