@@ -394,6 +394,10 @@ layout: documents
        
            { "label" : "country", "source" : "'Japan'" }
        
+     * 以下の例は、集約前の元のレコードの総数を、集約後のレコードの `"itemsCount"` カラムの値として出力します。
+       
+           { "label" : "itemsCount", "source" : "_nsubrecs", }
+       
      * 以下の例は、集約前の元のレコードの配列を、集約後のレコードの `"items"` カラムの値として出力します。
        `"attributes"` は、この項の説明と同じ形式で指定します。
        
