@@ -20,13 +20,7 @@ layout: documents
           "condition" : 検索条件,
           "sortBy"    : ソートの指定,
           "groupBy"   : 集約の指定,
-          "output"    : {
-            "elements"   : [検索結果として出力する情報の配列],
-            "format"     : "検索結果のフォーマット形式",
-            "offset"     : ページングの起点,
-            "limit"      : 返却するレコード数,
-            "attributes" : [レコードのカラムの出力指定の配列]
-          }
+          "output"    : 出力の指定
         },
         "検索クエリの名前2" : { ... },
         ...
@@ -106,10 +100,10 @@ layout: documents
 : 可能。
 
 省略時の既定値
-: なし。
+: なし（検索しない）。
 
 検索条件を指定した場合、検索条件に該当したすべてのレコードがその後の処理の対象となります。
-検索条件の指定を省略した場合、データソースに含まれるすべてのレコードがその後の処理の対象となります。
+検索条件を指定しなかった場合、データソースに含まれるすべてのレコードがその後の処理の対象となります。
 
 ##### スクリプト構文形式の文字列による検索条件 {#query-condition-script-syntax-string}
 
@@ -227,10 +221,9 @@ layout: documents
 : 可能。
 
 省略時の既定値
-: なし。
+: なし（ソートしない）。
 
-`condition` の指定に従って検索した結果のすべてのレコードについて、指定に基づいてソートした結果がその後の処理の対象となります。
-取り出すレコードの範囲を指定した場合、指定に基づいてソートした結果から、さらに指定の範囲のレコードを取り出した結果がその後の処理の対象となります。
+レコードの範囲を指定した場合、指定に基づいてソートした結果から、さらに指定の範囲のレコードを取り出した結果がその後の処理の対象となります。
 
 ##### 基本的なソート条件の指定 {#query-sortBy-array}
 
@@ -297,13 +290,17 @@ layout: documents
 : 可能。
 
 省略時の既定値
-: なし。
+: なし（集約しない）。
 
-`sortBy` に従って取り出されたすべてのレコードを、指定に基づいて集約した結果がその後の処理の対象となります。
+集約条件を指定した場合、指定に基づいてレコードを集約した結果のレコードがその後の処理の対象となります。
 
 ##### 基本的な集約条件の指定 {#query-groupBy-string}
 
+（未稿）
+
 ##### 複雑な集約条件の指定 {#query-groupBy-hash}
+
+（未稿）
 
 <!--
           "groupBy": {"key": "name", "maxNSubRecords": 2},
@@ -315,6 +312,7 @@ layout: documents
           //            value is an integer number to control the maximum number
           //            of sub-records to be stored in each grouped record.
 -->
+
 
 #### `output`
 
@@ -330,138 +328,155 @@ layout: documents
 省略時の既定値
 : なし（結果を出力しない）。
 
-<!--
-          // an Object specifying how to output the result of this query.
-          // The result is output only when this element is assigned.
-          // Otherwise, the result is only calculated and stored
-          // probably for reuse in other queries, or for side effects.
+指定を省略した場合、その検索クエリの検索結果はレスポンスには出力されません。
+集約操作などのために必要な中間テーブルにあたる検索結果を求めるだけの検索クエリにおいては、 `output` を省略して処理時間や転送するデータ量を減らすことができます。
 
-            "elements": [
-              "startTime",
-              "elapsedTime",
-              "count",
-              "attributes",
-              "records"
-            ],
-            // only the elements assigned in this array will be output.
-
-            "format": "complex",
-            // "simple" or "complex". (the default value is "simple")
-            // It controls whether "Simple output" or "Complex output" (mentioned later) is used.
-
-            "offset": 10,
-            "limit": 100,
-            // The result can be sliced here
-            // besides that in "sortBy" section.
-            "attributes": [
-              // basic
-              { "label": "realName", "source": "name" },
-              // shorthand
-              "age", // equals to { label: "age", source: "age" }
-              // function call. "source" can include groonga's built-in functions.
-              { "label": "html", "source": "snippet_html(name)" },
-              // literal
-              { "label": "count", "source": "0" },
-              { "label": "country", "source": "'Japan'" },
-              // sub-record
-              { "label": "specimen", "source": "_subrecs",
-                "attributes": [
-                  { "label": "comment", "source": "comment"}
-                ]
-              }
--->
-
-
-## レスポンス
-
-このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果を値としたハッシュを返却します。
-
-<!--
-
-## Response message body
-
-### Simple output (records are presented as simple array)
+出力形式は、以下の形式のハッシュで指定します。
 
     {
-      "mainSearch": { // search results
-        "startTime": "2001-08-02T10:45:23.5+09:00",
-        "elapsedTime": 123.456, // msec, Number type
-        "count": 123,
-        "attributes": [
-          { "name": "name", "type": "ShortText", "vector": false },
-          { "name": "age", "type": "UInt32", "vector": false }
-        ],
-        "records": [ ["a", 10], ["b", 20] ]
-      },
-      "facetJob": {
-        "startTime": "2001-08-02T10:45:23.5+09:00",
-        "elapsedTime": 123.456, // msec, Number type
-        "count": 3,
-        "attributes": [
-          { "name": "name", "type": "ShortText", "vector": false },
-          { "name": "count", "type": "UInt32", "vector": false },
-          { "name": "income", "type": "UInt32", "vector": false }
-        ],
-        "records": [ ["NEET", 10, 0], ["programmer", 9, 100], ["writer", 8, 200] ]
-      },
-      "facetPrefecture": {
-        "startTime": "2001-08-02T10:45:23.5+09:00",
-        "elapsedTime": 123.456, // msec, Number type
-        "count": 3,
-        "attributes": [
-          { "name": "value", "type": "ShortText", "vector": false },
-          { "name": "count", "type": "UInt32", "vector": false }
-        ],
-        "records": [ ["Tokyo", 10], ["Osaka", 9], ["Hokkaido", 8] ]
-      }
+      "elements"   : [出力する情報の配列],
+      "format"     : "検索結果のレコードの出力スタイル",
+      "offset"     : ページングの起点,
+      "limit"      : 出力するレコード数,
+      "attributes" : [レコードのカラムの出力指定の配列]
     }
 
-### Complex output (records are presented as an array of hashes)
+`elements`
+: その検索クエリの結果として[レスポンス](#response)に出力する情報を、プロパティ名の文字列の配列で指定します。
+  以下の項目を指定できます。項目は1つだけ指定する場合であっても必ず配列で指定します。
+  
+   * `"startTime"`
+   * `"elapsedTime"`
+   * `"count"`
+   * `"attributes"`
+   * `"records"`
+  
+  このパラメータは省略可能で、省略時の初期値はありません（結果を何も出力しません）。
 
+`format`
+: 検索結果のレコードの出力スタイルを指定します。
+  以下のいずれかの値（文字列）を取ります。
+  
+   * `"simple"`  : 個々のレコードを配列として出力します。
+   * `"complex"` : 個々のレコードをハッシュとして出力します。
+  
+  このパラメータは省略可能で、省略時の初期値は `"simple"` です。
+
+`offset`
+: 出力するレコードのページングの起点を示す `0` または正の整数。
+  
+  このパラメータは省略可能で、省略時の既定値は `0` です。
+
+`limit`
+: 出力するレコード数を示す `-1` 、 `0` 、または正の整数。
+  `-1`を指定すると、すべてのレコードを出力します。
+  
+  このパラメータは省略可能で、省略時の既定値は `0` です。
+
+`attributes`
+: レコードのカラムの値について、出力形式を配列で指定します。
+  個々のカラムの値の出力形式は以下のいずれかで指定します。
+  
+   * カラム名の文字列。例は以下の通りです。
+     * `"name"` : `name` カラムの値をそのまま `name` カラムとして出力します。
+     * `"age"`  : `age` カラムの値をそのまま `age` カラムとして出力します。
+   * 詳細な出力形式指定のハッシュ。例は以下の通りです。
+     * 以下の例は、 `name` カラムの値を `realName` カラムとして出力します。
+       
+           { "label" : "realName", "source" : "name" }
+       
+     * 以下の例は、 `name` カラムの値について、全文検索にヒットした位置を強調したHTMLコード片の文字列を `html` カラムとして出力します。
+       
+           { "label" : "html", "source": "snippet_html(name)" }
+       
+     * 以下の例は、`country` カラムについて、すべてのレコードの当該カラムの値が文字列 `"Japan"` であるものとして出力します。
+       （存在しないカラムを実際に作成する前にクライアント側の挙動を確認したい場合などに、この機能が利用できます。）
+       
+           { "label" : "country", "source" : "'Japan'" }
+       
+     * 以下の例は、集約前の元のレコードの総数を、集約後のレコードの `"itemsCount"` カラムの値として出力します。
+       
+           { "label" : "itemsCount", "source" : "_nsubrecs", }
+       
+     * 以下の例は、集約前の元のレコードの配列を、集約後のレコードの `"items"` カラムの値として出力します。
+       `"attributes"` は、この項の説明と同じ形式で指定します。
+       
+           { "label" : "items", "source" : "_subrecs",
+             "attributes": ["name", "price"] }
+  
+  このパラメータは省略可能で、省略時の既定値はありません（カラムを何も出力しません）。
+
+
+## レスポンス {#response}
+
+このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果を値とした、以下のようなハッシュを返却します。
 
     {
-      "mainSearch": { // search results
-        "startTime": "2001-08-02T10:45:23.5+09:00",
-        "elapsedTime": 123.456, // msec, Number type
-        "count": 123,
-        "attributes": {
-          "name": { "type": "ShortText", "vector": false },
-          "age": { "type": "UInt32", "vector": false }
-        },
-        "records": [
-          { "name": "a", "age": 10 },
-          { "name": "b", "age": 20 }
-        ]
+      "検索クエリの名前1" : {
+        "startTime"   : "検索を開始した時刻",
+        "elapsedTime" : 検索にかかった時間（単位：ミリ秒）,
+        "count"       : 検索条件にヒットしたレコードの総数,
+        "attributes"  : [返却されたレコードのカラムの情報],
+        "records"     : [返却されたレコードの配列]
       },
-      "facetJob": {
-        "startTime": "2001-08-02T10:45:23.5+09:00",
-        "elapsedTime": 123.456, // msec, Number type
-        "count": 3,
-        "attributes": {
-          "name": { "type": "ShortText", "vector": false },
-          "count": { "type": "UInt32", "vector": false },
-          "income": { "type": "UInt32", "vector": false }
-        },
-        "records": [
-          { "name": "NEET", "count": 10, "income": 0 },
-          { "name": "programmer", "count": 9, "income": 100 },
-          { "name": "writer", "count": 8, "income": 200 }
-        ]
-      },
-      "facetPrefecture": {
-        "startTime": "2001-08-02T10:45:23.5+09:00",
-        "elapsedTime": 123.456, // msec, Number type
-        "count": 3,
-        "attributes": {
-          "value": { "type": "ShortText", "vector": false },
-          "count": { "type": "UInt32", "vector": false }
-        },
-        "records": [
-          { "value": "Tokyo", "count": 10 },
-          { "value": "Osaka", "count": 9 },
-          { "value": "Hokkaido", "count: 8 }
-        ]
-      }
+      "検索クエリの名前2" : 検索クエリの検索結果,
+      ...
     }
 
--->
+検索クエリの処理結果のハッシュは以下の情報を持ちます。
+
+`startTime`   : 検索を開始した時刻の文字列。
+   * `"elapsedTime"` : 検索にかかった時間の数値（単位：ミリ秒）。
+   * `"count"`       : 検索条件にヒットしたレコードの総数の数値。
+   * `"attributes"`  : 返却されたレコードのカラムの情報。
+   * `"records"`     : 返却されたレコードの配列。
+
+`attributes` および `records` の出力形式は `output` の `type` の指定に従って2通りに別れます。
+
+### 単純な形式のレスポンス
+
+`type` が　`"simple"` の場合のレスポンスは以下の形を取ります。
+
+    {
+      "people" : {
+        "startTime"   : "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime" : 123.456,
+        "count"       : 123,
+        "attributes"  : [
+          { "name" : "name", "type": "ShortText", "vector": false },
+          { "name" : "age",  "type": "UInt32",    "vector": false }
+        ],
+        "records"     : [
+          ["Alice", 10],
+          ["Bob",   20]
+        ]
+      },
+      ...
+    }
+
+（未稿）
+
+
+### 複雑な形式のレスポンス
+
+`type` が　`"complex"` の場合のレスポンスは以下の形を取ります。
+
+    {
+      "people" : {
+        "startTime"   : "2001-08-02T10:45:23.5+09:00",
+        "elapsedTime" : 123.456,
+        "count"       : 123,
+        "attributes"  : {
+          "name" : { "type": "ShortText", "vector": false },
+          "age"  : { "type": "UInt32",    "vector": false }
+        ],
+        "records"     : [
+          { "name" : "Alice", "age" : 10 },
+          { "name" : "Bob",   "age" : 20 }
+        ]
+      },
+      ...
+    }
+
+（未稿）
+
