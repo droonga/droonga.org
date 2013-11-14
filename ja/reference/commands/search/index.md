@@ -302,7 +302,11 @@ layout: documents
 
 ##### 基本的な集約条件の指定 {#query-groupBy-string}
 
+（未稿）
+
 ##### 複雑な集約条件の指定 {#query-groupBy-hash}
+
+（未稿）
 
 <!--
           "groupBy": {"key": "name", "maxNSubRecords": 2},
@@ -333,7 +337,8 @@ layout: documents
 集約操作などのために必要な中間テーブルにあたる検索結果を求めるだけの検索クエリにおいては、 `output` を省略して処理時間や転送するデータ量を減らすことができます。
 
 `elements`
-: 
+: （未稿）
+
 <!--
             "elements": [
               "startTime",
@@ -364,7 +369,7 @@ layout: documents
 
 `attributes`
 : レコードのカラムの値についての、出力形式の指定の配列。
-
+  （未稿）
 
 <!--
             // The result can be sliced here
@@ -427,6 +432,9 @@ layout: documents
       ...
     }
 
+（未稿）
+
+
 ### 複雑な形式のレスポンス
 
 `type` が　`"complex"` の場合のレスポンスは以下の形を取ります。
@@ -447,4 +455,6 @@ layout: documents
       },
       ...
     }
+
+（未稿）
 
