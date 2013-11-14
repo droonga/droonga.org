@@ -50,11 +50,7 @@ layout: documents
 
 ## レスポンス
 
-型
-: 配列
-
-値
-: 検索結果の配列。
+このコマンドは、レスポンスとして検索結果の配列を返却します。
 
 検索結果の配列の構造は[Groonga の `select` コマンドの返り値](http://groonga.org/ja/docs/reference/commands/select.html#id6)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
