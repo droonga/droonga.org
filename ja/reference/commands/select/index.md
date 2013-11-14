@@ -38,13 +38,23 @@ layout: documents
 
 `table` 以外のパラメータはすべて省略可能です。
 
-すべてのパラメータは[Groonga の `select` コマンドの引数](http://groonga.org/ja/docs/reference/commands/select.html#parameters)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
+また、バージョン 1.0 の時点では以下のパラメータのみが動作し、それ以外のパラメータは無視されます。
+
+ * `table`
+ * `match_columns`
+ * `query`
+ * `output_columns`
+
+すべてのパラメータの意味は[Groonga の `select` コマンドの引数](http://groonga.org/ja/docs/reference/commands/select.html#parameters)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
 
 ## レスポンス
 
- * 型：配列
- * 値：検索結果の配列。
+型
+: 配列
+
+値
+: 検索結果の配列。
 
 検索結果の配列の構造は[Groonga の `select` コマンドの返り値](http://groonga.org/ja/docs/reference/commands/select.html#id6)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
