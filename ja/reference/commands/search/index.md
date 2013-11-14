@@ -151,7 +151,7 @@ layout: documents
 
 `matchTo`
 : 検索対象のカラムを、カラム名の文字列またはその配列で指定します。
-  カラム名の後に ` \* 2` のような指定を加える事で、重み付けができます。
+  カラム名の後に `name * 2` のような指定を加える事で、重み付けができます。
   このパラメータは省略可能で、省略時の初期値は `"_key"` です。
   <!-- ↑要検証！ -->
 
@@ -277,7 +277,90 @@ layout: documents
 これらの指定は `output` における `offset` および `limit` の指定よりも高速に動作します。
 
 
+<!--
 
+          "groupBy": {"key": "name", "maxNSubRecords": 2},
+          // a String or an Object.
+          //
+          // A String: column name or expression used a the group key.
+          //
+          // An Object: "key" value is the group key. "maxNSubRecords"
+          //            value is an integer number to control the maximum number
+          //            of sub-records to be stored in each grouped record.
+
+          "output": {
+          // an Object specifying how to output the result of this query.
+          // The result is output only when this element is assigned.
+          // Otherwise, the result is only calculated and stored
+          // probably for reuse in other queries, or for side effects.
+
+            "elements": [
+              "startTime",
+              "elapsedTime",
+              "count",
+              "attributes",
+              "records"
+            ],
+            // only the elements assigned in this array will be output.
+
+            "format": "complex",
+            // "simple" or "complex". (the default value is "simple")
+            // It controls whether "Simple output" or "Complex output" (mentioned later) is used.
+
+            "offset": 10,
+            "limit": 100,
+            // The result can be sliced here
+            // besides that in "sortBy" section.
+            "attributes": [
+              // basic
+              { "label": "realName", "source": "name" },
+              // shorthand
+              "age", // equals to { label: "age", source: "age" }
+              // function call. "source" can include groonga's built-in functions.
+              { "label": "html", "source": "snippet_html(name)" },
+              // literal
+              { "label": "count", "source": "0" },
+              { "label": "country", "source": "'Japan'" },
+              // sub-record
+              { "label": "specimen", "source": "_subrecs",
+                "attributes": [
+                  { "label": "comment", "source": "comment"}
+                ]
+              }
+            ]
+          }
+        },
+        "facetName": {
+          "source": "mainSearch",
+          "groupBy": "name",
+          "sortBy": {
+            "keys": ["count"],
+            "offset": 0,
+            "limit": 100
+          },...
+        },
+        "facetJob": {
+          "source": "mainSearch",
+          "groupBy": "job",
+          "sortBy": {
+            "keys": ["count"],
+            "offset": 0,
+            "limit": 100
+          },...
+        },
+        "facetHour": {
+          "source": "mainSearch",
+          "groupBy": "dateToHour(date)",
+          // not implemented yet
+          "sortBy": {
+            "keys": ["count"],
+            "offset": 0,
+            "limit": 100
+          },...
+        }
+      }
+    }
+-->
 
 ## レスポンス
 
