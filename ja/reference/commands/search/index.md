@@ -20,13 +20,7 @@ layout: documents
           "condition" : 検索条件,
           "sortBy"    : ソートの指定,
           "groupBy"   : 集約の指定,
-          "output"    : {
-            "elements"   : [検索結果として出力する情報の配列],
-            "format"     : "検索結果のフォーマット形式",
-            "offset"     : ページングの起点,
-            "limit"      : 返却するレコード数,
-            "attributes" : [レコードのカラムの出力指定の配列]
-          }
+          "output"    : 出力の指定
         },
         "検索クエリの名前2" : { ... },
         ...
@@ -319,6 +313,7 @@ layout: documents
           //            of sub-records to be stored in each grouped record.
 -->
 
+
 #### `output`
 
 概要
@@ -336,67 +331,76 @@ layout: documents
 指定を省略した場合、その検索クエリの検索結果はレスポンスには出力されません。
 集約操作などのために必要な中間テーブルにあたる検索結果を求めるだけの検索クエリにおいては、 `output` を省略して処理時間や転送するデータ量を減らすことができます。
 
+出力形式は、以下の形式のハッシュで指定します。
+
+    {
+      "elements"   : [出力する情報の配列],
+      "format"     : "検索結果のレコードの出力スタイル",
+      "offset"     : ページングの起点,
+      "limit"      : 出力するレコード数,
+      "attributes" : [レコードのカラムの出力指定の配列]
+    }
+
 `elements`
 : その検索クエリの結果として[レスポンス](#response)に出力する情報を、プロパティ名の文字列の配列で指定します。
   以下の項目を指定できます。項目は1つだけ指定する場合であっても必ず配列で指定します。
   
-   * `"startTime"`   : 検索を開始した時刻の文字列。
-   * `"elapsedTime"` : 検索にかかった時間の数値（単位：ミリ秒）。
-   * `"count"`       : 検索条件にヒットしたレコードの総数の数値。
-   * `"attributes"`  : 返却されたレコードのカラムの情報。
-   * `"records"`     : 返却されたレコードの配列。
+   * `"startTime"`
+   * `"elapsedTime"`
+   * `"count"`
+   * `"attributes"`
+   * `"records"`
   
   このパラメータは省略可能で、省略時の初期値はありません（結果を何も出力しません）。
 
 `format`
-: 以下のいずれかの値（文字列）を取ります。
+: 検索結果のレコードの出力スタイルを指定します。
+  以下のいずれかの値（文字列）を取ります。
   
-   * `"simple"`  : 単純なレコードの形式で検索結果を返却します。
-   * `"complex"` : 複雑なレコードの形式で検索結果を返却します。
+   * `"simple"`  : 個々のレコードを配列として出力します。
+   * `"complex"` : 個々のレコードをハッシュとして出力します。
   
   このパラメータは省略可能で、省略時の初期値は `"simple"` です。
 
 `offset`
-: 返却するレコードのページングの起点を示す `0` または正の整数。
+: 出力するレコードのページングの起点を示す `0` または正の整数。
   
   このパラメータは省略可能で、省略時の既定値は `0` です。
 
 `limit`
-: 返却するレコード数を示す `-1` 、 `0` 、または正の整数。
-  `-1`を指定すると、すべてのレコードを返却します。
+: 出力するレコード数を示す `-1` 、 `0` 、または正の整数。
+  `-1`を指定すると、すべてのレコードを出力します。
   
   このパラメータは省略可能で、省略時の既定値は `0` です。
 
 `attributes`
 : レコードのカラムの値について、出力形式を配列で指定します。
-  カラムの値の出力形式は、以下のいずれかで指定します。
+  個々のカラムの値の出力形式は以下のいずれかで指定します。
   
-   * カラム名の文字列。
-   * 詳細な出力形式指定のハッシュ。
+   * カラム名の文字列。例は以下の通りです。
+     * `"name"` : `name` カラムの値をそのまま `name` カラムとして出力します。
+     * `"age"`  : `age` カラムの値をそのまま `age` カラムとして出力します。
+   * 詳細な出力形式指定のハッシュ。例は以下の通りです。
+     * 以下の例は、 `name` カラムの値を `realName` カラムとして出力します。
+       
+           { "label" : "realName", "source" : "name" }
+       
+     * 以下の例は、 `name` カラムの値について、全文検索にヒットした位置を強調したHTMLコード片の文字列を `html` カラムとして出力します。
+       
+           { "label" : "html", "source": "snippet_html(name)" }
+       
+     * 以下の例は、`country` カラムについて、すべてのレコードの当該カラムの値が文字列 `"Japan"` であるものとして出力します。
+       （存在しないカラムを実際に作成する前にクライアント側の挙動を確認したい場合などに、この機能が利用できます。）
+       
+           { "label" : "country", "source" : "'Japan'" }
+       
+     * 以下の例は、集約前の元のレコードの配列を、集約後のレコードの `"items"` カラムの値として出力します。
+       `"attributes"` は、この項の説明と同じ形式で指定します。
+       
+           { "label" : "items", "source" : "_subrecs",
+             "attributes": ["name", "price"] }
   
   このパラメータは省略可能で、省略時の既定値はありません（カラムを何も出力しません）。
-
-
-<!--
-            // The result can be sliced here
-            // besides that in "sortBy" section.
-            "attributes": [
-              // basic
-              { "label": "realName", "source": "name" },
-              // shorthand
-              "age", // equals to { label: "age", source: "age" }
-              // function call. "source" can include groonga's built-in functions.
-              { "label": "html", "source": "snippet_html(name)" },
-              // literal
-              { "label": "count", "source": "0" },
-              { "label": "country", "source": "'Japan'" },
-              // sub-record
-              { "label": "specimen", "source": "_subrecs",
-                "attributes": [
-                  { "label": "comment", "source": "comment"}
-                ]
-              }
--->
 
 
 ## レスポンス {#response}
@@ -414,6 +418,14 @@ layout: documents
       "検索クエリの名前2" : 検索クエリの検索結果,
       ...
     }
+
+検索クエリの処理結果のハッシュは以下の情報を持ちます。
+
+`startTime`   : 検索を開始した時刻の文字列。
+   * `"elapsedTime"` : 検索にかかった時間の数値（単位：ミリ秒）。
+   * `"count"`       : 検索条件にヒットしたレコードの総数の数値。
+   * `"attributes"`  : 返却されたレコードのカラムの情報。
+   * `"records"`     : 返却されたレコードの配列。
 
 `attributes` および `records` の出力形式は `output` の `type` の指定に従って2通りに別れます。
 
