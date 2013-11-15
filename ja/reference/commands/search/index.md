@@ -15,14 +15,14 @@ layout: documents
     {
       "timeout" : タイムアウトするまでの時間,
       "queries" : {
-        "検索クエリの名前1" : {
+        "検索クエリ1の名前" : {
           "source"    : "検索対象のテーブル名、または結果を参照する別の検索クエリの名前",
           "condition" : 検索条件,
           "sortBy"    : ソートの指定,
           "groupBy"   : 集約の指定,
           "output"    : 出力の指定
         },
-        "検索クエリの名前2" : { ... },
+        "検索クエリ2の名前" : { ... },
         ...
       }
     }
@@ -206,7 +206,7 @@ layout: documents
       "job == 'engineer'"
     ]
 
-#### `sortBy`
+#### `sortBy` {#query-sortBy}
 
 概要
 : ソートの条件および取り出すレコードの範囲を指定します。
@@ -412,18 +412,18 @@ layout: documents
 このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果を値とした、以下のようなハッシュを返却します。
 
     {
-      "検索クエリの名前1" : {
+      "検索クエリ1の名前" : {
         "startTime"   : "検索を開始した時刻",
         "elapsedTime" : 検索にかかった時間（単位：ミリ秒）,
         "count"       : 検索条件にヒットしたレコードの総数,
-        "attributes"  : [返却されたレコードのカラムの情報],
-        "records"     : [返却されたレコードの配列]
+        "attributes"  : [出力されたレコードのカラムの情報],
+        "records"     : [出力されたレコードの配列]
       },
-      "検索クエリの名前2" : 検索クエリの検索結果,
+      "検索クエリ2の名前" : 検索クエリの検索結果,
       ...
     }
 
-検索クエリの処理結果のハッシュは以下の項目を持つことができ、[`output`](#query-output) の `elements` で明示的に指定された項目のみが出力されます。
+検索クエリの処理結果のハッシュは以下の項目を持つことができ、[検索クエリの `output`](#query-output) の `elements` で明示的に指定された項目のみが出力されます。
 
 ### `startTime`
 
@@ -441,40 +441,69 @@ layout: documents
 ### `count`
 
 検索条件に該当するレコードの総数の数値です。
-この値は、 `sortBy` や `output` における `offset` および `limit` の指定の影響を受けません。
+この値は、検索クエリの [`sortBy`](#query-sortBy) や [`output`](#query-output) における `offset` および `limit` の指定の影響を受けません。
 
 ### `attributes` および `records`
 
  * `attributes` は出力されたレコードのカラムの情報を示す配列またはハッシュです。
  * `records` は出力されたレコードの配列です。
 
-`attributes` および `records` の出力形式は `output` の `type` の指定に従って以下の2通りに別れます。
+`attributes` および `records` の出力形式は[検索クエリの `output`](#query-output) の `type` の指定に従って以下の2通りに別れます。
 
-#### `simple` : 単純な形式のレスポンス
+#### 単純な形式のレスポンス
 
-`type` が　`"simple"` の場合のレスポンスは以下の形を取ります。
+`type` が　`"simple"` の場合、個々の検索クエリの結果は以下の形を取ります。
 
     {
-      "people" : {
-        "startTime"   : "2001-08-02T10:45:23.5+09:00",
-        "elapsedTime" : 123.456,
-        "count"       : 123,
-        "attributes"  : [
-          { "name" : "name", "type": "ShortText", "vector": false },
-          { "name" : "age",  "type": "UInt32",    "vector": false }
-        ],
-        "records"     : [
-          ["Alice", 10],
-          ["Bob",   20]
-        ]
-      },
-      ...
+      "startTime"   : "検索を開始した時刻",
+      "elapsedTime" : 検索にかかった時間,
+      "count"       : レコードの総数,
+      "attributes"  : [
+        { "name"   : "カラム1の名前",
+          "type"   : "カラム1の型",
+          "vector" : カラム1がベクターカラムかどうか },
+        { "name"   : "カラム2の名前",
+          "type"   : "カラム2の型",
+          "vector" : カラム2がベクターカラムかどうか },
+        ...
+      ],
+      "records"     : [
+        [レコード1のカラム1の値, レコード1のカラム2の値],
+        [レコード2のカラム1の値, レコード2のカラム2の値],
+        ...
+      ]
     }
 
-（未稿）
+##### `attributes`
+
+出力されたレコードのカラムについての情報の配列で、[検索クエリの `output`](#query-output) における `attributes` で指定された順番で個々のカラムの情報を含みます。
+
+個々のカラムの情報はハッシュの形をとり、以下の情報を持ちます。
+
+`name`
+: カラムの出力名の文字列です。[検索クエリの `output`](#query-output) における `attributes` の指定内容に基づきます。
+
+`type`
+: カラムの値の型を示す文字列です。
+  値は[Groonga のプリミティブなデータ型](http://groonga.org/ja/docs/reference/types.html)の名前か、もしくはテーブル名です。
+
+`vector`
+: カラムが[ベクター型](http://groonga.org/ja/docs/tutorial/data.html#vector-types)かどうかを示す真偽値です。
+  以下のいずれかの値をとります。
+  
+   * `true`  : カラムはベクター型である。
+   * `false` : カラムはベクター型ではない（スカラー型である）。
+
+##### `records`
+
+出力されたレコードの配列です。
+
+個々のレコードは配列の形をとり、[検索クエリの `output`](#query-output) における `attributes` で指定された各カラムの値を同じ順番で含みます。
+
+[日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムの値は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
 
 
-#### `complex` : 複雑な形式のレスポンス
+#### 複雑な形式のレスポンス
 
 `type` が　`"complex"` の場合のレスポンスは以下の形を取ります。
 
@@ -495,5 +524,7 @@ layout: documents
       ...
     }
 
-（未稿）
+##### `attributes`
+
+##### `records`
 
