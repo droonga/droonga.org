@@ -22,7 +22,7 @@ Try [tutorial](tutorial/) to know about Droonga after you understand about Droon
 
 The following documenations will help you to use Droonga more effectively:
 
-* [Install](install/) describes how to install Droonga.
-* [Reference manual](reference/) describes about specifications.
-* [Contribution](contribution/) describes how to contirubte Droonga project and join Droonga developement.
-* [Related projects](related-projects/) introduces related projects.
+ * [Install](install/) describes how to install Droonga.
+ * [Reference manual](reference/) describes about specifications.
+ * [Contribution](contribution/) describes how to contirubte Droonga project and join Droonga developement.
+ * [Related projects](related-projects/) introduces related projects.
