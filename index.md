@@ -26,3 +26,14 @@ The following documenations will help you to use Droonga more effectively:
  * [Reference manual](reference/) describes about specifications.
  * [Contribution](contribution/) describes how to contirubte Droonga project and join Droonga developement.
  * [Related projects](related-projects/) introduces related projects.
+
+## The latest news
+
+<ul class="posts">
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      <span class="date">({{ post.date | date: "%Y-%m-%d" }})</span>
+    </li>
+  {% endfor %}
+</ul>
