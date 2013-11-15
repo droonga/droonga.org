@@ -1,3 +1,8 @@
+---
+title: catalog.json
+layout: documents
+---
+
 A droonga network consists of several resources.
 **Catalog** is a series of data which represent the resouces in the network.
 **Catalog** is shared all the nodes in the network.
