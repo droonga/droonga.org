@@ -13,5 +13,5 @@ Here are available commands
 ## Groonga compatible commands
 
  * [select](select/)
- * [table_create](table_create/)
- * [column_create](column_create/)
+ * [table_create](table-create/)
+ * [column_create](column-create/)

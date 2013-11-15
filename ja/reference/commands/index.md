@@ -13,6 +13,6 @@ layout: documents
 ## Groonga互換コマンド
 
  * [select](./select/)
- * [table_create](./table_create/)
- * [column_create](./column_create/)
+ * [table_create](./table-create/)
+ * [column_create](./column-create/)
 
