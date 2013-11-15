@@ -314,7 +314,7 @@ layout: documents
 -->
 
 
-#### `output`
+#### `output` {#query-output}
 
 概要
 : 処理結果の出力形式を指定します。
@@ -423,17 +423,34 @@ layout: documents
       ...
     }
 
-検索クエリの処理結果のハッシュは以下の情報を持ちます。
+検索クエリの処理結果のハッシュは以下の項目を持つことができ、[`output`](#query-output) の `elements` で明示的に指定された項目のみが出力されます。
 
- * `"startTime"`   : 検索を開始した時刻の文字列。
- * `"elapsedTime"` : 検索にかかった時間の数値（単位：ミリ秒）。
- * `"count"`       : 検索条件にヒットしたレコードの総数の数値。
- * `"attributes"`  : 返却されたレコードのカラムの情報。
- * `"records"`     : 返却されたレコードの配列。
+### `startTime`
 
-`attributes` および `records` の出力形式は `output` の `type` の指定に従って2通りに別れます。
+検索を開始した時刻（ローカル時刻）の文字列です。
 
-### 単純な形式のレスポンス
+形式は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式となります。
+例えば以下の要領です。
+
+    2013-11-29T08:15:30+09:00
+
+### `elapsedTime`
+
+検索にかかった時間の数値（単位：ミリ秒）です。
+
+### `count`
+
+検索条件に該当するレコードの総数の数値です。
+この値は、 `sortBy` や `output` における `offset` および `limit` の指定の影響を受けません。
+
+### `attributes` および `records`
+
+ * `attributes` は出力されたレコードのカラムの情報を示す配列またはハッシュです。
+ * `records` は出力されたレコードの配列です。
+
+`attributes` および `records` の出力形式は `output` の `type` の指定に従って以下の2通りに別れます。
+
+#### `simple` : 単純な形式のレスポンス
 
 `type` が　`"simple"` の場合のレスポンスは以下の形を取ります。
 
@@ -457,7 +474,7 @@ layout: documents
 （未稿）
 
 
-### 複雑な形式のレスポンス
+#### `complex` : 複雑な形式のレスポンス
 
 `type` が　`"complex"` の場合のレスポンスは以下の形を取ります。
 
