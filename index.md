@@ -26,7 +26,3 @@ The following documenations will help you to use Droonga more effectively:
 * [Reference manual](reference/) describes about specifications.
 * [Contribution](contribution/) describes how to contirubte Droonga project and join Droonga developement.
 * [Related projects](related-projects/) introduces related projects.
-
-## Documents
-
-* [Droonga tutorial (in Japanese)](/ja/tutorial)
