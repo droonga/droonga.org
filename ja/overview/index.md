@@ -69,7 +69,7 @@ Protocol Adapterは、WebアプリケーションからDroongaを利用しやす
 Protocol Adapterは、Node.js用のWebプラットフォームExpressのplugin(express-droonga)として実装されています。
 Protocol Adapterを使用することにより、検索クエリをHTTPリクエストとして送信し、検索結果をそのレスポンスとして受け取るC/S型のサービスが利用できるようになります。また、Socket.IOの特質を生かしたpub/sub型のサービスも利用することができます。
 
-![droonga01](droonga01.png)
+![droonga01](../../overview/droonga01.png)
 
 ## Droongaクラスタの構成
 
