@@ -51,7 +51,7 @@ Personテーブル:
 |Bob Ross|Bob Ross|54|male|painter||
 |Lewis Carroll|Lewis Carroll|66|male|writer|the author of Alice's Adventures in Wonderland|
 
-また、この時 `name`、`job`、`note` には `TokensBigram` を使用したインデックスが用意されているものとします。
+また、この時 `name`、`note` には `TokensBigram` を使用したインデックスが用意されているものとします。
 
 ### 基本的な使い方 {#usage-basic}
 
@@ -529,6 +529,7 @@ Personテーブル:
 
 個々の検索クエリの結果は出力しない（中間テーブルとしてのみ使う）事もできます。
 以下は、Personテーブルについて `job` カラムの値で集約した結果をまず求め、そこからさらに `player` という語句を含んでいる項目に絞り込む例です。
+（※この場合の2つ目の検索ではインデックスが使用されないため、検索処理が遅くなる可能性があります。）
 
     search
     {
@@ -559,7 +560,6 @@ Personテーブル:
            ]
          }
        }
-
 
 
 ## パラメータ {#parameters}
