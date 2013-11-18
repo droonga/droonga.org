@@ -3,9 +3,6 @@ title: Install
 layout: documents
 ---
 
-* TOC
-{:toc}
-
 # Overview
 
 Droonga consists of two packages: [fluent-plugin-droonga][] and [express-droonga][].
