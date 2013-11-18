@@ -12,6 +12,8 @@ layout: documents
 
 このコマンドは[Groonga の `column_create` コマンド](http://groonga.org/ja/docs/reference/commands/column_create.html)と互換性があります。
 
+`column_create` はRequest-Response型のコマンドです。コマンドに対しては必ず対応するレスポンスが返されます。
+
 ## 構文 {#syntax}
 
     {

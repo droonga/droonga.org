@@ -12,6 +12,8 @@ layout: documents
 
 このコマンドは[Groonga の `select` コマンド](http://groonga.org/ja/docs/reference/commands/select.html)と互換性があります。
 
+`select` はRequest-Response型のコマンドです。コマンドに対しては必ず対応するレスポンスが返されます。
+
 ## 構文 {#syntax}
 
     {

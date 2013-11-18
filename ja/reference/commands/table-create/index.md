@@ -12,6 +12,8 @@ layout: documents
 
 このコマンドは[Groonga の `table_create` コマンド](http://groonga.org/ja/docs/reference/commands/table_create.html)と互換性があります。
 
+`table_create` はRequest-Response型のコマンドです。コマンドに対しては必ず対応するレスポンスが返されます。
+
 ## 構文 {#syntax}
 
     {
