@@ -45,12 +45,13 @@ Personテーブル:
 |Alice Cooper|Alice Cooper|30|male|musician||
 |Alice Miller|Alice Miller|25|female|doctor||
 |Bob Dole|Bob Dole|42|male|lawer||
+|Bob Cousy|Bob Cousy|38|male|basketball player||
 |Bob Wolcott|Bob Wolcott|36|male|baseball player||
 |Bob Evans|Bob Evans|31|male|driver||
 |Bob Ross|Bob Ross|54|male|painter||
 |Lewis Carroll|Lewis Carroll|66|male|writer|the author of Alice's Adventures in Wonderland|
 
-また、この時 `name` と `note` には `TokensBigram` を使用したインデックスが用意されているものとします。
+また、この時 `name`、`job`、`note` には `TokensBigram` を使用したインデックスが用意されているものとします。
 
 ### 基本的な使い方 {#usage-basic}
 
@@ -73,12 +74,13 @@ Personテーブル:
     => search.result
        {
          "people" : {
-           "count" : 8,
+           "count" : 9,
            "records" : [
              ["Alice Arnold", "Alice Arnold", 20, "female", "announcer", ""],
              ["Alice Cooper", "Alice Cooper", 30, "male", "musician", ""],
              ["Alice Miller", "Alice Miller", 25, "male", "doctor", ""],
              ["Bob Dole", "Bob Dole", 42, "male", "lawer", ""],
+             ["Bob Cousy", "Bob Cousy", 38, "male", "baseball player", ""],
              ["Bob Wolcott", "Bob Wolcott", 36, "male", "baseball player", ""],
              ["Bob Evans", "Bob Evans", 31, "male", "driver", ""],
              ["Bob Ross", "Bob Ross", 54, "male", "painter", ""],
@@ -219,7 +221,7 @@ Personテーブル:
           "sortBy"    : ["-age"],
           "output"    : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name", "age"],
             "limit"      : -1
           }
         }
@@ -319,7 +321,7 @@ Personテーブル:
     => search.result
        {
          "people" : {
-           "count" : 8,
+           "count" : 9,
            "records" : [
              { "_key" : "Alice Arnold",
                "name" : "Alice Arnold",
@@ -376,12 +378,12 @@ Personテーブル:
            "count" : 2,
            "records" : 
              ["female", 2],
-             ["male", 6]
+             ["male", 7]
            ]
          }
        }
 
-上記の結果は、 `sex` の値が `female` であるレコードが2件、`male` であるレコードが6件存在していて、`sex` の値の種類としては2通りが登録されている事を示しています。
+上記の結果は、 `sex` の値が `female` であるレコードが2件、`male` であるレコードが7件存在していて、`sex` の値の種類としては2通りが登録されている事を示しています。
 
 また、集約前のレコードを代表値として取得する事もできます。以下は、`sex` カラムの値で集約した結果と、それぞれの集約前のレコードを2件ずつ取得する例です。
 
@@ -415,14 +417,13 @@ Personテーブル:
            "count" : 2,
            "records" : 
              ["female", 2, [["Alice Arnold"], ["Alice Miller"]]],
-             ["male",   6, [["Alice Cooper"], ["Bob Dole"]]]
+             ["male",   7, [["Alice Cooper"], ["Bob Dole"]]]
            ]
          }
        }
 
 
 詳細は [`groupBy` パラメータの仕様`](#query-groupBy) を参照して下さい。
-
 
 
 #### 複数の検索クエリの列挙 {#usage-multiple-queries}
@@ -474,10 +475,87 @@ Personテーブル:
 
 レスポンスに含まれる検索結果は、各クエリに付けた一時的な名前で識別することになります。
 
-#### ファセット検索 {#usage-facet}
+#### 検索のチェーン {#usage-chain}
 
-（未稿）
+検索クエリを列挙する際は、`source` パラメータの値として実在するテーブルの名前だけでなく、別の検索クエリに付けた一時的な名前を指定する事ができます。これにより、1つの検索クエリでは表現できない複雑な検索を行う事ができます。
 
+以下は、Personテーブルについて `name` カラムが `Alice` を含んでいるレコードを検索た結果と、それをさらに `sex` カラムの値で集約した結果を同時に取得する例です。
+
+    search
+    {
+      "queries" : {
+        "people" : {
+          "source"    : "Person",
+          "condition" : "name @ 'Alice'"
+          "output"    : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["name", "age"],
+            "limit"      : -1
+          }
+        },
+        "sexuality" : {
+          "source"  : "people",
+          "groupBy" : "sex",
+          "output"  : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "_nsubrecs"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "people" : {
+           "count" : 8,
+           "records" : [
+             ["Alice Cooper", 30],
+             ["Alice Miller", 25],
+             ["Alice Arnold", 20]
+           ]
+         },
+         "sexuality" : {
+           "count" : 2,
+           "records" : 
+             ["female", 2],
+             ["male", 1]
+           ]
+         }
+       }
+
+個々の検索クエリの結果は出力しない（中間テーブルとしてのみ使う）事もできます。
+以下は、Personテーブルについて `job` カラムの値で集約した結果をまず求め、そこからさらに `player` という語句を含んでいる項目に絞り込む例です。
+
+    search
+    {
+      "queries" : {
+        "allJob" : {
+          "source"  : "Person",
+          "groupBy" : "job"
+        },
+        "playerJob" : {
+          "source"    : "allJob",
+          "condition" : "_key @ `player`",
+          "output"  : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "_nsubrecs"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "playerJob" : {
+           "count" : 2,
+           "records" : [
+             ["baseball player", 1],
+             ["baseball player", 1]
+           ]
+         }
+       }
 
 
 
