@@ -33,6 +33,11 @@ Each **dataset** must have a unique name in the network.
 
 **Ring** is a series of partitions which comprise a dataset. **replica_count**, **number\_of\_partitons** and **time-slice** factors affect the number of partitions in a **ring**.
 
+### workers
+
+**workers** is an integer number which specifies the number of worker processes to deal with the dataset.
+If `0` is specified, no worker is forked and all operations are done in the master process.
+
 ### number\_of\_partitions
 
 **number\_of\_partitions** is an integer number which represents the number of partitions divided by the hash function. The hash function which determines where each record resides the partition in a dataset is compatible with memcached.
