@@ -63,7 +63,7 @@ Personテーブル:
           "source" : "Person",
           "output" : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["_key", "name", "age", "sex", "job", "note"],
             "limit"      : -1
           }
         }
@@ -75,14 +75,14 @@ Personテーブル:
          "people" : {
            "count" : 8,
            "records" : [
-             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
-             ["Bob Dole", "Bob Dole", 42, "lawer", ""],
-             ["Bob Wolcott", "Bob Wolcott", 36, "baseball player", ""],
-             ["Bob Evans", "Bob Evans", 31, "driver", ""],
-             ["Bob Ross", "Bob Ross", 54, "painter", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
+             ["Alice Arnold", "Alice Arnold", 20, "female", "announcer", ""],
+             ["Alice Cooper", "Alice Cooper", 30, "male", "musician", ""],
+             ["Alice Miller", "Alice Miller", 25, "male", "doctor", ""],
+             ["Bob Dole", "Bob Dole", 42, "male", "lawer", ""],
+             ["Bob Wolcott", "Bob Wolcott", 36, "male", "baseball player", ""],
+             ["Bob Evans", "Bob Evans", 31, "male", "driver", ""],
+             ["Bob Ross", "Bob Ross", 54, "male", "painter", ""],
+             ["Lewis Carroll", "Lewis Carroll", 66, "male", "writer",
               "the author of Alice's Adventures in Wonderland"]
            ]
          }
@@ -116,7 +116,7 @@ Personテーブル:
           "condition" : "name @ 'Alice' && age >= 25"
           "output"    : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name", "age"],
             "limit"      : -1
           }
         }
@@ -128,9 +128,9 @@ Personテーブル:
          "people" : {
            "count" : 2,
            "records" : [
-             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-             ["Alice Miller", "Alice Miller", 25, "doctor", ""]
+             ["Alice Arnold", 20],
+             ["Alice Cooper", 30],
+             ["Alice Miller", 25]
            ]
          }
        }
@@ -152,7 +152,7 @@ Personテーブル:
           },
           "output"    : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name", "note"],
             "limit"      : -1
           }
         }
@@ -164,10 +164,10 @@ Personテーブル:
          "people" : {
            "count" : 4,
            "records" : [
-             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
+             ["Alice Arnold", ""],
+             ["Alice Cooper", ""],
+             ["Alice Miller", ""],
+             ["Lewis Carroll",
               "the author of Alice's Adventures in Wonderland"]
            ]
          }
@@ -189,7 +189,7 @@ Personテーブル:
           "sortBy"    : ["age"],
           "output"    : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name", "age"],
             "limit"      : -1
           }
         }
@@ -201,11 +201,9 @@ Personテーブル:
          "people" : {
            "count" : 8,
            "records" : [
-             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
-             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
-              "the author of Alice's Adventures in Wonderland"]
+             ["Alice Arnold", 20],
+             ["Alice Miller", 25],
+             ["Alice Cooper", 30]
            ]
          }
        }
@@ -233,11 +231,9 @@ Personテーブル:
          "people" : {
            "count" : 8,
            "records" : [
-             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
-              "the author of Alice's Adventures in Wonderland"],
-             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
-             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""]
+             ["Alice Cooper", 30],
+             ["Alice Miller", 25],
+             ["Alice Arnold", 20]
            ]
          }
        }
@@ -255,7 +251,7 @@ Personテーブル:
           "source" : "Person",
           "output" : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name"],
             "offset"     : 0,
             "limit"      : 10
           }
@@ -271,7 +267,7 @@ Personテーブル:
           "source" : "Person",
           "output" : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name"],
             "offset"     : 10,
             "limit"      : 10
           }
@@ -287,7 +283,7 @@ Personテーブル:
           "source" : "Person",
           "output" : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name"],
             "offset"     : 20,
             "limit"      : 10
           }
@@ -312,7 +308,7 @@ Personテーブル:
           "source" : "Person",
           "output" : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["_key", "name", "age", "sex", "job", "note"],
             "limit"      : 3,
             "format"     : "complex"
           }
@@ -328,16 +324,19 @@ Personテーブル:
              { "_key" : "Alice Arnold",
                "name" : "Alice Arnold",
                "age"  : 20,
+               "sex"  : "female",
                "job"  : "announcer",
                "note" : "" },
              { "_key" : "Alice Cooper",
                "name" : "Alice Cooper",
                "age"  : 30,
+               "sex"  : "male",
                "job"  : "musician",
                "note" : "" },
              { "_key" : "Alice Miller",
                "name" : "Alice Miller",
                "age"  : 25,
+               "sex"  : "female",
                "job"  : "doctor",
                "note" : "" }
            ]
@@ -369,7 +368,7 @@ Personテーブル:
           "condition" : "age <= 25",
           "output"    : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name", "age"],
             "limit"      : -1
           }
         },
@@ -378,7 +377,7 @@ Personテーブル:
           "condition" : "age >= 40",
           "output"    : {
             "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "job", "note"],
+            "attributes" : ["name", "age"],
             "limit"      : -1
           }
         }
@@ -390,17 +389,16 @@ Personテーブル:
          "junior" : {
            "count" : 2,
            "records" : [
-             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-             ["Alice Miller", "Alice Miller", 25, "doctor", ""]
+             ["Alice Arnold", 20],
+             ["Alice Miller", 25]
            ]
          },
          "senior" : {
            "count" : 3,
            "records" : [
-             ["Bob Dole", "Bob Dole", 42, "lawer", ""],
-             ["Bob Ross", "Bob Ross", 54, "painter", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
-              "the author of Alice's Adventures in Wonderland"]
+             ["Bob Dole", 42],
+             ["Bob Ross", 54],
+             ["Lewis Carroll", 66]
            ]
          }
        }
