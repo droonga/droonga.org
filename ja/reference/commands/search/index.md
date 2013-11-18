@@ -50,6 +50,8 @@ Personテーブル:
 |Bob Ross|Bob Ross|54|painter||
 |Lewis Carroll|Lewis Carroll|66|writer|the author of Alice's Adventures in Wonderland|
 
+また、この時 `name` と `note` には `TokensBigram` を使用したインデックスが用意されているものとします。
+
 ### 基本的な使い方 {#usage-basic}
 
 最も単純な例として、Person テーブルのすべてのレコードを出力する例を示します。
