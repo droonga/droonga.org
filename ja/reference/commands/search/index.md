@@ -167,7 +167,8 @@ Personテーブル:
              ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
              ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
              ["Alice Miller", "Alice Miller", 25, "doctor", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
+             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
+              "the author of Alice's Adventures in Wonderland"]
            ]
          }
        }
@@ -319,7 +320,8 @@ Personテーブル:
            "records" : [
              ["Bob Dole", "Bob Dole", 42, "lawer", ""],
              ["Bob Ross", "Bob Ross", 54, "painter", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
+             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
+              "the author of Alice's Adventures in Wonderland"]
            ]
          }
        }
