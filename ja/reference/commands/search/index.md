@@ -38,14 +38,15 @@ layout: documents
 
 Personテーブル:
 
-|_key|name|age|job|
-|Alice Arnold|Alice Arnold|20|announcer|
-|Alice Cooper|Alice Cooper|30|musician|
-|Alice Miller|Alice Miller|25|doctor|
-|Bob Dole|Bob Dole|42|lawer|
-|Bob Wolcott|Bob Wolcott|36|baseball player|
-|Bob Evans|Bob Evans|31|driver|
-|Bob Ross|Bob Ross|54|painter|
+|_key|name|age|job|note|
+|Alice Arnold|Alice Arnold|20|announcer||
+|Alice Cooper|Alice Cooper|30|musician||
+|Alice Miller|Alice Miller|25|doctor||
+|Bob Dole|Bob Dole|42|lawer||
+|Bob Wolcott|Bob Wolcott|36|baseball player||
+|Bob Evans|Bob Evans|31|driver||
+|Bob Ross|Bob Ross|54|painter||
+|Lewis Carroll|Lewis Carroll|66|writer|the author of Alice's Adventures in Wonderland|
 
 ### 基本的な使い方 {#usage-basic}
 
@@ -55,20 +56,21 @@ Personテーブル:
     { "people" : { "source" : "Person",
                    "output" : {
                      "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job"],
+                     "attributes" : ["_key", "name", "age", "job", "note"],
                      "limit"      : -1
                    } } }
     
     => search.result
-       { "people" : { "count" : 7,
+       { "people" : { "count" : 8,
                       "records" : [
-                        ["Alice Arnold", "Alice Arnold", 20, "announcer"],
-                        ["Alice Cooper", "Alice Cooper", 30, "musician"],
-                        ["Alice Miller", "Alice Miller", 25, "doctor"],
-                        ["Bob Dole", "Bob Dole", 42, "lawer"],
-                        ["Bob Wolcott", "Bob Wolcott", 36, "baseball player"],
-                        ["Bob Evans", "Bob Evans", 31, "driver"],
-                        ["Bob Ross", "Bob Ross", 54, "painter"]
+                        ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+                        ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+                        ["Alice Miller", "Alice Miller", 25, "doctor", ""],
+                        ["Bob Dole", "Bob Dole", 42, "lawer", ""],
+                        ["Bob Wolcott", "Bob Wolcott", 36, "baseball player", ""],
+                        ["Bob Evans", "Bob Evans", 31, "driver", ""],
+                        ["Bob Ross", "Bob Ross", 54, "painter", ""],
+                        ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
                       ] } }
 
 `people` は、この検索クエリおよびその処理結果に対して付けた一時的な名前です。
@@ -85,18 +87,68 @@ Personテーブル:
 
 #### 検索条件 {#usage-condition}
 
-（未稿）
+検索条件は `condition` パラメータで指定します。指定方法は、大きく分けて「スクリプト構文形式」と「クエリー構文形式」の2通りがあります。
+
+##### スクリプト構文形式の検索条件 {#usage-condition-script-syntax}
+
+スクリプト構文形式は、ECMAScriptの書式に似ています。「`name` に `Alice` を含み、且つ`age` が `25` 以上である」という検索条件は、スクリプト構文形式で以下のように表現できます。
+
+    search
+    { "people" : { "source"    : "Person",
+                   "condition" : "name @ 'Alice' && age >= 25"
+                   "output"    : {
+                     "elements"   : ["count", "records"],
+                     "attributes" : ["_key", "name", "age", "job", "note"],
+                     "limit"      : -1
+                   } } }
+    
+    => search.result
+       { "people" : { "count" : 2,
+                      "records" : [
+                        ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+                        ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+                        ["Alice Miller", "Alice Miller", 25, "doctor", ""]
+                      ] } }
+
+スクリプト構文の詳細な仕様は[Groonga のスクリプト構文のリファレンス](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)を参照して下さい。
+
+##### クエリー構文形式の検索条件 {#usage-condition-query-syntax}
+
+クエリー構文形式は、主にWebページなどに組み込む検索ボックス向けに用意されています。例えば「検索ボックスに入力された語句を `name` または `job` に含むレコードを検索する」という場面において、検索ボックスに入力された語句が `Alice` であった場合の検索条件は、クエリー構文形式で以下のように表現できます。
+
+    search
+    { "people" : { "source"    : "Person",
+                   "condition" : {
+                     "query"   : "Alice",
+                     "matchTo" : ["name", "note"]
+                   },
+                   "output"    : {
+                     "elements"   : ["count", "records"],
+                     "attributes" : ["_key", "name", "age", "job", "note"],
+                     "limit"      : -1
+                   } } }
+    
+    => search.result
+       { "people" : { "count" : 4,
+                      "records" : [
+                        ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+                        ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+                        ["Alice Miller", "Alice Miller", 25, "doctor", ""],
+                        ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
+                      ] } }
+
+クエリー構文の詳細な仕様は[Groonga のクエリー構文のリファレンス](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html)を参照して下さい。
 
 
 #### ページング {#usage-paging}
 
-[`output`](#query-output) パラメータの `offset` と `limit` を指定することで。出力されるレコードの範囲を指定できます。以下は、20件以上ある結果を先頭から順に10件ずつ取得する場合の例です。
+[`output`](#query-output) パラメータの `offset` と `limit` を指定することで、出力されるレコードの範囲を指定できます。以下は、20件以上ある結果を先頭から順に10件ずつ取得する場合の例です。
 
     search
     { "people" : { "source" : "Person",
                    "output" : {
                      "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job"],
+                     "attributes" : ["_key", "name", "age", "job", "note"],
                      "offset"     : 0,
                      "limit"      : 10
                    } } }
@@ -106,7 +158,7 @@ Personテーブル:
     { "people" : { "source" : "Person",
                    "output" : {
                      "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job"],
+                     "attributes" : ["_key", "name", "age", "job", "note"],
                      "offset"     : 10,
                      "limit"      : 10
                    } } }
@@ -116,7 +168,7 @@ Personテーブル:
     { "people" : { "source" : "Person",
                    "output" : {
                      "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job"],
+                     "attributes" : ["_key", "name", "age", "job", "note"],
                      "offset"     : 20,
                      "limit"      : 10
                    } } }
@@ -213,7 +265,7 @@ Personテーブル:
   
   1. [スクリプト構文](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)形式の文字列。
   2. [スクリプト構文](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)形式の文字列を含むハッシュ。
-  3. クエリー構文形式の文字列を含むハッシュ。
+  3. [クエリー構文](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html)形式の文字列を含むハッシュ。
   4. 1〜3および演算子の文字列の配列。 
 
 指定の省略
