@@ -9,7 +9,7 @@ Here are categories:
 
  * Droonga system
  * Droonga client
- * Utitlities
+ * Utilities
  * Others
 
 ## Droonga system
