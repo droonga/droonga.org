@@ -213,7 +213,7 @@ Personテーブル:
   
   1. [スクリプト構文](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)形式の文字列。
   2. [スクリプト構文](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)形式の文字列を含むハッシュ。
-  3. 詳細な検索条件のハッシュ。
+  3. クエリー構文形式の文字列を含むハッシュ。
   4. 1〜3および演算子の文字列の配列。 
 
 指定の省略
@@ -246,7 +246,7 @@ Personテーブル:
 
 （詳細未稿：仕様が未確定、動作が不明、未実装のため）
 
-##### 詳細な検索条件のハッシュによる検索条件 {#query-condition-hash}
+##### クエリー構文形式の文字列を含むハッシュ {#query-condition-query-syntax-hash}
 
 以下のような形式のハッシュで検索条件を指定します。
 
