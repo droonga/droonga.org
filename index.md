@@ -10,7 +10,7 @@ layout: default
 
 ## About Droonga
 
-Droonga is a scalable data processing engine. Droonga uses stream oriented processing model. Droonga processes data by pipeline. Many operations such as search, update, group are done in pipeline. The processing model provides flexiblity and extensibility. Droonga can also process complex operations by mixing operations. Users can add custom operations to Droonga as Ruby plugins.
+Droonga is a scalable data processing engine. Droonga uses stream oriented processing model. Droonga processes data by pipeline. Many operations such as search, update, group are done in pipeline. The processing model provides flexibility and extensibility. Droonga can also process complex operations by mixing operations. Users can add custom operations to Droonga as Ruby plugins.
 
 See [overview](overview/) for more details.
 
