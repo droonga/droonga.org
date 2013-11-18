@@ -1,9 +1,12 @@
 <article>
-  <h2>
-    <a href="{{ post.url }}">
-      {{ post.title }}
-    </a>
-  </h2>
-  <span class="label label-info">{{ post.date | date: '%Y-%m-%d' }}</span>
+  <div class="well">
+    <h2>
+      <a href="{{ post.url }}">
+        {{ post.title }}
+      </a>
+    </h2>
+    <i class="fa fa-calendar-o"></i>
+    {{ post.date | date: '%Y-%m-%d' }}
+  </div>
   {{ post.content }}
 </article>
