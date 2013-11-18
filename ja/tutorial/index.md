@@ -457,7 +457,7 @@ index.html:
 
 `socket.emit()` の第1引数 `'search'` は、このリクエストが検索リクエストであることを指定しています。
 第2引数でどのような検索を行うかを指定しています。
-詳しくは [Message format: search feature](https://github.com/droonga/express-droonga/wiki/Message-format:-search-feature) を参照してください。
+詳しくは [search](/ja/reference/commands/search) を参照してください。
 ところで、前のセクションでは、REST API を利用して検索を行いました。
 REST API を利用した場合は、 `express-droonga` が内部で REST リクエストから上記の形式のメッセージへと変換し、`fluent-plugin-droonga` に送信するようになっています。
 
