@@ -39,7 +39,7 @@ Protocol Adapter は、Droonga を様々なプロトコルで利用できるよ�
 
 このコンポーネントは [Node.js][] のパッケージとして実装されており、[express-droonga][] パッケージとして提供されます。
 
-Droonga Engine は fluentd プロトコルで通信を行います。Protocol Adapter は、ユーザがアプリケーションを構築する際に利用しやすいよう、 Droonga Engine の機能を HTTP や Socket.io などのインタフェースで提供します。
+Droonga Engine は fluentd プロトコルで通信を行います。Protocol Adapter は、ユーザがアプリケーションを構築する際に利用しやすいよう、 Droonga Engine の機能を HTTP や Socket.IO などのインタフェースで提供します。
 
 
 ## チュートリアルでつくるシステムの全体像
