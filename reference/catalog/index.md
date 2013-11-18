@@ -35,7 +35,7 @@ Each **dataset** must have a unique name in the network.
 
 ### number\_of\_partitions
 
-**number\_of\_partitions** is an integer number which represents the number of partitions divided by the hash function. The hash function which determine where each record resides the partition in a dataset is compatible with memcached.
+**number\_of\_partitions** is an integer number which represents the number of partitions divided by the hash function. The hash function which determines where each record resides the partition in a dataset is compatible with memcached.
 
 ### date_range
 
