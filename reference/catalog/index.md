@@ -31,7 +31,7 @@ Each **dataset** must have a unique name in the network.
 
 ### ring
 
-**Ring** is a series of partitions which comprise a dataset. **replica_count**, **number\_of\_partitons** and **time-slice** factors affects the number of partitions in a **ring**.
+**Ring** is a series of partitions which comprise a dataset. **replica_count**, **number\_of\_partitons** and **time-slice** factors affect the number of partitions in a **ring**.
 
 ### number\_of\_partitions
 
