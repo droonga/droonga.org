@@ -394,7 +394,7 @@ application.js:
 もう少し複雑なクエリを試してみましょう。例えば、店名に「阿佐ヶ谷」を含むたいやき屋を検索します。`query` パラメータにクエリ `阿佐ヶ谷` を URL エンコードした `%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
 
-    $ curl "http://localhost:3000/droonga/tables/Shop?quer=%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7&match_to=_key&attributes=_key"
+    $ curl "http://localhost:3000/droonga/tables/Shop?query=%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7&match_to=_key&attributes=_key"
     {
       "result": {
         "count": 2,
