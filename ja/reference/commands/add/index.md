@@ -3,6 +3,9 @@ title: add
 layout: documents
 ---
 
+* TOC
+{:toc}
+
 ## 概要
 
 `add` は、テーブルにレコードを登録します。

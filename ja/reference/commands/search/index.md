@@ -3,6 +3,9 @@ title: search
 layout: documents
 ---
 
+* TOC
+{:toc}
+
 ## 概要
 
 `search` は、1つ以上のテーブルから指定された条件にマッチするレコードを検索し、見つかったレコードに関する情報を返却します。

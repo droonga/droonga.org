@@ -3,6 +3,9 @@ title: column_create
 layout: documents
 ---
 
+* TOC
+{:toc}
+
 ## 概要
 
 `column_create` は、テーブルにカラムを作成します。
