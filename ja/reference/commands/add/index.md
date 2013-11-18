@@ -39,6 +39,99 @@ layout: documents
       }
     }
 
+## 使い方 {#usage}
+
+典型的な使い方を通じて、`add` コマンドの働きを説明します。
+
+なお、本項の説明では以下のような2つのテーブルが存在している事を前提とします。
+
+Personテーブル（主キー無し）:
+
+|name|job（Jobテーブルを参照）|
+|Alice Arnold|announcer|
+|Alice Cooper|musician|
+
+Jobテーブル（主キー有り）:
+
+|_key|label|
+|announcer|アナウンサー|
+|musician|ミュージシャン|
+
+
+### 主キーを持たないテーブルにレコードを追加する {#adding-record-to-table-without-key}
+
+主キーを持たないテーブルにレコードを追加する場合は、 `key` を指定せずに `table` と `values` だけを指定します。
+
+    add
+    {
+      "table"  : "Person",
+      "values" : {
+        "name" : "Bob Dylan",
+        "job"  : "musician"
+      }
+    }
+    
+    => add.result
+       true
+
+別のテーブルを参照しているカラムについて、参照先のテーブルに存在しない値を指定した場合、エラーにはならず、参照先のテーブルにも同時に新しいレコードが追加されます。例えば、以下は  テーブルに存在しない主キー `doctor` を伴って Person テーブルにレコードを追加します。
+
+    add
+    {
+      "table"  : "Person",
+      "values" : {
+        "name" : "Alice Miller",
+        "job"  : "doctor"
+      }
+    }
+    
+    => add.result
+       true
+
+この時、Jobテーブルには主キーだけが指定された新しいレコードが自動的に追加されます。
+
+|_key|label|
+|announcer|アナウンサー|
+|musician|ミュージシャン|
+|doctor|（空文字）|
+
+
+### 主キーを持つテーブルにレコードを追加する {#adding-record-to-table-with-key}
+
+主キーを持つテーブルにレコードを追加する場合は、 `table`、`key`、`values` のすべてを指定します。
+
+    add
+    {
+      "table"  : "Job",
+      "key"    : "writer",
+      "values" : {
+        "label" : "作家"
+      }
+    }
+    
+    => add.result
+       true
+
+### 既存レコードのカラムの値を更新する {#updating}
+
+主キーを持つテーブルに対する、既存レコードの主キーを伴う `add` コマンドは、既存レコードのカラムの値の更新操作と見なされます。
+
+    add
+    {
+      "table"  : "Job",
+      "key"    : "doctor",
+      "values" : {
+        "label" : "医師"
+      }
+    }
+    
+    => add.result
+       true
+
+
+主キーを持たないテーブルのレコードに対しては、値の更新操作はできません（常にレコードの追加と見なされます）。
+
+
 ## パラメータ {#parameters}
 
 ### `table` {#parameter-table}
