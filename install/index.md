@@ -5,7 +5,7 @@ layout: documents
 
 # Overview
 
-Droonga consists of two packages: [fluent-plugin-droonga][] and [express-droonga][].
+The main part of Droonga consists of two packages: [fluent-plugin-droonga][] and [express-droonga][].
 
 ## Dependencies
 
