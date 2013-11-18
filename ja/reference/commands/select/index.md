@@ -1,6 +1,6 @@
 ---
 title: select
-layout: documents
+layout: documents_ja
 ---
 
 * TOC

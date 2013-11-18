@@ -1,6 +1,6 @@
 ---
 title: リファレンス
-layout: documents
+layout: documents_ja
 ---
 
  * [catalog.json](./catalog/)

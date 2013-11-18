@@ -1,6 +1,6 @@
 ---
 title: add
-layout: documents
+layout: documents_ja
 ---
 
 * TOC

@@ -1,6 +1,6 @@
 ---
 title: column_create
-layout: documents
+layout: documents_ja
 ---
 
 * TOC

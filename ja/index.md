@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default_ja
 ---
 
 <div class="jumbotron">
@@ -26,7 +26,7 @@ Droongaについて知った後は、さらに理解を深めるために[チュ
 
 Droongaをより効果的に使うために、以下のドキュメントが役立つでしょう。
 
- * [インストール](install/)：Droongaのインストール手順の説明です。
+ * [インストール手順](install/)：Droongaのインストール手順の説明です。
  * [リファレンスマニュアル](reference/)：詳細な仕様についての説明です。
  * [コントリビューション](contribution/)：Droongaの開発への参加の仕方、Droongaプロジェクトへの貢献の仕方についての説明です。
  * [関連プロジェクト](related-projects/)：Droongaの関連プロジェクトの紹介です。

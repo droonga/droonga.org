@@ -1,6 +1,6 @@
 ---
 title: コマンドリファレンス
-layout: documents
+layout: documents_ja
 ---
 
 以下のコマンドを利用できます。

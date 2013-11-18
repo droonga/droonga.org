@@ -1,6 +1,6 @@
 ---
 title: Droonga ロードマップ
-layout: documents
+layout: documents_ja
 ---
 
 * TOC
