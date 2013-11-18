@@ -62,10 +62,7 @@ Each **dataset** must have a unique name in the network.
       },
       "datasets": {
         "Wiki": {
-          "workers": {
-            "search": 4,
-            "update": 1
-          },
+          "workers": 4,
           "number_of_replicas": 2,
           "number_of_partitions": 2,
           "partition_key": "_key",
@@ -93,4 +90,3 @@ Each **dataset** must have a unique name in the network.
         }
       }
     }
-
