@@ -80,7 +80,7 @@ Personテーブル:
              ["Alice Cooper", "Alice Cooper", 30, "male", "musician", ""],
              ["Alice Miller", "Alice Miller", 25, "male", "doctor", ""],
              ["Bob Dole", "Bob Dole", 42, "male", "lawer", ""],
-             ["Bob Cousy", "Bob Cousy", 38, "male", "baseball player", ""],
+             ["Bob Cousy", "Bob Cousy", 38, "male", "basketball player", ""],
              ["Bob Wolcott", "Bob Wolcott", 36, "male", "baseball player", ""],
              ["Bob Evans", "Bob Evans", 31, "male", "driver", ""],
              ["Bob Ross", "Bob Ross", 54, "male", "painter", ""],
@@ -554,7 +554,7 @@ Personテーブル:
          "playerJob" : {
            "count" : 2,
            "records" : [
-             ["baseball player", 1],
+             ["basketball player", 1],
              ["baseball player", 1]
            ]
          }
