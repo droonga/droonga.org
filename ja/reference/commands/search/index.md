@@ -57,25 +57,36 @@ Personテーブル:
 最も単純な例として、Person テーブルのすべてのレコードを出力する例を示します。
 
     search
-    { "people" : { "source" : "Person",
-                   "output" : {
-                     "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job", "note"],
-                     "limit"      : -1
-                   } } }
+    {
+      "queries" : {
+        "people" : {
+          "source" : "Person",
+          "output" : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
     
     => search.result
-       { "people" : { "count" : 8,
-                      "records" : [
-                        ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-                        ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-                        ["Alice Miller", "Alice Miller", 25, "doctor", ""],
-                        ["Bob Dole", "Bob Dole", 42, "lawer", ""],
-                        ["Bob Wolcott", "Bob Wolcott", 36, "baseball player", ""],
-                        ["Bob Evans", "Bob Evans", 31, "driver", ""],
-                        ["Bob Ross", "Bob Ross", 54, "painter", ""],
-                        ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
-                      ] } }
+       {
+         "people" : {
+           "count" : 8,
+           "records" : [
+             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
+             ["Bob Dole", "Bob Dole", 42, "lawer", ""],
+             ["Bob Wolcott", "Bob Wolcott", 36, "baseball player", ""],
+             ["Bob Evans", "Bob Evans", 31, "driver", ""],
+             ["Bob Ross", "Bob Ross", 54, "painter", ""],
+             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
+              "the author of Alice's Adventures in Wonderland"]
+           ]
+         }
+       }
 
 `people` は、この検索クエリおよびその処理結果に対して付けた一時的な名前です。
 `search` のレスポンスは、検索クエリに付けた名前を伴って返されます。
@@ -98,21 +109,31 @@ Personテーブル:
 スクリプト構文形式は、ECMAScriptの書式に似ています。「`name` に `Alice` を含み、且つ`age` が `25` 以上である」という検索条件は、スクリプト構文形式で以下のように表現できます。
 
     search
-    { "people" : { "source"    : "Person",
-                   "condition" : "name @ 'Alice' && age >= 25"
-                   "output"    : {
-                     "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job", "note"],
-                     "limit"      : -1
-                   } } }
-    
+    {
+      "queries" : {
+        "people" : {
+          "source"    : "Person",
+          "condition" : "name @ 'Alice' && age >= 25"
+          "output"    : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+
     => search.result
-       { "people" : { "count" : 2,
-                      "records" : [
-                        ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-                        ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-                        ["Alice Miller", "Alice Miller", 25, "doctor", ""]
-                      ] } }
+       {
+         "people" : {
+           "count" : 2,
+           "records" : [
+             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+             ["Alice Miller", "Alice Miller", 25, "doctor", ""]
+           ]
+         }
+       }
 
 スクリプト構文の詳細な仕様は[Groonga のスクリプト構文のリファレンス](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)を参照して下さい。
 
@@ -121,25 +142,35 @@ Personテーブル:
 クエリー構文形式は、主にWebページなどに組み込む検索ボックス向けに用意されています。例えば「検索ボックスに入力された語句を `name` または `note` に含むレコードを検索する」という場面において、検索ボックスに入力された語句が `Alice` であった場合の検索条件は、クエリー構文形式で以下のように表現できます。
 
     search
-    { "people" : { "source"    : "Person",
-                   "condition" : {
-                     "query"   : "Alice",
-                     "matchTo" : ["name", "note"]
-                   },
-                   "output"    : {
-                     "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job", "note"],
-                     "limit"      : -1
-                   } } }
+    {
+      "queries" : {
+        "people" : {
+          "source"    : "Person",
+          "condition" : {
+            "query"   : "Alice",
+            "matchTo" : ["name", "note"]
+          },
+          "output"    : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
     
     => search.result
-       { "people" : { "count" : 4,
-                      "records" : [
-                        ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
-                        ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
-                        ["Alice Miller", "Alice Miller", 25, "doctor", ""],
-                        ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
-                      ] } }
+       {
+         "people" : {
+           "count" : 4,
+           "records" : [
+             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
+             ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
+           ]
+         }
+       }
 
 クエリー構文の詳細な仕様は[Groonga のクエリー構文のリファレンス](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html)を参照して下さい。
 
@@ -149,33 +180,51 @@ Personテーブル:
 [`output`](#query-output) パラメータの `offset` と `limit` を指定することで、出力されるレコードの範囲を指定できます。以下は、20件以上ある結果を先頭から順に10件ずつ取得する場合の例です。
 
     search
-    { "people" : { "source" : "Person",
-                   "output" : {
-                     "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job", "note"],
-                     "offset"     : 0,
-                     "limit"      : 10
-                   } } }
+    {
+      "queries" : {
+        "people" : {
+          "source" : "Person",
+          "output" : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "offset"     : 0,
+            "limit"      : 10
+          }
+        }
+      }
+    }
     => 0件目から9件目までが返される。
     
     search
-    { "people" : { "source" : "Person",
-                   "output" : {
-                     "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job", "note"],
-                     "offset"     : 10,
-                     "limit"      : 10
-                   } } }
+    {
+      "queries" : {
+        "people" : {
+          "source" : "Person",
+          "output" : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "offset"     : 10,
+            "limit"      : 10
+          }
+        }
+      }
+    }
     => 10件目から19件目までが返される。
     
     search
-    { "people" : { "source" : "Person",
-                   "output" : {
-                     "elements"   : ["count", "records"],
-                     "attributes" : ["_key", "name", "age", "job", "note"],
-                     "offset"     : 20,
-                     "limit"      : 10
-                   } } }
+    {
+      "queries" : {
+        "people" : {
+          "source" : "Person",
+          "output" : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "offset"     : 20,
+            "limit"      : 10
+          }
+        }
+      }
+    }
     => 20件目から29件目までが返される。
 
 `limit` の指定 `-1` は、実際の運用では推奨されません。膨大な量のレコードがマッチした場合、出力のための処理にリソースを使いすぎてしまいますし、ネットワークの帯域も浪費してしまいます。コンピュータの性能にもよりますが、`limit` には `100` 程度までの値を上限として指定し、それ以上のレコードは適宜ページングで取得するようにして下さい。
@@ -183,11 +232,99 @@ Personテーブル:
 
 #### 出力形式 {#usage-format}
 
-（未稿）
+ここまでの例では、レコードの一覧はすべて配列の配列として出力されていました。[`output`](#query-output) パラメータの `format` を指定すると、出力されるレコードの形式を変える事ができます。以下は、`format` に `complex` を指定した場合の例です。
+
+    search
+    {
+      "queries" : {
+        "people" : {
+          "source" : "Person",
+          "output" : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : 3,
+            "format"     : "complex"
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "people" : {
+           "count" : 8,
+           "records" : [
+             { "_key" : "Alice Arnold",
+               "name" : "Alice Arnold",
+               "age"  : 20,
+               "job"  : "announcer",
+               "note" : "" },
+             { "_key" : "Alice Cooper",
+               "name" : "Alice Cooper",
+               "age"  : 30,
+               "job"  : "musician",
+               "note" : "" },
+             { "_key" : "Alice Miller",
+               "name" : "Alice Miller",
+               "age"  : 25,
+               "job"  : "doctor",
+               "note" : "" }
+           ]
+         }
+       }
+
+`format` に `complex` を指定した場合、レコードの一覧はこの例のようにカラム名をキーとしたハッシュの配列として出力されます。
+`format` に `simple` を指定した場合、または `format` の指定を省略した場合、レコードの一覧は配列の配列として出力されます。
+
 
 #### 複数の検索クエリの列挙 {#usage-multiple-queries}
 
-（未稿）
+`search` は、一度に複数の検索クエリを受け付ける事ができます。以下は、`age` が `25` 以下のレコードと `age` が `40` 以上のレコードを同時に検索する例です。
+
+    search
+    {
+      "queries" : {
+        "junior" : {
+          "source"    : "Person",
+          "condition" : "age <= 25",
+          "output"    : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : -1
+          }
+        },
+        "senior" : {
+          "source"    : "Person",
+          "condition" : "age >= 40",
+          "output"    : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "junior" : {
+           "count" : 2,
+           "records" : [
+             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+             ["Alice Miller", "Alice Miller", 25, "doctor", ""]
+           ]
+         },
+         "senior" : {
+           "count" : 3,
+           "records" : [
+             ["Bob Dole", "Bob Dole", 42, "lawer", ""],
+             ["Bob Ross", "Bob Ross", 54, "painter", ""],
+             ["Lewis Carroll", "Lewis Carroll", 66, "writer", "the author of Alice's Adventures in Wonderland"]
+           ]
+         }
+       }
+
+
 
 
 ## 高度な使い方 {#usage-advanced}
