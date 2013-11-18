@@ -6,13 +6,13 @@ layout: documents
 * TOC
 {:toc}
 
-## 概要
+## 概要 {#abstract}
 
 `column_create` は、テーブルにカラムを作成します。
 
 このコマンドは[Groonga の `column_create` コマンド](http://groonga.org/ja/docs/reference/commands/column_create.html)と互換性があります。
 
-## 構文
+## 構文 {#syntax}
 
     {
       "table"  : "テーブル名",
@@ -22,13 +22,13 @@ layout: documents
       "source" : "インデックス対象のカラム名"
     }
 
-## パラメータ
+## パラメータ {#parameters}
 
 `table`, `name` 以外のパラメータはすべて省略可能です。
 
 すべてのパラメータは[Groonga の `column_create` コマンドの引数](http://groonga.org/ja/docs/reference/commands/column_create.html#parameters)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
-## レスポンス
+## レスポンス {#response}
 
 このコマンドは、レスポンスとしてカラムの作成の成否を示す真偽値を返却します。
 

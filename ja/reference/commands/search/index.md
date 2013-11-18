@@ -6,14 +6,14 @@ layout: documents
 * TOC
 {:toc}
 
-## 概要
+## 概要 {#abstract}
 
 `search` は、1つ以上のテーブルから指定された条件にマッチするレコードを検索し、見つかったレコードに関する情報を返却します。
 
 これは、Droonga において検索機能を提供する最も低レベルのコマンドです。
 検索用のコマンドをプラグインとして実装する際は、内部的にこのコマンドを使用して検索を行うという用途が想定されます。
 
-## 構文
+## 構文 {#syntax}
 
     {
       "timeout" : タイムアウトするまでの時間,
@@ -30,7 +30,7 @@ layout: documents
       }
     }
 
-## 使い方
+## 使い方 {#usage}
 
 典型的な使い方を通じて、`search` コマンドの働きを説明します。
 
@@ -47,7 +47,7 @@ Personテーブル:
 |Bob Evans|Bob Evans|31|driver|
 |Bob Ross|Bob Ross|54|painter|
 
-### 基本的な使い方
+### 基本的な使い方 {#usage-basic}
 
 最も単純な例として、Person テーブルのすべてのレコードを出力する例を示します。
 
@@ -79,12 +79,12 @@ Personテーブル:
  * [`output`](#query-output) の `attributes` パラメータに Person テーブルのすべてのカラムの名前が列挙されているため。 `attributes` は個々のカラムについて出力する情報を制御します。
 
 
-#### 検索条件
+#### 検索条件 {#usage-condition}
 
 （未稿）
 
 
-#### ページング
+#### ページング {#usage-paging}
 
 [`output`](#query-output) パラメータの `offset` と `limit` を指定することで。出力されるレコードの範囲を指定できます。以下は、20件以上ある結果を先頭から順に10件ずつ取得する場合の例です。
 
@@ -121,33 +121,33 @@ Personテーブル:
 `limit` の指定 `-1` は、実際の運用では推奨されません。膨大な量のレコードがマッチした場合、出力のための処理にリソースを使いすぎてしまいますし、ネットワークの帯域も浪費してしまいます。コンピュータの性能にもよりますが、`limit` には `100` 程度までの値を上限として指定し、それ以上のレコードは適宜ページングで取得するようにして下さい。
 
 
-#### 出力形式
+#### 出力形式 {#usage-format}
 
 （未稿）
 
-#### 複数の検索クエリの列挙
-
-（未稿）
-
-
-## 高度な使い方
-
-### 検索結果のソート
-
-（未稿）
-
-### 検索結果の集約
+#### 複数の検索クエリの列挙 {#usage-multiple-queries}
 
 （未稿）
 
 
+## 高度な使い方 {#usage-advanced}
+
+### 検索結果のソート {#usage-sort}
+
+（未稿）
+
+### 検索結果の集約 {#usage-group}
+
+（未稿）
 
 
-## パラメータ
 
-### 全体のパラメータ
 
-#### `timeout`
+## パラメータ {#parameters}
+
+### 全体のパラメータ {#container-parameters}
+
+#### `timeout` {#parameter-timeout}
 
 ※註：このパラメータはバージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
 
@@ -166,7 +166,7 @@ Personテーブル:
 指定した時間以内に Droonga Engine が検索の処理を完了できなかった場合、Droonga はその時点で検索処理を打ち切り、エラーを返却します。
 クライアントは、この時間を過ぎた後は検索処理に関するリソースを解放して問題ありません。
 
-#### `queries`
+#### `queries` {#parameter-queries}
 
 概要
 : 検索クエリとして、検索の条件と出力の形式を指定します。
@@ -183,7 +183,7 @@ Personテーブル:
 
 ### 個々の検索クエリのパラメータ {#query-parameters}
 
-#### `source`
+#### `source` {#query-source}
 
 概要
 : 検索対象とするデータソースを指定します。
@@ -199,7 +199,7 @@ Personテーブル:
 なお、その場合の各検索クエリの実行順（依存関係）は Droonga が自動的に解決します。
 依存関係の順番通りに各検索クエリを並べて記述する必要はありません。
 
-#### `condition`
+#### `condition` {#query-condition}
 
 概要
 : 検索の条件を指定します。
@@ -392,7 +392,7 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
 そのため、 `output` における `offset` および `limit` の指定よりも高速に動作します。
 
 
-#### `groupBy`
+#### `groupBy` {#query-groupBy}
 
 概要
 : 処理対象のレコード群を集約する条件を指定します。
@@ -571,7 +571,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 検索クエリの処理結果のハッシュは以下の項目を持つことができ、[検索クエリの `output`](#query-output) の `elements` で明示的に指定された項目のみが出力されます。
 
-### `startTime`
+### `startTime` {#response-query-startTime}
 
 検索を開始した時刻（ローカル時刻）の文字列です。
 
@@ -580,23 +580,23 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
     2013-11-29T08:15:30+09:00
 
-### `elapsedTime`
+### `elapsedTime` {#response-query-elapsedTime}
 
 検索にかかった時間の数値（単位：ミリ秒）です。
 
-### `count`
+### `count` {#response-query-count}
 
 検索条件に該当するレコードの総数の数値です。
 この値は、検索クエリの [`sortBy`](#query-sortBy) や [`output`](#query-output) における `offset` および `limit` の指定の影響を受けません。
 
-### `attributes` および `records`
+### `attributes` および `records` {#response-query-attributes-and-records}
 
  * `attributes` は出力されたレコードのカラムの情報を示す配列またはハッシュです。
  * `records` は出力されたレコードの配列です。
 
 `attributes` および `records` の出力形式は[検索クエリの `output`](#query-output) の `format` の指定に従って以下の2通りに別れます。
 
-#### 単純な形式のレスポンス
+#### 単純な形式のレスポンス {#response-query-simple-attributes-and-records}
 
 `format` が　`"simple"` の場合、個々の検索クエリの結果は以下の形を取ります。
 
@@ -623,7 +623,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 これは、受け取ったデータの扱いやすさよりも、データの転送量を小さく抑える事を優先する出力形式です。
 大量のレコードを検索結果として受け取る場合や、多量のアクセスが想定される場合などに適しています。
 
-##### `attributes`
+##### `attributes` {#response-query-simple-attributes}
 
 ※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
   
@@ -645,7 +645,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
    * `true`  : カラムはベクター型である。
    * `false` : カラムはベクター型ではない（スカラー型である）。
 
-##### `records`
+##### `records` {#response-query-simple-records}
 
 出力されたレコードの配列です。
 
@@ -654,7 +654,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 [日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムの値は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
 
 
-#### 複雑な形式のレスポンス
+#### 複雑な形式のレスポンス {#response-query-complex-attributes-and-records}
 
 `format` が　`"complex"` の場合、個々の検索クエリの結果は以下の形を取ります。
 
@@ -683,7 +683,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 これは、データの転送量を小さく抑える事よりも、受け取ったデータの扱いやすさを優先する出力形式です。
 検索結果の件数が小さい事があらかじめ分かっている場合や、管理機能などのそれほど多量のアクセスが見込まれない場合などに適しています。
 
-##### `attributes`
+##### `attributes` {#response-query-complex-attributes}
 
 ※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
 
@@ -702,7 +702,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
    * `true`  : カラムはベクター型である。
    * `false` : カラムはベクター型ではない（スカラー型である）。
 
-##### `records`
+##### `records` {#response-query-complex-records}
 
 出力されたレコードの配列です。
 

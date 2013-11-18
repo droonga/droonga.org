@@ -6,13 +6,13 @@ layout: documents
 * TOC
 {:toc}
 
-## 概要
+## 概要 {#abstract}
 
 `select` は、テーブルから指定された条件にマッチするレコードを検索し、見つかったレコードを返却します。
 
 このコマンドは[Groonga の `select` コマンド](http://groonga.org/ja/docs/reference/commands/select.html)と互換性があります。
 
-## 構文
+## 構文 {#syntax}
 
     {
       "table"            : "テーブル名",
@@ -37,7 +37,7 @@ layout: documents
       "query_expander"   : "クエリー展開用の引数"
     }
 
-## パラメータ
+## パラメータ {#parameters}
 
 `table` 以外のパラメータはすべて省略可能です。
 
@@ -52,7 +52,7 @@ layout: documents
 すべてのパラメータの意味は[Groonga の `select` コマンドの引数](http://groonga.org/ja/docs/reference/commands/select.html#parameters)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
 
-## レスポンス
+## レスポンス {#response}
 
 このコマンドは、レスポンスとして検索結果の配列を返却します。
 
