@@ -102,7 +102,7 @@ Personテーブル:
 
 #### 検索条件 {#usage-condition}
 
-検索条件は `condition` パラメータで指定します。指定方法は、大きく分けて「スクリプト構文形式」と「クエリー構文形式」の2通りがあります。
+検索条件は `condition` パラメータで指定します。指定方法は、大きく分けて「スクリプト構文形式」と「クエリー構文形式」の2通りがあります。詳細は [`condition` パラメータの仕様`](#query-condition) を参照して下さい。
 
 ##### スクリプト構文形式の検索条件 {#usage-condition-script-syntax}
 
@@ -176,6 +176,74 @@ Personテーブル:
 クエリー構文の詳細な仕様は[Groonga のクエリー構文のリファレンス](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html)を参照して下さい。
 
 
+#### 検索結果のソート {#usage-sort}
+
+出力するレコードのソート条件は `sortBy` パラメータで指定します。以下は、結果を `age` カラムの値の昇順でソートする場合の例です。
+
+    search
+    {
+      "queries" : {
+        "people" : {
+          "source"    : "Person",
+          "condition" : "name @ 'Alice'"
+          "sortBy"    : ["age"],
+          "output"    : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "people" : {
+           "count" : 8,
+           "records" : [
+             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""],
+             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
+             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
+              "the author of Alice's Adventures in Wonderland"]
+           ]
+         }
+       }
+
+ソートするカラム名の前に `-` を付けると、降順でのソートになります。以下は `age` の降順でソートする場合の例です。
+
+    search
+    {
+      "queries" : {
+        "people" : {
+          "source"    : "Person",
+          "condition" : "name @ 'Alice'"
+          "sortBy"    : ["-age"],
+          "output"    : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "name", "age", "job", "note"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "people" : {
+           "count" : 8,
+           "records" : [
+             ["Lewis Carroll", "Lewis Carroll", 66, "writer",
+              "the author of Alice's Adventures in Wonderland"],
+             ["Alice Cooper", "Alice Cooper", 30, "musician", ""],
+             ["Alice Miller", "Alice Miller", 25, "doctor", ""],
+             ["Alice Arnold", "Alice Arnold", 20, "announcer", ""]
+           ]
+         }
+       }
+
+詳細は [`sortBy` パラメータの仕様`](#query-sortBy) を参照して下さい。
+
 #### ページング {#usage-paging}
 
 [`output`](#query-output) パラメータの `offset` と `limit` を指定することで、出力されるレコードの範囲を指定できます。以下は、20件以上ある結果を先頭から順に10件ずつ取得する場合の例です。
@@ -230,6 +298,8 @@ Personテーブル:
 
 `limit` の指定 `-1` は、実際の運用では推奨されません。膨大な量のレコードがマッチした場合、出力のための処理にリソースを使いすぎてしまいますし、ネットワークの帯域も浪費してしまいます。コンピュータの性能にもよりますが、`limit` には `100` 程度までの値を上限として指定し、それ以上のレコードは適宜ページングで取得するようにして下さい。
 
+詳細は [`output` パラメータの仕様`](#query-output) を参照して下さい。
+
 
 #### 出力形式 {#usage-format}
 
@@ -277,15 +347,10 @@ Personテーブル:
 `format` に `complex` を指定した場合、レコードの一覧はこの例のようにカラム名をキーとしたハッシュの配列として出力されます。
 `format` に `simple` を指定した場合、または `format` の指定を省略した場合、レコードの一覧は配列の配列として出力されます。
 
+詳細は [`output` パラメータの仕様`](#query-output) および [レスポンスの仕様](#response) を参照して下さい。
 
 
 ### 高度な使い方 {#usage-advanced}
-
-#### 検索結果のソート {#usage-sort}
-
-
-
-（未稿）
 
 #### 検索結果の集約 {#usage-group}
 
