@@ -40,15 +40,15 @@ layout: documents
 
 Personテーブル:
 
-|_key|name|age|job|note|
-|Alice Arnold|Alice Arnold|20|announcer||
-|Alice Cooper|Alice Cooper|30|musician||
-|Alice Miller|Alice Miller|25|doctor||
-|Bob Dole|Bob Dole|42|lawer||
-|Bob Wolcott|Bob Wolcott|36|baseball player||
-|Bob Evans|Bob Evans|31|driver||
-|Bob Ross|Bob Ross|54|painter||
-|Lewis Carroll|Lewis Carroll|66|writer|the author of Alice's Adventures in Wonderland|
+|_key|name|age|sex|job|note|
+|Alice Arnold|Alice Arnold|20|female|announcer||
+|Alice Cooper|Alice Cooper|30|male|musician||
+|Alice Miller|Alice Miller|25|female|doctor||
+|Bob Dole|Bob Dole|42|male|lawer||
+|Bob Wolcott|Bob Wolcott|36|male|baseball player||
+|Bob Evans|Bob Evans|31|male|driver||
+|Bob Ross|Bob Ross|54|male|painter||
+|Lewis Carroll|Lewis Carroll|66|male|writer|the author of Alice's Adventures in Wonderland|
 
 また、この時 `name` と `note` には `TokensBigram` を使用したインデックスが用意されているものとします。
 
@@ -352,8 +352,77 @@ Personテーブル:
 ### 高度な使い方 {#usage-advanced}
 
 #### 検索結果の集約 {#usage-group}
+れ
+[`groupBy`](#query-groupBy) パラメータを指定することで、レコードを指定カラムの値で集約した結果を取得することができます。以下は、テーブルの内容を `sex` カラムの値で集約した結果と、集約前のレコードがそれぞれ何件あったかを取得する例です。
 
-（未稿）
+    search
+    {
+      "queries" : {
+        "sexuality" : {
+          "source"  : "Person",
+          "groupBy" : "sex",
+          "output"  : {
+            "elements"   : ["count", "records"],
+            "attributes" : ["_key", "_nsubrecs"],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "sexuality" : {
+           "count" : 2,
+           "records" : 
+             ["female", 2],
+             ["male", 6]
+           ]
+         }
+       }
+
+上記の結果は、 `sex` の値が `female` であるレコードが2件、`male` であるレコードが6件存在していて、`sex` の値の種類としては2通りが登録されている事を示しています。
+
+また、集約前のレコードを代表値として取得する事もできます。以下は、`sex` カラムの値で集約した結果と、それぞれの集約前のレコードを2件ずつ取得する例です。
+
+    search
+    {
+      "queries" : {
+        "sexuality" : {
+          "source"  : "Person",
+          "groupBy" : {
+            "keys"           : "sex",
+            "maxNSubRecords" : 2
+          }, 
+          "output"  : {
+            "elements"   : ["count", "records"],
+            "attributes" : [
+              "_key",
+              "_nsubrecs",
+              { "label"      : "subrecords",
+                "source"     : "_subrecs",
+                "attributes" : ["name"] }
+            ],
+            "limit"      : -1
+          }
+        }
+      }
+    }
+    
+    => search.result
+       {
+         "sexuality" : {
+           "count" : 2,
+           "records" : 
+             ["female", 2, [["Alice Arnold"], ["Alice Miller"]]],
+             ["male",   6, [["Alice Cooper"], ["Bob Dole"]]]
+           ]
+         }
+       }
+
+
+詳細は [`groupBy` パラメータの仕様`](#query-groupBy) を参照して下さい。
+
 
 
 #### 複数の検索クエリの列挙 {#usage-multiple-queries}
