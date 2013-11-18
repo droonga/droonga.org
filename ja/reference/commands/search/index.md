@@ -27,6 +27,119 @@ layout: documents
       }
     }
 
+## 使い方
+
+典型的な使い方を通じて、`search` コマンドの働きを説明します。
+
+なお、本項の説明では以下のようなテーブルが存在している事を前提とします。
+
+Personテーブル:
+
+|_key|name|age|job|
+|Alice Arnold|Alice Arnold|20|announcer|
+|Alice Cooper|Alice Cooper|30|musician|
+|Alice Miller|Alice Miller|25|doctor|
+|Bob Dole|Bob Dole|42|lawer|
+|Bob Wolcott|Bob Wolcott|36|baseball player|
+|Bob Evans|Bob Evans|31|driver|
+|Bob Ross|Bob Ross|54|painter|
+
+### 基本的な使い方
+
+最も単純な例として、Person テーブルのすべてのレコードを出力する例を示します。
+
+    search
+    { "people" : { "source" : "Person",
+                   "output" : {
+                     "elements"   : ["count", "records"],
+                     "attributes" : ["_key", "name", "age", "job"],
+                     "limit"      : -1
+                   } } }
+    
+    => search.result
+       { "people" : { "count" : 7,
+                      "records" : [
+                        ["Alice Arnold", "Alice Arnold", 20, "announcer"],
+                        ["Alice Cooper", "Alice Cooper", 30, "musician"],
+                        ["Alice Miller", "Alice Miller", 25, "doctor"],
+                        ["Bob Dole", "Bob Dole", 42, "lawer"],
+                        ["Bob Wolcott", "Bob Wolcott", 36, "baseball player"],
+                        ["Bob Evans", "Bob Evans", 31, "driver"],
+                        ["Bob Ross", "Bob Ross", 54, "painter"]
+                      ] } }
+
+どうしてこのコマンドがすべてのレコードのすべての情報を出力するのでしょうか？　これは以下の理由に依ります。
+
+ * 検索条件を何も指定していないため。検索条件を指定しないとすべてのレコードがマッチします。
+ * [`output`](#query-output) の `elements` パラメータに `records` （および `count`）が指定されているため。 `elements` は結果に出力する情報を制御します。マッチしたレコードの情報は `records` に、マッチしたレコードの総数は `count` に出力されます。
+ * [`output`](#query-output) の `limit` パラメータに `-1` が指定されているため。 `limit` は出力するレコードの最大数の指定ですが、 `-1` を指定するとすべてのレコードが出力されます。
+ * [`output`](#query-output) の `attributes` パラメータに Person テーブルのすべてのカラムの名前が列挙されているため。 `attributes` は個々のカラムについて出力する情報を制御します。
+
+
+#### 検索条件
+
+（未稿）
+
+
+#### ページング
+
+[`output`](#query-output) パラメータの `offset` と `limit` を指定することで。出力されるレコードの範囲を指定できます。以下は、20件以上ある結果を先頭から順に10件ずつ取得する場合の例です。
+
+    search
+    { "people" : { "source" : "Person",
+                   "output" : {
+                     "elements"   : ["count", "records"],
+                     "attributes" : ["_key", "name", "age", "job"],
+                     "offset"     : 0,
+                     "limit"      : 10
+                   } } }
+    => 0件目から9件目までが返される。
+    
+    search
+    { "people" : { "source" : "Person",
+                   "output" : {
+                     "elements"   : ["count", "records"],
+                     "attributes" : ["_key", "name", "age", "job"],
+                     "offset"     : 10,
+                     "limit"      : 10
+                   } } }
+    => 10件目から19件目までが返される。
+    
+    search
+    { "people" : { "source" : "Person",
+                   "output" : {
+                     "elements"   : ["count", "records"],
+                     "attributes" : ["_key", "name", "age", "job"],
+                     "offset"     : 20,
+                     "limit"      : 10
+                   } } }
+    => 20件目から29件目までが返される。
+
+`limit` の指定 `-1` は、実際の運用では推奨されません。膨大な量のレコードがマッチした場合、出力のための処理にリソースを使いすぎてしまいますし、ネットワークの帯域も浪費してしまいます。コンピュータの性能にもよりますが、`limit` には `100` 程度までの値を上限として指定し、それ以上のレコードは適宜ページングで取得するようにして下さい。
+
+
+#### 出力形式
+
+（未稿）
+
+#### 複数の検索クエリの列挙
+
+（未稿）
+
+
+## 高度な使い方
+
+### 検索結果のソート
+
+（未稿）
+
+### 検索結果の集約
+
+（未稿）
+
+
+
+
 ## パラメータ
 
 ### 全体のパラメータ
