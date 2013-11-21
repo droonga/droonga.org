@@ -50,6 +50,8 @@ layout: documents_ja
  * `match_columns`
  * `query`
  * `output_columns`
+ * `offset`
+ * `limit`
 
 すべてのパラメータの意味は[Groonga の `select` コマンドの引数](http://groonga.org/ja/docs/reference/commands/select.html#parameters)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
