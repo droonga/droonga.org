@@ -103,7 +103,6 @@ fluentd.conf:
     <match taiyaki.message>
       name localhost:24224/taiyaki
       type droonga
-      proxy true
     </match>
     <match output.message>
       type stdout
@@ -177,7 +176,6 @@ catalog.json:
       <match taiyaki.message>
         name localhost:24224/taiyaki
         type droonga
-        proxy true
       </match>
       <match output.message>
         type stdout
