@@ -318,7 +318,7 @@ application.js:
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    $ curl "http://localhost:3000/droonga/tables/Shop?attrbutes=_key"
+    $ curl "http://localhost:3000/droonga/tables/Shop?attributes=_key&limit=-1"
     {
       "result": {
         "count": 36,
@@ -392,7 +392,7 @@ application.js:
 もう少し複雑なクエリを試してみましょう。例えば、店名に「阿佐ヶ谷」を含むたいやき屋を検索します。`query` パラメータにクエリ `阿佐ヶ谷` を URL エンコードした `%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
 
-    $ curl "http://localhost:3000/droonga/tables/Shop?query=%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7&match_to=_key&attributes=_key"
+    $ curl "http://localhost:3000/droonga/tables/Shop?query=%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7&match_to=_key&attributes=_key&limit=-1"
     {
       "result": {
         "count": 2,
@@ -441,7 +441,8 @@ index.html:
                    'attributes',
                    'records'
                  ],
-                 attributes: ['_key']
+                 attributes: ['_key'],
+                 limit: -1
               }
             }
           }});
@@ -524,7 +525,8 @@ Web ブラウザから Socket.IO 経由でリクエストが Protocol Adapter �
                    'attributes',
                    'records'
                  ],
-                 attributes: ['_key']
+                 attributes: ['_key'],
+                 limit: -1
               }
             }
           }});
