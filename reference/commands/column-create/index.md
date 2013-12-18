@@ -28,7 +28,7 @@ This is a request-response style command. One response message is always returne
 
 All parameters except `table` and `name` are optional.
 
-They are compatible to [the parameters of the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html#parameters). See the linked document of the Groonga for details.
+They are compatible to [the parameters of the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html#parameters). See the linked document for more details.
 
 ## Resposnes {#response}
 

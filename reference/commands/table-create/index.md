@@ -29,7 +29,7 @@ This is a request-response style command. One response message is always returne
 
 All parameters except `name` are optional.
 
-They are compatible to [the parameters of the `table_create` command of the Groonga](http://groonga.org/docs/reference/commands/table_create.html#parameters). See the linked document of the Groonga for details.
+They are compatible to [the parameters of the `table_create` command of the Groonga](http://groonga.org/docs/reference/commands/table_create.html#parameters). See the linked document for more details.
 
 ## Responses {#response}
 
