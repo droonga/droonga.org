@@ -117,7 +117,7 @@ This command works as "updating" operation, if the table has a primary key colum
       "table"  : "Job",
       "key"    : "doctor",
       "values" : {
-        "label" : "医師"
+        "label" : "doctor"
       }
     }
     
