@@ -10,18 +10,18 @@ layout: documents
 
 The `add` command adds a new record to the specified table. Column values of the existing record are updated by given values, if the table has a primary key and there is existing record with the specified key.
 
-`add` is a request-response style command. One response message is always returned per one request.
+This is a request-response style command. One response message is always returned per one request.
 
 ## Syntax {#syntax}
 
 If the table has a primary key column:
 
     {
-      "table"  : "Name of the table",
-      "key"    : "The primary key of the record",
+      "table"  : "<Name of the table>",
+      "key"    : "<The primary key of the record>",
       "values" : {
-        "Name of the column 1" : value1,
-        "Name of the column 2" : value2,
+        "<Name of the column 1>" : <value 1>,
+        "<Name of the column 2>" : <value 2>,
         ...
       }
     }
@@ -29,10 +29,10 @@ If the table has a primary key column:
 If the table has no primary key column:
 
     {
-      "table"  : "Name of the table",
+      "table"  : "<Name of the table>",
       "values" : {
-        "Name of the column 1" : value1,
-        "Name of the column 2" : value2,
+        "<Name of the column 1>" : <value 1>,
+        "<Name of the column 2>" : <value 2>,
         ...
       }
     }
@@ -175,7 +175,7 @@ Value of unspecified columns will not be changed.
 
 ## Responses {#response}
 
-This returns an array including a boolean value which means the operation has been successfully done or not.
+This returns an array including a boolean value which means the operation was successfully done or not.
 
- * `[true]`：The record is successfully added or updated.
+ * `[true]`：The record was successfully added or updated.
  * `[false]`：Failed to add or update a record.
