@@ -14,6 +14,8 @@ Droonga is a scalable data processing engine. Droonga uses stream oriented proce
 
 See [overview](overview/) for more details.
 
+See [roadmap](roadmap/) for the future Droonga.
+
 ## Getting started
 
 Try [tutorial](tutorial/) to know about Droonga after you understand about Droonga. If you don't read [overview](overview/) yet, read it before trying the tutorial.
