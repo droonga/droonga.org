@@ -668,7 +668,7 @@ In this pattern, you'll specify a search condition as a hash like:
     }
 
 `query`
-: The main search query string. For example, a text posted via a search box in a webpage.
+: A string to specify the main search query. In most cases, a text posted via a search box in a webpage will be given.
   See [the document of the query syntax in Groonga](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html) for more details.
   This parameter is always required.
 
@@ -678,7 +678,7 @@ In this pattern, you'll specify a search condition as a hash like:
   This parameter is optional.
 
 `defaultOperator`
-: The default logical operator string for multiple queries listed in the `query`. Possible values:
+: A string to specify the default logical operator for multiple queries listed in the `query`. Possible values:
   
    * `"&&"` : means "AND" condition.
    * `"||"` : means "OR" condition.
@@ -695,36 +695,35 @@ In this pattern, you'll specify a search condition as a hash like:
   This parameter is optional, the default value is `true`.
 
 `matchEscalationThreshold`
-: 検索方法をエスカレーションするかどうかを決定するための閾値を指定します。
-  インデックスを用いた全文検索のヒット件数がこの閾値以下であった場合は、非分かち書き検索、部分一致検索へエスカレーションします。
-  詳細は [Groonga の検索の仕様の説明](http://groonga.org/ja/docs/spec/search.html)を参照して下さい。
-  このパラメータは省略可能で、省略時の初期値は `0` です。
+: An integer to specify the threshold to escalate search methods.
+  When the number of search results by indexes is smaller than this value, then Droonga does the search based on partial matching, etc.
+  See also [the specification of the search behavior of Groonga](http://groonga.org/ja/docs/spec/search.html) for more details.
+  This parameter is optional, the default value is `0`.
 
 
-##### 配列による検索条件 {#query-condition-array}
+##### Complex search condition as an array {#query-condition-array}
 
-以下のような形式の配列で検索条件を指定します。
+In this pattern, you'll specify a search condition as an array like:
 
     [
       "&&",
-      検索条件1,
-      検索条件2,
+      <search condition 1>,
+      <search condition 2>,
       ...
     ]
 
-配列の最初の要素は、論理演算子を以下のいずれかの文字列で指定します。
+The fist element of the array is an operator string. Possible values:
 
- * `"&&"` : AND条件と見なす。
- * `"||"` : OR条件と見なす。
- * `"-"`  : [論理否定](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html#logical-not)条件と見なす。
+ * `"&&"` : means "AND" condition.
+ * `"||"` : means "OR" condition.
+ * `"-"`  : means ["NOT" condition](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html#logical-not).
 
-配列の2番目以降の要素で示された検索条件について、1番目の要素で指定した論理演算子による論理演算を行います。
-例えば以下は、スクリプト構文形式の文字列による検索条件2つによるAND条件であると見なされ、「 `name` カラムの値が `"Alice"` と等しく、且つ `age` カラムの値が20以上である」という意味になります。
+Rest elements are logically operated based on the operator.
+For example this is an "AND" operated condition based on two conditions, means "the value of the `name` equals to `"Alice"`, and, the value of the `age` is `20` or more":
 
     ["&&", "name == 'Alice'", "age >= 20"]
 
-配列を入れ子にする事により、より複雑な検索条件を指定する事もできます。
-例えば以下は、「 `name` カラムの値が `"Alice"` と等しく、且つ `age` カラムの値が20以上であるが、 `job` カラムの値が `"engineer"` ではない」という意味になります。
+Nested array means more complex conditions. For example, this means "`name` equals to `"Alice"` and `age` is `20` or more, but `job` does not equal to `"engineer"`":
 
     [
       "-",
