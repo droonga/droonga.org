@@ -1,1 +1,5 @@
-/_site
+*.edit.po
+*.edit.po~
+*.pot
+/_site/
+/_po/*.po
