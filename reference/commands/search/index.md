@@ -733,60 +733,59 @@ Nested array means more complex conditions. For example, this means "`name` equa
 
 #### `sortBy` {#query-sortBy}
 
-概要
-: ソートの条件および取り出すレコードの範囲を指定します。
+Abstract
+: The sort and paging conditions.
 
-値
-: 以下のパターンのいずれかをとります。
+Value
+: Possible patterns:
   
-  1. カラム名の文字列の配列。
-  2. ソート条件と取り出すレコードの範囲を指定するハッシュ。 
+  1. An array of column name strings.
+  2. A hash including an array of sort column name strings and paging conditions.
 
-省略時の既定値
-: なし（ソートしない）。
+Default value
+: Nothing.
 
-レコードの範囲を指定した場合、指定に基づいてソートした結果から、さらに指定の範囲のレコードを取り出した結果がその後の処理の対象となります。
+If paging conditions are not specified, then all sorted results will appear as the sort result, for following operations and the output.
 
-##### 基本的なソート条件の指定 {#query-sortBy-array}
+##### Basic sort condition {#query-sortBy-array}
 
-ソート条件はカラム名の文字列の配列として指定します。
+Sort condition is given as an array of column name strings.
 
-Droongaはまず最初に指定したカラムの値でレコードをソートし、カラムの値が同じレコードが複数あった場合は2番目に指定したカラムの値でさらにソートする、という形で、すべての指定カラムの値に基づいてソートを行います。
+At first Droonga tries to sort records by the value of the first given sort column. After that, if there are multiple records which have same value for the column, then Drooga tries to sort them by the secondary given sort column. These processes are repeated for all given sort columns.
 
-ソート対象のカラムを1つだけ指定する場合であっても、必ず配列として指定する必要があります。
+You must specify sort columns as an array, even if there is only one column.
 
-ソート順序は指定したカラムの値での昇順となります。カラム名の前に `-` を加えると降順となります。
+Records are sorted by the value of the column value, in an ascending order. Results can be sorted in descending order if sort column name has a prefix `-`.
 
-例えば以下は、「 `name` の値で昇順にソートし、同じ値のレコードはさらに `age` の値で降順にソートする」という意味になります。
+For example, this condition means "sort records by the `name` at first in an ascending order, and sort them by their `age~ column in the descending order":
 
     ["name", "-age"]
 
-##### ソート結果から取り出すレコードの範囲の指定 {#query-sortBy-hash}
+##### Paging of sorted results {#query-sortBy-hash}
 
-ソートの指定において、以下の形式でソート結果から取り出すレコードの範囲を指定する事ができます。
+Paging conditions can be specified as a part of the hash of the sort condition, like:
 
     {
-      "keys"   : [基本的なソート条件の指定],
-      "offset" : ページングの起点,
-      "limit"  : 取り出すレコード数
+      "keys"   : [<Sort columns>],
+      "offset" : <Offset of paging>,
+      "limit"  : <Number of results to be extracted>
     }
 
 `keys`
-: ソート条件を[基本的なソート条件の指定](#query-sortBy-array)の形式で指定します。
-  このパラメータは省略できません。
+: Sort conditions same to [the basic sort condition](#query-sortBy-array).
+  This parameter is always required.
 
 `offset`
-: 取り出すレコードのページングの起点を示す `0` または正の整数。
+: An integer meaning the offset to the paging of sorted results. Possible values are `0` or larger integers.
   
-  このパラメータは省略可能で、省略時の既定値は `0` です。
+  This parameter is optional and the default value is `0`.
 
 `limit`
-: 取り出すレコード数を示す `-1` 、 `0` 、または正の整数。
-  `-1`を指定すると、すべてのレコードを取り出します。
+: An integer meaning the number of sorted results to be extracted. Possible values are `-1`, `0`, or larger integers.
   
-  このパラメータは省略可能で、省略時の既定値は `-1` です。
+  This parameter is optional and the default value is `-1`.
 
-例えば以下は、ソート結果の10番目から20番目までのレコードを取り出すという意味になります。
+For example, this condition extracts 10 sorted results from 11th to 20th:
 
     {
       "keys"   : ["name", "-age"],
@@ -794,22 +793,21 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
       "limit"  : 10
     }
 
-これらの指定を行った場合、取り出されたレコードのみがその後の処理の対象となります。
-そのため、 `output` における `offset` および `limit` の指定よりも高速に動作します。
+In most cases, paging in the sort condition is faster than paging by `output`'s `limit` and `output`, because this operation reduces the number of records.
 
 
 #### `groupBy` {#query-groupBy}
 
-概要
+Abstract
 : 処理対象のレコード群を集約する条件を指定します。
 
-値
+Value
 : 以下のパターンのいずれかをとります。
   
   1. 基本的な集約条件（カラム名または式）の文字列。
   2. 複雑な集約条件を指定するハッシュ。 
 
-省略時の既定値
+Default value
 : なし（集約しない）。
 
 集約条件を指定した場合、指定に基づいてレコードを集約した結果のレコードがその後の処理の対象となります。
@@ -820,16 +818,16 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
 
 基本的な集約条件では、処理対象のレコード群が持つカラムの名前を文字列として指定します。
 
-Droongaはそのカラムの値が同じであるレコードを集約し、カラムの値をキーとした新しいレコード群を結果として出力します。
+DroongaはそのカラムのValueが同じであるレコードを集約し、カラムのValueをキーとした新しいレコード群を結果として出力します。
 集約結果のレコードは以下のカラムを持ちます。
 
 `_key`
-: 集約前のレコード群における、集約対象のカラムの値です。
+: 集約前のレコード群における、集約対象のカラムのValueです。
 
 `_nsubrecs`
-: 集約前のレコード群における、集約対象のカラムの値が一致するレコードの総数を示す数値です。
+: 集約前のレコード群における、集約対象のカラムのValueが一致するレコードの総数を示す数Valueです。
 
-例えば以下は、`job` カラムの値でレコードを集約し、`job` カラムの値としてどれだけの種類が存在しているのか、および、各 `job` の値を持つレコードが何件存在しているのかを集約結果として取り出すという意味になります。
+例えば以下は、`job` カラムのValueでレコードを集約し、`job` カラムのValueとしてどれだけの種類が存在しているのか、および、各 `job` のValueを持つレコードが何件存在しているのかを集約結果として取り出すという意味になります。
 
     "job"
 
@@ -850,9 +848,9 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 : 集約結果の一部として出力する集約前のレコードの最大数を示す `0` または正の整数。
   `-1` は指定できません。
   
-  このパラメータは省略可能で、省略時の既定値は `0` です。
+  このパラメータは省略可能で、Default valueは `0` です。
 
-例えば以下は、`job` カラムの値でレコードを集約した結果について、各 `job` カラムの値を含んでいるレコードを代表として1件ずつ取り出すという意味になります。
+例えば以下は、`job` カラムのValueでレコードを集約した結果について、各 `job` カラムのValueを含んでいるレコードを代表として1件ずつ取り出すという意味になります。
 
     {
       "key"            : "job",
@@ -862,18 +860,18 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 集約結果のレコードは、[基本的な集約条件の指定](#query-groupBy-string)の集約結果のレコード群が持つすべてのカラムに加えて、以下のカラムを持ちます。
 
 `_subrecs`
-: 集約前のレコード群における、集約対象のカラムの値が一致するレコードの配列。
+: 集約前のレコード群における、集約対象のカラムのValueが一致するレコードの配列。
 
 
 #### `output` {#query-output}
 
-概要
+Abstract
 : 処理結果の出力形式を指定します。
 
-値
+Value
 : 出力形式を指定するハッシュ。 
 
-省略時の既定値
+Default value
 : なし（結果を出力しない）。
 
 指定を省略した場合、その検索クエリの検索結果はレスポンスには出力されません。
@@ -899,65 +897,65 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
    * `"attributes"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
    * `"records"`
   
-  このパラメータは省略可能で、省略時の初期値はありません（結果を何も出力しません）。
+  このパラメータは省略可能で、省略時の初期Valueはありません（結果を何も出力しません）。
 
 `format`
 : 検索結果のレコードの出力スタイルを指定します。
-  以下のいずれかの値（文字列）を取ります。
+  以下のいずれかのValue（文字列）を取ります。
   
    * `"simple"`  : 個々のレコードを配列として出力します。
    * `"complex"` : 個々のレコードをハッシュとして出力します。
   
-  このパラメータは省略可能で、省略時の初期値は `"simple"` です。
+  このパラメータは省略可能で、省略時の初期Valueは `"simple"` です。
 
 `offset`
 : 出力するレコードのページングの起点を示す `0` または正の整数。
   
-  このパラメータは省略可能で、省略時の既定値は `0` です。
+  このパラメータは省略可能で、Default valueは `0` です。
 
 `limit`
 : 出力するレコード数を示す `-1` 、 `0` 、または正の整数。
   `-1`を指定すると、すべてのレコードを出力します。
   
-  このパラメータは省略可能で、省略時の既定値は `0` です。
+  このパラメータは省略可能で、Default valueは `0` です。
 
 `attributes`
-: レコードのカラムの値について、出力形式を配列で指定します。
-  個々のカラムの値の出力形式は以下のいずれかで指定します。
+: レコードのカラムのValueについて、出力形式を配列で指定します。
+  個々のカラムのValueの出力形式は以下のいずれかで指定します。
   
    * カラム名の文字列。例は以下の通りです。
-     * `"name"` : `name` カラムの値をそのまま `name` カラムとして出力します。
-     * `"age"`  : `age` カラムの値をそのまま `age` カラムとして出力します。
+     * `"name"` : `name` カラムのValueをそのまま `name` カラムとして出力します。
+     * `"age"`  : `age` カラムのValueをそのまま `age` カラムとして出力します。
    * 詳細な出力形式指定のハッシュ。例は以下の通りです。
-     * 以下の例は、 `name` カラムの値を `realName` カラムとして出力します。
+     * 以下の例は、 `name` カラムのValueを `realName` カラムとして出力します。
        
            { "label" : "realName", "source" : "name" }
        
-     * 以下の例は、 `name` カラムの値について、全文検索にヒットした位置を強調したHTMLコード片の文字列を `html` カラムとして出力します。
+     * 以下の例は、 `name` カラムのValueについて、全文検索にヒットした位置を強調したHTMLコード片の文字列を `html` カラムとして出力します。
        
            { "label" : "html", "source": "snippet_html(name)" }
        
-     * 以下の例は、`country` カラムについて、すべてのレコードの当該カラムの値が文字列 `"Japan"` であるものとして出力します。
+     * 以下の例は、`country` カラムについて、すべてのレコードの当該カラムのValueが文字列 `"Japan"` であるものとして出力します。
        （存在しないカラムを実際に作成する前にクライアント側の挙動を確認したい場合などに、この機能が利用できます。）
        
            { "label" : "country", "source" : "'Japan'" }
        
-     * 以下の例は、集約前の元のレコードの総数を、集約後のレコードの `"itemsCount"` カラムの値として出力します。
+     * 以下の例は、集約前の元のレコードの総数を、集約後のレコードの `"itemsCount"` カラムのValueとして出力します。
        
            { "label" : "itemsCount", "source" : "_nsubrecs", }
        
-     * 以下の例は、集約前の元のレコードの配列を、集約後のレコードの `"items"` カラムの値として出力します。
+     * 以下の例は、集約前の元のレコードの配列を、集約後のレコードの `"items"` カラムのValueとして出力します。
        `"attributes"` は、この項の説明と同じ形式で指定します。
        
            { "label" : "items", "source" : "_subrecs",
              "attributes": ["name", "price"] }
   
-  このパラメータは省略可能で、省略時の既定値はありません（カラムを何も出力しません）。
+  このパラメータは省略可能で、Default valueはありません（カラムを何も出力しません）。
 
 
 ## レスポンス {#response}
 
-このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果を値とした、以下のようなハッシュを返却します。
+このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果をValueとした、以下のようなハッシュを返却します。
 
     {
       "検索クエリ1の名前" : {
@@ -984,12 +982,12 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 ### `elapsedTime` {#response-query-elapsedTime}
 
-検索にかかった時間の数値（単位：ミリ秒）です。
+検索にかかった時間の数Value（単位：ミリ秒）です。
 
 ### `count` {#response-query-count}
 
-検索条件に該当するレコードの総数の数値です。
-この値は、検索クエリの [`sortBy`](#query-sortBy) や [`output`](#query-output) における `offset` および `limit` の指定の影響を受けません。
+検索条件に該当するレコードの総数の数Valueです。
+このValueは、検索クエリの [`sortBy`](#query-sortBy) や [`output`](#query-output) における `offset` および `limit` の指定の影響を受けません。
 
 ### `attributes` および `records` {#response-query-attributes-and-records}
 
@@ -1016,8 +1014,8 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
         ...
       ],
       "records"     : [
-        [レコード1のカラム1の値, レコード1のカラム2の値, ...],
-        [レコード2のカラム1の値, レコード2のカラム2の値, ...],
+        [レコード1のカラム1のValue, レコード1のカラム2のValue, ...],
+        [レコード2のカラム1のValue, レコード2のカラム2のValue, ...],
         ...
       ]
     }
@@ -1037,12 +1035,12 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 : カラムの出力名の文字列です。[検索クエリの `output`](#query-output) における `attributes` の指定内容に基づきます。
 
 `type`
-: カラムの値の型を示す文字列です。
-  値は[Groonga のプリミティブなデータ型](http://groonga.org/ja/docs/reference/types.html)の名前か、もしくはテーブル名です。
+: カラムのValueの型を示す文字列です。
+  Valueは[Groonga のプリミティブなデータ型](http://groonga.org/ja/docs/reference/types.html)の名前か、もしくはテーブル名です。
 
 `vector`
-: カラムが[ベクター型](http://groonga.org/ja/docs/tutorial/data.html#vector-types)かどうかを示す真偽値です。
-  以下のいずれかの値をとります。
+: カラムが[ベクター型](http://groonga.org/ja/docs/tutorial/data.html#vector-types)かどうかを示す真偽Valueです。
+  以下のいずれかのValueをとります。
   
    * `true`  : カラムはベクター型である。
    * `false` : カラムはベクター型ではない（スカラー型である）。
@@ -1051,9 +1049,9 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 出力されたレコードの配列です。
 
-個々のレコードは配列の形をとり、[検索クエリの `output`](#query-output) における `attributes` で指定された各カラムの値を同じ順番で含みます。
+個々のレコードは配列の形をとり、[検索クエリの `output`](#query-output) における `attributes` で指定された各カラムのValueを同じ順番で含みます。
 
-[日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムの値は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
+[日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムのValueは、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
 
 
 #### 複雑な形式のレスポンス {#response-query-complex-attributes-and-records}
@@ -1072,11 +1070,11 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
         ...
       ],
       "records"     : [
-        { "カラム1" : "レコード1のカラム1の値",
-          "カラム2" : "レコード1のカラム2の値",
+        { "カラム1" : "レコード1のカラム1のValue",
+          "カラム2" : "レコード1のカラム2のValue",
           ...                                   },
-        { "カラム1" : "レコード2のカラム1の値",
-          "カラム2" : "レコード2のカラム2の値",
+        { "カラム1" : "レコード2のカラム1のValue",
+          "カラム2" : "レコード2のカラム2のValue",
           ...                                   },
         ...
       ]
@@ -1089,17 +1087,17 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 ※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
 
-出力されたレコードのカラムについての情報を含むハッシュで、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名がキー、カラムの情報が値となります。
+出力されたレコードのカラムについての情報を含むハッシュで、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名がキー、カラムの情報がValueとなります。
 
 個々のカラムの情報はハッシュの形をとり、以下の情報を持ちます。
 
 `type`
-: カラムの値の型を示す文字列です。
-  値は[Groonga のプリミティブなデータ型](http://groonga.org/ja/docs/reference/types.html)の名前か、もしくはテーブル名です。
+: カラムのValueの型を示す文字列です。
+  Valueは[Groonga のプリミティブなデータ型](http://groonga.org/ja/docs/reference/types.html)の名前か、もしくはテーブル名です。
 
 `vector`
-: カラムが[ベクター型](http://groonga.org/ja/docs/tutorial/data.html#vector-types)かどうかを示す真偽値です。
-  以下のいずれかの値をとります。
+: カラムが[ベクター型](http://groonga.org/ja/docs/tutorial/data.html#vector-types)かどうかを示す真偽Valueです。
+  以下のいずれかのValueをとります。
   
    * `true`  : カラムはベクター型である。
    * `false` : カラムはベクター型ではない（スカラー型である）。
@@ -1108,7 +1106,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 出力されたレコードの配列です。
 
-個々のレコードは、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名をキー、カラムの値を値としたハッシュとなります。
+個々のレコードは、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名をキー、カラムのValueをValueとしたハッシュとなります。
 
-[日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムの値は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
+[日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムのValueは、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
 
