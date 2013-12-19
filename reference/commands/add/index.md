@@ -138,8 +138,8 @@ Abstract
 Value
 : A name string of an existing table.
 
-Required
-: Yes.
+Default value
+: Nothing. This is a required parameter.
 
 ### `key` {#parameter-key}
 
@@ -149,8 +149,8 @@ Abstract
 Value
 : A primary key string.
 
-Required
-: Yes, if the table has a primary key column. Otherwise no.
+Default value
+: Nothing. This is required if the table has a primary key column. Otherwise, this is ignored.
 
 Existing column values will be updated, if there is an existing record for the key.
 
@@ -163,9 +163,6 @@ Abstract
 
 Value
 : A hash. Keys of the hash are column names, values of the hash are new values for each column.
-
-Required
-: No. This is optional.
 
 Default value
 : `null`
