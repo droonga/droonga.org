@@ -564,102 +564,99 @@ You can use search queries just internally, without output. For example, the fol
 
 #### `timeout` {#parameter-timeout}
 
-※註：このParametersはバージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
+*Note: This parameter is not implemented yet on the version {{ site.droonga_version }}.
 
 Abstract
-: 検索処理がタイムアウトするまでの時間を指定します。
+: Threshold to time out for the request.
 
-値
-: タイムアウトするまでの時間の数値（単位：ミリ秒）。
+Value
+: An integer in milliseconds.
 
-指定の省略
-: 可能。
+Required
+: No. This is optional.
 
-省略時の初期値
-: 10000（10秒）
+Default value
+: `10000` (10 seconds)
 
-指定した時間以内に Droonga Engine が検索の処理を完了できなかった場合、Droonga はその時点で検索処理を打ち切り、エラーを返却します。
-クライアントは、この時間を過ぎた後は検索処理に関するリソースを解放して問題ありません。
+Droonga Engine will return an error response instead of a search result, if the search operation take too much time, longer than the given `timeout`.
+Clients may free resources for the search operation after the timeout.
 
 #### `queries` {#parameter-queries}
 
 Abstract
-: 検索クエリとして、検索の条件と出力の形式を指定します。
+: Search queries.
 
-値
-: 個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の内容を値としたハッシュ。
+Value
+: A hash. Keys of the hash are query names, values of the hash are [queries (hashes of query parameters)](#query-parameters).
 
-指定の省略
-: 不可能。
+Required
+: Yes.
 
-`search` は、複数の検索クエリを一度に受け取る事ができます。
+You can put multiple search queries in a `search` request.
 
-バージョン {{ site.droonga_version }} ではすべての検索クエリの結果を一度にレスポンスとして返却する動作のみ対応していますが、将来的には、それぞれの検索クエリの結果を分割して受け取る（結果が出た物からバラバラに受け取る）動作にも対応する予定です。
+On the {{ site.droonga_version }}, all search results for a request are returned in one time. In the future, as an optional behaviour, each result can be returned as separated messages progressively.
 
-### 個々の検索クエリのParameters {#query-parameters}
+### Parameters of each query {#query-parameters}
 
 #### `source` {#query-source}
 
 Abstract
-: 検索対象とするデータソースを指定します。
+: The source of the search operation.
 
-値
-: テーブル名の文字列、または結果を参照する別の検索クエリの名前の文字列。
+Value
+: A name string of an existing table, or a name of another query.
 
-指定の省略
-: 不可能。
+Default value
+: Nothing. This is a required parameter.
 
-別の検索クエリの処理結果をデータソースとして指定する事により、ファセット検索などを行う事ができます。
+You can do a facet search, specifying a name of another search query as the source.
 
-なお、その場合の各検索クエリの実行順（依存関係）は Droonga が自動的に解決します。
-依存関係の順番通りに各検索クエリを並べて記述する必要はありません。
+The order of operations is automatically resolved by Droonga itself.
+You don't have to write queries in the order they should be operated in.
 
 #### `condition` {#query-condition}
 
 Abstract
-: 検索の条件を指定します。
+: Conditions to search records from the source.
 
-値
-: 以下のパターンのいずれかをとります。
+Value
+: Possible pattenrs:
   
-  1. [スクリプトSyntax](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)形式の文字列。
-  2. [スクリプトSyntax](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)形式の文字列を含むハッシュ。
-  3. [クエリーSyntax](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html)形式の文字列を含むハッシュ。
-  4. 1〜3および演算子の文字列の配列。 
+  1. A [script syntax](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html) string.
+  2. A hash including [script syntax](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html) string.
+  3. A hash including [query syntax](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html) string.
+  4. An array of conditions from 1 to 3 and an operator.
 
-指定の省略
-: 可能。
+Default value
+: Nothing.
 
-省略時の既定値
-: なし（検索しない）。
+If no condition is given, then all records in the source will appear as the search result, for following operations and the output.
 
-検索条件を指定した場合、検索条件に該当したすべてのレコードがその後の処理の対象となります。
-検索条件を指定しなかった場合、データソースに含まれるすべてのレコードがその後の処理の対象となります。
+##### Search condition in a Script syntax string {#query-condition-script-syntax-string}
 
-##### スクリプトSyntax形式の文字列による検索条件 {#query-condition-script-syntax-string}
-
-以下のような形式の文字列で検索条件を指定します。
+This is a sample condition in the script syntax:
 
     "name == 'Alice' && age >= 20"
 
-上記の例は「 `name` カラムの値が `"Alice"` と等しく、且つ `age` カラムの値が20以上である」という意味になります。
+It means "the value of the `name` column equals to `"Alice"`, and the value of the `age` column is `20` or more".
 
-詳細は[Groonga のスクリプトSyntaxのリファレンス](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html)を参照して下さい。
+See [the reference document of the script syntax on Groonga](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html) for more details.
 
-##### スクリプトSyntax形式の文字列を含むハッシュによる検索条件 {#query-condition-script-syntax-hash}
+##### Search condition in a hash based on the Script syntax {#query-condition-script-syntax-hash}
 
-[スクリプトSyntax形式の文字列による検索条件](#query-condition-script-syntax-string)をベースとした、以下のような形式のハッシュで検索条件を指定します。
+In this pattern, you'll specify a search condition as a hash based on a 
+[script syntax string](#query-condition-script-syntax-string), like:
 
     {
       "script"      : "name == 'Alice' && age >= 20",
       "allowUpdate" : true
     }
 
-（詳細未稿：仕様が未確定、動作が不明、未実装のため）
+(*Note: under construction because the specification of the `allowUpdate` parameter is not defined yet.)
 
-##### クエリーSyntax形式の文字列を含むハッシュ {#query-condition-query-syntax-hash}
+##### Search condition in a hash based on the Query syntax {#query-condition-query-syntax-hash}
 
-以下のような形式のハッシュで検索条件を指定します。
+In this pattern, you'll specify a search condition as a hash like:
 
     {
       "query"                    : "Alice",
@@ -671,39 +668,37 @@ Abstract
     }
 
 `query`
-: クエリを文字列で指定します。
-  詳細は[Groonga のクエリーSyntaxの仕様](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html)を参照して下さい。
-  このParametersは省略できません。
+: The main search query string. For example, a text posted via a search box in a webpage.
+  See [the document of the query syntax in Groonga](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html) for more details.
+  This parameter is always required.
 
 `matchTo`
-: 検索対象のカラムを、カラム名の文字列またはその配列で指定します。
-  カラム名の後に `name * 2` のような指定を加える事で、重み付けができます。
-  このParametersは省略可能で、省略時の初期値は `"_key"` です。
-  <!-- ↑要検証！ -->
+: An array of strings, meaning the list of column names to be searched by default. If you specify no column name in the `query`, it will work as a search query for columns specified by this parameter.
+  You can apply weighting for each column, like `name * 2`.
+  This parameter is optional.
 
 `defaultOperator`
-: `query` に複数のクエリが列挙されている場合の既定の論理演算の条件を指定します。
-  以下のいずれかの文字列を指定します。
+: The default logical operator string for multiple queries listed in the `query`. Possible values:
   
-   * `"&&"` : AND条件と見なす。
-   * `"||"` : OR条件と見なす。
-   * `"-"`  : [論理否定](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html#logical-not)条件と見なす。
+   * `"&&"` : means "AND" condition.
+   * `"||"` : means "OR" condition.
+   * `"-"`  : means ["NOT" condition](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html#logical-not).
   
-  このParametersは省略可能で、省略時の初期値は `"&&"` です。
+  This parameter is optional, the default value is `"&&"`.
 
 `allowPragma`
-: `query` の先頭において、`*E-1` のようなプラグマの指定を許容するかどうかを真偽値で指定します。
-  このParametersは省略可能で、省略時の初期値は `true` （プラグマの指定を許容する）です。
+: A boolean value to allow (`true`) or disallow (`false`) to use "pragma" like `*E-1`, on the head of the `query`.
+  This parameter is optional, the default value is `true`.
 
 `allowColumn`
-: `query` において、カラム名を指定した `name:Alice` のような書き方を許容するかどうかを真偽値で指定します。
-  このParametersは省略可能で、省略時の初期値は `true` （カラム名の指定を許容する）です。
+: A boolean value to allow (`true`) or disallog (`false`) to specify column name for each query in the `query`, like `name:Alice`.
+  This parameter is optional, the default value is `true`.
 
 `matchEscalationThreshold`
 : 検索方法をエスカレーションするかどうかを決定するための閾値を指定します。
   インデックスを用いた全文検索のヒット件数がこの閾値以下であった場合は、非分かち書き検索、部分一致検索へエスカレーションします。
   詳細は [Groonga の検索の仕様の説明](http://groonga.org/ja/docs/spec/search.html)を参照して下さい。
-  このParametersは省略可能で、省略時の初期値は `0` です。
+  このパラメータは省略可能で、省略時の初期値は `0` です。
 
 
 ##### 配列による検索条件 {#query-condition-array}
@@ -724,7 +719,7 @@ Abstract
  * `"-"`  : [論理否定](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html#logical-not)条件と見なす。
 
 配列の2番目以降の要素で示された検索条件について、1番目の要素で指定した論理演算子による論理演算を行います。
-例えば以下は、スクリプトSyntax形式の文字列による検索条件2つによるAND条件であると見なされ、「 `name` カラムの値が `"Alice"` と等しく、且つ `age` カラムの値が20以上である」という意味になります。
+例えば以下は、スクリプト構文形式の文字列による検索条件2つによるAND条件であると見なされ、「 `name` カラムの値が `"Alice"` と等しく、且つ `age` カラムの値が20以上である」という意味になります。
 
     ["&&", "name == 'Alice'", "age >= 20"]
 
@@ -739,7 +734,7 @@ Abstract
 
 #### `sortBy` {#query-sortBy}
 
-Abstract
+概要
 : ソートの条件および取り出すレコードの範囲を指定します。
 
 値
@@ -779,18 +774,18 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
 
 `keys`
 : ソート条件を[基本的なソート条件の指定](#query-sortBy-array)の形式で指定します。
-  このParametersは省略できません。
+  このパラメータは省略できません。
 
 `offset`
 : 取り出すレコードのページングの起点を示す `0` または正の整数。
   
-  このParametersは省略可能で、省略時の既定値は `0` です。
+  このパラメータは省略可能で、省略時の既定値は `0` です。
 
 `limit`
 : 取り出すレコード数を示す `-1` 、 `0` 、または正の整数。
   `-1`を指定すると、すべてのレコードを取り出します。
   
-  このParametersは省略可能で、省略時の既定値は `-1` です。
+  このパラメータは省略可能で、省略時の既定値は `-1` です。
 
 例えば以下は、ソート結果の10番目から20番目までのレコードを取り出すという意味になります。
 
@@ -806,7 +801,7 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
 
 #### `groupBy` {#query-groupBy}
 
-Abstract
+概要
 : 処理対象のレコード群を集約する条件を指定します。
 
 値
@@ -850,13 +845,13 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 `key`
 : [基本的な集約条件の指定](#query-groupBy-string)の形式による、集約条件を指定する文字列。
-  このParametersは省略できません。
+  このパラメータは省略できません。
 
 `maxNSubRecords`
 : 集約結果の一部として出力する集約前のレコードの最大数を示す `0` または正の整数。
   `-1` は指定できません。
   
-  このParametersは省略可能で、省略時の既定値は `0` です。
+  このパラメータは省略可能で、省略時の既定値は `0` です。
 
 例えば以下は、`job` カラムの値でレコードを集約した結果について、各 `job` カラムの値を含んでいるレコードを代表として1件ずつ取り出すという意味になります。
 
@@ -905,7 +900,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
    * `"attributes"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
    * `"records"`
   
-  このParametersは省略可能で、省略時の初期値はありません（結果を何も出力しません）。
+  このパラメータは省略可能で、省略時の初期値はありません（結果を何も出力しません）。
 
 `format`
 : 検索結果のレコードの出力スタイルを指定します。
@@ -914,18 +909,18 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
    * `"simple"`  : 個々のレコードを配列として出力します。
    * `"complex"` : 個々のレコードをハッシュとして出力します。
   
-  このParametersは省略可能で、省略時の初期値は `"simple"` です。
+  このパラメータは省略可能で、省略時の初期値は `"simple"` です。
 
 `offset`
 : 出力するレコードのページングの起点を示す `0` または正の整数。
   
-  このParametersは省略可能で、省略時の既定値は `0` です。
+  このパラメータは省略可能で、省略時の既定値は `0` です。
 
 `limit`
 : 出力するレコード数を示す `-1` 、 `0` 、または正の整数。
   `-1`を指定すると、すべてのレコードを出力します。
   
-  このParametersは省略可能で、省略時の既定値は `0` です。
+  このパラメータは省略可能で、省略時の既定値は `0` です。
 
 `attributes`
 : レコードのカラムの値について、出力形式を配列で指定します。
@@ -958,7 +953,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
            { "label" : "items", "source" : "_subrecs",
              "attributes": ["name", "price"] }
   
-  このParametersは省略可能で、省略時の既定値はありません（カラムを何も出力しません）。
+  このパラメータは省略可能で、省略時の既定値はありません（カラムを何も出力しません）。
 
 
 ## レスポンス {#response}
