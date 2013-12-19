@@ -1,0 +1,45 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Kouhei Sutou <kou@clear-code.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 22:17+0900\n"
+"PO-Revision-Date: 2013-12-19 14:53+0900\n"
+"Last-Translator: Kouhei Sutou <kou@clear-code.com>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"---\n"
+"title: Commands\n"
+"layout: documents\n"
+"---"
+msgstr ""
+
+msgid "Here are available commands"
+msgstr ""
+
+msgid "## Built-in commands"
+msgstr ""
+
+msgid ""
+" * [search](search/): Searches data\n"
+" * [add](add/): Adds a record"
+msgstr ""
+
+msgid "## Groonga compatible commands"
+msgstr ""
+
+msgid ""
+" * [select](select/)\n"
+" * [table_create](table-create/)\n"
+" * [column_create](column-create/)"
+msgstr ""

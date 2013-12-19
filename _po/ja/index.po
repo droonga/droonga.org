@@ -1,0 +1,87 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Kouhei Sutou <kou@clear-code.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 22:17+0900\n"
+"PO-Revision-Date: 2013-12-19 14:53+0900\n"
+"Last-Translator: Kouhei Sutou <kou@clear-code.com>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"---\n"
+"layout: default\n"
+"---"
+msgstr ""
+
+msgid ""
+"<div class=\"jumbotron\">\n"
+"<h1>Droonga</h1>\n"
+"<p>A scalable data processing engine</p>\n"
+"<p><a class=\"btn btn-primary btn-lg\" role=\"button\" href=\"overview/\">Learn more"
+" »</a></p>\n"
+"</div>"
+msgstr ""
+
+msgid "## About Droonga"
+msgstr ""
+
+msgid ""
+"Droonga is a scalable data processing engine. Droonga uses stream oriented pro"
+"cessing model. Droonga processes data by pipeline. Many operations such as sea"
+"rch, update, group are done in pipeline. The processing model provides flexibi"
+"lity and extensibility. Droonga can also process complex operations by mixing "
+"operations. Users can add custom operations to Droonga as Ruby plugins."
+msgstr ""
+
+msgid "See [overview](overview/) for more details."
+msgstr ""
+
+msgid "See [roadmap](roadmap/) for the future Droonga."
+msgstr ""
+
+msgid "## Getting started"
+msgstr ""
+
+msgid ""
+"Try [tutorial](tutorial/) to know about Droonga after you understand about Dro"
+"onga. If you don't read [overview](overview/) yet, read it before trying the t"
+"utorial."
+msgstr ""
+
+msgid "## Documentations"
+msgstr ""
+
+msgid "The following documentations will help you to use Droonga more effectively:"
+msgstr ""
+
+msgid ""
+" * [Install](install/) describes how to install Droonga.\n"
+" * [Reference manual](reference/) describes about specifications.\n"
+" * [Contribution](contribution/) describes how to contribute Droonga project a"
+"nd join Droonga development.\n"
+" * [Related projects](related-projects/) introduces related projects."
+msgstr ""
+
+msgid "## The latest news"
+msgstr ""
+
+msgid ""
+"<ul class=\"posts\">\n"
+"  {% for post in site.posts %}\n"
+"    <li>\n"
+"      <a href=\"{{ post.url }}\">{{ post.title }}</a>\n"
+"      <span class=\"date\">({{ post.date | date: \"%Y-%m-%d\" }})</span>\n"
+"    </li>\n"
+"  {% endfor %}\n"
+"</ul>"
+msgstr ""
