@@ -622,9 +622,9 @@ Abstract
 Value
 : Possible pattenrs:
   
-  1. A [script syntax](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html) string.
-  2. A hash including [script syntax](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html) string.
-  3. A hash including [query syntax](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html) string.
+  1. A [script syntax](http://groonga.org/docs/reference/grn_expr/script_syntax.html) string.
+  2. A hash including [script syntax](http://groonga.org/docs/reference/grn_expr/script_syntax.html) string.
+  3. A hash including [query syntax](http://groonga.org/docs/reference/grn_expr/query_syntax.html) string.
   4. An array of conditions from 1 to 3 and an operator.
 
 Default value
@@ -640,7 +640,7 @@ This is a sample condition in the script syntax:
 
 It means "the value of the `name` column equals to `"Alice"`, and the value of the `age` column is `20` or more".
 
-See [the reference document of the script syntax on Groonga](http://groonga.org/ja/docs/reference/grn_expr/script_syntax.html) for more details.
+See [the reference document of the script syntax on Groonga](http://groonga.org/docs/reference/grn_expr/script_syntax.html) for more details.
 
 ##### Search condition in a hash based on the Script syntax {#query-condition-script-syntax-hash}
 
@@ -669,7 +669,7 @@ In this pattern, you'll specify a search condition as a hash like:
 
 `query`
 : A string to specify the main search query. In most cases, a text posted via a search box in a webpage will be given.
-  See [the document of the query syntax in Groonga](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html) for more details.
+  See [the document of the query syntax in Groonga](http://groonga.org/docs/reference/grn_expr/query_syntax.html) for more details.
   This parameter is always required.
 
 `matchTo`
@@ -682,7 +682,7 @@ In this pattern, you'll specify a search condition as a hash like:
   
    * `"&&"` : means "AND" condition.
    * `"||"` : means "OR" condition.
-   * `"-"`  : means ["NOT" condition](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html#logical-not).
+   * `"-"`  : means ["NOT" condition](http://groonga.org/docs/reference/grn_expr/query_syntax.html#logical-not).
   
   This parameter is optional, the default value is `"&&"`.
 
@@ -697,7 +697,7 @@ In this pattern, you'll specify a search condition as a hash like:
 `matchEscalationThreshold`
 : An integer to specify the threshold to escalate search methods.
   When the number of search results by indexes is smaller than this value, then Droonga does the search based on partial matching, etc.
-  See also [the specification of the search behavior of Groonga](http://groonga.org/ja/docs/spec/search.html) for more details.
+  See also [the specification of the search behavior of Groonga](http://groonga.org/docs/spec/search.html) for more details.
   This parameter is optional, the default value is `0`.
 
 
@@ -716,7 +716,7 @@ The fist element of the array is an operator string. Possible values:
 
  * `"&&"` : means "AND" condition.
  * `"||"` : means "OR" condition.
- * `"-"`  : means ["NOT" condition](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html#logical-not).
+ * `"-"`  : means ["NOT" condition](http://groonga.org/docs/reference/grn_expr/query_syntax.html#logical-not).
 
 Rest elements are logically operated based on the operator.
 For example this is an "AND" operated condition based on two conditions, means "the value of the `name` equals to `"Alice"`, and, the value of the `age` is `20` or more":
@@ -920,10 +920,10 @@ An output definition is given as a hash like:
 : Definition of columns to be exported for each record.
   Possible patterns:
   
-   1. An array of attribute definitions.
-   2. A hash of attribute definitions.
+   1. An array of column definitions.
+   2. A hash of column definitions.
   
-  Each attribute can be defined in one of following styles:
+  Each column can be defined in one of following styles:
   
    * A name string of a column.
      * `"name"` : Exports the value of the `name` column, as is.
@@ -952,7 +952,7 @@ An output definition is given as a hash like:
            { "label" : "items", "source" : "_subrecs",
              "attributes": ["name", "price"] }
   
-  An array of attribute definitions can contain any type definition described above, like:
+  An array of column definitions can contain any type definition described above, like:
   
       [
         "name",
@@ -960,7 +960,7 @@ An output definition is given as a hash like:
         { "label" : "realName", "source" : "name" }
       ]
   
-  A hash of attribute definitions can contain any type definition described above except `label` of hashes, because keys of the hash means `label` of each attribute, like:
+  A hash of column definitions can contain any type definition described above except `label` of hashes, because keys of the hash means `label` of each column, like:
   
       {
         "name"     : "name",
@@ -969,7 +969,7 @@ An output definition is given as a hash like:
         "country"  : { "source" : "'Japan'" }
       }
   
-  This parameter is optional, there is no default value. No column will be exported if no attribute is specified.
+  This parameter is optional, there is no default value. No column will be exported if no column is specified.
 
 
 ## Resposnes {#response}
@@ -1042,39 +1042,38 @@ A search result with `"simple"` as the value of `output`'s `format` will be retu
       ]
     }
 
-これは、受け取ったデータの扱いやすさよりも、データの転送量を小さく抑える事を優先する出力形式です。
-大量のレコードを検索結果として受け取る場合や、多量のアクセスが想定される場合などに適しています。
+This format is designed to reduce traffic with small responses, instead of useful rich data format.
+Recommended for cases when the response can include too much records, or the service can accept too much requests.
 
 ##### `attributes` {#response-query-simple-attributes}
 
-※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
-  
-出力されたレコードのカラムについての情報の配列で、[検索クエリの `output`](#query-output) における `attributes` で指定された順番で個々のカラムの情報を含みます。
+*Note: This is not implemented on the version {{ site.droonga_version }}. This information is never exported.
 
-個々のカラムの情報はハッシュの形をとり、以下の情報を持ちます。
+An array of column informations for each exported search result, ordered by [the `output` parameter](#query-output)'s `attributes`.
+
+Each column information is returned as a hash with following keys:
 
 `name`
-: カラムの出力名の文字列です。[検索クエリの `output`](#query-output) における `attributes` の指定内容に基づきます。
+: A string meaning the name (label) of the exported column. It is just same to labels defined in [the `output` parameter](#query-output)'s `attributes`.
 
 `type`
-: カラムのValueの型を示す文字列です。
-  Valueは[Groonga のプリミティブなデータ型](http://groonga.org/ja/docs/reference/types.html)の名前か、もしくはテーブル名です。
+: A string meaning the value type of the column.
+  The type is indicated as one of [Groonga's primitive data formats](http://groonga.org/docs/reference/types.html), or a name fo an existing table for referring columns.
 
 `vector`
-: カラムが[ベクター型](http://groonga.org/ja/docs/tutorial/data.html#vector-types)かどうかを示す真偽Valueです。
-  以下のいずれかのValueをとります。
+: A boolean value meaning it is a [vector column](http://groonga.org/docs/tutorial/data.html#vector-types) or not.
+  Possible values:
   
-   * `true`  : カラムはベクター型である。
-   * `false` : カラムはベクター型ではない（スカラー型である）。
+   * `true`  : It is a vector column.
+   * `false` : It is not a vector column, but a scalar column.
 
 ##### `records` {#response-query-simple-records}
 
-出力されたレコードの配列です。
+An array of exported search result records.
 
-個々のレコードは配列の形をとり、[検索クエリの `output`](#query-output) における `attributes` で指定された各カラムのValueを同じ順番で含みます。
+Each record is exported as an array of column values, ordered by the [`output` parameter](#query-output)'s `attributes`.
 
-[日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムのValueは、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
-
+A value of [date time type](http://groonga.org/docs/tutorial/data.html#date-and-time-type) column will be returned as a string formatted in the [W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats"), with the time zone.
 
 #### Complex format result {#response-query-complex-attributes-and-records}
 
@@ -1102,33 +1101,33 @@ A search result with `"complex"` as the value of `output`'s `format` will be ret
       ]
     }
 
-これは、データの転送量を小さく抑える事よりも、受け取ったデータの扱いやすさを優先する出力形式です。
-検索結果の件数が小さい事があらかじめ分かっている場合や、管理機能などのそれほど多量のアクセスが見込まれない場合などに適しています。
+This format is designed to keep human readability, instead of less traffic.
+Recommended for small traffic cases like development, debugging, features only for administrators, and so on.
 
 ##### `attributes` {#response-query-complex-attributes}
 
-※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
+*Note: This is not implemented on the version {{ site.droonga_version }}. This information is never exported.
 
-出力されたレコードのカラムについての情報を含むハッシュで、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名がキー、カラムの情報がValueとなります。
+An hash of column informations for each exported search result. Keys of the hash are column names defined by [the `output` parameter](#query-output)'s `attributes`, values are informations of each column.
 
-個々のカラムの情報はハッシュの形をとり、以下の情報を持ちます。
+Each column information is returned as a hash with following keys:
 
 `type`
-: カラムのValueの型を示す文字列です。
-  Valueは[Groonga のプリミティブなデータ型](http://groonga.org/ja/docs/reference/types.html)の名前か、もしくはテーブル名です。
+: A string meaning the value type of the column.
+  The type is indicated as one of [Groonga's primitive data formats](http://groonga.org/docs/reference/types.html), or a name fo an existing table for referring columns.
 
 `vector`
-: カラムが[ベクター型](http://groonga.org/ja/docs/tutorial/data.html#vector-types)かどうかを示す真偽Valueです。
-  以下のいずれかのValueをとります。
+: A boolean value meaning it is a [vector column](http://groonga.org/docs/tutorial/data.html#vector-types) or not.
+  Possible values:
   
-   * `true`  : カラムはベクター型である。
-   * `false` : カラムはベクター型ではない（スカラー型である）。
+   * `true`  : It is a vector column.
+   * `false` : It is not a vector column, but a scalar column.
 
 ##### `records` {#response-query-complex-records}
 
-出力されたレコードの配列です。
 
-個々のレコードは、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名をキー、カラムのValueをValueとしたハッシュとなります。
+An array of exported search result records.
 
-[日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムのValueは、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
+Each record is exported as a hash. Keys of the hash are column names defined by [`output` parameter](#query-output)'s `attributes`, values are column values.
 
+A value of [date time type](http://groonga.org/docs/tutorial/data.html#date-and-time-type) column will be returned as a string formatted in the [W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats"), with the time zone.
