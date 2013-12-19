@@ -972,69 +972,72 @@ An output definition is given as a hash like:
   This parameter is optional, there is no default value. No column will be exported if no attribute is specified.
 
 
-## レスポンス {#response}
+## Resposnes {#response}
 
-このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果をValueとした、以下のようなハッシュを返却します。
+This command returns a hash as the result. Keys of the hash is the name of each query (a result of a search query), values of the hash is the result of each [search query](#query-parameters), like:
 
     {
-      "検索クエリ1の名前" : {
-        "startTime"   : "検索を開始した時刻",
-        "elapsedTime" : 検索にかかった時間（単位：ミリ秒）,
-        "count"       : 検索条件にヒットしたレコードの総数,
-        "attributes"  : [出力されたレコードのカラムの情報],
-        "records"     : [出力されたレコードの配列]
+      "<Name of the query 1>" : {
+        "startTime"   : "<Time to start the operation>",
+        "elapsedTime" : <Elapsed time to process the query, in milliseconds),
+        "count"       : <Number of records searched by the given conditions>,
+        "attributes"  : <Array or hash of exported columns>,
+        "records"     : [<Array of search result records>]
       },
-      "検索クエリ2の名前" : 検索クエリの検索結果,
+      "<Name of the query 2>" : { ... },
       ...
     }
 
-検索クエリの処理結果のハッシュは以下の項目を持つことができ、[検索クエリの `output`](#query-output) の `elements` で明示的に指定された項目のみが出力されます。
+A hash of a search query's result can have following elements, but only some elements specified in the `elements` of the [`output` parameter](#query-output) will appear in the response.
 
 ### `startTime` {#response-query-startTime}
 
-検索を開始した時刻（ローカル時刻）の文字列です。
+A local time string meaning the search operation is started.
 
-形式は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式となります。
-例えば以下の要領です。
+It is formatted in the [W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats"), with the time zone like:
 
     2013-11-29T08:15:30+09:00
 
 ### `elapsedTime` {#response-query-elapsedTime}
 
-検索にかかった時間の数Value（単位：ミリ秒）です。
+An integer meaning the elapsed time of the search operation, in milliseconds.
 
 ### `count` {#response-query-count}
 
-検索条件に該当するレコードの総数の数Valueです。
-このValueは、検索クエリの [`sortBy`](#query-sortBy) や [`output`](#query-output) における `offset` および `limit` の指定の影響を受けません。
+An integer meaning the total number of search result records.
+Paging options `offset` and `limit` in [`sortBy`](#query-sortBy) or [`output`](#query-output) will not affect to this count.
 
-### `attributes` および `records` {#response-query-attributes-and-records}
+### `attributes` and `records` {#response-query-attributes-and-records}
 
- * `attributes` は出力されたレコードのカラムの情報を示す配列またはハッシュです。
- * `records` は出力されたレコードの配列です。
+ * `attributes` is an array or a hash including information of exported columns for each record.
+ * `records` is an array of search result records.
 
-`attributes` および `records` の出力形式は[検索クエリの `output`](#query-output) の `format` の指定に従って以下の2通りに別れます。
+There are two possible patterns of `attributes` and `records`, based on the [`output`](#query-output)'s `format` parameter.
 
-#### 単純な形式のレスポンス {#response-query-simple-attributes-and-records}
+#### Simple format result {#response-query-simple-attributes-and-records}
 
-`format` が　`"simple"` の場合、個々の検索クエリの結果は以下の形を取ります。
+A search result with `"simple"` as the value of `output`'s `format` will be returned as a hash like:
 
     {
-      "startTime"   : "検索を開始した時刻",
-      "elapsedTime" : 検索にかかった時間,
-      "count"       : レコードの総数,
+      "startTime"   : "<Time to start the operation>",
+      "elapsedTime" : <Elapsed time to process the query),
+      "count"       : <Total number of search result records>,
       "attributes"  : [
-        { "name"   : "カラム1の名前",
-          "type"   : "カラム1の型",
-          "vector" : カラム1がベクターカラムかどうか },
-        { "name"   : "カラム2の名前",
-          "type"   : "カラム2の型",
-          "vector" : カラム2がベクターカラムかどうか },
+        { "name"   : "<Name of the column 1>",
+          "type"   : "<Type of the column 1>",
+          "vector" : <It this column is a vector column?> },
+        { "name"   : "<Name of the column 2>",
+          "type"   : "<Type of the column 2>",
+          "vector" : <It this column is a vector column?> },
         ...
       ],
       "records"     : [
-        [レコード1のカラム1のValue, レコード1のカラム2のValue, ...],
-        [レコード2のカラム1のValue, レコード2のカラム2のValue, ...],
+        [<Value of the column 1 of the record 1>,
+         <Value of the column 2 of the record 1>,
+         ...],
+        [<Value of the column 1 of the record 2>,
+         <Value of the column 2 of the record 2>,
+         ...],
         ...
       ]
     }
@@ -1073,28 +1076,28 @@ An output definition is given as a hash like:
 [日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムのValueは、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
 
 
-#### 複雑な形式のレスポンス {#response-query-complex-attributes-and-records}
+#### Complex format result {#response-query-complex-attributes-and-records}
 
-`format` が　`"complex"` の場合、個々の検索クエリの結果は以下の形を取ります。
+A search result with `"complex"` as the value of `output`'s `format` will be returned as a hash like:
 
     {
-      "startTime"   : "検索を開始した時刻",
-      "elapsedTime" : 検索にかかった時間,
-      "count"       : レコードの総数,
+      "startTime"   : "<Time to start the operation>",
+      "elapsedTime" : <Elapsed time to process the query),
+      "count"       : <Total number of search result records>,
       "attributes"  : {
-        "カラム1の名前" : { "type"   : "カラム1の型",
-                            "vector" : カラム1がベクターカラムかどうか },
-        "カラム2の名前" : { "type"   : "カラム2の型",
-                            "vector" : カラム2がベクターカラムかどうか },
+        "<Name of the column 1>" : { "type"   : "<Type of the column 1>",
+                                     "vector" : <It this column is a vector column?> },
+        "<Name of the column 2>" : { "type"   : "<Type of the column 2>",
+                                     "vector" : <It this column is a vector column?> },
         ...
       ],
       "records"     : [
-        { "カラム1" : "レコード1のカラム1のValue",
-          "カラム2" : "レコード1のカラム2のValue",
-          ...                                   },
-        { "カラム1" : "レコード2のカラム1のValue",
-          "カラム2" : "レコード2のカラム2のValue",
-          ...                                   },
+        { "<Name of the column 1>" : <Value of the column 1 of the record 1>,
+          "<Name of the column 2>" : <Value of the column 2 of the record 1>,
+          ...                                                                },
+        { "<Name of the column 1>" : <Value of the column 1 of the record 1>,
+          "<Name of the column 2>" : <Value of the column 2 of the record 2>,
+          ...                                                                },
         ...
       ]
     }
