@@ -10,7 +10,7 @@ layout: documents
 
 The `search` command finds records from the specified table based on given conditions, and returns found records and/or related information.
 
-This is designed as the most basic (low layer) command on Droonga, to search information from the database. When you want to add a new plugin including "search" feature, you should develop it as just a wrapper of this command, instead of developing something based on more low level technologies.
+This is designed as the most basic (low layer) command on Droonga, to search information from a database. When you want to add a new plugin including "search" feature, you should develop it as just a wrapper of this command, instead of developing something based on more low level technologies.
 
 This is a request-response style command. One response message is always returned per one request.
 
@@ -33,7 +33,7 @@ This is a request-response style command. One response message is always returne
 
 ## Usage {#usage}
 
-This section describes how to use the `search` command, via a typical usage with following table:
+This section describes how to use this command, via a typical usage with following table:
 
 Person table (with primary key):
 
@@ -52,7 +52,7 @@ Note: `name` and `note` are indexed with `TokensBigram`.
 
 ### Basic usage {#usage-basic}
 
-This is the most simple example to output all records of the Person table:
+This is a simple example to output all records of the Person table:
 
     search
     {
@@ -601,7 +601,7 @@ On the {{ site.droonga_version }}, all search results for a request are returned
 #### `source` {#query-source}
 
 Abstract
-: The source of the search operation.
+: A source of a search operation.
 
 Value
 : A name string of an existing table, or a name of another query.
@@ -609,7 +609,7 @@ Value
 Default value
 : Nothing. This is a required parameter.
 
-You can do a facet search, specifying a name of another search query as the source.
+You can do a facet search, specifying a name of another search query as its source.
 
 The order of operations is automatically resolved by Droonga itself.
 You don't have to write queries in the order they should be operated in.
@@ -617,7 +617,7 @@ You don't have to write queries in the order they should be operated in.
 #### `condition` {#query-condition}
 
 Abstract
-: Conditions to search records from the source.
+: Conditions to search records from the given source.
 
 Value
 : Possible pattenrs:
@@ -734,7 +734,7 @@ Nested array means more complex conditions. For example, this means "`name` equa
 #### `sortBy` {#query-sortBy}
 
 Abstract
-: The sort and paging conditions.
+: Conditions for sorting and paging.
 
 Value
 : Possible patterns:
@@ -763,7 +763,7 @@ For example, this condition means "sort records by the `name` at first in an asc
 
 ##### Paging of sorted results {#query-sortBy-hash}
 
-Paging conditions can be specified as a part of the hash of the sort condition, like:
+Paging conditions can be specified as a part of a sort condition hash, like:
 
     {
       "keys"   : [<Sort columns>],
@@ -781,7 +781,7 @@ Paging conditions can be specified as a part of the hash of the sort condition, 
   This parameter is optional and the default value is `0`.
 
 `limit`
-: An integer meaning the number of sorted results to be extracted. Possible values are `-1`, `0`, or larger integers.
+: An integer meaning the number of sorted results to be extracted. Possible values are `-1`, `0`, or larger integers. The value `-1` means "return all results".
   
   This parameter is optional and the default value is `-1`.
 
@@ -793,164 +793,183 @@ For example, this condition extracts 10 sorted results from 11th to 20th:
       "limit"  : 10
     }
 
-In most cases, paging in the sort condition is faster than paging by `output`'s `limit` and `output`, because this operation reduces the number of records.
+In most cases, paging by a sort condition is faster than paging by `output`'s `limit` and `output`, because this operation reduces the number of records.
 
 
 #### `groupBy` {#query-groupBy}
 
 Abstract
-: 処理対象のレコード群を集約する条件を指定します。
+: A condition for grouping of (sorted) search results.
 
 Value
-: 以下のパターンのいずれかをとります。
+: Possible patterns:
   
-  1. 基本的な集約条件（カラム名または式）の文字列。
-  2. 複雑な集約条件を指定するハッシュ。 
+  1. A condition string to do grouping. (a column name or an expression)
+  2. A hash to specify a condition for grouping with details.
 
 Default value
-: なし（集約しない）。
+: Nothing.
 
-集約条件を指定した場合、指定に基づいてレコードを集約した結果のレコードがその後の処理の対象となります。
+If a condition for grouping is given, then grouped result records will appear as the result, for following operations and the output.
 
-※註：バージョン {{ site.droonga_version }} では、複数パーティションに別れたデータセットでの検索結果を集約した場合、集約結果に同一キーのレコードが複数登場することがあります（パーティションごとの集約結果のマージ処理が未実装であるため）。バージョン {{ site.droonga_version }} では、この機能はパーティション分けを伴わないデータセットでのみの利用を推奨します。
+*Note: On the version {{ site.droonga_version }}, grouping of search results from a partitioned dataset possibly include multiple records with a same key, because merging of search results from partitioned dataset is not implemented yet. So you should use this feature only on datasets without partitionings, on the version {{ site.droonga_version }}.
 
-##### 基本的な集約条件の指定 {#query-groupBy-string}
+##### Basic condition of grouping {#query-groupBy-string}
 
-基本的な集約条件では、処理対象のレコード群が持つカラムの名前を文字列として指定します。
+A condition of grouping is given as a string of a column name or an expression.
 
-DroongaはそのカラムのValueが同じであるレコードを集約し、カラムのValueをキーとした新しいレコード群を結果として出力します。
-集約結果のレコードは以下のカラムを持ちます。
+Droonga groups (sorted) search result records, based on the value of the specified column. Then the result of the grouping will appear instead of search results from the `source`. Result records of a grouping will have following columns:
 
 `_key`
-: 集約前のレコード群における、集約対象のカラムのValueです。
+: A value of the grouped column.
 
 `_nsubrecs`
-: 集約前のレコード群における、集約対象のカラムのValueが一致するレコードの総数を示す数Valueです。
+: An integer meaning the number of grouped records.
 
-例えば以下は、`job` カラムのValueでレコードを集約し、`job` カラムのValueとしてどれだけの種類が存在しているのか、および、各 `job` のValueを持つレコードが何件存在しているのかを集約結果として取り出すという意味になります。
+For example, this condition means "group records by their `job` column's value, with the number of grouped records for each value":
 
     "job"
 
-##### 複雑な集約条件の指定 {#query-groupBy-hash}
+##### Condition of grouping with details {#query-groupBy-hash}
 
-集約の指定において、集約結果の一部として出力する集約前のレコードの数を、以下の形式で指定する事ができます。
+A condition of grouping can include more options, like:
 
     {
-      "key"            : "基本的な集約条件",
-      "maxNSubRecords" : 集約結果の一部として出力する集約前のレコードの数
+      "key"            : "<Basic condition for grouping>",
+      "maxNSubRecords" : <Number of sample records included into each grouped result>
     }
 
 `key`
-: [基本的な集約条件の指定](#query-groupBy-string)の形式による、集約条件を指定する文字列。
-  このパラメータは省略できません。
+: A string meaning [a basic condition of grouping](#query-groupBy-string).
+  This parameter is always required.
 
 `maxNSubRecords`
-: 集約結果の一部として出力する集約前のレコードの最大数を示す `0` または正の整数。
-  `-1` は指定できません。
+: An integer, meaning maximum number of sample records included into each grouped result. Possible values are `0` or larger. `-1` is not acceptable.
   
-  このパラメータは省略可能で、Default valueは `0` です。
+  This parameter is optional, the default value is `0`.
 
-例えば以下は、`job` カラムのValueでレコードを集約した結果について、各 `job` カラムのValueを含んでいるレコードを代表として1件ずつ取り出すという意味になります。
+For example, this condition will return results grouped by their `job` column with one sample record per a grouped result:
 
     {
       "key"            : "job",
       "maxNSubRecords" : 1
     }
 
-集約結果のレコードは、[基本的な集約条件の指定](#query-groupBy-string)の集約結果のレコード群が持つすべてのカラムに加えて、以下のカラムを持ちます。
+Grouped results will have all columns of [the result of the basic conditions for grouping](#query-groupBy-string), and following extra columns:
 
 `_subrecs`
-: 集約前のレコード群における、集約対象のカラムのValueが一致するレコードの配列。
+: An array of sample records which have the value in its grouped column.
 
 
 #### `output` {#query-output}
 
 Abstract
-: 処理結果の出力形式を指定します。
+: A output definition for a search result
 
 Value
-: 出力形式を指定するハッシュ。 
+: A hash including information to control output format.
 
 Default value
-: なし（結果を出力しない）。
+: Nothing.
 
-指定を省略した場合、その検索クエリの検索結果はレスポンスには出力されません。
-集約操作などのために必要な中間テーブルにあたる検索結果を求めるだけの検索クエリにおいては、 `output` を省略して処理時間や転送するデータ量を減らすことができます。
+If no `output` is given, then search results of the query won't be exported to the returned message.
+You can reduce processing time and traffic via omitting of `output` for temporary tables which are used only for grouping and so on.
 
-出力形式は、以下の形式のハッシュで指定します。
+An output definition is given as a hash like:
 
     {
-      "elements"   : [出力する情報の配列],
-      "format"     : "検索結果のレコードの出力スタイル",
-      "offset"     : ページングの起点,
-      "limit"      : 出力するレコード数,
-      "attributes" : [レコードのカラムの出力指定の配列]
+      "elements"   : [<Names of elements to be exported>],
+      "format"     : "<Format of each record>",
+      "offset"     : <Offset of paging>,
+      "limit"      : <Number of records to be exported>,
+      "attributes" : <Definition of columnst to be exported for each record>
     }
 
 `elements`
-: その検索クエリの結果として[レスポンス](#response)に出力する情報を、プロパティ名の文字列の配列で指定します。
-  以下の項目を指定できます。項目は1つだけ指定する場合であっても必ず配列で指定します。
+: An array of strings, meaning the list of elements exported to the result of the search query in a [search response](#response).
+  Possible values are following, and you must specify it as an array even if you export just one element:
   
-   * `"startTime"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
-   * `"elapsedTime"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
+   * `"startTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
+   * `"elapsedTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
    * `"count"`
-   * `"attributes"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
+   * `"attributes"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
    * `"records"`
   
-  このパラメータは省略可能で、省略時の初期Valueはありません（結果を何も出力しません）。
+  This parameter is optional, there is not default value. Nothing will be exported if no element is specified.
 
 `format`
-: 検索結果のレコードの出力スタイルを指定します。
-  以下のいずれかのValue（文字列）を取ります。
+: A string meaning the format of exported each record.
+  Possible vaules:
   
-   * `"simple"`  : 個々のレコードを配列として出力します。
-   * `"complex"` : 個々のレコードをハッシュとして出力します。
+   * `"simple"`  : Each record will be exported as an array of column values.
+   * `"complex"` : Each record will be exported as a hash.
   
-  このパラメータは省略可能で、省略時の初期Valueは `"simple"` です。
+  This parameter is optional, the default value is `"simple"`.
 
 `offset`
-: 出力するレコードのページングの起点を示す `0` または正の整数。
+: An integer meaning the offset to the paging of exported records. Possible values are `0` or larger integers.
   
-  このパラメータは省略可能で、Default valueは `0` です。
+  This parameter is optional and the default value is `0`.
 
 `limit`
-: 出力するレコード数を示す `-1` 、 `0` 、または正の整数。
-  `-1`を指定すると、すべてのレコードを出力します。
+: An integer meaning the number of exported records. Possible values are `-1`, `0`, or larger integers. The value `-1` means "export all records".
   
-  このパラメータは省略可能で、Default valueは `0` です。
+  This parameter is optional and the default value is `0`.
 
-`attributes`
-: レコードのカラムのValueについて、出力形式を配列で指定します。
-  個々のカラムのValueの出力形式は以下のいずれかで指定します。
+`attributes` 
+: Definition of columns to be exported for each record.
+  Possible patterns:
   
-   * カラム名の文字列。例は以下の通りです。
-     * `"name"` : `name` カラムのValueをそのまま `name` カラムとして出力します。
-     * `"age"`  : `age` カラムのValueをそのまま `age` カラムとして出力します。
-   * 詳細な出力形式指定のハッシュ。例は以下の通りです。
-     * 以下の例は、 `name` カラムのValueを `realName` カラムとして出力します。
+   1. An array of attribute definitions.
+   2. A hash of attribute definitions.
+  
+  Each attribute can be defined in one of following styles:
+  
+   * A name string of a column.
+     * `"name"` : Exports the value of the `name` column, as is.
+     * `"age"`  : Exports the value of the `age` column, as is.
+   * A hash with details:
+     * This exports the value of the `name` column as a column with different name `realName`.
        
            { "label" : "realName", "source" : "name" }
        
-     * 以下の例は、 `name` カラムのValueについて、全文検索にヒットした位置を強調したHTMLコード片の文字列を `html` カラムとして出力します。
+     * This exports the snippet in HTML fragment as a column with the name `html`.
        
            { "label" : "html", "source": "snippet_html(name)" }
        
-     * 以下の例は、`country` カラムについて、すべてのレコードの当該カラムのValueが文字列 `"Japan"` であるものとして出力します。
-       （存在しないカラムを実際に作成する前にクライアント側の挙動を確認したい場合などに、この機能が利用できます。）
+     * This exports a static value `"Japan"` for the `country` column of all records.
+       (This will be useful for debugging, or a use case to try modification of APIs.)
        
            { "label" : "country", "source" : "'Japan'" }
        
-     * 以下の例は、集約前の元のレコードの総数を、集約後のレコードの `"itemsCount"` カラムのValueとして出力します。
+     * This exports a number of grouped records as the `"itemsCount"` column of each record (grouped result).
        
            { "label" : "itemsCount", "source" : "_nsubrecs", }
        
-     * 以下の例は、集約前の元のレコードの配列を、集約後のレコードの `"items"` カラムのValueとして出力します。
-       `"attributes"` は、この項の説明と同じ形式で指定します。
+     * This exports samples of the source records of grouped records, as the `"items"` column of grouped records.
+       The format of the `"attributes"` is jsut same to this section.
        
            { "label" : "items", "source" : "_subrecs",
              "attributes": ["name", "price"] }
   
-  このパラメータは省略可能で、Default valueはありません（カラムを何も出力しません）。
+  An array of attribute definitions can contain any type definition described above, like:
+  
+      [
+        "name",
+        "age",
+        { "label" : "realName", "source" : "name" }
+      ]
+  
+  A hash of attribute definitions can contain any type definition described above except `label` of hashes, because keys of the hash means `label` of each attribute, like:
+  
+      {
+        "name"     : "name",
+        "age"      : "age",
+        "realName" : { "source" : "name" },
+        "country"  : { "source" : "'Japan'" }
+      }
+  
+  This parameter is optional, there is no default value. No column will be exported if no attribute is specified.
 
 
 ## レスポンス {#response}
