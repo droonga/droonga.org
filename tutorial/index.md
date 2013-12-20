@@ -534,7 +534,7 @@ OK, you've successfully created a client application which can send search reque
 
 ## Conclusion
 
-In this tutorial, you did setup both packages [fluent-plugin-drooga][] and [express-droonga][] which construct [Droonga][] service on a [Ubuntu Linux][Ubuntu].
+In this tutorial, you did setup both packages [fluent-plugin-droonga][] and [express-droonga][] which construct [Droonga][] service on a [Ubuntu Linux][Ubuntu].
 Moreover, you built a search system based on a protocol adapter with a Droonga engine, and successfully searched.
 
   [Ubuntu]: http://www.ubuntu.com/
