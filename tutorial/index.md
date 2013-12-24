@@ -184,7 +184,7 @@ Start a Droonga engine, it is a fluentd server with fluentd-plugin-droonga start
 
 ### Create a database
 
-After a Dronga engine is started, let's load data.
+After a Droonga engine is started, let's load data.
 Prepare two jsons files, `ddl.jsons` including the database schema and `stores.jsons` including location data of stores.
 
 ddl.jsons:
