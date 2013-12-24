@@ -591,7 +591,7 @@ Modify the parameter given to the `socket.emit()` method in the `index.html`, li
 
 Reload the current page `http://192.0.2.1:3000` in your Web browser, then you'll see a search result like following:
 
-    {"result":{"count":2,"records":[["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]}}
+    {"result":{"count":2,"records":[["Columbus @ 67th - New York NY (W)"],["2 Columbus Ave. - New York NY (W)"]]}}
 
 OK, you've successfully created a client application which can send search requests and receive responses asynchronously via Socket.IO.
 
