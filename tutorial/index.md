@@ -406,7 +406,7 @@ index.html:
       </body>
     </html>
 
-This client sends a search query by `socket.emit()`. After the request is processed and the result is returned, the callback ginven as `socket.on('search.result', ...)` will be called with the result, and it will render the result to the page.
+This client sends a search query by `socket.emit()`. After the request is processed and the result is returned, the callback given as `socket.on('search.result', ...)` will be called with the result, and it will render the result to the page.
 
 The first argument `'search'` for the method call `socket.emit()` means that the request is a search request.
 The second argument includes parameters of the search request. See the command reference of the [`search` command](/reference/commands/search) for more details.
