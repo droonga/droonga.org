@@ -61,7 +61,7 @@ For example lets's try to build a database system to find [Starbucks stores in N
 
 ## Prepare an environment for experiments
 
-Prepare an comuter at first. This tutorial describes steps to develop a search service based on the Droonga, on an existing computer.
+Prepare a computer at first. This tutorial describes steps to develop a search service based on the Droonga, on an existing computer.
 Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu Server 13.10 64bit` on the service [Sakura's cloud](http://cloud.sakura.ad.jp/), with an available console.
 
 ## Install packages required for the setup process
