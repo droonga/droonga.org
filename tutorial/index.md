@@ -456,8 +456,12 @@ Next step, let's try more meaningful query. To search stores which contain "Colu
       "result": {
         "count": 2,
         "records": [
-          ["Columbus @ 67th - New York NY  (W)"],
-          ["2 Columbus Ave. - New York NY  (W)"]
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
+          ]
         ]
       }
     }
