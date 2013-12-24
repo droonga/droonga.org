@@ -62,13 +62,17 @@ For example let's try to build a database system to find [Starbucks stores in Ne
 ## Prepare an environment for experiments
 
 Prepare a computer at first. This tutorial describes steps to develop a search service based on the Droonga, on an existing computer.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu Server 13.10 64bit` on the service [Sakura's cloud](http://cloud.sakura.ad.jp/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 13.10 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+
+NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga. Otherwise, you may experience a strange build error.
 
 ## Install packages required for the setup process
 
 Install packages required to setup a Droonga engine.
 
-    $ sudo apt-get install -y ruby ruby-dev build-essential nodejs npm
+    # apt-get update
+    # apt-get -y upgrade
+    # apt-get install -y ruby ruby-dev build-essential nodejs npm
 
 ## Build a Droonga engine
 
@@ -77,7 +81,7 @@ In this section we install a fluent-plugin-droonga and load searchable data to t
 
 ### Install a fluent-plugin-droonga
 
-    $ sudo gem install fluent-plugin-droonga
+    # gem install fluent-plugin-droonga
 
 Required packages are prepared by the command above. Let's continue to the configuration step.
 
@@ -85,8 +89,8 @@ Required packages are prepared by the command above. Let's continue to the confi
 
 Create a directory for a Droonga engine:
 
-    $ mkdir engine
-    $ cd engine
+    # mkdir engine
+    # cd engine
 
 Next, put configuration files `fluentd.conf` and `catalog.json` like following, into the directory:
 
@@ -159,7 +163,7 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 
 Start a Droonga engine, it is a fluentd server with fluentd-plugin-droonga started like:
 
-    $ fluentd --config fluentd.conf
+    # fluentd --config fluentd.conf
     2013-11-12 14:14:20 +0900 [info]: starting fluentd-0.10.40
     2013-11-12 14:14:20 +0900 [info]: reading config file path="fluentd.conf"
     2013-11-12 14:14:20 +0900 [info]: gem 'fluent-plugin-droonga' version '0.0.1'
@@ -243,8 +247,8 @@ stores.jsons:
 
 Open another terminal to keep the fluentd server working, and send those two jsons `ddl.jsons` and `stores.jsons` to the fluentd server:
 
-    $ fluent-cat starbucks.message < ddl.jsons
-    $ fluent-cat starbucks.message < stores.jsons
+    # fluent-cat starbucks.message < ddl.jsons
+    # fluent-cat starbucks.message < stores.jsons
 
 
 Now a Droonga engine for searching Starbucks stores database is ready.
@@ -257,9 +261,9 @@ Let's use the `express-droonga` to build a protocol adapter. It is an npm packag
 
 ### Install a express-droonga
 
-    $ cd ~
-    $ mkdir protocol-adapter
-    $ cd protocol-adapter
+    # cd ~
+    # mkdir protocol-adapter
+    # cd protocol-adapter
 
 After that, put a file `package.json` like following, into the directory:
 
@@ -310,7 +314,7 @@ application.js:
 
 Then, run the `application.js`.
 
-    $ nodejs application.js
+    # nodejs application.js
        info  - socket.io started
 
 
@@ -318,7 +322,7 @@ Then, run the `application.js`.
 
 We're all set. Let's send a search request to the protocol adapter via HTTP. At first, try to get all records of the `Stores` table by a request like following. (Note: The `attributes=_key` parameter means "export the value of the column `_key` to the search result". If you don't set the parameter, each record returned in the `records` will become just a blank array. You can specify multiple column names by the delimiter `,`. For example `attributes=_key,location` will return both the primary key and the location for each record.)
 
-    $ curl "http://localhost:3000/droonga/tables/Store?attributes=_key&limit=-1"
+    # curl "http://localhost:3000/droonga/tables/Store?attributes=_key&limit=-1"
     {
       "result": {
         "count": 40,
@@ -451,7 +455,7 @@ Because the `count` says `40`, you know there are all 40 records in the table. S
 
 Next step, let's try more meaningful query. To search stores which contain "Columbus" in their name, give `Columbus` as the parameter `query`, and give `_key` as the parameter `match_to` which means the column to be searched. Then:
 
-    $ curl "http://localhost:3000/droonga/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://localhost:3000/droonga/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "result": {
         "count": 2,
