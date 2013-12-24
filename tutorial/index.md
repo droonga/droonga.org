@@ -247,7 +247,7 @@ Open another terminal to keep the fluentd server working, and send those two jso
     $ fluent-cat starbucks.message < stores.jsons
 
 
-Now a Droonga engine for searching starbucks stores database is ready.
+Now a Droonga engine for searching Starbucks stores database is ready.
 Next, setup a protocol adapter for clients to accept search requests using popular protocols.
 
 
