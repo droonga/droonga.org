@@ -282,7 +282,7 @@ Install depending packages.
     $ npm install
 
 
-### Create a protocol adaper
+### Create a protocol adapter
 
 Put a file `application.js` like following, into the directory:
 
