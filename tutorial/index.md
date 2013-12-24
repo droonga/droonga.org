@@ -56,7 +56,7 @@ This tutorial describes steps to build a system like following:
 
 User agents (ex. a Web browser) sends search requests to a protocol adapter. The adapter receives them, and sends internal (translated) search requests to a Droonga engine. The engine processes them actually. Search results are sent from the engine to the protocol adapter, and finally delivered to the user agent.
 
-For example lets's try to build a database system to find [Starbucks stores in New York](http://geocommons.com/overlays/430038).
+For example let's try to build a database system to find [Starbucks stores in New York](http://geocommons.com/overlays/430038).
 
 
 ## Prepare an environment for experiments
