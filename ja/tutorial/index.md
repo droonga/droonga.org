@@ -310,7 +310,7 @@ application.js:
 
 `application.js` を実行します。
 
-    $ node application.js
+    $ nodejs application.js
        info  - socket.io started
 
 
