@@ -412,7 +412,7 @@ The first argument `'search'` for the method call `socket.emit()` means that the
 The second argument includes parameters of the search request. See the command reference of the [`search` command](/reference/commands/search) for more details.
 (By the way, we used a REST API to do search in the previous section. In the case the protocol adapter translates a HTTP request to a message in the format described in the [command reference of the `search`](/reference/commands/search) internally and sends it to the Droonga engine.)
 
-Next, modify the `application.js` to host the `index.html` by the protocol adaper, like:
+Next, modify the `application.js` to host the `index.html` by the protocol adapter, like:
 
 application.js:
 
