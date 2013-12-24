@@ -310,7 +310,7 @@ application.js:
 
 Then, run the `application.js`.
 
-    $ node application.js
+    $ nodejs application.js
        info  - socket.io started
 
 
