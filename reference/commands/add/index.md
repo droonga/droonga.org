@@ -195,7 +195,16 @@ Value of unspecified columns will not be changed.
 
 ## Responses {#response}
 
-This returns an array including a boolean value which means the operation was successfully done or not, as the `body`.
+This returns an array with including a boolean value `true` like follwing as the response's `body`, if a record is successfully added or updated.
 
- * `[true]`：The record was successfully added or updated.
- * `[false]`：Failed to add or update a record.
+    [true]
+
+## Error types {#errors}
+
+### `MissingPrimaryKey`
+
+Means you've forgotten to specify the `key` parameter, for a table with the primary key column.
+
+### `InvalidValueType`
+
+Means you've specified mismatched type value for a column. For example, a string for a geolocation column, a string for an integer column, etc.
