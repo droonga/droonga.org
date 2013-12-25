@@ -1,82 +1,82 @@
 ---
-title: メッセージ形式
-layout: documents_ja
+title: Message format
+layout: documents
 ---
 
 * TOC
 {:toc}
 
 
-## リクエスト {#request}
+## Request {#request}
 
-リクエストのメッセージの基本的な形式は以下の通りです。
+The basic format of a request message is like following:
 
     {
-      "id"      : "<メッセージの識別子>",
-      "type"    : "<メッセージの種類>",
-      "replyTo" : "<レスポンスの受信者へのパス>",
-      "dataset" : "<対象データセット名>",
-      "body"    : <メッセージ本文>
+      "id"      : "<ID of the message>",
+      "type"    : "<Type of the message>",
+      "replyTo" : "<Route to the receiver>",
+      "dataset" : "<Name of the target dataset>",
+      "body"    : <Body of the message>
     }
 
 ### `id` {#request-id}
 
-概要
-: そのメッセージの一意な識別子。
+Abstract
+: The unique identifier for the message.
 
-値
-: 識別子となる文字列。一意でさえあれば、どんな形式のどんな文字列でも指定できます。値は対応するレスポンスの['inReplyTo`](#response-inReplyTo)に使われます。
+Value
+: An identifier string. You can use any string with any format as you like, if only it is unique. The given id of a request message will be used for the ['inReplyTo`](#response-inReplyTo) information of its response.
 
-省略時の既定値
-
+Default value
+: Nothing. This is required information.
 
 ### `type` {#request-type}
 
-概要
-: そのメッセージの種類。
+Abstract
+: The type of the message.
 
-値
-: [コマンド](/ja/reference/commands/)の名前の文字列
+Value
+: A type string of [a command](/reference/commands/).
 
-省略時の既定値
-
+Default value
+: Nothing. This is required information.
 
 ### `replyTo` {#request-replyTo}
 
-概要
-: レスポンスの受信者へのパス。
+Abstract
+: The route to the response receiver.
 
-値
-: `<ホスト>:<ポート番号>/<タグ名>` で示されたパス文字列。例：`localhost:24224/output`.
+Value
+: An path string in the format: `<hostname>:<port>/<tag>`, for example: `localhost:24224/output`.
 
-省略時の既定値
-: なし。この情報は省略可能で、省略した場合はレスポンスのメッセージは単に捨てられます。
+Default value
+: Nothing. This is optional. If you specify no `replyTo`, then the response message will be thrown away.
 
 ### `dataset` {#request-dataset}
 
-概要
-: 対象となるデータセット。
+Abstract
+: The target dataset.
 
-値
-: データセット名の文字列。
+Value
+: A name string of a dataset.
 
-省略時の既定値
-
+Default value
+: Nothing. This is required information.
 
 ### `body` {#request-body}
 
-概要
-: メッセージの本文。
+Abstract
+: The body of the message.
 
-値
-: オブジェクト、文字列、数値、真偽値、または `null`。
+Value
+: Object, string, number, boolean, or `null`.
 
-省略時の既定値
-: なし。この情報は省略可能です。
+Default value
+: Nothing. This is optional.
 
-## レスポンス {#response}
+## Response {#response}
 
-レスポンスのメッセージの基本的な形式は以下の通りです。
+The basic format of a response message is like following:
 
     {
       "type"       : "<Type of the message>",
@@ -91,33 +91,33 @@ layout: documents_ja
 
 ### `statusCode` {#response-statusCode}
 
-レスポンスのステータスコードはHTTPのステータスコードに似ています。
+Status codes of responses are similar to HTTP's one.
 
-`200` およびその他の `2xx` のステータス
-: コマンドが正常に処理されたことを示します。
+`200` and other `2xx` statuses
+: The command is successfully processed.
 
 ### `body` {#response-body}
 
 
-## エラーレスポンス {#error}
+## Error response {#error}
 
-コマンドの中にはエラーを返す物があります。
+Some commands can return an error response.
 
-エラーレスポンスは通常のレスポンスと同じ `type` を伴って返されますが、通常のレスポンスとは異なる `statusCode` と `body` を持ちます。大まかなエラーの種類は `statusCode` で示され、詳細な情報は `body` の内容として返されます。
+An error response has the `type` same to a regular response, but it has different `statusCode` and `body`. General type of the error is indicated by the `statusCode`, and details are reported as the `body`.
 
-### エラーレスポンスのステータスコード {#error-status}
+### Status codes of error responses {#error-status}
 
-エラーレスポンスのステータスコードはHTTPのステータスコードに似ています。
+Status codes of error responses are similar to HTTP's one.
 
-`400` およびその他の `4xx` のステータス
-: リクエストのメッセージが原因でのエラーであることを示します。
+`400` and other `4xx` statuses
+: An error of the request message.
 
-`500` およびその他の `5xx` のステータス
-: Droonga Engine内部のエラーであることを示します。
+`500` and other `5xx` statuses
+: An internal error of the Droonga Engine.
 
-### エラーレスポンスの `body` {#error-body}
+### Body of error responses {#error-body}
 
-エラーレスポンスの `body` の基本的な形式は以下の通りです。
+The basic format of the body of an error response is like following:
 
     {
       "name"    : "<Name of the error>",
