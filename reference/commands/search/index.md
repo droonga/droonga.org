@@ -21,7 +21,7 @@ Style
 `body`
 : A hash of parameters.
 
-## Syntax {#syntax}
+## Parameter syntax {#syntax}
 
     {
       "timeout" : <Seconds to be timed out>,
@@ -565,7 +565,7 @@ You can use search queries just internally, without output. For example, the fol
        }
 
 
-## Parameters {#parameters}
+## Parameter details {#parameters}
 
 ### Container parameters {#container-parameters}
 

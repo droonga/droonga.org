@@ -21,7 +21,7 @@ Style
 `body`
 : A hash of parameters.
 
-## Syntax {#syntax}
+## Parameter syntax {#syntax}
 
     {
       "table"  : "<Name of the table>",
@@ -31,7 +31,7 @@ Style
       "source" : "<Name of a column to be indexed>"
     }
 
-## Parameters {#parameters}
+## Parameter details {#parameters}
 
 All parameters except `table` and `name` are optional.
 

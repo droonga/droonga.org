@@ -21,7 +21,7 @@ Style
 `body`
 : A hash of parameters.
 
-## Syntax {#syntax}
+## Parameter syntax {#syntax}
 
     {
       "name"              : "<Name of the table>",
@@ -32,7 +32,7 @@ Style
       "normalizer"        : "<Normalizer>"
     }
 
-## Parameters {#parameters}
+## Parameter details {#parameters}
 
 All parameters except `name` are optional.
 

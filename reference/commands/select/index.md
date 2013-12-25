@@ -21,7 +21,7 @@ Style
 `body`
 : A hash of parameters.
 
-## Syntax {#syntax}
+## Parameter syntax {#syntax}
 
     {
       "table"            : "<Name of the table>",
@@ -46,7 +46,7 @@ Style
       "query_expander"   : "<Arguments to expanding queries>"
     }
 
-## Parameters {#parameters}
+## Parameter details {#parameters}
 
 All parameters except `table` are optional.
 

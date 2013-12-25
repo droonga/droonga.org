@@ -19,7 +19,7 @@ Style
 `body`
 : A hash of parameters.
 
-## Syntax {#syntax}
+## Parameter syntax {#syntax}
 
 If the table has a primary key column:
 
@@ -103,39 +103,47 @@ By the command above, a new record will be automatically added to the Job table 
 
 Specify all parameters `table`, `values` and `key`, if the table has a primary key column.
 
-    add
     {
-      "table"  : "Job",
-      "key"    : "writer",
-      "values" : {
-        "label" : "writer"
+      "type" : "add",
+      "body" : {
+        "table"  : "Job",
+        "key"    : "writer",
+        "values" : {
+          "label" : "writer"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : [true]
+       }
 
 ### Updating column values of an existing record {#updating}
 
 This command works as "updating" operation, if the table has a primary key column and there is an existing record for the specified key.
 
-    add
     {
-      "table"  : "Job",
-      "key"    : "doctor",
-      "values" : {
-        "label" : "doctor"
+      "type" : "add",
+      "body" : {
+        "table"  : "Job",
+        "key"    : "doctor",
+        "values" : {
+          "label" : "doctor"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : [true]
+       }
 
 
 You cannot update column values of existing records, if the table has no primary key column. Then this command will always work as "adding" operation for the table.
 
 
-## Parameters {#parameters}
+## Parameter details {#parameters}
 
 ### `table` {#parameter-table}
 
