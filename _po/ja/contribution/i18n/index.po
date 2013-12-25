@@ -1,0 +1,106 @@
+# Japanese translations for PACKAGE package.
+# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Kouhei Sutou <kou@clear-code.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-20 22:17+0900\n"
+"PO-Revision-Date: 2013-12-25 18:27+0900\n"
+"Last-Translator: Kouhei Sutou <kou@clear-code.com>\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"---\n"
+"title: Internationalization\n"
+"layout: documents\n"
+"---"
+msgstr ""
+
+msgid ""
+"This documentation describes how to translate the original documentations in E"
+"nglish to other languages."
+msgstr ""
+
+msgid "## Work-flow"
+msgstr ""
+
+msgid "Here is a work-flow to translate one documentation in English:"
+msgstr ""
+
+msgid ""
+"  1. Run `rake`.\n"
+"  2. Translate `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.edit.po`.\n"
+"  3. Run `rake`.\n"
+"  4. Run `jekyll server`.\n"
+"  5. Confirm `_site/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.html`.\n"
+"  6. Commit `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.po` (not `.edit.po`) an"
+"d ``${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.md`."
+msgstr ""
+
+msgid "## Example"
+msgstr ""
+
+msgid "Here is an example to translate `overview/index.md` into Japanese."
+msgstr ""
+
+msgid "Run `rake`:"
+msgstr ""
+
+msgid ""
+"```\n"
+"% rake\n"
+"```"
+msgstr ""
+
+msgid "Translate `_po/ja/overview/index.edit.po`:"
+msgstr ""
+
+msgid ""
+"```\n"
+"% gedit _po/ja/overview/index.edit.po\n"
+"```"
+msgstr ""
+
+msgid ""
+"Note: You can use PO editor instead of text editor. For example, Emacs's po-mo"
+"de, Vim, [Gtranslator](https://wiki.gnome.org/Apps/Gtranslator), [Lokalize](ht"
+"tp://userbase.kde.org/Lokalize) and so on."
+msgstr ""
+
+msgid "Run `jekyll server`:"
+msgstr ""
+
+msgid ""
+"```\n"
+"% jekyll server &\n"
+"```"
+msgstr ""
+
+msgid "Confirm `_site/ja/overview/index.html`:"
+msgstr ""
+
+msgid ""
+"```\n"
+"% firefox http://localhost:4000/ja/overview/index.html\n"
+"```"
+msgstr ""
+
+msgid "Commit `_po/ja/overview/index.po` and `ja/overview/index.md`:"
+msgstr ""
+
+msgid ""
+"```\n"
+"% git add _po/ja/overview/index.po\n"
+"% git add ja/overview/index.md\n"
+"% git commit\n"
+"% git push\n"
+"```"
+msgstr ""
