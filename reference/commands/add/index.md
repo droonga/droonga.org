@@ -65,31 +65,39 @@ Job table (with primary key)
 
 Specify only `table` and `values`, without `key`, if the table has no primary key.
 
-    add
     {
-      "table"  : "Person",
-      "values" : {
-        "name" : "Bob Dylan",
-        "job"  : "musician"
+      "type" : "add",
+      "body" : {
+        "table"  : "Person",
+        "values" : {
+          "name" : "Bob Dylan",
+          "job"  : "musician"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : [true]
+       }
 
 The `add` command works recursively. If there is no existing record with the key in the referred table, then it is also automatically added silently so you'll see no error response. For example this will add a new Person record with a new Job record named `doctor`.
 
-    add
     {
-      "table"  : "Person",
-      "values" : {
-        "name" : "Alice Miller",
-        "job"  : "doctor"
+      "type" : "add",
+      "body" : {
+        "table"  : "Person",
+        "values" : {
+          "name" : "Alice Miller",
+          "job"  : "doctor"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : [true]
+       }
 
 By the command above, a new record will be automatically added to the Job table like;
 
