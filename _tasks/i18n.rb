@@ -69,6 +69,7 @@ class I18nTask
     @files.each do |target_file|
       base_name = File.basename(target_file, ".*")
       po_dir_path = base_po_dir_path + File.dirname(target_file)
+      po_file_path = po_dir_path + "#{base_name}.po"
       edit_po_file_path = po_dir_path + "#{base_name}.edit.po"
       edit_po_file_paths << edit_po_file_path
 
@@ -82,17 +83,20 @@ class I18nTask
         pot_file_path.open("w") do |pot_file|
           pot_file.puts(generator.generate)
         end
-        if edit_po_file_path.exist?
-          GetText::Tools::MsgMerge.run("--update",
-                                       "--sort-by-file",
-                                       "--no-wrap",
-                                       edit_po_file_path.to_s,
-                                       pot_file_path.to_s)
-        else
-          GetText::Tools::MsgInit.run("--input", pot_file_path.to_s,
-                                      "--output", edit_po_file_path.to_s,
-                                      "--locale", "ja")
+        unless edit_po_file_path.exist?
+          if po_file_path.exist?
+            cp(po_file_path.to_s, edit_po_file_path.to_s)
+          else
+            GetText::Tools::MsgInit.run("--input", pot_file_path.to_s,
+                                        "--output", edit_po_file_path.to_s,
+                                        "--locale", "ja")
+          end
         end
+        GetText::Tools::MsgMerge.run("--update",
+                                     "--sort-by-file",
+                                     "--no-wrap",
+                                     edit_po_file_path.to_s,
+                                     pot_file_path.to_s)
         if all_po_file_path.exist?
           GetText::Tools::MsgMerge.run("--output", edit_po_file_path.to_s,
                                        "--sort-by-file",
