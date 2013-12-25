@@ -1200,7 +1200,7 @@ Means you've forgotten to specify the `table` parameter.
 
 ### `404` `UnknownTable`
 
-Means you've specified an table which is not existing in the specified dataset.
+Means you've specified a table which is not existing in the specified dataset.
 
 ### `404` `UnknownColumn`
 

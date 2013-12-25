@@ -215,7 +215,7 @@ Means you've specified mismatched type value for a column. For example, a string
 
 ### `404` `UnknownTable`
 
-Means you've specified an table which is not existing in the specified dataset.
+Means you've specified a table which is not existing in the specified dataset.
 
 ### `404` `UnknownColumn`
 
