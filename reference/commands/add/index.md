@@ -195,7 +195,7 @@ Value of unspecified columns will not be changed.
 
 ## Responses {#response}
 
-This returns an array with including a boolean value `true` like follwing as the response's `body`, with `200` as its `statusCode`, if a record is successfully added or updated.
+This returns an array with including a boolean value `true` like following as the response's `body`, with `200` as its `statusCode`, if a record is successfully added or updated.
 
     [true]
 
