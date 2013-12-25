@@ -144,7 +144,7 @@ layout: documents_ja
 エラーレスポンスの `body` の基本的な形式は以下の通りです。
 
     {
-      "name"    : "<Name of the error>",
-      "message" : "<Human readable details of the error>",
-      "detail"  : <Other extra information for the error, in various formats>
+      "name"    : "<エラーの種類>",
+      "message" : "<人間が読みやすい形式で示されたエラーの詳細>",
+      "detail"  : <任意の形式の、追加のエラー情報>
     }

@@ -144,7 +144,7 @@ Status codes of error responses are similar to HTTP's one. Possible values:
 The basic format of the body of an error response is like following:
 
     {
-      "name"    : "<Name of the error>",
+      "name"    : "<Type of the error>",
       "message" : "<Human readable details of the error>",
       "detail"  : <Other extra information for the error, in various formats>
     }
