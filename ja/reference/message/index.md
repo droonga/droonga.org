@@ -91,21 +91,36 @@ Abstract
 : The type of the message.
 
 値
-: メッセージの種類を示す文字列。多くの場合は、元のリクエストメッセージの `type` の値に `.result` という接尾辞を伴った文字列です。request message, with the suffix ".result".
-
-Default value
-: Nothing. This is required information.
+: メッセージの種類を示す文字列。多くの場合は、元のリクエストメッセージの `type` の値に `.result` という接尾辞を伴った文字列です。
 
 ### `inReplyTo` {#response-inReplyTo}
 
+概要
+: 対応するリクエストメッセージの識別子。
+
+値
+: 対応するリクエストメッセージの識別子の文字列 related request message.
+
 ### `statusCode` {#response-statusCode}
 
-Status codes of responses are similar to HTTP's one.
+概要
+: そのメッセージの種類。
+
+値
+: ステータスコードを示す整数。
+
+レスポンスのステータスコードはHTTPのステータスコードに似ています。
 
 `200` and other `2xx` statuses
 : The command is successfully processed.
 
 ### `body` {#response-body}
+
+概要
+: そのリクエストメッセージの処理結果の情報。
+
+Value
+: Object, string, number, boolean, or `null`.
 
 
 ## Error response {#error}
@@ -116,7 +131,7 @@ An error response has the `type` same to a regular response, but it has differen
 
 ### Status codes of error responses {#error-status}
 
-Status codes of error responses are similar to HTTP's one.
+エラーレスポンスのステータスコードはHTTPのステータスコードに似ています。
 
 `400` and other `4xx` statuses
 : An error of the request message.

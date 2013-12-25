@@ -93,19 +93,34 @@ Abstract
 Value
 : A type string. Generally it is a suffixed version of the type string of the request message, with the suffix ".result".
 
-Default value
-: Nothing. This is required information.
-
 ### `inReplyTo` {#response-inReplyTo}
+
+Abstract
+: The identifier of the related request message.
+
+Value
+: An identifier string of the related request message.
 
 ### `statusCode` {#response-statusCode}
 
-Status codes of responses are similar to HTTP's one.
+Abstract
+: The result status for the request message.
+
+Value
+: A status code integer.
+
+Status codes of responses are similar to HTTP's one. Possible values:
 
 `200` and other `2xx` statuses
 : The command is successfully processed.
 
 ### `body` {#response-body}
+
+Abstract
+: The result information for the request message.
+
+Value
+: Object, string, number, boolean, or `null`.
 
 
 ## Error response {#error}
@@ -116,7 +131,7 @@ An error response has the `type` same to a regular response, but it has differen
 
 ### Status codes of error responses {#error-status}
 
-Status codes of error responses are similar to HTTP's one.
+Status codes of error responses are similar to HTTP's one. Possible values:
 
 `400` and other `4xx` statuses
 : An error of the request message.
