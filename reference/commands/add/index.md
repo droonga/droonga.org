@@ -201,7 +201,7 @@ This returns an array with including a boolean value `true` like follwing as the
 
 ## Error types {#errors}
 
-This command reports errors not only [general errors](/reference/message/#errors) but also followings.
+This command reports errors not only [general errors](/reference/message/#error) but also followings.
 
 ### `400` `MissingTable`
 
