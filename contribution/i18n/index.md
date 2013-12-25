@@ -1,4 +1,7 @@
-# Internationalization
+---
+title: Internationalization
+layout: documents
+---
 
 This documentation describes how to translate the original documentations in English to other languages.
 
