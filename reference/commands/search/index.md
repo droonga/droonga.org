@@ -61,36 +61,40 @@ Note: `name` and `note` are indexed with `TokensBigram`.
 
 This is a simple example to output all records of the Person table:
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "sex", "job", "note"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "name", "age", "sex", "job", "note"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 9,
-           "records" : [
-             ["Alice Arnold", "Alice Arnold", 20, "female", "announcer", ""],
-             ["Alice Cooper", "Alice Cooper", 30, "male", "musician", ""],
-             ["Alice Miller", "Alice Miller", 25, "male", "doctor", ""],
-             ["Bob Dole", "Bob Dole", 42, "male", "lawer", ""],
-             ["Bob Cousy", "Bob Cousy", 38, "male", "basketball player", ""],
-             ["Bob Wolcott", "Bob Wolcott", 36, "male", "baseball player", ""],
-             ["Bob Evans", "Bob Evans", 31, "male", "driver", ""],
-             ["Bob Ross", "Bob Ross", 54, "male", "painter", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "male", "writer",
-              "the author of Alice's Adventures in Wonderland"]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 9,
+             "records" : [
+               ["Alice Arnold", "Alice Arnold", 20, "female", "announcer", ""],
+               ["Alice Cooper", "Alice Cooper", 30, "male", "musician", ""],
+               ["Alice Miller", "Alice Miller", 25, "male", "doctor", ""],
+               ["Bob Dole", "Bob Dole", 42, "male", "lawer", ""],
+               ["Bob Cousy", "Bob Cousy", 38, "male", "basketball player", ""],
+               ["Bob Wolcott", "Bob Wolcott", 36, "male", "baseball player", ""],
+               ["Bob Evans", "Bob Evans", 31, "male", "driver", ""],
+               ["Bob Ross", "Bob Ross", 54, "male", "painter", ""],
+               ["Lewis Carroll", "Lewis Carroll", 66, "male", "writer",
+                "the author of Alice's Adventures in Wonderland"]
+             ]
+           }
          }
        }
 
@@ -114,30 +118,34 @@ Search conditions are specified via the `condition` parameter. There are two sty
 
 Search conditions in script syntax are similar to ECMAScript. For example, following query means "find records that `name` contains `Alice` and `age` is larger than `25`":
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice' && age >= 25"
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice' && age >= 25"
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
 
-    => search.result
-       {
-         "people" : {
-           "count" : 2,
-           "records" : [
-             ["Alice Arnold", 20],
-             ["Alice Cooper", 30],
-             ["Alice Miller", 25]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 2,
+             "records" : [
+               ["Alice Arnold", 20],
+               ["Alice Cooper", 30],
+               ["Alice Miller", 25]
+             ]
+           }
          }
        }
 
@@ -147,35 +155,39 @@ Search conditions in script syntax are similar to ECMAScript. For example, follo
 
 The query syntax is mainly designed for search boxes in webpages. For example, following query means "find records that `name` or `note` contain the given word, and the word is `Alice`":
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : {
-            "query"   : "Alice",
-            "matchTo" : ["name", "note"]
-          },
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "note"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : {
+              "query"   : "Alice",
+              "matchTo" : ["name", "note"]
+            },
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "note"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 4,
-           "records" : [
-             ["Alice Arnold", ""],
-             ["Alice Cooper", ""],
-             ["Alice Miller", ""],
-             ["Lewis Carroll",
-              "the author of Alice's Adventures in Wonderland"]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 4,
+             "records" : [
+               ["Alice Arnold", ""],
+               ["Alice Cooper", ""],
+               ["Alice Miller", ""],
+               ["Lewis Carroll",
+                "the author of Alice's Adventures in Wonderland"]
+             ]
+           }
          }
        }
 
@@ -186,61 +198,69 @@ The query syntax is mainly designed for search boxes in webpages. For example, f
 
 Returned records can be sorted by conditions specified as the `sortBy` parameter. For example, following query means "sort results by their `age`, in ascending order":
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice'"
-          "sortBy"    : ["age"],
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice'"
+            "sortBy"    : ["age"],
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 8,
-           "records" : [
-             ["Alice Arnold", 20],
-             ["Alice Miller", 25],
-             ["Alice Cooper", 30]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 8,
+             "records" : [
+               ["Alice Arnold", 20],
+               ["Alice Miller", 25],
+               ["Alice Cooper", 30]
+             ]
+           }
          }
        }
 
 If you add `-` before name of columns, then search results are returned in descending order. For example:
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice'"
-          "sortBy"    : ["-age"],
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice'"
+            "sortBy"    : ["-age"],
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 8,
-           "records" : [
-             ["Alice Cooper", 30],
-             ["Alice Miller", 25],
-             ["Alice Arnold", 20]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 8,
+             "records" : [
+               ["Alice Cooper", 30],
+               ["Alice Miller", 25],
+               ["Alice Arnold", 20]
+             ]
+           }
          }
        }
 
@@ -250,48 +270,54 @@ See [`sortBy` parameter](#query-sortBy) for more details.
 
 Search results can be retuned partially via `offset` and `limit` under the [`output`](#query-output) parameter. For example, following queries will return 20 or more search results by 10's.
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name"],
-            "offset"     : 0,
-            "limit"      : 10
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name"],
+              "offset"     : 0,
+              "limit"      : 10
+            }
           }
         }
       }
     }
     => returns 10 results from the 1st to the 10th.
     
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name"],
-            "offset"     : 10,
-            "limit"      : 10
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name"],
+              "offset"     : 10,
+              "limit"      : 10
+            }
           }
         }
       }
     }
     => returns 10 results from the 11th to the 20th.
     
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name"],
-            "offset"     : 20,
-            "limit"      : 10
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name"],
+              "offset"     : 20,
+              "limit"      : 10
+            }
           }
         }
       }
@@ -309,45 +335,49 @@ Moreover, you can do paging via [the `sortBy` parameter](#query-sortBy-hash) and
 
 Search result records in examples above are shown as arrays of arrays, but they can be returned as arrays of hashes by the [`output`](#query-output)'s `format` parameter. If you specify `complex` for the `format`, then results are returned like:
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "sex", "job", "note"],
-            "limit"      : 3,
-            "format"     : "complex"
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "name", "age", "sex", "job", "note"],
+              "limit"      : 3,
+              "format"     : "complex"
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 9,
-           "records" : [
-             { "_key" : "Alice Arnold",
-               "name" : "Alice Arnold",
-               "age"  : 20,
-               "sex"  : "female",
-               "job"  : "announcer",
-               "note" : "" },
-             { "_key" : "Alice Cooper",
-               "name" : "Alice Cooper",
-               "age"  : 30,
-               "sex"  : "male",
-               "job"  : "musician",
-               "note" : "" },
-             { "_key" : "Alice Miller",
-               "name" : "Alice Miller",
-               "age"  : 25,
-               "sex"  : "female",
-               "job"  : "doctor",
-               "note" : "" }
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 9,
+             "records" : [
+               { "_key" : "Alice Arnold",
+                 "name" : "Alice Arnold",
+                 "age"  : 20,
+                 "sex"  : "female",
+                 "job"  : "announcer",
+                 "note" : "" },
+               { "_key" : "Alice Cooper",
+                 "name" : "Alice Cooper",
+                 "age"  : 30,
+                 "sex"  : "male",
+                 "job"  : "musician",
+                 "note" : "" },
+               { "_key" : "Alice Miller",
+                 "name" : "Alice Miller",
+                 "age"  : 25,
+                 "sex"  : "female",
+                 "job"  : "doctor",
+                 "note" : "" }
+             ]
+           }
          }
        }
 
@@ -363,29 +393,33 @@ See [`output` parameters](#query-output) and [responses](#response) for more det
 
 You can group search results by a column, via the [`groupBy`](#query-groupBy) parameters. For example, following query returns a result grouped by the `sex` column, with the count of original search results:
 
-    search
     {
-      "queries" : {
-        "sexuality" : {
-          "source"  : "Person",
-          "groupBy" : "sex",
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "_nsubrecs"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "sexuality" : {
+            "source"  : "Person",
+            "groupBy" : "sex",
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "_nsubrecs"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "sexuality" : {
-           "count" : 2,
-           "records" : 
-             ["female", 2],
-             ["male", 7]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "sexuality" : {
+             "count" : 2,
+             "records" : 
+               ["female", 2],
+               ["male", 7]
+             ]
+           }
          }
        }
 
@@ -393,38 +427,42 @@ The result means: "There are two `female` records and seven `male` records, more
 
 You can also extract the ungrouped record by the `maxNSubRecords` parameter and the `_subrecs` virtual column. For example, following query returns the result grouped by `sex` and extract two ungrouped records:
 
-    search
     {
-      "queries" : {
-        "sexuality" : {
-          "source"  : "Person",
-          "groupBy" : {
-            "keys"           : "sex",
-            "maxNSubRecords" : 2
-          }, 
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : [
-              "_key",
-              "_nsubrecs",
-              { "label"      : "subrecords",
-                "source"     : "_subrecs",
-                "attributes" : ["name"] }
-            ],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "sexuality" : {
+            "source"  : "Person",
+            "groupBy" : {
+              "keys"           : "sex",
+              "maxNSubRecords" : 2
+            }, 
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : [
+                "_key",
+                "_nsubrecs",
+                { "label"      : "subrecords",
+                  "source"     : "_subrecs",
+                  "attributes" : ["name"] }
+              ],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "sexuality" : {
-           "count" : 2,
-           "records" : 
-             ["female", 2, [["Alice Arnold"], ["Alice Miller"]]],
-             ["male",   7, [["Alice Cooper"], ["Bob Dole"]]]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "sexuality" : {
+             "count" : 2,
+             "records" : 
+               ["female", 2, [["Alice Arnold"], ["Alice Miller"]]],
+               ["male",   7, [["Alice Cooper"], ["Bob Dole"]]]
+             ]
+           }
          }
        }
 
@@ -438,46 +476,50 @@ See [`groupBy` parameters](#query-groupBy) for more details.
 
 Multiple queries can be appear in one `search` command. For example, following query searches people yanger than 25 or older than 40:
 
-    search
     {
-      "queries" : {
-        "junior" : {
-          "source"    : "Person",
-          "condition" : "age <= 25",
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
-          }
-        },
-        "senior" : {
-          "source"    : "Person",
-          "condition" : "age >= 40",
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "junior" : {
+            "source"    : "Person",
+            "condition" : "age <= 25",
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
+          },
+          "senior" : {
+            "source"    : "Person",
+            "condition" : "age >= 40",
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "junior" : {
-           "count" : 2,
-           "records" : [
-             ["Alice Arnold", 20],
-             ["Alice Miller", 25]
-           ]
-         },
-         "senior" : {
-           "count" : 3,
-           "records" : [
-             ["Bob Dole", 42],
-             ["Bob Ross", 54],
-             ["Lewis Carroll", 66]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "junior" : {
+             "count" : 2,
+             "records" : [
+               ["Alice Arnold", 20],
+               ["Alice Miller", 25]
+             ]
+           },
+           "senior" : {
+             "count" : 3,
+             "records" : [
+               ["Bob Dole", 42],
+               ["Bob Ross", 54],
+               ["Lewis Carroll", 66]
+             ]
+           }
          }
        }
 
@@ -489,78 +531,86 @@ You can specify not only an existing table, but search result of another query a
 
 For example, the following query returns two results: records that their `name` contains `Alice`, and results grouped by their `sex` column:
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice'"
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
-          }
-        },
-        "sexuality" : {
-          "source"  : "people",
-          "groupBy" : "sex",
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "_nsubrecs"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice'"
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
+          },
+          "sexuality" : {
+            "source"  : "people",
+            "groupBy" : "sex",
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "_nsubrecs"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 8,
-           "records" : [
-             ["Alice Cooper", 30],
-             ["Alice Miller", 25],
-             ["Alice Arnold", 20]
-           ]
-         },
-         "sexuality" : {
-           "count" : 2,
-           "records" : 
-             ["female", 2],
-             ["male", 1]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 8,
+             "records" : [
+               ["Alice Cooper", 30],
+               ["Alice Miller", 25],
+               ["Alice Arnold", 20]
+             ]
+           },
+           "sexuality" : {
+             "count" : 2,
+             "records" : 
+               ["female", 2],
+               ["male", 1]
+             ]
+           }
          }
        }
 
 You can use search queries just internally, without output. For example, the following query does: 1) group records of the Person table by their `job` column, and 2) extract grouped results which have the text `player` in their `job`. (*Note: The second query will be done without indexes, so it can be slow.)
 
-    search
     {
-      "queries" : {
-        "allJob" : {
-          "source"  : "Person",
-          "groupBy" : "job"
-        },
-        "playerJob" : {
-          "source"    : "allJob",
-          "condition" : "_key @ `player`",
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "_nsubrecs"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "allJob" : {
+            "source"  : "Person",
+            "groupBy" : "job"
+          },
+          "playerJob" : {
+            "source"    : "allJob",
+            "condition" : "_key @ `player`",
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "_nsubrecs"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "playerJob" : {
-           "count" : 2,
-           "records" : [
-             ["basketball player", 1],
-             ["baseball player", 1]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "playerJob" : {
+             "count" : 2,
+             "records" : [
+               ["basketball player", 1],
+               ["baseball player", 1]
+             ]
+           }
          }
        }
 
