@@ -46,8 +46,8 @@ layout: documents_ja
 概要
 : レスポンスの受信者へのパス。
 
-Value
-: An path string in the format: `<hostname>:<port>/<tag>`, for example: `loalhost:24224/output`.
+値
+: `<ホスト>:<ポート番号>/<タグ名>` で示されたパス文字列。例：`localhost:24224/output`.
 
 省略時の既定値
 : なし。この情報は省略可能で、省略した場合はレスポンスのメッセージは単に捨てられます。
@@ -71,8 +71,8 @@ Value
 値
 : オブジェクト、文字列、数値、真偽値、または `null`。
 
-Default value
-: Nothing. This is optional.
+省略時の既定値
+: なし。この情報は省略可能です。
 
 ## レスポンス {#response}
 

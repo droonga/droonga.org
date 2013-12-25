@@ -47,7 +47,7 @@ Abstract
 : The route to the response receiver.
 
 Value
-: An path string in the format: `<hostname>:<port>/<tag>`, for example: `loalhost:24224/output`.
+: An path string in the format: `<hostname>:<port>/<tag>`, for example: `localhost:24224/output`.
 
 Default value
 : Nothing. This is optional. If you specify no `replyTo`, then the response message will be thrown away.
