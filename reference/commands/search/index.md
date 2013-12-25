@@ -107,12 +107,12 @@ Why the command above returns all informations of the table? Because:
  * There is no search condition. This command matches to all records in the specified table, if no condition is specified.
  * [`output`](#query-output)'s `elements` contains `records` (and `count`) column(s). The parameter `elements` controls the returned information. Matched records are returned as `records`, the total number of matched records are returned as `count`.
  * [`output`](#query-output)'s `limit` is `-1`. The parameter `limit` controls the number of returned records, and `-1` means "return all records".
- * [`output`](#query-output)'s `attributes` contails all columns of the Person table. The parameter `attributes` controls which columns' value are returned.
+ * [`output`](#query-output)'s `attributes` contains all columns of the Person table. The parameter `attributes` controls which columns' value are returned.
 
 
 #### Search conditions {#usage-condition}
 
-Search conditions are specified via the `condition` parameter. There are two styles of search conditions: "scrypt syntax" and "query syntax". See [`condition` parameter](#query-condition) for more details.
+Search conditions are specified via the `condition` parameter. There are two styles of search conditions: "script syntax" and "query syntax". See [`condition` parameter](#query-condition) for more details.
 
 ##### Search conditions in Script syntax {#usage-condition-script-syntax}
 
@@ -748,7 +748,7 @@ In this pattern, you'll specify a search condition as a hash like:
   This parameter is optional, the default value is `true`.
 
 `allowColumn`
-: A boolean value to allow (`true`) or disallog (`false`) to specify column name for each query in the `query`, like `name:Alice`.
+: A boolean value to allow (`true`) or disallow (`false`) to specify column name for each query in the `query`, like `name:Alice`.
   This parameter is optional, the default value is `true`.
 
 `matchEscalationThreshold`
@@ -808,7 +808,7 @@ If paging conditions are not specified, then all sorted results will appear as t
 
 Sort condition is given as an array of column name strings.
 
-At first Droonga tries to sort records by the value of the first given sort column. After that, if there are multiple records which have same value for the column, then Drooga tries to sort them by the secondary given sort column. These processes are repeated for all given sort columns.
+At first Droonga tries to sort records by the value of the first given sort column. After that, if there are multiple records which have same value for the column, then Droonga tries to sort them by the secondary given sort column. These processes are repeated for all given sort columns.
 
 You must specify sort columns as an array, even if there is only one column.
 
@@ -956,7 +956,7 @@ An output definition is given as a hash like:
 
 `format`
 : A string meaning the format of exported each record.
-  Possible vaules:
+  Possible values:
   
    * `"simple"`  : Each record will be exported as an array of column values.
    * `"complex"` : Each record will be exported as a hash.
@@ -1029,7 +1029,7 @@ An output definition is given as a hash like:
   This parameter is optional, there is no default value. No column will be exported if no column is specified.
 
 
-## Resposnes {#response}
+## Responses {#response}
 
 This command returns a hash as the result as the `body`, with `200` as the `statusCode`.
 
@@ -1173,7 +1173,7 @@ Each column information is returned as a hash with following keys:
 
 `type`
 : A string meaning the value type of the column.
-  The type is indicated as one of [Groonga's primitive data formats](http://groonga.org/docs/reference/types.html), or a name fo an existing table for referring columns.
+  The type is indicated as one of [Groonga's primitive data formats](http://groonga.org/docs/reference/types.html), or a name for an existing table for referring columns.
 
 `vector`
 : A boolean value meaning it is a [vector column](http://groonga.org/docs/tutorial/data.html#vector-types) or not.
@@ -1210,4 +1210,4 @@ Means you've specified any column which is not existing in the specified table.
   
 ### `500` `SearchTimeout`
 
-Means the engine couldn't finish to process the request in the time specifieda as `timeout`.
+Means the engine couldn't finish to process the request in the time specified as `timeout`.
