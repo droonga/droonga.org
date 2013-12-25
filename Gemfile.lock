@@ -1,0 +1,14 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    gettext (3.0.3)
+      locale (>= 2.0.5)
+      text
+    locale (2.1.0)
+    text (1.2.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  gettext
