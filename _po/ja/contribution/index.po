@@ -24,5 +24,15 @@ msgid ""
 "---"
 msgstr ""
 
-msgid "TODO: Write me."
+msgid "Droonga project welcomes to your contributions!"
+msgstr ""
+
+msgid "Here is a list of contribution targets:"
+msgstr ""
+
+msgid ""
+" * [Internationalization](i18n/) describes how to translate Droonga documents "
+"in English into other languages.\n"
+" * [Development](development/) describes useful information to join developmen"
+"t of Droonga itself not Droonga plugins."
 msgstr ""

@@ -36,4 +36,3 @@ msgstr ""
 " * [catalog.json](catalog/)\n"
 " * [メッセージの形式](message/)\n"
 " * [コマンドリファレンス](commands/)"
-
