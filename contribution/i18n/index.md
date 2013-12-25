@@ -4,12 +4,16 @@ This documentation describes how to translate the original documentations in Eng
 
 ## Work-flow
 
+Here is a work-flow to translate one documentation in English:
+
   1. Run `rake`.
   2. Translate `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.edit.po`.
   3. Run `rake`.
   4. Run `jekyll server`.
   5. Confirm `_site/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.html`.
   6. Commit `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.po` (not `.edit.po`) and ``${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.md`.
+
+## Example
 
 Here is an example to translate `overview/index.md` into Japanese.
 
