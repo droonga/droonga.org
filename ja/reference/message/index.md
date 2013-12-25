@@ -12,23 +12,67 @@ layout: documents_ja
 リクエストのメッセージの基本的な形式は以下の通りです。
 
     {
-      "id"      : "<ID of the message>",
-      "type"    : "<Type of the message>",
-      "replyTo" : "<Route to the receiver>",
-      "dataset" : "<Name of the target dataset>",
-      "body"    : <Body of the message>
+      "id"      : "<メッセージの識別子>",
+      "type"    : "<メッセージの種類>",
+      "replyTo" : "<レスポンスの受信者へのパス>",
+      "dataset" : "<対象データセット名>",
+      "body"    : <メッセージ本文>
     }
 
 ### `id` {#request-id}
 
+概要
+: そのメッセージの一意な識別子。
+
+値
+: 識別子となる文字列。一意でさえあれば、どんな形式のどんな文字列でも指定できます。値は対応するレスポンスの['inReplyTo`](#response-inReplyTo)に使われます。
+
+省略時の既定値
+
+
 ### `type` {#request-type}
+
+概要
+: そのメッセージの種類。
+
+値
+: [コマンド](/ja/reference/commands/)の名前の文字列
+
+省略時の既定値
+
 
 ### `replyTo` {#request-replyTo}
 
+概要
+: レスポンスの受信者へのパス。
+
+Value
+: An path string in the format: `<hostname>:<port>/<tag>`, for example: `loalhost:24224/output`.
+
+省略時の既定値
+: なし。この情報は省略可能で、省略した場合はレスポンスのメッセージは単に捨てられます。
+
 ### `dataset` {#request-dataset}
+
+概要
+: 対象となるデータセット。
+
+値
+: データセット名の文字列。
+
+省略時の既定値
+
 
 ### `body` {#request-body}
 
+概要
+: メッセージの本文。
+
+値
+: オブジェクト、文字列、数値、真偽値、または `null`。
+
+Default value
+: Nothing. This is optional.
 
 ## レスポンス {#response}
 

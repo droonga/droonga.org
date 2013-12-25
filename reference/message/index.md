@@ -21,14 +21,58 @@ The basic format of a request message is like following:
 
 ### `id` {#request-id}
 
+Abstract
+: The unique identifier for the message.
+
+Value
+: An identifier string. You can use any string with any format as you like, if only it is unique. The given id of a request message will be used for the ['inReplyTo`](#response-inReplyTo) information of its response.
+
+Default value
+: Nothing. This is required information.
+
 ### `type` {#request-type}
+
+Abstract
+: The type of the message.
+
+Value
+: A type string of [a command](/reference/commands/).
+
+Default value
+: Nothing. This is required information.
 
 ### `replyTo` {#request-replyTo}
 
+Abstract
+: The route to the response receiver.
+
+Value
+: An path string in the format: `<hostname>:<port>/<tag>`, for example: `loalhost:24224/output`.
+
+Default value
+: Nothing. This is optional. If you specify no `replyTo`, then the response message will be thrown away.
+
 ### `dataset` {#request-dataset}
+
+Abstract
+: The target dataset.
+
+Value
+: A name string of a dataset.
+
+Default value
+: Nothing. This is required information.
 
 ### `body` {#request-body}
 
+Abstract
+: The body of the message.
+
+Value
+: Object, string, number, boolean, or `null`.
+
+Default value
+: Nothing. This is optional.
 
 ## Response {#response}
 
