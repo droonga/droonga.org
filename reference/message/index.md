@@ -80,12 +80,21 @@ The basic format of a response message is like following:
 
     {
       "type"       : "<Type of the message>",
-      "inReplyTo"  : "<Route to the receiver>",
+      "inReplyTo"  : "<ID of the related request message>",
       "statusCode" : <Status code>,
       "body"       : <Body of the message>
     }
 
 ### `type` {#response-type}
+
+Abstract
+: The type of the message.
+
+Value
+: A type string. Generally it is a suffixed version of the type string of the request message, with the suffix ".result".
+
+Default value
+: Nothing. This is required information.
 
 ### `inReplyTo` {#response-inReplyTo}
 

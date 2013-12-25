@@ -79,13 +79,22 @@ Default value
 The basic format of a response message is like following:
 
     {
-      "type"       : "<Type of the message>",
-      "inReplyTo"  : "<Route to the receiver>",
-      "statusCode" : <Status code>,
-      "body"       : <Body of the message>
+      "type"       : "<メッセージの種類>",
+      "inReplyTo"  : "<対応するリクエストメッセージの識別子>",
+      "statusCode" : <ステータスコード>,
+      "body"       : <メッセージの本文>
     }
 
 ### `type` {#response-type}
+
+Abstract
+: The type of the message.
+
+値
+: メッセージの種類を示す文字列。多くの場合は、元のリクエストメッセージの `type` の値に `.result` という接尾辞を伴った文字列です。request message, with the suffix ".result".
+
+Default value
+: Nothing. This is required information.
 
 ### `inReplyTo` {#response-inReplyTo}
 
