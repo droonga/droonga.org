@@ -146,7 +146,7 @@ Status codes of error responses are similar to HTTP's one. Possible values:
 : An internal error of the Droonga Engine. General errors for any message type are:
   
   `501` `UnknownType`
-  : Means there is not adapter or handler for the `type`.
+  : Means there is no adapter or handler for the `type`.
 
 ### Body of error responses {#error-body}
 
