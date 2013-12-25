@@ -50,7 +50,7 @@ Style
 
 All parameters except `table` are optional.
 
-On the version {{ site.droonga_version }}, only following paramters are available. Others are simply ignored because they are not implemented.
+On the version {{ site.droonga_version }}, only following parameters are available. Others are simply ignored because they are not implemented.
 
  * `table`
  * `match_columns`
@@ -63,7 +63,7 @@ All parameters are compatible to [parameters for `select` command of the Groonga
 
 
 
-## Resposnes {#response}
+## Responses {#response}
 
 This returns an array including search results.
 
