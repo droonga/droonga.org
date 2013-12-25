@@ -23,6 +23,10 @@ msgid ""
 "layout: documents\n"
 "---"
 msgstr ""
+"---\n"
+"title: メッセージ形式\n"
+"layout: documents_ja\n"
+"---"
 
 msgid ""
 "* TOC\n"
@@ -30,10 +34,10 @@ msgid ""
 msgstr ""
 
 msgid "## Request {#request}"
-msgstr ""
+msgstr "## リクエスト {#request}"
 
 msgid "The basic format of a request message is like following:"
-msgstr ""
+msgstr "リクエストのメッセージの基本的な形式は以下の通りです。"
 
 msgid ""
 "    {\n"
@@ -61,10 +65,10 @@ msgid "### `body` {#request-body}"
 msgstr ""
 
 msgid "## Response {#response}"
-msgstr ""
+msgstr "## レスポンス {#response}"
 
 msgid "The basic format of a response message is like following:"
-msgstr ""
+msgstr "レスポンスのメッセージの基本的な形式は以下の通りです。"
 
 msgid ""
 "    {\n"
@@ -85,49 +89,57 @@ msgid "### `statusCode` {#response-statusCode}"
 msgstr ""
 
 msgid "Status codes of responses are similar to HTTP's one."
-msgstr ""
+msgstr "レスポンスのステータスコードはHTTPのステータスコードに似ています。"
 
 msgid ""
 "`200` and other `2xx` statuses\n"
 ": The command is successfully processed."
 msgstr ""
+"`200` およびその他の `2xx` のステータス\n"
+": コマンドが正常に処理されたことを示します。"
 
 msgid "### `body` {#response-body}"
 msgstr ""
 
 msgid "## Error response {#error}"
-msgstr ""
+msgstr "## エラーレスポンス {#error}"
 
 msgid "Some commands can return an error response."
-msgstr ""
+msgstr "コマンドの中にはエラーを返す物があります。"
 
 msgid ""
 "An error response has the `type` same to a regular response, but it has differ"
 "ent `statusCode` and `body`. General type of the error is indicated by the `st"
 "atusCode`, and details are reported as the `body`."
 msgstr ""
+"エラーレスポンスは通常のレスポンスと同じ `type` を伴って返されますが、通常のレスポンスとは異なる `statusCode` と `body` を持ち"
+"ます。大まかなエラーの種類は `statusCode` で示され、詳細な情報は `body` の内容として返されます。"
 
 msgid "### Status codes of error responses {#error-status}"
-msgstr ""
+msgstr "### エラーレスポンスのステータスコード {#error-status}"
 
 msgid "Status codes of error responses are similar to HTTP's one."
-msgstr ""
+msgstr "エラーレスポンスのステータスコードはHTTPのステータスコードに似ています。"
 
 msgid ""
 "`400` and other `4xx` statuses\n"
 ": An error of the request message."
 msgstr ""
+"`400` およびその他の `4xx` のステータス\n"
+": リクエストのメッセージが原因でのエラーであることを示します。"
 
 msgid ""
 "`500` and other `5xx` statuses\n"
 ": An internal error of the Droonga Engine."
 msgstr ""
+"`500` およびその他の `5xx` のステータス\n"
+": Droonga Engine内部のエラーであることを示します。"
 
 msgid "### Body of error responses {#error-body}"
-msgstr ""
+msgstr "### エラーレスポンスの `body` {#error-body}"
 
 msgid "The basic format of the body of an error response is like following:"
-msgstr ""
+msgstr "エラーレスポンスの `body` の基本的な形式は以下の通りです。"
 
 msgid ""
 "    {\n"

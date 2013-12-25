@@ -1,15 +1,15 @@
 ---
-title: Message format
-layout: documents
+title: メッセージ形式
+layout: documents_ja
 ---
 
 * TOC
 {:toc}
 
 
-## Request {#request}
+## リクエスト {#request}
 
-The basic format of a request message is like following:
+リクエストのメッセージの基本的な形式は以下の通りです。
 
     {
       "id"      : "<ID of the message>",
@@ -30,9 +30,9 @@ The basic format of a request message is like following:
 ### `body` {#request-body}
 
 
-## Response {#response}
+## レスポンス {#response}
 
-The basic format of a response message is like following:
+レスポンスのメッセージの基本的な形式は以下の通りです。
 
     {
       "type"       : "<Type of the message>",
@@ -47,33 +47,33 @@ The basic format of a response message is like following:
 
 ### `statusCode` {#response-statusCode}
 
-Status codes of responses are similar to HTTP's one.
+レスポンスのステータスコードはHTTPのステータスコードに似ています。
 
-`200` and other `2xx` statuses
-: The command is successfully processed.
+`200` およびその他の `2xx` のステータス
+: コマンドが正常に処理されたことを示します。
 
 ### `body` {#response-body}
 
 
-## Error response {#error}
+## エラーレスポンス {#error}
 
-Some commands can return an error response.
+コマンドの中にはエラーを返す物があります。
 
-An error response has the `type` same to a regular response, but it has different `statusCode` and `body`. General type of the error is indicated by the `statusCode`, and details are reported as the `body`.
+エラーレスポンスは通常のレスポンスと同じ `type` を伴って返されますが、通常のレスポンスとは異なる `statusCode` と `body` を持ちます。大まかなエラーの種類は `statusCode` で示され、詳細な情報は `body` の内容として返されます。
 
-### Status codes of error responses {#error-status}
+### エラーレスポンスのステータスコード {#error-status}
 
-Status codes of error responses are similar to HTTP's one.
+エラーレスポンスのステータスコードはHTTPのステータスコードに似ています。
 
-`400` and other `4xx` statuses
-: An error of the request message.
+`400` およびその他の `4xx` のステータス
+: リクエストのメッセージが原因でのエラーであることを示します。
 
-`500` and other `5xx` statuses
-: An internal error of the Droonga Engine.
+`500` およびその他の `5xx` のステータス
+: Droonga Engine内部のエラーであることを示します。
 
-### Body of error responses {#error-body}
+### エラーレスポンスの `body` {#error-body}
 
-The basic format of the body of an error response is like following:
+エラーレスポンスの `body` の基本的な形式は以下の通りです。
 
     {
       "name"    : "<Name of the error>",
