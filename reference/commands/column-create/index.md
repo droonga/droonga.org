@@ -37,7 +37,7 @@ All parameters except `table` and `name` are optional.
 
 They are compatible to [the parameters of the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html#parameters). See the linked document for more details.
 
-## Resposnes {#response}
+## Responses {#response}
 
 This returns an array meaning the result of the operation, as the `body`.
 
