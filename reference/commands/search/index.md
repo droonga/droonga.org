@@ -1205,4 +1205,7 @@ Means you've specified a table which is not existing in the specified dataset.
 ### `404` `UnknownColumn`
 
 Means you've specified any column which is not existing in the specified table.
+  
+### `500` `SearchTimeout`
 
+Means the engine couldn't finish to process the request in the time specifieda as `timeout`.
