@@ -4,4 +4,5 @@ layout: documents
 ---
 
  * [catalog.json](catalog/)
+ * [Message format](message/)
  * [Commands](commands/)
