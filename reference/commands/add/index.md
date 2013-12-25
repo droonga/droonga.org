@@ -195,11 +195,15 @@ Value of unspecified columns will not be changed.
 
 ## Responses {#response}
 
-This returns an array with including a boolean value `true` like follwing as the response's `body`, if a record is successfully added or updated.
+This returns an array with including a boolean value `true` like follwing as the response's `body`, with `200` as its `statusCode`, if a record is successfully added or updated.
 
     [true]
 
 ## Error types {#errors}
+
+### `400` `MissingTable`
+
+Means you've forgotten to specify the `table` parameter.
 
 ### `400` `MissingPrimaryKey`
 
@@ -208,3 +212,12 @@ Means you've forgotten to specify the `key` parameter, for a table with the prim
 ### `400` `InvalidValueType`
 
 Means you've specified mismatched type value for a column. For example, a string for a geolocation column, a string for an integer column, etc.
+
+### `404` `UnknownTable`
+
+Means you've specified an table which is not existing in the specified dataset.
+
+### `404` `UnknownColumn`
+
+Means you've specified any column which is not existing in the specified table.
+
