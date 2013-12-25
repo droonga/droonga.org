@@ -1031,7 +1031,9 @@ An output definition is given as a hash like:
 
 ## Resposnes {#response}
 
-This command returns a hash as the result. Keys of the hash is the name of each query (a result of a search query), values of the hash is the result of each [search query](#query-parameters), like:
+This command returns a hash as the result as the `body`, with `200` as the `statusCode`.
+
+Keys of the result hash is the name of each query (a result of a search query), values of the hash is the result of each [search query](#query-parameters), like:
 
     {
       "<Name of the query 1>" : {
@@ -1188,3 +1190,19 @@ An array of exported search result records.
 Each record is exported as a hash. Keys of the hash are column names defined by [`output` parameter](#query-output)'s `attributes`, values are column values.
 
 A value of [date time type](http://groonga.org/docs/tutorial/data.html#date-and-time-type) column will be returned as a string formatted in the [W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats"), with the time zone.
+
+
+## Error types {#errors}
+
+### `400` `MissingTable`
+
+Means you've forgotten to specify the `table` parameter.
+
+### `404` `UnknownTable`
+
+Means you've specified an table which is not existing in the specified dataset.
+
+### `404` `UnknownColumn`
+
+Means you've specified any column which is not existing in the specified table.
+
