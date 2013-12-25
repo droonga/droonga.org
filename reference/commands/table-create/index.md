@@ -40,7 +40,7 @@ They are compatible to [the parameters of the `table_create` command of the Groo
 
 ## Responses {#response}
 
-This returns an array meaning the result of the operation.
+This returns an array meaning the result of the operation, as the `body`.
 
     [
       [
@@ -51,7 +51,9 @@ This returns an array meaning the result of the operation.
       <Table is successfully created or not>
     ]
 
-Details:
+This command always returns a response with `200` as its `statusCode`, because this is a Groonga compatible command and errors of this command must be handled in the way same to Groonga's one.
+
+Response body's details:
 
 Status code
 : An integer which means the operation's result. Possible values are:

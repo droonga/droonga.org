@@ -69,3 +69,4 @@ This returns an array including search results.
 
 The structure of the returned array is compatible to [the returned value of the Groonga's `select` command](http://groonga.org/docs/reference/commands/select.html#id6). See the linked document for more details.
 
+This command always returns a response with `200` as its `statusCode`, because this is a Groonga compatible command and errors of this command must be handled in the way same to Groonga's one.

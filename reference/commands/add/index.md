@@ -195,7 +195,7 @@ Value of unspecified columns will not be changed.
 
 ## Responses {#response}
 
-This returns an array including a boolean value which means the operation was successfully done or not.
+This returns an array including a boolean value which means the operation was successfully done or not, as the `body`.
 
  * `[true]`：The record was successfully added or updated.
  * `[false]`：Failed to add or update a record.

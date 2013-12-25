@@ -39,7 +39,7 @@ They are compatible to [the parameters of the `column_create` command of the Gro
 
 ## Resposnes {#response}
 
-This returns an array meaning the result of the operation.
+This returns an array meaning the result of the operation, as the `body`.
 
     [
       [
@@ -50,7 +50,9 @@ This returns an array meaning the result of the operation.
       <Column is successfully created or not>
     ]
 
-Details:
+This command always returns a response with `200` as its `statusCode`, because this is a Groonga compatible command and errors of this command must be handled in the way same to Groonga's one.
+
+Response body's details:
 
 Status code
 : An integer meaning the operation's result. Possible values are:
