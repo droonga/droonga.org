@@ -30,7 +30,6 @@ Droonga は複数のコンポーネントから構成されています。ユー
 Droonga Engine は Droonga における分散データ処理の要となるコンポーネントです。リクエストに基いて実際のデータ処理を行います。
 
 このコンポーネントは [Fluentd] のプラグインとして実装されており、 [fluent-plugin-droonga][] パッケージとして提供されます。
-
 [fluent-plugin-droonga][] は検索エンジンとして、オープンソースのカラムストア機能付き全文検索エンジン [Groonga][] を使用しています。
 
 #### Protocol Adapter
@@ -40,7 +39,6 @@ Protocol Adapter は、Droonga を様々なプロトコルで利用できるよ�
 このコンポーネントは [Node.js][] のパッケージとして実装されており、[express-droonga][] パッケージとして提供されます。
 
 Droonga Engine は fluentd プロトコルで通信を行います。Protocol Adapter は、ユーザがアプリケーションを構築する際に利用しやすいよう、 Droonga Engine の機能を HTTP や Socket.IO などのインタフェースで提供します。
-
 
 ## チュートリアルでつくるシステムの全体像
 
@@ -54,24 +52,27 @@ Droonga Engine は fluentd プロトコルで通信を行います。Protocol Ad
 
 
                                  \--------------------------------------------------/
-                                                 この部分を構築します
+                                       この部分を構築します
 
 ユーザは Protocol Adapter に、Web ブラウザなどを用いて接続します。Protocol Adapter は Droonga Engine へリクエストを送信します。実際の検索処理は Droonga Engine が行います。検索結果は、Droonga Engine から Protocol Adapter に渡され、最終的にユーザに返ります。
 
-例として、たい焼き屋を検索できるデータベースシステムを作成することにします。
-[groongaで高速な位置情報検索](http://www.clear-code.com/blog/2011/9/13.html) に出てくるたいやき屋データをもとに、変更を加えたデータを利用します。
+例として、[ニューヨークにあるのスターバックスの店舗](http://geocommons.com/overlays/430038)を検索できるデータベースシステムを作成することにします。
 
 
 ## 実験用のマシンを用意する
 
-本チュートリアルでは、 [さくらのクラウド](http://cloud.sakura.ad.jp/) に `Ubuntu Server 13.10 64bit` をセットアップし、その上に Droonga による検索システムを構築します。
-Ubuntu Server のセットアップが完了し、コンソールにアクセス出来る状態になったと仮定し、以降の手順を説明していきます。
+まずコンピュータを調達しましょう。このチュートリアルでは、既存のコンピュータにDroongaによる検索システムを構築する手順を解説します。
+以降の説明は基本的に、[DigitalOcean](https://www.digitalocean.com/)で `Ubuntu 13.10 x64` の仮想マシンのセットアップを完了し、コンソールにアクセスできる状態になった後を前提として進めます。
+
+注意：Droongaが必要とするパッケージをインストールする前に、マシンが2GB以上のメモリを備えていることを確認して下さい。メモリが不足していると、ビルド時にエラーが出て、ビルドに失敗することがあります。
 
 ## セットアップに必要なパッケージをインストールする
 
 Droonga をセットアップするために必要になるパッケージをインストールします。
 
-    $ sudo apt-get install -y ruby ruby-dev build-essential nodejs npm
+    # apt-get update
+    # apt-get -y upgrade
+    # apt-get install -y ruby ruby-dev build-essential nodejs npm
 
 ## Droonga Engine を構築する
 
@@ -80,17 +81,16 @@ Droonga Engine は、データベースを保持し、実際の検索を担当�
 
 ### fluent-plugin-droonga をインストールする
 
-    $ sudo gem install fluent-plugin-droonga
+    # gem install fluent-plugin-droonga
 
 Droonga Engine を構築するのに必要なパッケージがセットアップできました。引き続き設定に移ります。
-
 
 ### Droonga Engine を起動するための設定ファイルを用意する
 
 まず Droonga Engine 用のディレクトリを作成します。
 
-    $ mkdir engine
-    $ cd engine
+    # mkdir engine
+    # cd engine
 
 以下の内容で `fluentd.conf` と `catalog.json` を作成します。
 
@@ -100,8 +100,8 @@ fluentd.conf:
       type forward
       port 24224
     </source>
-    <match taiyaki.message>
-      name localhost:24224/taiyaki
+    <match starbucks.message>
+      name localhost:24224/starbucks
       type droonga
     </match>
     <match output.message>
@@ -112,15 +112,15 @@ catalog.json:
 
     {
       "effective_date": "2013-09-01T00:00:00Z",
-      "zones": ["localhost:24224/taiyaki"],
+      "zones": ["localhost:24224/starbucks"],
       "farms": {
-        "localhost:24224/taiyaki": {
+        "localhost:24224/starbucks": {
           "device": ".",
           "capacity": 10
         }
       },
       "datasets": {
-        "Taiyaki": {
+        "Starbucks": {
           "workers": 0,
           "plugins": ["search", "groonga", "add"],
           "number_of_replicas": 2,
@@ -132,8 +132,8 @@ catalog.json:
               "weight": 50,
               "partitions": {
                 "2013-09-01": [
-                  "localhost:24224/taiyaki.000",
-                  "localhost:24224/taiyaki.001"
+                  "localhost:24224/starbucks.000",
+                  "localhost:24224/starbucks.001"
                 ]
               }
             },
@@ -141,8 +141,8 @@ catalog.json:
               "weight": 50,
               "partitions": {
                 "2013-09-01": [
-                  "localhost:24224/taiyaki.002",
-                  "localhost:24224/taiyaki.003"
+                  "localhost:24224/starbucks.002",
+                  "localhost:24224/starbucks.003"
                 ]
               }
             }
@@ -154,16 +154,16 @@ catalog.json:
       }
     }
 
-この `catalog.json` では、 `Taiyaki` データセットを定義し、2組のレプリカ×2個のパーティションで構成するよう指示しています。
+この `catalog.json` では、 `Starbucks` データセットを定義し、2組のレプリカ×2個のパーティションで構成するよう指示しています。
 この例では、全てのレプリカ及びパーティションは、ローカル(一つの `fluent-plugin-droonga` の管理下)に配置します。
 
-`catalog.json` の詳細については [catalog.json](/reference/catalog) を参照してください。
+`catalog.json` の詳細については [catalog.json](/ja/reference/catalog) を参照してください。
 
 ### fluent-plugin-droonga を起動する
 
 以下のようにして fluentd-plugin-droonga を起動します。
 
-    $ fluentd --config fluentd.conf
+    # fluentd --config fluentd.conf
     2013-11-12 14:14:20 +0900 [info]: starting fluentd-0.10.40
     2013-11-12 14:14:20 +0900 [info]: reading config file path="fluentd.conf"
     2013-11-12 14:14:20 +0900 [info]: gem 'fluent-plugin-droonga' version '0.0.1'
@@ -173,8 +173,8 @@ catalog.json:
         type forward
         port 24224
       </source>
-      <match taiyaki.message>
-        name localhost:24224/taiyaki
+      <match starbucks.message>
+        name localhost:24224/starbucks
         type droonga
       </match>
       <match output.message>
@@ -182,72 +182,76 @@ catalog.json:
       </match>
     </ROOT>
     2013-11-12 14:14:20 +0900 [info]: adding source type="forward"
-    2013-11-12 14:14:20 +0900 [info]: adding match pattern="taiyaki.message" type="droonga"
+    2013-11-12 14:14:20 +0900 [info]: adding match pattern="starbucks.message" type="droonga"
     2013-11-12 14:14:20 +0900 [info]: adding match pattern="output.message" type="stdout"
     2013-11-12 14:14:20 +0900 [info]: listening fluent socket on 0.0.0.0:24224
 
 ### データベースを作成する
 
 Dronga Engine が起動したので、データを投入しましょう。
-スキーマを定義した `ddl.jsons` と、たいやき屋のデータ `shops.jsons` を用意します。
+スキーマを定義した `ddl.jsons` と、店舗のデータ `stores.jsons` を用意します。
 
 ddl.jsons:
 
-    {"id":"ddl:0","dataset":"Taiyaki","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Shop","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
-    {"id":"ddl:1","dataset":"Taiyaki","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Shop","name":"location","flags":"COLUMN_SCALAR","type":"WGS84GeoPoint"}}
-    {"id":"ddl:2","dataset":"Taiyaki","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Location","flags":"TABLE_PAT_KEY","key_type":"WGS84GeoPoint"}}
-    {"id":"ddl:3","dataset":"Taiyaki","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Location","name":"shop","flags":"COLUMN_INDEX","type":"Shop","source":"location"}}
-    {"id":"ddl:4","dataset":"Taiyaki","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Term","flags":"TABLE_PAT_KEY","key_type":"ShortText","default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
-    {"id":"ddl:5","dataset":"Taiyaki","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Term","name":"shops__key","flags":"COLUMN_INDEX|WITH_POSITION","type":"Shop","source":"_key"}}
+    {"id":"ddl:0","dataset":"Starbucks","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Store","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
+    {"id":"ddl:1","dataset":"Starbucks","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Store","name":"location","flags":"COLUMN_SCALAR","type":"WGS84GeoPoint"}}
+    {"id":"ddl:2","dataset":"Starbucks","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Location","flags":"TABLE_PAT_KEY","key_type":"WGS84GeoPoint"}}
+    {"id":"ddl:3","dataset":"Starbucks","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Location","name":"store","flags":"COLUMN_INDEX","type":"Store","source":"location"}}
+    {"id":"ddl:4","dataset":"Starbucks","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Term","flags":"TABLE_PAT_KEY","key_type":"ShortText","default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
+    {"id":"ddl:5","dataset":"Starbucks","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Term","name":"stores__key","flags":"COLUMN_INDEX|WITH_POSITION","type":"Store","source":"_key"}}
 
 
-shops.jsons:
+stores.jsons:
 
-    {"id":"shops:0","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"根津のたいやき","values":{"location":"35.720253,139.762573"}}}
-    {"id":"shops:1","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たい焼 カタオカ","values":{"location":"35.712521,139.715591"}}}
-    {"id":"shops:2","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"そばたいやき空","values":{"location":"35.683712,139.659088"}}}
-    {"id":"shops:3","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"車","values":{"location":"35.721516,139.706207"}}}
-    {"id":"shops:4","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"広瀬屋","values":{"location":"35.714844,139.685608"}}}
-    {"id":"shops:5","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"さざれ","values":{"location":"35.714653,139.685043"}}}
-    {"id":"shops:6","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"おめで鯛焼き本舗錦糸町東急店","values":{"location":"35.700516,139.817154"}}}
-    {"id":"shops:7","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"尾長屋 錦糸町店","values":{"location":"35.698254,139.81105"}}}
-    {"id":"shops:8","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たいやき工房白家 阿佐ヶ谷店","values":{"location":"35.705517,139.638611"}}}
-    {"id":"shops:9","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たいやき本舗 藤家 阿佐ヶ谷店","values":{"location":"35.703938,139.637115"}}}
-    {"id":"shops:10","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"みよし","values":{"location":"35.644539,139.537323"}}}
-    {"id":"shops:11","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"寿々屋 菓子","values":{"location":"35.628922,139.695755"}}}
-    {"id":"shops:12","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たい焼き / たつみや","values":{"location":"35.665501,139.638657"}}}
-    {"id":"shops:13","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たい焼き鉄次 大丸東京店","values":{"location":"35.680912,139.76857"}}}
-    {"id":"shops:14","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"吾妻屋","values":{"location":"35.700817,139.647598"}}}
-    {"id":"shops:15","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"ほんま門","values":{"location":"35.722736,139.652573"}}}
-    {"id":"shops:16","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"浪花家","values":{"location":"35.730061,139.796234"}}}
-    {"id":"shops:17","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"代官山たい焼き黒鯛","values":{"location":"35.650345,139.704834"}}}
-    {"id":"shops:18","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たいやき神田達磨 八重洲店","values":{"location":"35.681461,139.770599"}}}
-    {"id":"shops:19","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"柳屋 たい焼き","values":{"location":"35.685341,139.783981"}}}
-    {"id":"shops:20","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たい焼き写楽","values":{"location":"35.716969,139.794846"}}}
-    {"id":"shops:21","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たかね 和菓子","values":{"location":"35.698601,139.560913"}}}
-    {"id":"shops:22","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たい焼き ちよだ","values":{"location":"35.642601,139.652817"}}}
-    {"id":"shops:23","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"ダ・カーポ","values":{"location":"35.627346,139.727356"}}}
-    {"id":"shops:24","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"松島屋","values":{"location":"35.640556,139.737381"}}}
-    {"id":"shops:25","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"銀座 かずや","values":{"location":"35.673508,139.760895"}}}
-    {"id":"shops:26","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"ふるや古賀音庵 和菓子","values":{"location":"35.680603,139.676071"}}}
-    {"id":"shops:27","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"蜂の家 自由が丘本店","values":{"location":"35.608021,139.668106"}}}
-    {"id":"shops:28","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"薄皮たい焼き あづきちゃん","values":{"location":"35.64151,139.673203"}}}
-    {"id":"shops:29","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"横浜 くりこ庵 浅草店","values":{"location":"35.712013,139.796829"}}}
-    {"id":"shops:30","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"夢ある街のたいやき屋さん戸越銀座店","values":{"location":"35.616199,139.712524"}}}
-    {"id":"shops:31","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"何故屋","values":{"location":"35.609039,139.665833"}}}
-    {"id":"shops:32","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"築地 さのきや","values":{"location":"35.66592,139.770721"}}}
-    {"id":"shops:33","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"しげ田","values":{"location":"35.672626,139.780273"}}}
-    {"id":"shops:34","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"にしみや 甘味処","values":{"location":"35.671825,139.774628"}}}
-    {"id":"shops:35","replyTo":"localhost:24224/output","dataset":"Taiyaki","type":"add","body":{"table":"Shop","key":"たいやきひいらぎ","values":{"location":"35.647701,139.711517"}}}
-
-
-fluentd を起動した状態で別の端末を開き、以下のようにして `ddl.jsons` と `shops.jsons` を投入します:
-
-    $ fluent-cat taiyaki.message < ddl.jsons
-    $ fluent-cat taiyaki.message < shops.jsons
+    {"id":"stores:0","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1st Avenue & 75th St. - New York NY  (W)","values":{"location":"40.770262,-73.954798"}}}
+    {"id":"stores:1","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"76th & Second - New York NY  (W)","values":{"location":"40.771056,-73.956757"}}}
+    {"id":"stores:2","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2nd Ave. & 9th Street - New York NY","values":{"location":"40.729445,-73.987471"}}}
+    {"id":"stores:3","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"15th & Third - New York NY  (W)","values":{"location":"40.733946,-73.9867"}}}
+    {"id":"stores:4","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"41st and Broadway - New York NY  (W)","values":{"location":"40.755111,-73.986225"}}}
+    {"id":"stores:5","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"84th & Third Ave - New York NY  (W)","values":{"location":"40.777485,-73.954979"}}}
+    {"id":"stores:6","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"150 E. 42nd Street - New York NY  (W)","values":{"location":"40.750784,-73.975582"}}}
+    {"id":"stores:7","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"West 43rd and Broadway - New York NY  (W)","values":{"location":"40.756197,-73.985624"}}}
+    {"id":"stores:8","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 35th Street Balcony - New York NY","values":{"location":"40.750703,-73.989787"}}}
+    {"id":"stores:9","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 6th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
+    {"id":"stores:10","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Herald Square- Macy's - New York NY","values":{"location":"40.750703,-73.989787"}}}
+    {"id":"stores:11","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 5th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
+    {"id":"stores:12","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"80th & York - New York NY  (W)","values":{"location":"40.772204,-73.949862"}}}
+    {"id":"stores:13","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Columbus @ 67th - New York NY  (W)","values":{"location":"40.774009,-73.981472"}}}
+    {"id":"stores:14","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"45th & Broadway - New York NY  (W)","values":{"location":"40.75766,-73.985719"}}}
+    {"id":"stores:15","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Marriott Marquis - Lobby - New York NY","values":{"location":"40.759123,-73.984927"}}}
+    {"id":"stores:16","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Second @ 81st - New York NY  (W)","values":{"location":"40.77466,-73.954447"}}}
+    {"id":"stores:17","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"52nd & Seventh - New York NY  (W)","values":{"location":"40.761829,-73.981141"}}}
+    {"id":"stores:18","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1585 Broadway (47th) - New York NY  (W)","values":{"location":"40.759806,-73.985066"}}}
+    {"id":"stores:19","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"85th & First - New York NY  (W)","values":{"location":"40.776101,-73.949971"}}}
+    {"id":"stores:20","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"92nd & 3rd - New York NY  (W)","values":{"location":"40.782606,-73.951235"}}}
+    {"id":"stores:21","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"165 Broadway - 1 Liberty - New York NY  (W)","values":{"location":"40.709727,-74.011395"}}}
+    {"id":"stores:22","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1656 Broadway - New York NY  (W)","values":{"location":"40.762434,-73.983364"}}}
+    {"id":"stores:23","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"54th & Broadway - New York NY  (W)","values":{"location":"40.764275,-73.982361"}}}
+    {"id":"stores:24","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Limited Brands-NYC - New York NY","values":{"location":"40.765219,-73.982025"}}}
+    {"id":"stores:25","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"19th & 8th - New York NY  (W)","values":{"location":"40.743218,-74.000605"}}}
+    {"id":"stores:26","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"60th & Broadway-II - New York NY  (W)","values":{"location":"40.769196,-73.982576"}}}
+    {"id":"stores:27","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"63rd & Broadway - New York NY  (W)","values":{"location":"40.771376,-73.982709"}}}
+    {"id":"stores:28","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"195 Broadway - New York NY  (W)","values":{"location":"40.710703,-74.009485"}}}
+    {"id":"stores:29","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Broadway - New York NY  (W)","values":{"location":"40.704538,-74.01324"}}}
+    {"id":"stores:30","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Columbus Ave. - New York NY  (W)","values":{"location":"40.769262,-73.984764"}}}
+    {"id":"stores:31","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"NY Plaza - New York NY  (W)","values":{"location":"40.702802,-74.012784"}}}
+    {"id":"stores:32","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"36th and Madison - New York NY  (W)","values":{"location":"40.748917,-73.982683"}}}
+    {"id":"stores:33","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"125th St. btwn Adam Clayton & FDB - New York NY","values":{"location":"40.808952,-73.948229"}}}
+    {"id":"stores:34","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
+    {"id":"stores:35","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2138 Broadway - New York NY  (W)","values":{"location":"40.781078,-73.981167"}}}
+    {"id":"stores:36","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"118th & Frederick Douglas Blvd. - New York NY  (W)","values":{"location":"40.806176,-73.954109"}}}
+    {"id":"stores:37","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"42nd & Second - New York NY  (W)","values":{"location":"40.750069,-73.973393"}}}
+    {"id":"stores:38","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Broadway @ 81st - New York NY  (W)","values":{"location":"40.784972,-73.978987"}}}
+    {"id":"stores:39","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Fashion Inst of Technology - New York NY","values":{"location":"40.746948,-73.994557"}}}
 
 
-これで、たい焼きデータベースを検索するための Droonga Engine ができました。
+fluentd を起動した状態で別の端末を開き、以下のようにして `ddl.jsons` と `stores.jsons` を投入します:
+
+    # fluent-cat starbucks.message < ddl.jsons
+    # fluent-cat starbucks.message < stores.jsons
+
+
+これで、スターバックスの店舗のデータベースを検索するための Droonga Engine ができました。
 引き続き Protocol Adapter を構築して、検索リクエストを受け付けられるようにしましょう。
 
 
@@ -257,9 +261,9 @@ Protocol Adapter を構築するために、 `express-droonga` を使用しま�
 
 ### express-droonga をインストールする
 
-    $ cd ~
-    $ mkdir protocol-adapter
-    $ cd protocol-adapter
+    # cd ~
+    # mkdir protocol-adapter
+    # cd protocol-adapter
 
 以下のような `package.json` を用意します。
 
@@ -297,8 +301,8 @@ application.js:
     
     application.droonga({
       prefix: '/droonga',
-      tag: 'taiyaki',
-      defaultDataset: 'Taiyaki',
+      tag: 'starbucks',
+      defaultDataset: 'Starbucks',
       server: server, // this is required to initialize Socket.IO API!
       plugins: [
         droonga.API_REST,
@@ -310,78 +314,138 @@ application.js:
 
 `application.js` を実行します。
 
-    $ nodejs application.js
+    # nodejs application.js
        info  - socket.io started
 
 
-### 動作を確認
+### HTTPでの同期的な検索のリクエスト
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    $ curl "http://localhost:3000/droonga/tables/Shop?attributes=_key&limit=-1"
+    # curl "http://localhost:3000/droonga/tables/Store?attributes=_key&limit=-1"
     {
       "result": {
-        "count": 36,
+        "count": 40,
         "records": [
           [
-            "たい焼 カタオカ"
+            "76th & Second - New York NY  (W)"
           ],
           [
-            "根津のたいやき"
+            "15th & Third - New York NY  (W)"
           ],
           [
-            "そばたいやき空"
+            "41st and Broadway - New York NY  (W)"
           ],
           [
-            "さざれ"
+            "West 43rd and Broadway - New York NY  (W)"
           ],
           [
-            "おめで鯛焼き本舗錦糸町東急店"
+            "Macy's 6th Floor - Herald Square - New York NY  (W)"
           ],
           [
-            "尾長屋 錦糸町店"
+            "Herald Square- Macy's - New York NY"
           ],
           [
-            "たいやき本舗 藤家 阿佐ヶ谷店"
+            "Columbus @ 67th - New York NY  (W)"
           ],
           [
-            "みよし"
+            "45th & Broadway - New York NY  (W)"
           ],
           [
-            "たい焼き / たつみや"
+            "1585 Broadway (47th) - New York NY  (W)"
           ],
           [
-            "吾妻屋"
+            "85th & First - New York NY  (W)"
           ],
           [
-            "たいやき神田達磨 八重洲店"
+            "92nd & 3rd - New York NY  (W)"
           ],
           [
-            "車"
+            "1656 Broadway - New York NY  (W)"
           ],
           [
-            "広瀬屋"
+            "19th & 8th - New York NY  (W)"
           ],
           [
-            "たいやき工房白家 阿佐ヶ谷店"
+            "60th & Broadway-II - New York NY  (W)"
           ],
           [
-            "寿々屋 菓子"
+            "195 Broadway - New York NY  (W)"
           ],
           [
-            "たい焼き鉄次 大丸東京店"
+            "2 Broadway - New York NY  (W)"
           ],
           [
-            "ほんま門"
+            "NY Plaza - New York NY  (W)"
           ],
           [
-            "浪花家"
+            "36th and Madison - New York NY  (W)"
           ],
           [
-            "代官山たい焼き黒鯛"
+            "125th St. btwn Adam Clayton & FDB - New York NY"
           ],
           [
-            "ダ・カーポ"
+            "2138 Broadway - New York NY  (W)"
+          ],
+          [
+            "118th & Frederick Douglas Blvd. - New York NY  (W)"
+          ],
+          [
+            "42nd & Second - New York NY  (W)"
+          ],
+          [
+            "1st Avenue & 75th St. - New York NY  (W)"
+          ],
+          [
+            "2nd Ave. & 9th Street - New York NY"
+          ],
+          [
+            "84th & Third Ave - New York NY  (W)"
+          ],
+          [
+            "150 E. 42nd Street - New York NY  (W)"
+          ],
+          [
+            "Macy's 35th Street Balcony - New York NY"
+          ],
+          [
+            "Macy's 5th Floor - Herald Square - New York NY  (W)"
+          ],
+          [
+            "80th & York - New York NY  (W)"
+          ],
+          [
+            "Marriott Marquis - Lobby - New York NY"
+          ],
+          [
+            "Second @ 81st - New York NY  (W)"
+          ],
+          [
+            "52nd & Seventh - New York NY  (W)"
+          ],
+          [
+            "165 Broadway - 1 Liberty - New York NY  (W)"
+          ],
+          [
+            "54th & Broadway - New York NY  (W)"
+          ],
+          [
+            "Limited Brands-NYC - New York NY"
+          ],
+          [
+            "63rd & Broadway - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
+          ],
+          [
+            "70th & Broadway - New York NY  (W)"
+          ],
+          [
+            "Broadway @ 81st - New York NY  (W)"
+          ],
+          [
+            "Fashion Inst of Technology - New York NY"
           ]
         ]
       }
@@ -389,19 +453,18 @@ application.js:
 
 `count` の値からデータが全部で 36 件あることがわかります。`records` に配列として検索結果が入っています。
 
-もう少し複雑なクエリを試してみましょう。例えば、店名に「阿佐ヶ谷」を含むたいやき屋を検索します。`query` パラメータにクエリ `阿佐ヶ谷` を URL エンコードした `%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
+もう少し複雑なクエリを試してみましょう。例えば、店名に「Columbus」を含む店舗を検索します。`query` パラメータにクエリ `Columbus` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
-
-    $ curl "http://localhost:3000/droonga/tables/Shop?query=%E9%98%BF%E4%BD%90%E3%83%B6%E8%B0%B7&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://localhost:3000/droonga/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "result": {
         "count": 2,
         "records": [
           [
-            "たいやき工房白家 阿佐ヶ谷店"
+            "Columbus @ 67th - New York NY  (W)"
           ],
           [
-            "たいやき本舗 藤家 阿佐ヶ谷店"
+            "2 Columbus Ave. - New York NY  (W)"
           ]
         ]
       }
@@ -419,7 +482,6 @@ Droonga の Protocol Adapter は、 REST API だけでなく、 [Socket.IO][] �
 Protocol Adapter から `index.html` を配信し、Webブラウザに渡すことにしましょう。
 `protocol-adapter` ディレクトリの下に以下の内容の `index.html` を配置します。
 
-
 index.html:
 
     <html>
@@ -432,7 +494,7 @@ index.html:
           });
           socket.emit('search', { queries: {
             result: {
-              source: 'Shop',
+              source: 'Store',
               output: {
                  elements: [
                    'startTime',
@@ -473,8 +535,8 @@ application.js:
     
     application.droonga({
       prefix: '/droonga',
-      tag: 'taiyaki',
-      defaultDataset: 'Taiyaki',
+      tag: 'starbucks',
+      defaultDataset: 'Starbucks',
       server: server, // this is required to initialize Socket.IO API!
       plugins: [
         droonga.API_REST,
@@ -484,23 +546,22 @@ application.js:
       ]
     });
 
-    //========== 追加箇所ここから ==========
+    //============== INSERTED ==============
     application.get('/', function(req, res) {
       res.sendfile(__dirname + '/index.html');
     });
-    //========== 追加箇所ここまで ==========
+    //============= /INSERTED ==============
 
 Web ブラウザにサーバの IP アドレスを入れて、リクエストを送信してみましょう。
 以降、サーバの IP アドレスが `192.0.2.1` であったとします。
 `http://192.0.2.1:3000/` をリクエストすると、先の `index.html` が返されるようになります。
-
 Webブラウザから `http://192.0.2.1:3000` を開いてみてください。以下のように検索結果が表示されれば成功です。
 
-    "result":{"count":36,"records":[["たい焼 カタオカ"],["根津のたいやき"],["そばたいやき空"],["さざれ"],["おめで鯛焼き本舗錦糸町東急店"],["尾長屋 錦糸町店"],["たいやき本舗 藤家 阿佐ヶ谷店"],["みよし"],["たい焼き / たつみや"],["吾妻屋"],["たいやき神田達磨 八重洲店"],["車"],["広瀬屋"],["たいやき工房白家 阿佐ヶ谷店"],["寿々屋 菓子"],["たい焼き鉄次 大丸東京店"],["ほんま門"],["浪花家"],["代官山たい焼き黒鯛"],["ダ・カーポ"]]}}
+    {"result":{"count":40,"records":[["76th & Second - New York NY (W)"],["15th & Third - New York NY (W)"],["41st and Broadway - New York NY (W)"],["West 43rd and Broadway - New York NY (W)"],["Macy's 6th Floor - Herald Square - New York NY (W)"],["Herald Square- Macy's - New York NY"],["Columbus @ 67th - New York NY (W)"],["45th & Broadway - New York NY (W)"],["1585 Broadway (47th) - New York NY (W)"],["85th & First - New York NY (W)"],["92nd & 3rd - New York NY (W)"],["1656 Broadway - New York NY (W)"],["19th & 8th - New York NY (W)"],["60th & Broadway-II - New York NY (W)"],["195 Broadway - New York NY (W)"],["2 Broadway - New York NY (W)"],["NY Plaza - New York NY (W)"],["36th and Madison - New York NY (W)"],["125th St. btwn Adam Clayton & FDB - New York NY"],["2138 Broadway - New York NY (W)"],["118th & Frederick Douglas Blvd. - New York NY (W)"],["42nd & Second - New York NY (W)"],["1st Avenue & 75th St. - New York NY (W)"],["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY (W)"],["150 E. 42nd Street - New York NY (W)"],["Macy's 35th Street Balcony - New York NY"],["Macy's 5th Floor - Herald Square - New York NY (W)"],["80th & York - New York NY (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY (W)"],["52nd & Seventh - New York NY (W)"],["165 Broadway - 1 Liberty - New York NY (W)"],["54th & Broadway - New York NY (W)"],["Limited Brands-NYC - New York NY"],["63rd & Broadway - New York NY (W)"],["2 Columbus Ave. - New York NY (W)"],["70th & Broadway - New York NY (W)"],["Broadway @ 81st - New York NY (W)"],["Fashion Inst of Technology - New York NY"]]}}
 
 Web ブラウザから Socket.IO 経由でリクエストが Protocol Adapter に送信され、それが Engine に送られ、検索結果が Protocol Adapter に返され、さらに Web ブラウザに返されます。
 
-今度は全文検索を行ってみましょう。先ほどと同様に「阿佐ヶ谷」を店名に含むたいやき屋を検索します。`index.html` の `socket.emit()` の呼び出しを書き換え、以下の様な `index.html` を用意します。
+今度は全文検索を行ってみましょう。先ほどと同様に「Columbus」を店名に含む店舗を検索します。`index.html` の `socket.emit()` の呼び出しを書き換え、以下の様な `index.html` を用意します。
 
     <html>
       <head>
@@ -512,9 +573,9 @@ Web ブラウザから Socket.IO 経由でリクエストが Protocol Adapter �
           });
           socket.emit('search', { queries: {
             result: {
-              source: 'Shop',
+              source: 'Store',
               condition: {
-                query: '阿佐ヶ谷',
+                query: 'Columbus',
                 matchTo: '_key'
               },
               output: {
@@ -538,7 +599,7 @@ Web ブラウザから Socket.IO 経由でリクエストが Protocol Adapter �
 
 ブラウザで再度 `http://192.0.2.1:3000` を開くと、以下のような検索結果が表示されます。
 
-    {"result":{"count":2,"records":[["たいやき工房白家 阿佐ヶ谷店"],["たいやき本舗 藤家 阿佐ヶ谷店"]]}}
+    {"result":{"count":2,"records":[["Columbus @ 67th - New York NY (W)"],["2 Columbus Ave. - New York NY (W)"]]}}
 
 このように、Socket.IO を利用して、リクエストとレスポンスを非同期に送受信する検索クライアントを作成することができました。
 
@@ -547,7 +608,6 @@ Web ブラウザから Socket.IO 経由でリクエストが Protocol Adapter �
 
 [Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [express-droonga][] をセットアップしました。
 これらのパッケージを利用することで、Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
-
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
