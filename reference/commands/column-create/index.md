@@ -12,7 +12,14 @@ The `column_create` command creates a new column into the specified table..
 
 This is compatible to [the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html).
 
-This is a request-response style command. One response message is always returned per one request.
+Style
+: Request-Response. One response message is always returned per one request.
+
+`type`
+: `column_create`
+
+`body`
+: A hash of parameters.
 
 ## Syntax {#syntax}
 

@@ -12,7 +12,14 @@ The `search` command finds records from the specified table based on given condi
 
 This is designed as the most basic (low layer) command on Droonga, to search information from a database. When you want to add a new plugin including "search" feature, you should develop it as just a wrapper of this command, instead of developing something based on more low level technologies.
 
-This is a request-response style command. One response message is always returned per one request.
+Style
+: Request-Response. One response message is always returned per one request.
+
+`type`
+: `search`
+
+`body`
+: A hash of parameters.
 
 ## Syntax {#syntax}
 

@@ -10,7 +10,14 @@ layout: documents
 
 The `add` command adds a new record to the specified table. Column values of the existing record are updated by given values, if the table has a primary key and there is existing record with the specified key.
 
-This is a request-response style command. One response message is always returned per one request.
+Style
+: Request-Response. One response message is always returned per one request.
+
+`type`
+: `add`
+
+`body`
+: A hash of parameters.
 
 ## Syntax {#syntax}
 

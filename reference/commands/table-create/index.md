@@ -12,7 +12,14 @@ The `table_create` command creates a new table.
 
 This is compatible to [the `table_create` command of the Groonga](http://groonga.org/docs/reference/commands/table_create.html).
 
-This is a request-response style command. One response message is always returned per one request.
+Style
+: Request-Response. One response message is always returned per one request.
+
+`type`
+: `table_create`
+
+`body`
+: A hash of parameters.
 
 ## Syntax {#syntax}
 

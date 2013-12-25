@@ -12,7 +12,14 @@ The `select` command finds records from the specified table based on given condi
 
 This is compatible to [the `select` command of the Groonga](http://groonga.org/docs/reference/commands/select.html).
 
-This is a request-response style command. One response message is always returned per one request.
+Style
+: Request-Response. One response message is always returned per one request.
+
+`type`
+: `select`
+
+`body`
+: A hash of parameters.
 
 ## Syntax {#syntax}
 
