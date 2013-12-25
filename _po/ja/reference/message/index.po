@@ -19,23 +19,123 @@ msgstr ""
 
 msgid ""
 "---\n"
-"title: Reference manuals\n"
+"title: Message format\n"
 "layout: documents\n"
 "---"
 msgstr ""
-"---\n"
-"title: リファレンス\n"
-"layout: documents_ja\n"
-"---"
 
 msgid ""
-" * [catalog.json](catalog/)\n"
-" * [Message format](message/)\n"
-" * [Commands](commands/)"
+"* TOC\n"
+"{:toc}"
 msgstr ""
-" * [catalog.json](catalog/)\n"
-" * [メッセージの形式](message/)\n"
-" * [コマンドリファレンス](commands/)"
+
+msgid "## Request {#request}"
+msgstr ""
+
+msgid "The basic format of a request message is like following:"
+msgstr ""
+
+msgid ""
+"    {\n"
+"      \"id\"      : \"<ID of the message>\",\n"
+"      \"type\"    : \"<Type of the message>\",\n"
+"      \"replyTo\" : \"<Route to the receiver>\",\n"
+"      \"dataset\" : \"<Name of the target dataset>\",\n"
+"      \"body\"    : <Body of the message>\n"
+"    }"
+msgstr ""
+
+msgid "### `id` {#request-id}"
+msgstr ""
+
+msgid "### `type` {#request-type}"
+msgstr ""
+
+msgid "### `replyTo` {#request-replyTo}"
+msgstr ""
+
+msgid "### `dataset` {#request-dataset}"
+msgstr ""
+
+msgid "### `body` {#request-body}"
+msgstr ""
+
+msgid "## Response {#response}"
+msgstr ""
+
+msgid "The basic format of a response message is like following:"
+msgstr ""
+
+msgid ""
+"    {\n"
+"      \"type\"       : \"<Type of the message>\",\n"
+"      \"inReplyTo\"  : \"<Route to the receiver>\",\n"
+"      \"statusCode\" : <Status code>,\n"
+"      \"body\"       : <Body of the message>\n"
+"    }"
+msgstr ""
+
+msgid "### `type` {#response-type}"
+msgstr ""
+
+msgid "### `inReplyTo` {#response-inReplyTo}"
+msgstr ""
+
+msgid "### `statusCode` {#response-statusCode}"
+msgstr ""
+
+msgid "Status codes of responses are similar to HTTP's one."
+msgstr ""
+
+msgid ""
+"`200` and other `2xx` statuses\n"
+": The command is successfully processed."
+msgstr ""
+
+msgid "### `body` {#response-body}"
+msgstr ""
+
+msgid "## Error response {#error}"
+msgstr ""
+
+msgid "Some commands can return an error response."
+msgstr ""
+
+msgid ""
+"An error response has the `type` same to a regular response, but it has differ"
+"ent `statusCode` and `body`. General type of the error is indicated by the `st"
+"atusCode`, and details are reported as the `body`."
+msgstr ""
+
+msgid "### Status codes of error responses {#error-status}"
+msgstr ""
+
+msgid "Status codes of error responses are similar to HTTP's one."
+msgstr ""
+
+msgid ""
+"`400` and other `4xx` statuses\n"
+": An error of the request message."
+msgstr ""
+
+msgid ""
+"`500` and other `5xx` statuses\n"
+": An internal error of the Droonga Engine."
+msgstr ""
+
+msgid "### Body of error responses {#error-body}"
+msgstr ""
+
+msgid "The basic format of the body of an error response is like following:"
+msgstr ""
+
+msgid ""
+"    {\n"
+"      \"name\"    : \"<Name of the error>\",\n"
+"      \"message\" : \"<Human readable details of the error>\",\n"
+"      \"detail\"  : <Other extra information for the error, in various formats>\n"
+"    }"
+msgstr ""
 
 #~ msgid ""
 #~ "                                 \\--------------------------------------------"
