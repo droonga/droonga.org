@@ -1206,7 +1206,11 @@ Means you've forgotten to specify the `source` parameter. The status code is `40
 ### `UnknownSource`
 
 Means there is no existing table and no other query with the name, for a `source` of a query. The status code is `404`.
-  
+
+### `CyclicSource`
+
+Means there is any circular reference of sources. The status code is `400`.
+
 ### `SearchTimeout`
 
 Means the engine couldn't finish to process the request in the time specified as `timeout`. The status code is `500`.
