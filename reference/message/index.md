@@ -136,7 +136,7 @@ Status codes of error responses are similar to HTTP's one. Possible values:
 `400` and other `4xx` statuses
 : An error of the request message. General errors for any message type are:
   
-  `400` `MissingDataset`
+  `400` `MissingDatasetParameter`
   : Means you've forgotten to specify the `dataset`.
   
   `404` `UnknownDataset`

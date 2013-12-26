@@ -1196,7 +1196,7 @@ A value of [date time type](http://groonga.org/docs/tutorial/data.html#date-and-
 
 This command reports errors not only [general errors](/reference/message/#error) but also followings.
 
-### `400` `MissingTable`
+### `400` `MissingTableParameter`
 
 Means you've forgotten to specify the `table` parameter.
 

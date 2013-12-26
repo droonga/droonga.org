@@ -203,15 +203,15 @@ This returns an array with including a boolean value `true` like following as th
 
 This command reports errors not only [general errors](/reference/message/#error) but also followings.
 
-### `400` `MissingTable`
+### `400` `MissingTableParameter`
 
 Means you've forgotten to specify the `table` parameter.
 
-### `400` `MissingPrimaryKey`
+### `400` `MissingPrimaryKeyParameter`
 
 Means you've forgotten to specify the `key` parameter, for a table with the primary key column.
 
-### `400` `InvalidValueType`
+### `400` `MismatchedValueType`
 
 Means you've specified mismatched type value for a column. For example, a string for a geolocation column, a string for an integer column, etc.
 
