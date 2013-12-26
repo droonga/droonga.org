@@ -134,19 +134,23 @@ An error response has the `type` same to a regular response, but it has differen
 Status codes of error responses are similar to HTTP's one. Possible values:
 
 `400` and other `4xx` statuses
-: An error of the request message. General errors for any message type are:
-  
-  `400` `MissingDatasetParameter`
-  : Means you've forgotten to specify the `dataset`.
-  
-  `404` `UnknownDataset`
-  : Means you've specified a dataset which is not existing.
-  
-  `400` `UnknownCommand`
-  : Means there is no adapter or handler for the command given as the `type`.
+: An error of the request message.
 
 `500` and other `5xx` statuses
 : An internal error of the Droonga Engine.
+
+### Error types {#error-type}
+
+There are some error types for any command.
+
+`MissingDatasetParameter`
+: Means you've forgotten to specify the `dataset`. The status code is `400`.
+
+`UnknownDataset`
+: Means you've specified a dataset which is not existing. The status code is `404`.
+
+`UnknownCommand`
+: Means there is no adapter or handler for the command given as the `type`. The status code is `400`.
 
 ### Body of error responses {#error-body}
 

@@ -203,23 +203,23 @@ This returns an array with including a boolean value `true` like following as th
 
 This command reports errors not only [general errors](/reference/message/#error) but also followings.
 
-### `400` `MissingTableParameter`
+### `MissingTableParameter`
 
-Means you've forgotten to specify the `table` parameter.
+Means you've forgotten to specify the `table` parameter. The status code is `400`.
 
-### `400` `MissingPrimaryKeyParameter`
+### `MissingPrimaryKeyParameter`
 
-Means you've forgotten to specify the `key` parameter, for a table with the primary key column.
+Means you've forgotten to specify the `key` parameter, for a table with the primary key column. The status code is `400`.
 
-### `400` `MismatchedValueType`
+### `MismatchedValueType`
 
-Means you've specified mismatched type value for a column. For example, a string for a geolocation column, a string for an integer column, etc.
+Means you've specified mismatched type value for a column. For example, a string for a geolocation column, a string for an integer column, etc. The status code is `400`.
 
-### `404` `UnknownTable`
+### `UnknownTable`
 
-Means you've specified a table which is not existing in the specified dataset.
+Means you've specified a table which is not existing in the specified dataset. The status code is `404`.
 
-### `404` `UnknownColumn`
+### `UnknownColumn`
 
-Means you've specified any column which is not existing in the specified table.
+Means you've specified any column which is not existing in the specified table. The status code is `404`.
 
