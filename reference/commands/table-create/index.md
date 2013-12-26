@@ -15,11 +15,14 @@ This is compatible to [the `table_create` command of the Groonga](http://groonga
 Style
 : Request-Response. One response message is always returned per one request.
 
-`type`
+`type` of the request
 : `table_create`
 
-`body`
+`body` of the request
 : A hash of parameters.
+
+`type` of the response
+: `table_create.result`
 
 ## Parameter syntax {#syntax}
 

@@ -15,11 +15,14 @@ This is compatible to [the `column_create` command of the Groonga](http://groong
 Style
 : Request-Response. One response message is always returned per one request.
 
-`type`
+`type` of the request
 : `column_create`
 
-`body`
+`body` of the request
 : A hash of parameters.
+
+`type` of the response
+: `column_create.result`
 
 ## Parameter syntax {#syntax}
 

@@ -15,11 +15,14 @@ This is designed as the most basic (low layer) command on Droonga, to search inf
 Style
 : Request-Response. One response message is always returned per one request.
 
-`type`
+`type` of the request
 : `search`
 
-`body`
+`body` of the request
 : A hash of parameters.
+
+`type` of the response
+: `search.result`
 
 ## Parameter syntax {#syntax}
 

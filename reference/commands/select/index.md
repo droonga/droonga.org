@@ -15,11 +15,14 @@ This is compatible to [the `select` command of the Groonga](http://groonga.org/d
 Style
 : Request-Response. One response message is always returned per one request.
 
-`type`
+`type` of the request
 : `select`
 
-`body`
+`body` of the request
 : A hash of parameters.
+
+`type` of the response
+: `select.result`
 
 ## Parameter syntax {#syntax}
 

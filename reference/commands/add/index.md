@@ -13,11 +13,14 @@ The `add` command adds a new record to the specified table. Column values of the
 Style
 : Request-Response. One response message is always returned per one request.
 
-`type`
+`type` of the request
 : `add`
 
-`body`
+`body` of the request
 : A hash of parameters.
+
+`type` of the response
+: `add.result`
 
 ## Parameter syntax {#syntax}
 
