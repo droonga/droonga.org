@@ -141,12 +141,12 @@ Status codes of error responses are similar to HTTP's one. Possible values:
   
   `404` `UnknownDataset`
   : Means you've specified a dataset which is not existing.
+  
+  `400` `UnknownCommand`
+  : Means there is no adapter or handler for the command given as the `type`.
 
 `500` and other `5xx` statuses
-: An internal error of the Droonga Engine. General errors for any message type are:
-  
-  `501` `UnknownType`
-  : Means there is no adapter or handler for the `type`.
+: An internal error of the Droonga Engine.
 
 ### Body of error responses {#error-body}
 
