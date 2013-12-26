@@ -1199,18 +1199,14 @@ A value of [date time type](http://groonga.org/docs/tutorial/data.html#date-and-
 
 This command reports errors not only [general errors](/reference/message/#error) but also followings.
 
-### `400` `MissingTableParameter`
+### `MissingTableParameter`
 
-Means you've forgotten to specify the `table` parameter.
+Means you've forgotten to specify the `table` parameter. The status code is `400`.
 
-### `404` `UnknownTable`
+### `UnknownTable`
 
-Means you've specified a table which is not existing in the specified dataset.
-
-### `404` `UnknownColumn`
-
-Means you've specified any column which is not existing in the specified table.
+Means you've specified a table which is not existing in the specified dataset. The status code is `404`.
   
-### `500` `SearchTimeout`
+### `SearchTimeout`
 
-Means the engine couldn't finish to process the request in the time specified as `timeout`.
+Means the engine couldn't finish to process the request in the time specified as `timeout`. The status code is `500`.
