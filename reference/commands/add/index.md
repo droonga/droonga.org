@@ -211,9 +211,9 @@ Means you've forgotten to specify the `table` parameter. The status code is `400
 
 Means you've forgotten to specify the `key` parameter, for a table with the primary key column. The status code is `400`.
 
-### `MismatchedValueType`
+### `InvalidValue`
 
-Means you've specified mismatched type value for a column. For example, a string for a geolocation column, a string for an integer column, etc. The status code is `400`.
+Means you've specified an invalid value for a column. For example, a string for a geolocation column, a string for an integer column, etc. The status code is `400`.
 
 ### `UnknownTable`
 
