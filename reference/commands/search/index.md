@@ -1199,13 +1199,13 @@ A value of [date time type](http://groonga.org/docs/tutorial/data.html#date-and-
 
 This command reports errors not only [general errors](/reference/message/#error) but also followings.
 
-### `MissingTableParameter`
+### `MissingSourceParameter`
 
-Means you've forgotten to specify the `table` parameter. The status code is `400`.
+Means you've forgotten to specify the `source` parameter. The status code is `400`.
 
-### `UnknownTable`
+### `UnknownSource`
 
-Means you've specified a table which is not existing in the specified dataset. The status code is `404`.
+Means there is no existing table and no other query with the name, for a `source` of a query. The status code is `404`.
   
 ### `SearchTimeout`
 
