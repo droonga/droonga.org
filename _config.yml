@@ -1,6 +1,6 @@
 title: Droonga
 markdown: kramdown
-droonga_version: 0.7.0
+droonga_version: 0.8.0
 copyright_year: 2013
 exclude: ["Rakefile", "Gemfile", "Gemfile.lock"]
 description: Droonga is a scalable data processing engine.
