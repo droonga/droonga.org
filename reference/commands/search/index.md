@@ -289,6 +289,7 @@ Search results can be retuned partially via `offset` and `limit` under the [`out
         }
       }
     }
+    
     => returns 10 results from the 1st to the 10th.
     
     {
@@ -307,6 +308,7 @@ Search results can be retuned partially via `offset` and `limit` under the [`out
         }
       }
     }
+    
     => returns 10 results from the 11th to the 20th.
     
     {
@@ -325,6 +327,7 @@ Search results can be retuned partially via `offset` and `limit` under the [`out
         }
       }
     }
+    
     => returns 10 results from the 21th to the 30th.
 
 The value `-1` is not recommended  for the `limit` parameter, in regular use. It will return too much results and increase traffic loads. Instead `100` or less value is recommended for the `limit` parameter. Then you should do paging by the `offset` parameter.
@@ -632,9 +635,6 @@ Abstract
 Value
 : An integer in milliseconds.
 
-Required
-: No. This is optional.
-
 Default value
 : `10000` (10 seconds)
 
@@ -649,8 +649,8 @@ Abstract
 Value
 : A hash. Keys of the hash are query names, values of the hash are [queries (hashes of query parameters)](#query-parameters).
 
-Required
-: Yes.
+Default value
+: Nothing. This is a required parameter.
 
 You can put multiple search queries in a `search` request.
 
@@ -805,7 +805,7 @@ Value
 Default value
 : Nothing.
 
-If paging conditions are not specified, then all sorted results will appear as the sort result, for following operations and the output.
+If sort conditions are not specified, then all results will appear as-is, for following operations and the output.
 
 ##### Basic sort condition {#query-sortBy-array}
 
