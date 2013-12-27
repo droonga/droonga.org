@@ -81,7 +81,7 @@ Specify only `table` and `values`, without `key`, if the table has no primary ke
     
     => {
          "type" : "add.result",
-         "body" : [true]
+         "body" : true
        }
 
 The `add` command works recursively. If there is no existing record with the key in the referred table, then it is also automatically added silently so you'll see no error response. For example this will add a new Person record with a new Job record named `doctor`.
@@ -99,7 +99,7 @@ The `add` command works recursively. If there is no existing record with the key
     
     => {
          "type" : "add.result",
-         "body" : [true]
+         "body" : true
        }
 
 By the command above, a new record will be automatically added to the Job table like;
@@ -127,7 +127,7 @@ Specify all parameters `table`, `values` and `key`, if the table has a primary k
     
     => {
          "type" : "add.result",
-         "body" : [true]
+         "body" : true
        }
 
 ### Updating column values of an existing record {#updating}
@@ -147,7 +147,7 @@ This command works as "updating" operation, if the table has a primary key colum
     
     => {
          "type" : "add.result",
-         "body" : [true]
+         "body" : true
        }
 
 
