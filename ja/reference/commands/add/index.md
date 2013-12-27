@@ -8,22 +8,30 @@ layout: documents_ja
 
 ## 概要 {#abstract}
 
-`add` は、テーブルにレコードを登録します。
+`add` は、テーブルにレコードを登録します。対象のテーブルが主キーを持っており、同じキーのレコードが既に存在している場合には、既存レコードのカラムの値を更新します。
 
-対象のテーブルが主キーを持っており、同じキーのレコードが既に存在している場合には、既存レコードのカラムの値を更新します。
+形式
+: Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
-`add` はRequest-Response型のコマンドです。コマンドに対しては必ず対応するレスポンスが返されます。
+リクエストの `type`
+: `add`
 
-## 構文 {#syntax}
+リクエストの `body`
+: パラメータのハッシュ。
+
+レスポンスの `type`
+: `add.result`
+
+## パラメータの構文 {#syntax}
 
 対象のテーブルが主キーを持つ場合：
 
     {
-      "table"  : "テーブル名",
-      "key"    : "主キー",
+      "table"  : "<テーブル名>",
+      "key"    : "<レコードの主キー>",
       "values" : {
-        "カラム名1" : 値1,
-        "カラム名2" : 値2,
+        "<カラム1の名前>" : <値1>,
+        "<カラム2の名前>" : <値2>,
         ...
       }
     }
@@ -31,108 +39,122 @@ layout: documents_ja
 対象のテーブルが主キーを持たない場合：
 
     {
-      "table"  : "テーブル名",
+      "table"  : "<テーブル名>",
       "values" : {
-        "カラム名1" : 値1,
-        "カラム名2" : 値2,
+        "<カラム1の名前>" : <値1>,
+        "<カラム2の名前>" : <値2>,
         ...
       }
     }
 
 ## 使い方 {#usage}
 
-典型的な使い方を通じて、`add` コマンドの働きを説明します。
-
-なお、本項の説明では以下のような2つのテーブルが存在している事を前提とします。
+本項の説明では以下のような2つのテーブルが存在している事を前提として、典型的な使い方を通じて `add` コマンドの使い方を説明します。
 
 Personテーブル（主キー無し）:
 
-|name|job（Jobテーブルを参照）|
+|name|job (Jobテーブルを参照)|
 |Alice Arnold|announcer|
 |Alice Cooper|musician|
 
 Jobテーブル（主キー有り）:
 
 |_key|label|
-|announcer|アナウンサー|
-|musician|ミュージシャン|
+|announcer|announcer|
+|musician|musician|
 
 
 ### 主キーを持たないテーブルにレコードを追加する {#adding-record-to-table-without-key}
 
 主キーを持たないテーブルにレコードを追加する場合は、 `key` を指定せずに `table` と `values` だけを指定します。
 
-    add
     {
-      "table"  : "Person",
-      "values" : {
-        "name" : "Bob Dylan",
-        "job"  : "musician"
+      "type" : "add",
+      "body" : {
+        "table"  : "Person",
+        "values" : {
+          "name" : "Bob Dylan",
+          "job"  : "musician"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : true
+       }
 
 `add` は再帰的に動作します。別のテーブルを参照しているカラムについて、参照先のテーブルに存在しない値を指定した場合、エラーにはならず、参照先のテーブルにも同時に新しいレコードが追加されます。例えば、以下は  テーブルに存在しない主キー `doctor` を伴って Person テーブルにレコードを追加します。
 
-    add
     {
-      "table"  : "Person",
-      "values" : {
-        "name" : "Alice Miller",
-        "job"  : "doctor"
+      "type" : "add",
+      "body" : {
+        "table"  : "Person",
+        "values" : {
+          "name" : "Alice Miller",
+          "job"  : "doctor"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : true
+       }
 
 この時、Jobテーブルには主キーだけが指定された新しいレコードが自動的に追加されます。
 
 |_key|label|
-|announcer|アナウンサー|
-|musician|ミュージシャン|
-|doctor|（空文字）|
+|announcer|announcer|
+|musician|musician|
+|doctor|(空文字)|
 
 
 ### 主キーを持つテーブルにレコードを追加する {#adding-record-to-table-with-key}
 
 主キーを持つテーブルにレコードを追加する場合は、 `table`、`key`、`values` のすべてを指定します。
 
-    add
     {
-      "table"  : "Job",
-      "key"    : "writer",
-      "values" : {
-        "label" : "作家"
+      "type" : "add",
+      "body" : {
+        "table"  : "Job",
+        "key"    : "writer",
+        "values" : {
+          "label" : "writer"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : true
+       }
 
 ### 既存レコードのカラムの値を更新する {#updating}
 
 主キーを持つテーブルに対する、既存レコードの主キーを伴う `add` コマンドは、既存レコードのカラムの値の更新操作と見なされます。
 
-    add
     {
-      "table"  : "Job",
-      "key"    : "doctor",
-      "values" : {
-        "label" : "医師"
+      "type" : "add",
+      "body" : {
+        "table"  : "Job",
+        "key"    : "doctor",
+        "values" : {
+          "label" : "doctor"
+        }
       }
     }
     
-    => add.result
-       true
+    => {
+         "type" : "add.result",
+         "body" : true
+       }
 
 
 主キーを持たないテーブルのレコードに対しては、値の更新操作はできません（常にレコードの追加と見なされます）。
 
 
-## パラメータ {#parameters}
+## パラメータの詳細 {#parameters}
 
 ### `table` {#parameter-table}
 
@@ -154,7 +176,7 @@ Jobテーブル（主キー有り）:
 : 主キーとなる文字列。
 
 省略時の初期値
-: なし。対象のテーブルが主キーを持つ場合、このパラメータは必須です。主キーがない場合、このパラメータは無視されます。
+: Nなし。対象のテーブルが主キーを持つ場合、このパラメータは必須です。主キーがない場合、このパラメータは無視されます。
 
 既に同じ主キーを持つレコードが存在している場合は、レコードの各カラムの値を更新します。
 
@@ -176,7 +198,31 @@ Jobテーブル（主キー有り）:
 
 ## レスポンス {#response}
 
-このコマンドは、レスポンスとしてレコードの登録の成否を示す真偽値を含んだ配列を返却します。
+このコマンドは、レコードを正常に追加または更新できた場合、真偽値 `true` を`body` 、`200` を `statusCode` としたレスポンスを返します。以下はレスポンスの `body` の例です。
 
- * `[true]`：レコードの登録に成功した。
- * `[false]`：レコードの登録に失敗した。
+    true
+
+## エラーの種類 {#errors}
+
+このコマンドは[一般的なエラー](/ja/reference/message/#error)に加えて、以下のエラーを場合に応じて返します。
+
+### `MissingTableParameter`
+
+`table` パラメータの指定を忘れていることを示します。ステータスコードは `400` です。
+
+### `MissingPrimaryKeyParameter`
+
+主キーが存在するテーブルに対して、`key` パラメータの指定を忘れていることを示します。ステータスコードは `400` です。
+
+### `InvalidValue`
+
+カラムに設定しようとした値が不正である（例：位置情報型や整数型のカラムに通常の文字列を指定した、など）事を示します。ステータスコードは `400` です。
+
+### `UnknownTable`
+
+指定されたデータセット内に、指定されたレコードが存在していない事を示します。ステータスコードは `404` です。
+
+### `UnknownColumn`
+
+指定されたカラムがテーブルに存在しない未知のカラムである事を示します。ステータスコードは `400` です。
+
