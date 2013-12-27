@@ -163,11 +163,40 @@ Here are descriptions about parameters in `catalog.json`.
 
 ### `version`
 
-It is the format version of the catalog file.
+It is format version of the catalog file.
+
+Droonga Engine will change `catalog.json` format in the
+future. Droonga Engine can provide auto format update feature with the
+information.
+
+The value must be `1`.
+
+This is a required parameter.
+
+Example:
+
+~~~json
+{
+  "version": 1
+}
+~~~
 
 ### `effective_date`
 
-A date string representing the day the **catalog** becomes effective.
+It is a date string representing the day the catalog becomes
+effective.
+
+The date string format must be [W3C-DTF][].
+
+Note: Droonga Engine 0.8.0 doesn't use this value yet.
+
+Example:
+
+~~~json
+{
+  "effective_date": "2013-11-29T11:29:29Z"
+}
+~~~
 
 ### `zones`
 
@@ -206,3 +235,4 @@ If `0` is specified, no worker is forked and all operations are done in the mast
 `number_of_replicas` represents the number of replicas of dataset maintained in the network.
 
   [Fluentd]: http://fluentd.org/
+  [W3C-DTF]: http://www.w3.org/TR/NOTE-datetime "Date and Time Formats"
