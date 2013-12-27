@@ -13,32 +13,40 @@ layout: documents_ja
 これは、Droonga において検索機能を提供する最も低レベルのコマンドです。
 検索用のコマンドをプラグインとして実装する際は、内部的にこのコマンドを使用して検索を行うという用途が想定されます。
 
-`search` はRequest-Response型のコマンドです。コマンドに対しては必ず対応するレスポンスが返されます。
+形式
+: Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
-## 構文 {#syntax}
+リクエストの `type`
+: `search`
+
+リクエストの `body`
+: パラメータのハッシュ。
+
+レスポンスの `type`
+: `search.result`
+
+## パラメータの構文 {#syntax}
 
     {
-      "timeout" : タイムアウトするまでの時間,
+      "timeout" : <タイムアウトするまでの秒数>,
       "queries" : {
-        "検索クエリ1の名前" : {
-          "source"    : "検索対象のテーブル名、または結果を参照する別の検索クエリの名前",
-          "condition" : 検索条件,
-          "sortBy"    : ソートの指定,
-          "groupBy"   : 集約の指定,
-          "output"    : 出力の指定
+        "<クエリ1の名前>" : {
+          "source"    : "<検索対象のテーブル名、または別の検索クエリの名前>",
+          "condition" : <検索条件>,
+          "sortBy"    : <ソートの条件>,
+          "groupBy"   : <集約の条件>,
+          "output"    : <出力の指定>
         },
-        "検索クエリ2の名前" : { ... },
+        "<クエリ2の名前>" : { ... },
         ...
       }
     }
 
 ## 使い方 {#usage}
 
-典型的な使い方を通じて、`search` コマンドの働きを説明します。
+この項では、以下のテーブルが存在する状態を前提として、典型的な使い方を通じて `search` コマンドの使い方を説明します。
 
-なお、本項の説明では以下のようなテーブルが存在している事を前提とします。
-
-Personテーブル:
+Personテーブル（主キーあり）:
 
 |_key|name|age|sex|job|note|
 |Alice Arnold|Alice Arnold|20|female|announcer||
@@ -51,42 +59,46 @@ Personテーブル:
 |Bob Ross|Bob Ross|54|male|painter||
 |Lewis Carroll|Lewis Carroll|66|male|writer|the author of Alice's Adventures in Wonderland|
 
-また、この時 `name`、`note` には `TokensBigram` を使用したインデックスが用意されているものとします。
+※`name`、`note` には `TokensBigram` を使用したインデックスが用意されていると仮定します。
 
 ### 基本的な使い方 {#usage-basic}
 
 最も単純な例として、Person テーブルのすべてのレコードを出力する例を示します。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "sex", "job", "note"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "name", "age", "sex", "job", "note"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 9,
-           "records" : [
-             ["Alice Arnold", "Alice Arnold", 20, "female", "announcer", ""],
-             ["Alice Cooper", "Alice Cooper", 30, "male", "musician", ""],
-             ["Alice Miller", "Alice Miller", 25, "male", "doctor", ""],
-             ["Bob Dole", "Bob Dole", 42, "male", "lawer", ""],
-             ["Bob Cousy", "Bob Cousy", 38, "male", "basketball player", ""],
-             ["Bob Wolcott", "Bob Wolcott", 36, "male", "baseball player", ""],
-             ["Bob Evans", "Bob Evans", 31, "male", "driver", ""],
-             ["Bob Ross", "Bob Ross", 54, "male", "painter", ""],
-             ["Lewis Carroll", "Lewis Carroll", 66, "male", "writer",
-              "the author of Alice's Adventures in Wonderland"]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 9,
+             "records" : [
+               ["Alice Arnold", "Alice Arnold", 20, "female", "announcer", ""],
+               ["Alice Cooper", "Alice Cooper", 30, "male", "musician", ""],
+               ["Alice Miller", "Alice Miller", 25, "male", "doctor", ""],
+               ["Bob Dole", "Bob Dole", 42, "male", "lawer", ""],
+               ["Bob Cousy", "Bob Cousy", 38, "male", "basketball player", ""],
+               ["Bob Wolcott", "Bob Wolcott", 36, "male", "baseball player", ""],
+               ["Bob Evans", "Bob Evans", 31, "male", "driver", ""],
+               ["Bob Ross", "Bob Ross", 54, "male", "painter", ""],
+               ["Lewis Carroll", "Lewis Carroll", 66, "male", "writer",
+                "the author of Alice's Adventures in Wonderland"]
+             ]
+           }
          }
        }
 
@@ -110,30 +122,34 @@ Personテーブル:
 
 スクリプト構文形式は、ECMAScriptの書式に似ています。「`name` に `Alice` を含み、且つ`age` が `25` 以上である」という検索条件は、スクリプト構文形式で以下のように表現できます。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice' && age >= 25"
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice' && age >= 25"
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
 
-    => search.result
-       {
-         "people" : {
-           "count" : 2,
-           "records" : [
-             ["Alice Arnold", 20],
-             ["Alice Cooper", 30],
-             ["Alice Miller", 25]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 2,
+             "records" : [
+               ["Alice Arnold", 20],
+               ["Alice Cooper", 30],
+               ["Alice Miller", 25]
+             ]
+           }
          }
        }
 
@@ -143,35 +159,39 @@ Personテーブル:
 
 クエリー構文形式は、主にWebページなどに組み込む検索ボックス向けに用意されています。例えば「検索ボックスに入力された語句を `name` または `note` に含むレコードを検索する」という場面において、検索ボックスに入力された語句が `Alice` であった場合の検索条件は、クエリー構文形式で以下のように表現できます。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : {
-            "query"   : "Alice",
-            "matchTo" : ["name", "note"]
-          },
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "note"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : {
+              "query"   : "Alice",
+              "matchTo" : ["name", "note"]
+            },
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "note"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 4,
-           "records" : [
-             ["Alice Arnold", ""],
-             ["Alice Cooper", ""],
-             ["Alice Miller", ""],
-             ["Lewis Carroll",
-              "the author of Alice's Adventures in Wonderland"]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 4,
+             "records" : [
+               ["Alice Arnold", ""],
+               ["Alice Cooper", ""],
+               ["Alice Miller", ""],
+               ["Lewis Carroll",
+                "the author of Alice's Adventures in Wonderland"]
+             ]
+           }
          }
        }
 
@@ -182,117 +202,134 @@ Personテーブル:
 
 出力するレコードのソート条件は `sortBy` パラメータで指定します。以下は、結果を `age` カラムの値の昇順でソートする場合の例です。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice'"
-          "sortBy"    : ["age"],
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice'"
+            "sortBy"    : ["age"],
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 8,
-           "records" : [
-             ["Alice Arnold", 20],
-             ["Alice Miller", 25],
-             ["Alice Cooper", 30]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 8,
+             "records" : [
+               ["Alice Arnold", 20],
+               ["Alice Miller", 25],
+               ["Alice Cooper", 30]
+             ]
+           }
          }
        }
 
 ソートするカラム名の前に `-` を付けると、降順でのソートになります。以下は `age` の降順でソートする場合の例です。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice'"
-          "sortBy"    : ["-age"],
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice'"
+            "sortBy"    : ["-age"],
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 8,
-           "records" : [
-             ["Alice Cooper", 30],
-             ["Alice Miller", 25],
-             ["Alice Arnold", 20]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 8,
+             "records" : [
+               ["Alice Cooper", 30],
+               ["Alice Miller", 25],
+               ["Alice Arnold", 20]
+             ]
+           }
          }
        }
 
 詳細は [`sortBy` パラメータの仕様](#query-sortBy) を参照して下さい。
 
-#### ページング {#usage-paging}
+#### 検索結果のページング {#usage-paging}
 
 [`output`](#query-output) パラメータの `offset` と `limit` を指定することで、出力されるレコードの範囲を指定できます。以下は、20件以上ある結果を先頭から順に10件ずつ取得する場合の例です。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name"],
-            "offset"     : 0,
-            "limit"      : 10
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name"],
+              "offset"     : 0,
+              "limit"      : 10
+            }
           }
         }
       }
     }
-    => 0件目から9件目までが返される。
     
-    search
-    {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name"],
-            "offset"     : 10,
-            "limit"      : 10
-          }
-        }
-      }
-    }
-    => 10件目から19件目までが返される。
+    => 0件目から9件目までの10件が返される。
     
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name"],
-            "offset"     : 20,
-            "limit"      : 10
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name"],
+              "offset"     : 10,
+              "limit"      : 10
+            }
           }
         }
       }
     }
-    => 20件目から29件目までが返される。
+    
+    => 10件目から19件目までの10件が返される。
+    
+    {
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name"],
+              "offset"     : 20,
+              "limit"      : 10
+            }
+          }
+        }
+      }
+    }
+    
+    => 20件目から29件目までの10件が返される。
 
 `limit` の指定 `-1` は、実際の運用では推奨されません。膨大な量のレコードがマッチした場合、出力のための処理にリソースを使いすぎてしまいますし、ネットワークの帯域も浪費してしまいます。コンピュータの性能にもよりますが、`limit` には `100` 程度までの値を上限として指定し、それ以上のレコードは適宜ページングで取得するようにして下さい。
 
@@ -306,45 +343,49 @@ Personテーブル:
 
 ここまでの例では、レコードの一覧はすべて配列の配列として出力されていました。[`output`](#query-output) パラメータの `format` を指定すると、出力されるレコードの形式を変える事ができます。以下は、`format` に `complex` を指定した場合の例です。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source" : "Person",
-          "output" : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "name", "age", "sex", "job", "note"],
-            "limit"      : 3,
-            "format"     : "complex"
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source" : "Person",
+            "output" : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "name", "age", "sex", "job", "note"],
+              "limit"      : 3,
+              "format"     : "complex"
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 9,
-           "records" : [
-             { "_key" : "Alice Arnold",
-               "name" : "Alice Arnold",
-               "age"  : 20,
-               "sex"  : "female",
-               "job"  : "announcer",
-               "note" : "" },
-             { "_key" : "Alice Cooper",
-               "name" : "Alice Cooper",
-               "age"  : 30,
-               "sex"  : "male",
-               "job"  : "musician",
-               "note" : "" },
-             { "_key" : "Alice Miller",
-               "name" : "Alice Miller",
-               "age"  : 25,
-               "sex"  : "female",
-               "job"  : "doctor",
-               "note" : "" }
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 9,
+             "records" : [
+               { "_key" : "Alice Arnold",
+                 "name" : "Alice Arnold",
+                 "age"  : 20,
+                 "sex"  : "female",
+                 "job"  : "announcer",
+                 "note" : "" },
+               { "_key" : "Alice Cooper",
+                 "name" : "Alice Cooper",
+                 "age"  : 30,
+                 "sex"  : "male",
+                 "job"  : "musician",
+                 "note" : "" },
+               { "_key" : "Alice Miller",
+                 "name" : "Alice Miller",
+                 "age"  : 25,
+                 "sex"  : "female",
+                 "job"  : "doctor",
+                 "note" : "" }
+             ]
+           }
          }
        }
 
@@ -357,32 +398,36 @@ Personテーブル:
 ### 高度な使い方 {#usage-advanced}
 
 #### 検索結果の集約 {#usage-group}
-れ
+
 [`groupBy`](#query-groupBy) パラメータを指定することで、レコードを指定カラムの値で集約した結果を取得することができます。以下は、テーブルの内容を `sex` カラムの値で集約した結果と、集約前のレコードがそれぞれ何件あったかを取得する例です。
 
-    search
     {
-      "queries" : {
-        "sexuality" : {
-          "source"  : "Person",
-          "groupBy" : "sex",
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "_nsubrecs"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "sexuality" : {
+            "source"  : "Person",
+            "groupBy" : "sex",
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "_nsubrecs"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "sexuality" : {
-           "count" : 2,
-           "records" : 
-             ["female", 2],
-             ["male", 7]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "sexuality" : {
+             "count" : 2,
+             "records" : 
+               ["female", 2],
+               ["male", 7]
+             ]
+           }
          }
        }
 
@@ -390,38 +435,42 @@ Personテーブル:
 
 また、集約前のレコードを代表値として取得する事もできます。以下は、`sex` カラムの値で集約した結果と、それぞれの集約前のレコードを2件ずつ取得する例です。
 
-    search
     {
-      "queries" : {
-        "sexuality" : {
-          "source"  : "Person",
-          "groupBy" : {
-            "keys"           : "sex",
-            "maxNSubRecords" : 2
-          }, 
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : [
-              "_key",
-              "_nsubrecs",
-              { "label"      : "subrecords",
-                "source"     : "_subrecs",
-                "attributes" : ["name"] }
-            ],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "sexuality" : {
+            "source"  : "Person",
+            "groupBy" : {
+              "keys"           : "sex",
+              "maxNSubRecords" : 2
+            }, 
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : [
+                "_key",
+                "_nsubrecs",
+                { "label"      : "subrecords",
+                  "source"     : "_subrecs",
+                  "attributes" : ["name"] }
+              ],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "sexuality" : {
-           "count" : 2,
-           "records" : 
-             ["female", 2, [["Alice Arnold"], ["Alice Miller"]]],
-             ["male",   7, [["Alice Cooper"], ["Bob Dole"]]]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "sexuality" : {
+             "count" : 2,
+             "records" : 
+               ["female", 2, [["Alice Arnold"], ["Alice Miller"]]],
+               ["male",   7, [["Alice Cooper"], ["Bob Dole"]]]
+             ]
+           }
          }
        }
 
@@ -435,46 +484,50 @@ Personテーブル:
 
 `search` は、一度に複数の検索クエリを受け付ける事ができます。以下は、`age` が `25` 以下のレコードと `age` が `40` 以上のレコードを同時に検索する例です。
 
-    search
     {
-      "queries" : {
-        "junior" : {
-          "source"    : "Person",
-          "condition" : "age <= 25",
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
-          }
-        },
-        "senior" : {
-          "source"    : "Person",
-          "condition" : "age >= 40",
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "junior" : {
+            "source"    : "Person",
+            "condition" : "age <= 25",
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
+          },
+          "senior" : {
+            "source"    : "Person",
+            "condition" : "age >= 40",
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "junior" : {
-           "count" : 2,
-           "records" : [
-             ["Alice Arnold", 20],
-             ["Alice Miller", 25]
-           ]
-         },
-         "senior" : {
-           "count" : 3,
-           "records" : [
-             ["Bob Dole", 42],
-             ["Bob Ross", 54],
-             ["Lewis Carroll", 66]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "junior" : {
+             "count" : 2,
+             "records" : [
+               ["Alice Arnold", 20],
+               ["Alice Miller", 25]
+             ]
+           },
+           "senior" : {
+             "count" : 3,
+             "records" : [
+               ["Bob Dole", 42],
+               ["Bob Ross", 54],
+               ["Lewis Carroll", 66]
+             ]
+           }
          }
        }
 
@@ -486,46 +539,50 @@ Personテーブル:
 
 以下は、Personテーブルについて `name` カラムが `Alice` を含んでいるレコードを検索た結果と、それをさらに `sex` カラムの値で集約した結果を同時に取得する例です。
 
-    search
     {
-      "queries" : {
-        "people" : {
-          "source"    : "Person",
-          "condition" : "name @ 'Alice'"
-          "output"    : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["name", "age"],
-            "limit"      : -1
-          }
-        },
-        "sexuality" : {
-          "source"  : "people",
-          "groupBy" : "sex",
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "_nsubrecs"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "people" : {
+            "source"    : "Person",
+            "condition" : "name @ 'Alice'"
+            "output"    : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["name", "age"],
+              "limit"      : -1
+            }
+          },
+          "sexuality" : {
+            "source"  : "people",
+            "groupBy" : "sex",
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "_nsubrecs"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "people" : {
-           "count" : 8,
-           "records" : [
-             ["Alice Cooper", 30],
-             ["Alice Miller", 25],
-             ["Alice Arnold", 20]
-           ]
-         },
-         "sexuality" : {
-           "count" : 2,
-           "records" : 
-             ["female", 2],
-             ["male", 1]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "people" : {
+             "count" : 8,
+             "records" : [
+               ["Alice Cooper", 30],
+               ["Alice Miller", 25],
+               ["Alice Arnold", 20]
+             ]
+           },
+           "sexuality" : {
+             "count" : 2,
+             "records" : 
+               ["female", 2],
+               ["male", 1]
+             ]
+           }
          }
        }
 
@@ -533,38 +590,42 @@ Personテーブル:
 以下は、Personテーブルについて `job` カラムの値で集約した結果をまず求め、そこからさらに `player` という語句を含んでいる項目に絞り込む例です。
 （※この場合の2つ目の検索ではインデックスが使用されないため、検索処理が遅くなる可能性があります。）
 
-    search
     {
-      "queries" : {
-        "allJob" : {
-          "source"  : "Person",
-          "groupBy" : "job"
-        },
-        "playerJob" : {
-          "source"    : "allJob",
-          "condition" : "_key @ `player`",
-          "output"  : {
-            "elements"   : ["count", "records"],
-            "attributes" : ["_key", "_nsubrecs"],
-            "limit"      : -1
+      "type" : "search",
+      "body" : {
+        "queries" : {
+          "allJob" : {
+            "source"  : "Person",
+            "groupBy" : "job"
+          },
+          "playerJob" : {
+            "source"    : "allJob",
+            "condition" : "_key @ `player`",
+            "output"  : {
+              "elements"   : ["count", "records"],
+              "attributes" : ["_key", "_nsubrecs"],
+              "limit"      : -1
+            }
           }
         }
       }
     }
     
-    => search.result
-       {
-         "playerJob" : {
-           "count" : 2,
-           "records" : [
-             ["basketball player", 1],
-             ["baseball player", 1]
-           ]
+    => {
+         "type" : "search.result",
+         "body" : {
+           "playerJob" : {
+             "count" : 2,
+             "records" : [
+               ["basketball player", 1],
+               ["baseball player", 1]
+             ]
+           }
          }
        }
 
 
-## パラメータ {#parameters}
+## パラメータの詳細 {#parameters}
 
 ### 全体のパラメータ {#container-parameters}
 
@@ -592,7 +653,7 @@ Personテーブル:
 値
 : 個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の内容を値としたハッシュ。
 
-省略時の初期値
+省略時の既定値
 : なし。このパラメータは必須です。
 
 `search` は、複数の検索クエリを一度に受け取る事ができます。
@@ -609,7 +670,7 @@ Personテーブル:
 値
 : テーブル名の文字列、または結果を参照する別の検索クエリの名前の文字列。
 
-省略時の初期値
+省略時の既定値
 : なし。このパラメータは必須です。
 
 別の検索クエリの処理結果をデータソースとして指定する事により、ファセット検索などを行う事ができます。
@@ -631,10 +692,9 @@ Personテーブル:
   4. 1〜3および演算子の文字列の配列。 
 
 省略時の既定値
-: なし（検索しない）。
+: なし。
 
-検索条件を指定した場合、検索条件に該当したすべてのレコードがその後の処理の対象となります。
-検索条件を指定しなかった場合、データソースに含まれるすべてのレコードがその後の処理の対象となります。
+検索条件を指定しなかった場合、データソースに含まれるすべてのレコードが検索結果として取り出され、その後の処理に使われます。
 
 ##### スクリプト構文形式の文字列による検索条件 {#query-condition-script-syntax-string}
 
@@ -675,14 +735,12 @@ Personテーブル:
   詳細は[Groonga のクエリー構文の仕様](http://groonga.org/ja/docs/reference/grn_expr/query_syntax.html)を参照して下さい。
   このパラメータは省略できません。
 
-`matchTo`
+
 : 検索対象のカラムを、カラム名の文字列またはその配列で指定します。
   カラム名の後に `name * 2` のような指定を加える事で、重み付けができます。
   このパラメータは省略可能で、省略時の初期値は `"_key"` です。
-  <!-- ↑要検証！ -->
 
-`defaultOperator`
-: `query` に複数のクエリが列挙されている場合の既定の論理演算の条件を指定します。
+`defaultOperator`: `query` に複数のクエリが列挙されている場合の既定の論理演算の条件を指定します。
   以下のいずれかの文字列を指定します。
   
    * `"&&"` : AND条件と見なす。
@@ -712,8 +770,8 @@ Personテーブル:
 
     [
       "&&",
-      検索条件1,
-      検索条件2,
+      <検索条件1>,
+      <検索条件2>,
       ...
     ]
 
@@ -749,9 +807,9 @@ Personテーブル:
   2. ソート条件と取り出すレコードの範囲を指定するハッシュ。 
 
 省略時の既定値
-: なし（ソートしない）。
+: なし。
 
-レコードの範囲を指定した場合、指定に基づいてソートした結果から、さらに指定の範囲のレコードを取り出した結果がその後の処理の対象となります。
+ソート条件が指定されなかった場合、すべての検索結果がそのままの並び順でソート結果として取り出され、その後の処理に使われます。
 
 ##### 基本的なソート条件の指定 {#query-sortBy-array}
 
@@ -772,9 +830,9 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
 ソートの指定において、以下の形式でソート結果から取り出すレコードの範囲を指定する事ができます。
 
     {
-      "keys"   : [基本的なソート条件の指定],
-      "offset" : ページングの起点,
-      "limit"  : 取り出すレコード数
+      "keys"   : [<ソート対象のカラム>],
+      "offset" : <ページングの起点>,
+      "limit"  : <取り出すレコード数>
     }
 
 `keys`
@@ -792,7 +850,7 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
   
   このパラメータは省略可能で、省略時の既定値は `-1` です。
 
-例えば以下は、ソート結果の10番目から20番目までのレコードを取り出すという意味になります。
+例えば以下は、ソート結果の10番目から19番目までの10件のレコードを取り出すという意味になります。
 
     {
       "keys"   : ["name", "-age"],
@@ -816,9 +874,9 @@ Droongaはまず最初に指定したカラムの値でレコードをソート�
   2. 複雑な集約条件を指定するハッシュ。 
 
 省略時の既定値
-: なし（集約しない）。
+: なし。
 
-集約条件を指定した場合、指定に基づいてレコードを集約した結果のレコードがその後の処理の対象となります。
+集約条件を指定した場合、指定に基づいてレコードを集約した結果がレコードとして取り出され、その後の処理に使われます。
 
 ※註：バージョン {{ site.droonga_version }} では、複数パーティションに別れたデータセットでの検索結果を集約した場合、集約結果に同一キーのレコードが複数登場することがあります（パーティションごとの集約結果のマージ処理が未実装であるため）。バージョン {{ site.droonga_version }} では、この機能はパーティション分けを伴わないデータセットでのみの利用を推奨します。
 
@@ -844,8 +902,8 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 集約の指定において、集約結果の一部として出力する集約前のレコードの数を、以下の形式で指定する事ができます。
 
     {
-      "key"            : "基本的な集約条件",
-      "maxNSubRecords" : 集約結果の一部として出力する集約前のレコードの数
+      "key"            : "<基本的な集約条件>",
+      "maxNSubRecords" : <集約結果の一部として出力する集約前のレコードの数>
     }
 
 `key`
@@ -880,7 +938,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 : 出力形式を指定するハッシュ。 
 
 省略時の既定値
-: なし（結果を出力しない）。
+: なし。
 
 指定を省略した場合、その検索クエリの検索結果はレスポンスには出力されません。
 集約操作などのために必要な中間テーブルにあたる検索結果を求めるだけの検索クエリにおいては、 `output` を省略して処理時間や転送するデータ量を減らすことができます。
@@ -888,11 +946,11 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 出力形式は、以下の形式のハッシュで指定します。
 
     {
-      "elements"   : [出力する情報の配列],
-      "format"     : "検索結果のレコードの出力スタイル",
-      "offset"     : ページングの起点,
-      "limit"      : 出力するレコード数,
-      "attributes" : [レコードのカラムの出力指定の配列]
+      "elements"   : [<出力する情報の名前の配列>],
+      "format"     : "<検索結果のレコードの出力スタイル>",
+      "offset"     : <ページングの起点>,
+      "limit"      : <出力するレコード数>,
+      "attributes" : <レコードのカラムの出力指定の配列>
     }
 
 `elements`
@@ -931,6 +989,11 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 : レコードのカラムの値について、出力形式を配列で指定します。
   個々のカラムの値の出力形式は以下のいずれかで指定します。
   
+   1. カラムの定義の配列。
+   2. カラムの定義を値としたハッシュ
+  
+  各カラムは以下の形式のいずれかで指定します。
+  
    * カラム名の文字列。例は以下の通りです。
      * `"name"` : `name` カラムの値をそのまま `name` カラムとして出力します。
      * `"age"`  : `age` カラムの値をそのまま `age` カラムとして出力します。
@@ -958,22 +1021,41 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
            { "label" : "items", "source" : "_subrecs",
              "attributes": ["name", "price"] }
   
-  このパラメータは省略可能で、省略時の既定値はありません（カラムを何も出力しません）。
+  カラムの定義の配列には、上記の形式で示されたカラムの定義を0個以上含めることができます。例：
+  
+      [
+        "name",
+        "age",
+        { "label" : "realName", "source" : "name" }
+      ]
+  
+  カラムの定義を値としたハッシュでは、カラムの出力名をキー、上記の形式で示されたカラムの定義を値として、カラムの定義を0個以上含めることができます。例：
+  
+      {
+        "name"     : "name",
+        "age"      : "age",
+        "realName" : { "source" : "name" },
+        "country"  : { "source" : "'Japan'" }
+      }
+  
+  このパラメータは省略可能で、省略時の既定値はありません。カラムの指定がない場合、カラムの値は一切出力されません。
 
 
 ## レスポンス {#response}
 
-このコマンドは、個々の検索クエリの名前をキー、[個々の検索クエリ](#query-parameters)の処理結果を値とした、以下のようなハッシュを返却します。
+このコマンドは、検索結果を`body` 、ステータスコード `200` を `statusCode` の値としたレスポンスを返します。
+
+検索結果のハッシュは、個々の検索クエリの名前をキー、対応する[個々の検索クエリ](#query-parameters)の処理結果を値とした、以下のような形式を取ります。
 
     {
-      "検索クエリ1の名前" : {
-        "startTime"   : "検索を開始した時刻",
-        "elapsedTime" : 検索にかかった時間（単位：ミリ秒）,
-        "count"       : 検索条件にヒットしたレコードの総数,
-        "attributes"  : [出力されたレコードのカラムの情報],
-        "records"     : [出力されたレコードの配列]
+      "<クエリ1の名前>" : {
+        "startTime"   : "<検索を開始した時刻>",
+        "elapsedTime" : <検索にかかった時間（単位：ミリ秒）),
+        "count"       : <指定された検索条件に該当するレコードの総数>,
+        "attributes"  : <出力されたレコードのカラムの情報の配列またはハッシュ>,
+        "records"     : [<出力されたレコードの配列>]
       },
-      "検索クエリ2の名前" : 検索クエリの検索結果,
+      "<クエリ2の名前>" : { ... },
       ...
     }
 
@@ -1009,21 +1091,25 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 `format` が　`"simple"` の場合、個々の検索クエリの結果は以下の形を取ります。
 
     {
-      "startTime"   : "検索を開始した時刻",
-      "elapsedTime" : 検索にかかった時間,
-      "count"       : レコードの総数,
+      "startTime"   : "<検索を開始した時刻>",
+      "elapsedTime" : <検索にかかった時間),
+      "count"       : <検索結果のレコードの総数>,
       "attributes"  : [
-        { "name"   : "カラム1の名前",
-          "type"   : "カラム1の型",
-          "vector" : カラム1がベクターカラムかどうか },
-        { "name"   : "カラム2の名前",
-          "type"   : "カラム2の型",
-          "vector" : カラム2がベクターカラムかどうか },
+        { "name"   : "<カラム1の名前>",
+          "type"   : "<カラム1の型>",
+          "vector" : <カラム1がベクターカラムかどうか> },
+        { "name"   : "<カラム2の名前>",
+          "type"   : "<カラム2の型>",
+          "vector" : <カラム2がベクターカラムかどうか> },,
         ...
       ],
       "records"     : [
-        [レコード1のカラム1の値, レコード1のカラム2の値, ...],
-        [レコード2のカラム1の値, レコード2のカラム2の値, ...],
+        [<レコード1のカラム1の値>,
+         <レコード1のカラム2の値>,
+         ...],
+        [<レコード2のカラム1の値>,
+         <レコード2のカラム2の値>,
+         ...],
         ...
       ]
     }
@@ -1034,7 +1120,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 ##### `attributes` {#response-query-simple-attributes}
 
 ※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
-  
+
 出力されたレコードのカラムについての情報の配列で、[検索クエリの `output`](#query-output) における `attributes` で指定された順番で個々のカラムの情報を含みます。
 
 個々のカラムの情報はハッシュの形をとり、以下の情報を持ちます。
@@ -1061,29 +1147,28 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 [日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムの値は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
 
-
 #### 複雑な形式のレスポンス {#response-query-complex-attributes-and-records}
 
 `format` が　`"complex"` の場合、個々の検索クエリの結果は以下の形を取ります。
 
     {
-      "startTime"   : "検索を開始した時刻",
-      "elapsedTime" : 検索にかかった時間,
-      "count"       : レコードの総数,
+      "startTime"   : "<検索を開始した時刻>",
+      "elapsedTime" : <検索にかかった時間),
+      "count"       : <検索結果のレコードの総数>,
       "attributes"  : {
-        "カラム1の名前" : { "type"   : "カラム1の型",
-                            "vector" : カラム1がベクターカラムかどうか },
-        "カラム2の名前" : { "type"   : "カラム2の型",
-                            "vector" : カラム2がベクターカラムかどうか },
+        "<カラム1の名前>" : { "type"   : "<カラム1の型>",
+                                "vector" : <カラム1がベクターカラムかどうか> },
+        "<カラム2の名前>" : { "type"   : "<カラム2の型>",
+                                "vector" : <カラム2がベクターカラムかどうか> },
         ...
       ],
       "records"     : [
-        { "カラム1" : "レコード1のカラム1の値",
-          "カラム2" : "レコード1のカラム2の値",
-          ...                                   },
-        { "カラム1" : "レコード2のカラム1の値",
-          "カラム2" : "レコード2のカラム2の値",
-          ...                                   },
+        { "<カラム1の名前>" : <レコード1のカラム1の値>,
+          "<カラム2の名前>" : <レコード1のカラム2の値>,
+          ...                                                                },
+        { "<カラム1の名前>" : <レコード2のカラム1の値>,
+          "<カラム2の名前>" : <レコード2のカラム2の値>,
+          ...                                                                },
         ...
       ]
     }
@@ -1112,9 +1197,30 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 ##### `records` {#response-query-complex-records}
 
+
 出力されたレコードの配列です。
 
 個々のレコードは、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名をキー、カラムの値を値としたハッシュとなります。
 
 [日時型](http://groonga.org/ja/docs/tutorial/data.html#date-and-time-type)のカラムの値は、[W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats")のタイムゾーンを含む形式の文字列として出力されます。
 
+
+## エラーの種類 {#errors}
+
+このコマンドは[一般的なエラー](/ja/reference/message/#error)に加えて、以下のエラーを場合に応じて返します。
+
+### `MissingSourceParameter`
+
+`source` の指定がないクエリがあることを示します。ステータスコードは `400` です。
+
+### `UnknownSource`
+
+`source` の値として、他のクエリの名前ではない、実際には存在しないテーブルの名前が指定されていることを示します。ステータスコードは `404` です。
+
+### `CyclicSource`
+
+`source` の循環参照があることを示します。ステータスコードは `400` です。
+
+### `SearchTimeout`
+
+`timeout` で指定された時間内に検索処理が完了しなかったことを示します。ステータスコードは `500` です。
