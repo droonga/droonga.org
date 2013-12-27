@@ -113,7 +113,7 @@ msgid "## Responses {#response}"
 msgstr "## レスポンス {#response}"
 
 msgid "This returns an array meaning the result of the operation, as the `body`."
-msgstr "このコマンドは、レスポンスとしてコマンドの実行結果に関する情報を格納した配列を返却します。"
+msgstr "このコマンドは、レスポンスの `body` としてコマンドの実行結果に関する情報を格納した配列を返却します。"
 
 msgid ""
 "    [\n"
