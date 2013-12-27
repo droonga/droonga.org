@@ -15,49 +15,51 @@ Resources which **catalog** manages are as following.
 Here is a sample **catalog** for (TODO: describes about the
 configuration by the catalog):
 
-    {
-      "effective_date": "2013-06-05T00:05:51Z",
-      "zones": ["localhost:23003/farm0", "localhost:23003/farm1"],
-      "farms": {
-        "localhost:23003/farm0": {
-          "device": "/disk0",
-          "capacity": 1024
+~~~json
+{
+  "effective_date": "2013-06-05T00:05:51Z",
+  "zones": ["localhost:23003/farm0", "localhost:23003/farm1"],
+  "farms": {
+    "localhost:23003/farm0": {
+      "device": "/disk0",
+      "capacity": 1024
+    },
+    "localhost:23003/farm1": {
+      "device": "/disk1",
+      "capacity": 1024
+    }
+  },
+  "datasets": {
+    "Wiki": {
+      "workers": 4,
+      "number_of_replicas": 2,
+      "number_of_partitions": 2,
+      "partition_key": "_key",
+      "date_range": "infinity",
+      "ring": {
+        "localhost:23004": {
+          "weight": 10,
+          "partitions": {
+            "2013-07-24": [
+              "localhost:23003/farm0.000",
+              "localhost:23003/farm1.000"
+            ]
+          }
         },
-        "localhost:23003/farm1": {
-          "device": "/disk1",
-          "capacity": 1024
-        }
-      },
-      "datasets": {
-        "Wiki": {
-          "workers": 4,
-          "number_of_replicas": 2,
-          "number_of_partitions": 2,
-          "partition_key": "_key",
-          "date_range": "infinity",
-          "ring": {
-            "localhost:23004": {
-              "weight": 10,
-              "partitions": {
-                "2013-07-24": [
-                  "localhost:23003/farm0.000",
-                  "localhost:23003/farm1.000"
-                ]
-              }
-            },
-            "localhost:23005": {
-              "weight": 10,
-              "partitions": {
-                "2013-07-24": [
-                  "localhost:23003/farm1.001",
-                  "localhost:23003/farm0.001"
-                ]
-              }
-            }
+        "localhost:23005": {
+          "weight": 10,
+          "partitions": {
+            "2013-07-24": [
+              "localhost:23003/farm1.001",
+              "localhost:23003/farm0.001"
+            ]
           }
         }
       }
     }
+  }
+}
+~~~
 
 ## Parameters
 
