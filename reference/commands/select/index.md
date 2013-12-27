@@ -68,7 +68,7 @@ All parameters are compatible to [parameters for `select` command of the Groonga
 
 ## Responses {#response}
 
-This returns an array including search results.
+This returns an array including search results as the response's `body`.
 
 The structure of the returned array is compatible to [the returned value of the Groonga's `select` command](http://groonga.org/docs/reference/commands/select.html#id6). See the linked document for more details.
 
