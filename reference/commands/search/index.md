@@ -904,19 +904,19 @@ A condition of grouping can include more options, like:
   
   This parameter is optional, the default value is `0`.
   
-  For example, this condition will return results grouped by their `job` column with one sample record per a grouped result:
-  
-      {
-        "key"            : "job",
-        "maxNSubRecords" : 1
-      }
-  
-  Grouped results will have all columns of [the result of the basic conditions for grouping](#query-groupBy-string), and following extra columns:
-  
-  *Note: On the version {{ site.droonga_version }}, too many records can be returned larger than the specified `maxNSubRecords`, if the dataset has multiple partitions. This is a known problem and to be fixed in a future version.
+For example, this condition will return results grouped by their `job` column with one sample record per a grouped result:
+
+    {
+      "key"            : "job",
+      "maxNSubRecords" : 1
+    }
+
+Grouped results will have all columns of [the result of the basic conditions for grouping](#query-groupBy-string), and following extra columns:
 
 `_subrecs`
 : An array of sample records which have the value in its grouped column.
+  
+*Note: On the version {{ site.droonga_version }}, too many records can be returned larger than the specified `maxNSubRecords`, if the dataset has multiple partitions. This is a known problem and to be fixed in a future version.
 
 
 #### `output` {#query-output}
