@@ -1170,7 +1170,7 @@ Recommended for small traffic cases like development, debugging, features only f
 
 *Note: This is not implemented on the version {{ site.droonga_version }}. This information is never exported.
 
-An hash of column informations for each exported search result. Keys of the hash are column names defined by [the `output` parameter](#query-output)'s `attributes`, values are informations of each column.
+A hash of column informations for each exported search result. Keys of the hash are column names defined by [the `output` parameter](#query-output)'s `attributes`, values are informations of each column.
 
 Each column information is returned as a hash with following keys:
 
