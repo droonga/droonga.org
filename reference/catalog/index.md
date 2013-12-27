@@ -9,6 +9,9 @@ catalog.
 
 This documentation describes about catalog.
 
+ * TOC
+{:toc}
+
 ## How to manage
 
 So far, you need to write catalog and share it to all the nodes
@@ -22,67 +25,76 @@ automatically.
 
 This section describes terms in catalog.
 
-Catalog
-: Catalog is a series of data which represents the resources in the
-  network.
+### Catalog
 
-Zone
-: Zone is a set of farms. Each farm in a zone are expected to close to
-  each other, like in the same host, in the same switch, in the same
-  network.
+Catalog is a series of data which represents the resources in the
+network.
 
-Farm
-: Farm is a Droonga Engine instance. Droonga Engine is implemented as
-  a [Fluentd][] plugin, fluent-plugin-droonga.
+### Zone
 
-  A `fluentd` process can have multiple Droonga Engines. If you add
-  one or more `match` entries with type `droonga` into `fluentd.conf`,
-  a `fluentd` process instantiates one or more Droonga Engines.
+Zone is a set of farms. Each farm in a zone are expected to close to
+each other, like in the same host, in the same switch, in the same
+network.
 
-Dataset
-: Dataset is a set of logical tables. A logical table must belong to
-  only one dataset.
+### Farm
 
-  Each dataset must have an unique name in the same Droonga network.
+Farm is a Droonga Engine instance. Droonga Engine is implemented as
+a [Fluentd][] plugin, fluent-plugin-droonga.
 
-Logical table
-: Logical table consists of one or more partitioned physical tables.
-  Logical table doesn't have physical records. It returns physical
-  records from physical tables.
+A `fluentd` process can have multiple Droonga Engines. If you add one
+or more `match` entries with type `droonga` into `fluentd.conf`, a
+`fluentd` process instantiates one or more Droonga Engines.
 
-  You can custom how to partition a logical table into one or more
-  physical tables. For example, you can custom partition key, the
-  number of partitions and so on.
+### Dataset
 
-Physical table
-: Physical table is a table in Groonga database. It stores physical
-  records of the table.
+Dataset is a set of logical tables. A logical table must belong to
+only one dataset.
 
-Ring
-: Ring is a series of partition sets. Dataset must have one
-  ring. Dataset creates logical tables on the ring.
+Each dataset must have an unique name in the same Droonga network.
 
-  Droonga Engine replicates each record in a logical table into one or
-  more partition sets.
+### Logical table
 
-Partition set
-: Partition set is a set of partitions. A partition set stores all
-  records in all logical tables in the same Droonga network. In other
-  words, dataset is partitioned in a partition set.
+Logical table consists of one or more partitioned physical tables.
+Logical table doesn't have physical records. It returns physical
+records from physical tables.
 
-  A partition set is a replication of other partition set.
+You can custom how to partition a logical table into one or more
+physical tables. For example, you can custom partition key, the
+number of partitions and so on.
 
-  Droonga Engine may support partitioning in one or more partition
-  sets in the future. It will be useful to use different partition
-  size for old data and new data. Normally, old data are smaller and
-  new data are bigger. It is reasonable that you use larger partition
-  size for bigger data.
+### Physical table
 
-Partition
-: Partition is a Groonga database. It has zero or more physical
-  tables.
+Physical table is a table in Groonga database. It stores physical
+records of the table.
 
-  Note: Handler plugins in Droonga Engine work on a partition.
+### Ring
+
+Ring is a series of partition sets. Dataset must have one
+ring. Dataset creates logical tables on the ring.
+
+Droonga Engine replicates each record in a logical table into one or
+more partition sets.
+
+### Partition set
+
+Partition set is a set of partitions. A partition set stores all
+records in all logical tables in the same Droonga network. In other
+words, dataset is partitioned in a partition set.
+
+A partition set is a replication of other partition set.
+
+Droonga Engine may support partitioning in one or more partition
+sets in the future. It will be useful to use different partition
+size for old data and new data. Normally, old data are smaller and
+new data are bigger. It is reasonable that you use larger partition
+size for bigger data.
+
+### Partition
+
+Partition is a Groonga database. It has zero or more physical
+tables.
+
+Note: Handler plugins in Droonga Engine work on a partition.
 
 ## Example
 
@@ -100,6 +112,7 @@ Here is a `catalog.json` for the above case:
 
 ~~~json
 {
+  "version": 1,
   "effective_date": "2013-06-05T00:05:51Z",
   "zones": ["localhost:23003/farm0", "localhost:23003/farm1"],
   "farms": {
@@ -145,6 +158,12 @@ Here is a `catalog.json` for the above case:
 ~~~
 
 ## Parameters
+
+Here are descriptions about parameters in `catalog.json`.
+
+### `version`
+
+It is the format version of the catalog file.
 
 ### `effective_date`
 
