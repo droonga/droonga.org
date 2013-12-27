@@ -47,7 +47,7 @@ This returns an array meaning the result of the operation, as the `body`.
 
     [
       [
-        <Status code>,
+        <Groonga's status code>,
         <Start time>,
         <Elapsed time>
       ],
