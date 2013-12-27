@@ -63,42 +63,42 @@ configuration by the catalog):
 
 ## Parameters
 
-### effective_date
+### `effective_date`
 
 A date string representing the day the **catalog** becomes effective.
 
-### zones
+### `zones`
 
 **Zone** is an array of **farms** (or other **zones**). The elements in a **zone** are expected to be close to each other, like in the same host, in the same switch, in the same network.
 
-### farms
+### `farms`
 
 **Farms** correspond with fluent-plugin-droonga instances. A fluentd process may have multiple **farms** if more than one **match** entry with type **droonga** appear in the "fluentd.conf".
 Each **farm** has its own job queue.
 Each **farm** can attach to a data partition which is a part of a **dataset**.
 
-### datasets
+### `datasets`
 
 A **dataset** is a set of **tables** which comprise a single logical **table** virtually.
 Each **dataset** must have a unique name in the network.
 
-### ring
+### `ring`
 
-**Ring** is a series of partitions which comprise a dataset. **replica_count**, **number\_of\_partitons** and **time-slice** factors affect the number of partitions in a **ring**.
+`ring` is a series of partitions which comprise a dataset. `replica_count`, `number_of_partitons` and **time-slice** factors affect the number of partitions in a `ring`.
 
-### workers
+### `workers`
 
-**workers** is an integer number which specifies the number of worker processes to deal with the dataset.
+`workers` is an integer number which specifies the number of worker processes to deal with the dataset.
 If `0` is specified, no worker is forked and all operations are done in the master process.
 
-### number\_of\_partitions
+### `number_of_partitions`
 
-**number\_of\_partitions** is an integer number which represents the number of partitions divided by the hash function. The hash function which determines where each record resides the partition in a dataset is compatible with memcached.
+`number_of_partition` is an integer number which represents the number of partitions divided by the hash function. The hash function which determines where each record resides the partition in a dataset is compatible with memcached.
 
-### date_range
+### `date_range`
 
-**date_range** determines when to split the dataset. If a string "infinity" is assigned, dataset is never split by time factor.
+`date_range` determines when to split the dataset. If a string "infinity" is assigned, dataset is never split by time factor.
 
-### number\_of\_replicas
+### `number_of_replicas`
 
-**number\_of\_replicas** represents the number of replicas of dataset maintained in the network.
+`number_of_replicas` represents the number of replicas of dataset maintained in the network.
