@@ -8,23 +8,33 @@ layout: documents_ja
 
 ## 概要 {#abstract}
 
-`column_create` は、テーブルにカラムを作成します。
+`column_create` は、指定したテーブルに新しいカラムを作成します。
 
 このコマンドは[Groonga の `column_create` コマンド](http://groonga.org/ja/docs/reference/commands/column_create.html)と互換性があります。
 
-`column_create` はRequest-Response型のコマンドです。コマンドに対しては必ず対応するレスポンスが返されます。
+形式
+: Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
-## 構文 {#syntax}
+リクエストの `type`
+: `column_create`
+
+リクエストの `body`
+: パラメータのハッシュ。
+
+レスポンスの `type`
+: `column_create.result`
+
+## パラメータの構文 {#syntax}
 
     {
-      "table"  : "テーブル名",
-      "name"   : "カラム名",
-      "flags"  : "カラムの属性",
-      "type"   : "値の型",
-      "source" : "インデックス対象のカラム名"
+      "table"  : "<テーブル名>",
+      "name"   : "<カラム名>",
+      "flags"  : "<カラムの属性>",
+      "type"   : "<値の型>",
+      "source" : "<インデックス対象のカラム名>"
     }
 
-## パラメータ {#parameters}
+## パラメータの詳細 {#parameters}
 
 `table`, `name` 以外のパラメータはすべて省略可能です。
 
@@ -36,20 +46,22 @@ layout: documents_ja
 
     [
       [
-        ステータス,
-        開始時刻,
-        処理に要した時間
+        <Groongaのステータスコード>,
+        <開始時刻>,
+        <処理に要した時間>
       ],
-      カラムが作成されたかどうか
+      <カラムが作成されたかどうか>
     ]
 
-各要素の詳細は以下の通りです。
+このコマンドはレスポンスの `statusCode` として常に `200` を返します。これは、Groonga互換コマンドのエラー情報はGroongaのそれと同じ形で処理される必要があるためです。
 
-ステータス
+レスポンスの `body` の詳細：
+
+ステータスコード
 : コマンドが正常に受け付けられたかどうかを示す整数値です。以下のいずれかの値をとります。
   
-   * `0` （`Droonga::GroongaHandler::Status::SUCCESS`） : 正常に処理された。
-   * `-22` （`Droonga::GroongaHandler::Status::INVALID_ARGUMENT`） : 引数が不正である。
+   * `0` (`Droonga::GroongaHandler::Status::SUCCESS`) : 正常に処理された。.
+   * `-22` (`Droonga::GroongaHandler::Status::INVALID_ARGUMENT`) : 引数が不正である。
 
 開始時刻
 : 処理を開始した時刻を示す数値（UNIX秒）。
