@@ -1,5 +1,5 @@
 ---
-title: catalog.json
+title: Catalog
 layout: documents
 ---
 
@@ -9,9 +9,10 @@ catalog.
 
 This documentation describes about catalog.
 
-## How to share
+## How to manage
 
-So far, you need to share catalog to all the nodes manually.
+So far, you need to write catalog and share it to all the nodes
+manually.
 
 Some utility programs will generate catalog in near feature.
 Furthermore Droonga network will maintain and share catalog
@@ -85,8 +86,17 @@ Partition
 
 ## Example
 
-Here is a sample catalog for (TODO: describes about the
-configuration by the catalog):
+Consider about the following case:
+
+ * There are two farms.
+ * All farms (Droonga Engine instances) works on the same fluentd.
+ * Each farm has two partitions.
+ * There are two replicas.
+ * There are two partitions for each table.
+
+Catalog is written as a JSON file. Its file name is `catalog.json`.
+
+Here is a `catalog.json` for the above case:
 
 ~~~json
 {
