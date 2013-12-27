@@ -8,7 +8,7 @@ layout: documents
 
 ## Abstract {#abstract}
 
-The `column_create` command creates a new column into the specified table..
+The `column_create` command creates a new column into the specified table.
 
 This is compatible to [the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html).
 
@@ -46,7 +46,7 @@ This returns an array meaning the result of the operation, as the `body`.
 
     [
       [
-        <Groonga's Status code>,
+        <Groonga's status code>,
         <Start time>,
         <Elapsed time>
       ],
