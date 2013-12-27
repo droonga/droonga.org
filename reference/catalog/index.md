@@ -32,18 +32,20 @@ network.
 
 ### Zone
 
-Zone is a set of farms. Each farm in a zone are expected to close to
-each other, like in the same host, in the same switch, in the same
-network.
+Zone is a set of farms. Farms in a zone are expected to close to each
+other, like in the same host, in the same switch, in the same network.
 
 ### Farm
 
-Farm is a Droonga Engine instance. Droonga Engine is implemented as
+A farm is a Droonga Engine instance. Droonga Engine is implemented as
 a [Fluentd][] plugin, fluent-plugin-droonga.
 
 A `fluentd` process can have multiple Droonga Engines. If you add one
 or more `match` entries with type `droonga` into `fluentd.conf`, a
 `fluentd` process instantiates one or more Droonga Engines.
+
+A farm has its own workers and a job queue. A farm push request to its
+job queue and workers pull a request from the job queue.
 
 ### Dataset
 
@@ -117,11 +119,11 @@ Here is a `catalog.json` for the above case:
   "zones": ["localhost:23003/farm0", "localhost:23003/farm1"],
   "farms": {
     "localhost:23003/farm0": {
-      "device": "/disk0",
+      "device": "disk0",
       "capacity": 1024
     },
     "localhost:23003/farm1": {
-      "device": "/disk1",
+      "device": "disk1",
       "capacity": 1024
     }
   },
@@ -163,7 +165,7 @@ Here are descriptions about parameters in `catalog.json`.
 
 ### `version`
 
-It is format version of the catalog file.
+It is a format version of the catalog file.
 
 Droonga Engine will change `catalog.json` format in the
 future. Droonga Engine can provide auto format update feature with the
@@ -188,7 +190,9 @@ effective.
 
 The date string format must be [W3C-DTF][].
 
-Note: Droonga Engine 0.8.0 doesn't use this value yet.
+This is a required parameter.
+
+Note: fluent-plugin-droonga 0.8.0 doesn't use this value yet.
 
 Example:
 
@@ -200,13 +204,55 @@ Example:
 
 ### `zones`
 
-**Zone** is an array of **farms** (or other **zones**). The elements in a **zone** are expected to be close to each other, like in the same host, in the same switch, in the same network.
+It is an array of farms.
+
+You should make elements in a `zones` close to each other, like in the
+same host, in the same switch, in the same network.
+
+This is a required parameter.
+
+Note: fluent-plugin-droonga 0.8.0 doesn't use this value yet.
+
+Example:
+
+~~~json
+{
+  "zones": [
+    "localhost:23003/farm0",
+    "localhost:23003/farm1",
+    "localhost:23004/farm0"
+  ]
+}
+~~~
 
 ### `farms`
+
+It is an array of Droonga Engine instances.
+
+TODO: IMPROVE ME.
 
 **Farms** correspond with fluent-plugin-droonga instances. A fluentd process may have multiple **farms** if more than one **match** entry with type **droonga** appear in the "fluentd.conf".
 Each **farm** has its own job queue.
 Each **farm** can attach to a data partition which is a part of a **dataset**.
+
+This is a required parameter.
+
+Example:
+
+~~~json
+{
+  "farms": {
+    "localhost:23003/farm0": {
+      "device": "/disk0",
+      "capacity": 1024
+    },
+    "localhost:23003/farm1": {
+      "device": "/disk1",
+      "capacity": 1024
+    }
+  }
+}
+~~~
 
 ### `datasets`
 
