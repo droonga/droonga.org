@@ -475,8 +475,6 @@ You can also extract the ungrouped record by the `maxNSubRecords` parameter and 
 
 See [`groupBy` parameters](#query-groupBy) for more details.
 
-*Note: The version {{ site.droonga_version }} doesn't support grouping of search results from partitioned datasets. You should use this feature only on single partition datasets, while you are using the version {{ site.droonga_version }}.
-
 
 #### Multiple search queries in one request {#usage-multiple-queries}
 
@@ -872,8 +870,6 @@ Default value
 
 If a condition for grouping is given, then grouped result records will appear as the result, for following operations and the output.
 
-*Note: On the version {{ site.droonga_version }}, grouping of search results from a partitioned dataset possibly include multiple records with a same key, because merging of search results from partitioned dataset is not implemented yet. So you should use this feature only on datasets without partitionings, on the version {{ site.droonga_version }}.
-
 ##### Basic condition of grouping {#query-groupBy-string}
 
 A condition of grouping is given as a string of a column name or an expression.
@@ -907,15 +903,17 @@ A condition of grouping can include more options, like:
 : An integer, meaning maximum number of sample records included into each grouped result. Possible values are `0` or larger. `-1` is not acceptable.
   
   This parameter is optional, the default value is `0`.
-
-For example, this condition will return results grouped by their `job` column with one sample record per a grouped result:
-
-    {
-      "key"            : "job",
-      "maxNSubRecords" : 1
-    }
-
-Grouped results will have all columns of [the result of the basic conditions for grouping](#query-groupBy-string), and following extra columns:
+  
+  For example, this condition will return results grouped by their `job` column with one sample record per a grouped result:
+  
+      {
+        "key"            : "job",
+        "maxNSubRecords" : 1
+      }
+  
+  Grouped results will have all columns of [the result of the basic conditions for grouping](#query-groupBy-string), and following extra columns:
+  
+  *Note: On the version {{ site.droonga_version }}, too many records can be returned larger than the specified `maxNSubRecords`, if the dataset has multiple partitions. This is a known problem and to be fixed in a future version.
 
 `_subrecs`
 : An array of sample records which have the value in its grouped column.
