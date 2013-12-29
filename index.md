@@ -26,7 +26,7 @@ The following documentations will help you to use Droonga more effectively:
 
  * [Install](install/) describes how to install Droonga.
  * [Reference manual](reference/) describes about specifications.
- * [Contribution](contribution/) describes how to contribute Droonga project and join Droonga development.
+ * [Community](community/) describes how to communicate with developers and other users.
  * [Related projects](related-projects/) introduces related projects.
 
 ## The latest news
