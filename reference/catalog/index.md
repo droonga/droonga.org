@@ -163,7 +163,7 @@ Here is a `catalog.json` for the above case:
 
 Here are descriptions about parameters in `catalog.json`.
 
-### `version`
+### `version` {#version}
 
 It is a format version of the catalog file.
 
