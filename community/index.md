@@ -3,7 +3,7 @@ title: Community
 layout: documents
 ---
 
-This documentation describes how to communicate with developers and other users.
+This documentation describes how to communicate with the Droonga developers and other users.
 
 ## How to ask about Droonga related things
 
@@ -26,7 +26,7 @@ Here is a list of Droonga related the GitHub issues:
  * [Issues - droonga/fluent-plugin-droonga](https://github.com/droonga/fluent-plugin-droonga/issues) for Droonga Engine.
  * [Issues - droonga/express-droonga](https://github.com/droonga/express-droonga/issues) for Protocol Adapter.
 
-The GitHub issues for Droonga Engine but you can use it for general problem. The developers will move the created issue to suitable GitHub issues.
+You can use the GitHub issues for Droonga Engine for general problem. The developers will move the created issue to suitable GitHub issues.
 
 ## How to contribute Droonga
 
