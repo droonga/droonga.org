@@ -53,7 +53,12 @@
     <footer>
       <hr>
       <div class="container">
-        <p>&copy; {{ site.copyright_year }} <a href="https://github.com/droonga">Droonga Project</a></p>
+        <ul class="other-languages">
+          {% capture relative_path %}{{ page.url | remove_first: page.path_prefix | remove: "index.html" }}{% endcapture %}
+          <li><a href="/{{ relative_path }}">English</a></li>
+          <li><a href="/ja/{{ relative_path }}">日本語</a></li>
+        </ul>
+        <p class="copyright">&copy; {{ site.copyright_year }} <a href="https://github.com/droonga">Droonga Project</a></p>
       </div>
     </footer>
 
