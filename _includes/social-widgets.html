@@ -3,7 +3,7 @@
     <g:plusone href="{{ site.url }}{{ include.target.url }}" size="medium"></g:plusone>
     <a href="http://twitter.com/share"
        class="twitter-share-button"
-       data-lang="en"
+       data-lang="{{ page.lang }}"
        data-via="groonga"
        data-url="{{ site.url }}{{ include.target.url }}"
        data-text="{{ include.target.title | escape }} ({{ include.target.date | date: '%Y-%m-%d' }})">Tweet</a>
