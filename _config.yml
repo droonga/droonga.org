@@ -1,5 +1,6 @@
 title: Droonga
 markdown: kramdown
+permalink: /news/:year/:month/:day/:title.html
 droonga_version: 0.8.0
 copyright_year: 2013
 exclude: ["Rakefile", "Gemfile", "Gemfile.lock"]
