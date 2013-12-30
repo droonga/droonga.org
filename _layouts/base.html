@@ -1,6 +1,3 @@
----
-show_title: true
----
 <!DOCTYPE html>
 <html>
   <head>
@@ -45,7 +42,7 @@ show_title: true
     </nav>
 
     <div class="container">
-      {% if page.title and page.show_title == "true" %}
+      {% if page.title and page.show_title != false %}
       <h1>{{ page.title }}</h1>
       {% endif %}
       {{ content }}
