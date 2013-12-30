@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% capture title %}{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}{% endcapture %}
+
     {% if page.description %}
       {% assign description = page.description %}
     {% else %}
@@ -8,7 +10,7 @@
     {% endif %}
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <title>{{ title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/droonga.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -21,6 +23,7 @@
     <meta property="og:image" content="{{ site.url }}/images/icons/droonga-icon-full-size.png" />
     <meta property="og:site_name" content="Droonga" />
     <meta property="og:url" content="{{ site.url }}{{ page.url | remove:'index.html' }}" />
+    <meta property="og:title" content="{{ title }}" />
     <meta property="og:description" content="{{ description }}" />
 
     {% if page.use_social_widgets %}
