@@ -1,6 +1,6 @@
 ---
 title: search
-layout: documents_ja
+layout: ja
 ---
 
 * TOC

@@ -1,6 +1,6 @@
 ---
 title: Droonga 概要
-layout: documents_ja
+layout: ja
 ---
 
 * TOC

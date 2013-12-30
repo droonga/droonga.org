@@ -1,6 +1,6 @@
 ---
 title: Development
-layout: documents
+layout: en
 ---
 
 This documentation shows useful documentations for developing Droonga

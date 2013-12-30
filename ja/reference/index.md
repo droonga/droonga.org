@@ -1,6 +1,6 @@
 ---
 title: リファレンス
-layout: documents_ja
+layout: ja
 ---
 
  * [カタログの仕様](catalog/)

@@ -1,6 +1,6 @@
 ---
 title: Internationalization
-layout: documents
+layout: en
 ---
 
 This documentation describes how to translate the original documentations in English to other languages.

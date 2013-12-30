@@ -1,6 +1,6 @@
 ---
 title: メッセージ形式
-layout: documents_ja
+layout: ja
 ---
 
 * TOC

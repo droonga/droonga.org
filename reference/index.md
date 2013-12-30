@@ -1,6 +1,6 @@
 ---
 title: Reference manuals
-layout: documents
+layout: en
 ---
 
  * [Catalog](catalog/)

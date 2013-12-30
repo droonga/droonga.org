@@ -1,6 +1,6 @@
 ---
 title: News
-layout: default
+layout: en
 use_social_widgets: true
 ---
 

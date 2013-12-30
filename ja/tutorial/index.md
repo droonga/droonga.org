@@ -1,6 +1,6 @@
 ---
 title: Droonga チュートリアル
-layout: documents_ja
+layout: ja
 ---
 
 * TOC

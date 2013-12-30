@@ -1,6 +1,6 @@
 ---
 title: Contribution
-layout: documents
+layout: en
 ---
 
 Droonga project welcomes to your contributions!

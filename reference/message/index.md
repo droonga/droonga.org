@@ -1,6 +1,6 @@
 ---
 title: Message format
-layout: documents
+layout: en
 ---
 
 * TOC

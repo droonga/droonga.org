@@ -1,6 +1,6 @@
 ---
 title: Commands
-layout: documents
+layout: en
 ---
 
 Here are available commands

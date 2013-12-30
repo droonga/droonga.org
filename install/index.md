@@ -1,6 +1,6 @@
 ---
 title: Install
-layout: documents
+layout: en
 ---
 
 # Overview

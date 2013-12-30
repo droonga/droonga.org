@@ -1,6 +1,6 @@
 ---
 title: Contribution
-layout: documents
+layout: en
 ---
 
 Droongaプロジェクトはあなたのコントリビュートを待っています！

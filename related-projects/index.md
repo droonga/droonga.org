@@ -1,6 +1,6 @@
 ---
 title: Related projects
-layout: documents
+layout: en
 ---
 
 This section introduces Droonga related projects by category.

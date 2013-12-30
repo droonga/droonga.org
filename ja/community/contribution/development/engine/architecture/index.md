@@ -1,6 +1,6 @@
 ---
 title: Architecture
-layout: documents
+layout: en
 ---
 
 TODO: write me.

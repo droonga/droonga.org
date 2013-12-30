@@ -1,6 +1,6 @@
 ---
 title: table_create
-layout: documents_ja
+layout: ja
 ---
 
 * TOC

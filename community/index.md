@@ -1,6 +1,6 @@
 ---
 title: Community
-layout: documents
+layout: en
 ---
 
 This documentation describes how to communicate with the Droonga developers and other users.

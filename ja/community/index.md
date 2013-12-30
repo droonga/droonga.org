@@ -1,6 +1,6 @@
 ---
 title: コミュニティー
-layout: documents_ja
+layout: ja
 ---
 
 このドキュメントはDroonga開発者や他のユーザーとやりとりする方法について説明します。

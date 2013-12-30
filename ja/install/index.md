@@ -1,6 +1,6 @@
 ---
 title: インストール手順
-layout: documents_ja
+layout: ja
 ---
 
 # 概要

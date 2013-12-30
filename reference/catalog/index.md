@@ -1,6 +1,6 @@
 ---
 title: Catalog
-layout: documents
+layout: en
 ---
 
 A Droonga network consists of several resources. You need to describe

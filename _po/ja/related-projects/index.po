@@ -20,7 +20,7 @@ msgstr ""
 msgid ""
 "---\n"
 "title: Related projects\n"
-"layout: documents\n"
+"layout: en\n"
 "---"
 msgstr ""
 

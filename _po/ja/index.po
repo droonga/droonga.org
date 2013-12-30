@@ -19,11 +19,11 @@ msgstr ""
 
 msgid ""
 "---\n"
-"layout: default\n"
+"layout: en\n"
 "---"
 msgstr ""
 "---\n"
-"layout: default_ja\n"
+"layout: ja\n"
 "---"
 
 msgid ""

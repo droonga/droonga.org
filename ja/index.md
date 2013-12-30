@@ -1,5 +1,5 @@
 ---
-layout: default_ja
+layout: ja
 ---
 
 <div class="jumbotron">
