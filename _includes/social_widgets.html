@@ -1,0 +1,12 @@
+<div class="social-widgets">
+  <div class="inline-widgets">
+    <g:plusone href="{{ site.url }}{{ include.target.url }}" size="medium"></g:plusone>
+    <a href="http://twitter.com/share"
+       class="twitter-share-button"
+       data-lang="en"
+       data-via="groonga"
+       data-url="{{ site.url }}{{ include.target.url }}"
+       data-text="{{ include.target.title | escape }} ({{ include.target.date | date: '%Y-%m-%d' }})">Tweet</a>
+  </div>
+  <iframe src="//www.facebook.com/plugins/like.php?href={{ site.url }}{{ include.target.url | uri_escape }}&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=20&amp;appId" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:20px; width:100%" allowTransparency="true"></iframe>
+</div>

@@ -1,1 +1,6 @@
 body { padding-top: 70px; }
+
+div.social-widgets {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}

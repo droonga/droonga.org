@@ -9,4 +9,6 @@
     {{ post.date | date: '%Y-%m-%d' }}
   </div>
   {{ post.content }}
+
+  {% include social_widgets.html target=post %}
 </article>
