@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% if page.description %}
+      {% assign description = page.description %}
+    {% else %}
+      {% assign description = site.description %}
+    {% endif %}
+
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/droonga.css" rel="stylesheet" media="screen">
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/css/font-awesome.min.css" rel="stylesheet" media="screen">
-    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta name="description" content="{{ description }}">
+
+    <meta property="fb:page_id" content="201193596592346" /><!-- groonga -->
+    <meta property="fb:admins" content="664204556" /><!-- kouhei.sutou -->
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ site.url }}/images/icons/droonga-icon-full-size.png" />
+    <meta property="og:site_name" content="Droonga" />
+    <meta property="og:url" content="{{ site.url }}{{ page.url | remove:'index.html' }}" />
+    <meta property="og:description" content="{{ description }}" />
   </head>
   <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
