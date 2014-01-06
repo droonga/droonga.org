@@ -28,7 +28,7 @@ Here is a list of Droonga related the GitHub issues:
 
 You can use the GitHub issues for Droonga Engine for general problem. The developers will move the created issue to suitable GitHub issues.
 
-## How to contribute Droonga
+## How to contribute to Droonga
 
 Droonga project welcomes to your contributions!
 
