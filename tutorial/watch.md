@@ -190,5 +190,19 @@ Next, open a new console and send "feed"s to the engine like:
 
     # fluent-cat droonga.message < feeds.jsons
 
-Then the client receives three results "new place 0", "new place 1", and "new place 2". They are search results for the query "new", given as a query parameter of the streaming API.
+Then the client receives three results "new place 0", "new place 1", and "new place 2" like:
+
+    {"targets":{"key":"new place 0"}}
+    {"targets":{"key":"new place 1"}}
+    {"targets":{"key":"new place 2"}}
+
+They are search results for the query "new", given as a query parameter of the streaming API.
+
+Results can be appear in different order, like:
+
+    {"targets":{"key":"new place 1"}}
+    {"targets":{"key":"new place 0"}}
+    {"targets":{"key":"new place 2"}}
+
+because "feed"s are processed in multiple workers asynchronously.
 
