@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
+   width="1469.8813"
+   height="796.28583"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -21,28 +21,30 @@
     <marker
        inkscape:stockid="Arrow1Lend"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Lend"
-       style="overflow:visible;">
+       style="overflow:visible">
       <path
          id="path4088"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
-         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <marker
        inkscape:stockid="Arrow1Mend"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Mend"
-       style="overflow:visible;">
+       style="overflow:visible">
       <path
          id="path4094"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
-         transform="scale(0.4) rotate(180) translate(10,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         inkscape:connector-curvature="0" />
     </marker>
     <linearGradient
        y2="11.981981"
@@ -198,9 +200,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.343475,0,0,1.505846,2.879511,-2.266018)"
        x1="11.572842"
-       y1="4.7461626"
+       y1="4.7461624"
        x2="18.475286"
-       y2="26.022910" />
+       y2="26.022909" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2624"
@@ -300,9 +302,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.343475,0,0,1.505846,2.879511,-2.266018)"
        x1="11.572842"
-       y1="4.7461626"
+       y1="4.7461624"
        x2="18.475286"
-       y2="26.022910" />
+       y2="26.022909" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2624"
@@ -402,9 +404,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.343475,0,0,1.505846,2.879511,-2.266018)"
        x1="11.572842"
-       y1="4.7461626"
+       y1="4.7461624"
        x2="18.475286"
-       y2="26.022910" />
+       y2="26.022909" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2624"
@@ -504,9 +506,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.343475,0,0,1.505846,2.879511,-2.266018)"
        x1="11.572842"
-       y1="4.7461626"
+       y1="4.7461624"
        x2="18.475286"
-       y2="26.022910" />
+       y2="26.022909" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2624"
@@ -606,9 +608,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.343475,0,0,1.505846,2.879511,-2.266018)"
        x1="11.572842"
-       y1="4.7461626"
+       y1="4.7461624"
        x2="18.475286"
-       y2="26.022910" />
+       y2="26.022909" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2624"
@@ -708,9 +710,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.343475,0,0,1.505846,2.879511,-2.266018)"
        x1="11.572842"
-       y1="4.7461626"
+       y1="4.7461624"
        x2="18.475286"
-       y2="26.022910" />
+       y2="26.022909" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2624"
@@ -810,9 +812,9 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1.343475,0,0,1.505846,2.879511,-2.266018)"
        x1="11.572842"
-       y1="4.7461626"
+       y1="4.7461624"
        x2="18.475286"
-       y2="26.022910" />
+       y2="26.022909" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient2624"
@@ -882,8 +884,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="625.73142"
-     inkscape:cy="614.40486"
+     inkscape:cx="1328.7883"
+     inkscape:cy="599.63292"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -891,7 +893,11 @@
      inkscape:window-height="841"
      inkscape:window-x="2303"
      inkscape:window-y="151"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     fit-margin-top="10"
+     fit-margin-left="10"
+     fit-margin-right="10"
+     fit-margin-bottom="10" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -900,14 +906,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="レイヤー 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(697.45279,-241.36218)">
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:#ce5c00;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3001"
@@ -983,12 +990,12 @@
     <text
        sodipodi:linespacing="125%"
        id="text3791"
-       y="580.93359"
-       x="231.92598"
+       y="582.93359"
+       x="245.92598"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="580.93359"
-         x="231.92598"
+         y="582.93359"
+         x="245.92598"
          id="tspan3793"
          sodipodi:role="line">fluent-plugin-droonga</tspan></text>
     <g
@@ -1103,7 +1110,7 @@
     </g>
     <g
        id="g4777"
-       transform="matrix(2.1717578,0,0,2.1745116,-716.43852,811.6351)">
+       transform="matrix(2.1717578,0,0,2.1745116,-690.72424,768.63271)">
       <g
          transform="matrix(0.02302022,0,0,0.0147688,45.351878,39.461865)"
          id="g4779"
@@ -1189,7 +1196,7 @@
     </g>
     <g
        id="g5504"
-       transform="translate(2.8571429,14.285714)">
+       transform="translate(28.571428,-31.428572)">
       <rect
          style="fill:#ffffff;fill-opacity:1;stroke:#204a87;stroke-width:1.92848969;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          id="rect3973"
@@ -1218,21 +1225,21 @@
     <text
        sodipodi:linespacing="125%"
        id="text5454"
-       y="863.97656"
-       x="-518.67145"
+       y="818.26227"
+       x="-492.95718"
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="863.97656"
-         x="-518.67145"
+         y="818.26227"
+         x="-492.95718"
          id="tspan5456"
          sodipodi:role="line">fluent</tspan><tspan
          id="tspan5458"
-         y="913.97656"
-         x="-518.67145"
+         y="868.26227"
+         x="-492.95718"
          sodipodi:role="line">message</tspan></text>
     <g
        id="g5491"
-       transform="translate(2.8571429,14.285714)">
+       transform="translate(28.571428,-31.428572)">
       <rect
          style="fill:#ffffff;fill-opacity:1;stroke:#a40000;stroke-width:1.85895765;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          id="rect3981"
@@ -1261,21 +1268,21 @@
     <text
        sodipodi:linespacing="125%"
        id="text5423"
-       y="983.56226"
-       x="-520.82861"
+       y="937.84796"
+       x="-495.11435"
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="983.56226"
-         x="-520.82861"
+         y="937.84796"
+         x="-495.11435"
          id="tspan5425"
          sodipodi:role="line">Droonga</tspan><tspan
          id="tspan5427"
-         y="1033.5623"
-         x="-520.82861"
+         y="987.84796"
+         x="-495.11435"
          sodipodi:role="line">message</tspan></text>
     <g
        id="g4044"
-       transform="translate(2.8571429,64.285714)">
+       transform="translate(28.571428,18.571428)">
       <rect
          style="fill:#ffffff;fill-opacity:1;stroke:#ce5c00;stroke-width:1.61069965;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          id="rect4008"
@@ -1450,7 +1457,7 @@
          inkscape:connector-curvature="0"
          id="path5339"
          d="m 6.34375,15.454879 0,25.987281 36.96875,0 L 43.25,15.554447 c -1.3e-5,-0.0057 3.74e-4,-0.02709 0,-0.03319 -7.31e-4,-0.0065 0.0011,-0.02633 0,-0.03319 -0.0014,-0.0072 -0.02946,-0.02558 -0.03125,-0.03319 l -36.875,0 z"
-         style="fill:url(#linearGradient5363);fill-opacity:1;fill-rule:evenodd;stroke:#a40000;stroke-width:0.99466485000000004;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:url(#linearGradient5363);fill-opacity:1;fill-rule:evenodd;stroke:#a40000;stroke-width:0.99466485;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          inkscape:r_cx="true"
          inkscape:r_cy="true" />
       <path
@@ -1512,7 +1519,7 @@
        style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Lend)"
        sodipodi:nodetypes="cc" />
     <g
-       transform="matrix(2.1717578,0,0,2.1745116,-716.43852,924.79981)"
+       transform="matrix(2.1717578,0,0,2.1745116,-690.72424,888.21841)"
        id="g5377">
       <g
          transform="matrix(0.02302022,0,0,0.0147688,45.351878,39.461865)"
@@ -1605,7 +1612,7 @@
        inkscape:connector-curvature="0" />
     <g
        id="g5587"
-       transform="matrix(2.1717578,0,0,2.1745116,94.134562,464.21232)">
+       transform="matrix(2.1717578,0,0,2.1745116,90.134562,470.21232)">
       <g
          style="display:inline"
          id="g5589"
