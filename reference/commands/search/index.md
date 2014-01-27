@@ -421,7 +421,7 @@ You can group search results by a column, via the [`groupBy`](#query-groupBy) pa
          "body" : {
            "sexuality" : {
              "count" : 2,
-             "records" : 
+             "records" :
                ["female", 2],
                ["male", 7]
              ]
@@ -442,7 +442,7 @@ You can also extract the ungrouped record by the `maxNSubRecords` parameter and 
             "groupBy" : {
               "keys"           : "sex",
               "maxNSubRecords" : 2
-            }, 
+            },
             "output"  : {
               "elements"   : ["count", "records"],
               "attributes" : [
@@ -464,7 +464,7 @@ You can also extract the ungrouped record by the `maxNSubRecords` parameter and 
          "body" : {
            "sexuality" : {
              "count" : 2,
-             "records" : 
+             "records" :
                ["female", 2, [["Alice Arnold"], ["Alice Miller"]]],
                ["male",   7, [["Alice Cooper"], ["Bob Dole"]]]
              ]
@@ -574,7 +574,7 @@ For example, the following query returns two results: records that their `name` 
            },
            "sexuality" : {
              "count" : 2,
-             "records" : 
+             "records" :
                ["female", 2],
                ["male", 1]
              ]
@@ -974,7 +974,7 @@ An output definition is given as a hash like:
   
   This parameter is optional and the default value is `0`.
 
-`attributes` 
+`attributes`
 : Definition of columns to be exported for each record.
   Possible patterns:
   
