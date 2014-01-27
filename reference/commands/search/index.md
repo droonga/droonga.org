@@ -678,7 +678,7 @@ Abstract
 : Conditions to search records from the given source.
 
 Value
-: Possible pattenrs:
+: Possible patterns:
   
   1. A [script syntax](http://groonga.org/docs/reference/grn_expr/script_syntax.html) string.
   2. A hash including [script syntax](http://groonga.org/docs/reference/grn_expr/script_syntax.html) string.
