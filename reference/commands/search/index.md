@@ -478,7 +478,7 @@ See [`groupBy` parameters](#query-groupBy) for more details.
 
 #### Multiple search queries in one request {#usage-multiple-queries}
 
-Multiple queries can be appear in one `search` command. For example, following query searches people yanger than 25 or older than 40:
+Multiple queries can be appear in one `search` command. For example, following query searches people younger than 25 or older than 40:
 
     {
       "type" : "search",
