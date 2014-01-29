@@ -1089,14 +1089,41 @@ A search result with `"simple"` as the value of `output`'s `format` will be retu
         { "name"   : "<Name of the column 2>",
           "type"   : "<Type of the column 2>",
           "vector" : <It this column is a vector column?> },
+        { "name"       : "<Name of the column 3 (with subrecords)>"
+          "attributes" : [
+          { "name"   : "<Name of the column 3-1>",
+            "type"   : "<Type of the column 3-2>",
+            "vector" : <It this column is a vector column?> },
+          { "name"   : "<Name of the the column 3-1>",
+            "type"   : "<Type of the the column 3-2>",
+            "vector" : <It this column is a vector column?> },
+          ],
+          ...
+        },
         ...
       ],
       "records"     : [
         [<Value of the column 1 of the record 1>,
          <Value of the column 2 of the record 1>,
+         [
+          [<Value of the column of 3-1 of the subrecord 1 of the record 1>,
+           <Value of the column of 3-2 of the subrecord 2 of the record 1>,
+           ...],
+          [<Value of the column of 3-1 of the subrecord 1 of the record 1>,
+           <Value of the column of 3-2 of the subrecord 2 of the record 1>,
+           ...],
+          ...],
          ...],
         [<Value of the column 1 of the record 2>,
          <Value of the column 2 of the record 2>,
+         [
+          [<Value of the column of 3-1 of the subrecord 1 of the record 2>,
+           <Value of the column of 3-2 of the subrecord 2 of the record 2>,
+           ...],
+          [<Value of the column of 3-1 of the subrecord 1 of the record 2>,
+           <Value of the column of 3-2 of the subrecord 2 of the record 2>,
+           ...],
+          ...],
          ...],
         ...
       ]
@@ -1161,14 +1188,41 @@ A search result with `"complex"` as the value of `output`'s `format` will be ret
                                      "vector" : <It this column is a vector column?> },
         "<Name of the column 2>" : { "type"   : "<Type of the column 2>",
                                      "vector" : <It this column is a vector column?> },
+        "<Name of the column 3 (with subrecords)>" : {
+          "attributes" : {
+            "<Name of the column 3-1>" : { "type"   : "<Type of the column 3-1>",
+                                           "vector" : <It this column is a vector column?> },
+            "<Name of the column 3-2>" : { "type"   : "<Type of the column 3-2>",
+                                           "vector" : <It this column is a vector column?> },
+            ...
+          }
+        },
         ...
       ],
       "records"     : [
         { "<Name of the column 1>" : <Value of the column 1 of the record 1>,
           "<Name of the column 2>" : <Value of the column 2 of the record 1>,
+          "<Name of the column 3 (with subrecords)>" : [
+            { "<Name of the column 3-1>" : <Value of the column 3-1 of the subrecord 1 of record 1>,
+              "<Name of the column 3-2>" : <Value of the column 3-2 of the subrecord 1 of record 1>,
+              ... },
+            { "<Name of the column 3-1>" : <Value of the column 3-1 of the subrecord 2 of record 1>,
+              "<Name of the column 3-2>" : <Value of the column 3-2 of the subrecord 2 of record 1>,
+              ... },
+            ...
+          ],
           ...                                                                },
-        { "<Name of the column 1>" : <Value of the column 1 of the record 1>,
+        { "<Name of the column 1>" : <Value of the column 1 of the record 2>,
           "<Name of the column 2>" : <Value of the column 2 of the record 2>,
+          "<Name of the column 3 (with subrecords)>" : [
+            { "<Name of the column 3-1>" : <Value of the column 3-1 of the subrecord 1 of record 2>,
+              "<Name of the column 3-2>" : <Value of the column 3-2 of the subrecord 1 of record 2>,
+              ... },
+            { "<Name of the column 3-1>" : <Value of the column 3-1 of the subrecord 2 of record 2>,
+              "<Name of the column 3-2>" : <Value of the column 3-2 of the subrecord 2 of record 2>,
+              ... },
+            ...
+          ],
           ...                                                                },
         ...
       ]
