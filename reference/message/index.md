@@ -82,7 +82,8 @@ The basic format of a response message is like following:
       "type"       : "<Type of the message>",
       "inReplyTo"  : "<ID of the related request message>",
       "statusCode" : <Status code>,
-      "body"       : <Body of the message>
+      "body"       : <Body of the message>,
+      "errors"     : <Errors from databases>
     }
 
 ### `type` {#response-type}
@@ -122,12 +123,52 @@ Abstract
 Value
 : Object, string, number, boolean, or `null`.
 
+### `errors` {#response-errors}
+
+Abstract
+: All errors from databases.
+
+Value
+: Object.
+
+This information will appear only when the command is distributed to multiple databases (partitions/replications) and they returned errors. Otherwise, the response message will have no `errors` field. For more details, see [the "Error response" section](#error).
 
 ## Error response {#error}
 
 Some commands can return an error response.
 
 An error response has the `type` same to a regular response, but it has different `statusCode` and `body`. General type of the error is indicated by the `statusCode`, and details are reported as the `body`.
+
+If a command is distributed to multiple databases (partitions/replications) and they return errors, then the response message will have an `error` field. All errors from all databases are stored to the field, like:
+
+    {
+      "type"       : "add.result",
+      "inReplyTo"  : "...",
+      "statusCode" : 400,
+      "body"       : {
+        "name":    "UnknownTable",
+        "message": ...
+      },
+      "errors"     : {
+        "/path/to/the/database1" : {
+          "statusCode" : 400,
+          "body"       : {
+            "name":    "UnknownTable",
+            "message": ...
+          }
+        },
+        "/path/to/the/database2" : {
+          "statusCode" : 400,
+          "body"       : {
+            "name":    "UnknownTable",
+            "message": ...
+          }
+        }
+      }
+    }
+
+In this case, one of all errors will be exported as the main message `body`, as a representative.
+
 
 ### Status codes of error responses {#error-status}
 
