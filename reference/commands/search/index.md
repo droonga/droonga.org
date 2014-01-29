@@ -1092,9 +1092,9 @@ A search result with `"simple"` as the value of `output`'s `format` will be retu
         { "name"       : "<Name of the column 3 (with subrecords)>"
           "attributes" : [
           { "name"   : "<Name of the column 3-1>",
-            "type"   : "<Type of the column 3-2>",
+            "type"   : "<Type of the column 3-1>",
             "vector" : <It this column is a vector column?> },
-          { "name"   : "<Name of the the column 3-1>",
+          { "name"   : "<Name of the the column 3-2>",
             "type"   : "<Type of the the column 3-2>",
             "vector" : <It this column is a vector column?> },
           ],
