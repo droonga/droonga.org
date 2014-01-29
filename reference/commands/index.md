@@ -14,4 +14,5 @@ Here are available commands
 
  * [select](select/)
  * [table_create](table-create/)
+ * [table_remove](table-remove/)
  * [column_create](column-create/)
