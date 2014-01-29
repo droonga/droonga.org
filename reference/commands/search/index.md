@@ -1111,7 +1111,7 @@ An array of column informations for each exported search result, ordered by [the
 
 Each column information is returned as a hash in the form of one of these three variations corresponding to the kind of values. The hash will have the following keys respectively:
 
-###### For Ordinal columns
+###### For ordinal columns
 
 `name`
 : A string meaning the name (label) of the exported column. It is just same to labels defined in [the `output` parameter](#query-output)'s `attributes`.
@@ -1183,7 +1183,7 @@ A hash of column informations for each exported search result. Keys of the hash 
 
 Each column information is returned as a hash in the form of one of these three variations corresponding to the kind of values. The hash will have the following keys respectively:
 
-###### For Ordinal columns
+###### For ordinal columns
 
 `type`
 : A string meaning the value type of the column.
