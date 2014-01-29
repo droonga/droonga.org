@@ -950,7 +950,7 @@ An output definition is given as a hash like:
    * `"startTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
    * `"elapsedTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
    * `"count"`
-   * `"attributes"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
+   * `"attributes"`
    * `"records"`
   
   This parameter is optional, there is not default value. Nothing will be exported if no element is specified.
@@ -1106,8 +1106,6 @@ This format is designed to reduce traffic with small responses, instead of usefu
 Recommended for cases when the response can include too much records, or the service can accept too much requests.
 
 ##### `attributes` {#response-query-simple-attributes}
-
-*Note: This is not implemented on the version {{ site.droonga_version }}. This information is never exported.
 
 An array of column informations for each exported search result, ordered by [the `output` parameter](#query-output)'s `attributes`.
 

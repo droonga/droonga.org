@@ -958,7 +958,7 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
    * `"startTime"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
    * `"elapsedTime"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
    * `"count"`
-   * `"attributes"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
+   * `"attributes"`
    * `"records"`
   
   このパラメータは省略可能で、省略時の初期値はありません（結果を何も出力しません）。
@@ -1116,8 +1116,6 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 大量のレコードを検索結果として受け取る場合や、多量のアクセスが想定される場合などに適しています。
 
 ##### `attributes` {#response-query-simple-attributes}
-
-※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
 
 出力されたレコードのカラムについての情報の配列で、[検索クエリの `output`](#query-output) における `attributes` で指定された順番で個々のカラムの情報を含みます。
 
