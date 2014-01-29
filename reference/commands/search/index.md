@@ -1116,7 +1116,7 @@ Each column information is returned as a hash with following keys:
 
 `type`
 : A string meaning the value type of the column.
-  The type is indicated as one of [Groonga's primitive data formats](http://groonga.org/docs/reference/types.html), or a name fo an existing table for referring columns.
+  The type is indicated as one of [Groonga's primitive data formats](http://groonga.org/docs/reference/types.html), or a name of an existing table for referring columns.
 
 `vector`
 : A boolean value meaning it is a [vector column](http://groonga.org/docs/tutorial/data.html#vector-types) or not.
