@@ -773,7 +773,6 @@ msgstr "詳細は [`groupBy` パラメータの仕様](#query-groupBy) を参照
 msgid "#### Multiple search queries in one request {#usage-multiple-queries}"
 msgstr "#### 複数の検索クエリの列挙 {#usage-multiple-queries}"
 
-#, fuzzy
 msgid ""
 "Multiple queries can be appear in one `search` command. For example, "
 "following query searches people younger than 25 or older than 40:"
@@ -1725,7 +1724,6 @@ msgstr ""
 "  以下の項目を指定できます。項目は1つだけ指定する場合であっても必ず配列で指定"
 "します。"
 
-#, fuzzy
 msgid ""
 "   * `\"startTime\"` *Note: This will be ignored because it is not "
 "implemented on the version {{ site.droonga_version }} yet.\n"
@@ -1740,8 +1738,7 @@ msgstr ""
 "   * `\"elapsedTime\"` ※バージョン {{ site.droonga_version }} では未実装で"
 "す。指定しても機能しません。\n"
 "   * `\"count\"`\n"
-"   * `\"attributes\"` ※バージョン {{ site.droonga_version }} では未実装です。"
-"指定しても機能しません。\n"
+"   * `\"attributes\"`\n"
 "   * `\"records\"`"
 
 msgid ""
@@ -1788,7 +1785,6 @@ msgstr ""
 ": 出力するレコード数を示す `-1` 、 `0` 、または正の整数。\n"
 "  `-1`を指定すると、すべてのレコードを出力します。"
 
-#, fuzzy
 msgid ""
 "`attributes`\n"
 ": Definition of columns to be exported for each record.\n"
@@ -2130,7 +2126,6 @@ msgstr ""
 ": カラムの出力名の文字列です。[検索クエリの `output`](#query-output) におけ"
 "る `attributes` の指定内容に基づきます。"
 
-#, fuzzy
 msgid ""
 "`type`\n"
 ": A string meaning the value type of the column.\n"
