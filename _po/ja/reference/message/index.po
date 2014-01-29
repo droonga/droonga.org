@@ -263,7 +263,7 @@ msgid ""
 ": All errors from nodes."
 msgstr ""
 "概要\n"
-": データベースから返されたすべてのエラー。"
+": 各ノードから返されたすべてのエラー。"
 
 msgid ""
 "Value\n"
