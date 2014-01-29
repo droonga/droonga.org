@@ -1109,7 +1109,9 @@ Recommended for cases when the response can include too much records, or the ser
 
 An array of column informations for each exported search result, ordered by [the `output` parameter](#query-output)'s `attributes`.
 
-Each column information is returned as a hash with following keys:
+Each column information is returned as a hash in the form of one of these three variations corresponding to the kind of values. The hash will have the following keys respectively:
+
+###### For Ordinal columns
 
 `name`
 : A string meaning the name (label) of the exported column. It is just same to labels defined in [the `output` parameter](#query-output)'s `attributes`.
@@ -1124,6 +1126,19 @@ Each column information is returned as a hash with following keys:
   
    * `true`  : It is a vector column.
    * `false` : It is not a vector column, but a scalar column.
+
+###### For columns corresponding to subrecords
+
+`name`
+: A string meaning the name (label) of the exported column. It is just same to labels defined in [the `output` parameter](#query-output)'s `attributes`.
+
+`attributes`
+: An array including information about columns of subrecords. The form is the same as `attributes` for (main) records. This means `attributes` has recursive structure.
+
+###### For expressions
+
+`name`
+: A string meaning the name (label) of the exported column. It is just same to labels defined in [the `output` parameter](#query-output)'s `attributes`.
 
 ##### `records` {#response-query-simple-records}
 
@@ -1166,7 +1181,9 @@ Recommended for small traffic cases like development, debugging, features only f
 
 A hash of column informations for each exported search result. Keys of the hash are column names defined by [the `output` parameter](#query-output)'s `attributes`, values are informations of each column.
 
-Each column information is returned as a hash with following keys:
+Each column information is returned as a hash in the form of one of these three variations corresponding to the kind of values. The hash will have the following keys respectively:
+
+###### For Ordinal columns
 
 `type`
 : A string meaning the value type of the column.
@@ -1178,6 +1195,15 @@ Each column information is returned as a hash with following keys:
   
    * `true`  : It is a vector column.
    * `false` : It is not a vector column, but a scalar column.
+
+###### For columns corresponding to subrecords
+
+`attributes`
+: An array including information about columns of subrecords. The form is the same as `attributes` for (main) records. This means `attributes` has recursive structure.
+
+###### For expressions
+
+Has no key. Just a empty hash `{}` will be returned.
 
 ##### `records` {#response-query-complex-records}
 
