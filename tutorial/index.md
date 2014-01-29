@@ -150,7 +150,7 @@ catalog.json:
         }
       },
       "options": {
-        "plugins": []
+        "plugins": ["crud"]
       }
     }
 
