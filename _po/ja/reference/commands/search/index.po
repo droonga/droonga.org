@@ -2112,10 +2112,10 @@ msgid ""
 "Each column information is returned as a hash in the form of one of these "
 "three variations corresponding to the kind of values. The hash will have the "
 "following keys respectively:"
-msgstr ""
+msgstr "個々のカラムの情報はハッシュの形をとり、その形式はレコードの値に応じて以下の3種類で与えられます。ハッシュのキーと値は以下のとおりです。"
 
 msgid "###### For ordinal columns"
-msgstr ""
+msgstr "###### 通常のカラム"
 
 msgid ""
 "`name`\n"
@@ -2157,17 +2157,17 @@ msgstr ""
 "   * `false` : カラムはベクター型ではない（スカラー型である）。"
 
 msgid "###### For columns corresponding to subrecords"
-msgstr ""
+msgstr "###### サブレコードに対応するカラム"
 
 msgid ""
 "`attributes`\n"
 ": An array including information about columns of subrecords. The form is "
 "the same as `attributes` for (main) records. This means `attributes` has "
 "recursive structure."
-msgstr ""
+msgstr "サブレコードのカラム情報を含む配列です。この形式は主レコードの `attributes` と同様です。つまり `attribuets` は再帰的な構造になっています。"
 
 msgid "###### For expressions"
-msgstr ""
+msgstr "###### 式"
 
 msgid "##### `records` {#response-query-simple-records}"
 msgstr ""
@@ -2310,7 +2310,7 @@ msgstr ""
 "reference/types.html)の名前か、もしくはテーブル名です。"
 
 msgid "Has no key. Just a empty hash `{}` will be returned."
-msgstr ""
+msgstr "キーはありません。空のハッシュ `{}` です。"
 
 msgid "##### `records` {#response-query-complex-records}"
 msgstr ""
