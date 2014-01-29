@@ -1219,8 +1219,6 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 
 ##### `attributes` {#response-query-complex-attributes}
 
-※註：バージョン {{ site.droonga_version }} では未実装です。この情報は実際には出力されません。
-
 出力されたレコードのカラムについての情報を含むハッシュで、[検索クエリの `output`](#query-output) における `attributes` で指定された出力カラム名がキー、カラムの情報が値となります。
 
 個々のカラムの情報はハッシュの形をとり、以下の情報を持ちます。
