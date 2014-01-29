@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1469.8813"
-   height="796.28583"
+   width="3805.8997"
+   height="2631.9307"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -7412,8 +7412,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="1499.7327"
-     inkscape:cy="-651.36711"
+     inkscape:cx="1556.8313"
+     inkscape:cy="929.71936"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -7442,7 +7442,7 @@
      inkscape:label="レイヤー 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(697.45279,-241.36218)">
+     transform="translate(750.51076,13.196258)">
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:#ce5c00;stroke-width:2;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3001"
@@ -11120,7 +11120,7 @@
         <path
            inkscape:r_cy="true"
            inkscape:r_cx="true"
-           style="fill:url(#linearGradient8777);fill-opacity:1;fill-rule:evenodd;stroke:#ef2929;stroke-width:0.99466485000000004;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           style="fill:url(#linearGradient8777);fill-opacity:1;fill-rule:evenodd;stroke:#ef2929;stroke-width:0.99466485;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
            d="m 6.34375,15.454879 0,25.987281 36.96875,0 L 43.25,15.554447 c -1.3e-5,-0.0057 3.74e-4,-0.02709 0,-0.03319 -7.31e-4,-0.0065 0.0011,-0.02633 0,-0.03319 -0.0014,-0.0072 -0.02946,-0.02558 -0.03125,-0.03319 l -36.875,0 z"
            id="path8675"
            inkscape:connector-curvature="0" />
@@ -11490,7 +11490,7 @@
         <path
            inkscape:r_cy="true"
            inkscape:r_cx="true"
-           style="fill:url(#linearGradient9183);fill-opacity:1;fill-rule:evenodd;stroke:#ef2929;stroke-width:0.99466485000000004;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           style="fill:url(#linearGradient9183);fill-opacity:1;fill-rule:evenodd;stroke:#ef2929;stroke-width:0.99466485;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
            d="m 6.34375,15.454879 0,25.987281 36.96875,0 L 43.25,15.554447 c -1.3e-5,-0.0057 3.74e-4,-0.02709 0,-0.03319 -7.31e-4,-0.0065 0.0011,-0.02633 0,-0.03319 -0.0014,-0.0072 -0.02946,-0.02558 -0.03125,-0.03319 l -36.875,0 z"
            id="path9081"
            inkscape:connector-curvature="0" />
@@ -13022,7 +13022,7 @@
            inkscape:connector-curvature="0"
            id="path11532"
            d="m 6.34375,15.454879 0,25.987281 36.96875,0 L 43.25,15.554447 c -1.3e-5,-0.0057 3.74e-4,-0.02709 0,-0.03319 -7.31e-4,-0.0065 0.0011,-0.02633 0,-0.03319 -0.0014,-0.0072 -0.02946,-0.02558 -0.03125,-0.03319 l -36.875,0 z"
-           style="fill:url(#linearGradient11554);fill-opacity:1;fill-rule:evenodd;stroke:#ef2929;stroke-width:0.99466485;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:5.96798911,1.9893297;stroke-dashoffset:0"
+           style="fill:url(#linearGradient11554);fill-opacity:1;fill-rule:evenodd;stroke:#ef2929;stroke-width:0.99466485;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:5.96798911, 1.9893297;stroke-dashoffset:0"
            inkscape:r_cx="true"
            inkscape:r_cy="true" />
         <path
@@ -13604,7 +13604,7 @@
            inkscape:connector-curvature="0"
            id="path11776"
            d="m 6.34375,15.454879 0,25.987281 36.96875,0 L 43.25,15.554447 c -1.3e-5,-0.0057 3.74e-4,-0.02709 0,-0.03319 -7.31e-4,-0.0065 0.0011,-0.02633 0,-0.03319 -0.0014,-0.0072 -0.02946,-0.02558 -0.03125,-0.03319 l -36.875,0 z"
-           style="fill:url(#linearGradient11798);fill-opacity:1;fill-rule:evenodd;stroke:#204a87;stroke-width:0.99466485000000004;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           style="fill:url(#linearGradient11798);fill-opacity:1;fill-rule:evenodd;stroke:#204a87;stroke-width:0.99466485;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
            inkscape:r_cx="true"
            inkscape:r_cy="true" />
         <path
