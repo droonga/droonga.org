@@ -23,47 +23,51 @@ msgid ""
 "layout: en\n"
 "---"
 msgstr ""
+"---\n"
+"title: インストール手順\n"
+"layout: ja\n"
+"---"
 
 msgid "# Overview"
-msgstr ""
+msgstr "# 概要"
 
 msgid ""
 "The main part of Droonga consists of two packages: [fluent-plugin-droonga][] a"
 "nd [express-droonga][]."
-msgstr ""
+msgstr "Droongaは主に、[fluent-plugin-droonga][]と[express-droonga][]の2つのパッケージから構成されています。"
 
 msgid "## Dependencies"
-msgstr ""
+msgstr "## 依存関係"
 
 msgid "### Ruby"
 msgstr ""
 
 msgid "[fluent-plugin-droonga][] requires [Ruby][]."
-msgstr ""
+msgstr "[fluent-plugin-droonga][]は[Ruby][]を必要とします。"
 
 msgid "### Node.js"
 msgstr ""
 
 msgid "[express-droonga][] requires [Node.js][]."
-msgstr ""
+msgstr "[express-droonga][]は[Node.js][]を必要とします。"
 
 msgid "# Ubuntu 13.10"
 msgstr ""
 
 msgid "## Install dependencies"
-msgstr ""
+msgstr "## 依存パッケージのインストール"
 
 msgid "    sudo apt-get install -y ruby ruby-dev build-essential nodejs npm"
 msgstr ""
 
 msgid "## Install fluent-plugin-droonga"
-msgstr ""
+msgstr "## fluent-plugin-droongaのインストール"
 
 msgid "    sudo gem install fluent-plugin-droonga"
 msgstr ""
 
 msgid "## Install express-droonga"
-msgstr ""
+msgstr "## express-droongaのインストール"
 
 msgid "    sudo npm install express-droonga"
 msgstr ""
@@ -71,7 +75,7 @@ msgstr ""
 msgid ""
 "Now you are ready for building your own data processing system with Droonga. S"
 "ee [tutorial](/tutorial/) to get started."
-msgstr ""
+msgstr "以上で、Droongaベースのデータ処理システムを構築する準備が整いました。ここから先は[チュートリアル](/ja/tutorial/)を参照して下さい。"
 
 msgid ""
 "  [Ruby]: http://www.ruby-lang.org/\n"
