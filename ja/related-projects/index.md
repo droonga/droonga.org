@@ -38,6 +38,7 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
 
  * [drntest](https://github.com/droonga/drntest): Droonga用テスティングフレームワーク
  * [drnbench](https://github.com/droonga/drnbench): HTTPサーバ用汎用ベンチマークツール(主にDroonga向け)
+ * [chef-cookbooks](https://github.com/droonga/chef-cookbooks): Droonga用Chef cookbook
 
 ## その他
 

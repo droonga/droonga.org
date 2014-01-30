@@ -38,6 +38,7 @@ Here are related projects:
 
  * [drntest](https://github.com/droonga/drntest): A testing framework for Droonga
  * [drnbench](https://github.com/droonga/drnbench): Generic benchmark tool for HTTP servers, mainly Droonga
+ * [chef-cookbooks](https://github.com/droonga/chef-cookbooks): Chef cookbooks for Droonga
 
 ## Others
 
