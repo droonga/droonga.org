@@ -71,7 +71,10 @@ engine
             └── input_adapter
 ```
 
-Put a plugin code into `input_adapter` plugin.
+
+## Create a plugin
+
+Put a plugin code into `input_adapter` directory.
 
 lib/droonga/plugin/input_adapter/example.rb:
 
@@ -84,6 +87,8 @@ end
 ```
 
 This plugin does nothing except registering itself to Droonga.
+
+## Activate plugin with `catalog.json`
 
 You need to update `catalog.json` to activate your plugin.
 Insert following at the last part of `catalog.json` in order to make `"input_adapter"` become a key of the top level hash:
@@ -98,11 +103,14 @@ catalog.json:
 }
 ```
 
+## Run
+
 Let's Droonga get started. Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
 ```
 RUBYLIB=./lib fluentd --config fluentd.conf
 ```
+
 
 
   [tutorial]: ../
