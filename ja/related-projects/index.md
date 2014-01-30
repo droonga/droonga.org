@@ -18,9 +18,9 @@ Droongaシステムのカテゴリには、Droongのコア機能を提供する�
 
 関連プロジェクト:
 
- * [fluent-plugin-droonga](https://github.com/droonga/fluent-plugin-droonga): 分散検索エンジンモジュール
- * [express-droonga](https://github.com/droonga/express-droonga): APIサーバモジュール
- * [Groonga](http://groonga.org/): カラムストア機能付き全文検索エンジン
+ * [fluent-plugin-droonga][]: 分散検索エンジンモジュール
+ * [express-droonga][]: APIサーバモジュール
+ * [Groonga][]: カラムストア機能付き全文検索エンジン
 
 ## Droongaクライアント
 
@@ -28,7 +28,7 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
 
 関連プロジェクト:
 
- * [droonga-client-ruby](https://github.com/droonga/droonga-client-ruby): Ruby用Droongaクライアントライブラリ
+ * [droonga-client-ruby][]: Ruby用Droongaクライアントライブラリ
 
 ## ユーティリティ
 
@@ -36,12 +36,21 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
 
 関連プロジェクト:
 
- * [drntest](https://github.com/droonga/drntest): Droonga用テスティングフレームワーク
- * [drnbench](https://github.com/droonga/drnbench): HTTPサーバ用汎用ベンチマークツール(主にDroonga向け)
- * [chef-cookbooks](https://github.com/droonga/chef-cookbooks): Droonga用Chef cookbook
+ * [drntest][]:Droonga用テスティングフレームワーク
+ * [drnbench][]: HTTPサーバ用汎用ベンチマークツール(主にDroonga向け)
+ * [chef-cookbooks][]: Droonga用Chef cookbook
 
 ## その他
 
 その他のカテゴリには、その他の関連プロジェクトが含まれます:
 
- * [droonga/droonga.org](https://github.com/droonga/droonga.org): このサイトのソースコード
+ * [droonga/droonga.org][]: このサイトのソースコード
+
+  [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
+  [express-droonga]: https://github.com/droonga/express-droonga
+  [Groonga]: http://groonga.org/
+  [droonga-client-ruby]: https://github.com/droonga/droonga-client-ruby
+  [drntest]: https://github.com/droonga/drntest
+  [drnbench]: https://github.com/droonga/drnbench
+  [chef-cookbooks]: https://github.com/droonga/chef-cookbooks
+  [droonga/droonga.org]: https://github.com/droonga/chef-cookbooks
