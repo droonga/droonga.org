@@ -9,7 +9,7 @@ This documentation describes how to communicate with the Droonga developers and 
 
 You can ask about Droonga related things on mailing list or GitHub issues. You can communicate with both the developers and other users on mailing list. You can communicate with only developers on GitHub issues.
 
-If you have a question about how to use Droonga, mailing list is better. Because other users may have knowledge and provide it to you. Otherwise, the developers will help you. 
+If you have a question about how to use Droonga, mailing list is better. Because other users may have knowledge and provide it to you. Otherwise, the developers will help you.
 
 If you find a Droonga problem, GitHub issues is better. The developers will solve your problem.
 
@@ -36,4 +36,3 @@ Here is a list of contribution targets:
 
  * [Internationalization](contribution/i18n/) describes how to translate Droonga documents in English into other languages.
  * [Development](contribution/development/) describes useful information to join development of Droonga itself not Droonga plugins.
-
