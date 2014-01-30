@@ -85,19 +85,18 @@ end
 
 This plugin does nothing except registering itself to Droonga.
 
-You need to update `catalog.json` to activate your plugin:
+You need to update `catalog.json` to activate your plugin.
+Insert following at the last part of `catalog.json` in order to make `"input_adapter"` become a key of the top level hash:
 
 catalog.json:
 ```
 (snip)
   },
-  "options": {
+  "input_adapter": {
     "plugins": ["example"]
   }
 }
 ```
-
-Add `"example"` to `"plugins"` section.
 
 Let's Droonga get started. Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
