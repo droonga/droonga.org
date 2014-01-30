@@ -12,6 +12,9 @@ layout: en
 
 Learning steps to develop a Droonga plugin by yourself.
 
+## Precondition
+
+* You must complete [tutorial][].
 
 ## Plugin
 
@@ -46,4 +49,62 @@ CollectorPlugin
 
 In this tutorial, we focus on InputAdapterPlugin. This is the most "basic" plugin, so it will help you to understand the overview of Droonga plugin development.
 
+
+## Directory Structure
+
+Assume that we are going to add `InputAdapterPlugin` to the system built in [tutorial][]. In that tutorial, Groonga engine was placed under `engine` directory.
+
+Plugins need to be placed in an appropriate directory. For example, `InputAdapterPlugin` should be placed under `lib/droonga/plugin/input_adapter/` directory. Let's create the directory:
+
+    # cd engine
+    # mkdir -p lib/droonga/plugin/input_adapter
+
+After creating the directory, the directory structure should be like this:
+
+```
+engine
+├── catalog.json
+├── fluentd.conf
+└── lib
+    └── droonga
+        └── plugin
+            └── input_adapter
+```
+
+Put a plugin code into `input_adapter` plugin.
+
+lib/droonga/plugin/input_adapter/example.rb:
+
+```ruby
+module Droonga
+  class ExampleInputAdapter < Droonga::InputAdapterPlugin
+    repository.register("example", self)
+  end
+end
+```
+
+This plugin does nothing except registering itself to Droonga.
+
+You need to update `catalog.json` to activate your plugin:
+
+catalog.json:
+```
+(snip)
+  },
+  "options": {
+    "plugins": ["example"]
+  }
+}
+```
+
+Add `"example"` to `"plugins"` section.
+
+Let's Droonga get started. Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
+
+```
+RUBYLIB=./lib fluentd --config fluentd.conf
+```
+
+
+  [tutorial]: ../
   [overview]: ../../overview/
