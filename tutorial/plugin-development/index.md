@@ -77,7 +77,7 @@ lib/droonga/plugin/input_adapter/example.rb:
 
 ```ruby
 module Droonga
-  class ExampleInputAdapter < Droonga::InputAdapterPlugin
+  class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
     repository.register("example", self)
   end
 end
