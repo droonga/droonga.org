@@ -101,6 +101,7 @@ class I18nTask
           GetText::Tools::MsgMerge.run("--output", edit_po_file_path.to_s,
                                        "--sort-by-file",
                                        "--no-fuzzy-matching",
+                                       "--no-obsolete-entries",
                                        all_po_file_path.to_s,
                                        edit_po_file_path.to_s)
         end
