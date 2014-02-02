@@ -1,4 +1,4 @@
-# Copyright (C) 2013 Droonga Project
+# Copyright (C) 2013-2014 Droonga Project
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -138,22 +138,19 @@ class I18nTask
       po_file_paths << po_file_path
 
       file po_file_path.to_s => [edit_po_file_path.to_s] do
-        GetText::Tools::MsgMerge.run("--output", po_file_path.to_s,
-                                     "--sort-by-file",
-                                     "--no-location",
-                                     "--no-fuzzy-matching",
-                                     edit_po_file_path.to_s,
-                                     edit_po_file_path.to_s)
+        GetText::Tools::MsgCat.run("--output", po_file_path.to_s,
+                                   "--sort-by-file",
+                                   "--no-all-comments",
+                                   edit_po_file_path.to_s)
       end
     end
 
     file all_po_file_path.to_s => po_file_paths.collect(&:to_s) do
-      sh("msgcat",
-         "--output", all_po_file_path.to_s,
-         "--use-first",
-         "--no-location",
-         "--sort-output",
-         *po_file_paths.collect(&:to_s))
+      GetText::Tools::MsgCat.run("--output", all_po_file_path.to_s,
+                                 "--no-fuzzy",
+                                 "--no-all-comments",
+                                 "--sort-by-msgid",
+                                 *po_file_paths.collect(&:to_s))
     end
 
     desc "Update .po files for [#{locale}] locale"
