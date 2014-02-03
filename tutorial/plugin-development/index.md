@@ -9,7 +9,7 @@ layout: en
 ## The goal of this tutorial
 
 Learning steps to develop a Droonga plugin by yourself.
-You must complete [tutorial][]. before this tutorial.
+You must complete [tutorial][] before this tutorial.
 
 
 ## What's "plugin"?
