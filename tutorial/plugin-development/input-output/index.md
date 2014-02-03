@@ -198,7 +198,7 @@ module Droonga
 end
 ~~~
 
-And restart fluentd. After fluentd restart, the response always includes only one record in `records` section. Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details.
+And restart fluentd. After restart, the response always includes only one record in `records` section. Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details.
 
   [tutorial]: ../../
   [overview]: ../../../overview/
