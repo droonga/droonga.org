@@ -51,9 +51,11 @@ Following this tutorial, you will learn how to write these plugins. This will be
 
 ## How to develop plugins? How to operate requests and responses?
 
- 1. [Modify requests and responses][./input-output/]
+ 1. [Modify requests and responses][input-output]
  2. Process requests (under construction)
- 3. [Distribute requests and collect responses][./distribute-collect/]
+ 3. [Distribute requests and collect responses][distribute-collect]
 
   [tutorial]: ../
   [overview]: ../../overview/
+  [input-output]: ./input-output/
+  [distribute-collect]: ./distribute-collect/
