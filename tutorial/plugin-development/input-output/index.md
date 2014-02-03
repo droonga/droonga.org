@@ -198,7 +198,14 @@ module Droonga
 end
 ~~~
 
-And restart fluentd. After restart, the response always includes only one record in `records` section. Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details.
+And restart fluentd. After restart, the response always includes only one record in `records` section:
+
+~~~
+2014-02-03 18:47:54 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007f913ca6e918 @raw_message={"body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-03 18:47:54 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"]]}}}
+~~~
+
+Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details of `search` command.
 
   [tutorial]: ../../
   [overview]: ../../../overview/
