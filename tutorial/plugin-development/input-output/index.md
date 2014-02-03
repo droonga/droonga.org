@@ -113,5 +113,5 @@ RUBYLIB=./lib fluentd --config fluentd.conf
 
 
 
-  [tutorial]: ../
-  [overview]: ../../overview/
+  [tutorial]: ../../
+  [overview]: ../../../overview/
