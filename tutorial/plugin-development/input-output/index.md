@@ -180,7 +180,27 @@ And restart fluentd, then send the request same as the previous. You will see so
 
 This shows the message is received by our `ExampleInputAdapterPlugin` and then passed to Droonga. Here we can modify the message before the actual data processing.
 
+Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
+
+lib/droonga/plugin/input_adapter/example.rb:
+
+~~~
+module Droonga
+  class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
+    repository.register("example", self)
+
+    command "search" => :adapt_request
+    def adapt_request(input_message)
+      $log.info "ExampleInputAdapterPlugin", message: input_message
+      input_message.body["queries"]["result"]["output"]["limit"] = 1
+    end
+  end
+end
+~~~
+
+And restart fluentd. After fluentd restart, the response always includes only one record in `records` section. Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details.
 
   [tutorial]: ../../
   [overview]: ../../../overview/
   [jq]: http://stedolan.github.io/jq/
+  [search]: ../../../reference/commands/select/
