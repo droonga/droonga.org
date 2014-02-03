@@ -47,7 +47,7 @@ CollectorPlugin
 
 In this tutorial, we focus on InputAdapterPlugin at first. This is the most "basic" plugin, so it will help you to understand the overview of Droonga plugin development.
 Then, we focus on OutputAdapterPlugin, HandlerPlugin, DistributorPlugin and CollectorPlugin in this order.
-Following this tutorial, you will learn how to write these plugins. This will be the first step to create plugins to achieve your own requirements.
+Following this tutorial, you will learn how to write these plugins. This will be the first step to create plugins fit with your own requirements.
 
 ## How to develop plugins? How to operate requests and responses?
 
