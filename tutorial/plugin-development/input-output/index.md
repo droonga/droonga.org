@@ -28,7 +28,7 @@ Plugins need to be placed in an appropriate directory. For example, `InputAdapte
 
 After creating the directory, the directory structure should be like this:
 
-```
+~~~
 engine
 ├── catalog.json
 ├── fluentd.conf
@@ -36,7 +36,7 @@ engine
     └── droonga
         └── plugin
             └── input_adapter
-```
+~~~
 
 
 ## Create a plugin
@@ -45,13 +45,13 @@ Put a plugin code into `input_adapter` directory.
 
 lib/droonga/plugin/input_adapter/example.rb:
 
-```ruby
+~~~ruby
 module Droonga
   class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
     repository.register("example", self)
   end
 end
-```
+~~~
 
 This plugin does nothing except registering itself to Droonga.
 
@@ -61,22 +61,23 @@ You need to update `catalog.json` to activate your plugin.
 Insert following at the last part of `catalog.json` in order to make `"input_adapter"` become a key of the top level hash:
 
 catalog.json:
-```
+
+~~~
 (snip)
   },
   "input_adapter": {
     "plugins": ["example"]
   }
 }
-```
+~~~
 
 ## Run
 
 Let's Droonga get started. Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
-```
+~~~
 RUBYLIB=./lib fluentd --config fluentd.conf
-```
+~~~
 
 
 
