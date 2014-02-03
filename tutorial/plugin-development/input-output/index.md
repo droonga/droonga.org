@@ -66,10 +66,21 @@ catalog.json:
 (snip)
   },
   "input_adapter": {
-    "plugins": ["example"]
+    "plugins": ["example", "groonga"]
+  },
+  "output_adapter": {
+    "plugins": ["crud", "groonga"]
+  },
+  "collector": {
+    "plugins": ["basic", "search"]
+  },
+  "distributor": {
+    "plugins": ["search", "crud", "groonga", "watch"]
   }
 }
 ~~~
+
+TODO: the [tutorial][] needs to be updated. After tutorial update, explanation above should also be updated.
 
 ## Run
 
