@@ -67,7 +67,7 @@ number of partitions and so on.
 ### Physical table
 
 Physical table is a table in Groonga database. It stores physical
-records of the table.
+records to the table.
 
 ### Ring
 
