@@ -1,58 +1,58 @@
 ---
-title: Internationalization
-layout: en
+title: 国際化
+layout: ja
 ---
 
-This documentation describes how to translate the original documentations in English to other languages.
+このドキュメントは英語で書かれたドキュメントを他の言語に翻訳する方法を説明します。
 
-## Work-flow
+## ワークフロー
 
-Here is a work-flow to translate one documentation in English:
+英語で書かれたドキュメントを1つ翻訳するワークフローは次の通りです。
 
-  1. Run `rake`.
-  2. Translate `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.edit.po`.
-  3. Run `rake`.
-  4. Run `jekyll server`.
-  5. Confirm `_site/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.html`.
-  6. Commit `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.po` (not `.edit.po`) and ``${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.md`.
+  1. `rake` を実行。
+  2. `_po/${翻訳対象のロケール}/${対象ファイルへのパス}.edit.po` を翻訳。
+  3. `rake` を実行。
+  4. `jekyll server --watch` を実行。
+  5. `http://localhost:4000/${翻訳対象のロケール}/${対象ファイルへのパス}.html` を確認
+  6. `_po/${翻訳対象のロケール}/${対象ファイルへのパス}.po` （ `.edit.po` ではないことに注意） と `${翻訳対象のロケール}/${対象ファイルへのパス}.md` をコミット。
 
-## Example
+## 例
 
-Here is an example to translate `overview/index.md` into Japanese.
+`overview/index.md` を日本語に翻訳する例です。
 
-Run `rake`:
+`rake` を実行する。
 
 ```
 % rake
 ```
 
-Translate `_po/ja/overview/index.edit.po`:
+`_po/ja/overview/index.edit.po` を翻訳する。
 
 ```
 % gedit _po/ja/overview/index.edit.po
 ```
 
-Note: You can use PO editor instead of text editor. For example, Emacs's po-mode, Vim, [Gtranslator](https://wiki.gnome.org/Apps/Gtranslator), [Lokalize](http://userbase.kde.org/Lokalize) and so on.
+注：テキストエディターでなく、POエディターを使うこともできます。POエディターには、たとえば、Emacsのpo-mode、Vim、[Gtranslator](https://wiki.gnome.org/Apps/Gtranslator)、[Lokalize](http://userbase.kde.org/Lokalize)などがあります。
 
-Run `rake`:
+`rake` を実行する。
 
 ```
 % rake
 ```
 
-Run `jekyll server`:
+`jekyll server --watch`を実行する。
 
 ```
-% jekyll server &
+% jekyll server --watch &
 ```
 
-Confirm `_site/ja/overview/index.html`:
+`http://localhost:4000/ja/overview/index.html` を確認する。
 
 ```
 % firefox http://localhost:4000/ja/overview/index.html
 ```
 
-Commit `_po/ja/overview/index.po` and `ja/overview/index.md`:
+`_po/ja/overview/index.po` と `ja/overview/index.md` をコミットする。
 
 ```
 % git add _po/ja/overview/index.po

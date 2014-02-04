@@ -12,9 +12,9 @@ Here is a work-flow to translate one documentation in English:
   1. Run `rake`.
   2. Translate `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.edit.po`.
   3. Run `rake`.
-  4. Run `jekyll server`.
-  5. Confirm `_site/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.html`.
-  6. Commit `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.po` (not `.edit.po`) and ``${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.md`.
+  4. Run `jekyll server --watch`.
+  5. Confirm `http://localhost:4000/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.html`.
+  6. Commit `_po/${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.po` (not `.edit.po`) and `${YOUR_LOCALE}/${PATH_TO_TARGET_FILE}.md`.
 
 ## Example
 
@@ -40,13 +40,13 @@ Run `rake`:
 % rake
 ```
 
-Run `jekyll server`:
+Run `jekyll server --watch`:
 
 ```
-% jekyll server &
+% jekyll server --watch &
 ```
 
-Confirm `_site/ja/overview/index.html`:
+Confirm `http://localhost:4000/ja/overview/index.html`:
 
 ```
 % firefox http://localhost:4000/ja/overview/index.html
