@@ -22,41 +22,41 @@ Here is an example to translate `overview/index.md` into Japanese.
 
 Run `rake`:
 
-```
+~~~
 % rake
-```
+~~~
 
 Translate `_po/ja/overview/index.edit.po`:
 
-```
+~~~
 % gedit _po/ja/overview/index.edit.po
-```
+~~~
 
 Note: You can use PO editor instead of text editor. For example, Emacs's po-mode, Vim, [Gtranslator](https://wiki.gnome.org/Apps/Gtranslator), [Lokalize](http://userbase.kde.org/Lokalize) and so on.
 
 Run `rake`:
 
-```
+~~~
 % rake
-```
+~~~
 
 Run `jekyll server --watch`:
 
-```
+~~~
 % jekyll server --watch &
-```
+~~~
 
 Confirm `http://localhost:4000/ja/overview/index.html`:
 
-```
+~~~
 % firefox http://localhost:4000/ja/overview/index.html
-```
+~~~
 
 Commit `_po/ja/overview/index.po` and `ja/overview/index.md`:
 
-```
+~~~
 % git add _po/ja/overview/index.po
 % git add ja/overview/index.md
 % git commit
 % git push
-```
+~~~

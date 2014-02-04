@@ -22,41 +22,41 @@ layout: ja
 
 `rake` を実行する。
 
-```
+~~~
 % rake
-```
+~~~
 
 `_po/ja/overview/index.edit.po` を翻訳する。
 
-```
+~~~
 % gedit _po/ja/overview/index.edit.po
-```
+~~~
 
 注：テキストエディターでなく、POエディターを使うこともできます。POエディターには、たとえば、Emacsのpo-mode、Vim、[Gtranslator](https://wiki.gnome.org/Apps/Gtranslator)、[Lokalize](http://userbase.kde.org/Lokalize)などがあります。
 
 `rake` を実行する。
 
-```
+~~~
 % rake
-```
+~~~
 
 `jekyll server --watch`を実行する。
 
-```
+~~~
 % jekyll server --watch &
-```
+~~~
 
 `http://localhost:4000/ja/overview/index.html` を確認する。
 
-```
+~~~
 % firefox http://localhost:4000/ja/overview/index.html
-```
+~~~
 
 `_po/ja/overview/index.po` と `ja/overview/index.md` をコミットする。
 
-```
+~~~
 % git add _po/ja/overview/index.po
 % git add ja/overview/index.md
 % git commit
 % git push
-```
+~~~
