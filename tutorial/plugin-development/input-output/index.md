@@ -171,7 +171,7 @@ module Droonga
 
     command "search" => :adapt_request
     def adapt_request(input_message)
-      $log.info "ExampleInputAdapterPlugin", message: input_message
+      $log.info "ExampleInputAdapterPlugin", :message => input_message
     end
   end
 end
