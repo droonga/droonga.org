@@ -1,6 +1,6 @@
 ---
-title: Overview
-layout: en
+title: 概要
+layout: ja
 ---
 
 Not yet available in English. See [Japanese version](/ja/overview/) for now.
