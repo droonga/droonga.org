@@ -260,13 +260,15 @@ This plugin does nothing except registering itself to Droonga.
 You need to update `catalog.json` to activate your plugin.
 Insert following at the last part of `catalog.json` in order to make `"output_adapter"` become a key of the top level hash:
 
+Remove previously created `"example"` adapter from `"input_adapter"` for simplicity.
+
 catalog.json:
 
 ~~~
 (snip)
   },
   "input_adapter": {
-    "plugins": ["example", "groonga"]
+    "plugins": ["groonga"]
   },
   "output_adapter": {
     "plugins": ["example", "crud", "groonga"]
