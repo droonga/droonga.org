@@ -11,7 +11,7 @@ layout: en
 ## The goal of this tutorial
 
 Learning steps to develop a Droonga plugin by yourself.
-This page focus on InputAdapter and OutputAdapter.
+This page focus on InputAdapter first, then OutputAdapter.
 
 ## Precondition
 
@@ -20,10 +20,11 @@ This page focus on InputAdapter and OutputAdapter.
 
 ## InputAdapter
 
-Assume that we are going to add `InputAdapterPlugin` to the system built in [tutorial][].
+Let's see how to create InputAdapter in this section.
 
 ### Directory Structure
 
+Assume that we are going to add `InputAdapterPlugin` to the system built in [tutorial][].
 In that tutorial, Groonga engine was placed under `engine` directory.
 
 Plugins need to be placed in an appropriate directory. For example, `InputAdapterPlugin` should be placed under `lib/droonga/plugin/input_adapter/` directory. Let's create the directory:
