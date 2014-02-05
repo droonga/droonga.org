@@ -53,4 +53,4 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
   [drntest]: https://github.com/droonga/drntest
   [drnbench]: https://github.com/droonga/drnbench
   [chef-cookbooks]: https://github.com/droonga/chef-cookbooks
-  [droonga/droonga.org]: https://github.com/droonga/chef-cookbooks
+  [droonga/droonga.org]: https://github.com/droonga/droonga.org
