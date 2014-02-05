@@ -37,7 +37,7 @@ msgid ""
 " can communicate with only developers on GitHub issues."
 msgstr ""
 "メーリングリストかGitHub issuesでDroongaに関することをやりとりできます。メーリングリストでは開発者と他のユーザーどちらともやりとりできま"
-"す。GitHub issuesoでは開発者とだけやりとりできます。"
+"す。GitHub issuesでは開発者とだけやりとりできます。"
 
 msgid ""
 "If you have a question about how to use Droonga, mailing list is better. Becau"
