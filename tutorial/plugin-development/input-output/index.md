@@ -11,15 +11,20 @@ layout: en
 ## The goal of this tutorial
 
 Learning steps to develop a Droonga plugin by yourself.
+This page focus on InputAdapter and OutputAdapter.
 
 ## Precondition
 
 * You must complete [tutorial][].
 
 
-## Directory Structure
+## InputAdapter
 
-Assume that we are going to add `InputAdapterPlugin` to the system built in [tutorial][]. In that tutorial, Groonga engine was placed under `engine` directory.
+Assume that we are going to add `InputAdapterPlugin` to the system built in [tutorial][].
+
+### Directory Structure
+
+In that tutorial, Groonga engine was placed under `engine` directory.
 
 Plugins need to be placed in an appropriate directory. For example, `InputAdapterPlugin` should be placed under `lib/droonga/plugin/input_adapter/` directory. Let's create the directory:
 
@@ -39,7 +44,7 @@ engine
 ~~~
 
 
-## Create a plugin
+### Create a plugin
 
 Put a plugin code into `input_adapter` directory.
 
@@ -55,7 +60,7 @@ end
 
 This plugin does nothing except registering itself to Droonga.
 
-## Activate plugin with `catalog.json`
+### Activate plugin with `catalog.json`
 
 You need to update `catalog.json` to activate your plugin.
 Insert following at the last part of `catalog.json` in order to make `"input_adapter"` become a key of the top level hash:
@@ -82,7 +87,7 @@ catalog.json:
 
 TODO: the [tutorial][] needs to be updated. After tutorial update, explanation above should also be updated.
 
-## Run
+### Run
 
 Let's Droonga get started. Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
@@ -90,7 +95,7 @@ Let's Droonga get started. Note that you need to specify `./lib` directory in `R
 RUBYLIB=./lib fluentd --config fluentd.conf
 ~~~
 
-## Test
+### Test
 
 In the previous [tutorial][], we have communicated with `fluent-plugin-droonga` via the protocol adapter built with `expres-droonga`.
 For plugin development, sending requests directly to `fluent-plugin-droonga` can be more handy way to debug. We use `fluent-cat` command for this purpose.
@@ -150,7 +155,7 @@ If you have [jq][] installed, you can use `jq` instead of `tr`:
 
     jq -c . search-columbus.json | fluent-cat starbucks.message
 
-## Do something in the plugin
+### Do something in the plugin
 
 The plugin we have created do nothing so far. Let's get the plugin to do some interesting.
 
@@ -206,6 +211,10 @@ And restart fluentd. After restart, the response always includes only one record
 ~~~
 
 Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details of `search` command.
+
+## OutputAdapter
+
+
 
   [tutorial]: ../../
   [overview]: ../../../overview/
