@@ -8,9 +8,9 @@ Not yet available in English. See [Japanese version](/ja/overview/) for now.
 * TOC
 {:toc}
 
-## Droongaとは何か
+## What is Droonga?
 
-Droongaは分散型のデータ処理エンジンです。以下の機能を持っています。
+Droonga is a distributed data processing engine. Droonga has features as described as follows:
 
 ### カラム指向データストア
 

@@ -31,11 +31,13 @@ msgid ""
 "{:toc}"
 msgstr ""
 
-msgid "## Droongaとは何か"
-msgstr ""
+msgid "## What is Droonga?"
+msgstr "## Droongaとは何か"
 
-msgid "Droongaは分散型のデータ処理エンジンです。以下の機能を持っています。"
-msgstr ""
+msgid ""
+"Droonga is a distributed data processing engine. Droonga has features as descr"
+"ibed as follows:"
+msgstr "Droongaは分散型のデータ処理エンジンです。以下の機能を持っています。"
 
 msgid "### カラム指向データストア"
 msgstr ""
