@@ -154,7 +154,7 @@ If you have [jq][] installed, you can use `jq` instead of `tr`:
 
 The plugin we have created do nothing so far. Let's get the plugin to do some interesting.
 
-Firse of all, trap `search` request and log it. Update the plugin like below:
+First of all, trap `search` request and log it. Update the plugin like below:
 
 lib/droonga/plugin/input_adapter/example.rb:
 
