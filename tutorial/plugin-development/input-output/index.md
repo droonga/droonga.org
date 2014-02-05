@@ -217,7 +217,49 @@ Note that `count` is still `2` because `limit` does not affect `count`. See [sea
 
 ### Defining original command
 
-TODO: write steps to create a new command "starbucks" and accept simple query
+You may feel the Droonga's `search` command is too flexible for your purpose. Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface.
+
+~~~
+module Droonga
+  class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
+    repository.register("example", self)
+
+    command "storeSearch" => :adapt_request
+    def adapt_request(input_message)
+      $log.info "ExampleInputAdapterPlugin", message: input_message
+
+      query = input_message.body["query"]
+      body = {
+        "queries" => {
+          "result" => {
+            "source" => "Store",
+            "condition" => {
+              "query" => query,
+              "matchTo" => "_key"
+            },
+            "output" => {
+              "elements" => [
+                "startTime",
+                "elapsedTime",
+                "count",
+                "attributes",
+                "records"
+              ],
+              "attributes" => [
+                "_key"
+              ],
+              "limit" => -1
+            }
+          }
+        }
+      }
+
+      input_message.command = "search"
+      input_message.body = body
+    end
+  end
+end
+~~~
 
 
 ## OutputAdapter
