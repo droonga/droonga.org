@@ -1,7 +1,9 @@
 ---
-title: Droonga 概要
-layout: ja
+title: Overview
+layout: en
 ---
+
+Not yet available in English. See [Japanese version](/ja/overview/) for now.
 
 * TOC
 {:toc}
