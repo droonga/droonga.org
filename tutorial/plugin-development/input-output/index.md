@@ -215,7 +215,91 @@ Note that `count` is still `2` because `limit` does not affect `count`. See [sea
 
 ## OutputAdapter
 
+In this section, we are going to create an `OutputAdapter`.
 
+### Directory structure
+
+`OutputAdapterPlugin` should be placed in directory `lib/droonga/plugin/output_adapter/` directory.
+
+~~~
+engine
+├── catalog.json
+├── fluentd.conf
+└── lib
+    └── droonga
+        └── plugin
+            └── output_adapter
+~~~
+
+
+### Create a plugin
+
+Put a plugin code into `output_adapter` directory.
+
+lib/droonga/plugin/output_adapter/example.rb:
+
+~~~ruby
+module Droonga
+  class ExampleOutputAdapterPlugin < Droonga::OutputAdapterPlugin
+    repository.register("example", self)
+  end
+end
+~~~
+
+This plugin does nothing except registering itself to Droonga.
+
+### Activate plugin with `catalog.json`
+
+You need to update `catalog.json` to activate your plugin.
+Insert following at the last part of `catalog.json` in order to make `"output_adapter"` become a key of the top level hash:
+
+catalog.json:
+
+~~~
+(snip)
+  },
+  "input_adapter": {
+    "plugins": ["example", "groonga"]
+  },
+  "output_adapter": {
+    "plugins": ["example", "crud", "groonga"]
+  },
+  "collector": {
+    "plugins": ["basic", "search"]
+  },
+  "distributor": {
+    "plugins": ["search", "crud", "groonga", "watch"]
+  }
+}
+~~~
+
+### Run
+
+Let's get fluentd started:
+
+~~~
+RUBYLIB=./lib fluentd --config fluentd.conf
+~~~
+
+We expect that nothing should be changed.
+
+### Log messages incoming to OutputAdapter
+
+~~~
+module Droonga
+  class ExampleOutputAdapterPlugin < Droonga::OutputAdapterPlugin
+    repository.register("example", self)
+
+    command "search" => :adapt_result,
+            :patterns => [["replyTo.type", :equal, "search.result"]]
+    def adapt_result(output_message)
+      $log.info "ExampleOutputAdapterPlugin", :message => output_message
+    end
+  end
+end
+~~~
+
+### Modify results with OutputAdapter
 
   [tutorial]: ../../
   [overview]: ../../../overview/
