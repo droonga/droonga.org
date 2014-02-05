@@ -144,7 +144,7 @@ msgstr "### リング"
 msgid ""
 "Ring is a series of partition sets. Dataset must have one\n"
 "ring. Dataset creates logical tables on the ring."
-msgstr "リングはパーティションセットの集まりです。データセットは必ず1つのリングを持ちrます。データセットはリング上に論理テーブルを作ります。"
+msgstr "リングはパーティションセットの集まりです。データセットは必ず1つのリングを持ちます。データセットはリング上に論理テーブルを作ります。"
 
 msgid ""
 "Droonga Engine replicates each record in a logical table into one or\n"
