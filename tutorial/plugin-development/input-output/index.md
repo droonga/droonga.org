@@ -156,7 +156,7 @@ If you have [jq][] installed, you can use `jq` instead of `tr`:
 
     jq -c . search-columbus.json | fluent-cat starbucks.message
 
-### Do something in the plugin
+### Do something in the plugin: take logs
 
 The plugin we have created do nothing so far. Let's get the plugin to do some interesting.
 
@@ -186,6 +186,8 @@ And restart fluentd, then send the request same as the previous. You will see so
 
 This shows the message is received by our `ExampleInputAdapterPlugin` and then passed to Droonga. Here we can modify the message before the actual data processing.
 
+### Modify messages with InputAdapter
+
 Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
 
 lib/droonga/plugin/input_adapter/example.rb:
@@ -212,6 +214,11 @@ And restart fluentd. After restart, the response always includes only one record
 ~~~
 
 Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details of `search` command.
+
+### Defining original command
+
+TODO: write steps to create a new command "starbucks" and accept simple query
+
 
 ## OutputAdapter
 
