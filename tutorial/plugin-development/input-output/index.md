@@ -290,9 +290,14 @@ Let's get fluentd started:
 RUBYLIB=./lib fluentd --config fluentd.conf
 ~~~
 
-We expect that nothing should be changed.
+This OutputAdapterPlugin does not make any differences so far.
 
 ### Log messages incoming to OutputAdapter
+
+Let's get the plugin to work.
+Take logs of results of `search` command.
+
+Update `ExampleOutputAdapterPlugin` as follows:
 
 ~~~
 module Droonga
@@ -308,7 +313,56 @@ module Droonga
 end
 ~~~
 
+Then restart fluentd, and send search request (Use the same JSON for request as in the previous section):
+
+~~~
+    cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+
+The fluentd's log should be like as follows:
+
+~~~
+2014-02-05 17:37:37 +0900 [info]: ExampleOutputAdapter message=#<Droonga::OutputMessage:0x007f8da265b698 @raw_message={"body"=>{"result"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-05 17:37:37 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+~~~
+
+This shows that the result of `search` is passed to `ExampleOutputAdapter` (and logged), then outputted.
+
+
 ### Modify results with OutputAdapter
+
+Let's modify the result.
+For example, add `completedAt` attribute that shows the time completed the request.
+Update your plugin as follows:
+
+~~~
+module Droonga
+  class ExampleOutputAdapter < Droonga::OutputAdapterPlugin
+    repository.register("example", self)
+
+    command "search" => :adapt_result,
+            :patterns => [["replyTo.type", :equal, "search.result"]]
+    def adapt_result(output_message)
+      $log.info "ExampleOutputAdapter", :message => output_message
+      output_message.body["result"]["completedAt"] = Time.now
+    end
+  end
+end
+~~~
+
+Then restart fluentd and send the same search request.
+
+~~~
+2014-02-05 17:41:02 +0900 [info]: ExampleOutputAdapter message=#<Droonga::OutputMessage:0x007fb3c5291fc8 @raw_message={"body"=>{"result"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-05 17:41:02 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]],"completedAt":"2014-02-05T08:41:02.824361Z"}}}
+~~~
+
+Now you can see `completedAt` attribute containing the time completed the request.
+
+## Conclusion
+
+We have learned how to create InputAdapter and OutputAdapter, how to receive and modify messages in the adapters, both of InputAdapter and OutputAdapter.
+
 
   [tutorial]: ../../
   [overview]: ../../../overview/
