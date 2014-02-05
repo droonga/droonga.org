@@ -14,13 +14,20 @@ layout: en
 # 0.9.0
 
   * Development version
-  * Groonga HTTP Server compatible feature
   * Target date: 2014-1-29
+
+# 0.9.9
+
+  * Development version
+  * Stable plugin APIs for InputAdapter and OutputAdapter plugins
+  * Target date: 2014-2-9
 
 # 1.0.0
 
   * Stable version
-  * Target date: 2014-2-9
+  * Stable plugin APIs for other type plugins
+  * Groonga HTTP Server compatible feature
+  * Target date: 2014-2-28
 
 # 2.0.0
 
