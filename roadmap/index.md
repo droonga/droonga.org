@@ -13,7 +13,7 @@ layout: en
 
 # 0.9.0
 
-  * Developement version
+  * Development version
   * Groonga HTTP Server compatible feature
   * Target date: 2014-1-29
 
