@@ -428,6 +428,7 @@ end
 ~~~
 
 Then restart fluentd and send the same search request.
+The results will be like this:
 
 ~~~
 2014-02-05 17:41:02 +0900 [info]: ExampleOutputAdapter message=#<Droonga::OutputMessage:0x007fb3c5291fc8 @raw_message={"body"=>{"result"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
