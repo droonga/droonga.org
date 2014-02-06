@@ -53,11 +53,11 @@ msgstr ""
 
 msgid ""
 "  * Development version\n"
-"  * Stable plugin APIs for InputAdapter and OutputAdapter plugins\n"
+"  * Stable plugin APIs for Adapter plugins\n"
 "  * Target date: 2014-2-9"
 msgstr ""
 "  * 開発版\n"
-"  * InputAdapter および OutputAdapter のプラグインのための安定したAPI\n"
+"  * Adapterプラグインのための安定したAPI\n"
 "  * 2014/1/29 リリース予定"
 
 msgid "# 1.0.0"

@@ -19,7 +19,7 @@ layout: ja
 # 0.9.9
 
   * 開発版
-  * InputAdapter および OutputAdapter のプラグインのための安定したAPI
+  * Adapterプラグインのための安定したAPI
   * 2014/1/29 リリース予定
 
 # 1.0.0

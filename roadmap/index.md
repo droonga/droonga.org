@@ -19,7 +19,7 @@ layout: en
 # 0.9.9
 
   * Development version
-  * Stable plugin APIs for InputAdapter and OutputAdapter plugins
+  * Stable plugin APIs for Adapter plugins
   * Target date: 2014-2-9
 
 # 1.0.0
