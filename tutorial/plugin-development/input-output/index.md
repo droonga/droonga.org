@@ -476,7 +476,7 @@ Define `StoreSearchOutputAdapter` as follows.
 
 lib/droonga/plugin/output_adapter/store_search.rb:
 
-~~~
+~~~ruby
 module Droonga
   class StoreSearchOutputAdapter < Droonga::OutputAdapterPlugin
     repository.register("store_search", self)
