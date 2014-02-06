@@ -39,40 +39,40 @@ msgid ""
 "ibed as follows:"
 msgstr "Droongaは分散型のデータ処理エンジンです。以下の機能を持っています。"
 
-msgid "### カラム指向データストア"
-msgstr ""
+msgid "### Column-oriented data store"
+msgstr "### カラム指向データストア"
 
 msgid "データをカラムの集合として永続的に管理するデータストアとして機能します。"
 msgstr ""
 
-msgid "### 全文検索"
-msgstr ""
+msgid "### Fulltext search engine"
+msgstr "### 全文検索"
 
 msgid "転置索引方式による本格的な全文検索機能を持っています。またカラムの値によって絞り込みや集計を行うクエリや、緯度経度の位置情報による検索なども可能です。"
 msgstr ""
 
-msgid "### レプリケーション＆パーティショニング"
-msgstr ""
+msgid "### Replication and partitioning"
+msgstr "### レプリケーション＆パーティショニング"
 
 msgid ""
 "Droongaでは複数のサーバが一つのクラスタを構成し、全体として巨大なデータ集合を管理します。\n"
 "複数のサーバでデータの複製を保存したり、巨大なデータ集合を複数の部分に分割して管理することができます。"
 msgstr ""
 
-msgid "### マルチテナンシー"
-msgstr ""
+msgid "### Multitenancy"
+msgstr "### マルチテナンシー"
 
 msgid "一つのクラスタでは複数の独立なデータ集合を管理することができます。"
 msgstr ""
 
-msgid "## 設計方針"
-msgstr ""
+msgid "## Design principle"
+msgstr "## 設計方針"
 
 msgid "Droongaは以下のような方針に基づいて設計されています。"
 msgstr ""
 
-msgid "### ストリーム指向"
-msgstr ""
+msgid "### Stream-oriented"
+msgstr "### ストリーム指向"
 
 msgid ""
 "Droonga Engine内では、全ての通信は一方向に流れるデータストリームとなります。検索・更新・集計などの処理の多くは、ストリームを入出力とする機能ブ"
@@ -80,8 +80,8 @@ msgid ""
 "この構成によって、より高いスループット性能、より低いレイテンシ性能を追究することが可能となっています。"
 msgstr ""
 
-msgid "### リアルタイム指向"
-msgstr ""
+msgid "### Realtime-oriented"
+msgstr "### リアルタイム指向"
 
 msgid ""
 "ここでいう「リアルタイム」とは、ある情報が発生してから、それを必要とするユーザに対して、いかに短い遅延時間で届けることができるか、という性質を指します。\n"
@@ -93,8 +93,8 @@ msgid ""
 "* 前述のストリーム指向の構成を採っています。"
 msgstr ""
 
-msgid "### 高可用性"
-msgstr ""
+msgid "### High availability"
+msgstr "### 高可用性"
 
 msgid ""
 "すべてのDroonga Engineプロセスに同等の機能を持たせることによって、障害発生時にプロセス単位での可用性を維持できるようにしています。複数のサーバ"
@@ -102,14 +102,14 @@ msgid ""
 "を目指します。"
 msgstr ""
 
-msgid "### 拡張性"
-msgstr ""
+msgid "### Extensibility"
+msgstr "### 拡張性"
 
 msgid "Rubyスクリプトとして記述するプラグインによって自由に機能を拡張することができます。"
 msgstr ""
 
-msgid "## ソフトウェア構成"
-msgstr ""
+msgid "## Software structure"
+msgstr "## ソフトウェア構成"
 
 msgid "Droongaは大きく二つのコンポーネントで構成されます。"
 msgstr ""
@@ -139,8 +139,8 @@ msgstr ""
 msgid "![droonga01](../../overview/droonga01.png)"
 msgstr ""
 
-msgid "## Droongaクラスタの構成"
-msgstr ""
+msgid "## Structure of Droonga cluster"
+msgstr "## Droongaクラスタの構成"
 
 msgid ""
 "Droongaクラスタは一つ以上のDroonga Engineプロセスで構成されます。\n"
@@ -149,26 +149,26 @@ msgid ""
 "カタログで管理するのは以下の資源です。"
 msgstr ""
 
-msgid "### 発効日時"
-msgstr ""
+msgid "### Effective date"
+msgstr "### 発効日時"
 
 msgid "そのカタログの情報が有効となることが期待される日時を示します。"
 msgstr ""
 
-msgid "### ゾーン"
-msgstr ""
+msgid "### Zone"
+msgstr "### ゾーン"
 
 msgid "クラスタ内に存在する全てのDroonga Engineプロセスと、それらの近接関係を示します。"
 msgstr ""
 
-msgid "### ファーム"
-msgstr ""
+msgid "### Farm"
+msgstr "### ファーム"
 
 msgid "一つのDroonga Engineプロセスで管理することのできるパーティションの量を示します。"
 msgstr ""
 
-msgid "### データ集合"
-msgstr ""
+msgid "### Dataset"
+msgstr "### データセット"
 
 msgid ""
 "データ集合は、整合性をもって管理することが期待されるテーブルの組です。\n"
@@ -181,8 +181,8 @@ msgid ""
 "ひとつのデータ集合を構成する一連のパーティションをリングと呼びます。"
 msgstr ""
 
-msgid "## Droonga Engineの処理"
-msgstr ""
+msgid "## How Droonga Engine works"
+msgstr "## Droonga Engineの処理"
 
 msgid "クラスタを構成する個々のDroonga Engineでの処理について説明します。"
 msgstr ""
