@@ -461,17 +461,77 @@ In order to issue this request, you need to run:
 And you will see the result on fluentd's log:
 
 ~~~
-2014-02-06 12:49:24 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007f91f5f87210 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
-2014-02-06 12:49:24 +0900 [info]: storeSearch query="Columbus"
-2014-02-06 12:49:24 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+2014-02-06 15:20:07 +0900 [info]: StoreSearchInputAdapterPlugin message=#<Droonga::InputMessage:0x007fe36e9ef0f8 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 15:20:07 +0900 [info]: storeSearch query="Columbus"
+2014-02-06 15:20:07 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
 
-In the way just described, we can use `storeSearch` to implement the application specific search logic.
+Now we can perform store search with simple requests.
 
-## Return simple response
+### Return simple response
 
-TODO
+In addition, let's return results in more simple way: just an array of the names of stores.
 
+Define `StoreSearchOutputAdapter` as follows.
+
+lib/droonga/plugin/output_adapter/store_search.rb:
+
+~~~
+module Droonga
+  class StoreSearchOutputAdapter < Droonga::OutputAdapterPlugin
+    repository.register("store_search", self)
+
+    command "search" => :adapt_result,
+            :patterns => [["originalTypes", :include?, "storeSearch"]]
+
+    def adapt_result(output_message)
+      $log.info "StoreSearchOutputAdapter", :message => output_message
+
+      records = output_message.body["result"]["records"]
+      simplified_results = records.flatten
+
+      output_message.body = simplified_results
+    end
+  end
+end
+~~~
+
+Activate OutputAdapter with catalog.json:
+
+~~~
+(snip)
+  },
+  "input_adapter": {
+    "plugins": ["store_search"]
+  },
+  "output_adapter": {
+    "plugins": ["store_search", "crud", "groonga"]
+  },
+  "collector": {
+    "plugins": ["basic", "search"]
+  },
+  "distributor": {
+    "plugins": ["search", "crud", "groonga", "watch"]
+  }
+}
+~~~
+
+Then restart fluentd. Send the request:
+
+    cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+
+The log will be like this:
+
+~~~
+2014-02-06 16:04:45 +0900 [info]: StoreSearchInputAdapterPlugin message=#<Droonga::InputMessage:0x007f99eb602a20 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 16:04:45 +0900 [info]: storeSearch query="Columbus"
+2014-02-06 16:04:45 +0900 [info]: StoreSearchOutputAdapter message=#<Droonga::OutputMessage:0x007f99eb5d16a0 @raw_message={"body"=>{"result"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"storeSearch:0", "originalTypes"=>["storeSearch"]}>
+2014-02-06 16:04:45 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":["2 Columbus Ave. - New York NY  (W)","Columbus @ 67th - New York NY  (W)"]}
+~~~
+
+Now you've got the simplified response.
+
+In the way just described, we can use adapter to implement the application specific search logic.
 
 ## Conclusion
 
