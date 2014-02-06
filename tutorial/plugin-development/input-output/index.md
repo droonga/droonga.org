@@ -215,87 +215,6 @@ And restart fluentd. After restart, the response always includes only one record
 
 Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details of `search` command.
 
-### Defining original command
-
-You may feel the Droonga's `search` command is too flexible for your purpose. Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface.
-
-Update your `ExampleInputAdapterPlugin` as follows:
-
-lib/droonga/plugin/input_adapter/example.rb:
-
-~~~ruby
-module Droonga
-  class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
-    repository.register("example", self)
-
-    command "storeSearch" => :adapt_request
-    def adapt_request(input_message)
-      $log.info "ExampleInputAdapterPlugin", :message => input_message
-
-      query = input_message.body["query"]
-      $log.info "storeSearch", :query => query
-
-      body = {
-        "queries" => {
-          "result" => {
-            "source" => "Store",
-            "condition" => {
-              "query" => query,
-              "matchTo" => "_key"
-            },
-            "output" => {
-              "elements" => [
-                "startTime",
-                "elapsedTime",
-                "count",
-                "attributes",
-                "records"
-              ],
-              "attributes" => [
-                "_key"
-              ],
-              "limit" => -1
-            }
-          }
-        }
-      }
-
-      input_message.command = "search"
-      input_message.body = body
-    end
-  end
-end
-~~~
-
-Now you can use this by the following request:
-
-store-search-columbus.json:
-
-~~~json
-{
-  "id": "storeSearch:0",
-  "dataset": "Starbucks",
-  "type": "storeSearch",
-  "replyTo":"localhost:24224/output",
-  "body": {
-    "query": "Columbus"
-  }
-}
-~~~
-
-In order to use this issue, you need to run:
-
-    cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
-
-And you will see the result on fluentd's log:
-
-~~~
-2014-02-06 12:49:24 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007f91f5f87210 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
-2014-02-06 12:49:24 +0900 [info]: storeSearch query="Columbus"
-2014-02-06 12:49:24 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
-~~~
-
-In the way just described, we can use `storeSearch` to implement the application specific search logic.
 
 
 ## OutputAdapter
@@ -436,6 +355,123 @@ The results will be like this:
 ~~~
 
 Now you can see `completedAt` attribute containing the time completed the request.
+
+## Combination of InputAdapter and OutputAdapter
+
+We have learned the basics of Adapter so far.
+Let's try to build more practical plugin.
+
+You may feel the Droonga's `search` command is too flexible for your purpose. Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface.
+
+### Accept simple requests
+
+First, create StorSearchAdapterInputPlugin.
+
+Update your `StoreSearchAdapterPlugin` as follows:
+
+lib/droonga/plugin/input_adapter/store_search.rb:
+
+~~~ruby
+module Droonga
+  class StoreSearchInputAdapterPlugin < Droonga::InputAdapterPlugin
+    repository.register("store_search", self)
+
+    command "storeSearch" => :adapt_request
+    def adapt_request(input_message)
+      $log.info "StoreSearchInputAdapterPlugin", :message => input_message
+
+      query = input_message.body["query"]
+      $log.info "storeSearch", :query => query
+
+      body = {
+        "queries" => {
+          "result" => {
+            "source" => "Store",
+            "condition" => {
+              "query" => query,
+              "matchTo" => "_key"
+            },
+            "output" => {
+              "elements" => [
+                "startTime",
+                "elapsedTime",
+                "count",
+                "attributes",
+                "records"
+              ],
+              "attributes" => [
+                "_key"
+              ],
+              "limit" => -1
+            }
+          }
+        }
+      }
+
+      input_message.command = "search"
+      input_message.body = body
+    end
+  end
+end
+~~~
+
+The update catalog.json to activate the plugin. Remove the example plugin previously created.
+
+catalog.json:
+
+~~~
+(snip)
+  },
+  "input_adapter": {
+    "plugins": ["store_search"]
+  },
+  "output_adapter": {
+    "plugins": ["crud", "groonga"]
+  },
+  "collector": {
+    "plugins": ["basic", "search"]
+  },
+  "distributor": {
+    "plugins": ["search", "crud", "groonga", "watch"]
+  }
+}
+~~~
+
+
+Now you can use this by the following request:
+
+store-search-columbus.json:
+
+~~~json
+{
+  "id": "storeSearch:0",
+  "dataset": "Starbucks",
+  "type": "storeSearch",
+  "replyTo":"localhost:24224/output",
+  "body": {
+    "query": "Columbus"
+  }
+}
+~~~
+
+In order to issue this request, you need to run:
+
+    cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+
+And you will see the result on fluentd's log:
+
+~~~
+2014-02-06 12:49:24 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007f91f5f87210 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 12:49:24 +0900 [info]: storeSearch query="Columbus"
+2014-02-06 12:49:24 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+~~~
+
+In the way just described, we can use `storeSearch` to implement the application specific search logic.
+
+## Return simple response
+
+TODO
+
 
 ## Conclusion
 
