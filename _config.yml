@@ -4,7 +4,7 @@ permalink: /news/:year/:month/:day/:title.html
 url: http://droonga.org
 blog_base_url: /news/
 droonga_version: 0.8.0
-copyright_year: 2013
+copyright_year: 2013-2014
 exclude: ["Rakefile", "Gemfile", "Gemfile.lock"]
 description: Droonga is a scalable data processing engine.
 
