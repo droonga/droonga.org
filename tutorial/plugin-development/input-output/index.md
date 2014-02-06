@@ -1,9 +1,7 @@
 ---
-title: Droonga plugin development tutorial
+title: "Plugin: Modify requests and responses"
 layout: en
 ---
-
-!!WORK IN PROGRESS!!
 
 * TOC
 {:toc}
