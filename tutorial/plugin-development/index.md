@@ -27,14 +27,11 @@ You can use plugins in those situations.
 
 ## Types of plugins
 
-Droonga has 5 types of plugins corresponding to the purpose of plugin.
+Droonga has 4 types of plugins corresponding to the purpose of plugin.
 In other words, from the point of view of Droonga internal, the type of a plugin is distinguished by the component which the plugin is plugged in. See [overview][] to grasp the big picture.
 
-InputAdapterPlugin
-: used to modify requests.
-
-OutputAdapterPlugin
-: used to modify responses.
+AdapterPlugin
+: used to modify incoming requests and outgoing responses.
 
 HandlerPlugin
 : used for low-level data handling.
@@ -45,17 +42,17 @@ DistributorPlugin
 CollectorPlugin
 : used to control internal message collection.
 
-In this tutorial, we focus on InputAdapterPlugin at first. This is the most "basic" plugin, so it will help you to understand the overview of Droonga plugin development.
-Then, we focus on OutputAdapterPlugin, HandlerPlugin, DistributorPlugin and CollectorPlugin in this order.
+In this tutorial, we focus on AdapterPlugin at first. This is the most "basic" plugin, so it will help you to understand the overview of Droonga plugin development.
+Then, we focus on HandlerPlugin, DistributorPlugin and CollectorPlugin in this order.
 Following this tutorial, you will learn how to write these plugins. This will be the first step to create plugins fit with your own requirements.
 
 ## How to develop plugins? How to operate requests and responses?
 
- 1. [Modify requests and responses][input-output]
+ 1. [Modify requests and responses][adapter]
  2. Process requests (under construction)
  3. [Distribute requests and collect responses][distribute-collect]
 
   [tutorial]: ../
   [overview]: ../../overview/
-  [input-output]: ./input-output/
+  [adapter]: ./adapter/
   [distribute-collect]: ./distribute-collect/

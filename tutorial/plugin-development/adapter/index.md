@@ -10,7 +10,7 @@ layout: en
 
 Learning steps to develop a Droonga plugin by yourself.
 
-This page focus on InputAdapter first, then OutputAdapter.
+This page focus on Adapter plugin.
 At the last, wraps up them to make a small practical adapter.
 
 ## Precondition
@@ -18,11 +18,11 @@ At the last, wraps up them to make a small practical adapter.
 * You must complete [tutorial][].
 
 
-## InputAdapter
+## Adapter for incoming messages
 
 We sometime need to modify requests incoming to Droonga Engine.
-We can use InputAdapter for this purpose.
-Let's see how to create InputAdapter in this section.
+We can use Adapter for this purpose.
+Let's see how to create Adapter in this section.
 
 ### Directory Structure
 
@@ -188,7 +188,7 @@ And restart fluentd, then send the request same as the previous. You will see so
 
 This shows the message is received by our `ExampleInputAdapterPlugin` and then passed to Droonga. Here we can modify the message before the actual data processing.
 
-### Modify messages with InputAdapter
+### Modify messages with Adapter
 
 Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
 
@@ -219,7 +219,7 @@ Note that `count` is still `2` because `limit` does not affect `count`. See [sea
 
 
 
-## OutputAdapter
+## Adapter for outgoing messages
 
 In case we need to modify the output, we can define `OutputAdapter`.
 In this section, we are going to create an `OutputAdapter`.
@@ -292,7 +292,7 @@ RUBYLIB=./lib fluentd --config fluentd.conf
 
 This OutputAdapterPlugin does not make any differences so far.
 
-### Log messages incoming to OutputAdapter
+### Log outgoing messages by Adapter
 
 Let's get the plugin to work.
 Take logs of results of `search` command.
@@ -327,7 +327,7 @@ The fluentd's log should be like as follows:
 This shows that the result of `search` is passed to `ExampleOutputAdapter` (and logged), then outputted.
 
 
-### Modify results with OutputAdapter
+### Modify results with Adapter
 
 Let's modify the result.
 For example, add `completedAt` attribute that shows the time completed the request.
@@ -358,12 +358,13 @@ The results will be like this:
 
 Now you can see `completedAt` attribute containing the time completed the request.
 
-## Combination of InputAdapter and OutputAdapter
+## Adapter for both incoming and outgoing messages
 
 We have learned the basics of Adapter so far.
 Let's try to build more practical plugin.
 
-You may feel the Droonga's `search` command is too flexible for your purpose. Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface.
+You may feel the Droonga's `search` command is too flexible for your purpose.
+Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface.
 
 ### Accept simple requests
 
@@ -498,7 +499,7 @@ module Droonga
 end
 ~~~
 
-Activate OutputAdapter with catalog.json:
+Activate Adapter for outgoing messages, with catalog.json:
 
 ~~~
 (snip)
@@ -537,7 +538,7 @@ In the way just described, we can use adapter to implement the application speci
 
 ## Conclusion
 
-We have learned how to create InputAdapter and OutputAdapter, how to receive and modify messages in the adapters, both of InputAdapter and OutputAdapter.
+We have learned how to create Adapter, how to receive and modify messages in the adapters, both of incoming and outgoing messages.
 
 
   [tutorial]: ../../
