@@ -365,7 +365,7 @@ You may feel the Droonga's `search` command is too flexible for your purpose. He
 
 ### Accept simple requests
 
-First, create StoreSearchAdapterInputPlugin.
+First, create `StoreSearchAdapterInputPlugin`.
 
 Create your `StoreSearchAdapterPlugin` as follows:
 
