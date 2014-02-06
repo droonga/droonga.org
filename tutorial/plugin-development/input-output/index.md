@@ -9,7 +9,9 @@ layout: en
 ## The goal of this tutorial
 
 Learning steps to develop a Droonga plugin by yourself.
+
 This page focus on InputAdapter first, then OutputAdapter.
+At the last, wraps up them to make a small practical adapter.
 
 ## Precondition
 
