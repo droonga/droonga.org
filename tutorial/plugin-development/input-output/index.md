@@ -367,7 +367,7 @@ You may feel the Droonga's `search` command is too flexible for your purpose. He
 
 First, create StorSearchAdapterInputPlugin.
 
-Update your `StoreSearchAdapterPlugin` as follows:
+Create your `StoreSearchAdapterPlugin` as follows:
 
 lib/droonga/plugin/input_adapter/store_search.rb:
 
