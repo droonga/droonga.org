@@ -470,7 +470,7 @@ Now we can perform store search with simple requests.
 
 ### Return simple response
 
-In addition, let's return results in more simple way: just an array of the names of stores.
+Second, let's return results in more simple way: just an array of the names of stores.
 
 Define `StoreSearchOutputAdapter` as follows.
 
