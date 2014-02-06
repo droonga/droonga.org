@@ -5,6 +5,11 @@ layout: en
 
 This documentation describes how to translate the original documentations in English to other languages.
 
+## Preparation
+
+ 1. Clone the repository with `git clone git@github.com:droonga/droonga.org.git`
+ 2. `cd` to the repository and install required packages with `bundle install`.
+
 ## Work-flow
 
 Here is a work-flow to translate one documentation in English:
