@@ -10,3 +10,4 @@ description: Droonga is a scalable data processing engine.
 
 kramdown:
   enable_coderay: true
+  coderay_line_numbers: table
