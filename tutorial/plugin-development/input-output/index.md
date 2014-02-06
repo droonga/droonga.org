@@ -219,6 +219,10 @@ Note that `count` is still `2` because `limit` does not affect `count`. See [sea
 
 You may feel the Droonga's `search` command is too flexible for your purpose. Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface.
 
+Update your `ExampleInputAdapterPlugin` as follows:
+
+lib/droonga/plugin/input_adapter/example.rb:
+
 ~~~
 module Droonga
   class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
@@ -226,9 +230,11 @@ module Droonga
 
     command "storeSearch" => :adapt_request
     def adapt_request(input_message)
-      $log.info "ExampleInputAdapterPlugin", message: input_message
+      $log.info "ExampleInputAdapterPlugin", :message => input_message
 
       query = input_message.body["query"]
+      $log.info "storeSearch", :query => query
+
       body = {
         "queries" => {
           "result" => {
@@ -261,9 +267,40 @@ module Droonga
 end
 ~~~
 
+Now you can use this by the following request:
+
+store-search-columbus.json:
+
+~~~
+{
+  "id": "storeSearch:0",
+  "dataset": "Starbucks",
+  "type": "storeSearch",
+  "replyTo":"localhost:24224/output",
+  "body": {
+    "query": "Columbus"
+  }
+}
+~~~
+
+In order to use this issue, you need to run:
+
+    cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+
+And you will see the result on fluentd's log:
+
+~~~
+2014-02-06 12:49:24 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007f91f5f87210 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 12:49:24 +0900 [info]: storeSearch query="Columbus"
+2014-02-06 12:49:24 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+~~~
+
+In the way just described, we can use `storeSearch` to implement the application specific search logic.
+
 
 ## OutputAdapter
 
+In case we need to modify the output, we can define `OutputAdapter`.
 In this section, we are going to create an `OutputAdapter`.
 
 ### Directory structure
