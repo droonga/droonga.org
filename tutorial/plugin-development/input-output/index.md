@@ -164,7 +164,7 @@ First of all, trap `search` request and log it. Update the plugin like below:
 
 lib/droonga/plugin/input_adapter/example.rb:
 
-~~~
+~~~ruby
 module Droonga
   class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
     repository.register("example", self)
@@ -192,7 +192,7 @@ Suppose that we want to restrict the number of records returned in the response,
 
 lib/droonga/plugin/input_adapter/example.rb:
 
-~~~
+~~~ruby
 module Droonga
   class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
     repository.register("example", self)
@@ -223,7 +223,7 @@ Update your `ExampleInputAdapterPlugin` as follows:
 
 lib/droonga/plugin/input_adapter/example.rb:
 
-~~~
+~~~ruby
 module Droonga
   class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
     repository.register("example", self)
@@ -271,7 +271,7 @@ Now you can use this by the following request:
 
 store-search-columbus.json:
 
-~~~
+~~~json
 {
   "id": "storeSearch:0",
   "dataset": "Starbucks",
@@ -378,7 +378,7 @@ Take logs of results of `search` command.
 
 Update `ExampleOutputAdapterPlugin` as follows:
 
-~~~
+~~~ruby
 module Droonga
   class ExampleOutputAdapterPlugin < Droonga::OutputAdapterPlugin
     repository.register("example", self)
@@ -394,9 +394,7 @@ end
 
 Then restart fluentd, and send search request (Use the same JSON for request as in the previous section):
 
-~~~
     cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
-~~~
 
 The fluentd's log should be like as follows:
 
@@ -414,7 +412,7 @@ Let's modify the result.
 For example, add `completedAt` attribute that shows the time completed the request.
 Update your plugin as follows:
 
-~~~
+~~~ruby
 module Droonga
   class ExampleOutputAdapter < Droonga::OutputAdapterPlugin
     repository.register("example", self)
