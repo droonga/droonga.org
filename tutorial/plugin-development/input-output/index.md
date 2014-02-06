@@ -18,6 +18,8 @@ This page focus on InputAdapter first, then OutputAdapter.
 
 ## InputAdapter
 
+We sometime need to modify requests incoming to Droonga Engine.
+We can use InputAdapter for this purpose.
 Let's see how to create InputAdapter in this section.
 
 ### Directory Structure
