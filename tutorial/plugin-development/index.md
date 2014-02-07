@@ -47,11 +47,14 @@ In this tutorial, we focus on the adaption phase at first. This is the most "bas
 Then, we focus on other phases in this order.
 Following this tutorial, you will learn how to write plugins. This will be the first step to create plugins fit with your own requirements.
 
-## How to develop plugins? How to operate requests and responses?
+## How to develop plugins?
+
+For more details, let's read these sub tutorials:
 
  1. [Modify requests and responses][adapter]
  2. Handle requests (under construction)
  3. Distribute requests and collect responses (under construction)
+
 
   [basic tutorial]: ../
   [overview]: ../../overview/
