@@ -34,7 +34,7 @@ In that tutorial, Groonga engine was placed under `engine` directory.
 Plugins need to be placed in an appropriate directory. Let's create the directory:
 
     # cd engine
-    # mkdir -p lib/droonga/plugin
+    # mkdir -p lib/droonga/plugins
 
 After creating the directory, the directory structure should be like this:
 
@@ -44,15 +44,16 @@ engine
 ├── fluentd.conf
 └── lib
     └── droonga
-        └── plugin
+        └── plugins
 ~~~
 
 
 ### Create a plugin
 
-Put a plugin code into a file `sample_logger.rb` in the `plugin` directory.
+You must put codes for a plugin into a file which has the name *same to the plugin itself*.
+Because the plugin now you creating is `sample-logger`, put codes into a file `sample-logger.rb` in the `droonga/plugins` directory.
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 require "droonga/plugin"
@@ -167,7 +168,7 @@ The plugin we have created do nothing so far. Let's get the plugin to do some in
 
 First of all, trap `search` request and log it. Update the plugin like below:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -198,7 +199,7 @@ This shows the message is received by our `SampleLoggerPlugin::Adapter` and then
 
 Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -231,7 +232,7 @@ In this section, we are going to define a method to adapt outgoing messages.
 Let's take logs of results of `search` command.
 Define the `adapt_output` method to process outgoing messages, like below:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -277,7 +278,7 @@ Let's modify the result.
 For example, add `completedAt` attribute that shows the time completed the request.
 Update your plugin as follows:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -308,9 +309,9 @@ Here, we're going to add our own `storeSearch` command to wrap the `search` comm
 
 ### Accept simple requests
 
-First, create `StoreSearchPlugin`. Create your `StoreSearchPlugin` as follows:
+First, create the `store-searach` plugin. Remember, you must put codes into a file which has the name same to the plugin now you are creating. So, the file is `store-search.rb` in the `droonga/plugins` directory. Then define your `StoreSearchPlugin` as follows:
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugins/store-search.rb:
 
 ~~~ruby
 module Droonga
@@ -412,7 +413,7 @@ Second, let's return results in more simple way: just an array of the names of s
 
 Define the `adapt_output` method as follows.
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugins/store-search.rb:
 
 ~~~ruby
 module Droonga
