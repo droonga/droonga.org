@@ -172,12 +172,6 @@ Here is a `catalog.json` for the above case:
         }
       }
     }
-  },
-  "collector": {
-    "plugins": ["basic", "search"]
-  },
-  "planner": {
-    "plugins": ["crud", "search", "groonga"]
   }
 }
 ~~~

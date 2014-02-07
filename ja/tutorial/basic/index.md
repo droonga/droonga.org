@@ -157,12 +157,6 @@ catalog.json:
             }
           }
         }
-      },
-      "collector": {
-        "plugins": ["basic", "search"]
-      },
-      "planner": {
-        "plugins": ["crud", "search", "groonga"]
       }
     }
 
