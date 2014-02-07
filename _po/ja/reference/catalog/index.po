@@ -190,7 +190,7 @@ msgstr "注意: Droongaエンジン内のハンドラープラグインは1つ�
 msgid "## Example"
 msgstr "## 例"
 
-msgid "Consider about the following case:"
+msgid "Consider the following case:"
 msgstr ""
 
 msgid ""
