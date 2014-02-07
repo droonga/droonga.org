@@ -25,32 +25,33 @@ Generally, data processing tasks in the real world need custom treatments of the
 
 You can use plugins in those situations.
 
-## Types of plugins
+## Pluggable operations in Droonga Engine
 
-Droonga has 4 types of plugins corresponding to the purpose of plugin.
-In other words, from the point of view of Droonga internal, the type of a plugin is distinguished by the component which the plugin is plugged in. See the [overview][] to grasp the big picture.
+In Droonga Engine, there are 4 pluggable phases for plugins.
+In other words, from the point of view of plugins, each plugin can do from 1 to 4 operations.
+See the [overview][] to grasp the big picture.
 
-AdapterPlugin
-: used to modify incoming requests and outgoing responses.
+Adaption phase
+: On this phase, a plugin can modify incoming requests and outgoing responses.
 
-HandlerPlugin
-: used for low-level data handling.
+Handling phase
+: On this phase, a plugin can do low-level data handling, for example, database operations and so on.
 
-PlannerPlugin
-: used to control internal message distribution.
+Planning phase
+: On this phase, a plugin can control internal message distribution.
 
-CollectorPlugin
-: used to control internal message collection.
+Collection phase
+: On this phase, a plugin can control internal message collection.
 
-In this tutorial, we focus on AdapterPlugin at first. This is the most "basic" plugin, so it will help you to understand the overview of Droonga plugin development.
-Then, we focus on HandlerPlugin, PlannerPlugin and CollectorPlugin in this order.
-Following this tutorial, you will learn how to write these plugins. This will be the first step to create plugins fit with your own requirements.
+In this tutorial, we focus on the adaption phase at first. This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
+Then, we focus on other phases in this order.
+Following this tutorial, you will learn how to write plugins. This will be the first step to create plugins fit with your own requirements.
 
 ## How to develop plugins? How to operate requests and responses?
 
  1. [Modify requests and responses][adapter]
- 2. Process requests (under construction)
- 3. [Distribute requests and collect responses][distribute-collect]
+ 2. Handle requests (under construction)
+ 3. Distribute requests and collect responses (under construction)
 
   [basic tutorial]: ../
   [overview]: ../../overview/
