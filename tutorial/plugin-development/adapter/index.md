@@ -20,6 +20,8 @@ At the last, wraps up them to make a small practical plugin named `store-search`
 
 ## Adaption for incoming messages
 
+First, let's study basics with a simple logger plugin named `sample-logger` affects on the adaption phase.
+
 We sometime need to modify incoming requests from outside to Droonga Engine.
 We can use a plugin for this purpose.
 Let's see how to create a plugin for the adaption phase, in this section.
@@ -48,17 +50,17 @@ engine
 
 ### Create a plugin
 
-Put a plugin code into a file `store_search.rb` in the `plugin` directory.
+Put a plugin code into a file `sample_logger.rb` in the `plugin` directory.
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugin/sample_logger.rb:
 
 ~~~ruby
 require "droonga/plugin"
 
 module Droonga
   module Plugins
-    module StoreSearchPlugin
-      Plugin.registry.register("store-search", self)
+    module SampleLoggerPlugin
+      Plugin.registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
         # You'll put codes to modify messages here.
@@ -70,14 +72,14 @@ end
 
 This plugin does nothing except registering itself to Droonga.
 
- * The `store-search` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
+ * The `sample-logger` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
  * As the example above, you must define your plugin as a module.
 
 
 ### Activate the plugin with `catalog.json`
 
 You need to update `catalog.json` to activate your plugin.
-Add the name of the plugin `"store-search"` to the `"plugins"` list under the dataset, like:
+Add the name of the plugin `"sample-logger"` to the `"plugins"` list under the dataset, like:
 
 catalog.json:
 
@@ -86,7 +88,7 @@ catalog.json:
       "datasets": {
         "Starbucks": {
           (snip)
-          "plugins": ["search", "groonga", "add", "store-search"],
+          "plugins": ["search", "groonga", "add", "sample-logger"],
 (snip)
 ~~~
 
@@ -114,28 +116,28 @@ search-columbus.json:
 
 ~~~json
 {
-  "id": "search:0",
-  "dataset": "Starbucks",
-  "type": "search",
-  "replyTo":"localhost:24224/output",
-  "body": {
-    "queries": {
-      "stores": {
-        "source": "Store",
-        "condition": {
-          "query": "Columbus",
-          "matchTo": "_key"
+  "id"      : "search:0",
+  "dataset" : "Starbucks",
+  "type"    : "search",
+  "replyTo" : "localhost:24224/output",
+  "body"    : {
+    "queries" : {
+      "stores" : {
+        "source"    : "Store",
+        "condition" : {
+          "query"   : "Columbus",
+          "matchTo" : "_key"
         },
-        "output": {
-          "elements": [
+        "output" : {
+          "elements"   : [
             "startTime",
             "elapsedTime",
             "count",
             "attributes",
             "records"
           ],
-          "attributes": ["_key"],
-          "limit": -1
+          "attributes" : ["_key"],
+          "limit"      : -1
         }
       }
     }
@@ -165,18 +167,18 @@ The plugin we have created do nothing so far. Let's get the plugin to do some in
 
 First of all, trap `search` request and log it. Update the plugin like below:
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugin/sample_logger.rb:
 
 ~~~ruby
 (snip)
-    module StoreSearchPlugin
-      Plugin.registry.register("store-search", self)
+    module SampleLoggerPlugin
+      Plugin.registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
         message.input_pattern = ["type", :equal, "search"]
 
         def adapt_input(input_message)
-          $log.info("StoreSearchPlugin::Adapter", :message => input_message)
+          $log.info("SampleLoggerPlugin::Adapter", :message => input_message)
         end
       end
     end
@@ -186,22 +188,22 @@ lib/droonga/plugin/store_search.rb:
 And restart fluentd, then send the request same as the previous. You will see something like below fluentd's log:
 
 ~~~
-2014-02-03 16:56:27 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-03 16:56:27 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
 2014-02-03 16:56:27 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
 
-This shows the message is received by our `StoreSearchPlugin` and then passed to Droonga. Here we can modify the message before the actual data processing.
+This shows the message is received by our `SampleLoggerPlugin::Adapter` and then passed to Droonga. Here we can modify the message before the actual data processing.
 
 ### Modify messages with the plugin
 
 Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugin/sample_logger.rb:
 
 ~~~ruby
 (snip)
         def adapt_input(input_message)
-          $log.info("StoreSearchPlugin::Adapter", :message => input_message)
+          $log.info("SampleLoggerPlugin::Adapter", :message => input_message)
           input_message.body["queries"]["stores"]["output"]["limit"] = 1
         end
 (snip)
@@ -210,7 +212,7 @@ lib/droonga/plugin/store_search.rb:
 And restart fluentd. After restart, the response always includes only one record in `records` section:
 
 ~~~
-2014-02-03 18:47:54 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007f913ca6e918 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-03 18:47:54 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f913ca6e918 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
 2014-02-03 18:47:54 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"]]}}}
 ~~~
 
@@ -229,18 +231,18 @@ In this section, we are going to define a method to adapt outgoing messages.
 Let's take logs of results of `search` command.
 Define the `adapt_output` method to process outgoing messages, like below:
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugin/sample_logger.rb:
 
 ~~~ruby
 (snip)
-    module StoreSearchPlugin
-      Plugin.registry.register("store-search", self)
+    module SampleLoggerPlugin
+      Plugin.registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
         (snip)
 
         def adapt_output(output_message)
-          $log.info("StoreSearchPlugin::Adapter", :message => output_message)
+          $log.info("SampleLoggerPlugin::Adapter", :message => output_message)
         end
       end
     end
@@ -262,7 +264,7 @@ And send search request (Use the same JSON for request as in the previous sectio
 The fluentd's log should be like as follows:
 
 ~~~
-2014-02-05 17:37:37 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007f8da265b698 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-05 17:37:37 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007f8da265b698 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
 2014-02-05 17:37:37 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
 
@@ -275,10 +277,12 @@ Let's modify the result.
 For example, add `completedAt` attribute that shows the time completed the request.
 Update your plugin as follows:
 
+lib/droonga/plugin/sample_logger.rb:
+
 ~~~ruby
 (snip)
         def adapt_output(output_message)
-          $log.info("StoreSearchPlugin::Adapter", :message => output_message)
+          $log.info("SampleLoggerPlugin::Adapter", :message => output_message)
           output_message.body["stores"]["completedAt"] = Time.now
         end
 (snip)
@@ -288,107 +292,100 @@ Then restart fluentd and send the same search request.
 The results will be like this:
 
 ~~~
-2014-02-05 17:41:02 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007fb3c5291fc8 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-05 17:41:02 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fb3c5291fc8 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
 2014-02-05 17:41:02 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]],"completedAt":"2014-02-05T08:41:02.824361Z"}}}
 ~~~
 
 Now you can see `completedAt` attribute containing the time completed the request.
 
-## Adapter for both incoming and outgoing messages
+## Translation for both incoming and outgoing messages
 
-We have learned the basics of Adapter so far.
+We have learned the basics of plugins for the adaption phase so far.
 Let's try to build more practical plugin.
 
 You may feel the Droonga's `search` command is too flexible for your purpose.
-Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface.
+Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface, with a new plugin named `store-search`.
 
 ### Accept simple requests
 
-First, create `StoreSearchAdapterInputPlugin`.
+First, create `StoreSearchPlugin`. Create your `StoreSearchPlugin` as follows:
 
-Create your `StoreSearchAdapterPlugin` as follows:
-
-lib/droonga/plugin/input_adapter/store_search.rb:
+lib/droonga/plugin/store_search.rb:
 
 ~~~ruby
 module Droonga
-  class StoreSearchInputAdapterPlugin < Droonga::InputAdapterPlugin
-    repository.register("store_search", self)
+  module Plugins
+    module StoreSearchPlugin
+      Plugin.registry.register("store-search", self)
 
-    command "storeSearch" => :adapt_request
-    def adapt_request(input_message)
-      $log.info "StoreSearchInputAdapterPlugin", :message => input_message
+      class Adapter < Droonga::Adapter
+        message.input_pattern = ["type", :equal, "storeSearch"]
 
-      query = input_message.body["query"]
-      $log.info "storeSearch", :query => query
+        def adapt_input(input_message)
+          $log.info("StoreSearchPlugin::Adapter", :message => input_message)
 
-      body = {
-        "queries" => {
-          "stores" => {
-            "source" => "Store",
-            "condition" => {
-              "query" => query,
-              "matchTo" => "_key"
-            },
-            "output" => {
-              "elements" => [
-                "startTime",
-                "elapsedTime",
-                "count",
-                "attributes",
-                "records"
-              ],
-              "attributes" => [
-                "_key"
-              ],
-              "limit" => -1
+          query = input_message.body["query"]
+          $log.info("storeSearch", :query => query)
+
+          body = {
+            "queries" => {
+              "stores" => {
+                "source"    => "Store",
+                "condition" => {
+                  "query"   => query,
+                  "matchTo" => "_key"
+                },
+                "output"    => {
+                  "elements"   => [
+                    "startTime",
+                    "elapsedTime",
+                    "count",
+                    "attributes",
+                    "records"
+                  ],
+                  "attributes" => [
+                    "_key"
+                  ],
+                  "limit"      => -1
+                }
+              }
             }
           }
-        }
-      }
 
-      input_message.command = "search"
-      input_message.body = body
+          input_message.command = "search"
+          input_message.body    = body
+        end
+      end
     end
-  end
+  en
 end
 ~~~
 
-The update catalog.json to activate the plugin. Remove the example plugin previously created.
+Then update catalog.json to activate the plugin. Remove the `sample-logger` plugin previously created.
 
 catalog.json:
 
 ~~~
 (snip)
-  },
-  "input_adapter": {
-    "plugins": ["store_search"]
-  },
-  "output_adapter": {
-    "plugins": ["crud", "groonga"]
-  },
-  "collector": {
-    "plugins": ["basic", "search"]
-  },
-  "planner": {
-    "plugins": ["search", "crud", "groonga", "watch"]
-  }
-}
+      "datasets": {
+        "Starbucks": {
+          (snip)
+          "plugins": ["search", "groonga", "add", "store-search"],
+(snip)
 ~~~
 
-
-Now you can use this by the following request:
+Now you can use this new command by the following request:
 
 store-search-columbus.json:
 
 ~~~json
 {
-  "id": "storeSearch:0",
-  "dataset": "Starbucks",
-  "type": "storeSearch",
-  "replyTo":"localhost:24224/output",
-  "body": {
-    "query": "Columbus"
+  "id"      : "storeSearch:0",
+  "dataset" : "Starbucks",
+  "type"    : "storeSearch",
+  "replyTo" : "localhost:24224/output",
+  "body"    : {
+    "query" : "Columbus"
   }
 }
 ~~~
@@ -400,7 +397,7 @@ In order to issue this request, you need to run:
 And you will see the result on fluentd's log:
 
 ~~~
-2014-02-06 15:20:07 +0900 [info]: StoreSearchInputAdapterPlugin message=#<Droonga::InputMessage:0x007fe36e9ef0f8 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 15:20:07 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007fe36e9ef0f8 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
 2014-02-06 15:20:07 +0900 [info]: storeSearch query="Columbus"
 2014-02-06 15:20:07 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
@@ -411,48 +408,30 @@ Now we can perform store search with simple requests.
 
 Second, let's return results in more simple way: just an array of the names of stores.
 
-Define `StoreSearchOutputAdapter` as follows.
+Define the `adapt_output` method as follows.
 
-lib/droonga/plugin/output_adapter/store_search.rb:
+lib/droonga/plugin/store_search.rb:
 
 ~~~ruby
 module Droonga
-  class StoreSearchOutputAdapter < Droonga::OutputAdapterPlugin
-    repository.register("store_search", self)
+  module Plugins
+    module StoreSearchPlugin
+      Plugin.registry.register("store-search", self)
 
-    command "search" => :adapt_result,
-            :patterns => [["originalTypes", :include?, "storeSearch"]]
+      class Adapter < Droonga::Adapter
+        (snip)
 
-    def adapt_result(output_message)
-      $log.info "StoreSearchOutputAdapter", :message => output_message
+        def adapt_output(output_message)
+          $log.info("StoreSearchPlugin::Adapter", :message => output_message)
 
-      records = output_message.body["result"]["records"]
-      simplified_results = records.flatten
+          records = output_message.body["stores"]["records"]
+          simplified_results = records.flatten
 
-      output_message.body = simplified_results
+          output_message.body = simplified_results
+        end
+      end
     end
-  end
-end
-~~~
-
-Activate Adapter for outgoing messages, with catalog.json:
-
-~~~
 (snip)
-  },
-  "input_adapter": {
-    "plugins": ["store_search"]
-  },
-  "output_adapter": {
-    "plugins": ["store_search", "crud", "groonga"]
-  },
-  "collector": {
-    "plugins": ["basic", "search"]
-  },
-  "planner": {
-    "plugins": ["search", "crud", "groonga", "watch"]
-  }
-}
 ~~~
 
 Then restart fluentd. Send the request:
@@ -462,9 +441,9 @@ Then restart fluentd. Send the request:
 The log will be like this:
 
 ~~~
-2014-02-06 16:04:45 +0900 [info]: StoreSearchInputAdapterPlugin message=#<Droonga::InputMessage:0x007f99eb602a20 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007f99eb602a20 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
 2014-02-06 16:04:45 +0900 [info]: storeSearch query="Columbus"
-2014-02-06 16:04:45 +0900 [info]: StoreSearchOutputAdapter message=#<Droonga::OutputMessage:0x007f99eb5d16a0 @raw_message={"body"=>{"result"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"storeSearch:0", "originalTypes"=>["storeSearch"]}>
+2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007f99eb5d16a0 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"storeSearch:0", "originalTypes"=>["storeSearch"]}>
 2014-02-06 16:04:45 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":["2 Columbus Ave. - New York NY  (W)","Columbus @ 67th - New York NY  (W)"]}
 ~~~
 
@@ -474,7 +453,7 @@ In the way just described, we can use adapter to implement the application speci
 
 ## Conclusion
 
-We have learned how to create Adapter, how to receive and modify messages in the adapters, both of incoming and outgoing messages.
+We have learned how to create an addon working around the adaption phase, how to receive and modify messages, both of incoming and outgoing.
 
 
   [basic tutorial]: ../../
