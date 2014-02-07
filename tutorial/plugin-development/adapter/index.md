@@ -418,8 +418,7 @@ Define the `adapt_output` method as follows.
 lib/droonga/plugins/store-search.rb:
 
 ~~~ruby
-module Droonga
-  module Plugins
+(snip)
     module StoreSearchPlugin
       Plugin.registry.register("store-search", self)
 
