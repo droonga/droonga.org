@@ -130,6 +130,7 @@ Here is a `catalog.json` for the above case:
   "datasets": {
     "Wiki": {
       "workers": 4,
+      "plugins": ["crud", "search", "groonga"],
       "number_of_replicas": 2,
       "number_of_partitions": 2,
       "partition_key": "_key",
@@ -155,6 +156,12 @@ Here is a `catalog.json` for the above case:
         }
       }
     }
+  },
+  "collector": {
+    "plugins": ["basic", "search"]
+  },
+  "planner": {
+    "plugins": ["crud", "search", "groonga"]
   }
 }
 ~~~
