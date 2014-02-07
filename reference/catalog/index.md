@@ -100,7 +100,7 @@ Note: Handler plugins in Droonga Engine work on a partition.
 
 ## Example
 
-Consider about the following case:
+Consider the following case:
 
  * There are two farms.
  * All farms (Droonga Engine instances) works on the same fluentd.
