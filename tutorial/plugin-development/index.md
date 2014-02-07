@@ -17,7 +17,7 @@ You must complete the [basic tutorial][] before this.
 Plugin is one of the most important concept of Droonga.
 This makes droonga flexible.
 
-Generally, data processing tasks in real word need custom treatments of the data, in various stages of the data stream. This is not easy to done in one-size-fits-all approach.
+Generally, data processing tasks in real world need custom treatments of the data, in various stages of the data stream. This is not easy to be done in one-size-fits-all approach.
 
 One may want to modify input queries to work well with other systems, one may want to modify output to help other systems understand the result.
 One may want to do more complex data processing than that provided by Droonga as built-in, to have direct storage access for efficiency.
