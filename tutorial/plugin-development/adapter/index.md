@@ -53,11 +53,17 @@ Put a plugin code into a file `store_search.rb` in the `plugin` directory.
 lib/droonga/plugin/store_search.rb:
 
 ~~~ruby
-module StoreSearchPlugin
-  Plugin.repository.register("store-search", self)
+require "droonga/plugin"
 
-  class Adapter < Droonga::Adapter
-    # You'll put codes to modify messages here.
+module Droonga
+  module Plugins
+    module StoreSearchPlugin
+      Plugin.registry.register("store-search", self)
+
+      class Adapter < Droonga::Adapter
+        # You'll put codes to modify messages here.
+      end
+    end
   end
 end
 ~~~
