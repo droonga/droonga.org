@@ -1,5 +1,5 @@
 ---
-title: \"Droonga チュートリアル: 基本的な使い方\"
+title: "Droonga チュートリアル: 基本的な使い方"
 layout: ja
 ---
 
