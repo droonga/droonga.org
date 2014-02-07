@@ -88,7 +88,7 @@ catalog.json:
       "datasets": {
         "Starbucks": {
           (snip)
-          "plugins": ["search", "groonga", "add", "sample-logger"],
+          "plugins": ["crud", "search", "groonga", "sample-logger"],
 (snip)
 ~~~
 
@@ -370,7 +370,7 @@ catalog.json:
       "datasets": {
         "Starbucks": {
           (snip)
-          "plugins": ["search", "groonga", "add", "store-search"],
+          "plugins": ["crud", "search", "groonga", "store-search"],
 (snip)
 ~~~
 
