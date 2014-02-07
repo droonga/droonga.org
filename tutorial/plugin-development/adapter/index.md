@@ -68,7 +68,7 @@ This plugin does nothing except registering itself to Droonga.
  * As the example above, you must define your plugin as a module.
 
 
-### Activate plugin with `catalog.json`
+### Activate the plugin with `catalog.json`
 
 You need to update `catalog.json` to activate your plugin.
 Add the name of the plugin `"store-search"` to the `"plugins"` list under the dataset, like:
@@ -86,7 +86,8 @@ catalog.json:
 
 ### Run
 
-Let's Droonga get started. Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
+Let's Droonga get started.
+Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
 ~~~
 RUBYLIB=./lib fluentd --config fluentd.conf
@@ -94,8 +95,8 @@ RUBYLIB=./lib fluentd --config fluentd.conf
 
 ### Test
 
-In the [basic tutorial][], we have communicated with `fluent-plugin-droonga` via the protocol adapter built with `expres-droonga`.
-For plugin development, sending requests directly to `fluent-plugin-droonga` can be more handy way to debug. We use `fluent-cat` command for this purpose.
+In the [basic tutorial][], we have communicated with the Droonga Engine based on `fluent-plugin-droonga`, via the Protocol Adapter built with `expres-droonga`. For plugin development, sending requests directly to the Droonga Engine can be more handy way to debug.
+We use `fluent-cat` command for this purpose.
 
 Doing in this way also help us to understand internal structure of Droonga.
 
@@ -136,7 +137,7 @@ search-columbus.json:
 }
 ~~~
 
-This is corresponding to the example to search "Columbus" in the [basic tutorial][]. Note that the request in `express-droonga` is encapsulated in `"body"` element.
+This is corresponding to the example to search "Columbus" in the [basic tutorial][]. Note that the request for the Protocol Adapter is encapsulated in `"body"` element.
 
 `fluent-cat` expects one line per one JSON object. So we need to use `tr` command to remove line breaks before passing the JSON to `fluent-cat`:
 
