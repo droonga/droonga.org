@@ -26,7 +26,7 @@ Let's see how to create Adapter in this section.
 
 ### Directory Structure
 
-Assume that we are going to add `InputAdapterPlugin` to the system built in [tutorial][].
+Assume that we are going to add `InputAdapterPlugin` to the system built in the [basic tutorial][].
 In that tutorial, Groonga engine was placed under `engine` directory.
 
 Plugins need to be placed in an appropriate directory. For example, `InputAdapterPlugin` should be placed under `lib/droonga/plugin/input_adapter/` directory. Let's create the directory:
@@ -88,7 +88,7 @@ catalog.json:
 }
 ~~~
 
-TODO: the [tutorial][] needs to be updated. After tutorial update, explanation above should also be updated.
+TODO: the [basic tutorial][] needs to be updated. After tutorial update, explanation above should also be updated.
 
 ### Run
 
@@ -100,12 +100,12 @@ RUBYLIB=./lib fluentd --config fluentd.conf
 
 ### Test
 
-In the previous [tutorial][], we have communicated with `fluent-plugin-droonga` via the protocol adapter built with `expres-droonga`.
+In the [basic tutorial][], we have communicated with `fluent-plugin-droonga` via the protocol adapter built with `expres-droonga`.
 For plugin development, sending requests directly to `fluent-plugin-droonga` can be more handy way to debug. We use `fluent-cat` command for this purpose.
 
 Doing in this way also help us to understand internal structure of Droonga.
 
-In the [tutorial][], we have used `fluent-cat` to setup database schema and import data. Do you remember? Sending search request can be done in the similar way.
+In the [basic tutorial][], we have used `fluent-cat` to setup database schema and import data. Do you remember? Sending search request can be done in the similar way.
 
 First, create a request as a JSON.
 
@@ -142,7 +142,7 @@ search-columbus.json:
 }
 ~~~
 
-This is corresponding to the example to search "Columbus" in the [tutorial][]. Note that the request in `express-droonga` is encapsulated in `"body"` element.
+This is corresponding to the example to search "Columbus" in the [basic tutorial][]. Note that the request in `express-droonga` is encapsulated in `"body"` element.
 
 `fluent-cat` expects one line per one JSON object. So we need to use `tr` command to remove line breaks before passing the JSON to `fluent-cat`:
 
@@ -541,7 +541,7 @@ In the way just described, we can use adapter to implement the application speci
 We have learned how to create Adapter, how to receive and modify messages in the adapters, both of incoming and outgoing messages.
 
 
-  [tutorial]: ../../
+  [basic tutorial]: ../../
   [overview]: ../../../overview/
   [jq]: http://stedolan.github.io/jq/
   [search]: ../../../reference/commands/select/
