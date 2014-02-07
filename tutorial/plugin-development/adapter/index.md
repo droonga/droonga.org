@@ -400,7 +400,7 @@ In order to issue this request, you need to run:
 And you will see the result on fluentd's log:
 
 ~~~
-2014-02-06 15:20:07 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007fe36e9ef0f8 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 15:20:07 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
 2014-02-06 15:20:07 +0900 [info]: storeSearch query="Columbus"
 2014-02-06 15:20:07 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
@@ -447,9 +447,9 @@ Then restart fluentd. Send the request:
 The log will be like this:
 
 ~~~
-2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007f99eb602a20 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
 2014-02-06 16:04:45 +0900 [info]: storeSearch query="Columbus"
-2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007f99eb5d16a0 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"storeSearch:0", "originalTypes"=>["storeSearch"]}>
+2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x00000002a34a88 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"search", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "appliedAdapters"=>["Droonga::Plugins::StoreSearchPlugin::Adapter", "Droonga::Plugins::Error::Adapter"], "originalTypes"=>["storeSearch"]}>
 2014-02-06 16:04:45 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":["2 Columbus Ave. - New York NY  (W)","Columbus @ 67th - New York NY  (W)"]}
 ~~~
 
