@@ -71,29 +71,18 @@ This plugin does nothing except registering itself to Droonga.
 ### Activate plugin with `catalog.json`
 
 You need to update `catalog.json` to activate your plugin.
-Insert following at the last part of `catalog.json` in order to make `"input_adapter"` become a key of the top level hash:
+Add the name of the plugin `"store-search"` to the `"plugins"` list under the dataset, like:
 
 catalog.json:
 
 ~~~
 (snip)
-  },
-  "input_adapter": {
-    "plugins": ["example", "groonga"]
-  },
-  "output_adapter": {
-    "plugins": ["crud", "groonga"]
-  },
-  "collector": {
-    "plugins": ["basic", "search"]
-  },
-  "planner": {
-    "plugins": ["search", "crud", "groonga", "watch"]
-  }
-}
+      "datasets": {
+        "Starbucks": {
+(snip)
+          "plugins": ["search", "groonga", "add", "store-search"],
+(snip)
 ~~~
-
-TODO: the [basic tutorial][] needs to be updated. After tutorial update, explanation above should also be updated.
 
 ### Run
 
