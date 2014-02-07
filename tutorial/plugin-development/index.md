@@ -9,7 +9,7 @@ layout: en
 ## The goal of this tutorial
 
 Learning steps to develop a Droonga plugin by yourself.
-You must complete [tutorial][] before this tutorial.
+You must complete the [basic tutorial][] before this.
 
 
 ## What's "plugin"?
@@ -28,7 +28,7 @@ You can use plugins in those situations.
 ## Types of plugins
 
 Droonga has 4 types of plugins corresponding to the purpose of plugin.
-In other words, from the point of view of Droonga internal, the type of a plugin is distinguished by the component which the plugin is plugged in. See [overview][] to grasp the big picture.
+In other words, from the point of view of Droonga internal, the type of a plugin is distinguished by the component which the plugin is plugged in. See the [overview][] to grasp the big picture.
 
 AdapterPlugin
 : used to modify incoming requests and outgoing responses.
@@ -52,7 +52,7 @@ Following this tutorial, you will learn how to write these plugins. This will be
  2. Process requests (under construction)
  3. [Distribute requests and collect responses][distribute-collect]
 
-  [tutorial]: ../
+  [basic tutorial]: ../
   [overview]: ../../overview/
   [adapter]: ./adapter/
   [distribute-collect]: ./distribute-collect/
