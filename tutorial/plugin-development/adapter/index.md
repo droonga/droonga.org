@@ -165,31 +165,30 @@ The plugin we have created do nothing so far. Let's get the plugin to do some in
 
 First of all, trap `search` request and log it. Update the plugin like below:
 
-lib/droonga/plugin/input_adapter/example.rb:
+lib/droonga/plugin/store_search.rb:
 
 ~~~ruby
-module Droonga
-  class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
-    repository.register("example", self)
+(snip)
+      class Adapter < Droonga::Adapter
+        message.input_pattern = ["type", :equal, "search"]
 
-    command "search" => :adapt_request
-    def adapt_request(input_message)
-      $log.info "ExampleInputAdapterPlugin", :message => input_message
-    end
-  end
-end
+        def adapt_input(input_message)
+          $log.info "StoreSearchPlugin::Adapter", :message => input_message
+        end
+      end
+(snip)
 ~~~
 
 And restart fluentd, then send the request same as the previous. You will see something like below fluentd's log:
 
 ~~~
-2014-02-03 16:56:27 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-03 16:56:27 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
 2014-02-03 16:56:27 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
 
-This shows the message is received by our `ExampleInputAdapterPlugin` and then passed to Droonga. Here we can modify the message before the actual data processing.
+This shows the message is received by our `StoreSearchPlugin` and then passed to Droonga. Here we can modify the message before the actual data processing.
 
-### Modify messages with Adapter
+### Modify messages with the plugin
 
 Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
 
