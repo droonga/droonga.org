@@ -12,9 +12,6 @@ layout: ja
 {% endcomment %}
 
 
-* TOC
-{:toc}
-
 ## アプリケーション開発者向け
 
  * [基本的な使い方のチュートリアル](basic/)
