@@ -1,5 +1,5 @@
 ---
-title: Droonga tutorial: basic usage
+title: \"Droonga tutorial: basic usage\"
 layout: en
 ---
 
