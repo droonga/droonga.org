@@ -48,19 +48,25 @@ engine
 
 ### Create a plugin
 
-Put a plugin code into `input_adapter` directory.
+Put a plugin code into a file `store_search.rb` in the `plugin` directory.
 
-lib/droonga/plugin/input_adapter/example.rb:
+lib/droonga/plugin/store_search.rb:
 
 ~~~ruby
-module Droonga
-  class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
-    repository.register("example", self)
+module StoreSearchPlugin
+  Plugin.repository.register("store-search", self)
+
+  class Adapter < Droonga::Adapter
+    # You'll put codes to modify messages here.
   end
 end
 ~~~
 
 This plugin does nothing except registering itself to Droonga.
+
+ * The `store-search` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
+ * As the example above, you must define your plugin as a module.
+
 
 ### Activate plugin with `catalog.json`
 
