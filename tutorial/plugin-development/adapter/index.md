@@ -120,7 +120,7 @@ search-columbus.json:
   "replyTo":"localhost:24224/output",
   "body": {
     "queries": {
-      "result": {
+      "stores": {
         "source": "Store",
         "condition": {
           "query": "Columbus",
@@ -151,7 +151,7 @@ This is corresponding to the example to search "Columbus" in the [basic tutorial
 
 This will output something like below to fluentd's log:
 
-    2014-02-03 14:22:54 +0900 output.message: {"inReplyTo":"search:0","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+    2014-02-03 14:22:54 +0900 output.message: {"inReplyTo":"search:0","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 
 This is the search result.
 
@@ -182,8 +182,8 @@ lib/droonga/plugin/store_search.rb:
 And restart fluentd, then send the request same as the previous. You will see something like below fluentd's log:
 
 ~~~
-2014-02-03 16:56:27 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
-2014-02-03 16:56:27 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+2014-02-03 16:56:27 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-03 16:56:27 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
 
 This shows the message is received by our `StoreSearchPlugin` and then passed to Droonga. Here we can modify the message before the actual data processing.
@@ -192,27 +192,22 @@ This shows the message is received by our `StoreSearchPlugin` and then passed to
 
 Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
 
-lib/droonga/plugin/input_adapter/example.rb:
+lib/droonga/plugin/store_search.rb:
 
 ~~~ruby
-module Droonga
-  class ExampleInputAdapterPlugin < Droonga::InputAdapterPlugin
-    repository.register("example", self)
-
-    command "search" => :adapt_request
-    def adapt_request(input_message)
-      $log.info "ExampleInputAdapterPlugin", message: input_message
-      input_message.body["queries"]["result"]["output"]["limit"] = 1
-    end
-  end
-end
+(snip)
+        def adapt_input(input_message)
+          $log.info "StoreSearchPlugin::Adapter", :message => input_message
+          input_message.body["queries"]["stores"]["output"]["limit"] = 1
+        end
+(snip)
 ~~~
 
 And restart fluentd. After restart, the response always includes only one record in `records` section:
 
 ~~~
-2014-02-03 18:47:54 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007f913ca6e918 @raw_message={"body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
-2014-02-03 18:47:54 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"]]}}}
+2014-02-03 18:47:54 +0900 [info]: ExampleInputAdapterPlugin message=#<Droonga::InputMessage:0x007f913ca6e918 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-03 18:47:54 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"]]}}}
 ~~~
 
 Note that `count` is still `2` because `limit` does not affect `count`. See [search][] for details of `search` command.
@@ -320,8 +315,8 @@ Then restart fluentd, and send search request (Use the same JSON for request as 
 The fluentd's log should be like as follows:
 
 ~~~
-2014-02-05 17:37:37 +0900 [info]: ExampleOutputAdapter message=#<Droonga::OutputMessage:0x007f8da265b698 @raw_message={"body"=>{"result"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
-2014-02-05 17:37:37 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+2014-02-05 17:37:37 +0900 [info]: ExampleOutputAdapter message=#<Droonga::OutputMessage:0x007f8da265b698 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-05 17:37:37 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
 
 This shows that the result of `search` is passed to `ExampleOutputAdapter` (and logged), then outputted.
@@ -342,7 +337,7 @@ module Droonga
             :patterns => [["replyTo.type", :equal, "search.result"]]
     def adapt_result(output_message)
       $log.info "ExampleOutputAdapter", :message => output_message
-      output_message.body["result"]["completedAt"] = Time.now
+      output_message.body["stores"]["completedAt"] = Time.now
     end
   end
 end
@@ -352,8 +347,8 @@ Then restart fluentd and send the same search request.
 The results will be like this:
 
 ~~~
-2014-02-05 17:41:02 +0900 [info]: ExampleOutputAdapter message=#<Droonga::OutputMessage:0x007fb3c5291fc8 @raw_message={"body"=>{"result"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
-2014-02-05 17:41:02 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"result":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]],"completedAt":"2014-02-05T08:41:02.824361Z"}}}
+2014-02-05 17:41:02 +0900 [info]: ExampleOutputAdapter message=#<Droonga::OutputMessage:0x007fb3c5291fc8 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
+2014-02-05 17:41:02 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]],"completedAt":"2014-02-05T08:41:02.824361Z"}}}
 ~~~
 
 Now you can see `completedAt` attribute containing the time completed the request.
@@ -388,7 +383,7 @@ module Droonga
 
       body = {
         "queries" => {
-          "result" => {
+          "stores" => {
             "source" => "Store",
             "condition" => {
               "query" => query,
