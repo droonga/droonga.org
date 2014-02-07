@@ -43,7 +43,7 @@ In that tutorial, Groonga engine was placed under `engine` directory.
 Plugins need to be placed in an appropriate directory. Let's create the directory:
 
     # cd engine
-    # mkdir -p lib/droonga/plugin
+    # mkdir -p lib/droonga/plugins
 
 After creating the directory, the directory structure should be like this:
 
@@ -53,15 +53,16 @@ engine
 ├── fluentd.conf
 └── lib
     └── droonga
-        └── plugin
+        └── plugins
 ~~~
 
 
 ### Create a plugin
 
-Put a plugin code into a file `sample_logger.rb` in the `plugin` directory.
+You must put codes for a plugin into a file which has the name *same to the plugin itself*.
+Because the plugin now you creating is `sample-logger`, put codes into a file `sample-logger.rb` in the `droonga/plugins` directory.
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 require "droonga/plugin"
@@ -176,7 +177,7 @@ The plugin we have created do nothing so far. Let's get the plugin to do some in
 
 First of all, trap `search` request and log it. Update the plugin like below:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -207,7 +208,7 @@ This shows the message is received by our `SampleLoggerPlugin::Adapter` and then
 
 Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -240,7 +241,7 @@ In this section, we are going to define a method to adapt outgoing messages.
 Let's take logs of results of `search` command.
 Define the `adapt_output` method to process outgoing messages, like below:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -286,7 +287,7 @@ Let's modify the result.
 For example, add `completedAt` attribute that shows the time completed the request.
 Update your plugin as follows:
 
-lib/droonga/plugin/sample_logger.rb:
+lib/droonga/plugins/sample-logger.rb:
 
 ~~~ruby
 (snip)
@@ -317,11 +318,13 @@ Here, we're going to add our own `storeSearch` command to wrap the `search` comm
 
 ### Accept simple requests
 
-First, create `StoreSearchPlugin`. Create your `StoreSearchPlugin` as follows:
+First, create the `store-searach` plugin. Remember, you must put codes into a file which has the name same to the plugin now you are creating. So, the file is `store-search.rb` in the `droonga/plugins` directory. Then define your `StoreSearchPlugin` as follows:
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugins/store-search.rb:
 
 ~~~ruby
+require "droonga/plugin"
+
 module Droonga
   module Plugins
     module StoreSearchPlugin
@@ -342,7 +345,7 @@ module Droonga
                 "source"    => "Store",
                 "condition" => {
                   "query"   => query,
-                  "matchTo" => "_key"
+                  "matchTo" => "_key",
                 },
                 "output"    => {
                   "elements"   => [
@@ -350,12 +353,12 @@ module Droonga
                     "elapsedTime",
                     "count",
                     "attributes",
-                    "records"
+                    "records",
                   ],
                   "attributes" => [
-                    "_key"
+                    "_key",
                   ],
-                  "limit"      => -1
+                  "limit"      => -1,
                 }
               }
             }
@@ -366,7 +369,7 @@ module Droonga
         end
       end
     end
-  en
+  end
 end
 ~~~
 
@@ -406,7 +409,7 @@ In order to issue this request, you need to run:
 And you will see the result on fluentd's log:
 
 ~~~
-2014-02-06 15:20:07 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007fe36e9ef0f8 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 15:20:07 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
 2014-02-06 15:20:07 +0900 [info]: storeSearch query="Columbus"
 2014-02-06 15:20:07 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
 ~~~
@@ -421,11 +424,10 @@ Second, let's return results in more simple way: just an array of the names of s
 
 Define the `adapt_output` method as follows.
 
-lib/droonga/plugin/store_search.rb:
+lib/droonga/plugins/store-search.rb:
 
 ~~~ruby
-module Droonga
-  module Plugins
+(snip)
     module StoreSearchPlugin
       Plugin.registry.register("store-search", self)
 
@@ -454,9 +456,9 @@ Then restart fluentd. Send the request:
 The log will be like this:
 
 ~~~
-2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007f99eb602a20 @raw_message={"body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"storeSearch", "dataset"=>"Starbucks", "id"=>"storeSearch:0"}>
+2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
 2014-02-06 16:04:45 +0900 [info]: storeSearch query="Columbus"
-2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007f99eb5d16a0 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"storeSearch:0", "originalTypes"=>["storeSearch"]}>
+2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x00000002a34a88 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"search", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "appliedAdapters"=>["Droonga::Plugins::StoreSearchPlugin::Adapter", "Droonga::Plugins::Error::Adapter"], "originalTypes"=>["storeSearch"]}>
 2014-02-06 16:04:45 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":["2 Columbus Ave. - New York NY  (W)","Columbus @ 67th - New York NY  (W)"]}
 ~~~
 
