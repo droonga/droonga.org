@@ -96,7 +96,23 @@ size for bigger data.
 Partition is a Groonga database. It has zero or more physical
 tables.
 
-Note: Handler plugins in Droonga Engine work on a partition.
+### Plugin
+
+Droonga Engine can be extended by writing plugin scripts.
+In most cases, a series of plugins work cooperatively to
+achieve required behaviors.
+So, basically plugins are organized by behaviors.
+Each behavior can be attached to datasets and/or tables by
+adding "plugins" section to the corresponding entry in the catalog.
+
+More than one plugin can be assigned in a "plugins" section as an array.
+The order in the array controls the execution order of plugins
+when adapting messages.
+When adapting an incoming message, plugins are applied in forward order
+whereas those are applied in reverse order when adapting an outgoing message.
+
+Although plugins can also be assigned by each stage of data processing
+(e.g. "collector", "planner"), this manner will be deprecated in the future version.
 
 ## Example
 
