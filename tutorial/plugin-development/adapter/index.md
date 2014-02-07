@@ -11,28 +11,28 @@ layout: en
 Learning steps to develop a Droonga plugin by yourself.
 
 This page focuses on the adaption phase for Droonga plugins.
-At the last, wraps up them to make a small practical plugin for the adaption phase.
+At the last, wraps up them to make a small practical plugin named "store search", for the adaption phase.
 
 ## Precondition
 
 * You must complete the [basic tutorial][].
 
 
-## Adapter for incoming messages
+## Adaption for incoming messages
 
-We sometime need to modify requests incoming to Droonga Engine.
-We can use Adapter for this purpose.
-Let's see how to create Adapter in this section.
+We sometime need to modify incoming requests from outside to Droonga Engine.
+We can use a plugin for this purpose.
+Let's see how to create a plugin for the adaption phase, in this section.
 
 ### Directory Structure
 
-Assume that we are going to add `InputAdapterPlugin` to the system built in the [basic tutorial][].
+Assume that we are going to add a new plugin to the system built in the [basic tutorial][].
 In that tutorial, Groonga engine was placed under `engine` directory.
 
-Plugins need to be placed in an appropriate directory. For example, `InputAdapterPlugin` should be placed under `lib/droonga/plugin/input_adapter/` directory. Let's create the directory:
+Plugins need to be placed in an appropriate directory. Let's create the directory:
 
     # cd engine
-    # mkdir -p lib/droonga/plugin/input_adapter
+    # mkdir -p lib/droonga/plugin
 
 After creating the directory, the directory structure should be like this:
 
@@ -43,7 +43,6 @@ engine
 └── lib
     └── droonga
         └── plugin
-            └── input_adapter
 ~~~
 
 
