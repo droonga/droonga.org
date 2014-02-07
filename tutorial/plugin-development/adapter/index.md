@@ -404,6 +404,8 @@ And you will see the result on fluentd's log:
 
 Now we can perform store search with simple requests.
 
+Note: look at the `"type"` of the response message. Now it became `"storeSearch.result"`, from `"search.result"`. Because it is triggered from the incoming message with the type `"storeSearch"`, the outgoing message has the type `"(incoming command).result"` automatically. In other words, you don't have to change the type of the outgoing messages, like `input_message.command = "search"` in the method `adapt_input`.
+
 ### Return simple response
 
 Second, let's return results in more simple way: just an array of the names of stores.
@@ -433,6 +435,8 @@ module Droonga
     end
 (snip)
 ~~~
+
+The `adapt_output` method receives outgoing messages only corresponding to the incoming messages processed by the `adapt_input` method.
 
 Then restart fluentd. Send the request:
 
