@@ -10,12 +10,12 @@ layout: en
 
 Learning steps to develop a Droonga plugin by yourself.
 
-This page focus on Adapter plugin.
-At the last, wraps up them to make a small practical adapter.
+This page focuses on the adaption phase for Droonga plugins.
+At the last, wraps up them to make a small practical plugin for the adaption phase.
 
 ## Precondition
 
-* You must complete [tutorial][].
+* You must complete the [basic tutorial][].
 
 
 ## Adapter for incoming messages
