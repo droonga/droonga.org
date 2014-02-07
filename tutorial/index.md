@@ -6,9 +6,9 @@ layout: en
 * TOC
 {:toc}
 
-## For application develipers
+## For application developers
 
- * [Basic tutorial](basic/)
+ * [Basic usage tutorial](basic/)
 
 ## For plugin developers
 
