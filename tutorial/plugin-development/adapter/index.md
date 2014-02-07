@@ -314,6 +314,8 @@ First, create the `store-searach` plugin. Remember, you must put codes into a fi
 lib/droonga/plugins/store-search.rb:
 
 ~~~ruby
+require "droonga/plugin"
+
 module Droonga
   module Plugins
     module StoreSearchPlugin
@@ -334,7 +336,7 @@ module Droonga
                 "source"    => "Store",
                 "condition" => {
                   "query"   => query,
-                  "matchTo" => "_key"
+                  "matchTo" => "_key",
                 },
                 "output"    => {
                   "elements"   => [
@@ -342,12 +344,12 @@ module Droonga
                     "elapsedTime",
                     "count",
                     "attributes",
-                    "records"
+                    "records",
                   ],
                   "attributes" => [
-                    "_key"
+                    "_key",
                   ],
-                  "limit"      => -1
+                  "limit"      => -1,
                 }
               }
             }
@@ -358,7 +360,7 @@ module Droonga
         end
       end
     end
-  en
+  end
 end
 ~~~
 
