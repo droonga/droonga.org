@@ -131,7 +131,7 @@ catalog.json:
       "datasets": {
         "Starbucks": {
           "workers": 0,
-          "plugins": ["search", "groonga", "add"],
+          "plugins": ["crud", "search", "groonga"],
           "number_of_replicas": 2,
           "number_of_partitions": 2,
           "partition_key": "_key",
@@ -158,8 +158,11 @@ catalog.json:
           }
         }
       },
-      "options": {
-        "plugins": ["crud"]
+      "collector": {
+        "plugins": ["basic", "search"]
+      },
+      "planner": {
+        "plugins": ["crud", "search", "groonga"]
       }
     }
 
