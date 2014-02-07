@@ -82,7 +82,7 @@ catalog.json:
   "collector": {
     "plugins": ["basic", "search"]
   },
-  "distributor": {
+  "planner": {
     "plugins": ["search", "crud", "groonga", "watch"]
   }
 }
@@ -276,7 +276,7 @@ catalog.json:
   "collector": {
     "plugins": ["basic", "search"]
   },
-  "distributor": {
+  "planner": {
     "plugins": ["search", "crud", "groonga", "watch"]
   }
 }
@@ -434,7 +434,7 @@ catalog.json:
   "collector": {
     "plugins": ["basic", "search"]
   },
-  "distributor": {
+  "planner": {
     "plugins": ["search", "crud", "groonga", "watch"]
   }
 }
@@ -513,7 +513,7 @@ Activate Adapter for outgoing messages, with catalog.json:
   "collector": {
     "plugins": ["basic", "search"]
   },
-  "distributor": {
+  "planner": {
     "plugins": ["search", "crud", "groonga", "watch"]
   }
 }

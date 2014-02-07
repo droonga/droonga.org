@@ -7636,7 +7636,7 @@
            sodipodi:role="line"
            id="tspan4450"
            x="478.83969"
-           y="1851.1119">Distributor</tspan></text>
+           y="1851.1119">Planner</tspan></text>
     </g>
     <g
        transform="translate(-828.86035,-78.661318)"
@@ -9528,7 +9528,7 @@
            sodipodi:role="line"
            id="tspan5930"
            x="358.64166"
-           y="1619.3815">DistributorPlugin</tspan></text>
+           y="1619.3815">PlannerPlugin</tspan></text>
     </g>
     <g
        transform="translate(600.03061,60.609153)"

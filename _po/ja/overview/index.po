@@ -211,7 +211,7 @@ msgid ""
 "のEngineプロセスに転送し、その結果をさらにまたどのEngineプロセスで処理するかといった計画を立て、その実行計画情報をJSONデータに付け加えます。"
 msgstr ""
 
-msgid "Dispatcherの出力は、Distributorというモジュールに引き渡され、クラスタ内のEngineプロセスに配送されます。"
+msgid "Dispatcherの出力は、Plannerというモジュールに引き渡され、クラスタ内のEngineプロセスに配送されます。"
 msgstr ""
 
 msgid ""
@@ -228,6 +228,6 @@ msgid ""
 msgstr ""
 
 msgid ""
-"上記のモジュールのうち、Adapter, Distributor, Handler, Collectorについては、Rubyスクリプトで記述するplugin"
+"上記のモジュールのうち、Adapter, Planner, Handler, Collectorについては、Rubyスクリプトで記述するplugin"
 "によって、自由に処理をカスタマイズすることができます。"
 msgstr ""
