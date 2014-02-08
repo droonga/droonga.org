@@ -89,7 +89,7 @@ This plugin does nothing except registering itself to Droonga.
 ### Activate the plugin with `catalog.json`
 
 You need to update `catalog.json` to activate your plugin.
-Add the name of the plugin `"sample-logger"` to the `"plugins"` list under the dataset, like:
+Insert the name of the plugin `"sample-logger"` to the `"plugins"` list under the dataset, like:
 
 catalog.json:
 
@@ -98,9 +98,11 @@ catalog.json:
       "datasets": {
         "Starbucks": {
           (snip)
-          "plugins": ["crud", "search", "groonga", "sample-logger"],
+          "plugins": ["sample-logger", "groonga", "crud", "search"],
 (snip)
 ~~~
+
+Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins on the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
 
 ### Run
 
@@ -382,9 +384,11 @@ catalog.json:
       "datasets": {
         "Starbucks": {
           (snip)
-          "plugins": ["crud", "search", "groonga", "store-search"],
+          "plugins": ["store-search", "groonga", "crud", "search"],
 (snip)
 ~~~
+
+Remember, you must place your plugin `"store-search"` before the `"search"` because yours depends on it.
 
 Now you can use this new command by the following request:
 
