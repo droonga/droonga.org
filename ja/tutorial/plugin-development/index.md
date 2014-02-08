@@ -65,7 +65,7 @@ For more details, let's read these sub tutorials:
  3. Distribute requests and collect responses (under construction)
 
 
-  [basic tutorial]: ../
+  [basic tutorial]: ../basic/
   [overview]: ../../overview/
   [adapter]: ./adapter/
   [distribute-collect]: ./distribute-collect/
