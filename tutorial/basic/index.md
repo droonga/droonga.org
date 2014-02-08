@@ -122,7 +122,7 @@ catalog.json:
       "datasets": {
         "Starbucks": {
           "workers": 0,
-          "plugins": ["crud", "search", "groonga"],
+          "plugins": ["groonga", "crud", "search"],
           "number_of_replicas": 2,
           "number_of_partitions": 2,
           "partition_key": "_key",
