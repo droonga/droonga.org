@@ -1,6 +1,6 @@
 ---
 title: "Plugin: Modify requests and responses"
-layout: en
+layout: ja
 ---
 
 {% comment %}
