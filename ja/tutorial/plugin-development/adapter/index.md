@@ -471,7 +471,7 @@ In the way just described, we can use adapter to implement the application speci
 We have learned how to create an addon working around the adaption phase, how to receive and modify messages, both of incoming and outgoing.
 
 
-  [basic tutorial]: ../../
+  [basic tutorial]: ../../basic/
   [overview]: ../../../overview/
   [jq]: http://stedolan.github.io/jq/
   [search]: ../../../reference/commands/select/
