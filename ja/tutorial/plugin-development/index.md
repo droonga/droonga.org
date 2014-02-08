@@ -1,6 +1,6 @@
 ---
 title: Droonga plugin development tutorial
-layout: en
+layout: ja
 ---
 
 {% comment %}
