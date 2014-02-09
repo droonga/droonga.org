@@ -152,7 +152,7 @@ This is corresponding to the example to search "Columbus" in the [basic tutorial
 
 `fluent-cat` expects one line per one JSON object. So we need to use `tr` command to remove line breaks before passing the JSON to `fluent-cat`:
 
-    cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+    # cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
 
 This will output something like below to fluentd's log:
 
@@ -162,7 +162,7 @@ This is the search result.
 
 If you have [jq][] installed, you can use `jq` instead of `tr`:
 
-    jq -c . search-columbus.json | fluent-cat starbucks.message
+    # jq -c . search-columbus.json | fluent-cat starbucks.message
 
 ### Do something in the plugin: take logs
 
@@ -257,12 +257,12 @@ lib/droonga/plugins/sample-logger.rb:
 Let's restart fluentd:
 
 ~~~
-RUBYLIB=./lib fluentd --config fluentd.conf
+# RUBYLIB=./lib fluentd --config fluentd.conf
 ~~~
 
 And send search request (Use the same JSON for request as in the previous section):
 
-    cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+    # cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
 
 The fluentd's log should be like as follows:
 
@@ -446,7 +446,7 @@ The `adapt_output` method receives outgoing messages only corresponding to the i
 
 Then restart fluentd. Send the request:
 
-    cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+    # cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
 
 The log will be like this:
 
