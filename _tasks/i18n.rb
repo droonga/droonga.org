@@ -147,6 +147,8 @@ class I18nTask
         GetText::Tools::MsgCat.run("--output", po_file_path.to_s,
                                    "--sort-by-file",
                                    "--no-all-comments",
+                                   "--no-report-warning",
+                                   "--no-obsolete-entries",
                                    edit_po_file_path.to_s)
       end
     end
@@ -156,6 +158,7 @@ class I18nTask
                                  "--no-fuzzy",
                                  "--no-all-comments",
                                  "--sort-by-msgid",
+                                 "--no-obsolete-entries",
                                  *po_file_paths.collect(&:to_s))
     end
 
