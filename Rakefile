@@ -1,6 +1,6 @@
 # -*- ruby -*-
 #
-# Copyright (C) 2013 Droonga Project
+# Copyright (C) 2013-2014 Droonga Project
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,8 @@ require_relative "_tasks/i18n"
 
 I18nTask.define do |task|
   task.locales = ["ja"]
+  task.translator_name = "Droonga Project"
+  task.translator_email = "droonga@groonga.org"
   task.files = Rake::FileList["**/*.md"]
   task.files -= Rake::FileList["_*/**/*.md"]
   task.files -= Rake::FileList["news/**/*.md"]

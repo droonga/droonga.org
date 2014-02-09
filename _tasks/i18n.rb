@@ -30,11 +30,15 @@ class I18nTask
 
   attr_accessor :locales
   attr_accessor :files
+  attr_accessor :translator_name
+  attr_accessor :translator_email
   def initialize
     @po_dir_path = Pathname.new("_po")
     @base_dir_path = Pathname.new(".")
     @locales = []
     @files = []
+    @translator_name = nil
+    @translator_email = nil
     @yard_locales = {}
   end
 
@@ -89,7 +93,8 @@ class I18nTask
           else
             GetText::Tools::MsgInit.run("--input", pot_file_path.to_s,
                                         "--output", edit_po_file_path.to_s,
-                                        "--locale", locale)
+                                        "--locale", locale,
+                                        *msginit_options)
           end
         end
         GetText::Tools::MsgMerge.run("--update",
@@ -235,5 +240,16 @@ class I18nTask
     po_parser.parse_file(@po_dir_path + "#{locale}.po", messages)
     yard_locale.instance_variable_get("@messages").merge!(messages)
     yard_locale
+  end
+
+  def msginit_options
+    options = []
+    if @translator_name
+      options.concat(["--translator-name", @translator_name])
+    end
+    if @translator_email
+      options.concat(["--translator-email", @translator_email])
+    end
+    options
   end
 end
