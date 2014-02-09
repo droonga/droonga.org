@@ -169,28 +169,39 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 
 Start a Droonga engine, it is a fluentd server with fluentd-plugin-droonga started like:
 
-    # fluentd --config fluentd.conf
-    2013-11-12 14:14:20 +0900 [info]: starting fluentd-0.10.40
-    2013-11-12 14:14:20 +0900 [info]: reading config file path="fluentd.conf"
-    2013-11-12 14:14:20 +0900 [info]: gem 'fluent-plugin-droonga' version '0.0.1'
-    2013-11-12 14:14:20 +0900 [info]: gem 'fluentd' version '0.10.40'
-    2013-11-12 14:14:20 +0900 [info]: using configuration file: <ROOT>
-      <source>
-        type forward
-        port 24224
-      </source>
-      <match starbucks.message>
-        name localhost:24224/starbucks
-        type droonga
+    # fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+    # tail -F fluentd.log
       </match>
       <match output.message>
         type stdout
       </match>
     </ROOT>
-    2013-11-12 14:14:20 +0900 [info]: adding source type="forward"
-    2013-11-12 14:14:20 +0900 [info]: adding match pattern="starbucks.message" type="droonga"
-    2013-11-12 14:14:20 +0900 [info]: adding match pattern="output.message" type="stdout"
-    2013-11-12 14:14:20 +0900 [info]: listening fluent socket on 0.0.0.0:24224
+    2014-02-09 14:37:08 +0900 [info]: adding source type="forward"
+    2014-02-09 14:37:08 +0900 [info]: adding match pattern="starbucks.message" type="droonga"
+    2014-02-09 14:37:08 +0900 [info]: adding match pattern="output.message" type="stdout"
+    2014-02-09 14:37:08 +0900 [info]: catalog loaded path="/tmp/engine/catalog.json" mtime=2014-02-09 14:29:22 +0900
+    2014-02-09 14:37:08 +0900 [info]: listening fluent socket on 0.0.0.0:24224
+
+### Stop an instance of fluent-plugin-droonga
+
+First, you need to know how to stop fluent-plugin-droonga.
+
+Send SIGTERM to fluentd:
+
+    # kill $(cat fluetnd.pid)
+
+You will see the following message at `tail -F fluentd.log` terminal:
+
+    # tail -F fluentd.log
+    ...
+    2014-02-09 14:39:27 +0900 [info]: shutting down fluentd
+    2014-02-09 14:39:30 +0900 [info]: process finished code=0
+
+This is the way to stop fluent-plugin-droonga.
+
+Start fluent-plugin-droonga again:
+
+    # fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 
 ### Create a database
 
