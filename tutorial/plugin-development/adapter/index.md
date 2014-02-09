@@ -33,8 +33,10 @@ In that tutorial, Groonga engine was placed under `engine` directory.
 
 Plugins need to be placed in an appropriate directory. Let's create the directory:
 
-    # cd engine
-    # mkdir -p lib/droonga/plugins
+~~~
+# cd engine
+# mkdir -p lib/droonga/plugins
+~~~
 
 After creating the directory, the directory structure should be like this:
 
@@ -101,7 +103,7 @@ Let's Droonga get started.
 Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
 ~~~
-# RUBYLIB=./lib fluentd --config fluentd.conf
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
 ### Test
@@ -152,17 +154,23 @@ This is corresponding to the example to search "Columbus" in the [basic tutorial
 
 `fluent-cat` expects one line per one JSON object. So we need to use `tr` command to remove line breaks before passing the JSON to `fluent-cat`:
 
-    # cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
 
-This will output something like below to fluentd's log:
+This will output something like below to fluentd's log in `fluentd.log`:
 
-    2014-02-03 14:22:54 +0900 output.message: {"inReplyTo":"search:0","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+~~~
+2014-02-03 14:22:54 +0900 output.message: {"inReplyTo":"search:0","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+~~~
 
 This is the search result.
 
 If you have [jq][] installed, you can use `jq` instead of `tr`:
 
-    # jq -c . search-columbus.json | fluent-cat starbucks.message
+~~~
+# jq -c . search-columbus.json | fluent-cat starbucks.message
+~~~
 
 ### Do something in the plugin: take logs
 
@@ -188,7 +196,20 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-And restart fluentd, then send the request same as the previous. You will see something like below fluentd's log:
+Restart fluentd:
+
+~~~
+# kill $(cat fluetnd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+~~~
+
+Send the request same as the previous:
+
+~~~
+# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+
+You will see something like below fluentd's log in `fluentd.log`:
 
 ~~~
 2014-02-03 16:56:27 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
@@ -212,7 +233,22 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-And restart fluentd. After restart, the response always includes only one record in `records` section:
+Restart fluentd:
+
+~~~
+# kill $(cat fluetnd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+~~~
+
+After restart, the response always includes only one record in `records` section.
+
+Send the request same as the previous:
+
+~~~
+# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+
+You will see something like below fluentd's log in `fluentd.log`:
 
 ~~~
 2014-02-03 18:47:54 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f913ca6e918 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
@@ -257,12 +293,15 @@ lib/droonga/plugins/sample-logger.rb:
 Let's restart fluentd:
 
 ~~~
-# RUBYLIB=./lib fluentd --config fluentd.conf
+# kill $(cat fluetnd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
 And send search request (Use the same JSON for request as in the previous section):
 
-    # cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
 
 The fluentd's log should be like as follows:
 
@@ -291,8 +330,20 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-Then restart fluentd and send the same search request.
-The results will be like this:
+Restart fluentd:
+
+~~~
+# kill $(cat fluetnd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+~~~
+
+Send the same search request:
+
+~~~
+# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+
+The results in `fluentd.log` will be like this:
 
 ~~~
 2014-02-05 17:41:02 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fb3c5291fc8 @raw_message={"body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
@@ -381,6 +432,13 @@ catalog.json:
 
 Remember, you must place your plugin `"store-search"` before the `"search"` because yours depends on it.
 
+Restart fluentd:
+
+~~~
+# kill $(cat fluetnd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+~~~
+
 Now you can use this new command by the following request:
 
 store-search-columbus.json:
@@ -399,9 +457,11 @@ store-search-columbus.json:
 
 In order to issue this request, you need to run:
 
-    cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+# cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
 
-And you will see the result on fluentd's log:
+And you will see the result on fluentd's log in `fluentd.log`:
 
 ~~~
 2014-02-06 15:20:07 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
@@ -444,11 +504,22 @@ lib/droonga/plugins/store-search.rb:
 
 The `adapt_output` method receives outgoing messages only corresponding to the incoming messages processed by the `adapt_input` method.
 
-Then restart fluentd. Send the request:
+Restart fluentd:
 
-    # cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+Restart fluentd:
 
-The log will be like this:
+~~~
+# kill $(cat fluetnd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+~~~
+
+Send the request:
+
+~~~
+# cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+
+The log in `fluentd.log` will be like this:
 
 ~~~
 2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
