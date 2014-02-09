@@ -121,14 +121,14 @@ catalog.json:
       },
       "datasets": {
         "Starbucks": {
-          "workers": 0,
+          "workers": 4,
           "plugins": ["groonga", "crud", "search"],
           "number_of_replicas": 2,
-          "number_of_partitions": 2,
+          "number_of_partitions": 3,
           "partition_key": "_key",
           "date_range": "infinity",
           "ring": {
-            "localhost:23041": {
+            "localhost:24224:0": {
               "weight": 50,
               "partitions": {
                 "2013-09-01": [
@@ -137,12 +137,21 @@ catalog.json:
                 ]
               }
             },
-            "localhost:23042": {
+            "localhost:24224:1": {
               "weight": 50,
               "partitions": {
                 "2013-09-01": [
-                  "localhost:24224/starbucks.002",
-                  "localhost:24224/starbucks.003"
+                  "localhost:24224/starbucks.010",
+                  "localhost:24224/starbucks.011"
+                ]
+              }
+            },
+            "localhost:24224:2": {
+              "weight": 50,
+              "partitions": {
+                "2013-09-01": [
+                  "localhost:24224/starbucks.020",
+                  "localhost:24224/starbucks.021"
                 ]
               }
             }
