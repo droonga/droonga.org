@@ -89,7 +89,7 @@ class I18nTask
           else
             GetText::Tools::MsgInit.run("--input", pot_file_path.to_s,
                                         "--output", edit_po_file_path.to_s,
-                                        "--locale", "ja")
+                                        "--locale", locale)
           end
         end
         GetText::Tools::MsgMerge.run("--update",
