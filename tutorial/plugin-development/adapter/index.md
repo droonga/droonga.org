@@ -507,8 +507,6 @@ The `adapt_output` method receives outgoing messages only corresponding to the i
 
 Restart fluentd:
 
-Restart fluentd:
-
 ~~~
 # kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
