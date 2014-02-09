@@ -130,14 +130,14 @@ catalog.json:
       },
       "datasets": {
         "Starbucks": {
-          "workers": 0,
-          "plugins": ["crud", "search", "groonga"],
+          "workers": 4,
+          "plugins": ["groonga", "crud", "search"],
           "number_of_replicas": 2,
-          "number_of_partitions": 2,
+          "number_of_partitions": 3,
           "partition_key": "_key",
           "date_range": "infinity",
           "ring": {
-            "localhost:23041": {
+            "localhost:24224:0": {
               "weight": 50,
               "partitions": {
                 "2013-09-01": [
@@ -146,12 +146,21 @@ catalog.json:
                 ]
               }
             },
-            "localhost:23042": {
+            "localhost:24224:1": {
               "weight": 50,
               "partitions": {
                 "2013-09-01": [
-                  "localhost:24224/starbucks.002",
-                  "localhost:24224/starbucks.003"
+                  "localhost:24224/starbucks.010",
+                  "localhost:24224/starbucks.011"
+                ]
+              }
+            },
+            "localhost:24224:2": {
+              "weight": 50,
+              "partitions": {
+                "2013-09-01": [
+                  "localhost:24224/starbucks.020",
+                  "localhost:24224/starbucks.021"
                 ]
               }
             }
@@ -169,28 +178,39 @@ catalog.json:
 
 以下のようにして fluentd-plugin-droonga を起動します。
 
-    # fluentd --config fluentd.conf
-    2013-11-12 14:14:20 +0900 [info]: starting fluentd-0.10.40
-    2013-11-12 14:14:20 +0900 [info]: reading config file path="fluentd.conf"
-    2013-11-12 14:14:20 +0900 [info]: gem 'fluent-plugin-droonga' version '0.0.1'
-    2013-11-12 14:14:20 +0900 [info]: gem 'fluentd' version '0.10.40'
-    2013-11-12 14:14:20 +0900 [info]: using configuration file: <ROOT>
-      <source>
-        type forward
-        port 24224
-      </source>
-      <match starbucks.message>
-        name localhost:24224/starbucks
-        type droonga
+    # fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+    # tail -F fluentd.log
       </match>
       <match output.message>
         type stdout
       </match>
     </ROOT>
-    2013-11-12 14:14:20 +0900 [info]: adding source type="forward"
-    2013-11-12 14:14:20 +0900 [info]: adding match pattern="starbucks.message" type="droonga"
-    2013-11-12 14:14:20 +0900 [info]: adding match pattern="output.message" type="stdout"
-    2013-11-12 14:14:20 +0900 [info]: listening fluent socket on 0.0.0.0:24224
+    2014-02-09 14:37:08 +0900 [info]: adding source type="forward"
+    2014-02-09 14:37:08 +0900 [info]: adding match pattern="starbucks.message" type="droonga"
+    2014-02-09 14:37:08 +0900 [info]: adding match pattern="output.message" type="stdout"
+    2014-02-09 14:37:08 +0900 [info]: catalog loaded path="/tmp/engine/catalog.json" mtime=2014-02-09 14:29:22 +0900
+    2014-02-09 14:37:08 +0900 [info]: listening fluent socket on 0.0.0.0:24224
+
+### fluent-plugin-droonga を終了する
+
+最初にfluent-plugin-droongaを終了する方法を知っておきましょう。
+
+fluentdにSIGTERMを送ります。
+
+    # kill $(cat fluentd.pid)
+
+`tail -F fluentd.log` を実行しているターミナルに次のメッセージがでているはずです。
+
+    # tail -F fluentd.log
+    ...
+    2014-02-09 14:39:27 +0900 [info]: shutting down fluentd
+    2014-02-09 14:39:30 +0900 [info]: process finished code=0
+
+これがfluent-plugin-droongaを終了する方法です。
+
+再度fluent-plugin-droongaを起動します。
+
+    # fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 
 ### データベースを作成する
 
