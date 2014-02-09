@@ -101,7 +101,7 @@ Let's Droonga get started.
 Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
 ~~~
-RUBYLIB=./lib fluentd --config fluentd.conf
+# RUBYLIB=./lib fluentd --config fluentd.conf
 ~~~
 
 ### Test
