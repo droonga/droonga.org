@@ -188,7 +188,7 @@ First, you need to know how to stop fluent-plugin-droonga.
 
 Send SIGTERM to fluentd:
 
-    # kill $(cat fluetnd.pid)
+    # kill $(cat fluentd.pid)
 
 You will see the following message at `tail -F fluentd.log` terminal:
 

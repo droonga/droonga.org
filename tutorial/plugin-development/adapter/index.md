@@ -103,7 +103,7 @@ Let's Droonga get started.
 Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
 ~~~
-# kill $(cat fluetnd.pid)
+# kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
@@ -200,7 +200,7 @@ lib/droonga/plugins/sample-logger.rb:
 Restart fluentd:
 
 ~~~
-# kill $(cat fluetnd.pid)
+# kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
@@ -237,7 +237,7 @@ lib/droonga/plugins/sample-logger.rb:
 Restart fluentd:
 
 ~~~
-# kill $(cat fluetnd.pid)
+# kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
@@ -294,7 +294,7 @@ lib/droonga/plugins/sample-logger.rb:
 Let's restart fluentd:
 
 ~~~
-# kill $(cat fluetnd.pid)
+# kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
@@ -334,7 +334,7 @@ lib/droonga/plugins/sample-logger.rb:
 Restart fluentd:
 
 ~~~
-# kill $(cat fluetnd.pid)
+# kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
@@ -436,7 +436,7 @@ Remember, you must place your plugin `"store-search"` before the `"search"` beca
 Restart fluentd:
 
 ~~~
-# kill $(cat fluetnd.pid)
+# kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
@@ -510,7 +510,7 @@ Restart fluentd:
 Restart fluentd:
 
 ~~~
-# kill $(cat fluetnd.pid)
+# kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
