@@ -228,6 +228,6 @@ msgid ""
 msgstr ""
 
 msgid ""
-"上記のモジュールのうち、Adapter, Planner, Handler, Collectorについては、Rubyスクリプトで記述するplugin"
-"によって、自由に処理をカスタマイズすることができます。"
+"上記のモジュールのうち、Adapter, Planner, Handler, Collectorについては、Rubyスクリプトで記述するpluginによって"
+"、自由に処理をカスタマイズすることができます。"
 msgstr ""
