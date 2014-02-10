@@ -108,7 +108,7 @@ Note: you must place `"sample-logger"` before `"search"`, because the `sample-lo
 
 ### Run
 
-Let's Droonga get started.
+Let's get Droonga started.
 Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
 
 ~~~
