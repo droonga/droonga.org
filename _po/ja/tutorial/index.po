@@ -23,11 +23,6 @@ msgstr ""
 "layout: ja\n"
 "---"
 
-msgid ""
-"* TOC\n"
-"{:toc}"
-msgstr ""
-
 msgid "## For application developers"
 msgstr "## アプリケーション開発者向け"
 
