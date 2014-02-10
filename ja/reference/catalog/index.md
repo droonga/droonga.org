@@ -79,11 +79,24 @@ Droongaエンジンは物理テーブル上にあるレコードを1つ以上の
 
 1つのパーティションは1つのGroongaデータベースに対応します。0個以上の物理テーブルを持ちます。
 
-注意: Droongaエンジン内のハンドラープラグインは1つのパーティションの上で動作します。
+### パーティション
+
+Droonga Engine can be extended by writing plugin scripts.
+In most cases, a series of plugins work cooperatively to
+achieve required behaviors.
+So, plugins are organized by behaviors.
+Each behavior can be attached to datasets and/or tables by
+adding "plugins" section to the corresponding entry in the catalog.
+
+More than one plugin can be assigned in a "plugins" section as an array.
+The order in the array controls the execution order of plugins
+when adapting messages.
+When adapting an incoming message, plugins are applied in forward order
+whereas those are applied in reverse order when adapting an outgoing message.
 
 ## 例
 
-Consider about the following case:
+Consider the following case:
 
  * There are two farms.
  * All farms (Droonga Engine instances) works on the same fluentd.
@@ -113,6 +126,7 @@ Here is a `catalog.json` for the above case:
   "datasets": {
     "Wiki": {
       "workers": 4,
+      "plugins": ["groonga", "crud", "search"],
       "number_of_replicas": 2,
       "number_of_partitions": 2,
       "partition_key": "_key",
