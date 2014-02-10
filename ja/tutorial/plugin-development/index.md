@@ -1,5 +1,5 @@
 ---
-title: Droonga plugin development tutorial
+title: Droongaプラグイン開発チュートリアル
 layout: ja
 ---
 
@@ -17,11 +17,11 @@ layout: ja
 
 ## チュートリアルのゴール
 
-Learning steps to develop a Droonga plugin by yourself.
-You must complete the [basic tutorial][] before this.
+Droongaプラグインの作り方を理解します。
+[基本的な使い方のチュートリアル][basic tutorial]を完了している必要があります。
 
 
-## What's "plugin"?
+## プラグインとは
 
 Plugin is one of the most important concept of Droonga.
 This makes droonga flexible.
@@ -34,7 +34,7 @@ Generally, data processing tasks in the real world need custom treatments of the
 
 You can use plugins in those situations.
 
-## Pluggable operations in Droonga Engine
+## Droongaエンジンにおけるプラガブルな操作
 
 In Droonga Engine, there are 4 pluggable phases for plugins.
 In other words, from the point of view of plugins, each plugin can do from 1 to 4 operations.
@@ -56,7 +56,7 @@ In this tutorial, we focus on the adaption phase at first. This is the most "bas
 Then, we focus on other phases in this order.
 Following this tutorial, you will learn how to write plugins. This will be the first step to create plugins fit with your own requirements.
 
-## How to develop plugins?
+## プラグインを開発するには
 
 For more details, let's read these sub tutorials:
 
