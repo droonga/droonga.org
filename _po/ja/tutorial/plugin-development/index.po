@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"  [basic tutorial]: ../\n"
+"  [basic tutorial]: ../basic/\n"
 "  [overview]: ../../overview/\n"
 "  [adapter]: ./adapter/\n"
 "  [distribute-collect]: ./distribute-collect/"
