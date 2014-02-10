@@ -61,11 +61,12 @@ Following this tutorial, you will learn how to write plugins. This will be the f
 For more details, let's read these sub tutorials:
 
  1. [Modify requests and responses][adapter]
- 2. Handle requests (under construction)
+ 2. [Handle requests][handler] (under construction)
  3. Distribute requests and collect responses (under construction)
 
 
   [basic tutorial]: ../basic/
   [overview]: ../../overview/
   [adapter]: ./adapter/
+  [handler]: ./handler/
   [distribute-collect]: ./distribute-collect/
