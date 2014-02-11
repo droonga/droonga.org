@@ -79,7 +79,7 @@ Droongaエンジンは物理テーブル上にあるレコードを1つ以上の
 
 1つのパーティションは1つのGroongaデータベースに対応します。0個以上の物理テーブルを持ちます。
 
-### パーティション
+### プラグイン
 
 Droonga Engine can be extended by writing plugin scripts.
 In most cases, a series of plugins work cooperatively to
