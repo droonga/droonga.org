@@ -307,7 +307,7 @@ msgid ""
 "All of replicas and partitions are stored locally (in other words, they are ma"
 "naged by a `fluent-plugin-droonga` instance)."
 msgstr ""
-"この `catalog.json` では、 `Starbucks` データセットを定義し、2組のレプリカ×2個のパーティションで構成するよう指示しています。"
+"この `catalog.json` では、 `Starbucks` データセットを定義し、2組のレプリカ×3個のパーティションで構成するよう指示しています。"
 "\n"
 "この例では、全てのレプリカ及びパーティションは、ローカル(一つの `fluent-plugin-droonga` の管理下)に配置します。"
 
