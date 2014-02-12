@@ -239,11 +239,13 @@ Example:
 }
 ~~~
 
+*TODO: Discuss about the call of this parameter. This seems completely equals to the list of keys of `farms`.*
+
 ### `farms`
 
 It is an array of Droonga Engine instances.
 
-TODO: IMPROVE ME.
+*TODO: Improve me. For example, we have to describe relations of nested farms, ex. `children`.*
 
 **Farms** correspond with fluent-plugin-droonga instances. A fluentd process may have multiple **farms** if more than one **match** entry with type **droonga** appear in the "fluentd.conf".
 Each **farm** has its own job queue.
