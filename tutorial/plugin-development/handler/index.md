@@ -32,6 +32,8 @@ TODO fix the link to "Distribute requests and collect responses" tutorial
 
 The directory structure for plugins are in same rule as explained in [Modify requests and responses tutorial][adapter].
 
+Now let's create `sample-logger` plugin again. This will act almost same as [Modify requests and responses tutorial][adapter] version, except the phase in which the plugin works. We need to put `sample-logger.rb` to `lib/droonga/plugins/sample-logger.rb`. The directory tree will be like this:
+
 ~~~
 lib
 └── droonga
@@ -40,6 +42,8 @@ lib
 ~~~
 
 ## Create a plugin
+
+Create a plugin as follows:
 
 lib/droonga/plugins/sample-logger.rb:
 
@@ -63,8 +67,35 @@ module Droonga
 end
 ~~~
 
+## Activate the plugin with `catalog.json`
+
+Update catalog.json to activate this plugin. Add `"sample-logger"` to `"plugins"`.
+
+~~~
+(snip)
+      "datasets": {
+        "Starbucks": {
+          (snip)
+          "plugins": ["sample-logger", "groonga", "crud", "search"],
+(snip)
+~~~
+
 ## Run
 
+Let's get Droonga started. Note that you need to specify ./lib directory in RUBYLIB environment variable in order to make ruby possible to find your plugin.
+
+    # kill $(cat fluentd.pid)
+    # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+
+## Test
+
+Send a search request to Droonga Engine. Use `search-columbus.json` same as of [Modify requests and responses tutorial][adapter].
+
+~~~
+# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+~~~
+
+You will see something like these lines in `fluentd.log`:
 
 ~~~
 2014-02-12 12:09:09 +0900 [info]: Droonga::Plugins::SampleLoggerPlugin message=#<Droonga::HandlerMessage:0x007fee5e17bb38 @raw={"body"=>{"id"=>"localhost:24224/starbucks.#1", "task"=>{"route"=>"localhost:24224/starbucks.010", "step"=>{"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "result"=>["localhost:24224/starbucks"]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search", "appliedAdapters"=>["Droonga::Plugins::Error::Adapter"]}, @body={"id"=>"localhost:24224/starbucks.#1", "task"=>{"route"=>"localhost:24224/starbucks.010", "step"=>{"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "result"=>["localhost:24224/starbucks"]}}, @task={"route"=>"localhost:24224/starbucks.010", "step"=>{"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}, "n_of_inputs"=>0, "values"=>{}}, @step={"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}>
@@ -72,4 +103,18 @@ end
 2014-02-12 12:09:09 +0900 [info]: Droonga::Plugins::SampleLoggerPlugin message=#<Droonga::HandlerMessage:0x007fee5e173ca8 @raw={"body"=>{"id"=>"localhost:24224/starbucks.#1", "task"=>{"route"=>"localhost:24224/starbucks.021", "step"=>{"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "result"=>["localhost:24224/starbucks"]}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search", "appliedAdapters"=>["Droonga::Plugins::Error::Adapter"]}, @body={"id"=>"localhost:24224/starbucks.#1", "task"=>{"route"=>"localhost:24224/starbucks.021", "step"=>{"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "result"=>["localhost:24224/starbucks"]}}, @task={"route"=>"localhost:24224/starbucks.021", "step"=>{"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}, "n_of_inputs"=>0, "values"=>{}}, @step={"command"=>"search", "dataset"=>"Starbucks", "body"=>{"queries"=>{"result"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "type"=>"broadcast", "outputs"=>["errors", "result"], "replica"=>"random", "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.010", "localhost:24224/starbucks.021"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#1"], "result"=>["localhost:24224/starbucks.#1"]}}>
 ~~~
 
+Note that three lines are shown for only one request. What is happening?
+
+Remember that we have configured `Starbucks` dataset to use three partitions (and each has two replicas) in `catalog.json` of [the basic tutorial][basic].
+
+The `search` request is dispatched to three partitions and passed into handling phase for each partition. That is because we saw three lines for one request.
+
+The messages shown is in internal format, which is transformed from the request you've sent.
+You can see your search request is distributed to partitions `localhost:24224/starbucks.000`, `localhost:24224/starbucks.010` and `localhost:24224/starbucks.021` from `"routes"`.
+
+In `search` case, it is enough to use one replica per one partition because replicas for a partition are expected to have the exactly same contents.
+So the planner ordered distributor to choose one replica randomly.
+
+
   [adapter]: ../adapter
+  [basic]: ../basic
