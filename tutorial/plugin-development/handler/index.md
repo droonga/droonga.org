@@ -15,10 +15,22 @@ which extends operations in handle phrase.
 
 ## Precondition
 
-* You must complete [Modify requests and responses][adapter] tutorial.
+* You must complete [Modify requests and responses tutorial][adapter].
 
+## Handling phase
+
+The handling phase is the phase that the actual storage access is happen.
+As Droonga is a distributed system, handler phase is done in multiple partitions.
+
+Here, in this tutorial, we are going to replace the handling phase of `search` command for explanation. This breaks the `search` command. So this is not useful in practice, but it will help you to learn how Droonga works.
+
+In practice, we need to *extend* Droonga. In this case, we need to add a new command which does not conflict with the existing commands. To do so, you need to learn not only how to handle messages but also how to distribute messages to handlers and collect messages from them. Proceed to [Distribute requests and collect responses][] after this tutorial completed.
+
+TODO fix the link to "Distribute requests and collect responses" tutorial
 
 ## Directory Structure
+
+The directory structure for plugins are in same rule as explained in [Modify requests and responses tutorial][adapter].
 
 ~~~
 lib
