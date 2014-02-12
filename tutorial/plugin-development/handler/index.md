@@ -13,7 +13,7 @@ layout: en
 This tutorial aims to help you to learn how to develop plugins
 which extends operations in handle phrase.
 
-## Requirements
+## Precondition
 
 * You must complete [Modify requests and responses][adapter] tutorial.
 
