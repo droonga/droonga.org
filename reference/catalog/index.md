@@ -225,18 +225,18 @@ Farms in a same branch are regarded as relatively closer than other farms.
 
 e.g.
 
+When the value of `zones` is as follows,
+
 ```
 [["A", ["B", "C"]], "D"]
 ```
 
-expresses the following tree.
+it expresses the following tree.
 
-```
-   /\
-  /\ D
- A /\
-  B  C
-```
+       /\
+      /\ D
+     A /\
+      B  C
 
 This tree means the farm "B" and "C" are closer than "A" or "D" to each other.
 You should make elements in a `zones` close to each other, like in the
