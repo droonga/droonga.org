@@ -117,6 +117,13 @@ So the planner ordered distributor to choose one replica randomly.
 
 ## Trap "add" command
 
+We have seen how distributed search is done from the view point of handling phase so far.
+How about `"add"` command?
+
+Update `smaple-logger` plugin to trap `"add"` message instead of `"search"`.
+
+lib/droonga/plugins/sample-logger.rb:
+
 ~~~
 require "droonga/plugin"
 
@@ -137,15 +144,36 @@ module Droonga
 end
 ~~~
 
+Restart `fluentd`:
 
 ~~~
-{"id":"stores:0","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1st Avenue & 75th St. - New York NY  (W)","values":{"location":"40.770262,-73.954798"}}}
+# kill $(cat fluentd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
+
+Let's send a request to Droonga Engine.
+Here, we use the first line of `stores.json` as follows:
+
+~~~
+# head -1 stores.jsons | fluent-cat starbucks.message
+~~~
+
+Then, you will see results like this in `fluentd.log`:
 
 ~~~
 2014-02-12 17:02:09 +0900 [info]: Droonga::Plugins::SampleLoggerPlugin message=#<Droonga::HandlerMessage:0x007fdd224ed700 @raw={"body"=>{"id"=>"localhost:24224/starbucks.#0", "task"=>{"route"=>"localhost:24224/starbucks.001", "step"=>{"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "success"=>["localhost:24224/starbucks"]}}, "type"=>"add", "dataset"=>"Starbucks", "replyTo"=>{"type"=>"add.result", "to"=>"localhost:24224/output"}, "id"=>"stores:0", "appliedAdapters"=>["Droonga::Plugins::CRUD::Adapter", "Droonga::Plugins::Error::Adapter"]}, @body={"id"=>"localhost:24224/starbucks.#0", "task"=>{"route"=>"localhost:24224/starbucks.001", "step"=>{"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "success"=>["localhost:24224/starbucks"]}}, @task={"route"=>"localhost:24224/starbucks.001", "step"=>{"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}, "n_of_inputs"=>0, "values"=>{}}, @step={"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}>
 2014-02-12 17:02:09 +0900 [info]: Droonga::Plugins::SampleLoggerPlugin message=#<Droonga::HandlerMessage:0x007fdd2251f778 @raw={"body"=>{"id"=>"localhost:24224/starbucks.#0", "task"=>{"route"=>"localhost:24224/starbucks.000", "step"=>{"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "success"=>["localhost:24224/starbucks"]}}, "type"=>"add", "dataset"=>"Starbucks", "replyTo"=>{"type"=>"add.result", "to"=>"localhost:24224/output"}, "id"=>"stores:0", "appliedAdapters"=>["Droonga::Plugins::CRUD::Adapter", "Droonga::Plugins::Error::Adapter"]}, @body={"id"=>"localhost:24224/starbucks.#0", "task"=>{"route"=>"localhost:24224/starbucks.000", "step"=>{"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}, "n_of_inputs"=>0, "values"=>{}}, "descendants"=>{"errors"=>["localhost:24224/starbucks"], "success"=>["localhost:24224/starbucks"]}}, @task={"route"=>"localhost:24224/starbucks.000", "step"=>{"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}, "n_of_inputs"=>0, "values"=>{}}, @step={"command"=>"add", "dataset"=>"Starbucks", "body"=>{"values"=>{"location"=>"40.770262,-73.954798"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "table"=>"Store"}, "key"=>"1st Avenue & 75th St. - New York NY  (W)", "type"=>"scatter", "outputs"=>["errors", "success"], "replica"=>"all", "post"=>true, "routes"=>["localhost:24224/starbucks.000", "localhost:24224/starbucks.001"], "n_of_expects"=>0, "descendants"=>{"errors"=>["localhost:24224/starbucks.#0"], "success"=>["localhost:24224/starbucks.#0"]}}>
 ~~~
+
+In `add` case, two log lines are shown for one request. This is because we have configured to have two replicas for each partition.
+
+In order to be consistent, `add` command must reach all of the replicas of the partition, but not the other partitions.
+As a consequence, `localhost:24224/starbucks.000` and `localhost:24224/starbucks.001` are chosen.
+
+
+## Conclusion
+
+We have learned how to create plugins work in handling phrase.
 
 
   [adapter]: ../adapter
