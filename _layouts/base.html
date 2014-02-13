@@ -64,11 +64,13 @@
     <footer>
       <hr>
       <div class="container">
-        <ul class="other-languages">
-          {% capture relative_path %}{{ page.url | remove_first: page.path_prefix | remove: "index.html" }}{% endcapture %}
-          <li><a href="/{{ relative_path }}">English</a></li>
-          <li><a href="/ja/{{ relative_path }}">日本語</a></li>
-        </ul>
+        {% unless page.categories contains "news" %}
+          <ul class="other-languages">
+            {% capture relative_path %}{{ page.url | remove_first: page.path_prefix | remove: "index.html" }}{% endcapture %}
+            <li><a href="/{{ relative_path }}">English</a></li>
+            <li><a href="/ja/{{ relative_path }}">日本語</a></li>
+          </ul>
+        {% endunless %}
         <p class="contribute">
           {% assign source_path = page.path %}
           {% if page.language != "en" %}
