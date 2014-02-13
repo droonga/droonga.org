@@ -70,17 +70,12 @@
           <li><a href="/ja/{{ relative_path }}">日本語</a></li>
         </ul>
         <p class="contribute">
-           {% if page.categories contains "news" %}
-             {% assign source_path = page.url | remove_first: "/news" | prepend: "/news/_posts" | remove: ".html" | append: ".md" %}
-           {% else %}
-             {% if page.language == "en" %}
-               {% assign source_path = page.url | remove: ".html" | append: ".md" %}
-             {% else %}
-                {% assign source_path = page.url | prepend: "/_po" | remove: ".html" | append: ".po" %}
-             {% endif %}
-           {% endif %}
-           {% assign source_path = source_path | prepend: "https://github.com/droonga/droonga.org/blob/gh-pages" %}
-           <a href="{{ source_path }}">{{ page.label_edit }}</a></p>
+          {% assign source_path = page.path %}
+          {% if page.language != "en" %}
+            {% assign source_path = source_path | prepend: "_po/" | replace_first: ".md", ".po" %}
+          {% endif %}
+          {% assign source_path = source_path | prepend: "https://github.com/droonga/droonga.org/blob/gh-pages/" %}
+          <a href="{{ source_path }}">{{ page.label_edit }}</a></p>
         <p class="copyright">&copy; {{ site.copyright_year }} <a href="https://github.com/droonga">Droonga Project</a></p>
       </div>
     </footer>
