@@ -201,12 +201,31 @@ Example:
 
 ### `zones`
 
-It is an array of farms.
+`Zones` is an array to express proximities between farms.
+Farms are grouped by a zone, and zones can be grouped by another zone recursively.
+Zones make a single tree structure, expressed by nested arrays.
+Farms in a same branch are regarded as relatively closer than other farms.
 
+e.g.
+
+When the value of `zones` is as follows,
+
+```
+[["A", ["B", "C"]], "D"]
+```
+
+it expresses the following tree.
+
+       /\
+      /\ D
+     A /\
+      B  C
+
+This tree means the farm "B" and "C" are closer than "A" or "D" to each other.
 You should make elements in a `zones` close to each other, like in the
 same host, in the same switch, in the same network.
 
-This is a required parameter.
+This is an optional parameter.
 
 Note: fluent-plugin-droonga 0.8.0 doesn't use this value yet.
 
@@ -215,18 +234,21 @@ Example:
 ~~~json
 {
   "zones": [
-    "localhost:23003/farm0",
-    "localhost:23003/farm1",
-    "localhost:23004/farm0"
+    ["localhost:23003/farm0",
+     "localhost:23003/farm1"],
+    ["localhost:23004/farm0",
+     "localhost:23004/farm1"]
   ]
 }
 ~~~
+
+*TODO: Discuss about the call of this parameter. This seems completely equals to the list of keys of `farms`.*
 
 ### `farms`
 
 It is an array of Droonga Engine instances.
 
-TODO: IMPROVE ME.
+*TODO: Improve me. For example, we have to describe relations of nested farms, ex. `children`.*
 
 **Farms** correspond with fluent-plugin-droonga instances. A fluentd process may have multiple **farms** if more than one **match** entry with type **droonga** appear in the "fluentd.conf".
 Each **farm** has its own job queue.
