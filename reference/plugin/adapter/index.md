@@ -9,12 +9,12 @@ layout: en
 
 ## Abstract {#abstract}
 
-On the adaption phase, plugins can modify both incoming messages (from the Protocol Adapter to the Droonga Engine, in other words, they are "request"s) and outgoing messages (from the Droonga Engine to the Protocol Adapter, in other words, they are "response"s).
+Each Droonga Engine plugin can have its *adapter*. On the adaption phase, adapters can modify both incoming messages (from the Protocol Adapter to the Droonga Engine, in other words, they are "request"s) and outgoing messages (from the Droonga Engine to the Protocol Adapter, in other words, they are "response"s).
 
 
-## How to define a behavior on the adaption phase? {#howto-define}
+## How to define an adapter? {#howto-define}
 
-For example, here is a sample plugin named "foo":
+For example, here is a sample plugin named "foo" with an adapter:
 
 ~~~ruby
 require "droonga/plugin"
@@ -43,32 +43,33 @@ module Droonga
 end
 ~~~
 
-Steps to define the behavior on the adaptions phase are:
+Steps to define an adapter:
 
  1. Define the module `FooPlugin` and register it as a plugin. (required)
- 2. Define the class `FooPlugin::Adapter` as a sub class of `Droonga::Adapter`. (required)
- 3. Configure conditions to apply the plugin. (required)
- 4. Define adaption logic for incoming messages. (optional)
- 5. Define adaption logic for outgoing messages. (optional)
+ 2. Define the adapter class `FooPlugin::Adapter` as a sub class of [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
+ 3. Configure conditions to apply the adapter via [`.message`](#classes-Droonga-Adapter-class-message). (required)
+ 4. Define adaption logic for incoming messages as [`#adapt_input`](#classes-Droonga-Adapter-adapt_input). (optional)
+ 5. Define adaption logic for outgoing messages as [`#adapt_output`](#classes-Droonga-Adapter-adapt_output). (optional)
 
 For more details, see also the [plugin development tutorial](../../../tutorial/plugin-development/adapter/).
 
 
-## How works a plugin on the adaption phase? {#how-works}
+## How works an adapter? {#how-works}
 
  1. The Droonga Engine starts.
-    * A global instance of the plugin (ex. `FooPlugin::Adapter`) is created and it is registered.
+    * A global instance of the c (ex. `FooPlugin::Adapter`) is created and it is registered.
+      * The input pattern and the output pattern are registered via [its `.message`](#classes-Droonga-Adapter-class-message).
     * The Droonga Engine starts to wait for incoming messages.
  2. An incoming message is transferred from the Protocol Adapter to the Droonga Engine.
     Then, the adaption phase (for an incoming message) starts.
-    * The instance of the plugin's `adapt_input` method is called, if the message matches to the input pattern of the plugin.
-    * The method can modify the given incoming message.
- 3. After all plugins are applied, the adaption phase for an incoming message ends, and the incoming message is transferred to the next "planning" phase.
+    * The adapter's [`#adapt_input`](#classes-Droonga-Adapter-adapt_input) is called, if the message matches to the input pattern.
+    * The method can modify the given incoming message, via [its methods](#classes-Droonga-InputMessage).
+ 3. After all adapters are applied, the adaption phase for an incoming message ends, and the message is transferred to the next "planning" phase.
  4. An outgoing message returns from the previous "collection" phase.
     Then, the adaption phase (for an outgoing message) starts.
-    * The instance of the plugin's `adapt_output` method is called, if the corresponding incoming message was processed by the plugin and the outgoing message matches to the output pattern of the plugin.
-    * The method can modify the given outgoing message.
- 5. After all plugins are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
+    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the corresponding incoming message was processed by the adapter and the outgoing message matches to the output pattern.
+    * The method can modify the given outgoing message, via [its methods](#classes-Droonga-OutputMessage).
+ 5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
 
 
 ## Classes {#classes}
