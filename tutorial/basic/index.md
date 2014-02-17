@@ -79,9 +79,11 @@ Install packages required to setup a Droonga engine.
 The part "Droonga engine" stores the database and provides the search feature actually.
 In this section we install a fluent-plugin-droonga and load searchable data to the database.
 
-### Install a fluent-plugin-droonga
+### Install a fluent-plugin-droonga and droonga-client-ruby
 
-    # gem install fluent-plugin-droonga
+    # gem install fluent-plugin-droonga droonga-client-ruby
+
+NOTE: The following tutorials requires the latest droonga-client, that is not not yet released. You will need to clone https://github.com/droonga/droonga-client-ruby and use manually built package (`rake install` will do so).
 
 Required packages are prepared by the command above. Let's continue to the configuration step.
 
