@@ -78,6 +78,6 @@ and:
  * `PATTERN` = [`PATTERN, LOGICAL_OPERATOR`, `PATTERN`]
  * `TARGET_PATH` = `"COMPONENT(.COMPONENT)*"`
  * `OPERATOR` = `:equal`, `:in`, `:include`, `:exist`, `:start_with`
- * `ARGUMENTS` = ``OBJECT_DEFINED_IN_JSON*`
+ * `ARGUMENTS` = `OBJECT_DEFINED_IN_JSON*`
  * `LOGICAL_OPERATOR` = `:or`
 
