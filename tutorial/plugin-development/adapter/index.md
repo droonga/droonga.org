@@ -533,10 +533,8 @@ store-search-columbus.json:
 
 ~~~json
 {
-  "id"      : "storeSearch:0",
   "dataset" : "Starbucks",
   "type"    : "storeSearch",
-  "replyTo" : "localhost:24224/output",
   "body"    : {
     "query" : "Columbus"
   }
@@ -546,15 +544,37 @@ store-search-columbus.json:
 In order to issue this request, you need to run:
 
 ~~~
-# cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+# droonga-request --tag starbucks store-search-columbus.json
+Elapsed time: 0.01494
+[
+  "droonga.message",
+  1392621168,
+  {
+    "inReplyTo": "1392621168.0119512",
+    "statusCode": 200,
+    "type": "storeSearch.result",
+    "body": {
+      "stores": {
+        "count": 2,
+        "records": [
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
+          ]
+        ]
+      }
+    }
+  }
+]
 ~~~
 
 And you will see the result on fluentd's log in `fluentd.log`:
 
 ~~~
-2014-02-06 15:20:07 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
-2014-02-06 15:20:07 +0900 [info]: storeSearch query="Columbus"
-2014-02-06 15:20:07 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+2014-02-17 16:12:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007fe4791d3958 @raw_message={"dataset"=>"Starbucks", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49934/droonga"}, "id"=>"1392621168.0119512", "date"=>"2014-02-17 16:12:48 +0900", "appliedAdapters"=>[]}>
+2014-02-17 16:12:48 +0900 [info]: storeSearch query="Columbus"
 ~~~
 
 Now we can perform store search with simple requests.
@@ -602,16 +622,29 @@ Restart fluentd:
 Send the request:
 
 ~~~
-# cat store-search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+# droonga-request --tag starbucks store-search-columbus.json
+Elapsed time: 0.014859
+[
+  "droonga.message",
+  1392621288,
+  {
+    "inReplyTo": "1392621288.158763",
+    "statusCode": 200,
+    "type": "storeSearch.result",
+    "body": [
+      "Columbus @ 67th - New York NY  (W)",
+      "2 Columbus Ave. - New York NY  (W)"
+    ]
+  }
+]
 ~~~
 
 The log in `fluentd.log` will be like this:
 
 ~~~
-2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x00000002a0de38 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"storeSearch", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"query"=>"Columbus"}, "appliedAdapters"=>[]}>
-2014-02-06 16:04:45 +0900 [info]: storeSearch query="Columbus"
-2014-02-06 16:04:45 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x00000002a34a88 @raw_message={"id"=>"storeSearch:0", "dataset"=>"Starbucks", "type"=>"search", "replyTo"=>{"type"=>"storeSearch.result", "to"=>"localhost:24224/output"}, "body"=>{"stores"=>{"count"=>2, "records"=>[["2 Columbus Ave. - New York NY  (W)"], ["Columbus @ 67th - New York NY  (W)"]]}}, "appliedAdapters"=>["Droonga::Plugins::StoreSearchPlugin::Adapter", "Droonga::Plugins::Error::Adapter"], "originalTypes"=>["storeSearch"]}>
-2014-02-06 16:04:45 +0900 output.message: {"inReplyTo":"storeSearch:0","statusCode":200,"type":"storeSearch.result","body":["2 Columbus Ave. - New York NY  (W)","Columbus @ 67th - New York NY  (W)"]}
+2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ffb8ada9d68 @raw_message={"dataset"=>"Starbucks", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>[]}>
+2014-02-17 16:14:48 +0900 [info]: storeSearch query="Columbus"
+2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007ffb8ad78e48 @raw_message={"dataset"=>"Starbucks", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>["Droonga::Plugins::StoreSearchPlugin::Adapter", "Droonga::Plugins::Error::Adapter"], "originalTypes"=>["storeSearch"]}>
 ~~~
 
 Now you've got the simplified response.
