@@ -769,8 +769,165 @@ Elapsed time: 0.002769
 ~~~
 
 Now a Droonga engine for searching Starbucks stores database is ready.
-Next, setup a protocol adapter for clients to accept search requests using popular protocols.
 
+### Send request with droonga-request
+
+Check if it is working. Create a query as a JSON file as follows.
+
+search-all-stores.json:
+
+~~~
+{
+  "dataset": "Starbucks"
+  "queries": {
+    "stores": {
+      "source": "Store",
+      "output": {
+        "elements": [
+          "startTime",
+        "elapsedTime",
+        "count",
+        "attributes",
+        "records"
+          ],
+        "attributes": ["_key"],
+        "limit": -1
+      }
+    }
+  }
+}
+~~~
+
+Send the request to Droonga Engine:
+
+~~~
+# droonga-request --tag starbucks search-all-stores.json
+Elapsed time: 0.202101
+[
+  "droonga.message",
+  1392614906,
+  {
+    "inReplyTo": "1392614905.993328",
+    "statusCode": 200,
+    "type": "search.result",
+    "body": {
+      "stores": {
+        "count": 35,
+        "records": [
+          [
+            "1st Avenue & 75th St. - New York NY  (W)"
+          ],
+          [
+            "76th & Second - New York NY  (W)"
+          ],
+          [
+            "2nd Ave. & 9th Street - New York NY"
+          ],
+          [
+            "84th & Third Ave - New York NY  (W)"
+          ],
+          [
+            "Macy's 35th Street Balcony - New York NY"
+          ],
+          [
+            "80th & York - New York NY  (W)"
+          ],
+          [
+            "45th & Broadway - New York NY  (W)"
+          ],
+          [
+            "1585 Broadway (47th) - New York NY  (W)"
+          ],
+          [
+            "85th & First - New York NY  (W)"
+          ],
+          [
+            "1656 Broadway - New York NY  (W)"
+          ],
+          [
+            "2 Broadway - New York NY  (W)"
+          ],
+          [
+            "NY Plaza - New York NY  (W)"
+          ],
+          [
+            "70th & Broadway - New York NY  (W)"
+          ],
+          [
+            "15th & Third - New York NY  (W)"
+          ],
+          [
+            "West 43rd and Broadway - New York NY  (W)"
+          ],
+          [
+            "Macy's 6th Floor - Herald Square - New York NY  (W)"
+          ],
+          [
+            "Herald Square- Macy's - New York NY"
+          ],
+          [
+            "Macy's 5th Floor - Herald Square - New York NY  (W)"
+          ],
+          [
+            "52nd & Seventh - New York NY  (W)"
+          ],
+          [
+            "92nd & 3rd - New York NY  (W)"
+          ],
+          [
+            "Limited Brands-NYC - New York NY"
+          ],
+          [
+            "19th & 8th - New York NY  (W)"
+          ],
+          [
+            "60th & Broadway-II - New York NY  (W)"
+          ],
+          [
+            "36th and Madison - New York NY  (W)"
+          ],
+          [
+            "125th St. btwn Adam Clayton & FDB - New York NY"
+          ],
+          [
+            "41st and Broadway - New York NY  (W)"
+          ],
+          [
+            "150 E. 42nd Street - New York NY  (W)"
+          ],
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ],
+          [
+            "Marriott Marquis - Lobby - New York NY"
+          ],
+          [
+            "Second @ 81st - New York NY  (W)"
+          ],
+          [
+            "165 Broadway - 1 Liberty - New York NY  (W)"
+          ],
+          [
+            "54th & Broadway - New York NY  (W)"
+          ],
+          [
+            "63rd & Broadway - New York NY  (W)"
+          ],
+          [
+            "195 Broadway - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
+          ]
+        ]
+      }
+    }
+  }
+]
+~~~
+
+Now the store names are retrieved. The engine looks working correctly.
+Next, setup a protocol adapter for clients to accept search requests using popular protocols.
 
 ## Build a protocol adapter
 
