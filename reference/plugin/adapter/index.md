@@ -25,7 +25,7 @@ module Droonga
       Plugin.registry.register("foo", self)
 
       class Adapter < Droonga::Adapter
-        # operations to configure this behavior
+        # operations to configure this adapter
         message.XXXXXX = XXXXXX
 
         def adapt_input(input_message)
@@ -47,7 +47,7 @@ Steps to define an adapter:
 
  1. Define a module for your plugin (ex. `Droonga::Plugin::FooPlugin`) and register it as a plugin. (required)
  2. Define an adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) inheriting [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
- 3. Configure conditions to apply the adapter via [`.message`](#classes-Droonga-Adapter-class-message). (required)
+ 3. [Configure conditions to apply the adapter](#howto-configure). (required)
  4. Define adaption logic for incoming messages as [`#adapt_input`](#classes-Droonga-Adapter-adapt_input). (optional)
  5. Define adaption logic for outgoing messages as [`#adapt_output`](#classes-Droonga-Adapter-adapt_output). (optional)
 
@@ -56,9 +56,11 @@ For more details, see also the [plugin development tutorial](../../../tutorial/p
 
 ### How an adapter works? {#how-works}
 
+An adapter works like following:
+
  1. The Droonga Engine starts.
     * A global instance of the adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) is created and it is registered.
-      * The input pattern and the output pattern are registered via [its `.message`](#classes-Droonga-Adapter-class-message).
+      * The input pattern and the output pattern are registered.
     * The Droonga Engine starts to wait for incoming messages.
  2. An incoming message is transferred from the Protocol Adapter to the Droonga Engine.
     Then, the adaption phase (for an incoming message) starts.
@@ -71,6 +73,32 @@ For more details, see also the [plugin development tutorial](../../../tutorial/p
     * The method can modify the given outgoing message, via [its methods](#classes-Droonga-OutputMessage).
  5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
 
+As described above, the Droonga Engine creates only one global instance of the adapter class for each plugin.
+You should not keep stateful information for a pair of incoming and outgoing messages as an instance variable of the adapter.
+Instead, you should give stateful information as a part of the incoming message body, and receive it from the body of the corresponding outgoing message.
+
+
+## Configurations {#config}
+
+### `input_message.pattern` {#config-input_message-pattern}
+
+(TBD)
+
+### `output_message.pattern` {#config-output_message-pattern}
+
+(TBD)
+
+
+## Error handling {#error}
+
+### Errors on the adaption phase {#error-adaption}
+
+(TBD)
+
+### Errors on other phases {#error-others}
+
+(TBD)
+
 
 ## Classes and methods {#classes}
 
@@ -78,30 +106,37 @@ For more details, see also the [plugin development tutorial](../../../tutorial/p
 
 This is the common base class of any adapter. Your plugin's adapter class must inherit the class.
 
-#### `.message` {#classes-Droonga-Adapter-class-message}
+#### `#adapt_input(input_message)` {#classes-Droonga-Adapter-adapt_input}
 
-Returns an instance of [`Droonga::Plugin::Metadata::AdapterMessage`](#classes-Droonga-Plugin-Metadata-AdapterMessage) for the class itself. You can configure your adapter via this, like a DSL. For example:
+Receives an instance of [`Droonga::InputMessage`](#classes-Droonga-InputMessage) corresponding to an incoming message.
+
+By defualt this method does nothing, so you have to override it like following:
 
 ~~~ruby
 module FooPlugin
   class Adapter < Droonga::Adapter
-    message.input_pattern = ["type", :equal, "foo"]
-    message.output_pattern = ["body.success", :exist?]
+    def adapt_input(input_message)
+      input_message.body["query"] = "fixed query"
+    end
   end
 end
 ~~~
 
-Don't override this method because it is managed by the Droonga Engine itself.
-
-#### `#adapt_input(input_message)` {#classes-Droonga-Adapter-adapt_input}
-
-
-
-(under construction)
-
 #### `#adapt_output(output_message)` {#classes-Droonga-Adapter-adapt_output}
 
-(under construction)
+Receives an instance of [`Droonga::OutputMessage`](#classes-Droonga-InputMessage) corresponding to an outgoing message.
+
+By defualt this method does nothing, so you have to override it like following:
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    def adapt_output(output_message)
+      output_message.status_code = STATUS_OK
+    end
+  end
+end
+~~~
 
 ### `Droonga::Plugin::Metadata::AdapterMessage` {#classes-Droonga-Plugin-Metadata-AdapterMessage}
 
