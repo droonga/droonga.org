@@ -271,7 +271,7 @@ stores.jsons:
     {"id":"stores:39","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Fashion Inst of Technology - New York NY","values":{"location":"40.746948,-73.994557"}}}
 
 
-fluentd を起動した状態で別の端末を開き、以下のようにして `ddl.jsons` と `stores.jsons` を投入します:
+Open another terminal and send those two jsons `ddl.jsons` and `stores.jsons` to the fluentd server:
 
     # fluent-cat starbucks.message < ddl.jsons
     # fluent-cat starbucks.message < stores.jsons

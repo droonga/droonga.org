@@ -534,10 +534,8 @@ msgid ""
 "York NY\",\"values\":{\"location\":\"40.746948,-73.994557\"}}}"
 msgstr ""
 
-msgid ""
-"Open another terminal to keep the fluentd server working, and send those two j"
-"sons `ddl.jsons` and `stores.jsons` to the fluentd server:"
-msgstr "fluentd を起動した状態で別の端末を開き、以下のようにして `ddl.jsons` と `stores.jsons` を投入します:"
+msgid "Open another terminal and send those two jsons `ddl.jsons` and `stores.jsons` "
+msgstr "別の端末を開き、以下のようにして `ddl.jsons` と `stores.jsons` を投入します:"
 
 msgid ""
 "    # fluent-cat starbucks.message < ddl.jsons\n"
