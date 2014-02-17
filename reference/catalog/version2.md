@@ -206,6 +206,7 @@ All parameters except `columns`, `name` and `value_type` are compatible with [th
 #### `columns` {#parameter-columns}
 
 Abstract
+
 : Column definition for the table.
 
 Value
@@ -220,6 +221,7 @@ Inheritable
 ### Column definition {#column}
 
 Value
+
 : An object with the following keys.
 
 * "flags"
@@ -270,16 +272,16 @@ Value
 : An array of [`slice` definitions](#slice).
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 
 ### Slice definition {#slice}
@@ -290,27 +292,28 @@ Value
 #### `weight` {#parameter-weight}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `partition` {#parameter-partition}
 
 Abstract
-: 
+: (TBD)
 
 Value
+
 : An object which is a [`partition` definition](#partition)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
