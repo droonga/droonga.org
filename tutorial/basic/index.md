@@ -376,7 +376,7 @@ Elapsed time: 0.11633
 ]
 ~~~
 
-Send `ddl.jsons` as follows:
+Send `stores.jsons` as follows:
 
 ~~~
 
