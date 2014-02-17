@@ -658,5 +658,4 @@ We have learned how to create an addon working around the adaption phase, how to
 
   [basic tutorial]: ../../basic/
   [overview]: ../../../overview/
-  [jq]: http://stedolan.github.io/jq/
   [search]: ../../../reference/commands/select/
