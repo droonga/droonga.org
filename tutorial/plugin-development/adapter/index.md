@@ -207,17 +207,39 @@ Restart fluentd:
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-Send the request same as the previous:
+Send the request same as the previous section:
 
 ~~~
-# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
+# droonga-request --tag starbucks search-columbus.json
+Elapsed time: 0.014714
+[
+  "droonga.message",
+  1392618037,
+  {
+    "inReplyTo": "1392618037.935901",
+    "statusCode": 200,
+    "type": "search.result",
+    "body": {
+      "stores": {
+        "count": 2,
+        "records": [
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
+          ]
+        ]
+      }
+    }
+  }
+]
 ~~~
 
 You will see something like below fluentd's log in `fluentd.log`:
 
 ~~~
-2014-02-03 16:56:27 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007ff36a38cb28 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
-2014-02-03 16:56:27 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+2014-02-17 15:20:37 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f8ae3e1dd98 @raw_message={"dataset"=>"Starbucks", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64591/droonga"}, "id"=>"1392618037.935901", "date"=>"2014-02-17 15:20:37 +0900", "appliedAdapters"=>[]}>
 ~~~
 
 This shows the message is received by our `SampleLoggerPlugin::Adapter` and then passed to Droonga. Here we can modify the message before the actual data processing.
@@ -249,18 +271,36 @@ After restart, the response always includes only one record in `records` section
 Send the request same as the previous:
 
 ~~~
-# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
-~~~
-
-You will see something like below fluentd's log in `fluentd.log`:
-
-~~~
-2014-02-03 18:47:54 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f913ca6e918 @raw_message={"body"=>{"queries"=>{"stores"=>{"output"=>{"limit"=>-1, "attributes"=>["_key"], "elements"=>["startTime", "elapsedTime", "count", "attributes", "records"]}, "condition"=>{"matchTo"=>"_key", "query"=>"Columbus"}, "source"=>"Store"}}}, "replyTo"=>{"type"=>"search.result", "to"=>"localhost:24224/output"}, "type"=>"search", "dataset"=>"Starbucks", "id"=>"search"}>
-2014-02-03 18:47:54 +0900 output.message: {"inReplyTo":"search","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"]]}}}
+$ droonga-request --tag starbucks search-columbus.json
+Elapsed time: 0.017343
+[
+  "droonga.message",
+  1392618279,
+  {
+    "inReplyTo": "1392618279.0578449",
+    "statusCode": 200,
+    "type": "search.result",
+    "body": {
+      "stores": {
+        "count": 2,
+        "records": [
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ]
+        ]
+      }
+    }
+  }
+]
 ~~~
 
 Note that `count` is still `2` because `limit` does not affect to `count`. See [search][] for details of the `search` command.
 
+You will see something like below fluentd's log in `fluentd.log`:
+
+~~~
+2014-02-17 15:24:39 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f956685c908 @raw_message={"dataset"=>"Starbucks", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64616/droonga"}, "id"=>"1392618279.0578449", "date"=>"2014-02-17 15:24:39 +0900", "appliedAdapters"=>[]}>
+~~~
 
 
 ## Adaption for outgoing messages
