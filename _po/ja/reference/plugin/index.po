@@ -33,5 +33,7 @@ msgstr ""
 
 msgid ""
 " * [API set for the adaption phase](adapter/)\n"
-" * [API set for the handling phase](handler/)"
+" * [API set for the handling phase](handler/)\n"
+" * [Matching pattern for messages](matching-pattern/)\n"
+" * [Error handling](error/)"
 msgstr ""
