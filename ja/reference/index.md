@@ -20,3 +20,6 @@ layout: documents_ja
 
 [コマンドリファレンス](commands/)
 : Droonga Engineで利用可能な組み込みのコマンドの詳細。
+
+[プラグイン開発](plugin-development/)
+: Droonga Engine用の独自のプラグインを開発するための公開APIの詳細。
