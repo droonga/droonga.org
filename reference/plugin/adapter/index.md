@@ -54,7 +54,7 @@ Steps to define an adapter:
 For more details, see also the [plugin development tutorial](../../../tutorial/plugin-development/adapter/).
 
 
-## How works an adapter? {#how-works}
+## How an adapter works? {#how-works}
 
  1. The Droonga Engine starts.
     * A global instance of the c (ex. `FooPlugin::Adapter`) is created and it is registered.
