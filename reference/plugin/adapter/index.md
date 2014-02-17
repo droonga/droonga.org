@@ -80,13 +80,26 @@ This is the common base class of any adapter. Your plugin's adapter class must i
 
 #### `.message` {#classes-Droonga-Adapter-class-message}
 
+Returns an instance of [`Droonga::Plugin::Metadata::AdapterMessage`](#classes-Droonga-Plugin-Metadata-AdapterMessage) for the class itself. You can configure your adapter via this, like a DSL. For example:
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    message.input_pattern = ["type", :equal, "foo"]
+    message.output_pattern = ["body.success", :exist?]
+  end
+end
+~~~
+
+Don't override this method because it is managed by the Droonga Engine itself.
+
+#### `#adapt_input(input_message)` {#classes-Droonga-Adapter-adapt_input}
+
+
+
 (under construction)
 
-#### `#adapt_input` {#classes-Droonga-Adapter-adapt_input}
-
-(under construction)
-
-#### `#adapt_output` {#classes-Droonga-Adapter-adapt_output}
+#### `#adapt_output(output_message)` {#classes-Droonga-Adapter-adapt_output}
 
 (under construction)
 
@@ -94,11 +107,11 @@ This is the common base class of any adapter. Your plugin's adapter class must i
 
 (under construction)
 
-#### `#input_pattern` {#classes-Droonga-Plugin-Metadata-AdapterMessage-input_pattern}
+#### `#input_pattern`, `#input_pattern=(pattern)` {#classes-Droonga-Plugin-Metadata-AdapterMessage-input_pattern}
 
 (under construction)
 
-#### `#output_pattern` {#classes-Droonga-Plugin-Metadata-AdapterMessage-output_pattern}
+#### `#output_pattern`, `#output_pattern=(pattern)` {#classes-Droonga-Plugin-Metadata-AdapterMessage-output_pattern}
 
 (under construction)
 
@@ -106,11 +119,11 @@ This is the common base class of any adapter. Your plugin's adapter class must i
 
 (under construction)
 
-#### `#command` {#classes-Droonga-InputMessage-command}
+#### `#command`, `#command=(command)` {#classes-Droonga-InputMessage-command}
 
 (under construction)
 
-#### `#body` {#classes-Droonga-InputMessage-body}
+#### `#body`, `#body=(body)` {#classes-Droonga-InputMessage-body}
 
 (under construction)
 
@@ -118,15 +131,15 @@ This is the common base class of any adapter. Your plugin's adapter class must i
 
 (under construction)
 
-#### `#status_code` {#classes-Droonga-OutputMessage-status_code}
+#### `#status_code`, `#status_code=(status_code)` {#classes-Droonga-OutputMessage-status_code}
 
 (under construction)
 
-#### `#errors` {#classes-Droonga-OutputMessage-errors}
+#### `#errors`, `#errors=(errors)` {#classes-Droonga-OutputMessage-errors}
 
 (under construction)
 
-#### `#body` {#classes-Droonga-OutputMessage-body}
+#### `#body`, `#body=(body)` {#classes-Droonga-OutputMessage-body}
 
 (under construction)
 
