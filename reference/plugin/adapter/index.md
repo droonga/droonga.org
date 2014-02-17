@@ -64,12 +64,12 @@ An adapter works like following:
     * The Droonga Engine starts to wait for incoming messages.
  2. An incoming message is transferred from the Protocol Adapter to the Droonga Engine.
     Then, the adaption phase (for an incoming message) starts.
-    * The adapter's [`#adapt_input`](#classes-Droonga-Adapter-adapt_input) is called, if the message matches to the input pattern.
+    * The adapter's [`#adapt_input`](#classes-Droonga-Adapter-adapt_input) is called, if the message matches to the [input matching pattern](#config).
     * The method can modify the given incoming message, via [its methods](#classes-Droonga-InputMessage).
  3. After all adapters are applied, the adaption phase for an incoming message ends, and the message is transferred to the next "planning" phase.
  4. An outgoing message returns from the previous "collection" phase.
     Then, the adaption phase (for an outgoing message) starts.
-    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the corresponding incoming message was processed by the adapter and the outgoing message matches to the output pattern.
+    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the corresponding incoming message was processed by the adapter and the outgoing message matches to the [output matching pattern](#config).
     * The method can modify the given outgoing message, via [its methods](#classes-Droonga-OutputMessage).
  5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
 
@@ -80,13 +80,13 @@ Instead, you should give stateful information as a part of the incoming message 
 
 ## Configurations {#config}
 
-### `input_message.pattern` {#config-input_message-pattern}
+`input_message.pattern`
+: A [matching pattern] for incoming messages.
+  Only messages matched to the given patten are processed by [`#adapt_input`](#classes-Droonga-Adapter-adapt_input).
 
-(TBD)
-
-### `output_message.pattern` {#config-output_message-pattern}
-
-(TBD)
+`output_message.pattern`
+: A [matching pattern] for outgoing messages.
+  Only messages matched to the given patten are processed by [`#adapt_output`](#classes-Droonga-Adapter-adapt_output).
 
 
 ## Error handling {#error}
@@ -180,3 +180,4 @@ end
 
 
 
+  [matching pattern]: ../matching-pattern/
