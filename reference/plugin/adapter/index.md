@@ -12,7 +12,7 @@ layout: en
 Each Droonga Engine plugin can have its *adapter*. On the adaption phase, adapters can modify both incoming messages (from the Protocol Adapter to the Droonga Engine, in other words, they are "request"s) and outgoing messages (from the Droonga Engine to the Protocol Adapter, in other words, they are "response"s).
 
 
-## How to define an adapter? {#howto-define}
+### How to define an adapter? {#howto-define}
 
 For example, here is a sample plugin named "foo" with an adapter:
 
@@ -54,7 +54,7 @@ Steps to define an adapter:
 For more details, see also the [plugin development tutorial](../../../tutorial/plugin-development/adapter/).
 
 
-## How an adapter works? {#how-works}
+### How an adapter works? {#how-works}
 
  1. The Droonga Engine starts.
     * A global instance of the adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) is created and it is registered.
