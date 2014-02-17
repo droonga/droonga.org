@@ -216,7 +216,7 @@ Default value
 : None.
 
 Inheritable
-: None.
+: False.
 
 ### Column definition {#column}
 
@@ -234,6 +234,20 @@ All parameters except `table` and `name` are compatible to [the parameters of th
 
 Value
 : An object with the following key/value pairs.
+
+#### `address` #{#parameter-address}
+
+Abstract
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: None.
+
+Inheritable
+: False.
 
 #### `dimension` {#parameter-dimension}
 
@@ -271,20 +285,15 @@ Abstract
 Value
 : An array of [`slice` definitions](#slice).
 
-Abstract
-: (TBD)
-
-Value
-: (TBD)
-
 Default value
-: (TBD)
+: None.
 
 Inheritable
-: (TBD)
-
+: False.
 
 ### Slice definition {#slice}
+
+A slice has one of `weight`, `label` or `boundary` parameters..
 
 Value
 : An object with the following key/value pairs.
@@ -292,16 +301,44 @@ Value
 #### `weight` {#parameter-weight}
 
 Abstract
-: (TBD)
+: Avaible when the slicer is ratio-scaled.
 
 Value
 : (TBD)
 
 Default value
-: (TBD)
+: 1.
 
 Inheritable
+: False.
+
+#### `label` {#parameter-label}
+
+Abstract
+: Avaible when the slicer is nominal-scaled.
+
+Value
 : (TBD)
+
+Default value
+: None.
+
+Inheritable
+: False.
+
+#### `boundary` {#parameter-boundary}
+
+Abstract
+: Avaible when the slicer is ordinal-scaled.
+
+Value
+: (TBD)
+
+Default value
+: None.
+
+Inheritable
+: False.
 
 #### `partition` {#parameter-partition}
 
@@ -313,7 +350,7 @@ Value
 : An object which is a [`partition` definition](#partition)
 
 Default value
-: (TBD)
+: None.
 
 Inheritable
-: (TBD)
+: False.
