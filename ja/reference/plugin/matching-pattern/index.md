@@ -44,7 +44,7 @@ This matches to messages like:
     {
       "type": "add.result",
       "body": {
-        "result": true
+        "success": true
       }
     }
 
@@ -53,7 +53,7 @@ Not matches to:
     {
       "type": "add.result",
       "body": {
-        "result": false
+        "success": false
       }
     }
 
