@@ -88,9 +88,9 @@ Droonga をセットアップするために必要になるパッケージをイ
 Droonga Engine は、データベースを保持し、実際の検索を担当する部分です。
 このセクションでは、 fluent-plugin-droonga をインストールし、検索対象となるデータを準備します。
 
-### fluent-plugin-droonga をインストールする
+### fluent-plugin-droongaとdroonga-clientをインストールする
 
-    # gem install fluent-plugin-droonga
+    # gem install fluent-plugin-droonga droonga-client
 
 Droonga Engine を構築するのに必要なパッケージがセットアップできました。引き続き設定に移ります。
 
@@ -219,67 +219,723 @@ Dronga Engine が起動したので、データを投入しましょう。
 
 ddl.jsons:
 
-    {"id":"ddl:0","dataset":"Starbucks","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Store","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
-    {"id":"ddl:1","dataset":"Starbucks","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Store","name":"location","flags":"COLUMN_SCALAR","type":"WGS84GeoPoint"}}
-    {"id":"ddl:2","dataset":"Starbucks","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Location","flags":"TABLE_PAT_KEY","key_type":"WGS84GeoPoint"}}
-    {"id":"ddl:3","dataset":"Starbucks","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Location","name":"store","flags":"COLUMN_INDEX","type":"Store","source":"location"}}
-    {"id":"ddl:4","dataset":"Starbucks","type":"table_create","replyTo":"localhost:24224/output","body":{"name":"Term","flags":"TABLE_PAT_KEY","key_type":"ShortText","default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
-    {"id":"ddl:5","dataset":"Starbucks","type":"column_create","replyTo":"localhost:24224/output","body":{"table":"Term","name":"stores__key","flags":"COLUMN_INDEX|WITH_POSITION","type":"Store","source":"_key"}}
+~~~
+{"dataset":"Starbucks","type":"table_create","body":{"name":"Store","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
+{"dataset":"Starbucks","type":"column_create","body":{"table":"Store","name":"location","flags":"COLUMN_SCALAR","type":"WGS84GeoPoint"}}
+{"dataset":"Starbucks","type":"table_create","body":{"name":"Location","flags":"TABLE_PAT_KEY","key_type":"WGS84GeoPoint"}}
+{"dataset":"Starbucks","type":"column_create","body":{"table":"Location","name":"store","flags":"COLUMN_INDEX","type":"Store","source":"location"}}
+{"dataset":"Starbucks","type":"table_create","body":{"name":"Term","flags":"TABLE_PAT_KEY","key_type":"ShortText","default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
+{"dataset":"Starbucks","type":"column_create","body":{"table":"Term","name":"stores__key","flags":"COLUMN_INDEX|WITH_POSITION","type":"Store","source":"_key"}}
+~~~
 
 
 stores.jsons:
 
-    {"id":"stores:0","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1st Avenue & 75th St. - New York NY  (W)","values":{"location":"40.770262,-73.954798"}}}
-    {"id":"stores:1","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"76th & Second - New York NY  (W)","values":{"location":"40.771056,-73.956757"}}}
-    {"id":"stores:2","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2nd Ave. & 9th Street - New York NY","values":{"location":"40.729445,-73.987471"}}}
-    {"id":"stores:3","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"15th & Third - New York NY  (W)","values":{"location":"40.733946,-73.9867"}}}
-    {"id":"stores:4","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"41st and Broadway - New York NY  (W)","values":{"location":"40.755111,-73.986225"}}}
-    {"id":"stores:5","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"84th & Third Ave - New York NY  (W)","values":{"location":"40.777485,-73.954979"}}}
-    {"id":"stores:6","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"150 E. 42nd Street - New York NY  (W)","values":{"location":"40.750784,-73.975582"}}}
-    {"id":"stores:7","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"West 43rd and Broadway - New York NY  (W)","values":{"location":"40.756197,-73.985624"}}}
-    {"id":"stores:8","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 35th Street Balcony - New York NY","values":{"location":"40.750703,-73.989787"}}}
-    {"id":"stores:9","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 6th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
-    {"id":"stores:10","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Herald Square- Macy's - New York NY","values":{"location":"40.750703,-73.989787"}}}
-    {"id":"stores:11","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 5th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
-    {"id":"stores:12","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"80th & York - New York NY  (W)","values":{"location":"40.772204,-73.949862"}}}
-    {"id":"stores:13","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Columbus @ 67th - New York NY  (W)","values":{"location":"40.774009,-73.981472"}}}
-    {"id":"stores:14","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"45th & Broadway - New York NY  (W)","values":{"location":"40.75766,-73.985719"}}}
-    {"id":"stores:15","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Marriott Marquis - Lobby - New York NY","values":{"location":"40.759123,-73.984927"}}}
-    {"id":"stores:16","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Second @ 81st - New York NY  (W)","values":{"location":"40.77466,-73.954447"}}}
-    {"id":"stores:17","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"52nd & Seventh - New York NY  (W)","values":{"location":"40.761829,-73.981141"}}}
-    {"id":"stores:18","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1585 Broadway (47th) - New York NY  (W)","values":{"location":"40.759806,-73.985066"}}}
-    {"id":"stores:19","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"85th & First - New York NY  (W)","values":{"location":"40.776101,-73.949971"}}}
-    {"id":"stores:20","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"92nd & 3rd - New York NY  (W)","values":{"location":"40.782606,-73.951235"}}}
-    {"id":"stores:21","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"165 Broadway - 1 Liberty - New York NY  (W)","values":{"location":"40.709727,-74.011395"}}}
-    {"id":"stores:22","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1656 Broadway - New York NY  (W)","values":{"location":"40.762434,-73.983364"}}}
-    {"id":"stores:23","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"54th & Broadway - New York NY  (W)","values":{"location":"40.764275,-73.982361"}}}
-    {"id":"stores:24","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Limited Brands-NYC - New York NY","values":{"location":"40.765219,-73.982025"}}}
-    {"id":"stores:25","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"19th & 8th - New York NY  (W)","values":{"location":"40.743218,-74.000605"}}}
-    {"id":"stores:26","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"60th & Broadway-II - New York NY  (W)","values":{"location":"40.769196,-73.982576"}}}
-    {"id":"stores:27","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"63rd & Broadway - New York NY  (W)","values":{"location":"40.771376,-73.982709"}}}
-    {"id":"stores:28","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"195 Broadway - New York NY  (W)","values":{"location":"40.710703,-74.009485"}}}
-    {"id":"stores:29","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Broadway - New York NY  (W)","values":{"location":"40.704538,-74.01324"}}}
-    {"id":"stores:30","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Columbus Ave. - New York NY  (W)","values":{"location":"40.769262,-73.984764"}}}
-    {"id":"stores:31","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"NY Plaza - New York NY  (W)","values":{"location":"40.702802,-74.012784"}}}
-    {"id":"stores:32","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"36th and Madison - New York NY  (W)","values":{"location":"40.748917,-73.982683"}}}
-    {"id":"stores:33","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"125th St. btwn Adam Clayton & FDB - New York NY","values":{"location":"40.808952,-73.948229"}}}
-    {"id":"stores:34","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
-    {"id":"stores:35","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2138 Broadway - New York NY  (W)","values":{"location":"40.781078,-73.981167"}}}
-    {"id":"stores:36","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"118th & Frederick Douglas Blvd. - New York NY  (W)","values":{"location":"40.806176,-73.954109"}}}
-    {"id":"stores:37","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"42nd & Second - New York NY  (W)","values":{"location":"40.750069,-73.973393"}}}
-    {"id":"stores:38","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Broadway @ 81st - New York NY  (W)","values":{"location":"40.784972,-73.978987"}}}
-    {"id":"stores:39","replyTo":"localhost:24224/output","dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Fashion Inst of Technology - New York NY","values":{"location":"40.746948,-73.994557"}}}
+~~~
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1st Avenue & 75th St. - New York NY  (W)","values":{"location":"40.770262,-73.954798"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"76th & Second - New York NY  (W)","values":{"location":"40.771056,-73.956757"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2nd Ave. & 9th Street - New York NY","values":{"location":"40.729445,-73.987471"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"15th & Third - New York NY  (W)","values":{"location":"40.733946,-73.9867"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"41st and Broadway - New York NY  (W)","values":{"location":"40.755111,-73.986225"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"84th & Third Ave - New York NY  (W)","values":{"location":"40.777485,-73.954979"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"150 E. 42nd Street - New York NY  (W)","values":{"location":"40.750784,-73.975582"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"West 43rd and Broadway - New York NY  (W)","values":{"location":"40.756197,-73.985624"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 35th Street Balcony - New York NY","values":{"location":"40.750703,-73.989787"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 6th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Herald Square- Macy's - New York NY","values":{"location":"40.750703,-73.989787"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 5th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"80th & York - New York NY  (W)","values":{"location":"40.772204,-73.949862"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Columbus @ 67th - New York NY  (W)","values":{"location":"40.774009,-73.981472"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"45th & Broadway - New York NY  (W)","values":{"location":"40.75766,-73.985719"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Marriott Marquis - Lobby - New York NY","values":{"location":"40.759123,-73.984927"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Second @ 81st - New York NY  (W)","values":{"location":"40.77466,-73.954447"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"52nd & Seventh - New York NY  (W)","values":{"location":"40.761829,-73.981141"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1585 Broadway (47th) - New York NY  (W)","values":{"location":"40.759806,-73.985066"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"85th & First - New York NY  (W)","values":{"location":"40.776101,-73.949971"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"92nd & 3rd - New York NY  (W)","values":{"location":"40.782606,-73.951235"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"165 Broadway - 1 Liberty - New York NY  (W)","values":{"location":"40.709727,-74.011395"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1656 Broadway - New York NY  (W)","values":{"location":"40.762434,-73.983364"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"54th & Broadway - New York NY  (W)","values":{"location":"40.764275,-73.982361"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Limited Brands-NYC - New York NY","values":{"location":"40.765219,-73.982025"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"19th & 8th - New York NY  (W)","values":{"location":"40.743218,-74.000605"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"60th & Broadway-II - New York NY  (W)","values":{"location":"40.769196,-73.982576"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"63rd & Broadway - New York NY  (W)","values":{"location":"40.771376,-73.982709"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"195 Broadway - New York NY  (W)","values":{"location":"40.710703,-74.009485"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Broadway - New York NY  (W)","values":{"location":"40.704538,-74.01324"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Columbus Ave. - New York NY  (W)","values":{"location":"40.769262,-73.984764"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"NY Plaza - New York NY  (W)","values":{"location":"40.702802,-74.012784"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"36th and Madison - New York NY  (W)","values":{"location":"40.748917,-73.982683"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"125th St. btwn Adam Clayton & FDB - New York NY","values":{"location":"40.808952,-73.948229"}}}
+{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
+~~~
 
+Open another terminal and send those two jsons to the fluentd server.
 
-Open another terminal and send those two jsons `ddl.jsons` and `stores.jsons` to the fluentd server:
+Send `ddl.jsons` as follows:
 
-    # fluent-cat starbucks.message < ddl.jsons
-    # fluent-cat starbucks.message < stores.jsons
+~~~
+# droonga-request --tag starbucks ddl.jsons
+Elapsed time: 0.060984
+[
+  "droonga.message",
+  1392611486,
+  {
+    "inReplyTo": "1392611486.207507",
+    "statusCode": 200,
+    "type": "table_create.result",
+    "body": [
+      [
+        0,
+        1392611486.2097359,
+        0.026822328567504883
+      ],
+      true
+    ]
+  }
+]
+Elapsed time: 0.007164
+[
+  "droonga.message",
+  1392611486,
+  {
+    "inReplyTo": "1392611486.268766",
+    "statusCode": 200,
+    "type": "column_create.result",
+    "body": [
+      [
+        0,
+        1392611486.269676,
+        0.0010280609130859375
+      ],
+      true
+    ]
+  }
+]
+Elapsed time: 0.008584
+[
+  "droonga.message",
+  1392611486,
+  {
+    "inReplyTo": "1392611486.2760692",
+    "statusCode": 200,
+    "type": "table_create.result",
+    "body": [
+      [
+        0,
+        1392611486.276955,
+        0.002329111099243164
+      ],
+      true
+    ]
+  }
+]
+Elapsed time: 0.109383
+[
+  "droonga.message",
+  1392611486,
+  {
+    "inReplyTo": "1392611486.284704",
+    "statusCode": 200,
+    "type": "column_create.result",
+    "body": [
+      [
+        0,
+        1392611486.2854872,
+        0.00432896614074707
+      ],
+      true
+    ]
+  }
+]
+Elapsed time: 0.008829
+[
+  "droonga.message",
+  1392611486,
+  {
+    "inReplyTo": "1392611486.394273",
+    "statusCode": 200,
+    "type": "table_create.result",
+    "body": [
+      [
+        0,
+        1392611486.395301,
+        0.0017240047454833984
+      ],
+      true
+    ]
+  }
+]
+Elapsed time: 0.11633
+[
+  "droonga.message",
+  1392611486,
+  {
+    "inReplyTo": "1392611486.4032152",
+    "statusCode": 200,
+    "type": "column_create.result",
+    "body": [
+      [
+        0,
+        1392611486.404574,
+        0.018894195556640625
+      ],
+      true
+    ]
+  }
+]
+~~~
 
+Send `ddl.jsons` as follows:
 
-これで、スターバックスの店舗のデータベースを検索するための Droonga Engine ができました。
-引き続き Protocol Adapter を構築して、検索リクエストを受け付けられるようにしましょう。
+~~~
 
+$ droonga-request --tag starbucks stores.jsons
+Elapsed time: 0.251712
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.414268",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.007161
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.666198",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.006794
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.6735082",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.070859
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.680408",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.064862
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.7514088",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.009247
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.816423",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.012615
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.825906",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.01329
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.838811",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.016937
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.852271",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.009726
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.8693151",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.009445
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.879232",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003686
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.888693",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.00309
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.892619",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.007988
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.895704",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003158
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.903796",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.006433
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.907073",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.006858
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.913633",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003178
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.920607",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002921
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.923857",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002627
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.926882",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002955
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.92959",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003133
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.932686",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002871
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.9359381",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.00274
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.938964",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002905
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.941767",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002512
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.94483",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002553
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.947414",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002482
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.950102",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.00294
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.952671",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003141
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.955711",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002479
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.958953",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002375
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.9615061",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002571
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.963968",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003212
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.966677",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.002769
+[
+  "droonga.message",
+  1392611703,
+  {
+    "inReplyTo": "1392611703.970025",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+~~~
+
+Now a Droonga engine for searching Starbucks stores database is ready.
+
+### Send request with droonga-request
+
+Check if it is working. Create a query as a JSON file as follows.
+
+search-all-stores.json:
+
+~~~
+{
+  "dataset": "Starbucks"
+  "queries": {
+    "stores": {
+      "source": "Store",
+      "output": {
+        "elements": [
+          "startTime",
+        "elapsedTime",
+        "count",
+        "attributes",
+        "records"
+          ],
+        "attributes": ["_key"],
+        "limit": -1
+      }
+    }
+  }
+}
+~~~
+
+Droonga Engine にリクエストを送信します:
+
+~~~
+# droonga-request --tag starbucks search-all-stores.json
+Elapsed time: 0.202101
+[
+  "droonga.message",
+  1392614906,
+  {
+    "inReplyTo": "1392614905.993328",
+    "statusCode": 200,
+    "type": "search.result",
+    "body": {
+      "stores": {
+        "count": 35,
+        "records": [
+          [
+            "1st Avenue & 75th St. - New York NY  (W)"
+          ],
+          [
+            "76th & Second - New York NY  (W)"
+          ],
+          [
+            "2nd Ave. & 9th Street - New York NY"
+          ],
+          [
+            "84th & Third Ave - New York NY  (W)"
+          ],
+          [
+            "Macy's 35th Street Balcony - New York NY"
+          ],
+          [
+            "80th & York - New York NY  (W)"
+          ],
+          [
+            "45th & Broadway - New York NY  (W)"
+          ],
+          [
+            "1585 Broadway (47th) - New York NY  (W)"
+          ],
+          [
+            "85th & First - New York NY  (W)"
+          ],
+          [
+            "1656 Broadway - New York NY  (W)"
+          ],
+          [
+            "2 Broadway - New York NY  (W)"
+          ],
+          [
+            "NY Plaza - New York NY  (W)"
+          ],
+          [
+            "70th & Broadway - New York NY  (W)"
+          ],
+          [
+            "15th & Third - New York NY  (W)"
+          ],
+          [
+            "West 43rd and Broadway - New York NY  (W)"
+          ],
+          [
+            "Macy's 6th Floor - Herald Square - New York NY  (W)"
+          ],
+          [
+            "Herald Square- Macy's - New York NY"
+          ],
+          [
+            "Macy's 5th Floor - Herald Square - New York NY  (W)"
+          ],
+          [
+            "52nd & Seventh - New York NY  (W)"
+          ],
+          [
+            "92nd & 3rd - New York NY  (W)"
+          ],
+          [
+            "Limited Brands-NYC - New York NY"
+          ],
+          [
+            "19th & 8th - New York NY  (W)"
+          ],
+          [
+            "60th & Broadway-II - New York NY  (W)"
+          ],
+          [
+            "36th and Madison - New York NY  (W)"
+          ],
+          [
+            "125th St. btwn Adam Clayton & FDB - New York NY"
+          ],
+          [
+            "41st and Broadway - New York NY  (W)"
+          ],
+          [
+            "150 E. 42nd Street - New York NY  (W)"
+          ],
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ],
+          [
+            "Marriott Marquis - Lobby - New York NY"
+          ],
+          [
+            "Second @ 81st - New York NY  (W)"
+          ],
+          [
+            "165 Broadway - 1 Liberty - New York NY  (W)"
+          ],
+          [
+            "54th & Broadway - New York NY  (W)"
+          ],
+          [
+            "63rd & Broadway - New York NY  (W)"
+          ],
+          [
+            "195 Broadway - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
+          ]
+        ]
+      }
+    }
+  }
+]
+~~~
+
+店舗の名前が取得できました。エンジンは正しく動作しているようです。引き続き Protocol Adapter を構築して、検索リクエストを受け付けられるようにしましょう。
 
 ## Protocol Adapter を構築する
 
