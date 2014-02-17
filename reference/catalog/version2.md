@@ -107,7 +107,7 @@ Abstract
 : Definition of datasets.
 
 Value
-: An object keyed by the name of datasets, the values are [`dataset` definitions](#dataset).
+: An object keyed by the name of the dataset with value the [`dataset` definition](#dataset).
 
 Default value
 : None. This is a required parameter.
@@ -127,7 +127,7 @@ Default value
 : 0 (No worker. All operations are done in the master process)
 
 Inheritable
-: True. Available in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `partition` definition.
 
 ### Dataset definition {#dataset}
 
@@ -146,7 +146,7 @@ Default value
 : None. This is a required parameter.
 
 Inheritable
-: True. Available in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `partition` definition.
 
 #### `schema` {#parameter-schema}
 
@@ -154,27 +154,27 @@ Abstract
 : Definition of tables and their columns.
 
 Value
-: An object that each key gives the name of the table and the value is an object with [`table` definitions](#table).
+: An object keyed by the name of the table with value the [`table` definition](#table).
 
 Default value
 : None. This is a required parameter.
 
 Inheritable
-: True. Available in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `partition` definition.
 
 #### `fact` {#parameter-fact}
 
 Abstract
-: Name of the fact table.
+: Name of the fact table. When a `dataset` is stored as more than one `slice`, one [fact table](http://en.wikipedia.org/wiki/Fact_table) must be selected from tables defined in [`schema`](#parameter-schema) parameter.
 
 Value
-: Any of table names appears in [`schema` parameter](#parameter-schema).
+: A string.
 
 Default value
-: None. This is a required parameter.
+: None.
 
 Inheritable
-: True. Available in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `partition` definition.
 
 #### `replicas` {#parameter-replicas}
 
@@ -193,125 +193,40 @@ Inheritable
 ### Table definition {#table}
 
 Value
-: An object with the following key/value pairs.
+: An object with the following keys.
 
-#### `flags` {#parameter-table-flags}
+* "flags"
+* "key_type"
+* "default_tokenizer"
+* "normalizer"
+* "columns"
 
-Abstract
-: 
-
-Value
-: 
-
-Default value
-: 
-
-Inheritable
-: 
-
-#### `key_type` {#parameter-key_type}
-
-Abstract
-: 
-
-Value
-: 
-
-Default value
-: 
-
-Inheritable
-: 
-
-#### `default_tokenizer` {#parameter-default_tokenizer}
-
-Abstract
-: 
-
-Value
-: 
-
-Default value
-: 
-
-Inheritable
-: 
-
-#### `normalizer` {#parameter-normalizer}
-
-Abstract
-: 
-
-Value
-: 
-
-Default value
-: 
-
-Inheritable
-: 
+All parameters except `columns`, `name` and `value_type` are compatible with [the parameters of the `table_create` command of the Groonga](http://groonga.org/docs/reference/commands/table_create.html#parameters). See the linked document for more details.
 
 #### `columns` {#parameter-columns}
 
 Abstract
-: 
+: Column definition for the table.
 
 Value
-: 
+: An object keyed by the name of the column with value the [`column` definition](#column).
 
 Default value
-: 
+: None.
 
 Inheritable
-: 
-
+: None.
 
 ### Column definition {#column}
 
 Value
-: An object with the following key/value pairs.
+: An object with the following keys.
 
-#### `flags` {#parameter-column-flags}
+* "flags"
+* "type"
+* "source"
 
-Abstract
-: 
-
-Value
-: 
-
-Default value
-: 
-
-Inheritable
-: 
-
-#### `type` {#parameter-type}
-
-Abstract
-: 
-
-Value
-: 
-
-Default value
-: 
-
-Inheritable
-: 
-
-#### `source` {#parameter-source}
-
-Abstract
-: 
-
-Value
-: 
-
-Default value
-: 
-
-Inheritable
-: 
+All parameters except `table` and `name` are compatible to [the parameters of the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html#parameters). See the linked document for more details.
 
 ### Partition definition {#partition}
 
@@ -321,16 +236,16 @@ Value
 #### `dimension` {#parameter-dimension}
 
 Abstract
-: One of the columns of the fact table to slice data.
+: When a `dataset` is stored as more than one `slice`, either '_key" or a scalar type column must be selected from [`columns`](#parameter-columns) parameter of the fact table. When the selected column is a foreign key, the refered table is called [dimension table](http://en.wikipedia.org/wiki/Dimension_table).
 
 Value
-: Name of a scalar type column of the fact table.
+: A string.
 
 Default value
 : "_key"
 
 Inheritable
-: True. Available in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `partition` definition.
 
 #### `slicer` {#parameter-slicer}
 
@@ -344,7 +259,7 @@ Default value
 : "hash"
 
 Inheritable
-: True. Available in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `partition` definition.
 
 #### `slices` {#parameter-slices}
 
@@ -352,9 +267,7 @@ Abstract
 : Definition of slices which store the contents of the data.
 
 Value
-: An object or An array. When the [`slicer` parameter](#parameter-slicer) is `hash`,
-
-An array of [`partition` definitions](#partition).
+: An array of [`slice` definitions](#slice).
 
 Abstract
 : 
@@ -394,7 +307,7 @@ Abstract
 : 
 
 Value
-: 
+: An object which is a [`partition` definition](#partition)
 
 Default value
 : 
