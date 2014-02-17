@@ -83,8 +83,6 @@ In this section we install a fluent-plugin-droonga and load searchable data to t
 
     # gem install fluent-plugin-droonga droonga-client
 
-NOTE: The following tutorials requires the latest droonga-client, that is not not yet released. You will need to clone https://github.com/droonga/droonga-client-ruby and use manually built package (`rake install` will do so).
-
 Required packages are prepared by the command above. Let's continue to the configuration step.
 
 ### Prepare a configuration file to start a Droonga engine
