@@ -46,7 +46,7 @@ end
 Steps to define an adapter:
 
  1. Define a module for your plugin (ex. `Droonga::Plugin::FooPlugin`) and register it as a plugin. (required)
- 2. Define an adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) as a sub class of [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
+ 2. Define an adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) inheriting [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
  3. Configure conditions to apply the adapter via [`.message`](#classes-Droonga-Adapter-class-message). (required)
  4. Define adaption logic for incoming messages as [`#adapt_input`](#classes-Droonga-Adapter-adapt_input). (optional)
  5. Define adaption logic for outgoing messages as [`#adapt_output`](#classes-Droonga-Adapter-adapt_output). (optional)
@@ -74,11 +74,9 @@ For more details, see also the [plugin development tutorial](../../../tutorial/p
 
 ## Classes and methods {#classes}
 
-(under construction)
-
 ### `Droonga::Adapter` {#classes-Droonga-Adapter}
 
-(under construction)
+This is the common base class of any adapter. Your plugin's adapter class must inherit the class.
 
 #### `.message` {#classes-Droonga-Adapter-class-message}
 
