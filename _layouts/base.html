@@ -2,6 +2,7 @@
 <html lang="{{ page.language }}">
   <head>
     {% capture title %}{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}{% endcapture %}
+    {% capture relative_path %}{{ page.url | remove_first: page.path_prefix | remove: "index.html" }}{% endcapture %}
 
     {% if page.description %}
       {% assign description = page.description %}
@@ -66,7 +67,6 @@
       <div class="container">
         {% unless page.categories contains "news" %}
           <ul class="other-languages">
-            {% capture relative_path %}{{ page.url | remove_first: page.path_prefix | remove: "index.html" }}{% endcapture %}
             <li><a href="/{{ relative_path }}">English</a></li>
             <li><a href="/ja/{{ relative_path }}">日本語</a></li>
           </ul>

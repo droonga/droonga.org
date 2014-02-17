@@ -18,7 +18,9 @@
     <li><a href="/ja/reference/">リファレンスマニュアル</a></li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
-    <li><a href="../"><i class="fa  fa-arrow-circle-up "></i> 1つ上の階層へ戻る</a></li>
+    {% if relative_path != "" %}
+      <li><a href="../"><i class="fa  fa-arrow-circle-up "></i> 1つ上の階層へ戻る</a></li>
+    {% endif %}
     <li>
       <a href="https://github.com/droonga"><i class="fa fa-github"></i> GitHub</a>
     </li>
