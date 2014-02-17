@@ -198,72 +198,72 @@ Value
 #### `flags` {#parameter-table-flags}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `key_type` {#parameter-key_type}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `default_tokenizer` {#parameter-default_tokenizer}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `normalizer` {#parameter-normalizer}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `columns` {#parameter-columns}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 
 ### Column definition {#column}
@@ -274,44 +274,44 @@ Value
 #### `flags` {#parameter-column-flags}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `type` {#parameter-type}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `source` {#parameter-source}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 ### Partition definition {#partition}
 
@@ -357,16 +357,16 @@ Value
 An array of [`partition` definitions](#partition).
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 
 ### Slice definition {#slice}
@@ -377,27 +377,27 @@ Value
 #### `weight` {#parameter-weight}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
 
 #### `partition` {#parameter-partition}
 
 Abstract
-: 
+: (TBD)
 
 Value
-: 
+: (TBD)
 
 Default value
-: 
+: (TBD)
 
 Inheritable
-: 
+: (TBD)
