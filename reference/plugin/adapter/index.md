@@ -132,7 +132,7 @@ By defualt this method does nothing, so you have to override it like following:
 module FooPlugin
   class Adapter < Droonga::Adapter
     def adapt_output(output_message)
-      output_message.status_code = STATUS_OK
+      output_message.status_code = StatusCode::OK
     end
   end
 end
