@@ -45,8 +45,8 @@ end
 
 Steps to define an adapter:
 
- 1. Define the module `FooPlugin` and register it as a plugin. (required)
- 2. Define the adapter class `FooPlugin::Adapter` as a sub class of [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
+ 1. Define a module for your plugin (ex. `Droonga::Plugin::FooPlugin`) and register it as a plugin. (required)
+ 2. Define an adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) as a sub class of [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
  3. Configure conditions to apply the adapter via [`.message`](#classes-Droonga-Adapter-class-message). (required)
  4. Define adaption logic for incoming messages as [`#adapt_input`](#classes-Droonga-Adapter-adapt_input). (optional)
  5. Define adaption logic for outgoing messages as [`#adapt_output`](#classes-Droonga-Adapter-adapt_output). (optional)
@@ -57,7 +57,7 @@ For more details, see also the [plugin development tutorial](../../../tutorial/p
 ## How an adapter works? {#how-works}
 
  1. The Droonga Engine starts.
-    * A global instance of the c (ex. `FooPlugin::Adapter`) is created and it is registered.
+    * A global instance of the adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) is created and it is registered.
       * The input pattern and the output pattern are registered via [its `.message`](#classes-Droonga-Adapter-class-message).
     * The Droonga Engine starts to wait for incoming messages.
  2. An incoming message is transferred from the Protocol Adapter to the Droonga Engine.
@@ -72,7 +72,7 @@ For more details, see also the [plugin development tutorial](../../../tutorial/p
  5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
 
 
-## Classes {#classes}
+## Classes and methods {#classes}
 
 (under construction)
 
