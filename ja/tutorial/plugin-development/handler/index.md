@@ -121,7 +121,7 @@ Remember that we have configured `Starbucks` dataset to use three partitions (an
 The `search` request is dispatched to three partitions and passed into handling phase for each partition. That is because we saw three lines for one request.
 
 The messages shown is in internal format, which is transformed from the request you've sent.
-You can see your search request is distributed to partitions `localhost:24224/starbucks.000`, `localhost:24224/starbucks.010` and `localhost:24224/starbucks.021` from `"routes"`.
+You can see your search request is distributed to partitions `localhost:24224/starbucks.001`, `localhost:24224/starbucks.011` and `localhost:24224/starbucks.020` from `"routes"`.
 
 In `search` case, it is enough to use one replica per one partition because replicas for a partition are expected to have the exactly same contents.
 So the planner ordered distributor to choose one replica randomly.
