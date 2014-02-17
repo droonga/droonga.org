@@ -109,23 +109,14 @@ Note that you need to specify `./lib` directory in `RUBYLIB` environment variabl
 
 ### Test
 
-In the [basic tutorial][], we have communicated with the Droonga Engine based on `fluent-plugin-droonga`, via the Protocol Adapter built with `expres-droonga`. For plugin development, sending requests directly to the Droonga Engine can be more handy way to debug.
-We use `fluent-cat` command for this purpose.
-
-Doing in this way also help us to understand internal structure of Droonga.
-
-In the [basic tutorial][], we have used `fluent-cat` to setup database schema and import data. Do you remember? Sending search request can be done in the similar way.
-
-First, create a request as a JSON.
+Check if the engine is working. First, create a request as a JSON.
 
 search-columbus.json:
 
 ~~~json
 {
-  "id"      : "search:0",
   "dataset" : "Starbucks",
   "type"    : "search",
-  "replyTo" : "localhost:24224/output",
   "body"    : {
     "queries" : {
       "stores" : {
@@ -153,25 +144,37 @@ search-columbus.json:
 
 This is corresponding to the example to search "Columbus" in the [basic tutorial][]. Note that the request for the Protocol Adapter is encapsulated in `"body"` element.
 
-`fluent-cat` expects one line per one JSON object. So we need to use `tr` command to remove line breaks before passing the JSON to `fluent-cat`:
+Send the request to engine with `droonga-request`:
 
 ~~~
-# cat search-columbus.json | tr -d "\n" | fluent-cat starbucks.message
-~~~
-
-This will output something like below to fluentd's log in `fluentd.log`:
-
-~~~
-2014-02-03 14:22:54 +0900 output.message: {"inReplyTo":"search:0","statusCode":200,"type":"search.result","body":{"stores":{"count":2,"records":[["2 Columbus Ave. - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"]]}}}
+# droonga-request --tag starbucks search-columbus.json
+Elapsed time: 0.021544
+[
+  "droonga.message",
+  1392617533,
+  {
+    "inReplyTo": "1392617533.9644868",
+    "statusCode": 200,
+    "type": "search.result",
+    "body": {
+      "stores": {
+        "count": 2,
+        "records": [
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
+          ]
+        ]
+      }
+    }
+  }
+]
 ~~~
 
 This is the search result.
 
-If you have [jq][] installed, you can use `jq` instead of `tr`:
-
-~~~
-# jq -c . search-columbus.json | fluent-cat starbucks.message
-~~~
 
 ### Do something in the plugin: take logs
 
