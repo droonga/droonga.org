@@ -43,7 +43,7 @@ module Droonga
 end
 ~~~
 
-Steps to define the behavior on the adaptions phase are:
+Steps to define the behavior on the adaption phase are:
 
  1. Define the module `FooPlugin` and register it as a plugin. (required)
  2. Define the class `FooPlugin::Adapter` as a sub class of `Droonga::Adapter`. (required)
