@@ -12,5 +12,5 @@ layout: en
 [Commands](commands/)
 : Describes details of built-in commands available on the Droonga Engines.
 
-[Plugin defelopment](plugin-development/)
+[Plugin development](plugin-development/)
 : Describes details of public APIs to develop custom plugins for the Droonga Engine.

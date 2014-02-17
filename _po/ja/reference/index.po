@@ -46,7 +46,7 @@ msgstr ""
 ": Droonga Engineで利用可能な組み込みのコマンドの詳細。"
 
 msgid ""
-"[Plugin defelopment](plugin-development/)\n"
+"[Plugin development](plugin-development/)\n"
 ": Describes details of public APIs to develop custom plugins for the Droonga E"
 "ngine."
 msgstr ""
