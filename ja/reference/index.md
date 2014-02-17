@@ -1,6 +1,6 @@
 ---
-title: リファレンス
-layout: ja
+title: リファレンスマニュアル
+layout: documents_ja
 ---
 
 {% comment %}
@@ -12,6 +12,11 @@ layout: ja
 {% endcomment %}
 
 
- * [カタログの仕様](catalog/)
- * [メッセージの形式](message/)
- * [コマンドリファレンス](commands/)
+[カタログの仕様](catalog/)
+: Droonga Engineの振る舞いを定義する`catalog.json`の詳細。
+
+[メッセージの形式](message/)
+: Droonga Engine内を流れるメッセージの形式の詳細。
+
+[コマンドリファレンス](commands/)
+: Droonga Engineで利用可能な組み込みのコマンドの詳細。
