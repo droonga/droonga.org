@@ -77,6 +77,8 @@ As described above, the Droonga Engine creates only one global instance of the a
 You should not keep stateful information for a pair of incoming and outgoing messages as an instance variable of the adapter.
 Instead, you should give stateful information as a part of the incoming message body, and receive it from the body of the corresponding outgoing message.
 
+Any error raised from the adapter is handled by the Droonga Engine itself. See also [error handling].
+
 
 ## Configurations {#config}
 
@@ -88,16 +90,6 @@ Instead, you should give stateful information as a part of the incoming message 
 : A [matching pattern] for outgoing messages.
   Only messages matched to the given patten are processed by [`#adapt_output`](#classes-Droonga-Adapter-adapt_output).
 
-
-## Error handling {#error}
-
-### Errors on the adaption phase {#error-adaption}
-
-(TBD)
-
-### Errors on other phases {#error-others}
-
-(TBD)
 
 
 ## Classes and methods {#classes}
@@ -181,3 +173,4 @@ end
 
 
   [matching pattern]: ../matching-pattern/
+  [error handling]: ../error/
