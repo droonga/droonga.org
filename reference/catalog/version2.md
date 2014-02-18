@@ -28,7 +28,7 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
             "<Name of the table 1>": {
               "type"              : <"Array", "Hash", "PatriciaTrie" or "DoubleArrayTrie">
               "key_type"          : "<Type of the primary key>",
-              "default_tokenizer" : "<Default tokenizer>",
+              "tokenizer"         : "<Tokenizer>",
               "normalizer"        : "<Normalizer>",
               "columns" : {
                 "<Name of the column 1>": {
