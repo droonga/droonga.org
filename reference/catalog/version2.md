@@ -32,9 +32,15 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
               "normalizer"        : "<Normalizer>",
               "columns" : {
                 "<Name of the column 1>": {
-                  "flags"  : "<Flags for the column>",
+                  "flags"  : [
+                    "<Flag value for the column 1>",
+                    ...
+                  ],
                   "type"   : "<Type of the value>",
-                  "source" : "<Name of a column to be indexed>"
+                  "sources" : [
+                    "<Name of a column to be indexed>",
+                    ...
+                  ]
                 },
                 "<Name of the column 2>": { ... },
                 ...
@@ -226,7 +232,7 @@ Value
 
 * "flags"
 * "type"
-* "source"
+* "sources"
 
 All parameters except `table` and `name` are compatible to [the parameters of the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html#parameters). See the linked document for more details.
 
