@@ -95,7 +95,7 @@ Default value
 Inheritable
 : False.
 
-#### `effective_date` {#paramter-effective_date}
+#### `effectiveDate` {#paramter-effective_date}
 
 Abstract
 : The time when this catalog becomes effective.
@@ -123,7 +123,7 @@ Default value
 Inheritable
 : False.
 
-#### `n_workers` {#parameter-n_workers}
+#### `nWorkers` {#parameter-n_workers}
 
 Abstract
 : The number of worker processes spawned for each database instance.
@@ -203,9 +203,9 @@ Inheritable
 Value
 : An object with the following keys.
 
-* "flags"
-* "key_type"
-* "default_tokenizer"
+* "type"
+* "keyType"
+* "tokenizer"
 * "normalizer"
 * "columns"
 
@@ -232,8 +232,9 @@ Value
 
 : An object with the following keys.
 
-* "flags"
 * "type"
+* "valueType"
+* "indexOptions"
 * "sources"
 
 All parameters except `table` and `name` are compatible to [the parameters of the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html#parameters). See the linked document for more details.
