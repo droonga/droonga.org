@@ -26,19 +26,19 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
           ],
           "schema": {
             "<Name of the table 1>": {
-              "type"              : <"Array", "Hash", "PatriciaTrie" or "DoubleArrayTrie">
+              "type"             : <"Array", "Hash", "PatriciaTrie" or "DoubleArrayTrie">
               "keyType"          : "<Type of the primary key>",
-              "tokenizer"         : "<Tokenizer>",
-              "normalizer"        : "<Normalizer>",
+              "tokenizer"        : "<Tokenizer>",
+              "normalizer"       : "<Normalizer>",
               "columns" : {
                 "<Name of the column 1>": {
-                  "type"          : <"Scalar", "Vector" or "Index">,
-                  "valueType"   : "<Type of the value>",
-                  "indexOptions"  : {
-                    "withSection"   : <WithSection>,
-                    "withWeight"    : <WithWeight>,
-                    "withPosition"  : <WithPosition>,
-                    "sources" : [
+                  "type"         : <"Scalar", "Vector" or "Index">,
+                  "valueType"    : "<Type of the value>",
+                  "indexOptions" : {
+                    "section"    : <Section>,
+                    "weight"     : <Weight>,
+                    "position"   : <Position>,
+                    "sources"    : [
                       "<Name of a column to be indexed>",
                       ...
                     ]
@@ -201,7 +201,7 @@ Inheritable
 ### Table definition {#table}
 
 Value
-: An object with the following keys.
+: An object with the following key/value pairs.
 
 #### `type` {#parameter-table-type}
 
@@ -282,7 +282,7 @@ Inheritable
 
 Value
 
-: An object with the following keys.
+: An object with the following key/value pairs.
 
 #### `type` {#parameter-column-type}
 
@@ -335,50 +335,50 @@ Value
 
 : (TBD)
 
-#### `withSection` {#parameter-withSection}
+#### `section` {#parameter-section}
 
 Abstract
 
 : (TBD)
 
 Value
-: (TBD)
+: A boolean value (`true` or `false`).
 
 Default value
-: (TBD)
+: `false`.
 
 Inheritable
-: (TBD)
+: False.
 
-#### `withWeight` {#parameter-withWeight}
+#### `weight` {#parameter-weight}
 
 Abstract
 
 : (TBD)
 
 Value
-: (TBD)
+: A boolean value (`true` or `false`).
 
 Default value
-: (TBD)
+: `false`.
 
 Inheritable
-: (TBD)
+: False.
 
-#### `withPosition` {#parameter-withPosition}
+#### `position` {#parameter-position}
 
 Abstract
 
 : (TBD)
 
 Value
-: (TBD)
+: A boolean value (`true` or `false`).
 
 Default value
-: (TBD)
+: `false`.
 
 Inheritable
-: (TBD)
+: False.
 
 #### `sources` {#parameter-sources}
 
