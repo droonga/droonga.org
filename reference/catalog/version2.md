@@ -32,11 +32,13 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
               "normalizer"        : "<Normalizer>",
               "columns" : {
                 "<Name of the column 1>": {
-                  "flags"  : [
-                    "<Flag value for the column 1>",
-                    ...
-                  ],
+                  "type"          : <"Scalar", "Vector" or "Index">,
                   "valueType"   : "<Type of the value>",
+                  "indexOptions"  : {
+                    "withSection"   : <WithSection>,
+                    "withWeight"    : <WithWeight>,
+                    "withPosition"  : <WithPosition>
+                  },
                   "sources" : [
                     "<Name of a column to be indexed>",
                     ...
