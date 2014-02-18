@@ -329,7 +329,7 @@ Default value
 Inheritable
 : (TBD)
 
-### `indexOption` definition {#indexOption}
+### indexOption definition {#indexOption}
 
 Value
 
