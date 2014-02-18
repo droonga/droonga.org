@@ -37,7 +37,7 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
                   "indexOptions"  : {
                     "withSection"   : <WithSection>,
                     "withWeight"    : <WithWeight>,
-                    "withPosition"  : <WithPosition>
+                    "withPosition"  : <WithPosition>,
                     "sources" : [
                       "<Name of a column to be indexed>",
                       ...
