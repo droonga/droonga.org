@@ -203,13 +203,65 @@ Inheritable
 Value
 : An object with the following keys.
 
-* "type"
-* "keyType"
-* "tokenizer"
-* "normalizer"
-* "columns"
+#### `type` {#parameter-table-type}
 
-All parameters except `columns`, `name` and `value_type` are compatible with [the parameters of the `table_create` command of the Groonga](http://groonga.org/docs/reference/commands/table_create.html#parameters). See the linked document for more details.
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `keyType` {#parameter-keyType}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `tokenizer` {#parameter-tokenizer}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `normalizer` {#parameter-normalizer}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
 
 #### `columns` {#parameter-columns}
 
@@ -232,12 +284,65 @@ Value
 
 : An object with the following keys.
 
-* "type"
-* "valueType"
-* "indexOptions"
-* "sources"
+#### `type` {#parameter-column-type}
 
-All parameters except `table` and `name` are compatible to [the parameters of the `column_create` command of the Groonga](http://groonga.org/docs/reference/commands/column_create.html#parameters). See the linked document for more details.
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `valueType` {#parameter-valueType}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `indexOptions` {#parameter-indexOptions}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `sources` {#parameter-sources}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
 
 ### Partition definition {#partition}
 
