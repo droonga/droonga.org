@@ -38,11 +38,11 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
                     "withSection"   : <WithSection>,
                     "withWeight"    : <WithWeight>,
                     "withPosition"  : <WithPosition>
-                  },
-                  "sources" : [
-                    "<Name of a column to be indexed>",
-                    ...
-                  ]
+                    "sources" : [
+                      "<Name of a column to be indexed>",
+                      ...
+                    ]
+                  }
                 },
                 "<Name of the column 2>": { ... },
                 ...
