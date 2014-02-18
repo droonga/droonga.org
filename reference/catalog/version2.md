@@ -145,7 +145,7 @@ Value
 #### `plugins` {#parameter-plugins}
 
 Abstract
-: plugin names.
+: Name strings of the plugins enabled for the dataset.
 
 Value
 : An array of strings.
@@ -173,7 +173,7 @@ Inheritable
 #### `fact` {#parameter-fact}
 
 Abstract
-: Name of the fact table. When a `dataset` is stored as more than one `slice`, one [fact table](http://en.wikipedia.org/wiki/Fact_table) must be selected from tables defined in [`schema`](#parameter-schema) parameter.
+: The name of the fact table. When a `dataset` is stored as more than one `slice`, one [fact table](http://en.wikipedia.org/wiki/Fact_table) must be selected from tables defined in [`schema`](#parameter-schema) parameter.
 
 Value
 : A string.
@@ -187,7 +187,7 @@ Inheritable
 #### `replicas` {#parameter-replicas}
 
 Abstract
-: Definition of replicas which store the contents of the dataset.
+: A collection of partitions which are the copies of each other.
 
 Value
 : An array of [`partition` definitions](#partition).
@@ -206,67 +206,90 @@ Value
 #### `type` {#parameter-table-type}
 
 Abstract
-
-: (TBD)
+: Specifies which data structure is used for managing keys of the table.
 
 Value
-: (TBD)
+: Any of the following values.
+
+* "Array": for tables which have no keys.
+* "Hash": for hash tables.
+* "PatriciaTrie": for patricia trie tables.
+* "DoubleArrayTrie": for double array trie tables.
 
 Default value
-: (TBD)
+: "Hash"
 
 Inheritable
-: (TBD)
+: False.
 
 #### `keyType` {#parameter-keyType}
 
 Abstract
-
-: (TBD)
+: Data type of the key of the table. Mustn't be assigned when the `type` is "Array".
 
 Value
-: (TBD)
+: Any of the following data types.
+
+* "Integer"       : 64bit signed integer.
+* "Float"         : 64bit floating-point number.
+* "Time"          : Time value with microseconds resolution.
+* "ShortText"     : Text value up to 4095 bytes length.
+* "TokyoGeoPoint" : Tokyo Datum based getmetric point value.
+* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
 Default value
-: (TBD)
+: None. Mandatory for tables with keys.
 
 Inheritable
-: (TBD)
+: False.
 
 #### `tokenizer` {#parameter-tokenizer}
 
 Abstract
-
-: (TBD)
+: Specifies the type of tokenizer used for splitting each text value, when the table is used as a lexicon. Only available when the `keyType` is "ShortText".
 
 Value
-: (TBD)
+: Any of the following tokenizer names.
+
+* "TokenDelimit"
+* "TokenUnigram"
+* "TokenBigram"
+* "TokenTrigram"
+* "TokenBigramSplitSymbol"
+* "TokenBigramSplitSymbolAlpha"
+* "TokenBigramSplitSymbolAlphaDigit"
+* "TokenBigramIgnoreBlank"
+* "TokenBigramIgnoreBlankSplitSymbol"
+* "TokenBigramIgnoreBlankSplitSymbolAlpha"
+* "TokenBigramIgnoreBlankSplitSymbolAlphaDigit"
+* "TokenDelimitNull"
 
 Default value
-: (TBD)
+: None.
 
 Inheritable
-: (TBD)
+: False.
 
 #### `normalizer` {#parameter-normalizer}
 
 Abstract
-
-: (TBD)
+: Specifies the type of normalizer which normalizes and restricts the key values. Only available when the `keyType` is "ShortText".
 
 Value
-: (TBD)
+: Any of the following normalizer names.
+
+* "NormalizerAuto"
+* "NormalizerNFKC51"
 
 Default value
-: (TBD)
+: None.
 
 Inheritable
-: (TBD)
+: False.
 
 #### `columns` {#parameter-columns}
 
 Abstract
-
 : Column definition for the table.
 
 Value
@@ -287,59 +310,67 @@ Value
 #### `type` {#parameter-column-type}
 
 Abstract
-
-: (TBD)
+: Specifies the quantity of data stored as each column value.
 
 Value
-: (TBD)
+: Any of the followings.
+
+* "Scalar": A single value.
+* "Vector": A list of values.
+* "Index" : A set of unique values with additinal properties respectively. Properties can be specified in [`indexOptions`](#parameter-indexOptions).
 
 Default value
-: (TBD)
+: "Scalar"
 
 Inheritable
-: (TBD)
+: False.
 
 #### `valueType` {#parameter-valueType}
 
 Abstract
-
-: (TBD)
+: Data type of the column value.
 
 Value
-: (TBD)
+: Any of the following data types or the name of another table defined in the same dataset. When a table name is assgined, the column acts as a foreign key references the table.
+
+* "Bool"          : `true` or `false`.
+* "Integer"       : 64bit signed integer.
+* "Float"         : 64bit floating-point number.
+* "Time"          : Time value with microseconds resolution.
+* "ShortText"     : Text value up to 4,095 bytes length.
+* "Text"          : Text value up to 2,147,483,647 bytes length.
+* "TokyoGeoPoint" : Tokyo Datum based getmetric point value.
+* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
 Default value
-: (TBD)
+: None. This is a required parameter.
 
 Inheritable
-: (TBD)
+: False.
 
 #### `indexOptions` {#parameter-indexOptions}
 
 Abstract
-
-: (TBD)
+: Specifies the optional properties of a "Index" column.
 
 Value
-: (TBD)
+: An object which is an [`indexOption` definition](#indexOption)
 
 Default value
-: (TBD)
+: `{}` (Void object).
 
 Inheritable
-: (TBD)
+: False.
 
 ### indexOption definition {#indexOption}
 
 Value
-
-: (TBD)
+: An object with the following key/value pairs.
 
 #### `section` {#parameter-section}
 
 Abstract
-
-: (TBD)
+: Specifies whether the index column stores the section data or not. Section data is typically used for distinguishing in which part of the sources the value appears.
 
 Value
 : A boolean value (`true` or `false`).
@@ -353,8 +384,7 @@ Inheritable
 #### `weight` {#parameter-weight}
 
 Abstract
-
-: (TBD)
+: Specifies whether the index column stores the weight data or not. Weight data is used for indicating the importance of the value in the sources.
 
 Value
 : A boolean value (`true` or `false`).
@@ -368,8 +398,7 @@ Inheritable
 #### `position` {#parameter-position}
 
 Abstract
-
-: (TBD)
+: Specifies whether the index column stores the position data or not. Position data is used for specifying the position where the value appears in the sources. It is indispensable for fast and accurate phrase-search.
 
 Value
 : A boolean value (`true` or `false`).
@@ -383,19 +412,21 @@ Inheritable
 #### `sources` {#parameter-sources}
 
 Abstract
-
-: (TBD)
+: Makes the column an inverted index of the referencing table's columns.
 
 Value
-: (TBD)
+: An array of column names of the referencing table assgined as [`valueType`](#parameter-valueType).
 
 Default value
-: (TBD)
+: None.
 
 Inheritable
-: (TBD)
+: False.
 
 ### Partition definition {#partition}
+
+Abstract
+: A unit to compose a dataset. A dataset consists of one or more partitions. A partition consists of either a single instance of database or a collection of `slices`. When a partition consists of a single database instance, `address` parameter must be assigned and the other parameters must not be assigned. Otherwise, `dimension`, `slicer` and `slices` are required, and vice versa.
 
 Value
 : An object with the following key/value pairs.
@@ -403,10 +434,15 @@ Value
 #### `address` {#parameter-address}
 
 Abstract
-: (TBD)
+: Specifies the location of the database instance.
 
 Value
-: (TBD)
+: A string in the following format.
+
+"[database_type:]hostname[:port_number]/localpath/to/the/database"
+
+* database_type: Omittable. Default value is "groonga".
+* port_number: Omittable. Default value is 10047.
 
 Default value
 : None.
@@ -417,7 +453,7 @@ Inheritable
 #### `dimension` {#parameter-dimension}
 
 Abstract
-: When a `dataset` is stored as more than one `slice`, either '_key" or a scalar type column must be selected from [`columns`](#parameter-columns) parameter of the fact table. When the selected column is a foreign key, the refered table is called [dimension table](http://en.wikipedia.org/wiki/Dimension_table).
+: Specifies the dimension to slice the records in the fact table. Either '_key" or a scalar type column can be selected from [`columns`](#parameter-columns) parameter of the fact table. See [dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29).
 
 Value
 : A string.
@@ -458,21 +494,22 @@ Inheritable
 
 ### Slice definition {#slice}
 
-A slice has one of `weight`, `label` or `boundary` parameters..
+Abstract
+: Definition of each slice. Specifies the range of sliced data and the partion to store the data.
 
 Value
 : An object with the following key/value pairs.
 
-#### `weight` {#parameter-weight}
+#### `weight` {#parameter-slice-weight}
 
 Abstract
-: Avaible when the slicer is ratio-scaled.
+: Specifies the share in the slices. Only avaible when the `slicer` is ratio-scaled.
 
 Value
-: (TBD)
+: A numeric value.
 
 Default value
-: 1.
+: `1`.
 
 Inheritable
 : False.
@@ -480,10 +517,10 @@ Inheritable
 #### `label` {#parameter-label}
 
 Abstract
-: Avaible when the slicer is nominal-scaled.
+: Specifies the concrete value that slicer may return. Only avaible when the slicer is nominal-scaled.
 
 Value
-: (TBD)
+: A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `label` is allowed in a slices.
 
 Default value
 : None.
@@ -494,10 +531,10 @@ Inheritable
 #### `boundary` {#parameter-boundary}
 
 Abstract
-: Avaible when the slicer is ordinal-scaled.
+: Specifies the concrete value that can compare with `slicer`'s return value. Only avaible when the `slicer` is ordinal-scaled.
 
 Value
-: (TBD)
+: A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `boundary` is allowed in a slices.
 
 Default value
 : None.
@@ -508,7 +545,7 @@ Inheritable
 #### `partition` {#parameter-partition}
 
 Abstract
-: (TBD)
+: A partition to store the data which corresponds to the slice.
 
 Value
 
