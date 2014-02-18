@@ -609,6 +609,9 @@ msgid ""
 "~~~"
 msgstr ""
 
+msgid "Send `stores.jsons` as follows:"
+msgstr ""
+
 msgid "~~~"
 msgstr ""
 
