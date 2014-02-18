@@ -329,6 +329,57 @@ Default value
 Inheritable
 : (TBD)
 
+### `indexOption` definition {#indexOption}
+
+Value
+
+: (TBD)
+
+#### `withSection` {#parameter-withSection}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `withWeight` {#parameter-withWeight}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
+#### `withPosition` {#parameter-withPosition}
+
+Abstract
+
+: (TBD)
+
+Value
+: (TBD)
+
+Default value
+: (TBD)
+
+Inheritable
+: (TBD)
+
 #### `sources` {#parameter-sources}
 
 Abstract
