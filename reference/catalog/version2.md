@@ -36,7 +36,7 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
                     "<Flag value for the column 1>",
                     ...
                   ],
-                  "type"   : "<Type of the value>",
+                  "valueType"   : "<Type of the value>",
                   "sources" : [
                     "<Name of a column to be indexed>",
                     ...
