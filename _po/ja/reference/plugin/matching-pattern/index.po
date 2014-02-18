@@ -119,7 +119,7 @@ msgstr ""
 
 msgid ""
 " * `PATTERN` = [`TARGET_PATH`, `OPERATOR`, `ARGUMENTS*`]\n"
-" * `PATTERN` = [`PATTERN, LOGICAL_OPERATOR`, `PATTERN`]\n"
+" * `PATTERN` = [`PATTERN`, `LOGICAL_OPERATOR`, `PATTERN`]\n"
 " * `TARGET_PATH` = `\"COMPONENT(.COMPONENT)*\"`\n"
 " * `OPERATOR` = `:equal`, `:in`, `:include`, `:exist`, `:start_with`\n"
 " * `ARGUMENTS` = `OBJECT_DEFINED_IN_JSON*`\n"
