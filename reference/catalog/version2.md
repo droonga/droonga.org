@@ -16,10 +16,10 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
 
     {
       "version": <Version number>,
-      "effective_date": "<Effective date>",
+      "effectiveDate": "<Effective date>",
       "datasets": {
         "<Name of the dataset 1>": {
-          "n_workers": <Number of workers>,
+          "nWorkers": <Number of workers>,
           "plugins": [
             "Name of the plugin 1",
             ...
@@ -27,7 +27,7 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
           "schema": {
             "<Name of the table 1>": {
               "type"              : <"Array", "Hash", "PatriciaTrie" or "DoubleArrayTrie">
-              "key_type"          : "<Type of the primary key>",
+              "keyType"          : "<Type of the primary key>",
               "tokenizer"         : "<Tokenizer>",
               "normalizer"        : "<Normalizer>",
               "columns" : {
