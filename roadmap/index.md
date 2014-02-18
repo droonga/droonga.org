@@ -26,8 +26,12 @@ layout: en
 
   * Stable version
   * Stable plugin APIs for other type plugins
-  * Groonga HTTP Server compatible feature
   * Target date: 2014-2-28
+
+# 1.0.1
+
+  * Groonga HTTP Server compatible feature
+  * Target date: 2014-3-29
 
 # 2.0.0
 
