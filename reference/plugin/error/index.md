@@ -12,6 +12,7 @@ layout: en
 Any unhandled error raised from a plugin is returned as an [error response][] for the corresponding incoming message, with the status code `500` (means "internal error").
 
 If you want formatted error information to be returned, then rescue errors and raise your custom errors inheriting `Droonga::ErrorMessage::BadRequest` or `Droonga::ErrorMessage::InternalServerError` instead of raw errors.
+(By the way, they are already included to the base class of plugins so you can define your custom errors easily like: `class CustomError < BadRequest`)
 
 
 ## Built-in error classes {#builtin-errors}
