@@ -64,12 +64,12 @@ An adapter works like following:
     * The Droonga Engine starts to wait for incoming messages.
  2. An incoming message is transferred from the Protocol Adapter to the Droonga Engine.
     Then, the adaption phase (for an incoming message) starts.
-    * The adapter's [`#adapt_input`](#classes-Droonga-Adapter-adapt_input) is called, if the message matches to the [input matching pattern](#config).
+    * The adapter's [`#adapt_input`](#classes-Droonga-Adapter-adapt_input) is called, if the message matches to the [input matching pattern](#config) of the adapter.
     * The method can modify the given incoming message, via [its methods](#classes-Droonga-InputMessage).
  3. After all adapters are applied, the adaption phase for an incoming message ends, and the message is transferred to the next "planning" phase.
  4. An outgoing message returns from the previous "collection" phase.
     Then, the adaption phase (for an outgoing message) starts.
-    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the corresponding incoming message was processed by the adapter and the outgoing message matches to the [output matching pattern](#config).
+    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the corresponding incoming message was processed by the adapter itself and the outgoing message matches to the [output matching pattern](#config) of the adapter.
     * The method can modify the given outgoing message, via [its methods](#classes-Droonga-OutputMessage).
  5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
 
@@ -77,17 +77,17 @@ As described above, the Droonga Engine creates only one global instance of the a
 You should not keep stateful information for a pair of incoming and outgoing messages as an instance variable of the adapter.
 Instead, you should give stateful information as a part of the incoming message body, and receive it from the body of the corresponding outgoing message.
 
-Any error raised from the adapter is handled by the Droonga Engine itself. See also [error handling].
+Any error raised from the adapter is handled by the Droonga Engine itself. See also [error handling][].
 
 
 ## Configurations {#config}
 
 `input_message.pattern`
-: A [matching pattern] for incoming messages.
+: A [matching pattern][] for incoming messages.
   Only messages matched to the given patten are processed by [`#adapt_input`](#classes-Droonga-Adapter-adapt_input).
 
 `output_message.pattern`
-: A [matching pattern] for outgoing messages.
+: A [matching pattern][] for outgoing messages.
   Only messages matched to the given patten are processed by [`#adapt_output`](#classes-Droonga-Adapter-adapt_output).
 
 
@@ -96,13 +96,18 @@ Any error raised from the adapter is handled by the Droonga Engine itself. See a
 
 ### `Droonga::Adapter` {#classes-Droonga-Adapter}
 
-This is the common base class of any adapter. Your plugin's adapter class must inherit the class.
+This is the common base class of any adapter. Your plugin's adapter class must inherit this.
 
 #### `#adapt_input(input_message)` {#classes-Droonga-Adapter-adapt_input}
 
-Receives an instance of [`Droonga::InputMessage`](#classes-Droonga-InputMessage) corresponding to an incoming message.
+This method receives a [`Droonga::InputMessage`](#classes-Droonga-InputMessage) wrapped incoming message.
+You can modify the incoming message via its methods.
 
-By defualt this method does nothing, so you have to override it like following:
+This receives messages only matching to the `input_message.pattern`.
+Other messages are ignored.
+
+In this base class, this method is defined as just a placeholder and it does nothing.
+To modify incoming messages, you have to override it by yours, like following:
 
 ~~~ruby
 module FooPlugin
@@ -116,9 +121,18 @@ end
 
 #### `#adapt_output(output_message)` {#classes-Droonga-Adapter-adapt_output}
 
-Receives an instance of [`Droonga::OutputMessage`](#classes-Droonga-InputMessage) corresponding to an outgoing message.
+This method receives a [`Droonga::OutputMessage`](#classes-Droonga-OutputMessage) wrapped outgoing message.
+You can modify the outgoing message via its methods.
 
-By defualt this method does nothing, so you have to override it like following:
+This receives messages only meeting both following requirements:
+
+ * It is originated from an incoming message which was processed by this adapter itself.
+ * It matches to the `output_message.pattern`.
+
+Other messages are ignored.
+
+In this base class, this method is defined as just a placeholder and it does nothing.
+To modify outgoing messages, you have to override it by yours, like following:
 
 ~~~ruby
 module FooPlugin
