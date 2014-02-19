@@ -26,7 +26,7 @@ module Droonga
 
       class Adapter < Droonga::Adapter
         # operations to configure this adapter
-        message.XXXXXX = XXXXXX
+        XXXXXX = XXXXXX
 
         def adapt_input(input_message)
           # operations to modify incoming messages
@@ -245,7 +245,18 @@ module FooPlugin
     input_message.pattern = ["type", :equal, "search"]
 
     def adapt_output(output_message)
-      output_message.body["queries"]
+      output_message.body.each do |name, result|
+        next unless result["records"]
+        result["records"] << ad_entry
+      end
+      # Now all search results include advertising.
+    end
+
+    def ad_entry
+      {
+        "title"=> "Buy Now!!",
+        "url"=>   "http://..."
+      }
     end
   end
 end
