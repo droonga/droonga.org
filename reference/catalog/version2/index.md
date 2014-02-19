@@ -7,6 +7,8 @@ layout: en
 {:toc}
 
 ## Abstract {#abstract}
+`Catalog` is a JSON data to manage the configuration of a Droonga cluster.
+A Droonga cluster consists of one or more `datasets`, and a `dataset` consists of other portions. They all must be explicitly described in a `catalog` and be shared with all the hosts in the cluster.
 
 ## Usage {#usage}
 
