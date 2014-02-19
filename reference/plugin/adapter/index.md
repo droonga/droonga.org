@@ -227,11 +227,56 @@ end
 
 #### `#status_code`, `#status_code=(status_code)` {#classes-Droonga-OutputMessage-status_code}
 
-(under construction)
+This returns the `"statusCode"` of the outgoing message.
+
+You can override it by assigning a new status code. For example: 
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    input_message.pattern = ["type", :equal, "search"]
+
+    def adapt_output(output_message)
+      unless output_message.status_code == StatusCode::InternalServerError
+        output_message.status_code = StatusCode::OK
+        output_message.body = {}
+        output_message.errors = nil
+        # Now any internal server error is ignored and clients
+        # receive regular responses.
+      end
+    end
+  end
+end
+~~~
 
 #### `#errors`, `#errors=(errors)` {#classes-Droonga-OutputMessage-errors}
 
-(under construction)
+This returns the `"errors"` of the outgoing message.
+
+You can override it by assigning new error information, partially or fully. For example:
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    input_message.pattern = ["type", :equal, "search"]
+
+    def adapt_output(output_message)
+      output_message.errors.delete(secret_database)
+      # Delete error information from secret database
+
+      output_message.body["errors"] = {
+        "records" => output_message.errors.collect do |database, error|
+          {
+            "database" => database,
+            "error" => error
+          }
+        end,
+      }
+      # Convert error informations to a fake search result named "errors".
+    end
+  end
+end
+~~~
 
 #### `#body`, `#body=(body)` {#classes-Droonga-OutputMessage-body}
 
