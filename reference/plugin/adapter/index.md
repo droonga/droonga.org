@@ -69,7 +69,9 @@ An adapter works like following:
  3. After all adapters are applied, the adaption phase for an incoming message ends, and the message is transferred to the next "planning" phase.
  4. An outgoing message returns from the previous "collection" phase.
     Then, the adaption phase (for an outgoing message) starts.
-    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the corresponding incoming message was processed by the adapter itself and the outgoing message matches to the [output matching pattern](#config) of the adapter.
+    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the message meets following both requirements:
+      - It is originated from an incoming message which was processed by the adapter itself.
+      - It matches to the [output matching pattern](#config) of the adapter.
     * The method can modify the given outgoing message, via [its methods](#classes-Droonga-OutputMessage).
  5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
 
@@ -82,14 +84,13 @@ Any error raised from the adapter is handled by the Droonga Engine itself. See a
 
 ## Configurations {#config}
 
-`input_message.pattern`
+`input_message.pattern` (optional, default=`nil`)
 : A [matching pattern][] for incoming messages.
-  Only messages matched to the given patten are processed by [`#adapt_input`](#classes-Droonga-Adapter-adapt_input).
+  If no pattern (`nil`) is given, any message is regarded as "matched".
 
-`output_message.pattern`
+`output_message.pattern` (optional, default=`nil`)
 : A [matching pattern][] for outgoing messages.
-  Only messages matched to the given patten are processed by [`#adapt_output`](#classes-Droonga-Adapter-adapt_output).
-
+  If no pattern (`nil`) is given, any message is regarded as "matched".
 
 
 ## Classes and methods {#classes}
@@ -102,9 +103,6 @@ This is the common base class of any adapter. Your plugin's adapter class must i
 
 This method receives a [`Droonga::InputMessage`](#classes-Droonga-InputMessage) wrapped incoming message.
 You can modify the incoming message via its methods.
-
-This receives messages only matching to the `input_message.pattern`.
-Other messages are ignored.
 
 In this base class, this method is defined as just a placeholder and it does nothing.
 To modify incoming messages, you have to override it by yours, like following:
@@ -123,13 +121,6 @@ end
 
 This method receives a [`Droonga::OutputMessage`](#classes-Droonga-OutputMessage) wrapped outgoing message.
 You can modify the outgoing message via its methods.
-
-This receives messages only meeting both following requirements:
-
- * It is originated from an incoming message which was processed by this adapter itself.
- * It matches to the `output_message.pattern`.
-
-Other messages are ignored.
 
 In this base class, this method is defined as just a placeholder and it does nothing.
 To modify outgoing messages, you have to override it by yours, like following:
@@ -202,7 +193,6 @@ end
 
 Another case:
 
-
 ~~~ruby
 module FooPlugin
   class Adapter < Droonga::Adapter
@@ -245,8 +235,21 @@ end
 
 #### `#body`, `#body=(body)` {#classes-Droonga-OutputMessage-body}
 
-(under construction)
+This returns the `"body"` of the outgoing message.
 
+You can override it by assigning a new value, partially or fully. For example:
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    input_message.pattern = ["type", :equal, "search"]
+
+    def adapt_output(output_message)
+      output_message.body["queries"]
+    end
+  end
+end
+~~~
 
 
   [matching pattern]: ../matching-pattern/
