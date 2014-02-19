@@ -158,14 +158,14 @@ module FooPlugin
     input_message.pattern = ["type", :equal, "my-search"]
 
     def adapt_input(input_message)
-      p input_message.type
+      p input_message.command
       # => "my-search"
       #    This message will be handled by a plugin
       #    for the custom "my-search" command.
 
-      input_message.type = "search"
+      input_message.command = "search"
 
-      p input_message.type
+      p input_message.command
       # => "search"
       #    The messge type (command) is changed.
       #    This message will be handled by the "search" plugin,
@@ -215,7 +215,7 @@ module FooPlugin
       query_string = input_message["body"]["query"]
 
       # Construct internal search request for the "search" command.
-      input_message.type = "search"
+      input_message.command = "search"
       input_message.body = {
         "queries" => {
           "source"    => "Store",
