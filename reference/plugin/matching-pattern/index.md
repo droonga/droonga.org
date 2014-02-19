@@ -92,7 +92,22 @@ A basic pattern is described as an array including 2 or more elements, like foll
 
 #### Target path {#syntax-basic-target-path}
 
-The target path is specified as a string.
+The target path is specified as a string, like:
+
+    "body.success"
+
+The matching mechanism of the Droonga Engine interprets it as a dot-separated list of *path components*.
+A path component represents the property in the message with same name.
+So, the example above means the location:
+
+    {
+      "body": {
+        "success": <target>
+      }
+    }
+
+
+
 
 #### Avialable operators {#syntax-basic-operators}
 
