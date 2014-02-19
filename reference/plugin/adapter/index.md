@@ -144,18 +144,6 @@ module FooPlugin
 end
 ~~~
 
-### `Droonga::Plugin::Metadata::AdapterMessage` {#classes-Droonga-Plugin-Metadata-AdapterMessage}
-
-(under construction)
-
-#### `#input_pattern`, `#input_pattern=(pattern)` {#classes-Droonga-Plugin-Metadata-AdapterMessage-input_pattern}
-
-(under construction)
-
-#### `#output_pattern`, `#output_pattern=(pattern)` {#classes-Droonga-Plugin-Metadata-AdapterMessage-output_pattern}
-
-(under construction)
-
 ### `Droonga::InputMessage` {#classes-Droonga-InputMessage}
 
 (under construction)
