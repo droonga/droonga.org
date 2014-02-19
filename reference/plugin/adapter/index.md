@@ -208,8 +208,6 @@ module FooPlugin
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "my-search"]
 
-    MAXIMUM_LIMIT = 10
-
     def adapt_input(input_message)
       # Extract the query string from the custom command.
       query_string = input_message["body"]["query"]
