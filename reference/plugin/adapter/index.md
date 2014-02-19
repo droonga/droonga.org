@@ -146,19 +146,96 @@ end
 
 ### `Droonga::InputMessage` {#classes-Droonga-InputMessage}
 
-(under construction)
-
 #### `#command`, `#command=(command)` {#classes-Droonga-InputMessage-command}
 
-(under construction)
+This returns the `"type"` of the incoming message.
+
+You can override it by assigning a new string value, like:
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    input_message.pattern = ["type", :equal, "my-search"]
+
+    def adapt_input(input_message)
+      p input_message.type
+      # => "my-search"
+      #    This message will be handled by a plugin
+      #    for the custom "my-search" command.
+
+      input_message.type = "search"
+
+      p input_message.type
+      # => "search"
+      #    The messge type (command) is changed.
+      #    This message will be handled by the "search" plugin,
+      #    as a regular search request.
+    end
+  end
+end
+~~~
 
 #### `#body`, `#body=(body)` {#classes-Droonga-InputMessage-body}
 
-(under construction)
+This returns the `"body"` of the incoming message.
+
+You can override it by assigning a new value, partially or fully. For example:
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    input_message.pattern = ["type", :equal, "search"]
+
+    MAXIMUM_LIMIT = 10
+
+    def adapt_input(input_message)
+      input_message.body["queries"].each do |name, query|
+        query["output"] ||= {}
+        query["output"]["limit"] ||= MAXIMUM_LIMIT
+        query["output"]["limit"] = [query["output"]["limit"], MAXIMUM_LIMIT].min
+      end
+      # Now, all queries have "output.limit=10".
+    end
+  end
+end
+~~~
+
+Another case:
+
+
+~~~ruby
+module FooPlugin
+  class Adapter < Droonga::Adapter
+    input_message.pattern = ["type", :equal, "my-search"]
+
+    MAXIMUM_LIMIT = 10
+
+    def adapt_input(input_message)
+      # Extract the query string from the custom command.
+      query_string = input_message["body"]["query"]
+
+      # Construct internal search request for the "search" command.
+      input_message.type = "search"
+      input_message.body = {
+        "queries" => {
+          "source"    => "Store",
+          "condition" => {
+            "query"   => query_string,
+            "matchTo" => ["name"],
+          },
+          "output" => {
+            "elements" => ["records"],
+            "limit"    => 10,
+          },
+        },
+      }
+      # Now, both "type" and "body" are completely replaced.
+    end
+  end
+end
+~~~
 
 ### `Droonga::OutputMessage` {#classes-Droonga-OutputMessage}
-
-(under construction)
 
 #### `#status_code`, `#status_code=(status_code)` {#classes-Droonga-OutputMessage-status_code}
 
