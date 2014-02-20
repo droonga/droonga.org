@@ -5,27 +5,28 @@ layout: en
 <div class="jumbotron">
 <h1>Droonga</h1>
 <p>A scalable data processing engine</p>
-<p><a class="btn btn-primary btn-lg" role="button" href="overview/">Learn more »</a></p>
+<p><a class="btn btn-primary btn-lg" role="button" href="getting-started/">Getting Started »</a></p>
 </div>
 
 ## About Droonga
 
-Droonga is a scalable data processing engine. Droonga uses stream oriented processing model. Droonga processes data by pipeline. Many operations such as search, update, group are done in pipeline. The processing model provides flexibility and extensibility. Droonga can also process complex operations by mixing operations. Users can add custom operations to Droonga as Ruby plugins.
+Droonga is a scalable data processing engine, based on a stream oriented processing model.
+In many operations (searching, updating, grouping, and so on), Droonga processes various data by pipeline.
+As the result, Droonga has large potential around its flexibility and extensibility.
+Moreover, those features provide high availability for people who develop any data processing engine based on Droonga.
+You can process complex operations by mixing operations, and you can add custom operations to Droonga via plugins written as Ruby-scripts.
 
 See [overview](overview/) for more details.
 
 See [roadmap](roadmap/) for the future Droonga.
-
-## Getting started
-
-Try [tutorial](tutorial/) to know about Droonga after you understand about Droonga. If you don't read [overview](overview/) yet, read it before trying the tutorial.
 
 ## Documentations
 
 The following documentations will help you to use Droonga more effectively:
 
  * [Install](install/) describes how to install Droonga.
- * [Reference manual](reference/) describes about specifications.
+ * [Tutorial](tutorial/) describes how to use Droonga.
+ * [Reference manual](reference/) describes about specifications for users and developers.
  * [Community](community/) describes how to communicate with developers and other users.
  * [Related projects](related-projects/) introduces related projects.
 
