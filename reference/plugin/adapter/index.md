@@ -108,7 +108,7 @@ In this base class, this method is defined as just a placeholder and it does not
 To modify incoming messages, you have to override it by yours, like following:
 
 ~~~ruby
-module FooPlugin
+module QueryFixer
   class Adapter < Droonga::Adapter
     def adapt_input(input_message)
       input_message.body["query"] = "fixed query"
@@ -126,7 +126,7 @@ In this base class, this method is defined as just a placeholder and it does not
 To modify outgoing messages, you have to override it by yours, like following:
 
 ~~~ruby
-module FooPlugin
+module ErrorBlocker
   class Adapter < Droonga::Adapter
     def adapt_output(output_message)
       output_message.status_code = StatusCode::OK
@@ -144,7 +144,7 @@ This returns the `"type"` of the incoming message.
 You can override it by assigning a new string value, like:
 
 ~~~ruby
-module FooPlugin
+module MySearch
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "my-search"]
 
@@ -173,7 +173,7 @@ This returns the `"body"` of the incoming message.
 You can override it by assigning a new value, partially or fully. For example:
 
 ~~~ruby
-module FooPlugin
+module MinimumLimit
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -194,7 +194,7 @@ end
 Another case:
 
 ~~~ruby
-module FooPlugin
+module MySearch
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "my-search"]
 
@@ -232,7 +232,7 @@ This returns the `"statusCode"` of the outgoing message.
 You can override it by assigning a new status code. For example: 
 
 ~~~ruby
-module FooPlugin
+module ErrorBlocker
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -256,7 +256,7 @@ This returns the `"errors"` of the outgoing message.
 You can override it by assigning new error information, partially or fully. For example:
 
 ~~~ruby
-module FooPlugin
+module ErrorExporter
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -285,14 +285,14 @@ This returns the `"body"` of the outgoing message.
 You can override it by assigning a new value, partially or fully. For example:
 
 ~~~ruby
-module FooPlugin
+module AdInsertion
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
     def adapt_output(output_message)
       output_message.body.each do |name, result|
         next unless result["records"]
-        result["records"] << ad_entry
+        result["records"].shift(ad_entry)
       end
       # Now all search results include advertising.
     end
