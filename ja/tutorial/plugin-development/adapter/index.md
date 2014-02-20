@@ -199,7 +199,7 @@ lib/droonga/plugins/sample-logger.rb:
       Plugin.registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
-        message.input_pattern = ["type", :equal, "search"]
+        input_message.pattern = ["type", :equal, "search"]
 
         def adapt_input(input_message)
           $log.info("SampleLoggerPlugin::Adapter", :message => input_message)
@@ -208,6 +208,15 @@ lib/droonga/plugins/sample-logger.rb:
     end
 (snip)
 ~~~
+
+The line beginning with `input_message.pattern` is a configuration.
+This example defines a plugin for any incoming message with `"type":"search"`.
+See the [reference manual's configuration section](../../../reference/plugin/adapter/#config)
+
+(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
+
+The method `adapt_input` is called for every incoming message matching to the pattern.
+The argument `input_message` is a wrapped version of the incoming message.
 
 Restart fluentd:
 
@@ -255,7 +264,9 @@ This shows the message is received by our `SampleLoggerPlugin::Adapter` and then
 
 ### Modify messages with the plugin
 
-Suppose that we want to restrict the number of records returned in the response, say `1`. What we need to do is set `limit` to be `1` for every request. Update plugin like below:
+Suppose that we want to restrict the number of records returned in the response, say `1`.
+What we need to do is set `limit` to be `1` for every request.
+Update plugin like below:
 
 lib/droonga/plugins/sample-logger.rb:
 
@@ -267,6 +278,9 @@ lib/droonga/plugins/sample-logger.rb:
         end
 (snip)
 ~~~
+
+Like above, you can modify the incoming message via methods of the argument `input_message`.
+See the [reference manual for the message class](../../../reference/plugin/adapter/#classes-Droonga-InputMessage).
 
 Restart fluentd:
 
@@ -332,6 +346,8 @@ lib/droonga/plugins/sample-logger.rb:
       Plugin.registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
+        (snip)
+
         def adapt_output(output_message)
           $log.info("SampleLoggerPlugin::Adapter", :message => output_message)
         end
@@ -339,6 +355,9 @@ lib/droonga/plugins/sample-logger.rb:
     end
 (snip)
 ~~~
+
+The method `adapt_output` is called only for outgoing messages triggered by incoming messages processed by the plugin itself.
+See the [reference manual for plugin developers](../../../reference/plugin/adapter/) for more details.
 
 ### Run
 
@@ -403,6 +422,9 @@ lib/droonga/plugins/sample-logger.rb:
         end
 (snip)
 ~~~
+
+Like above, you can modify the outgoing message via methods of the argument `output_message`. 
+See the [reference manual for the message class](../../../reference/plugin/adapter/#classes-Droonga-OutputMessage).
 
 Restart fluentd:
 
@@ -472,7 +494,7 @@ module Droonga
       Plugin.registry.register("store-search", self)
 
       class Adapter < Droonga::Adapter
-        message.input_pattern = ["type", :equal, "storeSearch"]
+        input_message.pattern = ["type", :equal, "storeSearch"]
 
         def adapt_input(input_message)
           $log.info("StoreSearchPlugin::Adapter", :message => input_message)
@@ -513,6 +535,8 @@ module Droonga
   end
 end
 ~~~
+
+(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
 
 Then update catalog.json to activate the plugin. Remove the `sample-logger` plugin previously created.
 
@@ -662,7 +686,7 @@ In the way just described, we can use adapter to implement the application speci
 
 ## まとめ
 
-We have learned how to create an addon working around the adaption phase, how to receive and modify messages, both of incoming and outgoing.
+We have learned how to create an addon working around the adaption phase, how to receive and modify messages, both of incoming and outgoing. See also the [reference manual](../../../reference/plugin/adapter/) for more details.
 
 
   [basic tutorial]: ../../basic/
