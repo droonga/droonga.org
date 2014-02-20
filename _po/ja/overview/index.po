@@ -231,3 +231,9 @@ msgid ""
 "上記のモジュールのうち、Adapter, Planner, Handler, Collectorについては、Rubyスクリプトで記述するpluginによって"
 "、自由に処理をカスタマイズすることができます。"
 msgstr ""
+
+msgid "## Next step"
+msgstr "## 次のステップ"
+
+msgid "Try [tutorial](../tutorial/) to know more about Droonga."
+msgstr "Droongaについてさらに学ぶために、[チュートリアル](../tutorial/)にも挑戦してみてください。"
