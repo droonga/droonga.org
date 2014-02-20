@@ -5,7 +5,7 @@ layout: en
 <div class="jumbotron">
 <h1>Droonga</h1>
 <p>A scalable data processing engine</p>
-<p><a class="btn btn-primary btn-lg" role="button" href="getting-started/">Getting Started »</a></p>
+<p><a class="btn btn-primary btn-lg" role="button" href="getting-started/">Learn more »</a></p>
 </div>
 
 ## About Droonga
