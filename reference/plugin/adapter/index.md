@@ -125,7 +125,7 @@ To modify outgoing messages, you have to override it by yours, like following:
 module Droonga::Plugins::ErrorConcealer
   class Adapter < Droonga::Adapter
     def adapt_output(output_message)
-      output_message.status_code = StatusCode::OK
+      output_message.status_code = Droonga::StatusCode::OK
     end
   end
 end
