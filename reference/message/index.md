@@ -202,5 +202,5 @@ There are some general error types for any command.
 `UnknownDataset`
 : Means you've specified a dataset which is not existing. The status code is `404`.
 
-`UnknownCommand`
-: Means there is no adapter or handler for the command given as the `type`. The status code is `400`.
+`UnknownType`
+: Means there is no handler for the command given as the `type`. The status code is `400`.
