@@ -14,6 +14,9 @@ You can process complex operations by mixing operations, and you can add custom 
 [Overview](../overview/)
 : Describes the design philosophy and the goal of the Droonga.
 
+[Install](../install/)
+: Describes steps to install Droonga.
+
 [Tutorial](../tutorial/)
 : Describes how you use the Droonga, with actual examples.
 

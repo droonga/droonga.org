@@ -47,6 +47,13 @@ msgstr ""
 ": Droongaの設計理念と目指しているゴールについて。"
 
 msgid ""
+"[Install](../install/)\n"
+": Describes steps to install Droonga."
+msgstr ""
+"[インストール手順](../install/)\n"
+": Droongaを使い始めるための手順の解説。"
+
+msgid ""
 "[Tutorial](../tutorial/)\n"
 ": Describes how you use the Droonga, with actual examples."
 msgstr ""
