@@ -234,7 +234,7 @@ module Droonga::Plugins::ErrorConcealer
 
     def adapt_output(output_message)
       unless output_message.status_code == StatusCode::InternalServerError
-        output_message.status_code = StatusCode::OK
+        output_message.status_code = Droonga::StatusCode::OK
         output_message.body = {}
         output_message.errors = nil
         # Now any internal server error is ignored and clients
@@ -281,21 +281,21 @@ This returns the `"body"` of the outgoing message.
 You can override it by assigning a new value, partially or fully. For example:
 
 ~~~ruby
-module Droonga::Plugins::AdInserter
+module Droonga::Plugins::SponsoredSearch
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
     def adapt_output(output_message)
       output_message.body.each do |name, result|
         next unless result["records"]
-        result["records"].unshift(ad_entry)
+        result["records"].unshift(sponsored_entry)
       end
-      # Now all search results include advertising.
+      # Now all search results include sponsored entry.
     end
 
-    def ad_entry
+    def sponsored_entry
       {
-        "title"=> "Buy Now!!",
+        "title"=> "SALE!",
         "url"=>   "http://..."
       }
     end
