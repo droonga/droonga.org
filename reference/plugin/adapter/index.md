@@ -80,11 +80,11 @@ Any error raised from the adapter is handled by the Droonga Engine itself. See a
 
 ## Configurations {#config}
 
-`input_message.pattern` (optional, default=`nil`)
+`input_message.pattern` ([matching pattern][], optional, default=`nil`)
 : A [matching pattern][] for incoming messages.
   If no pattern (`nil`) is given, any message is regarded as "matched".
 
-`output_message.pattern` (optional, default=`nil`)
+`output_message.pattern` ([matching pattern][], optional, default=`nil`)
 : A [matching pattern][] for outgoing messages.
   If no pattern (`nil`) is given, any message is regarded as "matched".
 
@@ -134,7 +134,7 @@ end
 
 ### `Droonga::InputMessage` {#classes-Droonga-InputMessage}
 
-#### `#command`, `#command=(command)` {#classes-Droonga-InputMessage-command}
+#### `#type`, `#type=(type)` {#classes-Droonga-InputMessage-type}
 
 This returns the `"type"` of the incoming message.
 
@@ -146,22 +146,24 @@ module Droonga::Plugins::MySearch
     input_message.pattern = ["type", :equal, "my-search"]
 
     def adapt_input(input_message)
-      p input_message.command
+      p input_message.type
       # => "my-search"
       #    This message will be handled by a plugin
-      #    for the custom "my-search" command.
+      #    for the custom "my-search" type.
 
-      input_message.command = "search"
+      input_message.type = "search"
 
-      p input_message.command
+      p input_message.type
       # => "search"
-      #    The messge type (command) is changed.
+      #    The messge type (type) is changed.
       #    This message will be handled by the "search" plugin,
       #    as a regular search request.
     end
   end
 end
 ~~~
+
+Note: On Droonga 0.9.9, this method is named as `command` but changed to `type` on Droonga 1.0.0, like above. If you write plugins for Droonga 0.9.9, you have to migrate it.
 
 #### `#body`, `#body=(body)` {#classes-Droonga-InputMessage-body}
 
@@ -196,11 +198,11 @@ module Droonga::Plugins::MySearch
     input_message.pattern = ["type", :equal, "my-search"]
 
     def adapt_input(input_message)
-      # Extract the query string from the custom command.
+      # Extract the query string from the custom type message.
       query_string = input_message["body"]["query"]
 
-      # Construct internal search request for the "search" command.
-      input_message.command = "search"
+      # Construct internal search request for the "search" type.
+      input_message.type = "search"
       input_message.body = {
         "queries" => {
           "source"    => "Store",
