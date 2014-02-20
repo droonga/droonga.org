@@ -19,25 +19,21 @@ For example, here is a sample plugin named "foo" with an adapter:
 ~~~ruby
 require "droonga/plugin"
 
-module Droonga
-  module Plugins
-    module FooPlugin
-      Plugin.registry.register("foo", self)
+module Droonga::Plugins::FooPlugin
+  Plugin.registry.register("foo", self)
 
-      class Adapter < Droonga::Adapter
-        # operations to configure this adapter
-        XXXXXX = XXXXXX
+  class Adapter < Droonga::Adapter
+    # operations to configure this adapter
+    XXXXXX = XXXXXX
 
-        def adapt_input(input_message)
-          # operations to modify incoming messages
-          input_message.XXXXXX = XXXXXX
-        end
+    def adapt_input(input_message)
+      # operations to modify incoming messages
+      input_message.XXXXXX = XXXXXX
+    end
 
-        def adapt_output(output_message)
-          # operations to modify outgoing messages
-          output_message.XXXXXX = XXXXXX
-        end
-      end
+    def adapt_output(output_message)
+      # operations to modify outgoing messages
+      output_message.XXXXXX = XXXXXX
     end
   end
 end
@@ -45,8 +41,8 @@ end
 
 Steps to define an adapter:
 
- 1. Define a module for your plugin (ex. `Droonga::Plugin::FooPlugin`) and register it as a plugin. (required)
- 2. Define an adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) inheriting [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
+ 1. Define a module for your plugin (ex. `Droonga::Plugins::FooPlugin`) and register it as a plugin. (required)
+ 2. Define an adapter class (ex. `Droonga::Plugins::FooPlugin::Adapter`) inheriting [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
  3. [Configure conditions to apply the adapter](#howto-configure). (required)
  4. Define adaption logic for incoming messages as [`#adapt_input`](#classes-Droonga-Adapter-adapt_input). (optional)
  5. Define adaption logic for outgoing messages as [`#adapt_output`](#classes-Droonga-Adapter-adapt_output). (optional)
@@ -59,7 +55,7 @@ For more details, see also the [plugin development tutorial](../../../tutorial/p
 An adapter works like following:
 
  1. The Droonga Engine starts.
-    * A global instance of the adapter class (ex. `Droonga::Plugin::FooPlugin::Adapter`) is created and it is registered.
+    * A global instance of the adapter class (ex. `Droonga::Plugins::FooPlugin::Adapter`) is created and it is registered.
       * The input pattern and the output pattern are registered.
     * The Droonga Engine starts to wait for incoming messages.
  2. An incoming message is transferred from the Protocol Adapter to the Droonga Engine.
@@ -108,7 +104,7 @@ In this base class, this method is defined as just a placeholder and it does not
 To modify incoming messages, you have to override it by yours, like following:
 
 ~~~ruby
-module QueryFixer
+module Droonga::Plugins::QueryFixer
   class Adapter < Droonga::Adapter
     def adapt_input(input_message)
       input_message.body["query"] = "fixed query"
@@ -126,7 +122,7 @@ In this base class, this method is defined as just a placeholder and it does not
 To modify outgoing messages, you have to override it by yours, like following:
 
 ~~~ruby
-module ErrorBlocker
+module Droonga::Plugins::ErrorConcealer
   class Adapter < Droonga::Adapter
     def adapt_output(output_message)
       output_message.status_code = StatusCode::OK
@@ -144,7 +140,7 @@ This returns the `"type"` of the incoming message.
 You can override it by assigning a new string value, like:
 
 ~~~ruby
-module MySearch
+module Droonga::Plugins::MySearch
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "my-search"]
 
@@ -173,7 +169,7 @@ This returns the `"body"` of the incoming message.
 You can override it by assigning a new value, partially or fully. For example:
 
 ~~~ruby
-module MinimumLimit
+module Droonga::Plugins::MinimumLimit
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -194,7 +190,7 @@ end
 Another case:
 
 ~~~ruby
-module MySearch
+module Droonga::Plugins::MySearch
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "my-search"]
 
@@ -232,7 +228,7 @@ This returns the `"statusCode"` of the outgoing message.
 You can override it by assigning a new status code. For example: 
 
 ~~~ruby
-module ErrorBlocker
+module Droonga::Plugins::ErrorConcealer
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -256,7 +252,7 @@ This returns the `"errors"` of the outgoing message.
 You can override it by assigning new error information, partially or fully. For example:
 
 ~~~ruby
-module ErrorExporter
+module Droonga::Plugins::ErrorExporter
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -285,7 +281,7 @@ This returns the `"body"` of the outgoing message.
 You can override it by assigning a new value, partially or fully. For example:
 
 ~~~ruby
-module AdInsertion
+module Droonga::Plugins::AdInserter
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
