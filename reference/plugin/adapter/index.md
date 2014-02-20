@@ -47,7 +47,7 @@ Steps to define an adapter:
  4. Define adaption logic for incoming messages as [`#adapt_input`](#classes-Droonga-Adapter-adapt_input). (optional)
  5. Define adaption logic for outgoing messages as [`#adapt_output`](#classes-Droonga-Adapter-adapt_output). (optional)
 
-For more details, see also the [plugin development tutorial](../../../tutorial/plugin-development/adapter/).
+See also the [plugin development tutorial](../../../tutorial/plugin-development/adapter/).
 
 
 ### How an adapter works? {#how-works}
@@ -72,7 +72,7 @@ An adapter works like following:
  5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
 
 As described above, the Droonga Engine creates only one global instance of the adapter class for each plugin.
-You should not keep stateful information for a pair of incoming and outgoing messages as an instance variable of the adapter.
+You should not keep stateful information for a pair of incoming and outgoing messages as instance variables of the adapter itself.
 Instead, you should give stateful information as a part of the incoming message body, and receive it from the body of the corresponding outgoing message.
 
 Any error raised from the adapter is handled by the Droonga Engine itself. See also [error handling][].
