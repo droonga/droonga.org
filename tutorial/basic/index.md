@@ -111,6 +111,7 @@ fluentd.conf:
 catalog.json:
 
     {
+      "version": 1,
       "effective_date": "2013-09-01T00:00:00Z",
       "zones": ["localhost:24224/starbucks"],
       "farms": {
