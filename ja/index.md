@@ -14,7 +14,7 @@ layout: ja
 <div class="jumbotron">
 <h1>Droonga</h1>
 <p>スケーラブルなデータ処理エンジン</p>
-<p><a class="btn btn-primary btn-lg" role="button" href="overview/">詳しく »</a></p>
+<p><a class="btn btn-primary btn-lg" role="button" href="getting-started/">詳しく »</a></p>
 </div>
 
 ## Droongaについて
@@ -25,17 +25,14 @@ Droongaは、ストリーム指向の処理モデルを採用したスケーラ�
 
 将来のDroongaについては[ロードマップ](roadmap/)をご覧ください。
 
-## 使ってみよう
-
-Droongaについて知った後は、さらに理解を深めるために[チュートリアル](tutorial/)を試してみて下さい。もしまだ[概要](overview/)を読んでいないようであれば、チュートリアルを始める前にそちらに目を通しておく事をお薦めします。
-
 ## ドキュメント
 
 Droongaをより効果的に使うために、以下のドキュメントが役立つでしょう。
 
  * [インストール手順](install/)：Droongaのインストール手順の説明です。
+ * [チュートリアル](tutorial/)：Droongaの使い方を実例を通して解説します。
  * [リファレンスマニュアル](reference/)：詳細な仕様についての説明です。
- * [コミュニティー](community/)：Droonga開発者や他のユーザーとやりとりする方法の説明です。
+ * [コミュニティー](community/)：Droongaの開発への参加の仕方、Droongaプロジェクトへの貢献の仕方についての説明です。
  * [関連プロジェクト](related-projects/)：Droongaの関連プロジェクトの紹介です。
 
 ## 最新情報
