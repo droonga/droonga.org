@@ -88,6 +88,7 @@ Any error raised from the adapter is handled by the Droonga Engine itself. See a
 : A [matching pattern][] for outgoing messages.
   If no pattern (`nil`) is given, any message is regarded as "matched".
 
+Note: On Droonga 0.9.9, they are named as `message.input_pattern` and `message.output_pattern` but changed to new configurations on Droonga 1.0.0, like above. If you write plugins for Droonga 0.9.9, you have to migrate it.
 
 ## Classes and methods {#classes}
 
