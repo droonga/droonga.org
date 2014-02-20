@@ -23,7 +23,16 @@
       </ul>
     </li>
     <li><a href="/ja/community/">コミュニティー</a></li>
-    <li><a href="/ja/reference/">リファレンスマニュアル</a></li>
+    <li class="dropdown"><a href="/ja/reference/"
+      class="dropdown-toggle"
+      data-toggle="dropdown">リファレンスマニュアル <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a href="/ja/reference/catalog/">カタログの仕様</a></li>
+        <li><a href="/ja/reference/message/">メッセージの形式</a></li>
+        <li><a href="/ja/reference/commands/">コマンドリファレンス</a></li>
+        <li><a href="/ja/reference/plugin/">プラグイン開発</a></li>
+      </ul>
+    </li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
     {% if relative_path != "" %}
