@@ -190,7 +190,7 @@ lib/droonga/plugins/sample-logger.rb:
       Plugin.registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
-        message.input_pattern = ["type", :equal, "search"]
+        input_message.pattern = ["type", :equal, "search"]
 
         def adapt_input(input_message)
           $log.info("SampleLoggerPlugin::Adapter", :message => input_message)
@@ -199,6 +199,8 @@ lib/droonga/plugins/sample-logger.rb:
     end
 (snip)
 ~~~
+
+(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
 
 Restart fluentd:
 
@@ -321,6 +323,7 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
     module SampleLoggerPlugin
       Plugin.registry.register("sample-logger", self)
+      (snip)
 
       class Adapter < Droonga::Adapter
         def adapt_output(output_message)
@@ -463,7 +466,7 @@ module Droonga
       Plugin.registry.register("store-search", self)
 
       class Adapter < Droonga::Adapter
-        message.input_pattern = ["type", :equal, "storeSearch"]
+        input_message.pattern = ["type", :equal, "storeSearch"]
 
         def adapt_input(input_message)
           $log.info("StoreSearchPlugin::Adapter", :message => input_message)
@@ -504,6 +507,8 @@ module Droonga
   end
 end
 ~~~
+
+(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
 
 Then update catalog.json to activate the plugin. Remove the `sample-logger` plugin previously created.
 
