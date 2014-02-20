@@ -288,7 +288,7 @@ module Droonga::Plugins::AdInserter
     def adapt_output(output_message)
       output_message.body.each do |name, result|
         next unless result["records"]
-        result["records"].shift(ad_entry)
+        result["records"].unshift(ad_entry)
       end
       # Now all search results include advertising.
     end
