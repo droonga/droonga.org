@@ -100,11 +100,20 @@ class I18nTask
                                         *msginit_options)
           end
         end
+
+        edit_po_file_mtime = edit_po_file_path.mtime
         GetText::Tools::MsgMerge.run("--update",
                                      "--sort-by-file",
                                      "--no-wrap",
                                      edit_po_file_path.to_s,
                                      pot_file_path.to_s)
+        if po_file_path.exist? and po_file_path.mtime > edit_po_file_mtime
+          GetText::Tools::MsgMerge.run("--output", edit_po_file_path.to_s,
+                                       "--sort-by-file",
+                                       "--no-obsolete-entries",
+                                       po_file_path.to_s,
+                                       edit_po_file_path.to_s)
+        end
         if all_po_file_path.exist?
           GetText::Tools::MsgMerge.run("--output", edit_po_file_path.to_s,
                                        "--sort-by-file",
