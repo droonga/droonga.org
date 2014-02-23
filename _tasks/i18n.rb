@@ -14,6 +14,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require "pathname"
+require "rake/clean"
+
 require "yard"
 require "gettext/tools"
 
@@ -76,6 +78,7 @@ class I18nTask
       po_file_path = po_dir_path + "#{base_name}.po"
       edit_po_file_path = po_dir_path + "#{base_name}.edit.po"
       edit_po_file_paths << edit_po_file_path
+      CLEAN << edit_po_file_path.to_s
 
       directory po_dir_path.to_s
       file edit_po_file_path.to_s => [target_file, po_dir_path.to_s] do
@@ -155,6 +158,7 @@ class I18nTask
       end
     end
 
+    CLEAN << all_po_file_path.to_s
     file all_po_file_path.to_s => po_file_paths.collect(&:to_s) do
       GetText::Tools::MsgCat.run("--output", all_po_file_path.to_s,
                                  "--no-fuzzy",
