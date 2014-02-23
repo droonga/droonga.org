@@ -238,10 +238,6 @@ class I18nTask
     translated_text
   end
 
-  def locale_file_path(target_file_path, locale)
-    "_po/#{locale}/#{target_file_path.sub(/\.[^\.]+\z/, "\.po")}"
-  end
-
   def yard_locale(locale)
     @yard_locales[locale] ||= create_yard_locale(locale)
   end
