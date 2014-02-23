@@ -267,10 +267,15 @@ class I18nTask
   end
 
   class Path
+    attr_reader :locale
     def initialize(po_dir_path, locale, target_file_path=nil)
       @po_dir_path = po_dir_path
       @locale = locale
       @target_file_path = target_file_path
+    end
+
+    def target_file
+      @target_file_path
     end
 
     def base_po_dir
