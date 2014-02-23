@@ -68,65 +68,60 @@ class I18nTask
   end
 
   def define_edit_po_locale_update_task(locale)
-    base_po_dir_path = @po_dir_path + locale
-    all_po_file_path = @po_dir_path + "#{locale}.po"
-
-    edit_po_file_paths = []
+    edit_po_files = []
     @files.each do |target_file|
-      base_name = File.basename(target_file, ".*")
-      po_dir_path = base_po_dir_path + File.dirname(target_file)
-      po_file_path = po_dir_path + "#{base_name}.po"
-      edit_po_file_path = po_dir_path + "#{base_name}.edit.po"
-      edit_po_file_paths << edit_po_file_path
-      CLEAN << edit_po_file_path.to_s
+      path = Path.new(@po_dir_path, locale, Pathname(target_file))
+      edit_po_file = path.edit_po_file.to_s
+      edit_po_files << edit_po_file
+      CLEAN << edit_po_file if path.edit_po_file.exist?
 
-      directory po_dir_path.to_s
-      file edit_po_file_path.to_s => [target_file, po_dir_path.to_s] do
-        relative_base_path = @base_dir_path.relative_path_from(po_dir_path)
+      po_dir = path.po_dir.to_s
+      directory po_dir
+      file edit_po_file => [target_file, po_dir] do
+        relative_base_path = @base_dir_path.relative_path_from(path.po_dir)
         generator = YARD::I18n::PotGenerator.new(relative_base_path.to_s)
         yard_file = YARD::CodeObjects::ExtraFileObject.new(target_file)
         generator.parse_files([yard_file])
-        pot_file_path = po_dir_path + "#{base_name}.pot"
-        pot_file_path.open("w") do |pot_file|
+        path.pot_file.open("w") do |pot_file|
           pot_file.puts(generator.generate)
         end
-        unless edit_po_file_path.exist?
-          if po_file_path.exist?
-            cp(po_file_path.to_s, edit_po_file_path.to_s)
+        unless path.edit_po_file.exist?
+          if path.po_file.exist?
+            cp(path.po_file.to_s, path.edit_po_file.to_s)
           else
-            GetText::Tools::MsgInit.run("--input", pot_file_path.to_s,
-                                        "--output", edit_po_file_path.to_s,
+            GetText::Tools::MsgInit.run("--input", path.pot_file.to_s,
+                                        "--output", path.edit_po_file.to_s,
                                         "--locale", locale,
                                         *msginit_options)
           end
         end
 
-        edit_po_file_mtime = edit_po_file_path.mtime
+        edit_po_file_mtime = path.edit_po_file.mtime
         GetText::Tools::MsgMerge.run("--update",
                                      "--sort-by-file",
                                      "--no-wrap",
-                                     edit_po_file_path.to_s,
-                                     pot_file_path.to_s)
-        if po_file_path.exist? and po_file_path.mtime > edit_po_file_mtime
-          GetText::Tools::MsgMerge.run("--output", edit_po_file_path.to_s,
+                                     path.edit_po_file.to_s,
+                                     path.pot_file.to_s)
+        if path.po_file.exist? and path.po_file.mtime > edit_po_file_mtime
+          GetText::Tools::MsgMerge.run("--output", path.edit_po_file.to_s,
                                        "--sort-by-file",
                                        "--no-obsolete-entries",
-                                       po_file_path.to_s,
-                                       edit_po_file_path.to_s)
+                                       path.po_file.to_s,
+                                       path.edit_po_file.to_s)
         end
-        if all_po_file_path.exist?
-          GetText::Tools::MsgMerge.run("--output", edit_po_file_path.to_s,
+        if path.all_po_file.exist?
+          GetText::Tools::MsgMerge.run("--output", path.edit_po_file.to_s,
                                        "--sort-by-file",
                                        "--no-fuzzy-matching",
                                        "--no-obsolete-entries",
-                                       all_po_file_path.to_s,
-                                       edit_po_file_path.to_s)
+                                       path.all_po_file.to_s,
+                                       path.edit_po_file.to_s)
         end
       end
     end
 
     desc "Update .edit.po files for [#{locale}] locale"
-    task :update => edit_po_file_paths.collect(&:to_s)
+    task :update => edit_po_files
   end
 
   def define_po_update_task
@@ -144,19 +139,14 @@ class I18nTask
   end
 
   def define_po_locale_update_task(locale)
-    base_po_dir_path = @po_dir_path + locale
-    all_po_file_path = @po_dir_path + "#{locale}.po"
-
-    po_file_paths = []
+    po_files = []
     @files.each do |target_file|
-      base_name = File.basename(target_file, ".*")
-      po_dir_path = base_po_dir_path + File.dirname(target_file)
-      po_file_path = po_dir_path + "#{base_name}.po"
-      edit_po_file_path = po_dir_path + "#{base_name}.edit.po"
-      po_file_paths << po_file_path
+      path = Path.new(@po_dir_path, locale, Pathname(target_file))
+      po_file = path.po_file.to_s
+      po_files << po_file
 
-      file po_file_path.to_s => [edit_po_file_path.to_s] do
-        GetText::Tools::MsgCat.run("--output", po_file_path.to_s,
+      file po_file => [path.edit_po_file.to_s] do
+        GetText::Tools::MsgCat.run("--output", po_file,
                                    "--sort-by-file",
                                    "--no-all-comments",
                                    "--no-report-warning",
@@ -166,22 +156,24 @@ class I18nTask
                                    "--remove-header-field=Language-Team",
                                    "--remove-header-field=POT-Creation-Date",
                                    "--remove-header-field=PO-Revision-Date",
-                                   edit_po_file_path.to_s)
+                                   path.edit_po_file.to_s)
       end
     end
 
-    CLEAN << all_po_file_path.to_s
-    file all_po_file_path.to_s => po_file_paths.collect(&:to_s) do
-      GetText::Tools::MsgCat.run("--output", all_po_file_path.to_s,
+    all_po_file_path = Path.new(@po_dir_path, locale).all_po_file
+    all_po_file = all_po_file_path.to_s
+    CLEAN << all_po_file if all_po_file_path.exist?
+    file all_po_file => po_files do
+      GetText::Tools::MsgCat.run("--output", all_po_file,
                                  "--no-fuzzy",
                                  "--no-all-comments",
                                  "--sort-by-msgid",
                                  "--no-obsolete-entries",
-                                 *po_file_paths.collect(&:to_s))
+                                 *po_files)
     end
 
     desc "Update .po files for [#{locale}] locale"
-    task :update => all_po_file_path.to_s
+    task :update => all_po_file
   end
 
   def define_translate_task
@@ -201,19 +193,20 @@ class I18nTask
   def define_locale_translate_task(locale)
     translated_files = []
     @files.each do |target_file|
-      translated_file = Pathname(locale) + target_file
+      path = Path.new(@po_dir_path, locale, Pathname(target_file))
+      translated_file = path.translated_file.to_s
       translated_files << translated_file
 
-      translated_file_dir = translated_file.parent
-      directory translated_file_dir.to_s
+      translated_file_dir = path.translated_file.parent.to_s
+      directory translated_file_dir
       dependencies = [
         target_file,
         "i18n:po:#{locale}:update",
-        translated_file_dir.to_s,
+        translated_file_dir,
       ]
-      file translated_file.to_s => dependencies do
+      file translated_file => dependencies do
         File.open(target_file) do |input|
-          text = translate(input, locale, target_file)
+          text = translate(input, locale, path)
           File.open(translated_file, "w") do |output|
             output.puts(text)
           end
@@ -225,17 +218,16 @@ class I18nTask
     task :translate => translated_files
   end
 
-  def translate(input, locale, target_file)
+  def translate(input, locale, path)
     text = YARD::I18n::Text.new(input)
-    locale_file = locale_file_path(target_file, locale)
+    translated_text = text.translate(yard_locale(locale))
     notice = "{% comment %}\n" +
                "##############################################\n" +
                "  THIS FILE IS AUTOMATICALLY GENERATED FROM\n" +
-               "  \"#{locale_file}\"\n" +
+               "  \"#{path.po_file}\"\n" +
                "  DO NOT EDIT THIS FILE MANUALLY!\n" +
                "##############################################\n" +
                "{% endcomment %}"
-    translated_text = text.translate(yard_locale(locale))
     if /^---+$/ =~ translated_text
       translated_text = translated_text.split(/^---+\n/)
       translated_text[2] = "\n#{notice}\n\n#{translated_text[2]}"
@@ -272,5 +264,49 @@ class I18nTask
       options.concat(["--translator-email", @translator_email])
     end
     options
+  end
+
+  class Path
+    def initialize(po_dir_path, locale, target_file_path=nil)
+      @po_dir_path = po_dir_path
+      @locale = locale
+      @target_file_path = target_file_path
+    end
+
+    def base_po_dir
+      @po_dir_path + @locale
+    end
+
+    def all_po_file
+      @po_dir_path + "#{@locale}.po"
+    end
+
+    def target_file_base
+      @target_file_path.basename(".*")
+    end
+
+    def po_dir
+      base_po_dir + @target_file_path.dirname
+    end
+
+    def po_file
+      po_dir + "#{target_file_base}.po"
+    end
+
+    def edit_po_file
+      po_dir + "#{target_file_base}.edit.po"
+    end
+
+    def pot_file
+      po_dir + "#{target_file_base}.pot"
+    end
+
+    def translated_file
+      Pathname(@locale) + @target_file_path
+    end
+
+    def translated_file_dir
+      Pathname(@locale) + @target_file_path
+    end
   end
 end
