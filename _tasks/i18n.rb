@@ -161,6 +161,9 @@ class I18nTask
                                    "--no-all-comments",
                                    "--no-report-warning",
                                    "--no-obsolete-entries",
+                                   "--remove-header-field=Report-Msgid-Bugs-To",
+                                   "--remove-header-field=Last-Translator",
+                                   "--remove-header-field=Language-Team",
                                    "--remove-header-field=POT-Creation-Date",
                                    "--remove-header-field=PO-Revision-Date",
                                    edit_po_file_path.to_s)
