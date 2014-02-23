@@ -15,10 +15,10 @@ msgid ""
 msgstr ""
 
 msgid "Droonga project welcomes to your contributions!"
-msgstr ""
+msgstr "Droongaプロジェクトはあなたのコントリビュートを待っています！"
 
 msgid "Here is a list of contribution targets:"
-msgstr ""
+msgstr "コントリビュートして欲しいことのリストは次の通りです。"
 
 msgid ""
 " * [Internationalization](i18n/) describes how to translate Droonga documents "
