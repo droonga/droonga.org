@@ -70,8 +70,8 @@ layout: ja
               "slices": [
                 {
                   "label": "<Label of the slice>",
-                  "partition": {
-                    "address": "<Address string of the partition>"
+                  "volume": {
+                    "address": "<Address string of the volume>"
                   }
                 },
                 ...
@@ -145,7 +145,7 @@ layout: ja
 : 0 (ワーカー無し。全ての処理がマスタープロセス内で行われます)
 
 継承可能性
-: 可。`dataset`と`partition`の定義でオーバライドできます。
+: 可。`dataset`と`volume`の定義でオーバライドできます。
 
 ### Dataset 定義 {#dataset}
 
@@ -164,7 +164,7 @@ layout: ja
 : なし。これは必須のパラメータです。
 
 継承可能性
-: 可。`dataset`と`partition`の定義でオーバライドできます。
+: 可。`dataset`と`volume`の定義でオーバライドできます。
 
 #### `schema` {#parameter-schema}
 
@@ -178,7 +178,7 @@ layout: ja
 : なし。これは必須のパラメータです。
 
 継承可能性
-: 可。`dataset`と`partition`の定義でオーバライドできます。
+: 可。`dataset`と`volume`の定義でオーバライドできます。
 
 #### `fact` {#parameter-fact}
 
@@ -192,15 +192,15 @@ layout: ja
 : なし。
 
 継承可能性
-: 可。`dataset`と`partition`の定義でオーバライドできます。
+: 可。`dataset`と`volume`の定義でオーバライドできます。
 
 #### `replicas` {#parameter-replicas}
 
 概要
-: 互いに複製されるパーティションの集合。
+: 互いに複製されるボリュームの集合。
 
 値
-: [`partition` definitions](#partition)の配列。
+: [`volume` definitions](#volume)の配列。
 
 デフォルト値
 : なし。これは必須のパラメータです。
@@ -433,10 +433,10 @@ Value
 継承可能性
 : 不可。
 
-### Partition 定義 {#partition}
+### Volume 定義 {#volume}
 
 概要
-: データセットを構成する単位。データセットは1つ、もしくは複数のパーティションからなります。パーティションは単一のデータベースインスタンスか、`slices` の集合で構成されます。パーティションが単一のデータベースインスタンスから構成される場合は、`address`パラメータを指定しなければなりません。このとき、それ以外のパラメータを指定してはいけません。そうでない場合は、`dimension`と`slicer`と`slices`が必須で、他は指定してはいけません。
+: データセットを構成する単位。データセットは1つ、もしくは複数のボリュームからなります。ボリュームは単一のデータベースインスタンスか、`slices` の集合で構成されます。ボリュームが単一のデータベースインスタンスから構成される場合は、`address`パラメータを指定しなければなりません。このとき、それ以外のパラメータを指定してはいけません。そうでない場合は、`dimension`と`slicer`と`slices`が必須で、他は指定してはいけません。
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
@@ -472,7 +472,7 @@ Value
 : "_key"
 
 継承可能性
-: 可。`dataset`と`partition`の定義でオーバライドできます。
+: 可。`dataset`と`volume`の定義でオーバライドできます。
 
 #### `slicer` {#parameter-slicer}
 
@@ -486,7 +486,7 @@ Value
 : "hash"
 
 継承可能性
-: 可。`dataset`と`partition`の定義でオーバライドできます。
+: 可。`dataset`と`volume`の定義でオーバライドできます。
 
 #### `slices` {#parameter-slices}
 
@@ -505,7 +505,7 @@ Value
 ### Slice 定義 {#slice}
 
 Abstract
-: Definition of each slice. Specifies the range of sliced data and the partition to store the data.
+: Definition of each slice. Specifies the range of sliced data and the volume to store the data.
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
@@ -552,14 +552,14 @@ Value
 継承可能性
 : 不可。
 
-#### `partition` {#parameter-partition}
+#### `volume` {#parameter-volume}
 
 Abstract
-: A partition to store the data which corresponds to the slice.
+: A volume to store the data which corresponds to the slice.
 
 値
 
-: An object which is a [`partition` definition](#partition)
+: An object which is a [`volume` definition](#volume)
 
 デフォルト値
 : なし。
