@@ -62,8 +62,8 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
               "slices": [
                 {
                   "label": "<Label of the slice>",
-                  "partition": {
-                    "address": "<Address string of the partition>"
+                  "volume": {
+                    "address": "<Address string of the volume>"
                   }
                 },
                 ...
@@ -138,7 +138,7 @@ Default value
 : 0 (No worker. All operations are done in the master process)
 
 Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `volume` definition.
 
 ### Dataset definition {#dataset}
 
@@ -157,7 +157,7 @@ Default value
 : None. This is a required parameter.
 
 Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `volume` definition.
 
 #### `schema` {#parameter-schema}
 
@@ -171,7 +171,7 @@ Default value
 : None. This is a required parameter.
 
 Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `volume` definition.
 
 #### `fact` {#parameter-fact}
 
@@ -185,15 +185,15 @@ Default value
 : None.
 
 Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `volume` definition.
 
 #### `replicas` {#parameter-replicas}
 
 Abstract
-: A collection of partitions which are the copies of each other.
+: A collection of volumes which are the copies of each other.
 
 Value
-: An array of [`partition` definitions](#partition).
+: An array of [`volume` definitions](#volume).
 
 Default value
 : None. This is a required parameter.
@@ -426,10 +426,10 @@ Default value
 Inheritable
 : False.
 
-### Partition definition {#partition}
+### Volume definition {#volume}
 
 Abstract
-: A unit to compose a dataset. A dataset consists of one or more partitions. A partition consists of either a single instance of database or a collection of `slices`. When a partition consists of a single database instance, `address` parameter must be assigned and the other parameters must not be assigned. Otherwise, `dimension`, `slicer` and `slices` are required, and vice versa.
+: A unit to compose a dataset. A dataset consists of one or more volumes. A volume consists of either a single instance of database or a collection of `slices`. When a volume consists of a single database instance, `address` parameter must be assigned and the other parameters must not be assigned. Otherwise, `dimension`, `slicer` and `slices` are required, and vice versa.
 
 Value
 : An object with the following key/value pairs.
@@ -465,7 +465,7 @@ Default value
 : "_key"
 
 Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `volume` definition.
 
 #### `slicer` {#parameter-slicer}
 
@@ -479,7 +479,7 @@ Default value
 : "hash"
 
 Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+: True. Overridable in `dataset` and `volume` definition.
 
 #### `slices` {#parameter-slices}
 
@@ -498,7 +498,7 @@ Inheritable
 ### Slice definition {#slice}
 
 Abstract
-: Definition of each slice. Specifies the range of sliced data and the partition to store the data.
+: Definition of each slice. Specifies the range of sliced data and the volume to store the data.
 
 Value
 : An object with the following key/value pairs.
@@ -545,14 +545,14 @@ Default value
 Inheritable
 : False.
 
-#### `partition` {#parameter-partition}
+#### `volume` {#parameter-volume}
 
 Abstract
-: A partition to store the data which corresponds to the slice.
+: A volume to store the data which corresponds to the slice.
 
 Value
 
-: An object which is a [`partition` definition](#partition)
+: An object which is a [`volume` definition](#volume)
 
 Default value
 : None.
