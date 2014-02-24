@@ -182,8 +182,8 @@ layout: ja
 
 #### `fact` {#parameter-fact}
 
-Abstract
-: The name of the fact table. When a `dataset` is stored as more than one `slice`, one [fact table](http://en.wikipedia.org/wiki/Fact_table) must be selected from tables defined in [`schema`](#parameter-schema) parameter.
+概要
+: fact テーブルの名前。`dataset`が複数の`slice`に格納される場合、[`schema`](#parameter-schema)パラメータで定義されたテーブルの中から、1つ[fact table](http://en.wikipedia.org/wiki/Fact_table)を選択する必要があります。
 
 値
 : 文字列。
@@ -196,11 +196,11 @@ Abstract
 
 #### `replicas` {#parameter-replicas}
 
-Abstract
-: A collection of partitions which are the copies of each other.
+概要
+: 互いに複製されるパーティションの集合。
 
-Value
-: An array of [`partition` definitions](#partition).
+値
+: [`partition` definitions](#partition)の配列。
 
 デフォルト値
 : なし。これは必須のパラメータです。
@@ -435,24 +435,24 @@ Value
 
 ### Partition 定義 {#partition}
 
-Abstract
-: A unit to compose a dataset. A dataset consists of one or more partitions. A partition consists of either a single instance of database or a collection of `slices`. When a partition consists of a single database instance, `address` parameter must be assigned and the other parameters must not be assigned. Otherwise, `dimension`, `slicer` and `slices` are required, and vice versa.
+概要
+: データセットを構成する単位。データセットは1つ、もしくは複数のパーティションからなる。パーティションは単一のデータベースインスタンスか、`slices` の集合で構成されます。パーティションが単一のデータベースインスタンスから構成される場合は、`address`パラメータを指定しなければなりません。それ以外のパラメータを指定してはいけません。そうでない場合は、`dimension`と`slicer`と`slices`が必須で、他は指定してはいけません。
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
 #### `address` {#parameter-address}
 
-Abstract
-: Specifies the location of the database instance.
+概要
+: データベースインスタンスの場所を指定します。
 
-Value
-: A string in the following format.
+値
+: 以下の書式の文字列。
 
 "[database_type:]hostname[:port_number]/localpath/to/the/database"
 
-* database_type: Omittable. Default value is "groonga".
-* port_number: Omittable. Default value is 10047.
+* database_type: 省略可能。デフォルト値は"groonga"。
+* port_number: 省略可能。デフォルト値は 10047。
 
 デフォルト値
 : なし。
