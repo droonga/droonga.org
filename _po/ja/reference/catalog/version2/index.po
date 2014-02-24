@@ -667,8 +667,8 @@ msgstr "### Slice 定義 {#slice}"
 
 msgid ""
 "Abstract\n"
-": Definition of each slice. Specifies the range of sliced data and the partion"
-" to store the data."
+": Definition of each slice. Specifies the range of sliced data and the partiti"
+"on to store the data."
 msgstr ""
 
 msgid "#### `weight` {#parameter-slice-weight}"

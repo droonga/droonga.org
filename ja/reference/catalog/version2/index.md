@@ -504,7 +504,7 @@ Value
 ### Slice 定義 {#slice}
 
 Abstract
-: Definition of each slice. Specifies the range of sliced data and the partion to store the data.
+: Definition of each slice. Specifies the range of sliced data and the partition to store the data.
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
