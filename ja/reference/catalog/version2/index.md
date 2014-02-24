@@ -462,6 +462,7 @@ Value
 
 #### `dimension` {#parameter-dimension}
 
+概要
 : fact表の中でレコードをスライスする次元を指定する。fact表の'_key'または[`columns`](#parameter-columns)からスカラー型のカラムを選択します。[dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29)を参照してください。
 
 値
