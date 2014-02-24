@@ -504,8 +504,8 @@ Value
 
 ### Slice 定義 {#slice}
 
-Abstract
-: Definition of each slice. Specifies the range of sliced data and the volume to store the data.
+概要
+: スライスの定義。スライスされたデータの範囲と、それを保存するボリュームを指定する。
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
@@ -515,11 +515,11 @@ Abstract
 Abstract
 : Specifies the share in the slices. Only available when the `slicer` is ratio-scaled.
 
-Value
-: A numeric value.
+値
+: 数値。
 
-Default value
-: `1`.
+デフォルト値
+: `1`
 
 継承可能性
 : 不可。
