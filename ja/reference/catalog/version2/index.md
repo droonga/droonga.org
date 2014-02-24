@@ -436,7 +436,7 @@ Value
 ### Partition 定義 {#partition}
 
 概要
-: データセットを構成する単位。データセットは1つ、もしくは複数のパーティションからなる。パーティションは単一のデータベースインスタンスか、`slices` の集合で構成されます。パーティションが単一のデータベースインスタンスから構成される場合は、`address`パラメータを指定しなければなりません。それ以外のパラメータを指定してはいけません。そうでない場合は、`dimension`と`slicer`と`slices`が必須で、他は指定してはいけません。
+: データセットを構成する単位。データセットは1つ、もしくは複数のパーティションからなります。パーティションは単一のデータベースインスタンスか、`slices` の集合で構成されます。パーティションが単一のデータベースインスタンスから構成される場合は、`address`パラメータを指定しなければなりません。このとき、それ以外のパラメータを指定してはいけません。そうでない場合は、`dimension`と`slicer`と`slices`が必須で、他は指定してはいけません。
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
@@ -463,7 +463,7 @@ Value
 #### `dimension` {#parameter-dimension}
 
 概要
-: fact表の中でレコードをスライスする次元を指定する。fact表の'_key'または[`columns`](#parameter-columns)からスカラー型のカラムを選択します。[dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29)を参照してください。
+: fact表の中でレコードをスライスする次元を指定します。fact表の'_key'または[`columns`](#parameter-columns)からスカラー型のカラムを選択します。[dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29)を参照してください。
 
 値
 : 文字列。
