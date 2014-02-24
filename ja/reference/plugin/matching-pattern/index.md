@@ -83,7 +83,7 @@ and:
     }
 
 
-## Syntax {#syntax}
+## 書式 {#syntax}
 
 There are two typeos of matching patterns: "basic pattern" and "nested pattern".
 

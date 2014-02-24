@@ -17,14 +17,13 @@ layout: ja
 
 ## 概要 {#abstract}
 
-`Catalog` is a JSON data to manage the configuration of a Droonga cluster.
-A Droonga cluster consists of one or more `datasets`, and a `dataset` consists of other portions. They all must be explicitly described in a `catalog` and be shared with all the hosts in the cluster.
+`Catalog`はDroongaクラスタの設定を管理するためのJSONデータです。Droongaクラスタは1つ以上の`datasets`からなり、`dataset`はその他の部分からなります。それらは全て`catalog`に記述し、クラスタ内の全てホストで共有しなければなりません。
 
 ## 使い方 {#usage}
 
-This [`version`](#parameter-version) of `catalog` will be available from Droonga 1.0.0.
+この [`version`](#paramter-version) の `catalog` は Droonga 1.0.0 以降で有効です。
 
-## Syntax {#syntax}
+## 書式 {#syntax}
 
     {
       "version": <Version number>,
@@ -86,9 +85,9 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
       }
     }
 
-## Details {#details}
+## 詳細 {#details}
 
-### Catalog definition {#catalog}
+### Catalog 定義 {#catalog}
 
 Value
 : An object with the following key/value pairs.
@@ -149,7 +148,7 @@ Default value
 Inheritable
 : True. Overridable in `dataset` and `partition` definition.
 
-### Dataset definition {#dataset}
+### Dataset 定義 {#dataset}
 
 Value
 : An object with the following key/value pairs.
@@ -210,7 +209,7 @@ Default value
 Inheritable
 : False.
 
-### Table definition {#table}
+### Table 定義 {#table}
 
 Value
 : An object with the following key/value pairs.
@@ -313,7 +312,7 @@ Default value
 Inheritable
 : False.
 
-### Column definition {#column}
+### Column 定義 #{column}
 
 Value
 
@@ -374,7 +373,7 @@ Default value
 Inheritable
 : False.
 
-### indexOption definition {#indexOption}
+### indexOption 定義 {#indexOption}
 
 Value
 : An object with the following key/value pairs.
@@ -435,7 +434,7 @@ Default value
 Inheritable
 : False.
 
-### Partition definition {#partition}
+### Partition 定義 {#partition}
 
 Abstract
 : A unit to compose a dataset. A dataset consists of one or more partitions. A partition consists of either a single instance of database or a collection of `slices`. When a partition consists of a single database instance, `address` parameter must be assigned and the other parameters must not be assigned. Otherwise, `dimension`, `slicer` and `slices` are required, and vice versa.
@@ -504,7 +503,7 @@ Default value
 Inheritable
 : False.
 
-### Slice definition {#slice}
+### スライス定義 {#slice}
 
 Abstract
 : Definition of each slice. Specifies the range of sliced data and the partion to store the data.

@@ -32,6 +32,8 @@ msgid ""
 " of other portions. They all must be explicitly described in a `catalog` and b"
 "e shared with all the hosts in the cluster."
 msgstr ""
+"`Catalog`はDroongaクラスタの設定を管理するためのJSONデータです。Droongaクラスタは1つ以上の`datasets`からなり、`dat"
+"aset`はその他の部分からなります。それらは全て`catalog`に記述し、クラスタ内の全てホストで共有しなければなりません。"
 
 msgid "## Usage {#usage}"
 msgstr "## 使い方 {#usage}"
@@ -39,10 +41,10 @@ msgstr "## 使い方 {#usage}"
 msgid ""
 "This [`version`](#parameter-version) of `catalog` will be available from Droon"
 "ga 1.0.0."
-msgstr ""
+msgstr "この [`version`](#paramter-version) の `catalog` は Droonga 1.0.0 以降で有効です。"
 
 msgid "## Syntax {#syntax}"
-msgstr ""
+msgstr "## 書式 {#syntax}"
 
 msgid ""
 "    {\n"
@@ -108,10 +110,10 @@ msgid ""
 msgstr ""
 
 msgid "## Details {#details}"
-msgstr ""
+msgstr "## 詳細 {#details}"
 
 msgid "### Catalog definition {#catalog}"
-msgstr ""
+msgstr "### Catalog 定義 {#catalog}"
 
 msgid ""
 "Value\n"
@@ -194,7 +196,7 @@ msgid ""
 msgstr ""
 
 msgid "### Dataset definition {#dataset}"
-msgstr ""
+msgstr "### Dataset 定義 {#dataset}"
 
 msgid "#### `plugins` {#parameter-plugins}"
 msgstr ""
@@ -257,7 +259,7 @@ msgid ""
 msgstr ""
 
 msgid "### Table definition {#table}"
-msgstr ""
+msgstr "### Table 定義 {#table}"
 
 msgid "#### `type` {#parameter-table-type}"
 msgstr ""
@@ -376,7 +378,7 @@ msgid ""
 msgstr ""
 
 msgid "### Column definition {#column}"
-msgstr ""
+msgstr "### Column 定義 #{column}"
 
 msgid "Value"
 msgstr ""
@@ -455,7 +457,7 @@ msgid ""
 msgstr ""
 
 msgid "### indexOption definition {#indexOption}"
-msgstr ""
+msgstr "### indexOption 定義 {#indexOption}"
 
 msgid "#### `section` {#parameter-section}"
 msgstr ""
@@ -511,7 +513,7 @@ msgid ""
 msgstr ""
 
 msgid "### Partition definition {#partition}"
-msgstr ""
+msgstr "### Partition 定義 {#partition}"
 
 msgid ""
 "Abstract\n"
@@ -591,7 +593,7 @@ msgid ""
 msgstr ""
 
 msgid "### Slice definition {#slice}"
-msgstr ""
+msgstr "### スライス定義 {#slice}"
 
 msgid ""
 "Abstract\n"
