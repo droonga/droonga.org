@@ -237,7 +237,7 @@ Value
 * "Float"         : 64bit floating-point number.
 * "Time"          : Time value with microseconds resolution.
 * "ShortText"     : Text value up to 4095 bytes length.
-* "TokyoGeoPoint" : Tokyo Datum based getmetric point value.
+* "TokyoGeoPoint" : Tokyo Datum based geometric point value.
 * "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
 Default value
@@ -320,7 +320,7 @@ Value
 
 * "Scalar": A single value.
 * "Vector": A list of values.
-* "Index" : A set of unique values with additinal properties respectively. Properties can be specified in [`indexOptions`](#parameter-indexOptions).
+* "Index" : A set of unique values with additional properties respectively. Properties can be specified in [`indexOptions`](#parameter-indexOptions).
 
 Default value
 : "Scalar"
@@ -334,7 +334,7 @@ Abstract
 : Data type of the column value.
 
 Value
-: Any of the following data types or the name of another table defined in the same dataset. When a table name is assgined, the column acts as a foreign key references the table.
+: Any of the following data types or the name of another table defined in the same dataset. When a table name is assigned, the column acts as a foreign key references the table.
 
 * "Bool"          : `true` or `false`.
 * "Integer"       : 64bit signed integer.
@@ -342,7 +342,7 @@ Value
 * "Time"          : Time value with microseconds resolution.
 * "ShortText"     : Text value up to 4,095 bytes length.
 * "Text"          : Text value up to 2,147,483,647 bytes length.
-* "TokyoGeoPoint" : Tokyo Datum based getmetric point value.
+* "TokyoGeoPoint" : Tokyo Datum based geometric point value.
 * "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
 Default value
@@ -418,7 +418,7 @@ Abstract
 : Makes the column an inverted index of the referencing table's columns.
 
 Value
-: An array of column names of the referencing table assgined as [`valueType`](#parameter-valueType).
+: An array of column names of the referencing table assigned as [`valueType`](#parameter-valueType).
 
 Default value
 : None.
