@@ -554,12 +554,12 @@ Value
 
 #### `volume` {#parameter-volume}
 
-Abstract
-: A volume to store the data which corresponds to the slice.
+概要
+: スライスに対応するデータを格納するボリューム。
 
 値
 
-: An object which is a [`volume` definition](#volume)
+: [`volume` 定義](#volume)オブジェクト
 
 デフォルト値
 : なし。
