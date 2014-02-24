@@ -462,13 +462,12 @@ Value
 
 #### `dimension` {#parameter-dimension}
 
-Abstract
-: Specifies the dimension to slice the records in the fact table. Either '_key" or a scalar type column can be selected from [`columns`](#parameter-columns) parameter of the fact table. See [dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29).
+: fact表の中でレコードをスライスする次元を指定する。fact表の'_key'または[`columns`](#parameter-columns)からスカラー型のカラムを選択します。[dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29)を参照してください。
 
 値
 : 文字列。
 
-Default value
+デフォルト値
 : "_key"
 
 継承可能性
@@ -476,13 +475,13 @@ Default value
 
 #### `slicer` {#parameter-slicer}
 
-Abstract
-: Function to slice the value of dimension column.
+概要
+: dimensionカラムをsliceする関数。
 
-Value
-: Name of slicer function.
+値
+: スライサー関数の名前
 
-Default value
+デフォルト値
 : "hash"
 
 継承可能性
