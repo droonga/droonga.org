@@ -98,7 +98,7 @@ Default value
 Inheritable
 : False.
 
-#### `effectiveDate` {#paramter-effective_date}
+#### `effectiveDate` {#parameter-effective_date}
 
 Abstract
 : The time when this catalog becomes effective.
@@ -506,7 +506,7 @@ Value
 #### `weight` {#parameter-slice-weight}
 
 Abstract
-: Specifies the share in the slices. Only avaible when the `slicer` is ratio-scaled.
+: Specifies the share in the slices. Only available when the `slicer` is ratio-scaled.
 
 Value
 : A numeric value.
@@ -520,7 +520,7 @@ Inheritable
 #### `label` {#parameter-label}
 
 Abstract
-: Specifies the concrete value that slicer may return. Only avaible when the slicer is nominal-scaled.
+: Specifies the concrete value that slicer may return. Only avail when the slicer is nominal-scaled.
 
 Value
 : A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `label` is allowed in a slices.
@@ -534,7 +534,7 @@ Inheritable
 #### `boundary` {#parameter-boundary}
 
 Abstract
-: Specifies the concrete value that can compare with `slicer`'s return value. Only avaible when the `slicer` is ordinal-scaled.
+: Specifies the concrete value that can compare with `slicer`'s return value. Only available when the `slicer` is ordinal-scaled.
 
 Value
 : A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `boundary` is allowed in a slices.
