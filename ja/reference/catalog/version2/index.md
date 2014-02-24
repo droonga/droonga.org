@@ -89,111 +89,110 @@ layout: ja
 
 ### Catalog 定義 {#catalog}
 
-Value
-: An object with the following key/value pairs.
+値
+: 以下のキーと値のペアを持つオブジェクト。
 
 #### `version` {#parameter-version}
 
-Abstract
-: Version number of the catalog file.
+概要
+: カタログファイルのバージョン番号。
 
-Value
-: `2`. (Specification written in this page is valid only when this value is `2`)
+値
+: `2`. (このページに記述されている仕様はこの値が`2`のときのみ有効です)
 
-Default value
-: None. This is a required parameter.
+デフォルト値
+: なし。これは必須のパラメータです。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `effectiveDate` {#paramter-effective_date}
 
-Abstract
-: The time when this catalog becomes effective.
+概要
+: このカタログが有効になる時刻。
 
-Value
-: A local time string formatted in the [W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats"), with the time zone.
+値
+: [W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats") でフォーマットされたタイムゾーン付きの時刻。
 
-Default value
-: None. This is a required parameter.
+デフォルト値
+: なし。これは必須のパラメータです。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `datasets` {#parameter-datasets}
 
-Abstract
-: Definition of datasets.
+概要
+: データセットの定義。
 
-Value
-: An object keyed by the name of the dataset with value the [`dataset` definition](#dataset).
+: データセット名をキーとし、[`dataset` 定義](#dataset) を値とするオブジェクト。
 
-Default value
-: None. This is a required parameter.
+デフォルト値
+: なし。これは必須のパラメータです。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `nWorkers` {#parameter-n_workers}
 
-Abstract
-: The number of worker processes spawned for each database instance.
+概要
+: データベースインスタンス毎にspawnされるワーカの数。
 
-Value
-: An integer value.
+値
+: 整数。
 
-Default value
-: 0 (No worker. All operations are done in the master process)
+デフォルト値
+: 0 (ワーカー無し。全ての処理がマスタープロセス内で行われます)
 
-Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+継承可能性
+: 可。`dataset`と`partition`の定義でオーバライドできます。
 
 ### Dataset 定義 {#dataset}
 
-Value
-: An object with the following key/value pairs.
+値
+: 以下のキーと値のペアを持つオブジェクト。
 
 #### `plugins` {#parameter-plugins}
 
-Abstract
-: Name strings of the plugins enabled for the dataset.
+概要
+: このデータセットにおいて有効にするプラグイン名文字列の配列。
 
-Value
-: An array of strings.
+値
+: 文字列の配列。
 
-Default value
-: None. This is a required parameter.
+デフォルト値
+: なし。これは必須のパラメータです。
 
-Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+継承可能性
+: 可。`dataset`と`partition`の定義でオーバライドできます。
 
 #### `schema` {#parameter-schema}
 
-Abstract
-: Definition of tables and their columns.
+概要
+: テーブルとそのカラムの定義。
 
-Value
-: An object keyed by the name of the table with value the [`table` definition](#table).
+値
+: テーブル名をキーとし、[`table` 定義](#table)を値とするオブジェクト。(#table).
 
-Default value
-: None. This is a required parameter.
+デフォルト値
+: なし。これは必須のパラメータです。
 
-Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+継承可能性
+: 可。`dataset`と`partition`の定義でオーバライドできます。
 
 #### `fact` {#parameter-fact}
 
 Abstract
 : The name of the fact table. When a `dataset` is stored as more than one `slice`, one [fact table](http://en.wikipedia.org/wiki/Fact_table) must be selected from tables defined in [`schema`](#parameter-schema) parameter.
 
-Value
-: A string.
+値
+: 文字列。
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+継承可能性
+: 可。`dataset`と`partition`の定義でオーバライドできます。
 
 #### `replicas` {#parameter-replicas}
 
@@ -203,16 +202,16 @@ Abstract
 Value
 : An array of [`partition` definitions](#partition).
 
-Default value
-: None. This is a required parameter.
+デフォルト値
+: なし。これは必須のパラメータです。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 ### Table 定義 {#table}
 
-Value
-: An object with the following key/value pairs.
+値
+: 以下のキーと値のペアを持つオブジェクト。
 
 #### `type` {#parameter-table-type}
 
@@ -230,8 +229,8 @@ Value
 Default value
 : "Hash"
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `keyType` {#parameter-keyType}
 
@@ -251,8 +250,8 @@ Value
 Default value
 : None. Mandatory for tables with keys.
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `tokenizer` {#parameter-tokenizer}
 
@@ -275,11 +274,11 @@ Value
 * "TokenBigramIgnoreBlankSplitSymbolAlphaDigit"
 * "TokenDelimitNull"
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `normalizer` {#parameter-normalizer}
 
@@ -292,11 +291,11 @@ Value
 * "NormalizerAuto"
 * "NormalizerNFKC51"
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `columns` {#parameter-columns}
 
@@ -306,15 +305,15 @@ Abstract
 Value
 : An object keyed by the name of the column with value the [`column` definition](#column).
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
-### Column 定義 #{column}
+### Column 定義 {#column}
 
-Value
+値
 
 : An object with the following key/value pairs.
 
@@ -333,8 +332,8 @@ Value
 Default value
 : "Scalar"
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `valueType` {#parameter-valueType}
 
@@ -353,11 +352,11 @@ Value
 * "TokyoGeoPoint" : Tokyo Datum based getmetric point value.
 * "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
-Default value
-: None. This is a required parameter.
+デフォルト値
+: なし。これは必須のパラメータです。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `indexOptions` {#parameter-indexOptions}
 
@@ -370,13 +369,13 @@ Value
 Default value
 : `{}` (Void object).
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 ### indexOption 定義 {#indexOption}
 
-Value
-: An object with the following key/value pairs.
+値
+: 以下のキーと値のペアを持つオブジェクト。
 
 #### `section` {#parameter-section}
 
@@ -389,8 +388,8 @@ Value
 Default value
 : `false`.
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `weight` {#parameter-weight}
 
@@ -403,8 +402,8 @@ Value
 Default value
 : `false`.
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `position` {#parameter-position}
 
@@ -417,8 +416,8 @@ Value
 Default value
 : `false`.
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `sources` {#parameter-sources}
 
@@ -428,19 +427,19 @@ Abstract
 Value
 : An array of column names of the referencing table assgined as [`valueType`](#parameter-valueType).
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 ### Partition 定義 {#partition}
 
 Abstract
 : A unit to compose a dataset. A dataset consists of one or more partitions. A partition consists of either a single instance of database or a collection of `slices`. When a partition consists of a single database instance, `address` parameter must be assigned and the other parameters must not be assigned. Otherwise, `dimension`, `slicer` and `slices` are required, and vice versa.
 
-Value
-: An object with the following key/value pairs.
+値
+: 以下のキーと値のペアを持つオブジェクト。
 
 #### `address` {#parameter-address}
 
@@ -455,25 +454,25 @@ Value
 * database_type: Omittable. Default value is "groonga".
 * port_number: Omittable. Default value is 10047.
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `dimension` {#parameter-dimension}
 
 Abstract
 : Specifies the dimension to slice the records in the fact table. Either '_key" or a scalar type column can be selected from [`columns`](#parameter-columns) parameter of the fact table. See [dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29).
 
-Value
-: A string.
+値
+: 文字列。
 
 Default value
 : "_key"
 
-Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+継承可能性
+: 可。`dataset`と`partition`の定義でオーバライドできます。
 
 #### `slicer` {#parameter-slicer}
 
@@ -486,8 +485,8 @@ Value
 Default value
 : "hash"
 
-Inheritable
-: True. Overridable in `dataset` and `partition` definition.
+継承可能性
+: 可。`dataset`と`partition`の定義でオーバライドできます。
 
 #### `slices` {#parameter-slices}
 
@@ -497,19 +496,19 @@ Abstract
 Value
 : An array of [`slice` definitions](#slice).
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
-### スライス定義 {#slice}
+### Slice 定義 {#slice}
 
 Abstract
 : Definition of each slice. Specifies the range of sliced data and the partion to store the data.
 
-Value
-: An object with the following key/value pairs.
+値
+: 以下のキーと値のペアを持つオブジェクト。
 
 #### `weight` {#parameter-slice-weight}
 
@@ -522,8 +521,8 @@ Value
 Default value
 : `1`.
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `label` {#parameter-label}
 
@@ -533,11 +532,11 @@ Abstract
 Value
 : A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `label` is allowed in a slices.
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `boundary` {#parameter-boundary}
 
@@ -547,23 +546,23 @@ Abstract
 Value
 : A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `boundary` is allowed in a slices.
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
 
 #### `partition` {#parameter-partition}
 
 Abstract
 : A partition to store the data which corresponds to the slice.
 
-Value
+値
 
 : An object which is a [`partition` definition](#partition)
 
-Default value
-: None.
+デフォルト値
+: なし。
 
-Inheritable
-: False.
+継承可能性
+: 不可。
