@@ -200,7 +200,7 @@ layout: ja
 : 互いに複製されるボリュームの集合。
 
 値
-: [`volume` definitions](#volume)の配列。
+: [`volume` 定義](#volume)の配列。
 
 デフォルト値
 : なし。これは必須のパラメータです。
@@ -494,7 +494,7 @@ Value
 : データを格納するスライスの定義。
 
 値
-: [`slice` definitions](#slice)の配列。
+: [`slice` 定義](#slice)の配列。
 
 デフォルト値
 : なし。
