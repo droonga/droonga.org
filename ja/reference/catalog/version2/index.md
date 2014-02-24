@@ -479,7 +479,7 @@ Value
 : dimensionカラムをsliceする関数。
 
 値
-: スライサー関数の名前
+: スライサー関数の名前。
 
 デフォルト値
 : "hash"
@@ -489,11 +489,11 @@ Value
 
 #### `slices` {#parameter-slices}
 
-Abstract
-: Definition of slices which store the contents of the data.
+概要
+: データを格納するスライスの定義。
 
-Value
-: An array of [`slice` definitions](#slice).
+値
+: [`slice` definitions](#slice)の配列。
 
 デフォルト値
 : なし。
