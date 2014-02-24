@@ -1,6 +1,6 @@
 ---
 title: リファレンスマニュアル
-layout: documents_ja
+layout: ja
 ---
 
 {% comment %}

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "---\n"
 "title: リファレンスマニュアル\n"
-"layout: documents_ja\n"
+"layout: ja\n"
 "---"
 
 msgid ""
