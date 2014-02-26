@@ -256,7 +256,7 @@ msgid ""
 "(#table)."
 msgstr ""
 "値\n"
-": テーブル名をキーとし、[`table` 定義](#table)を値とするオブジェクト。(#table)."
+": テーブル名をキーとし、[`table` 定義](#table)を値とするオブジェクト。"
 
 msgid "#### `fact` {#parameter-fact}"
 msgstr ""
