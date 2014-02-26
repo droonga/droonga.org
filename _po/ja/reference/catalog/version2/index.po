@@ -702,9 +702,12 @@ msgstr ""
 
 msgid ""
 "Abstract\n"
+": Specifies the concrete value that slicer may return. Only available when the"
+" slicer is nominal-scaled."
+msgstr ""
+"概要\n"
 ": Specifies the concrete value that slicer may return. Only avail when the sli"
 "cer is nominal-scaled."
-msgstr ""
 
 msgid ""
 "Value\n"

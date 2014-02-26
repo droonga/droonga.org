@@ -520,7 +520,7 @@ Inheritable
 #### `label` {#parameter-label}
 
 Abstract
-: Specifies the concrete value that slicer may return. Only avail when the slicer is nominal-scaled.
+: Specifies the concrete value that slicer may return. Only available when the slicer is nominal-scaled.
 
 Value
 : A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `label` is allowed in a slices.

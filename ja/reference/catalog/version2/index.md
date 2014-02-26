@@ -526,7 +526,7 @@ Abstract
 
 #### `label` {#parameter-label}
 
-Abstract
+概要
 : Specifies the concrete value that slicer may return. Only avail when the slicer is nominal-scaled.
 
 Value
