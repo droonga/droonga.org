@@ -523,7 +523,7 @@ Abstract
 : Specifies the concrete value that slicer may return. Only available when the slicer is nominal-scaled.
 
 Value
-: A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `label` is allowed in slices.
+: A value of the dimension column data type. When the value is not provided, this slice is regarded as *else*; matched only if all other labels are not matched. Therefore, only one slice without `label` is allowed in slices.
 
 Default value
 : None.
@@ -537,7 +537,7 @@ Abstract
 : Specifies the concrete value that can compare with `slicer`'s return value. Only available when the `slicer` is ordinal-scaled.
 
 Value
-: A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `boundary` is allowed in a slices.
+: A value of the dimension column data type. When the value is not provided, this slice is regarded as *else*; this means the slice is open-ended. Therefore, only one slice without `boundary` is allowed in a slices.
 
 Default value
 : None.

@@ -529,8 +529,8 @@ Value
 概要
 : slicer が返す具体的な値。 slicerがnominal-scaledの場合のみ有効。
 
-値
-: 次元カラムのデータ型の値。値が指定されていない場合は、`else`とみなされます。したがって、`label`のないスライスは一つだけしか指定できません。
+Value
+: A value of the dimension column data type. When the value is not provided, this slice is regarded as *else*; matched only if all other labels are not matched. Therefore, only one slice without `label` is allowed in slices.
 
 デフォルト値
 : なし。
@@ -543,8 +543,8 @@ Value
 概要
 : `slicer`の返す値と比較可能な具体的な値。`slicer`がordinal-scaledの場合のみ有効。
 
-値
-: 次元カラムのデータ型の値。値が指定されていない場合は、`else`とみなされます。したがって、`boundary`のないスライスは一つだけしか指定できません。
+Value
+: A value of the dimension column data type. When the value is not provided, this slice is regarded as *else*; this means the slice is open-ended. Therefore, only one slice without `boundary` is allowed in a slices.
 
 デフォルト値
 : なし。
