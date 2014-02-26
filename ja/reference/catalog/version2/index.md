@@ -512,8 +512,8 @@ Value
 
 #### `weight` {#parameter-slice-weight}
 
-Abstract
-: Specifies the share in the slices. Only available when the `slicer` is ratio-scaled.
+概要
+: スライス内での割り当て量を指定します。`slicer`が atio-scaledの場合のみ有効。
 
 値
 : 数値。
@@ -527,10 +527,10 @@ Abstract
 #### `label` {#parameter-label}
 
 概要
-: Specifies the concrete value that slicer may return. Only avail when the slicer is nominal-scaled.
+: slicer が返す具体的な値。 slicerがnominal-scaledの場合のみ有効。
 
-Value
-: A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `label` is allowed in a slices.
+値
+: 次元カラムのデータ型の値。値が指定されていない場合は、`else`とみなされます。したがって、`label`のないスライスは一つだけしか指定できません。
 
 デフォルト値
 : なし。
