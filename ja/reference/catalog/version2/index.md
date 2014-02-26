@@ -540,11 +540,11 @@ Value
 
 #### `boundary` {#parameter-boundary}
 
-Abstract
-: Specifies the concrete value that can compare with `slicer`'s return value. Only available when the `slicer` is ordinal-scaled.
+概要
+: `slicer`の返す値と比較可能な具体的な値。`slicer`がordinal-scaledの場合のみ有効。
 
-Value
-: A value of the dimension column data type. When the value is not provided, this slice is regarded as `else`. Therefore, only one slice without `boundary` is allowed in a slices.
+値
+: 次元カラムのデータ型の値。値が指定されていない場合は、`else`とみなされます。したがって、`boundary`のないスライスは一つだけしか指定できません。
 
 デフォルト値
 : なし。
