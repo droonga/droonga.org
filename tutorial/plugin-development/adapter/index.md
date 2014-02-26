@@ -77,6 +77,8 @@ This plugin does nothing except registering itself to Droonga.
 
  * The `sample-logger` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
  * As the example above, you must define your plugin as a module.
+ * Behaviors at the adaption phase is defined a class called *adapter*.
+   An adapter class must be defined as a subclass of the `Droonga::Adapter`, under the namespace of the plugin module.
 
 
 ### Activate the plugin with `catalog.json`
