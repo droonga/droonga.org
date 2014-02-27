@@ -10,7 +10,7 @@ layout: en
 
 Learning steps to develop a Droonga plugin by yourself.
 
-This page focuses at the adaption phase for Droonga plugins.
+This page focuses on the adaption phase for Droonga plugins.
 At the last, wraps up them to make a small practical plugin named `store-search`, for the adaption phase.
 
 ## Precondition
