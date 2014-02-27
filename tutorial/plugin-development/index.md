@@ -15,7 +15,7 @@ You must complete the [basic tutorial][] before this.
 ## What's "plugin"?
 
 Plugin is one of the most important concept of Droonga.
-This makes droonga flexible.
+This makes Droonga flexible.
 
 Generally, data processing tasks in the real world need custom treatments of the data, in various stages of the data stream. This is not easy to be done in one-size-fits-all approach.
 
