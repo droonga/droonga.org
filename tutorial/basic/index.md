@@ -294,7 +294,7 @@ stores.jsons:
 {"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
 ~~~
 
-Open another terminal and send the json to the fluentd server.
+Open another terminal and send the json to the Droonga engine.
 
 Send `stores.jsons` as follows:
 
