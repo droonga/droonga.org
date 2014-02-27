@@ -695,11 +695,11 @@ Elapsed time: 0.002769
 ]
 ~~~
 
-Now a Droonga engine for searching Starbucks stores database is ready.
+Droonga engineを用いてスターバックスの天保データベースを検索する準備ができました。
 
 ### Send request with droonga-request
 
-Check if it is working. Create a query as a JSON file as follows.
+動作を確認してみましょう。クエリを以下のようなJSONファイルとして作成します。
 
 search-all-stores.json:
 

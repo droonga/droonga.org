@@ -905,13 +905,13 @@ msgid ""
 msgstr ""
 
 msgid "Now a Droonga engine for searching Starbucks stores database is ready."
-msgstr ""
+msgstr "Droonga engineを用いてスターバックスの天保データベースを検索する準備ができました。"
 
 msgid "### Send request with droonga-request"
 msgstr ""
 
 msgid "Check if it is working. Create a query as a JSON file as follows."
-msgstr ""
+msgstr "動作を確認してみましょう。クエリを以下のようなJSONファイルとして作成します。"
 
 msgid "search-all-stores.json:"
 msgstr ""
