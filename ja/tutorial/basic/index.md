@@ -302,9 +302,9 @@ stores.jsons:
 {"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
 ~~~
 
-Open another terminal and send those the json to the fluentd server.
+もう一つターミナルを開いて、jsonをDroonga engineに送信しましょう。
 
-Send `stores.jsons` as follows:
+以下のようにして`stores.json`を送信します:
 
 ~~~
 $ droonga-request --tag starbucks stores.jsons
