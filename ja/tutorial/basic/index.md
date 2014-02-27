@@ -120,58 +120,104 @@ fluentd.conf:
 catalog.json:
 
     {
-      "version": 1,
+      "version": 2,
       "effective_date": "2013-09-01T00:00:00Z",
-      "zones": ["localhost:24224/starbucks"],
-      "farms": {
-        "localhost:24224/starbucks": {
-          "device": ".",
-          "capacity": 10
-        }
-      },
       "datasets": {
         "Starbucks": {
-          "workers": 4,
+          "nWorkers": 4,
           "plugins": ["groonga", "crud", "search"],
-          "number_of_replicas": 2,
-          "number_of_partitions": 3,
-          "partition_key": "_key",
-          "date_range": "infinity",
-          "ring": {
-            "localhost:24224:0": {
-              "weight": 50,
-              "partitions": {
-                "2013-09-01": [
-                  "localhost:24224/starbucks.000",
-                  "localhost:24224/starbucks.001"
-                ]
+          "schema": {
+            "Store": {
+              "type": "Hash",
+              "keyType": "ShortText",
+              "columns": {
+                "location": {
+                  "type": "Scalar",
+                  "valueType": "WGS84GeoPoint"
+                }
               }
             },
-            "localhost:24224:1": {
-              "weight": 50,
-              "partitions": {
-                "2013-09-01": [
-                  "localhost:24224/starbucks.010",
-                  "localhost:24224/starbucks.011"
-                ]
+            "Location": {
+              "type": "PatriciaTrie",
+              "keyType": "WGS84GeoPoint",
+              "columns": {
+                "store": {
+                  "type": "Index",
+                  "valueType": "Store",
+                  "indexOptions": {
+                    "sources": ["location"]
+                  }
+                }
               }
             },
-            "localhost:24224:2": {
-              "weight": 50,
-              "partitions": {
-                "2013-09-01": [
-                  "localhost:24224/starbucks.020",
-                  "localhost:24224/starbucks.021"
-                ]
+            "Term": {
+              "type": "PatriciaTrie",
+              "keyType": "ShortText",
+              "normalizer": "NormalizerAuto",
+              "tokenizer": "TokenBigram",
+              "columns": {
+                "stores__key": {
+                  "type": "Index",
+                  "valueType": "Store",
+                  "indexOptions": {
+                    "position": true,
+                    "sources": ["_key"]
+                  }
+                }
               }
             }
-          }
+          },
+          "partition_key": "_key",
+          "date_range": "infinity",
+          "replicas": [
+            {
+              "dimension": "_key",
+              "slicer": "hash",
+              "slices": [
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.000"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.001"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.002"
+                  }
+                }
+              ]
+            },
+            {
+              "dimension": "_key",
+              "slicer": "hash",
+              "slices": [
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.010"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.011"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.012"
+                  }
+                }
+              ]
+            }
+          ]
         }
       }
     }
 
-この `catalog.json` では、 `Starbucks` データセットを定義し、2組のレプリカ×3個のパーティションで構成するよう指示しています。
-この例では、全てのレプリカ及びパーティションは、ローカル(一つの `fluent-plugin-droonga` の管理下)に配置します。
+この `catalog.json` では、 `Starbucks` データセットを定義し、2組のレプリカと、そのレプリカ毎に3つのパーティションを持つようにしています。全てのレプリカとパーティションは、ローカルに保存されます(つまり、単一の`fluent-plugin-droonga`インスタンスによって管理されます)
 
 `catalog.json` の詳細については [catalog.json](/ja/reference/catalog) を参照してください。
 
@@ -216,19 +262,7 @@ fluentdにSIGTERMを送ります。
 ### データベースを作成する
 
 Dronga Engine が起動したので、データを投入しましょう。
-スキーマを定義した `ddl.jsons` と、店舗のデータ `stores.jsons` を用意します。
-
-ddl.jsons:
-
-~~~
-{"dataset":"Starbucks","type":"table_create","body":{"name":"Store","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
-{"dataset":"Starbucks","type":"column_create","body":{"table":"Store","name":"location","flags":"COLUMN_SCALAR","type":"WGS84GeoPoint"}}
-{"dataset":"Starbucks","type":"table_create","body":{"name":"Location","flags":"TABLE_PAT_KEY","key_type":"WGS84GeoPoint"}}
-{"dataset":"Starbucks","type":"column_create","body":{"table":"Location","name":"store","flags":"COLUMN_INDEX","type":"Store","source":"location"}}
-{"dataset":"Starbucks","type":"table_create","body":{"name":"Term","flags":"TABLE_PAT_KEY","key_type":"ShortText","default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
-{"dataset":"Starbucks","type":"column_create","body":{"table":"Term","name":"stores__key","flags":"COLUMN_INDEX|WITH_POSITION","type":"Store","source":"_key"}}
-~~~
-
+店舗のデータ `stores.jsons` を用意します。
 
 stores.jsons:
 
@@ -270,126 +304,11 @@ stores.jsons:
 {"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
 ~~~
 
-Open another terminal and send those two jsons to the fluentd server.
-
-Send `ddl.jsons` as follows:
-
-~~~
-# droonga-request --tag starbucks ddl.jsons
-Elapsed time: 0.060984
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.207507",
-    "statusCode": 200,
-    "type": "table_create.result",
-    "body": [
-      [
-        0,
-        1392611486.2097359,
-        0.026822328567504883
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.007164
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.268766",
-    "statusCode": 200,
-    "type": "column_create.result",
-    "body": [
-      [
-        0,
-        1392611486.269676,
-        0.0010280609130859375
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.008584
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.2760692",
-    "statusCode": 200,
-    "type": "table_create.result",
-    "body": [
-      [
-        0,
-        1392611486.276955,
-        0.002329111099243164
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.109383
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.284704",
-    "statusCode": 200,
-    "type": "column_create.result",
-    "body": [
-      [
-        0,
-        1392611486.2854872,
-        0.00432896614074707
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.008829
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.394273",
-    "statusCode": 200,
-    "type": "table_create.result",
-    "body": [
-      [
-        0,
-        1392611486.395301,
-        0.0017240047454833984
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.11633
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.4032152",
-    "statusCode": 200,
-    "type": "column_create.result",
-    "body": [
-      [
-        0,
-        1392611486.404574,
-        0.018894195556640625
-      ],
-      true
-    ]
-  }
-]
-~~~
+Open another terminal and send those the json to the fluentd server.
 
 Send `stores.jsons` as follows:
 
 ~~~
-
 $ droonga-request --tag starbucks stores.jsons
 Elapsed time: 0.251712
 [
