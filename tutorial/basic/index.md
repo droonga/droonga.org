@@ -208,7 +208,7 @@ catalog.json:
       }
     }
 
-This `catalog.json` defines a dataset `Starbucks` with two replicas and three partitions for each replica.
+This `catalog.json` defines a dataset `Starbucks` with two replicas and three partitions for each replica. The catalog also defines tables for the dataset.
 All of replicas and partitions are stored locally (in other words, they are managed by a `fluent-plugin-droonga` instance).
 
 For more details of the configuration file `catalog.json`, see [the reference manual of catalog.json](/reference/catalog).
