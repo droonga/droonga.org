@@ -27,23 +27,27 @@ You can use plugins in those situations.
 
 ## Pluggable operations in Droonga Engine
 
-In Droonga Engine, there are 4 pluggable phases for plugins.
+In Droonga Engine, there are 2 large pluggable phases and 3 sub phases for plugins.
 In other words, from the point of view of plugins, each plugin can do from 1 to 4 operations.
 See the [overview][] to grasp the big picture.
 
 Adaption phase
 : On this phase, a plugin can modify incoming requests and outgoing responses.
 
-Handling phase
-: On this phase, a plugin can do low-level data handling, for example, database operations and so on.
+Processing phase
+: On this phase, a plugin can process incoming requests on each partition, step by step.
+  
+  Handling phase
+  : On this phase, a plugin can do low-level data handling, for example, database operations and so on.
+  
+  Planning phase
+  : On this phase, a plugin can split an incoming request to multiple steps.
+  
+  Collection phase
+  : On this phase, a plugin can merge results from steps to a unified result.
 
-Planning phase
-: On this phase, a plugin can control internal message distribution.
-
-Collection phase
-: On this phase, a plugin can control internal message collection.
-
-In this tutorial, we focus on the adaption phase at first. This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
+In this tutorial, we focus on the adaption phase at first.
+This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
 Then, we focus on other phases in this order.
 Following this tutorial, you will learn how to write plugins. This will be the first step to create plugins fit with your own requirements.
 
