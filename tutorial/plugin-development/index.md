@@ -32,23 +32,23 @@ In other words, from the point of view of plugins, each plugin can do from 1 to 
 See the [overview][] to grasp the big picture.
 
 Adaption phase
-: On this phase, a plugin can modify incoming requests and outgoing responses.
+: At this phase, a plugin can modify incoming requests and outgoing responses.
 
 Processing phase
-: On this phase, a plugin can process incoming requests on each partition, step by step.
+: At this phase, a plugin can process incoming requests on each partition, step by step.
   
   Handling phase
-  : On this phase, a plugin can do low-level data handling, for example, database operations and so on.
+  : At this phase, a plugin can do low-level data handling, for example, database operations and so on.
   
   Planning phase
-  : On this phase, a plugin can split an incoming request to multiple steps.
+  : At this phase, a plugin can split an incoming request to multiple steps.
   
   Collection phase
-  : On this phase, a plugin can merge results from steps to a unified result.
+  : At this phase, a plugin can merge results from steps to a unified result.
 
-In this tutorial, we focus on the adaption phase at first.
+In this tutorial, we focus at the adaption phase at first.
 This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
-Then, we focus on other phases in this order.
+Then, we focus an other phases in this order.
 Following this tutorial, you will learn how to write plugins. This will be the first step to create plugins fit with your own requirements.
 
 ## How to develop plugins?

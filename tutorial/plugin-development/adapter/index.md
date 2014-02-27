@@ -10,7 +10,7 @@ layout: en
 
 Learning steps to develop a Droonga plugin by yourself.
 
-This page focuses on the adaption phase for Droonga plugins.
+This page focuses at the adaption phase for Droonga plugins.
 At the last, wraps up them to make a small practical plugin named `store-search`, for the adaption phase.
 
 ## Precondition
@@ -20,7 +20,7 @@ At the last, wraps up them to make a small practical plugin named `store-search`
 
 ## Adaption for incoming messages
 
-First, let's study basics with a simple logger plugin named `sample-logger` affects on the adaption phase.
+First, let's study basics with a simple logger plugin named `sample-logger` affects at the adaption phase.
 
 We sometime need to modify incoming requests from outside to Droonga Engine.
 We can use a plugin for this purpose.
@@ -97,7 +97,7 @@ catalog.json:
 (snip)
 ~~~
 
-Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins on the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
+Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins at the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
 
 ### Run
 
