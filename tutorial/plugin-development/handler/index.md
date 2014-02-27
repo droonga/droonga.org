@@ -106,7 +106,9 @@ module Droonga
 end
 ~~~
 
-### Define the "step"
+### Define a "step" for the command
+
+Define a "step" for the new `countRecords` command, in your plugin. Like:
 
 lib/droonga/plugins/count-records.rb:
 
@@ -120,15 +122,20 @@ module Droonga
 
       define_single_step do |step|
         step.name = "countRecords"
-        step.collector = SumCollector
       end
     end
   end
 end
 ~~~
 
+The `step.name` equals to the name of the command itself.
+Currently we just define the name of the command.
+That's all.
 
-### Define the handler
+### Define the handling logic
+
+The command has no handler, so it does nothing yet.
+Let's define the behavior.
 
 lib/droonga/plugins/count-records.rb:
 
@@ -141,12 +148,12 @@ module Droonga
       Plugin.registry.register("count-records", self)
 
       define_single_step do |step|
-        ...
+        step.name = "countRecords"
+        step.handler = :Handler
       end
 
       class Handler < Droonga::Handler
         def handle(message)
-          # The returned value of this method will become the body of the response.
           [0]
         end
       end
@@ -155,8 +162,36 @@ module Droonga
 end
 ~~~
 
-Note, the behavior of the command is defined as the class `Handler`.
-It is the handler class for the command, and it must inherit a builtin-class `Droonga::Handler`.
+The class `Handler` is a handler class for our new command.
+
+ * It must inherit a builtin-class `Droonga::Handler`.
+ * It implements the logic to handle requests.
+   Its instance method `#handle` actually handles requests.
+
+Currently the handler does nothing and returns an array of a number.
+The returned value is used to construct the response body.
+
+The handler is bound to the step with the configuration `step.handler`.
+Because we define the class `Handler` after `define_single_step`, we specify the handler class with a symbol `:Handler`.
+If you define the handler class before `define_single_step`, then you can write as `step.handler = Handler` simply.
+Moreover, a class path string like `"OtherPlugin::Handler"` is also available.
+
+Then, we also have to bind a collector to the step, with the configuration `step.collector`.
+
+lib/droonga/plugins/count-records.rb:
+
+~~~ruby
+...
+      define_single_step do |step|
+        step.name = "countRecords"
+        step.handler = :Handler
+        step.collector = SumCollector
+      end
+...
+~~~
+
+The `SumCollector` is one of built-in collectors.
+It merges results retuned from handler instances for each partition to one result.
 
 
 ### Activate the plugin with `catalog.json`
