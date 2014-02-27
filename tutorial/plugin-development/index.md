@@ -36,15 +36,17 @@ Adaption phase
 
 Processing phase
 : At this phase, a plugin can process incoming requests on each partition, step by step.
-  
-  Handling phase
-  : At this phase, a plugin can do low-level data handling, for example, database operations and so on.
-  
-  Planning phase
-  : At this phase, a plugin can split an incoming request to multiple steps.
-  
-  Collection phase
-  : At this phase, a plugin can merge results from steps to a unified result.
+
+The processing phase includes 3 sub phases:
+
+Handling phase
+: At this phase, a plugin can do low-level data handling, for example, database operations and so on.
+
+Planning phase
+: At this phase, a plugin can split an incoming request to multiple steps.
+
+Collection phase
+: At this phase, a plugin can merge results from steps to a unified result.
 
 In this tutorial, we focus at the adaption phase at first.
 This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
