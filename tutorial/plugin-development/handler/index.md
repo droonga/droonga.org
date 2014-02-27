@@ -18,27 +18,67 @@ This tutorial aims to help you to learn how to develop plugins which do somethin
 
 ## Handling of incoming messages
 
-When an incoming message is transferred from the adaption phase, the Droonga Engine plans how distribute it to multiple partitions.
-Then *each partition simply processes only one distributed message as its input, and returns a result.*
-After that, the Droonga Engine collects results from partitions and transfer the unified result to the post adaption phase.
+When an incoming message is transferred from the adaption phase, the Droonga Engine enters into the *processing phase*.
 
-That operation in each partition is called *handling phase*.
-A class to define operations at the phase is called *handler*.
-Adding of a new handler means adding a new command.
+In the processing phase, the Droonga Engine processes incoming messages step by step.
+One *step* is constructed from some sub phases: *planning phase*, *distribution phase*, *handling phase*, and *collection phase*.
 
-The handling phase is the time that actual storage accesses happen.
-Actually, handlers for some commands (`search`, `add`, `create_table` and so on) access to the storage at the time.
+ * At the *planning phase*, the Droonga Engine generates multiple sub steps to process an incoming message.
+   In simple cases, you don't have to write codes for this phase, then there is just one sub step to handle the message.
+ * At the *distribution phase*, the Droonga Engine distributes the message to multiple partitions.
+   (It is completely done by the Droonga Engine itself, so this phase is not pluggable.)
+ * At the *handling phase*, *each partition simply processes only one distributed message as its input, and returns a result.*
+   This is the time that actual storage accesses happen.
+   Actually, some commands (`search`, `add`, `create_table` and so on) access to the storage at the time.
+ * At the *collection phase*, the Droonga Engine collects results from partitions to one unified result.
+   There are some useful generic collectors, so you don't have to write codes for this phase in most cases.
+
+After all steps are finished, the Droonga Engine transfers the result to the post adaption phase.
+
+A class to define operations at the handling phase is called *handler*.
+Put simply, adding of a new handler means adding a new command.
 
 
-## Read-only handler
+## Design a read-only command
 
-Here, in this tutorial, we are going to add a new handler for our custom `countRecords` command.
+Here, in this tutorial, we are going to add a new custom `countRecords` command.
+At first, let's design it.
+
 The command reports the number of records about a specified table, for each partition.
-So this command helps you to know how records are distributed in the cluster.
+So it will help you to know how records are distributed in the cluster.
+Nothing is changed by the command, so it is a *read-only command*.
 
-The command doesn't change the storage, so it is *read-only* handler.
+The request must have the name of one table, like:
 
-### Directory Structure
+~~~json
+{
+  "dataset" : "Starbucks",
+  "type"    : "countRecords",
+  "body"    : {
+    "table": "Store"
+  }
+}
+~~~
+
+Create a JSON file `count-records.json` with the content above.
+We'll use it for testing.
+
+The response must have number of records in the table, for each partition.
+They can be appear in an array, like:
+
+~~~json
+{
+  "inReplyTo": "(message id)",
+  "statusCode": 200,
+  "type": "countRecords.result",
+  "body": [10, 10, 10]
+}
+~~~
+
+We're going to create a plugin to accept such a request and return a response like above.
+
+
+### Directory structure
 
 The directory structure for plugins are in same rule as explained in the [tutorial for the adaption phase][adapter].
 Now let's create the `count-records` plugin, as the file `count-records.rb`. The directory tree will be:
@@ -50,9 +90,23 @@ lib
             └── count-records.rb
 ~~~
 
-### Create a plugin
+Then, create a slekton of a plugin as follows:
 
-Create a plugin as follows:
+lib/droonga/plugins/count-records.rb:
+
+~~~ruby
+require "droonga/plugin"
+
+module Droonga
+  module Plugins
+    module CountRecordsPlugin
+      Plugin.registry.register("count-records", self)
+    end
+  end
+end
+~~~
+
+### Define the "step"
 
 lib/droonga/plugins/count-records.rb:
 
@@ -64,13 +118,36 @@ module Droonga
     module CountRecordsPlugin
       Plugin.registry.register("count-records", self)
 
-      class Handler < Droonga::Handler
-        # Declare that this handles incoming messages with the type "countRecords".
-        message.type = "countRecords"
+      define_single_step do |step|
+        step.name = "countRecords"
+        step.collector = SumCollector
+      end
+    end
+  end
+end
+~~~
 
-        def handle(message, messenger)
+
+### Define the handler
+
+lib/droonga/plugins/count-records.rb:
+
+~~~ruby
+require "droonga/plugin"
+
+module Droonga
+  module Plugins
+    module CountRecordsPlugin
+      Plugin.registry.register("count-records", self)
+
+      define_single_step do |step|
+        ...
+      end
+
+      class Handler < Droonga::Handler
+        def handle(message)
           # The returned value of this method will become the body of the response.
-          { "count": [0] }
+          [0]
         end
       end
     end
@@ -78,9 +155,14 @@ module Droonga
 end
 ~~~
 
+Note, the behavior of the command is defined as the class `Handler`.
+It is the handler class for the command, and it must inherit a builtin-class `Droonga::Handler`.
+
+
 ### Activate the plugin with `catalog.json`
 
-Update catalog.json to activate this plugin. Add `"count-records"` to `"plugins"`.
+Update catalog.json to activate this plugin.
+Add `"count-records"` to `"plugins"`.
 
 ~~~
 (snip)
@@ -102,20 +184,6 @@ Note that you need to specify ./lib directory in RUBYLIB environment variable in
 ### Test
 
 Send a message for the `countRecords` command to the Droonga Engine.
-First, create a JSON file for the message as `count-records.json`, like:
-
-count-records.json:
-
-~~~json
-{
-  "dataset" : "Starbucks",
-  "type"    : "countRecords",
-  "body"    : {}
-}
-~~~
-
-The message body is blank for now.
-OK, let's send it.
 
 ~~~
 # droonga-request --tag starbucks count-records.json
@@ -152,10 +220,6 @@ However, there are three elements in the `count` array. Why?
 
 As the result, just one array with three elements appears in the response message.
 
-
-### Design input and output
-
-(TBD)
 
 
 ## Read-write handler
