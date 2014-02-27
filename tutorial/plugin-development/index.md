@@ -37,7 +37,7 @@ Adaption phase
 Processing phase
 : At this phase, a plugin can process incoming requests on each partition, step by step.
 
-The processing phase includes 3 sub phases:
+The processing phase includes 3 sub pluggable phases:
 
 Handling phase
 : At this phase, a plugin can do low-level data handling, for example, database operations and so on.
