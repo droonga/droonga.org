@@ -282,7 +282,8 @@ See the [class reference of Rroonga][Groonga::Context].
 You can use any feature of Rroonga via `@context`.
 For now, we simply access to the table itself by its name and read the value of its `size` method - it returns the number of records.
 
-Then, test it again.
+Then, test it.
+Restart the Droonga Engine and send the request again.
 
 ~~~
 # kill $(cat fluentd.pid)
