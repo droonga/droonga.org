@@ -1,9 +1,7 @@
 ---
-title: "Plugin: Handle requests"
+title: "Plugin: Handle requests on all partitions"
 layout: en
 ---
-
-!!! WORK IN PROGRESS !!!
 
 * TOC
 {:toc}
@@ -39,7 +37,11 @@ A class to define operations at the handling phase is called *handler*.
 Put simply, adding of a new handler means adding a new command.
 
 
-## Design a read-only command
+
+
+
+
+## Design a read-only command `countRecords`
 
 Here, in this tutorial, we are going to add a new custom `countRecords` command.
 At first, let's design it.
@@ -184,13 +186,13 @@ Then, we also have to bind a collector to the step, with the configuration `step
 lib/droonga/plugins/count-records.rb:
 
 ~~~ruby
-...
+(snip)
       define_single_step do |step|
         step.name = "countRecords"
         step.handler = :Handler
         step.collector = SumCollector
       end
-...
+(snip)
 ~~~
 
 The `SumCollector` is one of built-in collectors.
@@ -211,7 +213,7 @@ Add `"count-records"` to `"plugins"`.
 (snip)
 ~~~
 
-### Run
+### Run and test
 
 Let's get Droonga started.
 Note that you need to specify ./lib directory in RUBYLIB environment variable in order to make ruby possible to find your plugin.
@@ -219,9 +221,7 @@ Note that you need to specify ./lib directory in RUBYLIB environment variable in
     # kill $(cat fluentd.pid)
     # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 
-### Test
-
-Send a message for the `countRecords` command to the Droonga Engine.
+Then, send a message for the `countRecords` command to the Droonga Engine.
 
 ~~~
 # droonga-request --tag starbucks count-records.json
@@ -238,7 +238,7 @@ Elapsed time: 0.01494
 ]
 ~~~
 
-Then you'll get a response message like above.
+You'll get a response message like above.
 Look at these points:
 
  * The `type` of the response becomes `countRecords.result`.
@@ -250,10 +250,9 @@ There are 3 elements in the array. Why?
  * Remember that we have configured the `Starbucks` dataset to use 3 partitions (and each has 2 replicas) in the `catalog.json` of [the basic tutorial][basic].
  * Because it is a read-only command, an incoming message is distributed only to paritions, not to replicas.
    So there are only 3 results, not 6.
+   (TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
  * The `SumCollector` collects them.
    Those 3 results are joined to just one array by the collector.
-
-(TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
 
 As the result, just one array with 3 elements appears in the response message.
 
@@ -265,7 +264,7 @@ Let's implement codes to count up the number of records from the actual storage.
 lib/droonga/plugins/count-records.rb:
 
 ~~~ruby
-...
+(snip)
       class Handler < Droonga::Handler
         def handle(message)
           table_name = message["body"]["table"]
@@ -274,7 +273,7 @@ lib/droonga/plugins/count-records.rb:
           [count]
         end
       end
-...
+(snip)
 ~~~
 
 The instance variable `@context` is an instance of `Groonga::Context` for the storage of the partition.
@@ -305,33 +304,204 @@ Elapsed time: 0.01494
 Because there are totally 35 records, they are stored evenly like above.
 
 
-## Read-write handler
 
-(TBD)
+
+
+
+
+## Design a read-write command `deleteStores`
+
+Next, let's add another new custom command `deleteStores`.
+
+The command deletes records of the `Store` table, from the storage.
+Because it modifies something in existing storage, it is a *read-write command*.
+
+The request must have the condition to select records to be deleted, like:
+
+~~~json
+{
+  "dataset" : "Starbucks",
+  "type"    : "deleteStores",
+  "body"    : {
+    "keyword": "Broardway"
+  }
+}
+~~~
+
+Any record including the given keyword `"Broadway"` in its `"key"` is deleted from the storage of all partitions.
+
+Create a JSON file `delete-stores-broadway.json` with the content above.
+We'll use it for testing.
+
+The response must have a boolean value to indicate "success" or "fail", like:
+
+~~~json
+{
+  "inReplyTo": "(message id)",
+  "statusCode": 200,
+  "type": "deleteStores.result",
+  "body": true
+}
+~~~
+
+If the request is successfully processed, the `body` becomes `true`. Otherwise `false`.
+The `body` is just one boolean value, because we don't have to receive multiple results from partitions.
+
 
 ### Directory Structure
 
-(TBD)
+Now let's create the `delete-stores` plugin, as the file `delete-stores.rb`. The directory tree will be:
 
-### Create a plugin
+~~~
+lib
+└── droonga
+    └── plugins
+            └── delete-stores.rb
+~~~
 
-(TBD)
+Then, create a skelton of a plugin as follows:
+
+lib/droonga/plugins/delete-stores.rb:
+
+~~~ruby
+require "droonga/plugin"
+
+module Droonga
+  module Plugins
+    module DeleteStoresPlugin
+      Plugin.registry.register("delete-stores", self)
+    end
+  end
+end
+~~~
+
+
+### Define a "step" for the command
+
+Define a "step" for the new `deleteStores` command, in your plugin. Like:
+
+lib/droonga/plugins/delete-stores.rb:
+
+~~~ruby
+require "droonga/plugin"
+
+module Droonga
+  module Plugins
+    module DeleteStoresPlugin
+      Plugin.registry.register("delete-stores", self)
+
+      define_single_step do |step|
+        step.name = "deleteStores"
+        step.write = true
+      end
+    end
+  end
+end
+~~~
+
+Look at a new configuration `step.write`.
+Because this command modifies the storage, we must indicate it clearly.
+
+### Define the handling logic
+
+Let's define the handler.
+
+lib/droonga/plugins/delete-stores.rb:
+
+~~~ruby
+require "droonga/plugin"
+
+module Droonga
+  module Plugins
+    module DeleteStoresPlugin
+      Plugin.registry.register("delete-stores", self)
+
+      define_single_step do |step|
+        step.name = "deleteStores"
+        step.write = true
+        step.handler = :Handler
+        step.collector = AndCollector
+      end
+
+      class Handler < Droonga::Handler
+        def handle(message)
+          keyword = message["body"]["keyword"]
+          table = @context["Store"]
+          table.delete do |record|
+            record.key @ keyword
+          end
+          true
+        end
+      end
+    end
+  end
+end
+~~~
+
+The handler finds and deletes existing records which have the given keyword in its "key", by the [API of Rroonga][Groonga::Table_delete].
+
+And, the `AndCollector` is bound to the step by the configuration `step.collector`.
+It is is also one of built-in collectors, and merges boolean values retuned from handler instances for each partition and replica, to one boolean value.
+
+
 
 ### Activate the plugin with `catalog.json`
 
-(TBD)
+Update catalog.json to activate this plugin.
+Add `"delete-stores"` to `"plugins"`.
 
-### Run
+~~~
+(snip)
+      "datasets": {
+        "Starbucks": {
+          (snip)
+          "plugins": ["delete-stores", "count-records", "groonga", "crud", "search"],
+(snip)
+~~~
 
-(TBD)
+### Run and test
 
-### Test
+Restart the Droonga Engine and send the request.
 
-(TBD)
+~~~
+# kill $(cat fluentd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+# droonga-request --tag starbucks count-records.json
+Elapsed time: 0.01494
+[
+  "droonga.message",
+  1392621168,
+  {
+    "inReplyTo": "1392621168.0119512",
+    "statusCode": 200,
+    "type": "deleteStores.result",
+    "body": true
+  }
+]
+~~~
 
-### Design input and output
+Because results from partitions are unified to just one boolean value, the response's `body` is a `true`.
+As the verification, send the request of `countRecords` command.
 
-(TBD)
+~~~
+# droonga-request --tag starbucks count-records.json
+Elapsed time: 0.01494
+[
+  "droonga.message",
+  1392621168,
+  {
+    "inReplyTo": "1392621168.0119512",
+    "statusCode": 200,
+    "type": "countRecords.result",
+    "body": [8, 8, 7]
+  }
+]
+~~~
+
+Note, the number of records are smaller than the previous result.
+This means that 4 or some records are deleted from each partitions.
+
+
 
 
 ## Conclusion
@@ -342,3 +512,4 @@ We have learned how to create plugins work in handling phrase.
   [adapter]: ../adapter
   [basic]: ../basic
   [Groonga::Context]: http://ranguba.org/rroonga/en/Groonga/Context.html
+  [Groonga::Table_delete]: http://ranguba.org/rroonga/en/Groonga/Table.html#delete-instance_method

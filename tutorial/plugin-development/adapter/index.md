@@ -63,7 +63,9 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module SampleLoggerPlugin
-      Plugin.registry.register("sample-logger", self)
+      extend Plugin
+
+      registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
         # You'll put codes to modify messages here.

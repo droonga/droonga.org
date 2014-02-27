@@ -58,8 +58,9 @@ Following this tutorial, you will learn how to write plugins. This will be the f
 For more details, let's read these sub tutorials:
 
  1. [Modify requests and responses][adapter]
- 2. [Handle requests][handler] (under construction)
- 3. Distribute requests and collect responses (under construction)
+ 2. [Handle requests on all partitions][handler]
+ 3. Handle requests only on a specific partition (under construction)
+ 4. Distribute requests and collect responses (under construction)
 
 
   [basic tutorial]: ../basic/
