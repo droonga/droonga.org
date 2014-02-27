@@ -57,7 +57,7 @@ Planning phase
 Collection phase
 : At this phase, a plugin can merge results from steps to a unified result.
 
-In this tutorial, we focus at the adaption phase at first.
+In this tutorial, we focus on the adaption phase at first.
 This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
 Then, we focus an other phases in this order.
 Following this tutorial, you will learn how to write plugins. This will be the first step to create plugins fit with your own requirements.
