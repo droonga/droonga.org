@@ -90,7 +90,7 @@ lib
             └── count-records.rb
 ~~~
 
-Then, create a slekton of a plugin as follows:
+Then, create a skelton of a plugin as follows:
 
 lib/droonga/plugins/count-records.rb:
 
