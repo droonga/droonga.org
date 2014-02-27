@@ -282,6 +282,28 @@ See the [class reference of Rroonga][Groonga::Context].
 You can use any feature of Rroonga via `@context`.
 For now, we simply access to the table itself by its name and read the value of its `size` method - it returns the number of records.
 
+Then, test it again.
+
+~~~
+# kill $(cat fluentd.pid)
+# RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+# droonga-request --tag starbucks count-records.json
+Elapsed time: 0.01494
+[
+  "droonga.message",
+  1392621168,
+  {
+    "inReplyTo": "1392621168.0119512",
+    "statusCode": 200,
+    "type": "countRecords.result",
+    "body": [12, 12, 11]
+  }
+]
+~~~
+
+Because there are totally 35 records, they are stored evenly like above.
+
+
 ## Read-write handler
 
 (TBD)
