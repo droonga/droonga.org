@@ -71,11 +71,14 @@ They can be appear in an array, like:
   "inReplyTo": "(message id)",
   "statusCode": 200,
   "type": "countRecords.result",
-  "body": [10, 10, 10]
+  "body": [10, 10]
 }
 ~~~
 
-We're going to create a plugin to accept such a request and return a response like above.
+If there are 2 partitions and 20 records are stored evenly, the array will have two elements like above.
+It means that a partition has 10 records and another one also has 10 records.
+
+We're going to create a plugin to accept such requests and return such responses.
 
 
 ### Directory structure
@@ -230,9 +233,7 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": {
-      "count": [0, 0, 0]
-    }
+    "body": [0, 0, 0]
   }
 ]
 ~~~
@@ -240,22 +241,46 @@ Elapsed time: 0.01494
 Then you'll get a response message like above.
 Look at these points:
 
- * The `type` of the response becomes `countRecords.result`. It is automatically named by the Droonga Engine.
+ * The `type` of the response becomes `countRecords.result`.
+   It is automatically named by the Droonga Engine.
  * The format of the `body` is same to the returned value of the handler's `handle` method.
 
-However, there are three elements in the `count` array. Why?
+There are 3 elements in the array. Why?
 
- * Remember that we have configured `Starbucks` dataset to use three partitions (and each has two replicas) in the `catalog.json` of [the basic tutorial][basic].
- * Because it is a read-only handler, the incoming message is distributed only to paritions, not to replicas.
-   So there are only three results, not six.
- * The Droonga Engine automatically collects results from parititions.
-   Those three results are joined to just one array.
+ * Remember that we have configured the `Starbucks` dataset to use 3 partitions (and each has 2 replicas) in the `catalog.json` of [the basic tutorial][basic].
+ * Because it is a read-only command, an incoming message is distributed only to paritions, not to replicas.
+   So there are only 3 results, not 6.
+ * The `SumCollector` collects them.
+   Those 3 results are joined to just one array by the collector.
 
 (TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
 
-As the result, just one array with three elements appears in the response message.
+As the result, just one array with 3 elements appears in the response message.
 
+### Read-only access to the storage
 
+Now, each instance of the handler class always returns `[0]` as its result.
+Let's implement codes to count up the number of records from the actual storage.
+
+lib/droonga/plugins/count-records.rb:
+
+~~~ruby
+...
+      class Handler < Droonga::Handler
+        def handle(message)
+          table_name = message["body"]["table"]
+          table = @context[table_name]
+          count = table.size
+          [count]
+        end
+      end
+...
+~~~
+
+The instance variable `@context` is an instance of `Groonga::Context` for the storage of the partition.
+See the [class reference of Rroonga][Groonga::Context].
+You can use any feature of Rroonga via `@context`.
+For now, we simply access to the table itself by its name and read the value of its `size` method - it returns the number of records.
 
 ## Read-write handler
 
@@ -293,3 +318,4 @@ We have learned how to create plugins work in handling phrase.
 
   [adapter]: ../adapter
   [basic]: ../basic
+  [Groonga::Context]: http://ranguba.org/rroonga/en/Groonga/Context.html
