@@ -301,7 +301,6 @@ Open another terminal and send those the json to the fluentd server.
 Send `stores.jsons` as follows:
 
 ~~~
-
 $ droonga-request --tag starbucks stores.jsons
 Elapsed time: 0.251712
 [
