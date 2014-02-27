@@ -111,57 +111,104 @@ fluentd.conf:
 catalog.json:
 
     {
-      "version": 1,
+      "version": 2,
       "effective_date": "2013-09-01T00:00:00Z",
-      "zones": ["localhost:24224/starbucks"],
-      "farms": {
-        "localhost:24224/starbucks": {
-          "device": ".",
-          "capacity": 10
-        }
-      },
       "datasets": {
         "Starbucks": {
-          "workers": 4,
+          "nWorkers": 4,
           "plugins": ["groonga", "crud", "search"],
-          "number_of_replicas": 2,
-          "number_of_partitions": 3,
-          "partition_key": "_key",
-          "date_range": "infinity",
-          "ring": {
-            "localhost:24224:0": {
-              "weight": 50,
-              "partitions": {
-                "2013-09-01": [
-                  "localhost:24224/starbucks.000",
-                  "localhost:24224/starbucks.001"
-                ]
+          "schema": {
+            "Store": {
+              "type": "Hash",
+              "keyType": "ShortText",
+              "columns": {
+                "location": {
+                  "type": "Scalar",
+                  "valueType": "WGS84GeoPoint"
+                }
               }
             },
-            "localhost:24224:1": {
-              "weight": 50,
-              "partitions": {
-                "2013-09-01": [
-                  "localhost:24224/starbucks.010",
-                  "localhost:24224/starbucks.011"
-                ]
+            "Location": {
+              "type": "PatriciaTrie",
+              "keyType": "WGS84GeoPoint",
+              "columns": {
+                "store": {
+                  "type": "Index",
+                  "valueType": "Store",
+                  "indexOptions": {
+                    "sources": ["location"]
+                  }
+                }
               }
             },
-            "localhost:24224:2": {
-              "weight": 50,
-              "partitions": {
-                "2013-09-01": [
-                  "localhost:24224/starbucks.020",
-                  "localhost:24224/starbucks.021"
-                ]
+            "Term": {
+              "type": "PatriciaTrie",
+              "keyType": "ShortText",
+              "normalizer": "NormalizerAuto",
+              "tokenizer": "TokenBigram",
+              "columns": {
+                "stores__key": {
+                  "type": "Index",
+                  "valueType": "Store",
+                  "indexOptions": {
+                    "position": true,
+                    "sources": ["_key"]
+                  }
+                }
               }
             }
-          }
+          },
+          "partition_key": "_key",
+          "date_range": "infinity",
+          "replicas": [
+            {
+              "dimension": "_key",
+              "slicer": "hash",
+              "slices": [
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.000"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.001"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.002"
+                  }
+                }
+              ]
+            },
+            {
+              "dimension": "_key",
+              "slicer": "hash",
+              "slices": [
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.010"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.011"
+                  }
+                },
+                {
+                  "volume": {
+                    "address": "localhost:24224/starbucks.012"
+                  }
+                }
+              ]
+            }
+          ]
         }
       }
     }
 
-This `catalog.json` defines a dataset `Starbucks` with two replicas and three partitions.
+This `catalog.json` defines a dataset `Starbucks` with two replicas and three partitions for each replica.
 All of replicas and partitions are stored locally (in other words, they are managed by a `fluent-plugin-droonga` instance).
 
 For more details of the configuration file `catalog.json`, see [the reference manual of catalog.json](/reference/catalog).
