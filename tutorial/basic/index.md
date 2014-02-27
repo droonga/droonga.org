@@ -112,7 +112,7 @@ catalog.json:
 
     {
       "version": 2,
-      "effective_date": "2013-09-01T00:00:00Z",
+      "effectiveDate": "2013-09-01T00:00:00Z",
       "datasets": {
         "Starbucks": {
           "nWorkers": 4,
@@ -158,8 +158,6 @@ catalog.json:
               }
             }
           },
-          "partition_key": "_key",
-          "date_range": "infinity",
           "replicas": [
             {
               "dimension": "_key",
