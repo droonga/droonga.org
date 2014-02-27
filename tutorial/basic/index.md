@@ -254,19 +254,7 @@ Start fluent-plugin-droonga again:
 ### Create a database
 
 After a Droonga engine is started, let's load data.
-Prepare two jsons files, `ddl.jsons` including the database schema and `stores.jsons` including location data of stores.
-
-ddl.jsons:
-
-~~~
-{"dataset":"Starbucks","type":"table_create","body":{"name":"Store","flags":"TABLE_HASH_KEY","key_type":"ShortText"}}
-{"dataset":"Starbucks","type":"column_create","body":{"table":"Store","name":"location","flags":"COLUMN_SCALAR","type":"WGS84GeoPoint"}}
-{"dataset":"Starbucks","type":"table_create","body":{"name":"Location","flags":"TABLE_PAT_KEY","key_type":"WGS84GeoPoint"}}
-{"dataset":"Starbucks","type":"column_create","body":{"table":"Location","name":"store","flags":"COLUMN_INDEX","type":"Store","source":"location"}}
-{"dataset":"Starbucks","type":"table_create","body":{"name":"Term","flags":"TABLE_PAT_KEY","key_type":"ShortText","default_tokenizer":"TokenBigram","normalizer":"NormalizerAuto"}}
-{"dataset":"Starbucks","type":"column_create","body":{"table":"Term","name":"stores__key","flags":"COLUMN_INDEX|WITH_POSITION","type":"Store","source":"_key"}}
-~~~
-
+Prepare `stores.jsons` including location data of stores.
 
 stores.jsons:
 
@@ -308,121 +296,7 @@ stores.jsons:
 {"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
 ~~~
 
-Open another terminal and send those two jsons to the fluentd server.
-
-Send `ddl.jsons` as follows:
-
-~~~
-# droonga-request --tag starbucks ddl.jsons
-Elapsed time: 0.060984
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.207507",
-    "statusCode": 200,
-    "type": "table_create.result",
-    "body": [
-      [
-        0,
-        1392611486.2097359,
-        0.026822328567504883
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.007164
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.268766",
-    "statusCode": 200,
-    "type": "column_create.result",
-    "body": [
-      [
-        0,
-        1392611486.269676,
-        0.0010280609130859375
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.008584
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.2760692",
-    "statusCode": 200,
-    "type": "table_create.result",
-    "body": [
-      [
-        0,
-        1392611486.276955,
-        0.002329111099243164
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.109383
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.284704",
-    "statusCode": 200,
-    "type": "column_create.result",
-    "body": [
-      [
-        0,
-        1392611486.2854872,
-        0.00432896614074707
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.008829
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.394273",
-    "statusCode": 200,
-    "type": "table_create.result",
-    "body": [
-      [
-        0,
-        1392611486.395301,
-        0.0017240047454833984
-      ],
-      true
-    ]
-  }
-]
-Elapsed time: 0.11633
-[
-  "droonga.message",
-  1392611486,
-  {
-    "inReplyTo": "1392611486.4032152",
-    "statusCode": 200,
-    "type": "column_create.result",
-    "body": [
-      [
-        0,
-        1392611486.404574,
-        0.018894195556640625
-      ],
-      true
-    ]
-  }
-]
-~~~
+Open another terminal and send those the json to the fluentd server.
 
 Send `stores.jsons` as follows:
 
