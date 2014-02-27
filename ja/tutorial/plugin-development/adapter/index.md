@@ -19,7 +19,7 @@ layout: ja
 
 Learning steps to develop a Droonga plugin by yourself.
 
-This page focuses on the adaption phase for Droonga plugins.
+This page focuses at the adaption phase for Droonga plugins.
 At the last, wraps up them to make a small practical plugin named `store-search`, for the adaption phase.
 
 ## 前提条件
@@ -29,7 +29,7 @@ At the last, wraps up them to make a small practical plugin named `store-search`
 
 ## Adaption for incoming messages
 
-First, let's study basics with a simple logger plugin named `sample-logger` affects on the adaption phase.
+First, let's study basics with a simple logger plugin named `sample-logger` affects at the adaption phase.
 
 We sometime need to modify incoming requests from outside to Droonga Engine.
 We can use a plugin for this purpose.
@@ -72,7 +72,9 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module SampleLoggerPlugin
-      Plugin.registry.register("sample-logger", self)
+      extend Plugin
+
+      registry.register("sample-logger", self)
 
       class Adapter < Droonga::Adapter
         # You'll put codes to modify messages here.
@@ -86,6 +88,8 @@ This plugin does nothing except registering itself to Droonga.
 
  * The `sample-logger` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
  * As the example above, you must define your plugin as a module.
+ * Behaviors at the adaption phase is defined a class called *adapter*.
+   An adapter class must be defined as a subclass of the `Droonga::Adapter`, under the namespace of the plugin module.
 
 
 ### Activate the plugin with `catalog.json`
@@ -104,7 +108,7 @@ catalog.json:
 (snip)
 ~~~
 
-Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins on the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
+Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins at the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
 
 ### Run
 

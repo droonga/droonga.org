@@ -66,9 +66,10 @@ Following this tutorial, you will learn how to write plugins. This will be the f
 
 詳細は以下のサブチュートリアルを参照してください:
 
- 1. [リクエストとレスポンスの加工][adapter]
- 2. [リクエストの処理][handler] (作成中)
- 3. リクエストの分散とレスポンスの回収 (作成中)
+ 1. [Modify requests and responses][adapter]
+ 2. [Handle requests on all partitions][handler]
+ 3. Handle requests only on a specific partition (under construction)
+ 4. Distribute requests and collect responses (under construction)
 
 
   [basic tutorial]: ../basic/
