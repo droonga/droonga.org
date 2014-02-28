@@ -642,6 +642,61 @@ stores.jsons:
     }
   }
 }
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "2138 Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.781078,-73.981167"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "118th & Frederick Douglas Blvd. - New York NY  (W)",
+    "values": {
+      "location": "40.806176,-73.954109"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "42nd & Second - New York NY  (W)",
+    "values": {
+      "location": "40.750069,-73.973393"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Broadway @ 81st - New York NY  (W)",
+    "values": {
+      "location": "40.784972,-73.978987"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Fashion Inst of Technology - New York NY",
+    "values": {
+      "location": "40.746948,-73.994557"
+    }
+  }
+}
 ~~~
 
 Open another terminal and send the json to the Droonga engine.
@@ -649,387 +704,442 @@ Open another terminal and send the json to the Droonga engine.
 Send `stores.jsons` as follows:
 
 ~~~
-$ droonga-request --tag starbucks stores.jsons
-Elapsed time: 0.251712
+# droonga-request --tag starbucks stores.jsons
+Elapsed time: 0.01101195
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.414268",
+    "inReplyTo": "1393562553.8918273",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.007161
+Elapsed time: 0.008872597
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.666198",
+    "inReplyTo": "1393562553.9034681",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.006794
+Elapsed time: 0.008392207
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.6735082",
+    "inReplyTo": "1393562553.9126666",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.070859
+Elapsed time: 0.011983187
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.680408",
+    "inReplyTo": "1393562553.9212565",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.064862
+Elapsed time: 0.008101728
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.7514088",
+    "inReplyTo": "1393562553.9338331",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.009247
+Elapsed time: 0.004175044
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.816423",
+    "inReplyTo": "1393562553.9421282",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.012615
+Elapsed time: 0.017018749
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.825906",
+    "inReplyTo": "1393562553.946642",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.01329
+Elapsed time: 0.007583209
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.838811",
+    "inReplyTo": "1393562553.9639654",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.016937
+Elapsed time: 0.00841723
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.852271",
+    "inReplyTo": "1393562553.9719582",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.009726
+Elapsed time: 0.009108127
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.8693151",
+    "inReplyTo": "1393562553.9804838",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.009445
+Elapsed time: 0.005036642
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.879232",
+    "inReplyTo": "1393562553.989766",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.003686
+Elapsed time: 0.004036806
 [
   "droonga.message",
-  1392611703,
+  1393562553,
   {
-    "inReplyTo": "1392611703.888693",
+    "inReplyTo": "1393562553.9952037",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.00309
+Elapsed time: 0.012368974
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.892619",
+    "inReplyTo": "1393562553.999501",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.007988
+Elapsed time: 0.004099008
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.895704",
+    "inReplyTo": "1393562554.0122097",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.003158
+Elapsed time: 0.027017019
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.903796",
+    "inReplyTo": "1393562554.016705",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.006433
+Elapsed time: 0.010383751
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.907073",
+    "inReplyTo": "1393562554.044215",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.006858
+Elapsed time: 0.004364288
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.913633",
+    "inReplyTo": "1393562554.0549927",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.003178
+Elapsed time: 0.003277611
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.920607",
+    "inReplyTo": "1393562554.0595262",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002921
+Elapsed time: 0.007540272
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.923857",
+    "inReplyTo": "1393562554.063036",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002627
+Elapsed time: 0.002973611
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.926882",
+    "inReplyTo": "1393562554.0707917",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002955
+Elapsed time: 0.024142012
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.92959",
+    "inReplyTo": "1393562554.0739512",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.003133
+Elapsed time: 0.010329014
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.932686",
+    "inReplyTo": "1393562554.098288",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002871
+Elapsed time: 0.004758853
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.9359381",
+    "inReplyTo": "1393562554.1089437",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.00274
+Elapsed time: 0.007113416
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.938964",
+    "inReplyTo": "1393562554.113922",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002905
+Elapsed time: 0.007472331
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.941767",
+    "inReplyTo": "1393562554.121428",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002512
+Elapsed time: 0.011560447
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.94483",
+    "inReplyTo": "1393562554.1294332",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002553
+Elapsed time: 0.006053761
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.947414",
+    "inReplyTo": "1393562554.1413999",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002482
+Elapsed time: 0.013611626
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.950102",
+    "inReplyTo": "1393562554.1479707",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.00294
+Elapsed time: 0.007455591
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.952671",
+    "inReplyTo": "1393562554.1624238",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.003141
+Elapsed time: 0.005440424
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.955711",
+    "inReplyTo": "1393562554.1702914",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002479
+Elapsed time: 0.005610303
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.958953",
+    "inReplyTo": "1393562554.1760805",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002375
+Elapsed time: 0.025479938
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.9615061",
+    "inReplyTo": "1393562554.1822054",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002571
+Elapsed time: 0.007125251
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.963968",
+    "inReplyTo": "1393562554.2080746",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.003212
+Elapsed time: 0.009454133
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.966677",
+    "inReplyTo": "1393562554.2158518",
     "statusCode": 200,
     "type": "add.result",
     "body": true
   }
 ]
-Elapsed time: 0.002769
+Elapsed time: 0.003632905
 [
   "droonga.message",
-  1392611703,
+  1393562554,
   {
-    "inReplyTo": "1392611703.970025",
+    "inReplyTo": "1393562554.2255347",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003653783
+[
+  "droonga.message",
+  1393562554,
+  {
+    "inReplyTo": "1393562554.2293708",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003643588
+[
+  "droonga.message",
+  1393562554,
+  {
+    "inReplyTo": "1393562554.2332237",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003703875
+[
+  "droonga.message",
+  1393562554,
+  {
+    "inReplyTo": "1393562554.237225",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.003402826
+[
+  "droonga.message",
+  1393562554,
+  {
+    "inReplyTo": "1393562554.2411628",
+    "statusCode": 200,
+    "type": "add.result",
+    "body": true
+  }
+]
+Elapsed time: 0.004817463
+[
+  "droonga.message",
+  1393562554,
+  {
+    "inReplyTo": "1393562554.2447524",
     "statusCode": 200,
     "type": "add.result",
     "body": true
@@ -1074,26 +1184,23 @@ Send the request to Droonga Engine:
 
 ~~~
 # droonga-request --tag starbucks search-all-stores.json
-Elapsed time: 0.202101
+Elapsed time: 0.008286785
 [
   "droonga.message",
-  1392614906,
+  1393562604,
   {
-    "inReplyTo": "1392614905.993328",
+    "inReplyTo": "1393562604.4970381",
     "statusCode": 200,
     "type": "search.result",
     "body": {
       "stores": {
-        "count": 35,
+        "count": 40,
         "records": [
           [
-            "1st Avenue & 75th St. - New York NY  (W)"
+            "15th & Third - New York NY  (W)"
           ],
           [
-            "76th & Second - New York NY  (W)"
-          ],
-          [
-            "2nd Ave. & 9th Street - New York NY"
+            "41st and Broadway - New York NY  (W)"
           ],
           [
             "84th & Third Ave - New York NY  (W)"
@@ -1102,34 +1209,43 @@ Elapsed time: 0.202101
             "Macy's 35th Street Balcony - New York NY"
           ],
           [
-            "80th & York - New York NY  (W)"
+            "Second @ 81st - New York NY  (W)"
           ],
           [
-            "45th & Broadway - New York NY  (W)"
+            "52nd & Seventh - New York NY  (W)"
           ],
           [
             "1585 Broadway (47th) - New York NY  (W)"
           ],
           [
-            "85th & First - New York NY  (W)"
+            "54th & Broadway - New York NY  (W)"
           ],
           [
-            "1656 Broadway - New York NY  (W)"
+            "60th & Broadway-II - New York NY  (W)"
           ],
           [
-            "2 Broadway - New York NY  (W)"
+            "63rd & Broadway - New York NY  (W)"
+          ],
+          [
+            "2 Columbus Ave. - New York NY  (W)"
           ],
           [
             "NY Plaza - New York NY  (W)"
           ],
           [
-            "70th & Broadway - New York NY  (W)"
+            "2138 Broadway - New York NY  (W)"
           ],
           [
-            "15th & Third - New York NY  (W)"
+            "Broadway @ 81st - New York NY  (W)"
           ],
           [
-            "West 43rd and Broadway - New York NY  (W)"
+            "76th & Second - New York NY  (W)"
+          ],
+          [
+            "2nd Ave. & 9th Street - New York NY"
+          ],
+          [
+            "150 E. 42nd Street - New York NY  (W)"
           ],
           [
             "Macy's 6th Floor - Herald Square - New York NY  (W)"
@@ -1141,19 +1257,19 @@ Elapsed time: 0.202101
             "Macy's 5th Floor - Herald Square - New York NY  (W)"
           ],
           [
-            "52nd & Seventh - New York NY  (W)"
+            "Marriott Marquis - Lobby - New York NY"
           ],
           [
-            "92nd & 3rd - New York NY  (W)"
+            "85th & First - New York NY  (W)"
+          ],
+          [
+            "1656 Broadway - New York NY  (W)"
           ],
           [
             "Limited Brands-NYC - New York NY"
           ],
           [
-            "19th & 8th - New York NY  (W)"
-          ],
-          [
-            "60th & Broadway-II - New York NY  (W)"
+            "2 Broadway - New York NY  (W)"
           ],
           [
             "36th and Madison - New York NY  (W)"
@@ -1162,34 +1278,43 @@ Elapsed time: 0.202101
             "125th St. btwn Adam Clayton & FDB - New York NY"
           ],
           [
-            "41st and Broadway - New York NY  (W)"
+            "118th & Frederick Douglas Blvd. - New York NY  (W)"
           ],
           [
-            "150 E. 42nd Street - New York NY  (W)"
+            "Fashion Inst of Technology - New York NY"
+          ],
+          [
+            "1st Avenue & 75th St. - New York NY  (W)"
+          ],
+          [
+            "West 43rd and Broadway - New York NY  (W)"
+          ],
+          [
+            "80th & York - New York NY  (W)"
           ],
           [
             "Columbus @ 67th - New York NY  (W)"
           ],
           [
-            "Marriott Marquis - Lobby - New York NY"
+            "45th & Broadway - New York NY  (W)"
           ],
           [
-            "Second @ 81st - New York NY  (W)"
+            "92nd & 3rd - New York NY  (W)"
           ],
           [
             "165 Broadway - 1 Liberty - New York NY  (W)"
           ],
           [
-            "54th & Broadway - New York NY  (W)"
-          ],
-          [
-            "63rd & Broadway - New York NY  (W)"
+            "19th & 8th - New York NY  (W)"
           ],
           [
             "195 Broadway - New York NY  (W)"
           ],
           [
-            "2 Columbus Ave. - New York NY  (W)"
+            "70th & Broadway - New York NY  (W)"
+          ],
+          [
+            "42nd & Second - New York NY  (W)"
           ]
         ]
       }
@@ -1274,94 +1399,16 @@ We're all set. Let's send a search request to the protocol adapter via HTTP. At 
         "count": 40,
         "records": [
           [
-            "76th & Second - New York NY  (W)"
-          ],
-          [
             "15th & Third - New York NY  (W)"
           ],
           [
             "41st and Broadway - New York NY  (W)"
           ],
           [
-            "West 43rd and Broadway - New York NY  (W)"
-          ],
-          [
-            "Macy's 6th Floor - Herald Square - New York NY  (W)"
-          ],
-          [
-            "Herald Square- Macy's - New York NY"
-          ],
-          [
-            "Columbus @ 67th - New York NY  (W)"
-          ],
-          [
-            "45th & Broadway - New York NY  (W)"
-          ],
-          [
-            "1585 Broadway (47th) - New York NY  (W)"
-          ],
-          [
-            "85th & First - New York NY  (W)"
-          ],
-          [
-            "92nd & 3rd - New York NY  (W)"
-          ],
-          [
-            "1656 Broadway - New York NY  (W)"
-          ],
-          [
-            "19th & 8th - New York NY  (W)"
-          ],
-          [
-            "60th & Broadway-II - New York NY  (W)"
-          ],
-          [
-            "195 Broadway - New York NY  (W)"
-          ],
-          [
-            "2 Broadway - New York NY  (W)"
-          ],
-          [
-            "NY Plaza - New York NY  (W)"
-          ],
-          [
-            "36th and Madison - New York NY  (W)"
-          ],
-          [
-            "125th St. btwn Adam Clayton & FDB - New York NY"
-          ],
-          [
-            "2138 Broadway - New York NY  (W)"
-          ],
-          [
-            "118th & Frederick Douglas Blvd. - New York NY  (W)"
-          ],
-          [
-            "42nd & Second - New York NY  (W)"
-          ],
-          [
-            "1st Avenue & 75th St. - New York NY  (W)"
-          ],
-          [
-            "2nd Ave. & 9th Street - New York NY"
-          ],
-          [
             "84th & Third Ave - New York NY  (W)"
           ],
           [
-            "150 E. 42nd Street - New York NY  (W)"
-          ],
-          [
             "Macy's 35th Street Balcony - New York NY"
-          ],
-          [
-            "Macy's 5th Floor - Herald Square - New York NY  (W)"
-          ],
-          [
-            "80th & York - New York NY  (W)"
-          ],
-          [
-            "Marriott Marquis - Lobby - New York NY"
           ],
           [
             "Second @ 81st - New York NY  (W)"
@@ -1370,13 +1417,13 @@ We're all set. Let's send a search request to the protocol adapter via HTTP. At 
             "52nd & Seventh - New York NY  (W)"
           ],
           [
-            "165 Broadway - 1 Liberty - New York NY  (W)"
+            "1585 Broadway (47th) - New York NY  (W)"
           ],
           [
             "54th & Broadway - New York NY  (W)"
           ],
           [
-            "Limited Brands-NYC - New York NY"
+            "60th & Broadway-II - New York NY  (W)"
           ],
           [
             "63rd & Broadway - New York NY  (W)"
@@ -1385,13 +1432,91 @@ We're all set. Let's send a search request to the protocol adapter via HTTP. At 
             "2 Columbus Ave. - New York NY  (W)"
           ],
           [
-            "70th & Broadway - New York NY  (W)"
+            "NY Plaza - New York NY  (W)"
+          ],
+          [
+            "2138 Broadway - New York NY  (W)"
           ],
           [
             "Broadway @ 81st - New York NY  (W)"
           ],
           [
+            "76th & Second - New York NY  (W)"
+          ],
+          [
+            "2nd Ave. & 9th Street - New York NY"
+          ],
+          [
+            "150 E. 42nd Street - New York NY  (W)"
+          ],
+          [
+            "Macy's 6th Floor - Herald Square - New York NY  (W)"
+          ],
+          [
+            "Herald Square- Macy's - New York NY"
+          ],
+          [
+            "Macy's 5th Floor - Herald Square - New York NY  (W)"
+          ],
+          [
+            "Marriott Marquis - Lobby - New York NY"
+          ],
+          [
+            "85th & First - New York NY  (W)"
+          ],
+          [
+            "1656 Broadway - New York NY  (W)"
+          ],
+          [
+            "Limited Brands-NYC - New York NY"
+          ],
+          [
+            "2 Broadway - New York NY  (W)"
+          ],
+          [
+            "36th and Madison - New York NY  (W)"
+          ],
+          [
+            "125th St. btwn Adam Clayton & FDB - New York NY"
+          ],
+          [
+            "118th & Frederick Douglas Blvd. - New York NY  (W)"
+          ],
+          [
             "Fashion Inst of Technology - New York NY"
+          ],
+          [
+            "1st Avenue & 75th St. - New York NY  (W)"
+          ],
+          [
+            "West 43rd and Broadway - New York NY  (W)"
+          ],
+          [
+            "80th & York - New York NY  (W)"
+          ],
+          [
+            "Columbus @ 67th - New York NY  (W)"
+          ],
+          [
+            "45th & Broadway - New York NY  (W)"
+          ],
+          [
+            "92nd & 3rd - New York NY  (W)"
+          ],
+          [
+            "165 Broadway - 1 Liberty - New York NY  (W)"
+          ],
+          [
+            "19th & 8th - New York NY  (W)"
+          ],
+          [
+            "195 Broadway - New York NY  (W)"
+          ],
+          [
+            "70th & Broadway - New York NY  (W)"
+          ],
+          [
+            "42nd & Second - New York NY  (W)"
           ]
         ]
       }
