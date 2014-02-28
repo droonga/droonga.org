@@ -704,11 +704,11 @@ search-all-stores.json:
       "output": {
         "elements": [
           "startTime",
-        "elapsedTime",
-        "count",
-        "attributes",
-        "records"
-          ],
+          "elapsedTime",
+          "count",
+          "attributes",
+          "records"
+        ],
         "attributes": ["_key"],
         "limit": -1
       }
