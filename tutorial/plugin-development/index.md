@@ -56,7 +56,7 @@ Adding a new command based on another existing command.
 : For example, you possibly want to define a shorthand command wrapping the complex `search` command.
   *Adaption* of request and response messages makes it come true.
 
-Adding a new command which working around the storage.
+Adding a new command working around the storage.
 : For example, you possibly want to modify data stored in the storage as you like.
   *Handling* of requests makes it come true.
 
@@ -74,10 +74,10 @@ This will be the first step to create plugins fit with your own requirements.
 
 For more details, let's read these sub tutorials:
 
- 1. [Adapt requests and responses][adapter]
- 2. [Handle requests on all partitions][handler]
- 3. Handle requests only on a specific partition (under construction)
- 4. Distribute requests and collect responses (under construction)
+ 1. [Adapt requests and responses, to add a new command based on other existing commands][adapter].
+ 2. [Handle requests on all partitions, to add a new command working around the storage][handler].
+ 3. Handle requests only on a specific partition, to add a new command around the storage more smartly. (under construction)
+ 4. Distribute requests and collect responses, to add a new complex command based on sub tasks. (under construction)
 
 
   [basic tutorial]: ../basic/
