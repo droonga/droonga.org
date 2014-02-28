@@ -532,7 +532,8 @@ This means that 4 or some records are deleted from each partitions.
 
 ## まとめ
 
-We have learned how to create plugins work in handling phrase.
+We have learned how to add a new simple command working around the data.
+In the process, we also have learned how to create plugins working in the handling phrase.
 
 
   [adapter]: ../adapter

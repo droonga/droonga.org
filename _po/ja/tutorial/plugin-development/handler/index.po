@@ -694,7 +694,10 @@ msgstr ""
 msgid "## Conclusion"
 msgstr "## まとめ"
 
-msgid "We have learned how to create plugins work in handling phrase."
+msgid ""
+"We have learned how to add a new simple command working around the data.\n"
+"In the process, we also have learned how to create plugins working in the hand"
+"ling phrase."
 msgstr ""
 
 msgid ""

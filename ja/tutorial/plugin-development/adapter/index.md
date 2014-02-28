@@ -19,8 +19,8 @@ layout: en
 
 Learning steps to develop a Droonga plugin by yourself.
 
-This page focuses on the adaption phase for Droonga plugins.
-At the last, wraps up them to make a small practical plugin named `store-search`, for the adaption phase.
+This page focuses on the "adaption" by Droonga plugins.
+At the last, we create a new command `storeSearch` based on the existing `search` command, with a small practical plugin.
 
 ## 前提条件
 
@@ -83,7 +83,7 @@ module Droonga
 end
 ~~~
 
-This plugin does nothing except registering itself to Droonga.
+This plugin does nothing except registering itself to the Droonga Engine.
 
  * The `sample-logger` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
  * As the example above, you must define your plugin as a module.
@@ -109,7 +109,7 @@ catalog.json:
 
 Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins at the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
 
-### Run
+### Run and test
 
 Let's get Droonga started.
 Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
@@ -119,9 +119,8 @@ Note that you need to specify `./lib` directory in `RUBYLIB` environment variabl
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-### Test
-
-Check if the engine is working. First, create a request as a JSON.
+Then, verify that the engine is correctly working.
+First, create a request as a JSON.
 
 search-columbus.json:
 
@@ -154,7 +153,8 @@ search-columbus.json:
 }
 ~~~
 
-This is corresponding to the example to search "Columbus" in the [basic tutorial][]. Note that the request for the Protocol Adapter is encapsulated in `"body"` element.
+This is corresponding to the example to search "Columbus" in the [basic tutorial][].
+Note that the request for the Protocol Adapter is encapsulated in `"body"` element.
 
 Send the request to engine with `droonga-request`:
 
@@ -476,7 +476,7 @@ The results in `fluentd.log` will be like this:
 ~~~
 
 
-## Translation for both incoming and outgoing messages
+## Adaption for both incoming and outgoing messages
 
 We have learned the basics of plugins for the adaption phase so far.
 Let's try to build more practical plugin.
@@ -484,9 +484,11 @@ Let's try to build more practical plugin.
 You may feel the Droonga's `search` command is too flexible for your purpose.
 Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface, with a new plugin named `store-search`.
 
-### Accept simple requests
+### Accepting of simple requests
 
-First, create the `store-searach` plugin. Remember, you must put codes into a file which has the name same to the plugin now you are creating. So, the file is `store-search.rb` in the `droonga/plugins` directory. Then define your `StoreSearchPlugin` as follows:
+First, create the `store-searach` plugin.
+Remember, you must put codes into a file which has the name same to the plugin now you are creating.
+So, the file is `store-search.rb` in the `droonga/plugins` directory. Then define your `StoreSearchPlugin` as follows:
 
 lib/droonga/plugins/store-search.rb:
 
@@ -544,7 +546,8 @@ end
 
 (Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
 
-Then update catalog.json to activate the plugin. Remove the `sample-logger` plugin previously created.
+Then update your `catalog.json` to activate the plugin.
+Remove the `sample-logger` plugin previously created.
 
 catalog.json:
 
@@ -620,7 +623,7 @@ Now we can perform store search with simple requests.
 
 Note: look at the `"type"` of the response message. Now it became `"storeSearch.result"`, from `"search.result"`. Because it is triggered from the incoming message with the type `"storeSearch"`, the outgoing message has the type `"(incoming command).result"` automatically. In other words, you don't have to change the type of the outgoing messages, like `input_message.type = "search"` in the method `adapt_input`.
 
-### Return simple response
+### Returning of simple responses
 
 Second, let's return results in more simple way: just an array of the names of stores.
 
@@ -693,7 +696,10 @@ In the way just described, we can use adapter to implement the application speci
 
 ## まとめ
 
-We have learned how to create an addon working around the adaption phase, how to receive and modify messages, both of incoming and outgoing. See also the [reference manual](../../../reference/plugin/adapter/) for more details.
+We have learned how to add a new command based only on a custom adapter and an existing command.
+In the process, we also have learned how to receive and modify messages, both of incoming and outgoing.
+
+See also the [reference manual](../../../reference/plugin/adapter/) for more details.
 
 
   [basic tutorial]: ../../basic/
