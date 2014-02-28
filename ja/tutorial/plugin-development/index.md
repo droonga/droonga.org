@@ -32,7 +32,7 @@ Generally, data processing tasks in the real world need custom treatments of the
  * One may want to do more complex data processing than that provided by Droonga as built-in, to have direct storage access for efficiency.
  * One may need to control data distribution and collection logic of Droonga to profit from distributed nature of Droonga.
 
-このような状況でプラグインを利用することができます。
+You can use plugins in those situations.
 
 ## Droongaエンジンにおけるプラガブルな操作
 
@@ -64,7 +64,7 @@ Following this tutorial, you will learn how to write plugins. This will be the f
 
 ## プラグインを開発するには
 
-詳細は以下のサブチュートリアルを参照してください:
+For more details, let's read these sub tutorials:
 
  1. [Modify requests and responses][adapter]
  2. [Handle requests on all partitions][handler]

@@ -60,7 +60,7 @@ msgid ""
 msgstr ""
 
 msgid "You can use plugins in those situations."
-msgstr "このような状況でプラグインを利用することができます。"
+msgstr ""
 
 msgid "## Pluggable operations in Droonga Engine"
 msgstr "## Droongaエンジンにおけるプラガブルな操作"
@@ -116,7 +116,7 @@ msgid "## How to develop plugins?"
 msgstr "## プラグインを開発するには"
 
 msgid "For more details, let's read these sub tutorials:"
-msgstr "詳細は以下のサブチュートリアルを参照してください:"
+msgstr ""
 
 msgid ""
 " 1. [Modify requests and responses][adapter]\n"
