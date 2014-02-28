@@ -533,8 +533,8 @@ module Droonga
             }
           }
 
-          input_message.command = "search"
-          input_message.body    = body
+          input_message.type = "search"
+          input_message.body = body
         end
       end
     end
@@ -618,7 +618,7 @@ And you will see the result on fluentd's log in `fluentd.log`:
 
 Now we can perform store search with simple requests.
 
-Note: look at the `"type"` of the response message. Now it became `"storeSearch.result"`, from `"search.result"`. Because it is triggered from the incoming message with the type `"storeSearch"`, the outgoing message has the type `"(incoming command).result"` automatically. In other words, you don't have to change the type of the outgoing messages, like `input_message.command = "search"` in the method `adapt_input`.
+Note: look at the `"type"` of the response message. Now it became `"storeSearch.result"`, from `"search.result"`. Because it is triggered from the incoming message with the type `"storeSearch"`, the outgoing message has the type `"(incoming command).result"` automatically. In other words, you don't have to change the type of the outgoing messages, like `input_message.type = "search"` in the method `adapt_input`.
 
 ### Return simple response
 
