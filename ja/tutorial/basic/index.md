@@ -1155,7 +1155,7 @@ Elapsed time: 0.004817463
 ]
 ~~~
 
-Droonga engineを用いてスターバックスの天保データベースを検索する準備ができました。
+Droonga engineを用いてスターバックスの店舗データベースを検索する準備ができました。
 
 ### droonga-requestでリクエストを送る
 

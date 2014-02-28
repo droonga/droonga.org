@@ -1325,7 +1325,7 @@ msgid ""
 msgstr ""
 
 msgid "Now a Droonga engine for searching Starbucks stores database is ready."
-msgstr "Droonga engineを用いてスターバックスの天保データベースを検索する準備ができました。"
+msgstr "Droonga engineを用いてスターバックスの店舗データベースを検索する準備ができました。"
 
 msgid "### Send request with droonga-request"
 msgstr "### droonga-requestでリクエストを送る"
