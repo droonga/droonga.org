@@ -47,7 +47,8 @@ msgstr ""
 
 msgid ""
 "module Droonga::Plugins::FooPlugin\n"
-"  Plugin.registry.register(\"foo\", self)"
+"  extend Plugin\n"
+"  register(\"foo\")"
 msgstr ""
 
 msgid ""

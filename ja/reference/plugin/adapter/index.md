@@ -29,7 +29,8 @@ For example, here is a sample plugin named "foo" with an adapter:
 require "droonga/plugin"
 
 module Droonga::Plugins::FooPlugin
-  Plugin.registry.register("foo", self)
+  extend Plugin
+  register("foo")
 
   class Adapter < Droonga::Adapter
     # operations to configure this adapter

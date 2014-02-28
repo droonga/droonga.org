@@ -114,7 +114,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module CountRecordsPlugin
-      Plugin.registry.register("count-records", self)
+      extend Plugin
+      register("count-records")
     end
   end
 end
@@ -132,7 +133,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module CountRecordsPlugin
-      Plugin.registry.register("count-records", self)
+      extend Plugin
+      register("count-records")
 
       define_single_step do |step|
         step.name = "countRecords"
@@ -159,7 +161,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module CountRecordsPlugin
-      Plugin.registry.register("count-records", self)
+      extend Plugin
+      register("count-records")
 
       define_single_step do |step|
         step.name = "countRecords"
@@ -182,7 +185,7 @@ The class `Handler` is a handler class for our new command.
  * It implements the logic to handle requests.
    Its instance method `#handle` actually handles requests.
 
-Currently the handler does nothing and returns an array of a number.
+Currently the handler does nothing and returns an result including an array of a number.
 The returned value is used to construct the response body.
 
 The handler is bound to the step with the configuration `step.handler`.
@@ -199,12 +202,12 @@ lib/droonga/plugins/count-records.rb:
       define_single_step do |step|
         step.name = "countRecords"
         step.handler = :Handler
-        step.collector = SumCollector
+        step.collector = Collectors::Sum
       end
 (snip)
 ~~~
 
-The `SumCollector` is one of built-in collectors.
+The `Collectors::Sum` is one of built-in collectors.
 It merges results retuned from handler instances for each partition to one result.
 
 
@@ -230,7 +233,7 @@ Note that you need to specify ./lib directory in RUBYLIB environment variable in
     # kill $(cat fluentd.pid)
     # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 
-Then, send a message for the `countRecords` command to the Droonga Engine.
+Then, send a request message for the `countRecords` command to the Droonga Engine.
 
 ~~~
 # droonga-request --tag starbucks count-records.json
@@ -257,17 +260,17 @@ Look at these points:
 There are 3 elements in the array. Why?
 
  * Remember that we have configured the `Starbucks` dataset to use 3 partitions (and each has 2 replicas) in the `catalog.json` of [the basic tutorial][basic].
- * Because it is a read-only command, an incoming message is distributed only to paritions, not to replicas.
+ * Because it is a read-only command, a request is delivered only to paritions, not to replicas.
    So there are only 3 results, not 6.
    (TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
- * The `SumCollector` collects them.
+ * The `Collectors::Sum` collects them.
    Those 3 results are joined to just one array by the collector.
 
-As the result, just one array with 3 elements appears in the response message.
+As the result, just one array with 3 elements appears in the final response.
 
 ### Read-only access to the storage
 
-Now, each instance of the handler class always returns `[0]` as its result.
+Now, each instance of the handler class always returns `0` as its result.
 Let's implement codes to count up the number of records from the actual storage.
 
 lib/droonga/plugins/count-records.rb:
@@ -276,7 +279,8 @@ lib/droonga/plugins/count-records.rb:
 (snip)
       class Handler < Droonga::Handler
         def handle(message)
-          table_name = message["body"]["table"]
+          request = message.request
+          table_name = request["body"]["table"]
           table = @context[table_name]
           count = table.size
           [count]
@@ -284,6 +288,11 @@ lib/droonga/plugins/count-records.rb:
       end
 (snip)
 ~~~
+
+Look at the argument of the `handle` method.
+It is different from the one an adapter receives.
+A handler receives a message meaning a distributed task.
+So you have to extract the request message from the distributed task by the code `request = message.request`.
 
 The instance variable `@context` is an instance of `Groonga::Context` for the storage of the partition.
 See the [class reference of Rroonga][Groonga::Context].
@@ -378,7 +387,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module DeleteStoresPlugin
-      Plugin.registry.register("delete-stores", self)
+      extend Plugin
+      register("delete-stores")
     end
   end
 end
@@ -397,7 +407,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module DeleteStoresPlugin
-      Plugin.registry.register("delete-stores", self)
+      extend Plugin
+      register("delete-stores")
 
       define_single_step do |step|
         step.name = "deleteStores"
@@ -423,18 +434,20 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module DeleteStoresPlugin
-      Plugin.registry.register("delete-stores", self)
+      extend Plugin
+      register("delete-stores")
 
       define_single_step do |step|
         step.name = "deleteStores"
         step.write = true
         step.handler = :Handler
-        step.collector = AndCollector
+        step.collector = Collectors::And
       end
 
       class Handler < Droonga::Handler
         def handle(message)
-          keyword = message["body"]["keyword"]
+          request = message.request
+          keyword = request["body"]["keyword"]
           table = @context["Store"]
           table.delete do |record|
             record.key @ keyword
@@ -447,9 +460,11 @@ module Droonga
 end
 ~~~
 
+Remember, you have to extract the request message from the received task message.
+
 The handler finds and deletes existing records which have the given keyword in its "key", by the [API of Rroonga][Groonga::Table_delete].
 
-And, the `AndCollector` is bound to the step by the configuration `step.collector`.
+And, the `Collectors::And` is bound to the step by the configuration `step.collector`.
 It is is also one of built-in collectors, and merges boolean values retuned from handler instances for each partition and replica, to one boolean value.
 
 

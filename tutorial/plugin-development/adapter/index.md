@@ -197,7 +197,7 @@ lib/droonga/plugins/sample-logger.rb:
         input_message.pattern = ["type", :equal, "search"]
 
         def adapt_input(input_message)
-          $log.info("SampleLoggerPlugin::Adapter", :message => input_message)
+          logger.info("SampleLoggerPlugin::Adapter", :message => input_message)
         end
       end
     end
@@ -268,7 +268,7 @@ lib/droonga/plugins/sample-logger.rb:
 ~~~ruby
 (snip)
         def adapt_input(input_message)
-          $log.info("SampleLoggerPlugin::Adapter", :message => input_message)
+          logger.info("SampleLoggerPlugin::Adapter", :message => input_message)
           input_message.body["queries"]["stores"]["output"]["limit"] = 1
         end
 (snip)
@@ -345,7 +345,7 @@ lib/droonga/plugins/sample-logger.rb:
         (snip)
 
         def adapt_output(output_message)
-          $log.info("SampleLoggerPlugin::Adapter", :message => output_message)
+          logger.info("SampleLoggerPlugin::Adapter", :message => output_message)
         end
       end
     end
@@ -413,7 +413,7 @@ lib/droonga/plugins/sample-logger.rb:
 ~~~ruby
 (snip)
         def adapt_output(output_message)
-          $log.info("SampleLoggerPlugin::Adapter", :message => output_message)
+          logger.info("SampleLoggerPlugin::Adapter", :message => output_message)
           output_message.body["stores"]["completedAt"] = Time.now
         end
 (snip)
@@ -494,10 +494,10 @@ module Droonga
         input_message.pattern = ["type", :equal, "storeSearch"]
 
         def adapt_input(input_message)
-          $log.info("StoreSearchPlugin::Adapter", :message => input_message)
+          logger.info("StoreSearchPlugin::Adapter", :message => input_message)
 
           query = input_message.body["query"]
-          $log.info("storeSearch", :query => query)
+          logger.info("storeSearch", :query => query)
 
           body = {
             "queries" => {
@@ -629,7 +629,7 @@ lib/droonga/plugins/store-search.rb:
         (snip)
 
         def adapt_output(output_message)
-          $log.info("StoreSearchPlugin::Adapter", :message => output_message)
+          logger.info("StoreSearchPlugin::Adapter", :message => output_message)
 
           records = output_message.body["stores"]["records"]
           simplified_results = records.flatten
