@@ -73,7 +73,9 @@ They can be appear in an array, like:
   "inReplyTo": "(message id)",
   "statusCode": 200,
   "type": "countRecords.result",
-  "body": [10, 10]
+  "body": {
+    "counts": [10, 10]
+  }
 }
 ~~~
 
@@ -159,7 +161,7 @@ module Droonga
 
       class Handler < Droonga::Handler
         def handle(message)
-          [0]
+          { "counts" => [0] }
         end
       end
     end
@@ -173,7 +175,7 @@ The class `Handler` is a handler class for our new command.
  * It implements the logic to handle requests.
    Its instance method `#handle` actually handles requests.
 
-Currently the handler does nothing and returns an array of a number.
+Currently the handler does nothing and returns an result including an array of a number.
 The returned value is used to construct the response body.
 
 The handler is bound to the step with the configuration `step.handler`.
@@ -221,7 +223,7 @@ Note that you need to specify ./lib directory in RUBYLIB environment variable in
     # kill $(cat fluentd.pid)
     # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 
-Then, send a message for the `countRecords` command to the Droonga Engine.
+Then, send a request message for the `countRecords` command to the Droonga Engine.
 
 ~~~
 # droonga-request --tag starbucks count-records.json
@@ -233,7 +235,9 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [0, 0, 0]
+    "body": {
+      "counts": [0, 0, 0]
+    }
   }
 ]
 ~~~
@@ -245,20 +249,20 @@ Look at these points:
    It is automatically named by the Droonga Engine.
  * The format of the `body` is same to the returned value of the handler's `handle` method.
 
-There are 3 elements in the array. Why?
+There are 3 elements in the array `"counts"`. Why?
 
  * Remember that we have configured the `Starbucks` dataset to use 3 partitions (and each has 2 replicas) in the `catalog.json` of [the basic tutorial][basic].
- * Because it is a read-only command, an incoming message is distributed only to paritions, not to replicas.
+ * Because it is a read-only command, a request is delivered only to paritions, not to replicas.
    So there are only 3 results, not 6.
    (TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
  * The `SumCollector` collects them.
    Those 3 results are joined to just one array by the collector.
 
-As the result, just one array with 3 elements appears in the response message.
+As the result, just one array with 3 elements appears in the final response.
 
 ### Read-only access to the storage
 
-Now, each instance of the handler class always returns `[0]` as its result.
+Now, each instance of the handler class always returns `0` as its result.
 Let's implement codes to count up the number of records from the actual storage.
 
 lib/droonga/plugins/count-records.rb:
@@ -267,14 +271,20 @@ lib/droonga/plugins/count-records.rb:
 (snip)
       class Handler < Droonga::Handler
         def handle(message)
-          table_name = message["body"]["table"]
+          request = message.request
+          table_name = request["body"]["table"]
           table = @context[table_name]
           count = table.size
-          [count]
+          { "counts" => [count] }
         end
       end
 (snip)
 ~~~
+
+Look at the argument of the `handle` method.
+It is different from the one an adapter receives.
+A handler receives a message meaning a distributed task.
+So you have to extract the request message from the distributed task by the code `request = message.request`.
 
 The instance variable `@context` is an instance of `Groonga::Context` for the storage of the partition.
 See the [class reference of Rroonga][Groonga::Context].
@@ -296,7 +306,9 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [12, 12, 11]
+    "body": {
+      "counts": [12, 12, 11]
+    }
   }
 ]
 ~~~
@@ -340,7 +352,9 @@ The response must have a boolean value to indicate "success" or "fail", like:
   "inReplyTo": "(message id)",
   "statusCode": 200,
   "type": "deleteStores.result",
-  "body": true
+  "body": {
+    "success": true
+  }
 }
 ~~~
 
@@ -425,18 +439,21 @@ module Droonga
 
       class Handler < Droonga::Handler
         def handle(message)
-          keyword = message["body"]["keyword"]
+          request = message.request
+          keyword = request["body"]["keyword"]
           table = @context["Store"]
           table.delete do |record|
             record.key @ keyword
           end
-          true
+          { "success" => true }
         end
       end
     end
   end
 end
 ~~~
+
+Remember, you have to extract the request message from the received task message.
 
 The handler finds and deletes existing records which have the given keyword in its "key", by the [API of Rroonga][Groonga::Table_delete].
 
@@ -475,7 +492,9 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "deleteStores.result",
-    "body": true
+    "body": {
+      "success": true
+    }
   }
 ]
 ~~~
@@ -493,7 +512,9 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [8, 8, 7]
+    "body": {
+      "counts": [8, 8, 7]
+    }
   }
 ]
 ~~~
