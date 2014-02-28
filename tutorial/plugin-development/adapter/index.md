@@ -1,5 +1,5 @@
 ---
-title: "Plugin: Modify requests and responses"
+title: "Plugin: Adapt requests and responses"
 layout: en
 ---
 
