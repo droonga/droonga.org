@@ -19,7 +19,7 @@ layout: en
 ## 概要 {#abstract}
 
 Each Droonga Engine plugin can have its *handler*.
-On the handling phase, handlers can process any incoming message and output various messages (ex. a "response" for a "request") as you like.
+On the handling phase, handlers can process a request and return a result.
 
 
 ### How to define a handler? {#howto-define}
@@ -30,14 +30,18 @@ For example, here is a sample plugin named "foo" with a handler:
 require "droonga/plugin"
 
 module Droonga::Plugins::FooPlugin
-  Plugin.registry.register("foo", self)
+  extend Plugin
+  register("foo")
+
+  define_single_step do |step|
+    step.name = "foo"
+    step.handler = :Handler
+    step.collector = Collectors::And
+  end
 
   class Handler < Droonga::Handler
-    # operations to configure this handler
-    XXXXXX = XXXXXX
-
-    def handle(message, messenger)
-      # operations to process incoming messages
+    def handle(message)
+      # operations to process a request
     end
   end
 end
@@ -46,8 +50,8 @@ end
 Steps to define a handler:
 
  1. Define a module for your plugin (ex. `Droonga::Plugins::FooPlugin`) and register it as a plugin. (required)
+ 2. Define a "single step" corresponding to the Configure conditions for the handler. (required)
  2. Define a handler class (ex. `Droonga::Plugins::FooPlugin::Handler`) inheriting [`Droonga::Handler`](#classes-Droonga-Handler). (required)
- 3. [Configure conditions for the handler](#howto-configure). (required)
  4. Define handling logic for incoming messages as [`#handle`](#classes-Droonga-Handler-handle). (optional)
 
 See also the [plugin development tutorial](../../../tutorial/plugin-development/handler/).

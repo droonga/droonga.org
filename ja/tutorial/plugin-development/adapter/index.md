@@ -1,6 +1,6 @@
 ---
-title: "プラグイン: リクエストとレスポンスの変更"
-layout: ja
+title: "Plugin: Adapt requests and responses, to add a new command based on other existing commands"
+layout: en
 ---
 
 {% comment %}

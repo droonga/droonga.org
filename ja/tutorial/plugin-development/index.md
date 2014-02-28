@@ -26,7 +26,8 @@ Droongaプラグインの作り方を理解します。
 プラグインはDroongaの中でもっとも重要なコンセプトの一つです。
 プラグインがDroongaを柔軟なものにしています。
 
-Generally, data processing tasks in the real world need custom treatments of the data, in various stages of the data stream. This is not easy to be done in one-size-fits-all approach.
+Generally, data processing tasks in the real world need custom treatments of the data, in various stages of the data stream.
+This is not easy to be done in one-size-fits-all approach.
 
  * One may want to modify incoming requests to work well with other systems, one may want to modify outgoing responses to help other systems understand the result.
  * One may want to do more complex data processing than that provided by Droonga as built-in, to have direct storage access for efficiency.
@@ -57,19 +58,35 @@ Planning phase
 Collection phase
 : At this phase, a plugin can merge results from steps to a unified result.
 
-In this tutorial, we focus on the adaption phase at first.
+However, the point of view of these descriptions is based on the design of the system itself, so you're maybe confused.
+Then, let's shift our perspective on pluggable operations - what you want to do by a plugin.
+
+Adding a new command based on another existing command.
+: For example, you possibly want to define a shorthand command wrapping the complex `search` command.
+  *Adaption* of request and response messages makes it come true.
+
+Adding a new command working around the storage.
+: For example, you possibly want to modify data stored in the storage as you like.
+  *Handling* of requests makes it come true.
+
+Adding a new command for a complex task
+: For example, you possibly want to implement a powerful command like the built-in `search` command.
+  *Planning and collection* of requests make it come true.
+
+In this tutorial, we focus on the adaption at first.
 This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
-Then, we focus an other phases in this order.
-Following this tutorial, you will learn how to write plugins. This will be the first step to create plugins fit with your own requirements.
+Then, we focus an other cases in this order.
+Following this tutorial, you will learn how to write plugins.
+This will be the first step to create plugins fit with your own requirements.
 
 ## プラグインを開発するには
 
 For more details, let's read these sub tutorials:
 
- 1. [Modify requests and responses][adapter]
- 2. [Handle requests on all partitions][handler]
- 3. Handle requests only on a specific partition (under construction)
- 4. Distribute requests and collect responses (under construction)
+ 1. [Adapt requests and responses, to add a new command based on other existing commands][adapter].
+ 2. [Handle requests on all partitions, to add a new command working around the storage][handler].
+ 3. Handle requests only on a specific partition, to add a new command around the storage more smartly. (under construction)
+ 4. Distribute requests and collect responses, to add a new complex command based on sub tasks. (under construction)
 
 
   [basic tutorial]: ../basic/
