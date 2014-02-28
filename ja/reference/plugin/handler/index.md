@@ -50,9 +50,9 @@ end
 Steps to define a handler:
 
  1. Define a module for your plugin (ex. `Droonga::Plugins::FooPlugin`) and register it as a plugin. (required)
- 2. Define a "single step" corresponding to the Configure conditions for the handler. (required)
+ 2. Define a "single step" corresponding to the handler you are going to implement. (required)
  2. Define a handler class (ex. `Droonga::Plugins::FooPlugin::Handler`) inheriting [`Droonga::Handler`](#classes-Droonga-Handler). (required)
- 4. Define handling logic for incoming messages as [`#handle`](#classes-Droonga-Handler-handle). (optional)
+ 4. Define handling logic for requests as [`#handle`](#classes-Droonga-Handler-handle). (optional)
 
 See also the [plugin development tutorial](../../../tutorial/plugin-development/handler/).
 
@@ -62,29 +62,28 @@ See also the [plugin development tutorial](../../../tutorial/plugin-development/
 A handler works like following:
 
  1. The Droonga Engine starts.
-    * A global instance of the handler class (ex. `Droonga::Plugins::FooPlugin::Handler`) is created and it is registered.
-      * The message type is registered.
-    * The Droonga Engine starts to wait for incoming messages.
- 2. An incoming message is transferred from the planning phase.
-    Then, the handling phase starts.
-    * The Droonga Engine finds the handler from the message type.
-    * Found handler's [`#handle`](#classes-Droonga-Handler-handle) is called with the incoming message.
-      * The method can process the given incoming message as you like.
-      * The method can output any message as you like.
-    * If no handler is found for the type, nothing happens.
- 3. After the handler finishes (or no handler is found), the handling phase for the incoming message ends.
+    * Your custom steps are registered.
+      Your custom handler classes also.
+    * Then the Droonga Engine starts to wait for request messages.
+ 2. A request message is transferred from the adaption phase.
+    Then, the processing phase starts.
+    * The Droonga Engine finds a step definition from the message type.
+    * The Droonga Engine builds a "single step" based on the registered definition.
+    * A "single step" creates an instance of the registered handler class.
+      Then the Droonga Engine enters to the handling phase.
+      * The handler's [`#handle`](#classes-Droonga-Handler-handle) is called with a task massage including the request.
+        * The method can process the given incoming message as you like.
+        * The method returns a result value, as the output.
+      * After the handler finishes, the handling phase for the task message (and the request) ends.
+    * If no "step" is found for the type, nothing happens.
+    * All "step"s finish their task, the processing phase for the request ends.
 
-As described above, the Droonga Engine creates only one global instance of the handler class for each plugin.
-You should not keep stateful information as instance variables of the handler itself.
-Instead, you should use the body of messages.
+As described above, the Droonga Engine creates an instance of the handler class for each request.
 
 Any error raised from the handler is handled by the Droonga Engine itself. See also [error handling][].
 
 
 ## Configurations {#config}
-
-`message.type` (`String`, required)
-: (TBD)
 
 `action.synchronous` (boolean, optional, default=false)
 : (TBD)
@@ -96,15 +95,17 @@ Any error raised from the handler is handled by the Droonga Engine itself. See a
 
 This is the common base class of any handler. Your plugin's handler class must inherit this.
 
-#### `#handle(message, messenger)` {#classes-Droonga-Handler-handle}
+#### `#handle(message)` {#classes-Droonga-Handler-handle}
 
-This method receives a [`Droonga::HandlerMessage`](#classes-Droonga-HandlerMessage) wrapped incoming message.
+This method receives a [`Droonga::HandlerMessage`](#classes-Droonga-HandlerMessage) wrapped task message.
 
 (TBD)
 
 ### `Droonga::HandlerMessage` {#classes-Droonga-HandlerMessage}
 
 #### `#request` {#classes-Droonga-HandlerMessage-request}
+
+Returns the request message.
 
 (TBD)
 
