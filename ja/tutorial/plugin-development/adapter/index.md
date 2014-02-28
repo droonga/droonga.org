@@ -298,7 +298,7 @@ After restart, the response always includes only one record in `records` section
 Send the request same as the previous:
 
 ~~~
-$ droonga-request --tag starbucks search-columbus.json
+# droonga-request --tag starbucks search-columbus.json
 Elapsed time: 0.017343
 [
   "droonga.message",
@@ -376,7 +376,7 @@ Let's restart fluentd:
 And send search request (Use the same JSON for request as in the previous section):
 
 ~~~
-$ droonga-request --tag starbucks search-columbus.json
+# droonga-request --tag starbucks search-columbus.json
 Elapsed time: 0.015491
 [
   "droonga.message",
