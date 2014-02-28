@@ -64,8 +64,7 @@ module Droonga
   module Plugins
     module SampleLoggerPlugin
       extend Plugin
-
-      registry.register("sample-logger", self)
+      register("sample-logger")
 
       class Adapter < Droonga::Adapter
         # You'll put codes to modify messages here.
@@ -191,7 +190,8 @@ lib/droonga/plugins/sample-logger.rb:
 ~~~ruby
 (snip)
     module SampleLoggerPlugin
-      Plugin.registry.register("sample-logger", self)
+      extend Plugin
+      register("sample-logger")
 
       class Adapter < Droonga::Adapter
         input_message.pattern = ["type", :equal, "search"]
@@ -338,7 +338,8 @@ lib/droonga/plugins/sample-logger.rb:
 ~~~ruby
 (snip)
     module SampleLoggerPlugin
-      Plugin.registry.register("sample-logger", self)
+      extend Plugin
+      register("sample-logger")
 
       class Adapter < Droonga::Adapter
         (snip)
@@ -486,7 +487,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module StoreSearchPlugin
-      Plugin.registry.register("store-search", self)
+      extend Plugin
+      register("store-search")
 
       class Adapter < Droonga::Adapter
         input_message.pattern = ["type", :equal, "storeSearch"]
@@ -620,7 +622,8 @@ lib/droonga/plugins/store-search.rb:
 ~~~ruby
 (snip)
     module StoreSearchPlugin
-      Plugin.registry.register("store-search", self)
+      extend Plugin
+      register("store-search")
 
       class Adapter < Droonga::Adapter
         (snip)

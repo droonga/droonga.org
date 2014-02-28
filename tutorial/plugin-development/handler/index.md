@@ -107,7 +107,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module CountRecordsPlugin
-      Plugin.registry.register("count-records", self)
+      extend Plugin
+      register("count-records")
     end
   end
 end
@@ -125,7 +126,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module CountRecordsPlugin
-      Plugin.registry.register("count-records", self)
+      extend Plugin
+      register("count-records")
 
       define_single_step do |step|
         step.name = "countRecords"
@@ -152,7 +154,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module CountRecordsPlugin
-      Plugin.registry.register("count-records", self)
+      extend Plugin
+      register("count-records")
 
       define_single_step do |step|
         step.name = "countRecords"
@@ -383,7 +386,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module DeleteStoresPlugin
-      Plugin.registry.register("delete-stores", self)
+      extend Plugin
+      register("delete-stores")
     end
   end
 end
@@ -402,7 +406,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module DeleteStoresPlugin
-      Plugin.registry.register("delete-stores", self)
+      extend Plugin
+      register("delete-stores")
 
       define_single_step do |step|
         step.name = "deleteStores"
@@ -428,7 +433,8 @@ require "droonga/plugin"
 module Droonga
   module Plugins
     module DeleteStoresPlugin
-      Plugin.registry.register("delete-stores", self)
+      extend Plugin
+      register("delete-stores")
 
       define_single_step do |step|
         step.name = "deleteStores"

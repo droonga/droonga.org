@@ -20,7 +20,8 @@ For example, here is a sample plugin named "foo" with an adapter:
 require "droonga/plugin"
 
 module Droonga::Plugins::FooPlugin
-  Plugin.registry.register("foo", self)
+  extend Plugin
+  register("foo")
 
   class Adapter < Droonga::Adapter
     # operations to configure this adapter
@@ -106,6 +107,9 @@ To modify incoming messages, you have to override it by yours, like following:
 
 ~~~ruby
 module Droonga::Plugins::QueryFixer
+  extend Plugin
+  register("query-fixer")
+
   class Adapter < Droonga::Adapter
     def adapt_input(input_message)
       input_message.body["query"] = "fixed query"
@@ -124,6 +128,9 @@ To modify outgoing messages, you have to override it by yours, like following:
 
 ~~~ruby
 module Droonga::Plugins::ErrorConcealer
+  extend Plugin
+  register("error-concealer")
+
   class Adapter < Droonga::Adapter
     def adapt_output(output_message)
       output_message.status_code = Droonga::StatusCode::OK
@@ -142,6 +149,9 @@ You can override it by assigning a new string value, like:
 
 ~~~ruby
 module Droonga::Plugins::MySearch
+  extend Plugin
+  register("my-search")
+
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "my-search"]
 
@@ -173,6 +183,9 @@ You can override it by assigning a new value, partially or fully. For example:
 
 ~~~ruby
 module Droonga::Plugins::MinimumLimit
+  extend Plugin
+  register("minimum-limit")
+
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -194,6 +207,9 @@ Another case:
 
 ~~~ruby
 module Droonga::Plugins::MySearch
+  extend Plugin
+  register("my-search")
+
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "my-search"]
 
@@ -232,6 +248,9 @@ You can override it by assigning a new status code. For example:
 
 ~~~ruby
 module Droonga::Plugins::ErrorConcealer
+  extend Plugin
+  register("error-concealer")
+
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -256,6 +275,9 @@ You can override it by assigning new error information, partially or fully. For 
 
 ~~~ruby
 module Droonga::Plugins::ErrorExporter
+  extend Plugin
+  register("error-exporter")
+
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
@@ -285,6 +307,9 @@ You can override it by assigning a new value, partially or fully. For example:
 
 ~~~ruby
 module Droonga::Plugins::SponsoredSearch
+  extend Plugin
+  register("sponsored-search")
+
   class Adapter < Droonga::Adapter
     input_message.pattern = ["type", :equal, "search"]
 
