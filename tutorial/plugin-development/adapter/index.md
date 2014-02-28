@@ -1,5 +1,5 @@
 ---
-title: "Plugin: Adapt requests and responses"
+title: "Plugin: Adapt requests and responses, to add a new command based on other existing commands"
 layout: en
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Plugin: Handle requests on all partitions"
+title: "Plugin: Handle requests on all partitions, to add a new command working around the storage"
 layout: en
 ---
 
