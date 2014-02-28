@@ -1,0 +1,6 @@
+<p class="contribute">
+  {% assign source_path = page.path | prepend: "_po/" | replace_first: ".md", ".po" %}
+  {% assign source_url = source_path | prepend: "https://github.com/droonga/droonga.org/blob/gh-pages/" %}
+  <a href="{{ source_url }}">誤記や未訳箇所を見つけた場合は、お気軽にプルリクエストをお送りください！</a>
+  ：<a href="/ja/community/contribution/i18n/">翻訳方法</a>
+</p>

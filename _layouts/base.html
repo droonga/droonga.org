@@ -71,13 +71,7 @@
             <li><a href="/ja/{{ relative_path }}">日本語</a></li>
           </ul>
         {% endunless %}
-        <p class="contribute">
-          {% assign source_path = page.path %}
-          {% if page.language != "en" %}
-            {% assign source_path = source_path | prepend: "_po/" | replace_first: ".md", ".po" %}
-          {% endif %}
-          {% assign source_path = source_path | prepend: "https://github.com/droonga/droonga.org/blob/gh-pages/" %}
-          <a href="{{ source_path }}">{{ page.label_edit }}</a></p>
+        {% include contribute.html %}
         <p class="copyright">&copy; {{ site.copyright_year }} <a href="https://github.com/droonga">Droonga Project</a></p>
       </div>
     </footer>
