@@ -257,41 +257,391 @@ Prepare `stores.jsons` including location data of stores.
 stores.jsons:
 
 ~~~
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1st Avenue & 75th St. - New York NY  (W)","values":{"location":"40.770262,-73.954798"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"76th & Second - New York NY  (W)","values":{"location":"40.771056,-73.956757"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2nd Ave. & 9th Street - New York NY","values":{"location":"40.729445,-73.987471"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"15th & Third - New York NY  (W)","values":{"location":"40.733946,-73.9867"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"41st and Broadway - New York NY  (W)","values":{"location":"40.755111,-73.986225"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"84th & Third Ave - New York NY  (W)","values":{"location":"40.777485,-73.954979"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"150 E. 42nd Street - New York NY  (W)","values":{"location":"40.750784,-73.975582"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"West 43rd and Broadway - New York NY  (W)","values":{"location":"40.756197,-73.985624"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 35th Street Balcony - New York NY","values":{"location":"40.750703,-73.989787"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 6th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Herald Square- Macy's - New York NY","values":{"location":"40.750703,-73.989787"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Macy's 5th Floor - Herald Square - New York NY  (W)","values":{"location":"40.750703,-73.989787"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"80th & York - New York NY  (W)","values":{"location":"40.772204,-73.949862"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Columbus @ 67th - New York NY  (W)","values":{"location":"40.774009,-73.981472"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"45th & Broadway - New York NY  (W)","values":{"location":"40.75766,-73.985719"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Marriott Marquis - Lobby - New York NY","values":{"location":"40.759123,-73.984927"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Second @ 81st - New York NY  (W)","values":{"location":"40.77466,-73.954447"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"52nd & Seventh - New York NY  (W)","values":{"location":"40.761829,-73.981141"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1585 Broadway (47th) - New York NY  (W)","values":{"location":"40.759806,-73.985066"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"85th & First - New York NY  (W)","values":{"location":"40.776101,-73.949971"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"92nd & 3rd - New York NY  (W)","values":{"location":"40.782606,-73.951235"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"165 Broadway - 1 Liberty - New York NY  (W)","values":{"location":"40.709727,-74.011395"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"1656 Broadway - New York NY  (W)","values":{"location":"40.762434,-73.983364"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"54th & Broadway - New York NY  (W)","values":{"location":"40.764275,-73.982361"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"Limited Brands-NYC - New York NY","values":{"location":"40.765219,-73.982025"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"19th & 8th - New York NY  (W)","values":{"location":"40.743218,-74.000605"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"60th & Broadway-II - New York NY  (W)","values":{"location":"40.769196,-73.982576"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"63rd & Broadway - New York NY  (W)","values":{"location":"40.771376,-73.982709"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"195 Broadway - New York NY  (W)","values":{"location":"40.710703,-74.009485"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Broadway - New York NY  (W)","values":{"location":"40.704538,-74.01324"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"2 Columbus Ave. - New York NY  (W)","values":{"location":"40.769262,-73.984764"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"NY Plaza - New York NY  (W)","values":{"location":"40.702802,-74.012784"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"36th and Madison - New York NY  (W)","values":{"location":"40.748917,-73.982683"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"125th St. btwn Adam Clayton & FDB - New York NY","values":{"location":"40.808952,-73.948229"}}}
-{"dataset":"Starbucks","type":"add","body":{"table":"Store","key":"70th & Broadway - New York NY  (W)","values":{"location":"40.777463,-73.982237"}}}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "1st Avenue & 75th St. - New York NY  (W)",
+    "values": {
+      "location": "40.770262,-73.954798"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "76th & Second - New York NY  (W)",
+    "values": {
+      "location": "40.771056,-73.956757"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "2nd Ave. & 9th Street - New York NY",
+    "values": {
+      "location": "40.729445,-73.987471"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "15th & Third - New York NY  (W)",
+    "values": {
+      "location": "40.733946,-73.9867"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "41st and Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.755111,-73.986225"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "84th & Third Ave - New York NY  (W)",
+    "values": {
+      "location": "40.777485,-73.954979"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "150 E. 42nd Street - New York NY  (W)",
+    "values": {
+      "location": "40.750784,-73.975582"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "West 43rd and Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.756197,-73.985624"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Macy's 35th Street Balcony - New York NY",
+    "values": {
+      "location": "40.750703,-73.989787"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Macy's 6th Floor - Herald Square - New York NY  (W)",
+    "values": {
+      "location": "40.750703,-73.989787"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Herald Square- Macy's - New York NY",
+    "values": {
+      "location": "40.750703,-73.989787"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Macy's 5th Floor - Herald Square - New York NY  (W)",
+    "values": {
+      "location": "40.750703,-73.989787"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "80th & York - New York NY  (W)",
+    "values": {
+      "location": "40.772204,-73.949862"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Columbus @ 67th - New York NY  (W)",
+    "values": {
+      "location": "40.774009,-73.981472"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "45th & Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.75766,-73.985719"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Marriott Marquis - Lobby - New York NY",
+    "values": {
+      "location": "40.759123,-73.984927"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Second @ 81st - New York NY  (W)",
+    "values": {
+      "location": "40.77466,-73.954447"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "52nd & Seventh - New York NY  (W)",
+    "values": {
+      "location": "40.761829,-73.981141"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "1585 Broadway (47th) - New York NY  (W)",
+    "values": {
+      "location": "40.759806,-73.985066"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "85th & First - New York NY  (W)",
+    "values": {
+      "location": "40.776101,-73.949971"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "92nd & 3rd - New York NY  (W)",
+    "values": {
+      "location": "40.782606,-73.951235"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "165 Broadway - 1 Liberty - New York NY  (W)",
+    "values": {
+      "location": "40.709727,-74.011395"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "1656 Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.762434,-73.983364"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "54th & Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.764275,-73.982361"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "Limited Brands-NYC - New York NY",
+    "values": {
+      "location": "40.765219,-73.982025"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "19th & 8th - New York NY  (W)",
+    "values": {
+      "location": "40.743218,-74.000605"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "60th & Broadway-II - New York NY  (W)",
+    "values": {
+      "location": "40.769196,-73.982576"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "63rd & Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.771376,-73.982709"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "195 Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.710703,-74.009485"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "2 Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.704538,-74.01324"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "2 Columbus Ave. - New York NY  (W)",
+    "values": {
+      "location": "40.769262,-73.984764"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "NY Plaza - New York NY  (W)",
+    "values": {
+      "location": "40.702802,-74.012784"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "36th and Madison - New York NY  (W)",
+    "values": {
+      "location": "40.748917,-73.982683"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "125th St. btwn Adam Clayton & FDB - New York NY",
+    "values": {
+      "location": "40.808952,-73.948229"
+    }
+  }
+}
+{
+  "dataset": "Starbucks",
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "70th & Broadway - New York NY  (W)",
+    "values": {
+      "location": "40.777463,-73.982237"
+    }
+  }
+}
 ~~~
 
 Open another terminal and send the json to the Droonga engine.
