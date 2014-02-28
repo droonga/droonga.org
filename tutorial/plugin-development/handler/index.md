@@ -190,13 +190,13 @@ Then, we also have to bind a collector to the step, with the configuration `step
 lib/droonga/plugins/count-records.rb:
 
 ~~~ruby
-(snip)
+# (snip)
       define_single_step do |step|
         step.name = "countRecords"
         step.handler = :Handler
         step.collector = Collectors::Sum
       end
-(snip)
+# (snip)
 ~~~
 
 The `Collectors::Sum` is one of built-in collectors.
@@ -237,7 +237,11 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [0, 0, 0]
+    "body": [
+      0,
+      0,
+      0
+    ]
   }
 ]
 ~~~
@@ -268,17 +272,17 @@ Let's implement codes to count up the number of records from the actual storage.
 lib/droonga/plugins/count-records.rb:
 
 ~~~ruby
-(snip)
+# (snip)
       class Handler < Droonga::Handler
         def handle(message)
           request = message.request
-          table_name = request["body"]["table"]
+          table_name = request["table"]
           table = @context[table_name]
           count = table.size
           [count]
         end
       end
-(snip)
+# (snip)
 ~~~
 
 Look at the argument of the `handle` method.
@@ -306,18 +310,16 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [12, 12, 11]
+    "body": [
+      14,
+      15,
+      11
+    ]
   }
 ]
 ~~~
 
-Because there are totally 35 records, they are stored evenly like above.
-
-
-
-
-
-
+Because there are totally 40 records, they are stored evenly like above.
 
 ## Design a read-write command `deleteStores`
 

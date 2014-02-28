@@ -1,5 +1,5 @@
 ---
-title: "Plugin: Handle requests on all partitions"
+title: "Plugin: Handle requests on all partitions, to add a new command working around the storage"
 layout: en
 ---
 
@@ -18,23 +18,24 @@ layout: en
 ## チュートリアルのゴール
 
 This tutorial aims to help you to learn how to develop plugins which do something dispersively for/in each partition, around the handling phase.
+In other words, this tutorial describes *how to add a new simple command to the Droonga Engine*.
 
 ## 前提条件
 
 * You must complete the [tutorial for the adaption phase][adapter].
 
-## Handling of incoming messages
+## Handling of requests
 
-When an incoming message is transferred from the adaption phase, the Droonga Engine enters into the *processing phase*.
+When a request is transferred from the adaption phase, the Droonga Engine enters into the *processing phase*.
 
-In the processing phase, the Droonga Engine processes incoming messages step by step.
+In the processing phase, the Droonga Engine processes the request step by step.
 One *step* is constructed from some sub phases: *planning phase*, *distribution phase*, *handling phase*, and *collection phase*.
 
- * At the *planning phase*, the Droonga Engine generates multiple sub steps to process an incoming message.
-   In simple cases, you don't have to write codes for this phase, then there is just one sub step to handle the message.
- * At the *distribution phase*, the Droonga Engine distributes the message to multiple partitions.
+ * At the *planning phase*, the Droonga Engine generates multiple sub steps to process the request.
+   In simple cases, you don't have to write codes for this phase, then there is just one sub step to handle the request.
+ * At the *distribution phase*, the Droonga Engine distributes task messages for the request, to multiple partitions.
    (It is completely done by the Droonga Engine itself, so this phase is not pluggable.)
- * At the *handling phase*, *each partition simply processes only one distributed message as its input, and returns a result.*
+ * At the *handling phase*, *each partition simply processes only one distributed task message as its input, and returns a result.*
    This is the time that actual storage accesses happen.
    Actually, some commands (`search`, `add`, `create_table` and so on) access to the storage at the time.
  * At the *collection phase*, the Droonga Engine collects results from partitions to one unified result.
@@ -198,13 +199,13 @@ Then, we also have to bind a collector to the step, with the configuration `step
 lib/droonga/plugins/count-records.rb:
 
 ~~~ruby
-(snip)
+# (snip)
       define_single_step do |step|
         step.name = "countRecords"
         step.handler = :Handler
         step.collector = Collectors::Sum
       end
-(snip)
+# (snip)
 ~~~
 
 The `Collectors::Sum` is one of built-in collectors.
@@ -245,7 +246,11 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [0, 0, 0]
+    "body": [
+      0,
+      0,
+      0
+    ]
   }
 ]
 ~~~
@@ -276,17 +281,17 @@ Let's implement codes to count up the number of records from the actual storage.
 lib/droonga/plugins/count-records.rb:
 
 ~~~ruby
-(snip)
+# (snip)
       class Handler < Droonga::Handler
         def handle(message)
           request = message.request
-          table_name = request["body"]["table"]
+          table_name = request["table"]
           table = @context[table_name]
           count = table.size
           [count]
         end
       end
-(snip)
+# (snip)
 ~~~
 
 Look at the argument of the `handle` method.
@@ -314,18 +319,16 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [12, 12, 11]
+    "body": [
+      14,
+      15,
+      11
+    ]
   }
 ]
 ~~~
 
-Because there are totally 35 records, they are stored evenly like above.
-
-
-
-
-
-
+Because there are totally 40 records, they are stored evenly like above.
 
 ## Design a read-write command `deleteStores`
 
