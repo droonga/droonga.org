@@ -73,9 +73,7 @@ They can be appear in an array, like:
   "inReplyTo": "(message id)",
   "statusCode": 200,
   "type": "countRecords.result",
-  "body": {
-    "counts": [10, 10]
-  }
+  "body": [10, 10]
 }
 ~~~
 
@@ -164,7 +162,7 @@ module Droonga
 
       class Handler < Droonga::Handler
         def handle(message)
-          { "counts" => [0] }
+          [0]
         end
       end
     end
@@ -238,9 +236,7 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": {
-      "counts": [0, 0, 0]
-    }
+    "body": [0, 0, 0]
   }
 ]
 ~~~
@@ -252,7 +248,7 @@ Look at these points:
    It is automatically named by the Droonga Engine.
  * The format of the `body` is same to the returned value of the handler's `handle` method.
 
-There are 3 elements in the array `"counts"`. Why?
+There are 3 elements in the array. Why?
 
  * Remember that we have configured the `Starbucks` dataset to use 3 partitions (and each has 2 replicas) in the `catalog.json` of [the basic tutorial][basic].
  * Because it is a read-only command, a request is delivered only to paritions, not to replicas.
@@ -278,7 +274,7 @@ lib/droonga/plugins/count-records.rb:
           table_name = request["body"]["table"]
           table = @context[table_name]
           count = table.size
-          { "counts" => [count] }
+          [count]
         end
       end
 (snip)
@@ -309,9 +305,7 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": {
-      "counts": [12, 12, 11]
-    }
+    "body": [12, 12, 11]
   }
 ]
 ~~~
@@ -355,9 +349,7 @@ The response must have a boolean value to indicate "success" or "fail", like:
   "inReplyTo": "(message id)",
   "statusCode": 200,
   "type": "deleteStores.result",
-  "body": {
-    "success": true
-  }
+  "body": true
 }
 ~~~
 
@@ -451,7 +443,7 @@ module Droonga
           table.delete do |record|
             record.key @ keyword
           end
-          { "success" => true }
+          true
         end
       end
     end
@@ -498,9 +490,7 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "deleteStores.result",
-    "body": {
-      "success": true
-    }
+    "body": true
   }
 ]
 ~~~
@@ -518,9 +508,7 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": {
-      "counts": [8, 8, 7]
-    }
+    "body": [8, 8, 7]
   }
 ]
 ~~~
