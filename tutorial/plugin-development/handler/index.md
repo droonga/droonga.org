@@ -335,7 +335,7 @@ The request must have the condition to select records to be deleted, like:
   "dataset" : "Starbucks",
   "type"    : "deleteStores",
   "body"    : {
-    "keyword": "Broardway"
+    "keyword": "Broadway"
   }
 }
 ~~~
@@ -441,10 +441,10 @@ module Droonga
       class Handler < Droonga::Handler
         def handle(message)
           request = message.request
-          keyword = request["body"]["keyword"]
+          keyword = request["keyword"]
           table = @context["Store"]
           table.delete do |record|
-            record.key @ keyword
+            record.key =~ keyword
           end
           true
         end
@@ -460,8 +460,6 @@ The handler finds and deletes existing records which have the given keyword in i
 
 And, the `Collectors::And` is bound to the step by the configuration `step.collector`.
 It is is also one of built-in collectors, and merges boolean values retuned from handler instances for each partition and replica, to one boolean value.
-
-
 
 ### Activate the plugin with `catalog.json`
 
@@ -511,16 +509,17 @@ Elapsed time: 0.01494
     "inReplyTo": "1392621168.0119512",
     "statusCode": 200,
     "type": "countRecords.result",
-    "body": [8, 8, 7]
+    "body": [
+      7,
+      13,
+      6
+    ]
   }
 ]
 ~~~
 
 Note, the number of records are smaller than the previous result.
 This means that 4 or some records are deleted from each partitions.
-
-
-
 
 ## Conclusion
 
