@@ -9,6 +9,7 @@ layout: en
 ## The goal of this tutorial
 
 This tutorial aims to help you to learn how to develop plugins which do something dispersively for/in each partition, around the handling phase.
+In other words, this tutorial describes *how to add a new simple command to the Droonga Engine*.
 
 ## Precondition
 
