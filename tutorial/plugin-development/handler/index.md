@@ -14,18 +14,18 @@ This tutorial aims to help you to learn how to develop plugins which do somethin
 
 * You must complete the [tutorial for the adaption phase][adapter].
 
-## Handling of incoming messages
+## Handling of requests
 
-When an incoming message is transferred from the adaption phase, the Droonga Engine enters into the *processing phase*.
+When a request is transferred from the adaption phase, the Droonga Engine enters into the *processing phase*.
 
-In the processing phase, the Droonga Engine processes incoming messages step by step.
+In the processing phase, the Droonga Engine processes the request step by step.
 One *step* is constructed from some sub phases: *planning phase*, *distribution phase*, *handling phase*, and *collection phase*.
 
- * At the *planning phase*, the Droonga Engine generates multiple sub steps to process an incoming message.
-   In simple cases, you don't have to write codes for this phase, then there is just one sub step to handle the message.
- * At the *distribution phase*, the Droonga Engine distributes the message to multiple partitions.
+ * At the *planning phase*, the Droonga Engine generates multiple sub steps to process the request.
+   In simple cases, you don't have to write codes for this phase, then there is just one sub step to handle the request.
+ * At the *distribution phase*, the Droonga Engine distributes task messages for the request, to multiple partitions.
    (It is completely done by the Droonga Engine itself, so this phase is not pluggable.)
- * At the *handling phase*, *each partition simply processes only one distributed message as its input, and returns a result.*
+ * At the *handling phase*, *each partition simply processes only one distributed task message as its input, and returns a result.*
    This is the time that actual storage accesses happen.
    Actually, some commands (`search`, `add`, `create_table` and so on) access to the storage at the time.
  * At the *collection phase*, the Droonga Engine collects results from partitions to one unified result.
