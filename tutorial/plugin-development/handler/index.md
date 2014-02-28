@@ -193,12 +193,12 @@ lib/droonga/plugins/count-records.rb:
       define_single_step do |step|
         step.name = "countRecords"
         step.handler = :Handler
-        step.collector = SumCollector
+        step.collector = Collectors::Sum
       end
 (snip)
 ~~~
 
-The `SumCollector` is one of built-in collectors.
+The `Collectors::Sum` is one of built-in collectors.
 It merges results retuned from handler instances for each partition to one result.
 
 
@@ -254,7 +254,7 @@ There are 3 elements in the array. Why?
  * Because it is a read-only command, a request is delivered only to paritions, not to replicas.
    So there are only 3 results, not 6.
    (TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
- * The `SumCollector` collects them.
+ * The `Collectors::Sum` collects them.
    Those 3 results are joined to just one array by the collector.
 
 As the result, just one array with 3 elements appears in the final response.
@@ -432,7 +432,7 @@ module Droonga
         step.name = "deleteStores"
         step.write = true
         step.handler = :Handler
-        step.collector = AndCollector
+        step.collector = Collectors::And
       end
 
       class Handler < Droonga::Handler
@@ -455,7 +455,7 @@ Remember, you have to extract the request message from the received task message
 
 The handler finds and deletes existing records which have the given keyword in its "key", by the [API of Rroonga][Groonga::Table_delete].
 
-And, the `AndCollector` is bound to the step by the configuration `step.collector`.
+And, the `Collectors::And` is bound to the step by the configuration `step.collector`.
 It is is also one of built-in collectors, and merges boolean values retuned from handler instances for each partition and replica, to one boolean value.
 
 
