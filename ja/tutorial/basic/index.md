@@ -697,7 +697,7 @@ Elapsed time: 0.002769
 
 Droonga engineを用いてスターバックスの天保データベースを検索する準備ができました。
 
-### Send request with droonga-request
+### droonga-requestでリクエストを送る
 
 動作を確認してみましょう。クエリを以下のようなJSONファイルとして作成します。
 

@@ -342,6 +342,12 @@ msgid ""
 "    }"
 msgstr ""
 
+msgid "### Stop an instance of fluent-plugin-droonga"
+msgstr "### fluent-plugin-droonga を終了する"
+
+msgid "This is the way to stop fluent-plugin-droonga."
+msgstr "これがfluent-plugin-droongaを終了する方法です。"
+
 msgid ""
 "This `catalog.json` defines a dataset `Starbucks` with two replicas and three "
 "partitions for each replica. The catalog also defines tables for the dataset.\n"
@@ -383,9 +389,6 @@ msgid ""
 "    2014-02-09 14:37:08 +0900 [info]: listening fluent socket on 0.0.0.0:24224"
 msgstr ""
 
-msgid "### Stop an instance of fluent-plugin-droonga"
-msgstr "### fluent-plugin-droonga を終了する"
-
 msgid "First, you need to know how to stop fluent-plugin-droonga."
 msgstr "最初にfluent-plugin-droongaを終了する方法を知っておきましょう。"
 
@@ -404,9 +407,6 @@ msgid ""
 "    2014-02-09 14:39:27 +0900 [info]: shutting down fluentd\n"
 "    2014-02-09 14:39:30 +0900 [info]: process finished code=0"
 msgstr ""
-
-msgid "This is the way to stop fluent-plugin-droonga."
-msgstr "これがfluent-plugin-droongaを終了する方法です。"
 
 msgid "Start fluent-plugin-droonga again:"
 msgstr "再度fluent-plugin-droongaを起動します。"
@@ -908,7 +908,7 @@ msgid "Now a Droonga engine for searching Starbucks stores database is ready."
 msgstr "Droonga engineを用いてスターバックスの天保データベースを検索する準備ができました。"
 
 msgid "### Send request with droonga-request"
-msgstr ""
+msgstr "### droonga-requestでリクエストを送る"
 
 msgid "Check if it is working. Create a query as a JSON file as follows."
 msgstr "動作を確認してみましょう。クエリを以下のようなJSONファイルとして作成します。"
@@ -939,9 +939,6 @@ msgid ""
 "}\n"
 "~~~"
 msgstr ""
-
-msgid "Send the request to Droonga Engine:"
-msgstr "Droonga Engine にリクエストを送信します:"
 
 msgid ""
 "~~~\n"
@@ -1071,13 +1068,8 @@ msgid ""
 "~~~"
 msgstr ""
 
-msgid ""
-"Now the store names are retrieved. The engine looks working correctly.\n"
-"Next, setup a protocol adapter for clients to accept search requests using pop"
-"ular protocols."
-msgstr ""
-"店舗の名前が取得できました。エンジンは正しく動作しているようです。引き続き Protocol Adapter を構築して、検索リクエストを受け付けられるよう"
-"にしましょう。"
+msgid "Send the request to Droonga Engine:"
+msgstr "Droonga Engine にリクエストを送信します:"
 
 msgid "## Build a protocol adapter"
 msgstr "## Protocol Adapter を構築する"
@@ -1316,6 +1308,14 @@ msgid ""
 "      }\n"
 "    }"
 msgstr ""
+
+msgid ""
+"Now the store names are retrieved. The engine looks working correctly.\n"
+"Next, setup a protocol adapter for clients to accept search requests using pop"
+"ular protocols."
+msgstr ""
+"店舗の名前が取得できました。エンジンは正しく動作しているようです。引き続き Protocol Adapter を構築して、検索リクエストを受け付けられるよう"
+"にしましょう。"
 
 msgid ""
 "Because the `count` says `40`, you know there are all 40 records in the table."
