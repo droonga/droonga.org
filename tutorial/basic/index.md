@@ -1047,20 +1047,23 @@ search-all-stores.json:
 
 ~~~
 {
-  "dataset": "Starbucks"
-  "queries": {
-    "stores": {
-      "source": "Store",
-      "output": {
-        "elements": [
-          "startTime",
-          "elapsedTime",
-          "count",
-          "attributes",
-          "records"
-        ],
-        "attributes": ["_key"],
-        "limit": -1
+  "dataset": "Starbucks",
+  "type": "search",
+  "body": {
+    "queries": {
+      "stores": {
+        "source": "Store",
+        "output": {
+          "elements": [
+            "startTime",
+            "elapsedTime",
+            "count",
+            "attributes",
+            "records"
+          ],
+          "attributes": ["_key"],
+          "limit": -1
+        }
       }
     }
   }
