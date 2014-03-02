@@ -65,7 +65,7 @@ Droonga Engine は fluentd プロトコルで通信を行います。Protocol Ad
 
 ユーザは Protocol Adapter に、Web ブラウザなどを用いて接続します。Protocol Adapter は Droonga Engine へリクエストを送信します。実際の検索処理は Droonga Engine が行います。検索結果は、Droonga Engine から Protocol Adapter に渡され、最終的にユーザに返ります。
 
-例として、[ニューヨークにあるのスターバックスの店舗](http://geocommons.com/overlays/430038)を検索できるデータベースシステムを作成することにします。
+例として、[ニューヨークにあるスターバックスの店舗](http://geocommons.com/overlays/430038)を検索できるデータベースシステムを作成することにします。
 
 
 ## 実験用のマシンを用意する
