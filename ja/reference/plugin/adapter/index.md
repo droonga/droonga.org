@@ -1,5 +1,5 @@
 ---
-title: AdaptionフェイズでのプラグインAPI
+title: Adaption PhaseでのプラグインAPI
 layout: ja
 ---
 
@@ -18,12 +18,12 @@ layout: ja
 
 ## 概要 {#abstract}
 
-Each Droonga Engine plugin can have its *adapter*. On the adaption phase, adapters can modify both incoming messages (from the Protocol Adapter to the Droonga Engine, in other words, they are "request"s) and outgoing messages (from the Droonga Engine to the Protocol Adapter, in other words, they are "response"s).
+各々のDroonga Engineプラグインは、それ自身のための*アダプター*を持つことができます。Adaption Phaseでは、アダプターは入力メッセージ（Protocol AdapterからDroonga Engineへ送られてきたリクエストに相当）と出力メッセージ（Droonga EngineからProtocol Adapterへ送られるレスポンスに相当）の両方について変更を加えることができます。
 
 
-### How to define an adapter? {#howto-define}
+### アダプターの定義の仕方 {#howto-define}
 
-For example, here is a sample plugin named "foo" with an adapter:
+例えば、「foo」という名前のプラグインにアダプターを定義する場合は以下のようにします：
 
 ~~~ruby
 require "droonga/plugin"
@@ -33,62 +33,62 @@ module Droonga::Plugins::FooPlugin
   register("foo")
 
   class Adapter < Droonga::Adapter
-    # operations to configure this adapter
+    # このアダプターを設定するための操作
     XXXXXX = XXXXXX
 
     def adapt_input(input_message)
-      # operations to modify incoming messages
+      # 入力メッセージを変更するための操作
       input_message.XXXXXX = XXXXXX
     end
 
     def adapt_output(output_message)
-      # operations to modify outgoing messages
+      # 出力メッセージを変更するための操作
       output_message.XXXXXX = XXXXXX
     end
   end
 end
 ~~~
 
-Steps to define an adapter:
+アダプターを定義するための手順は以下の通りです：
 
- 1. Define a module for your plugin (ex. `Droonga::Plugins::FooPlugin`) and register it as a plugin. (required)
- 2. Define an adapter class (ex. `Droonga::Plugins::FooPlugin::Adapter`) inheriting [`Droonga::Adapter`](#classes-Droonga-Adapter). (required)
- 3. [Configure conditions to apply the adapter](#howto-configure). (required)
- 4. Define adaption logic for incoming messages as [`#adapt_input`](#classes-Droonga-Adapter-adapt_input). (optional)
- 5. Define adaption logic for outgoing messages as [`#adapt_output`](#classes-Droonga-Adapter-adapt_output). (optional)
+ 1. プラグイン用のモジュール（例：`Droonga::Plugins::FooPlugin`）を定義し、プラグインとして登録する。（必須）
+ 2. [`Droonga::Adapter`](#classes-Droonga-Adapter)を継承したアダプタークラス（例：`Droonga::Plugins::FooPlugin::Adapter`）を定義する。（必須）
+ 3. [アダプターを適用する条件を設定する](#howto-configure)。（必須）
+ 4. 入力メッセージに対する変更操作を[`#adapt_input`](#classes-Droonga-Adapter-adapt_input)として定義する。（任意）
+ 5. 出力メッセージに対する変更操作を[`#adapt_output`](#classes-Droonga-Adapter-adapt_output)として定義する。（任意）
 
-See also the [plugin development tutorial](../../../tutorial/plugin-development/adapter/).
-
-
-### How an adapter works? {#how-works}
-
-An adapter works like following:
-
- 1. The Droonga Engine starts.
-    * A global instance of the adapter class (ex. `Droonga::Plugins::FooPlugin::Adapter`) is created and it is registered.
-      * The input pattern and the output pattern are registered.
-    * The Droonga Engine starts to wait for incoming messages.
- 2. An incoming message is transferred from the Protocol Adapter to the Droonga Engine.
-    Then, the adaption phase (for an incoming message) starts.
-    * The adapter's [`#adapt_input`](#classes-Droonga-Adapter-adapt_input) is called, if the message matches to the [input matching pattern](#config) of the adapter.
-    * The method can modify the given incoming message, via [its methods](#classes-Droonga-InputMessage).
- 3. After all adapters are applied, the adaption phase for an incoming message ends, and the message is transferred to the next "planning" phase.
- 4. An outgoing message returns from the previous "collection" phase.
-    Then, the adaption phase (for an outgoing message) starts.
-    * The adapter's [`#adapt_output`](#classes-Droonga-Adapter-adapt_output) is called, if the message meets following both requirements:
-      - It is originated from an incoming message which was processed by the adapter itself.
-      - It matches to the [output matching pattern](#config) of the adapter.
-    * The method can modify the given outgoing message, via [its methods](#classes-Droonga-OutputMessage).
- 5. After all adapters are applied, the adaption phase for an outgoing message ends, and the outgoing message is transferred to the Protocol Adapter.
-
-As described above, the Droonga Engine creates only one global instance of the adapter class for each plugin.
-You should not keep stateful information for a pair of incoming and outgoing messages as instance variables of the adapter itself.
-Instead, you should give stateful information as a part of the incoming message body, and receive it from the body of the corresponding outgoing message.
-
-Any error raised from the adapter is handled by the Droonga Engine itself. See also [error handling][].
+[プラグイン開発のチュートリアル](../../../tutorial/plugin-development/adapter/)も参照して下さい。
 
 
-## Configurations {#config}
+### アダプターはどのように操作するか {#how-works}
+
+アダプターは以下のように動作します：
+
+ 1. Droonga Engineが起動する。
+    * アダプタークラス（例：`Droonga::Plugins::FooPlugin::Adapter`）の唯一のインスタンスが作られ、登録される。
+      * 入力のマッチングパターンおよび出力のマッチングパターンが登録される。
+    * Droonga Engineが起動し、入力メッセージを待ち受ける。
+ 2. 入力メッセージがProtocol AdapterからDroonga Engineへ送られてくる。
+    この時点で（入力メッセージ用の）Adaption Phaseが開始される。
+    * そのメッセージが[入力のマッチングパターン](#config)にマッチするアダプターについて、アダプターの[`#adapt_input`](#classes-Droonga-Adapter-adapt_input)が呼ばれる。
+    * このメソッドは、[入力メッセージ自身が持つメソッド](#classes-Droonga-InputMessage)を通じて入力メッセージを変更することができる。
+ 3. すべてのアダプターが適用された時点で、入力メッセージ用のAdaption Phaseが終了し、メッセージが次のPlanning Phaseに送られる。
+ 4. 出力メッセージが前のCollection Phaseから送られてくる。
+    この時点で（出力メッセージ用の）Adaption Phaseが開始される。
+    * そのメッセージ外貨の両方の条件を満たす場合に、アダプターの[`#adapt_output`](#classes-Droonga-Adapter-adapt_output)が呼ばれる：
+      - そのメッセージが、そのアダプター自身によって処理された入力メッセージに起因した物である。
+      - そのメッセージが、アダプターの[出力のマッチングパターン](#config)にマッチする。
+    * このメソッドは、[出力メッセージ自身が持つメソッド](#classes-Droonga-OutputMessage)を通じて出力メッセージを変更することができる。
+ 5. すべてのアダプターが適用された時点で、出力メッセージ用のAdaption Phaseが終了し、メッセージがProtocol Adapterに送られる。
+
+上記の通り、Droonga Engineは各プラグインのアダプタークラスについて、インスタンスを全体で1つだけ生成します。
+対になった入力メッセージと出力メッセージのための状態を示す情報をアダプター自身のインスタンス変数として保持してはいけません。
+代わりに、状態を示す情報を入力メッセージのbodyの一部として埋め込み、対応する出力メッセージのbodyから取り出すようにして下さい。
+
+アダプターないで発生したすべてのエラーは、Droonga Engine自身によって処理されます。[エラー処理][error handling]も併せて参照して下さい。
+
+
+## 設定 {#config}
 
 `input_message.pattern` ([matching pattern][], optional, default=`nil`)
 : A [matching pattern][] for incoming messages.
