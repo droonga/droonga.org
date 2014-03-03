@@ -96,7 +96,7 @@ lib
             └── count-records.rb
 ~~~
 
-Then, create a skelton of a plugin as follows:
+Then, create a skeleton of a plugin as follows:
 
 lib/droonga/plugins/count-records.rb:
 
@@ -200,7 +200,7 @@ lib/droonga/plugins/count-records.rb:
 ~~~
 
 The `Collectors::Sum` is one of built-in collectors.
-It merges results retuned from handler instances for each partition to one result.
+It merges results returned from handler instances for each partition to one result.
 
 
 ### Activate the plugin with `catalog.json`
@@ -256,7 +256,7 @@ Look at these points:
 There are 3 elements in the array. Why?
 
  * Remember that we have configured the `Starbucks` dataset to use 3 partitions (and each has 2 replicas) in the `catalog.json` of [the basic tutorial][basic].
- * Because it is a read-only command, a request is delivered only to paritions, not to replicas.
+ * Because it is a read-only command, a request is delivered only to partitions, not to replicas.
    So there are only 3 results, not 6.
    (TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
  * The `Collectors::Sum` collects them.
@@ -371,7 +371,7 @@ lib
             └── delete-stores.rb
 ~~~
 
-Then, create a skelton of a plugin as follows:
+Then, create a skeleton of a plugin as follows:
 
 lib/droonga/plugins/delete-stores.rb:
 
@@ -459,7 +459,7 @@ Remember, you have to extract the request message from the received task message
 The handler finds and deletes existing records which have the given keyword in its "key", by the [API of Rroonga][Groonga::Table_delete].
 
 And, the `Collectors::And` is bound to the step by the configuration `step.collector`.
-It is is also one of built-in collectors, and merges boolean values retuned from handler instances for each partition and replica, to one boolean value.
+It is is also one of built-in collectors, and merges boolean values returned from handler instances for each partition and replica, to one boolean value.
 
 ### Activate the plugin with `catalog.json`
 
