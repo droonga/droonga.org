@@ -14,6 +14,10 @@ msgid ""
 "layout: en\n"
 "---"
 msgstr ""
+"---\n"
+"title: \"プラグイン: リクエストとレスポンスを加工し、既存のコマンドに基づいた新しいコマンドを作成する\"\n"
+"layout: ja\n"
+"---"
 
 msgid ""
 "* TOC\n"
@@ -39,23 +43,23 @@ msgid "* You must complete the [basic tutorial][]."
 msgstr "* [基本的な使い方のチュートリアル][basic tutorial] を完了している必要があります。"
 
 msgid "## Adaption for incoming messages"
-msgstr "## 入力のメッセージの加工"
+msgstr "## 入力メッセージの加工"
 
 msgid ""
 "First, let's study basics with a simple logger plugin named `sample-logger` af"
 "fects at the adaption phase."
-msgstr ""
-"まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を学びましょう。"
+msgstr "まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を学びましょう。"
 
 msgid ""
 "We sometime need to modify incoming requests from outside to Droonga Engine.\n"
 "We can use a plugin for this purpose.\n"
 "Let's see how to create a plugin for the adaption phase, in this section."
 msgstr ""
-"外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセクションでは、どのようにしてadaption phaseのプラグインをつくるのかをみていきます。"
+"外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセク"
+"ションでは、どのようにしてadaption phaseのプラグインをつくるのかをみていきます。"
 
 msgid "### Directory Structure"
-msgstr ""
+msgstr "### ディレクトリの構造"
 
 msgid ""
 "Assume that we are going to add a new plugin to the system built in the [basic"
@@ -90,7 +94,7 @@ msgid ""
 msgstr ""
 
 msgid "### Create a plugin"
-msgstr ""
+msgstr "### プラグインの作成"
 
 msgid ""
 "You must put codes for a plugin into a file which has the name *same to the pl"
@@ -138,7 +142,7 @@ msgid ""
 msgstr ""
 
 msgid "### Activate the plugin with `catalog.json`"
-msgstr ""
+msgstr "### `catalog.json`でプラグインを有効化する"
 
 msgid ""
 "You need to update `catalog.json` to activate your plugin.\n"
@@ -168,7 +172,7 @@ msgid ""
 msgstr ""
 
 msgid "### Run and test"
-msgstr ""
+msgstr "### 実行と動作を確認する"
 
 msgid ""
 "Let's get Droonga started.\n"
@@ -266,7 +270,7 @@ msgid "This is the search result."
 msgstr ""
 
 msgid "### Do something in the plugin: take logs"
-msgstr ""
+msgstr "### プラグインを動作させる: ログをとる"
 
 msgid ""
 "The plugin we have created do nothing so far. Let's get the plugin to do some "
@@ -378,7 +382,7 @@ msgid ""
 msgstr ""
 
 msgid "### Modify messages with the plugin"
-msgstr ""
+msgstr "### プラグインでメッセージを加工する"
 
 msgid ""
 "Suppose that we want to restrict the number of records returned in the respons"
@@ -459,7 +463,7 @@ msgid ""
 msgstr ""
 
 msgid "## Adaption for outgoing messages"
-msgstr ""
+msgstr "## 出力メッセージの加工"
 
 msgid ""
 "In case we need to modify outgoing messages from Droonga Engine, for example, "
@@ -468,7 +472,7 @@ msgid ""
 msgstr ""
 
 msgid "### Add a method to adapt outgoing messages"
-msgstr ""
+msgstr "### 出力のメッセージを加工するメソッドを追加する"
 
 msgid ""
 "Let's take logs of results of `search` command.\n"
@@ -500,7 +504,7 @@ msgid ""
 msgstr ""
 
 msgid "### Run"
-msgstr ""
+msgstr "### 実行する"
 
 msgid "Let's restart fluentd:"
 msgstr ""
@@ -560,7 +564,7 @@ msgid ""
 msgstr ""
 
 msgid "### Modify results in the adaption phase"
-msgstr ""
+msgstr "### 結果をadaption phaseで加工する"
 
 msgid ""
 "Let's modify the result.\n"
@@ -640,7 +644,7 @@ msgid ""
 msgstr ""
 
 msgid "## Adaption for both incoming and outgoing messages"
-msgstr ""
+msgstr "## 入出力メッセージの加工"
 
 msgid ""
 "We have learned the basics of plugins for the adaption phase so far.\n"
@@ -654,7 +658,7 @@ msgid ""
 " new plugin named `store-search`."
 msgstr ""
 
-msgid "### Accepting of simple requests"
+msgid "### シンプルなリクエストを受け取る"
 msgstr ""
 
 msgid ""
@@ -826,7 +830,7 @@ msgid ""
 "the method `adapt_input`."
 msgstr ""
 
-msgid "### Returning of simple responses"
+msgid "### シンプルなレスポンスを返す"
 msgstr ""
 
 msgid ""
