@@ -83,7 +83,7 @@ As described above, the Droonga Engine creates an instance of the handler class 
 Any error raised from the handler is handled by the Droonga Engine itself. See also [error handling][].
 
 
-## Configurations {#config}
+## 設定 {#config}
 
 `action.synchronous` (boolean, optional, default=false)
 : (TBD)
