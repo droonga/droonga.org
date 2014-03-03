@@ -656,7 +656,7 @@ msgid "### Accepting of simple requests"
 msgstr ""
 
 msgid ""
-"First, create the `store-searach` plugin.\n"
+"First, create the `store-search` plugin.\n"
 "Remember, you must put codes into a file which has the name same to the plugin"
 " now you are creating.\n"
 "So, the file is `store-search.rb` in the `droonga/plugins` directory. Then def"

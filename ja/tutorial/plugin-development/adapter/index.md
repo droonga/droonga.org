@@ -486,7 +486,7 @@ Here, we're going to add our own `storeSearch` command to wrap the `search` comm
 
 ### Accepting of simple requests
 
-First, create the `store-searach` plugin.
+First, create the `store-search` plugin.
 Remember, you must put codes into a file which has the name same to the plugin now you are creating.
 So, the file is `store-search.rb` in the `droonga/plugins` directory. Then define your `StoreSearchPlugin` as follows:
 
