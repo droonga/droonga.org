@@ -26,14 +26,13 @@ Droongaプラグインの作り方を理解します。
 プラグインはDroongaの中でもっとも重要なコンセプトの一つです。
 プラグインがDroongaを柔軟なものにしています。
 
-Generally, data processing tasks in the real world need custom treatments of the data, in various stages of the data stream.
-This is not easy to be done in one-size-fits-all approach.
+多くの現実的なデータ処理タスクでは、問題に応じたデータの取り扱いが必要です。これを汎用の方法で解決するのは簡単ではありせん。
 
- * One may want to modify incoming requests to work well with other systems, one may want to modify outgoing responses to help other systems understand the result.
- * One may want to do more complex data processing than that provided by Droonga as built-in, to have direct storage access for efficiency.
- * One may need to control data distribution and collection logic of Droonga to profit from distributed nature of Droonga.
+ * 外部のシステムと連携するために、入力のリクエスト形式を変更する必要があるかもしれません。外部のシステムが理解できるような形式で出力するために、出力を加工する必要があるかもしれません。
+ * Droongaが標準で提供する機能よりもさらに複雑なデータ操作を、ストレージに直接アクセスしながら効率よく行う必要があるかもしれません。
+ * Droongaのデータ分散と回収ロジックをコントロールすることで、Droongaの分散性能を活かした高度なアプリケーションを構築する必要があるかもしれません。
 
-You can use plugins in those situations.
+このような場合にプラグインを利用することができます。
 
 ## Droongaエンジンにおけるプラガブルな操作
 
