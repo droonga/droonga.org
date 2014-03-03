@@ -24,16 +24,14 @@ At the last, we create a new command `storeSearch` based on the existing `search
 
 ## 前提条件
 
-* You must complete the [basic tutorial][].
+* [基本的な使い方のチュートリアル][basic tutorial] を完了している必要があります。
 
 
-## Adaption for incoming messages
+## 入力のメッセージの加工
 
-First, let's study basics with a simple logger plugin named `sample-logger` affects at the adaption phase.
+まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を。
 
-We sometime need to modify incoming requests from outside to Droonga Engine.
-We can use a plugin for this purpose.
-Let's see how to create a plugin for the adaption phase, in this section.
+外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセクションでは、どのようにしてadaption phaseのプラグインをつくるのかをみていきます。
 
 ### Directory Structure
 

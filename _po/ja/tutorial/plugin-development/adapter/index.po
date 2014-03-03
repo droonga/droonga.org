@@ -36,21 +36,23 @@ msgid "## Precondition"
 msgstr "## 前提条件"
 
 msgid "* You must complete the [basic tutorial][]."
-msgstr ""
+msgstr "* [基本的な使い方のチュートリアル][basic tutorial] を完了している必要があります。"
 
 msgid "## Adaption for incoming messages"
-msgstr ""
+msgstr "## 入力のメッセージの加工"
 
 msgid ""
 "First, let's study basics with a simple logger plugin named `sample-logger` af"
 "fects at the adaption phase."
 msgstr ""
+"まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を。"
 
 msgid ""
 "We sometime need to modify incoming requests from outside to Droonga Engine.\n"
 "We can use a plugin for this purpose.\n"
 "Let's see how to create a plugin for the adaption phase, in this section."
 msgstr ""
+"外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセクションでは、どのようにしてadaption phaseのプラグインをつくるのかをみていきます。"
 
 msgid "### Directory Structure"
 msgstr ""
