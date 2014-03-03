@@ -14,7 +14,7 @@ layout: ja
 
 Droonga Engineはプラグインに対して、処理の各段階ごとに異なるAPIセットを提供します。[プラグイン開発のチュートリアル](../../tutorial/plugin-development/)も参照してください。
 
- * [API set for the adaption phase](adapter/)
- * [API set for the handling phase](handler/)
- * [Matching pattern for messages](matching-pattern/)
- * [Error handling](error/)
+ * [Adaption PhaseでのAPI](adapter/)
+ * [Handling PhaseでのAPI](handler/)
+ * [メッセージのためのマッチングパターン](matching-pattern/)
+ * [エラー処理](error/)
