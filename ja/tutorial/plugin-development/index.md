@@ -36,29 +36,27 @@ Droongaプラグインの作り方を理解します。
 
 ## Droongaエンジンにおけるプラガブルな操作
 
-In Droonga Engine, there are 2 large pluggable phases and 3 sub phases for plugins.
-In other words, from the point of view of plugins, each plugin can do from 1 to 4 operations.
-See the [overview][] to grasp the big picture.
+Droonga Engineにはプラグイン可能なフェーズが大きく分けて2つあり、そのうちの1つは3つのサブフェーズから構成されます。プラグインの観点からすると、都合1つから4つの操作に処理を追加することができます。
 
 Adaption phase
-: At this phase, a plugin can modify incoming requests and outgoing responses.
+: このフェーズでは、プラグインは入力のリクエストと出力のレスポンスを加工できます。
 
 Processing phase
-: At this phase, a plugin can process incoming requests on each partition, step by step.
+: このフェーズでは、プラグインはそれぞれのパーティション上で入力のリクエストを逐次処理します。
 
-The processing phase includes 3 sub pluggable phases:
+processing phaseには3つのプラガブルなサブフェーズがあります:
 
 Handling phase
-: At this phase, a plugin can do low-level data handling, for example, database operations and so on.
+: このフェーズでは、プラグインは低レベルのデータ処理、たとえばデータベース操作などを行うことができます。
 
 Planning phase
-: At this phase, a plugin can split an incoming request to multiple steps.
+: このフェーズでは、プラグインは入力のリクエストを複数のステップに分割できます。
 
 Collection phase
-: At this phase, a plugin can merge results from steps to a unified result.
+: このフェーズでは、プラグインはステップから得られた結果をマージして一つの結果を生成できます。
 
-However, the point of view of these descriptions is based on the design of the system itself, so you're maybe confused.
-Then, let's shift our perspective on pluggable operations - what you want to do by a plugin.
+上記の説明は、Droongaシステムの設計に基いているので、少々わかりづらいかもしれません。
+ここでは、プラガブルな操作という観点から離れて、プラグインで何をしたいのかという観点から見てみましょう。
 
 Adding a new command based on another existing command.
 : For example, you possibly want to define a shorthand command wrapping the complex `search` command.
