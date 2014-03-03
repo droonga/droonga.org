@@ -18,53 +18,53 @@ layout: ja
 
 ## 概要 {#abstract}
 
-Any unhandled error raised from a plugin is returned as an [error response][] for the corresponding incoming message, with the status code `500` (means "internal error").
+プラグイン内部で発生した例外のうち、そのプラグイン自身によって補足されなかった物は、すべて、入力メッセージに対する[エラーレスポンス][error response]として返されます。この時のエラーレスポンスのステータスコードは`500`（Internal Errorを意味する）です。
 
-If you want formatted error information to be returned, then rescue errors and raise your custom errors inheriting `Droonga::ErrorMessage::BadRequest` or `Droonga::ErrorMessage::InternalServerError` instead of raw errors.
-(By the way, they are already included to the base class of plugins so you can define your custom errors easily like: `class CustomError < BadRequest`)
+整形されたエラー情報を返したい場合は、低レベルのエラーを捕捉した上で、`Droonga::ErrorMessage::BadRequest`または`Droonga::ErrorMessage::InternalServerError`を継承したカスタムエラークラスでラップして再度`raise`して下さい。
+（ちなみに、これらの基底クラスはプラグインの名前空間に初期状態で`include`されているため、エラークラスの定義時には単に`class CustomError < BadRequest`などと書くだけで参照できます。）
 
 
-## Built-in error classes {#builtin-errors}
+## 組み込みのエラークラス {#builtin-errors}
 
-There are some pre-defined error classes used by built-in plugins and the Droonga Engine itself.
+組み込みのプラグインやDroonga Engine自身によってあらかじめ定義されているエラークラスとしては、以下の物があります。
 
 ### `Droonga::ErrorMessage::NotFound`
 
-Means an error which the specified resource is not found in the dataset or any source. For example:
+データセットまたは指定された情報ソースの中に、探している情報が見つからなかったことを示す。例：
 
-    # the second argument means "details" of the error. (optional)
+    # 第2引数はエラーの詳細な情報。（省略可能）
     raise Droonga::NotFound.new("#{name} is not found!", :elapsed_time => elapsed_time)
 
 ### `Droonga::ErrorMessage::BadRequest`
 
-Means any error originated from the incoming message itself, ex. syntax error, validation error, and so on. For example:
+文法エラーやバリデーションエラーなど、入力メッセージ自体にエラーが含まれていたことを示す。例：
 
-    # the second argument means "details" of the error. (optional)
+    # 第2引数はエラーの詳細な情報。（省略可能）
     raise Droonga::NotFound.new("Syntax error in #{query}!", :detail => detail)
 
 ### `Droonga::ErrorMessage::InternalServerError`
 
-Means other unknown error, ex. timed out, file I/O error, and so on. For example:
+タイムアウト、ファイル入出力のエラーなど、その他の未知のエラーであることを示す。例：
 
-    # the second argument means "details" of the error. (optional)
+    # 第2引数はエラーの詳細な情報。（省略可能）
     raise Droonga::MessageProcessingError.new("busy!", :elapsed_time => elapsed_time)
 
 
-## Built-in status codes {#builtin-status-codes}
+## 組み込みのステータスコード {#builtin-status-codes}
 
-You should use following or other status codes as [a matter of principle](../../message/#error-status).
+エラーのステータスコードとしては、以下のステータスコードか、もしくは[慣習に従ったステータスコード](../../message/#error-status)を使用します。
 
 `Droonga::StatusCode::OK`
-: Equals to `200`.
+: `200`と等価。
 
 `Droonga::StatusCode::NOT_FOUND`
-: Equals to `404`.
+: `404`と等価。
 
 `Droonga::StatusCode::BAD_REQUEST`
-: Equals to `400`.
+: `400`と等価。
 
 `Droonga::StatusCode::INTERNAL_ERROR`
-: Equals to `500`.
+: `500`と等価。
 
 
   [error response]: ../../message/#error
