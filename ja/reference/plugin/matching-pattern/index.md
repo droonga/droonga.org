@@ -101,13 +101,13 @@ Droonga Engineはメッセージのパターンを指定するための小規模
 
 #### ターゲットパス {#syntax-basic-target-path}
 
-The target path is specified as a string, like:
+ターゲットパスは以下の文字列のような形で示します：
 
     "body.success"
 
-The matching mechanism of the Droonga Engine interprets it as a dot-separated list of *path components*.
-A path component represents the property in the message with same name.
-So, the example above means the location:
+Droonga Engineのマッチング機構は、これをドットで区切られた *パスコンポーネント* のリストとして解釈します。
+1つのパスコンポーネントはメッセージ中の同名のプロパティを表します。
+よって、上記の例は以下の位置を示します：
 
     {
       "body": {
@@ -118,13 +118,13 @@ So, the example above means the location:
 
 
 
-#### Avialable operators {#syntax-basic-operators}
+#### 利用可能な演算子 {#syntax-basic-operators}
 
-The operator is specified as a symbol.
+演算子はシンボルとして指定します。
 
 `:equal`
-: Returns `true`, if the target value is equal to the given value. Otherwise `false`.
-  For example,
+: ターゲットの値が与えられた値と等しい場合に `true` を返します。それ以外の場合は `false` を返します。
+  例えば、
   
       ["type", :equal, "search"]
   
@@ -136,8 +136,8 @@ The operator is specified as a symbol.
       }
 
 `:in`
-: Returns `true`, if the target value is in the given array of values. Otherwise `false`.
-  For example,
+: ターゲットの値が与えられた配列の中に含まれている場合に `true` を返します。それ以外の場合は `false` を返します。
+  例えば、
   
       ["type", :in, ["search", "select"]]
   
@@ -156,9 +156,9 @@ The operator is specified as a symbol.
       }
 
 `:include`
-: Returns `true` if the target array of values includes the given value. Otherwise `false`.
-  In other words, this is the opposite of the `:in` operator.
-  For example,
+: ターゲットの値の配列の中に指定された値が含まれている場合に `true` を返します。それ以外の場合は `false` を返します。
+  言い換えると、これは `:in` 演算子の反対の働きをします。
+  例えば、
   
       ["body.tags", :include, "News"]
   
@@ -172,8 +172,8 @@ The operator is specified as a symbol.
       }
 
 `:exist`
-: Returns `true` if the target exists. Otherwise `false`.
-  For example,
+: ターゲットに指定された情報が存在する場合は `true` を返します。それ以外の場合は `false` を返します。
+  例えば、
   
       ["body.comments", :exist, "News"]
   
@@ -197,8 +197,8 @@ The operator is specified as a symbol.
       }
 
 `:start_with`
-: Returns `true` if the target string value starts with the given string. Otherwise `false`.
-  For example,
+: ターゲットの文字列が指定された文字列で始まる場合に `true` を返します。それ以外の場合は `false` を返します。
+  例えば、
   
       ["body.path", :start_with, "/archive/"]
   
@@ -212,11 +212,11 @@ The operator is specified as a symbol.
       }
 
 
-### Nested pattern {#syntax-nested}
+### ネストしたパターン {#syntax-nested}
 
-#### Structure {#syntax-nested-structure}
+#### 構造 {#syntax-nested-structure}
 
-A nested pattern is described as an array including 3 elements, like following:
+ネストしたパターンは、以下のような3つの要素を持つ配列として表現されます：
 
     [
       ["type", :equal, "table_create"],
@@ -224,16 +224,16 @@ A nested pattern is described as an array including 3 elements, like following:
       ["type", :equal, "column_create"]
     ]
 
- * The first and the third elements are patterns, basic or nested. (In other words, you can nest patterns recursively.)
- * The second element is a *logical operator*.
+ * 最初の要素と最後の要素は基本パターンまたはネストしたパターンです。（言い換えると、ネストしたパターンは再帰的に書くことができます。）
+ * 2番目の要素は *論理演算子* です。
 
-#### Avialable operators {#syntax-nested-operators}
+#### 利用可能な演算子 {#syntax-nested-operators}
 
 `:and`
-: Returns `true` if both given patterns are evaluated as `true`. Otherwise `false`.
+: 与えられた両方のパターンが `true` を返す場合に、`true` を返します。それ以外の場合は `false` を返します。
 
 `:or`
-: Returns `true` if one of given patterns (the first or the third element) is evaluated as `true`. Otherwise `false`.
+: 与えられたパターン（1番目または3番目の要素）のいずれかまたは両方が `true` を返す場合に `true` を返します。それ以外の場合は `false` を返します。
 
 
 
