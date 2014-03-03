@@ -89,17 +89,17 @@ Droonga Engineはメッセージのパターンを指定するための小規模
 
 ### 基本パターン {#syntax-basic}
 
-#### Structure {#syntax-basic-structure}
+#### 構造 {#syntax-basic-structure}
 
-A basic pattern is described as an array including 2 or more elements, like following:
+基本パターンは以下のように、2つ以上の要素を含む配列として表現されます：
 
     ["type", :equal, "search"]
 
- * The first element is a *target path*. It means the location of the information to be checked, in the [message][].
- * The second element is an *operator*. It means how the information specified by the target path should be checked.
- * The third element is an *argument for the oeprator*. It is a primitive value (string, numeric, or boolean) or an array of values. Some operators require no argument.
+ * 最初の要素は *ターゲットパス* です。これは、[メッセージ][message]の中でチェックされる情報の位置を示します。
+ * 2番目の要素は *演算子* です。これは、ターゲットパスで示された情報をどのようにチェックするかを示します。
+ * 3番目の要素は *演算子のための引数* です。これは、プリミティブ値（文字列、数値、または真偽値）、もしくはそれらの値の配列です。ただし、いくつかの演算子は引数を取りません。
 
-#### Target path {#syntax-basic-target-path}
+#### ターゲットパス {#syntax-basic-target-path}
 
 The target path is specified as a string, like:
 
