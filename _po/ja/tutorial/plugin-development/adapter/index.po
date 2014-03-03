@@ -45,7 +45,7 @@ msgid ""
 "First, let's study basics with a simple logger plugin named `sample-logger` af"
 "fects at the adaption phase."
 msgstr ""
-"まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を。"
+"まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を学びましょう。"
 
 msgid ""
 "We sometime need to modify incoming requests from outside to Droonga Engine.\n"

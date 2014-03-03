@@ -29,7 +29,7 @@ At the last, we create a new command `storeSearch` based on the existing `search
 
 ## 入力のメッセージの加工
 
-まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を。
+まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を学びましょう。
 
 外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセクションでは、どのようにしてadaption phaseのプラグインをつくるのかをみていきます。
 
