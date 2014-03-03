@@ -31,18 +31,20 @@ msgid ""
 "alled *matching pattern*.\n"
 "It is used to specify target messages of various operations, ex. plugins."
 msgstr ""
+"Droonga Engineはメッセージのパターンを指定するための小規模な言語を実装しています。これを*マッチングパターン*と呼びます。\n"
+"マッチングパターンは、プラグインなどの様々な場所で処理対象のメッセージを指定するために使われます。"
 
 msgid "## Examples {#examples}"
-msgstr ""
+msgstr "## 例 {#examples}"
 
 msgid "### Simple matching"
-msgstr ""
+msgstr "### 単純なマッチング"
 
 msgid "    pattern = [\"type\", :equal, \"search\"]"
 msgstr ""
 
 msgid "This matches to messages like:"
-msgstr ""
+msgstr "これは以下のようなメッセージにマッチします："
 
 msgid ""
 "    {\n"
@@ -52,7 +54,7 @@ msgid ""
 msgstr ""
 
 msgid "### Matching for a deep target"
-msgstr ""
+msgstr "### 深い位置にある対象へのマッチング"
 
 msgid "    pattern = [\"body.success\", :equal, true]"
 msgstr ""
@@ -67,7 +69,7 @@ msgid ""
 msgstr ""
 
 msgid "Doesn't match to:"
-msgstr ""
+msgstr "以下にはマッチしません："
 
 msgid ""
 "    {\n"
@@ -79,7 +81,7 @@ msgid ""
 msgstr ""
 
 msgid "### Nested patterns"
-msgstr ""
+msgstr "### パターン自体のネスト"
 
 msgid ""
 "    pattern = [\n"
@@ -90,7 +92,7 @@ msgid ""
 msgstr ""
 
 msgid "This matches to both:"
-msgstr ""
+msgstr "これは以下の両方にマッチします："
 
 msgid ""
 "    {\n"
@@ -100,7 +102,7 @@ msgid ""
 msgstr ""
 
 msgid "and:"
-msgstr ""
+msgstr "および："
 
 msgid ""
 "    {\n"
@@ -113,15 +115,15 @@ msgid ""
 msgstr ""
 
 msgid "## Syntax {#syntax}"
-msgstr ""
+msgstr "## 文法 {#syntax}"
 
 msgid ""
 "There are two typeos of matching patterns: \"basic pattern\" and \"nested pattern"
 "\"."
-msgstr ""
+msgstr "マッチングパターンには「基本パターン」と「ネストしたパターン」の2種類があります。"
 
 msgid "### Basic pattern {#syntax-basic}"
-msgstr ""
+msgstr "### 基本パターン {#syntax-basic}"
 
 msgid "#### Structure {#syntax-basic-structure}"
 msgstr ""

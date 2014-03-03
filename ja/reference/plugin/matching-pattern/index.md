@@ -18,28 +18,28 @@ layout: ja
 
 ## 概要 {#abstract}
 
-The Droonga Engine provides a tiny language to specify patterns of messages, called *matching pattern*.
-It is used to specify target messages of various operations, ex. plugins.
+Droonga Engineはメッセージのパターンを指定するための小規模な言語を実装しています。これを*マッチングパターン*と呼びます。
+マッチングパターンは、プラグインなどの様々な場所で処理対象のメッセージを指定するために使われます。
 
 
-## Examples {#examples}
+## 例 {#examples}
 
-### Simple matching
+### 単純なマッチング
 
     pattern = ["type", :equal, "search"]
 
-This matches to messages like:
+これは以下のようなメッセージにマッチします：
 
     {
       "type": "search",
       ...
     }
 
-### Matching for a deep target
+### 深い位置にある対象へのマッチング
 
     pattern = ["body.success", :equal, true]
 
-This matches to messages like:
+これは以下のようなメッセージにマッチします：
 
     {
       "type": "add.result",
@@ -48,7 +48,7 @@ This matches to messages like:
       }
     }
 
-Doesn't match to:
+以下にはマッチしません：
 
     {
       "type": "add.result",
@@ -57,7 +57,7 @@ Doesn't match to:
       }
     }
 
-### Nested patterns
+### パターン自体のネスト
 
     pattern = [
                  ["type", :equal, "table_create"],
@@ -65,14 +65,14 @@ Doesn't match to:
                  ["body.success", :equal, true]
               ]
 
-This matches to both:
+これは以下の両方にマッチします：
 
     {
       "type": "table_create",
       ...
     }
 
-and:
+および：
 
     {
       "type": "column_create",
@@ -85,9 +85,9 @@ and:
 
 ## 書式 {#syntax}
 
-There are two typeos of matching patterns: "basic pattern" and "nested pattern".
+マッチングパターンには「基本パターン」と「ネストしたパターン」の2種類があります。
 
-### Basic pattern {#syntax-basic}
+### 基本パターン {#syntax-basic}
 
 #### Structure {#syntax-basic-structure}
 
