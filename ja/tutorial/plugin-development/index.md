@@ -58,32 +58,31 @@ Collection phase
 上記の説明は、Droongaシステムの設計に基いているので、少々わかりづらいかもしれません。
 ここでは、プラガブルな操作という観点から離れて、プラグインで何をしたいのかという観点から見てみましょう。
 
-Adding a new command based on another existing command.
-: For example, you possibly want to define a shorthand command wrapping the complex `search` command.
-  *Adaption* of request and response messages makes it come true.
+既に存在するコマンドを元にして新たなコマンドを作成する
+: たとえば、複雑な`search`コマンドをラップして、手軽に使えるコマンドを作りたいかもしれません。
+  リクエストとレスポンスの*Adaption*がそれを可能にします。
 
-Adding a new command working around the storage.
-: For example, you possibly want to modify data stored in the storage as you like.
-  *Handling* of requests makes it come true.
+新しいコマンドを追加してストレージを操作する
+: たとえば、ストレージに保存されているデータを自在に操作したいかもしれません。
+  リクエストの*Handling*がそれを可能にします。
 
-Adding a new command for a complex task
-: For example, you possibly want to implement a powerful command like the built-in `search` command.
-  *Planning and collection* of requests make it come true.
+複雑なタスクを実現するコマンドを追加する
+: たとえば、標準の`search`コマンドのような強力なコマンドを実装したいかもしれません。リクエストの*planning*と*collection*がそれを可能にします。
 
-In this tutorial, we focus on the adaption at first.
-This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
-Then, we focus an other cases in this order.
-Following this tutorial, you will learn how to write plugins.
-This will be the first step to create plugins fit with your own requirements.
+このチュートリアルでは、最初に*adaption*を扱います。
+これはもっともプラグインの基本的なユースケースなので、Droongaにおけるプラグイン開発の基礎を理解する助けになるはずです。
+その後、他のケースも上述の順で説明します。
+このチュートリアルに従うと、プラグインの書き方を理解できるようになります。
+自分独自の要求を満たすプラグインを作成するための第一歩となることでしょう。
 
 ## プラグインを開発するには
 
-For more details, let's read these sub tutorials:
+詳細は以下のサブチュートリアルを参照してください:
 
- 1. [Adapt requests and responses, to add a new command based on other existing commands][adapter].
- 2. [Handle requests on all partitions, to add a new command working around the storage][handler].
- 3. Handle requests only on a specific partition, to add a new command around the storage more smartly. (under construction)
- 4. Distribute requests and collect responses, to add a new complex command based on sub tasks. (under construction)
+ 1. [リクエストとレスポンスをAdaptして、既存のコマンドに基づいた新たなコマンドを作成する][adapter]。
+ 2. [全てのパーティション上でリクエストを処理し、ストレージを操作する新たなコマンドを追加する][handler]。
+ 3. 特定のパーティション上だけでリクエストを処理し、より効率的にストレージを操作するコマンドを追加する (準備中)
+ 4. リクエストの分散とレスポンスの回収を行い、新たな複雑なコマンドを追加する (準備中)
 
 
   [basic tutorial]: ../basic/
