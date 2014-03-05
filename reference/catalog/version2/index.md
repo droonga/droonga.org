@@ -310,6 +310,35 @@ Default value
 Inheritable
 : False.
 
+#### Examples
+
+##### Example 1
+
+A `Hash` table whose key is `ShortText` type, with no columns:
+
+~~~
+{
+  "type": "Hash",
+  "keyType": "ShortText",
+  "columns": {
+  }
+}
+~~~
+
+#### Example 2
+
+A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normalizer, with no columns:
+
+~~~
+{
+  "type": "PatriciaTrie",
+  "keyType": "ShortText",
+  "tokenizer": "TokenBigram",
+  "normalizer": "NormalizerAuto",
+  "columns": {
+  }
+}
+
 ### Column definition {#column}
 
 Value
