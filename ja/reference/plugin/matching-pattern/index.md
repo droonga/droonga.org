@@ -128,7 +128,7 @@ Droonga Engineのマッチング機構は、これをドットで区切られた
   
       ["type", :equal, "search"]
   
-  The pattern above matches to a message like following:
+  上記のパターンは以下のようなメッセージにマッチします：
   
       {
         "type": "search",
@@ -141,14 +141,14 @@ Droonga Engineのマッチング機構は、これをドットで区切られた
   
       ["type", :in, ["search", "select"]]
   
-  The pattern above matches to a message like following:
+  上記のパターンは以下のようなメッセージにマッチします：
   
       {
         "type": "select",
         ...
       }
   
-  But it doesn't match to:
+  以下にはマッチしません：
   
       {
         "type": "find",
@@ -162,7 +162,7 @@ Droonga Engineのマッチング機構は、これをドットで区切られた
   
       ["body.tags", :include, "News"]
   
-  The pattern above matches to a message like following:
+  上記のパターンは以下のようなメッセージにマッチします：
   
       {
         "type": "my.notification",
@@ -177,7 +177,7 @@ Droonga Engineのマッチング機構は、これをドットで区切られた
   
       ["body.comments", :exist, "News"]
   
-  The pattern above matches to a message like following:
+  上記のパターンは以下のようなメッセージにマッチします：
   
       {
         "type": "my.notification",
@@ -187,7 +187,7 @@ Droonga Engineのマッチング機構は、これをドットで区切られた
         }
       }
   
-  But it doesn't match to:
+  以下にはマッチしません：
   
       {
         "type": "my.notification",
@@ -202,7 +202,7 @@ Droonga Engineのマッチング機構は、これをドットで区切られた
   
       ["body.path", :start_with, "/archive/"]
   
-  The pattern above matches to a message like following:
+  上記のパターンは以下のようなメッセージにマッチします：
   
       {
         "type": "my.notification",

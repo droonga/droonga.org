@@ -482,7 +482,7 @@ Let's try to build more practical plugin.
 You may feel the Droonga's `search` command is too flexible for your purpose.
 Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface, with a new plugin named `store-search`.
 
-### Accepting of simple requests
+### シンプルなリクエストを受け取る
 
 First, create the `store-search` plugin.
 Remember, you must put codes into a file which has the name same to the plugin now you are creating.
@@ -621,7 +621,7 @@ Now we can perform store search with simple requests.
 
 Note: look at the `"type"` of the response message. Now it became `"storeSearch.result"`, from `"search.result"`. Because it is triggered from the incoming message with the type `"storeSearch"`, the outgoing message has the type `"(incoming command).result"` automatically. In other words, you don't have to change the type of the outgoing messages, like `input_message.type = "search"` in the method `adapt_input`.
 
-### Returning of simple responses
+### シンプルなレスポンスを返す
 
 Second, let's return results in more simple way: just an array of the names of stores.
 
