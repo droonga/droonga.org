@@ -710,3 +710,41 @@ Default value
 
 Inheritable
 : False.
+
+#### Examples
+
+##### Example 1
+
+Slice for a ratio-scaled slicer, with the weight `1`:
+
+~~~
+{
+  "weight": 1,
+  "volume": {
+  }
+}
+~~~
+
+##### Example 2
+
+Slice for a nominal-scaled slicer, with the label `"1"`:
+
+~~~
+{
+  "label": "1",
+  "volume": {
+  }
+}
+~~~
+
+#### Example 3
+
+Slice for a ordinal-scaled slicer, with the boundary `100`:
+
+~~~
+{
+  "boundary": 100,
+  "volume": {
+  }
+}
+~~~
