@@ -370,6 +370,23 @@ Inheritable
 Value
 : An object with the following key/value pairs.
 
+Example:
+
+Store the section data, the weight data and the position data.
+Index `name` and `address` on the referencing table.
+
+~~~
+{
+  "section": true,
+  "weight": true,
+  "position": true
+  "sources": [
+    "name",
+    "address"
+  ]
+}
+~~~
+
 #### `section` {#parameter-section}
 
 Abstract
