@@ -610,6 +610,40 @@ Default value
 Inheritable
 : False.
 
+#### Examples
+
+##### Example 1
+
+A volume at "localhost:24224/volume.000":
+
+~~~
+{
+  "address": "localhost:24224/volume.000"
+}
+~~~
+
+#### Example 2
+
+A volume that consists of three slices, records are to be distributed according to `hash`,
+which is ratio-scaled slicer function, of `_key`.
+
+~~~
+{
+  "dimension": "_key",
+  "slicer": "hash",
+  "slices": {
+    "volume": {
+      "address": "localhost:24224/volume.000"
+    },
+    "volume": {
+      "address": "localhost:24224/volume.001"
+    },
+    "volume": {
+      "address": "localhost:24224/volume.002"
+    }
+  }
+~~~
+
 ### Slice definition {#slice}
 
 Abstract
