@@ -219,6 +219,19 @@ Default value
 Inheritable
 : False.
 
+#### Example
+
+A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:
+
+~~~
+{
+  "nWorkers": 4,
+  "plugins": ["groonga", "crud", "search"],
+  "schema": {
+  }
+}
+~~~
+
 ### Table definition {#table}
 
 Value
