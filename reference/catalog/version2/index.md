@@ -359,6 +359,34 @@ Default value
 Inheritable
 : False.
 
+#### Examples
+
+##### Example 1
+
+A scaler column to store `ShortText` values:
+
+~~~
+{
+  "type": "Scalar",
+  "valueType": "ShortText"
+}
+~~~
+
+##### Example 2
+
+A column to index `address` column on `Store` table:
+
+~~~
+{
+  "type": "Index",
+  "valueType": "Store",
+  "indexOptions": {
+    "sources": [
+      "address"
+    ]
+  }
+}
+
 ##### `indexOptions` {#parameter-indexOptions}
 
 Abstract
