@@ -142,6 +142,20 @@ Default value
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
 
+
+#### Example
+
+A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2013-09-01T00:00:00Z",
+  "datasets": {
+  }
+}
+~~~
+
 ### Dataset definition {#dataset}
 
 Value
