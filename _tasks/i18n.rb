@@ -48,6 +48,10 @@ class I18nTask
 
   def define
     namespace :i18n do
+      namespace :internal do
+        task :force
+      end
+
       namespace :po do
         namespace :edit do
           define_edit_po_update_task
@@ -79,7 +83,9 @@ class I18nTask
 
       po_dir = path.po_dir.to_s
       directory po_dir
-      file edit_po_file => [target_file, po_dir] do
+      dependencies = [target_file, po_dir]
+      dependencies << "i18n:internal:force" if po_file_is_updated?(path)
+      file edit_po_file => dependencies do
         relative_base_path = @base_dir_path.relative_path_from(path.po_dir)
         generator = YARD::I18n::PotGenerator.new(relative_base_path.to_s)
         yard_file = YARD::CodeObjects::ExtraFileObject.new(target_file)
@@ -126,6 +132,12 @@ class I18nTask
     task :update => edit_po_files
   end
 
+  def po_file_is_updated?(path)
+    return false unless path.po_file.exist?
+    return false unless path.time_stamp_file.exist?
+    path.po_file.mtime > path.time_stamp_file.mtime
+  end
+
   def define_po_update_task
     @locales.each do |locale|
       namespace locale do
@@ -147,6 +159,7 @@ class I18nTask
       po_file = path.po_file.to_s
       po_files << po_file
 
+      CLEAN << path.time_stamp_file.to_s if path.time_stamp_file.exist?
       file po_file => [path.edit_po_file.to_s] do
         GetText::Tools::MsgCat.run("--output", po_file,
                                    "--sort-by-file",
@@ -158,6 +171,7 @@ class I18nTask
                                    "--remove-header-field=Language-Team",
                                    "--remove-header-field=POT-Creation-Date",
                                    path.edit_po_file.to_s)
+        touch(path.time_stamp_file.to_s)
       end
     end
 
@@ -282,6 +296,10 @@ class I18nTask
 
     def po_file
       po_dir + "#{target_file_base}.po"
+    end
+
+    def time_stamp_file
+      po_dir + "#{target_file_base}.time_stamp"
     end
 
     def edit_po_file
