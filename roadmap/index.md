@@ -30,8 +30,13 @@ layout: en
 
 # 1.0.1
 
-  * Groonga HTTP Server compatible feature
+  * Enhance planning phase to be more extensible
   * Target date: 2014-3-29
+
+# 1.0.2
+
+  * Groonga HTTP Server compatible feature
+  * Target date: 2014-4-29
 
 # 2.0.0
 
