@@ -228,7 +228,9 @@ A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:
   "nWorkers": 4,
   "plugins": ["groonga", "crud", "search"],
   "schema": {
-  }
+  },
+  "replicas": [
+  ]
 }
 ~~~
 
