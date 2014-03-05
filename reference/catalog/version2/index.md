@@ -84,7 +84,9 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
 Value
 : An object with the following key/value pairs.
 
-#### `version` {#parameter-version}
+#### Parameters
+
+##### `version` {#parameter-version}
 
 Abstract
 : Version number of the catalog file.
@@ -98,7 +100,7 @@ Default value
 Inheritable
 : False.
 
-#### `effectiveDate` {#parameter-effective_date}
+##### `effectiveDate` {#parameter-effective_date}
 
 Abstract
 : The time when this catalog becomes effective.
@@ -112,7 +114,7 @@ Default value
 Inheritable
 : False.
 
-#### `datasets` {#parameter-datasets}
+##### `datasets` {#parameter-datasets}
 
 Abstract
 : Definition of datasets.
@@ -126,7 +128,7 @@ Default value
 Inheritable
 : False.
 
-#### `nWorkers` {#parameter-n_workers}
+##### `nWorkers` {#parameter-n_workers}
 
 Abstract
 : The number of worker processes spawned for each database instance.
@@ -145,7 +147,9 @@ Inheritable
 Value
 : An object with the following key/value pairs.
 
-#### `plugins` {#parameter-plugins}
+#### Parameters
+
+##### `plugins` {#parameter-plugins}
 
 Abstract
 : Name strings of the plugins enabled for the dataset.
@@ -159,7 +163,7 @@ Default value
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
 
-#### `schema` {#parameter-schema}
+##### `schema` {#parameter-schema}
 
 Abstract
 : Definition of tables and their columns.
@@ -173,7 +177,7 @@ Default value
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
 
-#### `fact` {#parameter-fact}
+##### `fact` {#parameter-fact}
 
 Abstract
 : The name of the fact table. When a `dataset` is stored as more than one `slice`, one [fact table](http://en.wikipedia.org/wiki/Fact_table) must be selected from tables defined in [`schema`](#parameter-schema) parameter.
@@ -187,7 +191,7 @@ Default value
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
 
-#### `replicas` {#parameter-replicas}
+##### `replicas` {#parameter-replicas}
 
 Abstract
 : A collection of volumes which are the copies of each other.
@@ -206,7 +210,9 @@ Inheritable
 Value
 : An object with the following key/value pairs.
 
-#### `type` {#parameter-table-type}
+#### Parameters
+
+##### `type` {#parameter-table-type}
 
 Abstract
 : Specifies which data structure is used for managing keys of the table.
@@ -225,7 +231,7 @@ Default value
 Inheritable
 : False.
 
-#### `keyType` {#parameter-keyType}
+##### `keyType` {#parameter-keyType}
 
 Abstract
 : Data type of the key of the table. Mustn't be assigned when the `type` is "Array".
@@ -246,7 +252,7 @@ Default value
 Inheritable
 : False.
 
-#### `tokenizer` {#parameter-tokenizer}
+##### `tokenizer` {#parameter-tokenizer}
 
 Abstract
 : Specifies the type of tokenizer used for splitting each text value, when the table is used as a lexicon. Only available when the `keyType` is "ShortText".
@@ -273,7 +279,7 @@ Default value
 Inheritable
 : False.
 
-#### `normalizer` {#parameter-normalizer}
+##### `normalizer` {#parameter-normalizer}
 
 Abstract
 : Specifies the type of normalizer which normalizes and restricts the key values. Only available when the `keyType` is "ShortText".
@@ -290,7 +296,7 @@ Default value
 Inheritable
 : False.
 
-#### `columns` {#parameter-columns}
+##### `columns` {#parameter-columns}
 
 Abstract
 : Column definition for the table.
@@ -310,7 +316,9 @@ Value
 
 : An object with the following key/value pairs.
 
-#### `type` {#parameter-column-type}
+#### Parameters
+
+##### `type` {#parameter-column-type}
 
 Abstract
 : Specifies the quantity of data stored as each column value.
@@ -328,7 +336,7 @@ Default value
 Inheritable
 : False.
 
-#### `valueType` {#parameter-valueType}
+##### `valueType` {#parameter-valueType}
 
 Abstract
 : Data type of the column value.
@@ -351,7 +359,7 @@ Default value
 Inheritable
 : False.
 
-#### `indexOptions` {#parameter-indexOptions}
+##### `indexOptions` {#parameter-indexOptions}
 
 Abstract
 : Specifies the optional properties of a "Index" column.
@@ -453,7 +461,9 @@ Abstract
 Value
 : An object with the following key/value pairs.
 
-#### `address` {#parameter-address}
+#### Parameters
+
+##### `address` {#parameter-address}
 
 Abstract
 : Specifies the location of the database instance.
@@ -472,7 +482,7 @@ Default value
 Inheritable
 : False.
 
-#### `dimension` {#parameter-dimension}
+##### `dimension` {#parameter-dimension}
 
 Abstract
 : Specifies the dimension to slice the records in the fact table. Either '_key" or a scalar type column can be selected from [`columns`](#parameter-columns) parameter of the fact table. See [dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29).
@@ -486,7 +496,7 @@ Default value
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
 
-#### `slicer` {#parameter-slicer}
+##### `slicer` {#parameter-slicer}
 
 Abstract
 : Function to slice the value of dimension column.
@@ -500,7 +510,7 @@ Default value
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
 
-#### `slices` {#parameter-slices}
+##### `slices` {#parameter-slices}
 
 Abstract
 : Definition of slices which store the contents of the data.
@@ -522,7 +532,9 @@ Abstract
 Value
 : An object with the following key/value pairs.
 
-#### `weight` {#parameter-slice-weight}
+#### Parameters
+
+##### `weight` {#parameter-slice-weight}
 
 Abstract
 : Specifies the share in the slices. Only available when the `slicer` is ratio-scaled.
@@ -536,7 +548,7 @@ Default value
 Inheritable
 : False.
 
-#### `label` {#parameter-label}
+##### `label` {#parameter-label}
 
 Abstract
 : Specifies the concrete value that slicer may return. Only available when the slicer is nominal-scaled.
@@ -550,7 +562,7 @@ Default value
 Inheritable
 : False.
 
-#### `boundary` {#parameter-boundary}
+##### `boundary` {#parameter-boundary}
 
 Abstract
 : Specifies the concrete value that can compare with `slicer`'s return value. Only available when the `slicer` is ordinal-scaled.
@@ -564,7 +576,7 @@ Default value
 Inheritable
 : False.
 
-#### `volume` {#parameter-volume}
+##### `volume` {#parameter-volume}
 
 Abstract
 : A volume to store the data which corresponds to the slice.
