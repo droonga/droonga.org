@@ -567,13 +567,13 @@ e.g. hash function of _key.
 
 *Ordinal-scaled slicers* slice datapoints with ordinal values;
 the values have some ranking, e.g. time, integer,
-element of `{High, Middle, Low}` and so on.
+element of `{High, Middle, Low}`.
 
 ##### Nominal-scaled
 
 *Nominal-scaled slicers* slice datapoints with nominal values;
 the values denotes categories,which have no order,
-e.g. country, zip code, color and so on.
+e.g. country, zip code, color.
 
 #### Parameters
 
