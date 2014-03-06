@@ -17,4 +17,5 @@ Droonga Engineはプラグインに対して、処理の各段階ごとに異な
  * [Adaption PhaseでのAPI](adapter/)
  * [Handling PhaseでのAPI](handler/)
  * [メッセージのためのマッチングパターン](matching-pattern/)
+ * [Collector](collector/)
  * [エラー処理](error/)
