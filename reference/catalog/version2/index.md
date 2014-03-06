@@ -418,6 +418,20 @@ Default value
 Inheritable
 : False.
 
+##### `indexOptions` {#parameter-indexOptions}
+
+Abstract
+: Specifies the optional properties of a "Index" column.
+
+Value
+: An object which is an [`indexOption` definition](#indexOption)
+
+Default value
+: `{}` (Void object).
+
+Inheritable
+: False.
+
 #### Examples
 
 ##### Example 1
@@ -446,20 +460,6 @@ A column to index `address` column on `Store` table:
   }
 }
 ~~~
-
-##### `indexOptions` {#parameter-indexOptions}
-
-Abstract
-: Specifies the optional properties of a "Index" column.
-
-Value
-: An object which is an [`indexOption` definition](#indexOption)
-
-Default value
-: `{}` (Void object).
-
-Inheritable
-: False.
 
 ### indexOption definition {#indexOption}
 
