@@ -156,16 +156,15 @@ stepがストレージ内の情報を変更し得るかどうかを記述しま�
 
 ### `Droonga::Handler` {#classes-Droonga-Handler}
 
-This is the common base class of any handler.
-Your plugin's handler class must inherit this.
+これはすべてのハンドラーに共通の基底クラスです。独自プラグインのハンドラークラスは、このクラスを継承する必要があります。
 
 #### `#handle(message)` {#classes-Droonga-Handler-handle}
 
-This method receives a [`Droonga::HandlerMessage`](#classes-Droonga-HandlerMessage) wrapped task message.
-You can read the request information via its methods.
+このメソッドは、[`Droonga::HandlerMessage`](#classes-Droonga-HandlerMessage)でラップされたタスクメッセージを受け取ります。
+プラグインは、このタスクメッセージのメソッドからリクエストの情報を読み取る事ができます。
 
-In this base class, this method is defined as just a placeholder and it does nothing.
-To process messages, you have to override it by yours, like following:
+この基底クラスにおいて、このメソッドは何もしない単なるプレースホルダとして定義されています。
+メッセージを処理するには、以下のようにメソッドを再定義して下さい：
 
 ~~~ruby
 module Droonga::Plugins::MySearch
@@ -179,21 +178,20 @@ module Droonga::Plugins::MySearch
 end
 ~~~
 
-The Droonga Engine uses the returned value of this method as the result of the handling.
-It will be used to build the body of the unified response, and delivered to the Protocol Adapter.
+Droonga Engineは、このメソッドの戻り値を処理の結果として扱います。
+結果の値は、レスポンスのbodyの組み立てに使われ、Protocol Adapterに送られます。
 
 
 ### `Droonga::HandlerMessage` {#classes-Droonga-HandlerMessage}
 
-This is a wrapper for a task message.
+このクラスはタスクメッセージに対するラッパーとして働きます。
 
-The Droonga Engine analyzes a transferred request message, and build multiple task massages to process the request.
-A task massage has some information: a request, a step, descendant tasks, and so on.
+Droonga Engineは送られてきたリクエストのメッセージを解析し、そのリクエストを処理するための複数のタスクメッセージを作成します。
+1つのタスクメッセージは、リクエストの実体、step、後続するタスクの一覧などの情報を持ちます。
 
 #### `#request` {#classes-Droonga-HandlerMessage-request}
 
-This returns the request message.
-You can read request body via this method. For example:
+このメソッドはリクエストメッセージを返します。例：
 
 ~~~ruby
 module Droonga::Plugins::MySearch
@@ -209,8 +207,8 @@ end
 
 #### `@context` {#classes-Droonga-HandlerMessage-context}
 
-This is a reference to the `Groonga::Context` instance for the storage of the partition.
-See the [class reference of Rroonga][Groonga::Context].
+そのパーティションのストレージに対応する`Groonga::Context`のインスタンスへの参照。
+[Rroongaのクラスリファレンス][Groonga::Context]も併せて参照して下さい
 
 You can use any feature of Rroonga via `@context`.
 For example, this code returns the number of records in the specified table:
