@@ -93,33 +93,32 @@ end
 
 ### `Droonga::SingleStepDefinition` {#classes-Droonga-SingleStepDefinition}
 
-This provides methods to describe the "step" corresponding to the handler.
+このクラスは、ハンドラーに対応するstepの詳細を記述する機能を提供します。
 
-#### `#name=(name)` {#classes-Droonga-SingleStepDefinition-name}
+#### `#name`, `#name=(name)` {#classes-Droonga-SingleStepDefinition-name}
 
-Describes the name of the step itself.
-Possible value is a string.
+step自身の名前を記述します。値は文字列です。
 
-The Droonga Engine treats an incoming message as a request of a "command", if there is any step with the `name` which equals to the message's `type`.
-In other words, this defines the name of the command corresponding to the step itself.
+Droonga Engineは、メッセージの`type`に一致する`name`を持つstepが存在する場合に、入力メッセージをコマンドのリクエストとして扱います。
+言い換えると、このメソッドはstepに対応するコマンドの名前を定義します。
 
 
-#### `#handler=(handler)` {#classes-Droonga-SingleStepDefinition-handler}
+#### `#handler`, `#handler=(handler)` {#classes-Droonga-SingleStepDefinition-handler}
 
-Associates a specific handler class to the step itself.
-You can specify the class as any one of following choices:
+特定のハンドラークラスをstepに紐付けます。
+ハンドラークラスは以下のいずれかの方法で指定します：
 
- * A reference to a handler class itself, like `Handler` or `Droonga::Plugins::FooPlugin::Handler`.
-   Of course, the class have to be already defined at the time.
- * A symbol which refers the name of a handler class in the current namespace, like `:Handler`.
-   This is useful if you want to describe the step at first and define the actual class after that.
- * A class path string of a handler class, like `"Droonga::Plugins::FooPlugin::Handler"`.
-   This is also useful to define the class itself after the description.
+ * `Handler` や `Droonga::Plugins::FooPlugin::Handler` のような、ハンドラークラス自体への参照。
+   当然ながら、参照先のクラス箱の時点で定義済みでなければなりません。
+ * `:Handler`のような、その名前空間で定義されているハンドラークラスのクラス名のシンボル。
+   この記法は、stepを先に記述して後からハンドラークラスを定義する場合に有用です。
+ * `"Droonga::Plugins::FooPlugin::Handler"` のような、ハンドr-あくらすのクラスパス文字列。
+   この記法もまた、stepの後でハンドラークラスを定義する場合に有用です。
 
-You must define the referenced class by the time the Droonga Engine actually processes the step, if you specify the name of the handler class as a symbol or a string.
-If the Droonga Engine fails to find out the actual handler class, or no handler is specified, then the Droonga Engine does nothing for the request.
+ハンドラークラスをシンボルまたは文字列で指定した場合、参照先のクラスは、Droonga Engineが実際にそのstepを処理する時点までの間に定義しておく必要があります。
+Droonga Engineがハンドラークラスの実体を見つけられなかった場合、またはハンドラークラスが未指定の場合には、Droonga Engineはそのリクエストに対して何も処理を行いません。
 
-#### `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
+#### `#collector`, `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
 
 Associates a specific collector class to the step itself.
 You can specify the class as any one of following choices:
@@ -136,7 +135,7 @@ If the Droonga Engine fails to find out the actual collector class, or no collec
 
 See also [descriptions of collectors][collector].
 
-#### `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
+#### `#write`, `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
 
 Describes whether the step modifies any data in the storage or don't.
 If a request aims to modify some data in the storage, the request must be processed for all replicas.
@@ -148,11 +147,11 @@ Possible values are:
  * `true`, means "this step can modify the storage."
  * `false`, means "this step never modifies the storage."
 
-#### `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
+#### `#inputs`, `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
 
 (TBD)
 
-#### `#output=(output)` {#classes-Droonga-SingleStepDefinition-output}
+#### `#output`, `#output=(output)` {#classes-Droonga-SingleStepDefinition-output}
 
 (TBD)
 

@@ -88,7 +88,7 @@ Any error raised from the handler is handled by the Droonga Engine itself. See a
 
 This provides methods to describe the "step" corresponding to the handler.
 
-#### `#name=(name)` {#classes-Droonga-SingleStepDefinition-name}
+#### `#name`, `#name=(name)` {#classes-Droonga-SingleStepDefinition-name}
 
 Describes the name of the step itself.
 Possible value is a string.
@@ -97,7 +97,7 @@ The Droonga Engine treats an incoming message as a request of a "command", if th
 In other words, this defines the name of the command corresponding to the step itself.
 
 
-#### `#handler=(handler)` {#classes-Droonga-SingleStepDefinition-handler}
+#### `#handler`, `#handler=(handler)` {#classes-Droonga-SingleStepDefinition-handler}
 
 Associates a specific handler class to the step itself.
 You can specify the class as any one of following choices:
@@ -112,7 +112,7 @@ You can specify the class as any one of following choices:
 You must define the referenced class by the time the Droonga Engine actually processes the step, if you specify the name of the handler class as a symbol or a string.
 If the Droonga Engine fails to find out the actual handler class, or no handler is specified, then the Droonga Engine does nothing for the request.
 
-#### `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
+#### `#collector`, `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
 
 Associates a specific collector class to the step itself.
 You can specify the class as any one of following choices:
@@ -129,7 +129,7 @@ If the Droonga Engine fails to find out the actual collector class, or no collec
 
 See also [descriptions of collectors][collector].
 
-#### `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
+#### `#write`, `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
 
 Describes whether the step modifies any data in the storage or don't.
 If a request aims to modify some data in the storage, the request must be processed for all replicas.
@@ -141,11 +141,11 @@ Possible values are:
  * `true`, means "this step can modify the storage."
  * `false`, means "this step never modifies the storage."
 
-#### `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
+#### `#inputs`, `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
 
 (TBD)
 
-#### `#output=(output)` {#classes-Droonga-SingleStepDefinition-output}
+#### `#output`, `#output=(output)` {#classes-Droonga-SingleStepDefinition-output}
 
 (TBD)
 
