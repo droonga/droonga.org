@@ -250,18 +250,18 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 
 ##### `type` {#parameter-table-type}
 
-Abstract
-: Specifies which data structure is used for managing keys of the table.
+概要
+: テーブルのキーを管理するためのデータ構造を指定する。
 
-Value
-: Any of the following values.
+値
+: 以下のうち何れかの値。
 
-* "Array": for tables which have no keys.
-* "Hash": for hash tables.
-* "PatriciaTrie": for patricia trie tables.
-* "DoubleArrayTrie": for double array trie tables.
+* "Array": キーの無いテーブル
+* "Hash": ハッシュテーブル
+* "PatriciaTrie": パトリシアトライテーブル
+* "DoubleArrayTrie": ダブル配列トライテーブル
 
-Default value
+デフォルト値
 : "Hash"
 
 継承可能性
