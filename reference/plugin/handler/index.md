@@ -97,11 +97,34 @@ In other words, this defines the name of the command corresponding to the step i
 
 #### `#handler=(handler)` {#classes-Droonga-SingleStepDefinition-handler}
 
-(TBD)
+Associates a specific handler class to the step itself.
+You can specify the class as any one of following choices:
+
+ * A reference to a handler class itself, like `Handler` or `Droonga::Plugins::FooPlugin::Handler`.
+   Of course, the class have to be already defined at the time.
+ * A symbol which refers the name of a handler class in the current namespace, like `:Handler`.
+   This is useful if you want to describe the step at first and define the actual class after that.
+   You must define the referenced class by the time the Droonga Engine actually processes the step.
+ * A class path string of a handler class, like `"Droonga::Plugins::FooPlugin::Handler"`.
+   This is also useful to define the class itself after the description.
+   You must define the class by the time it is actually used.
+
 
 #### `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
 
-(TBD)
+Associates a specific collector class to the step itself.
+You can specify the class as any one of following choices:
+
+ * A reference to a collector class itself, like `Collectors::Something` or `Droonga::Plugins::FooPlugin::MyCollector`.
+   Of course, the class have to be already defined at the time.
+ * A symbol which refers the name of a collector class in the current namespace, like `:MyCollector`.
+   This is useful if you want to describe the step at first and define the actual class after that.
+   You must define the referenced class by the time the Droonga Engine actually collects results.
+ * A class path string of a collector class, like `"Droonga::Plugins::FooPlugin::MyCollector"`.
+   This is also useful to define the class itself after the description.
+   You must define the class by the time it is actually used.
+
+See also [descriptions of collectors][collector].
 
 #### `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
 
@@ -189,4 +212,5 @@ end
 ~~~
 
   [error handling]: ../error/
+  [collector]: ../collector/
   [Groonga::Context]: http://ranguba.org/rroonga/en/Groonga/Context.html
