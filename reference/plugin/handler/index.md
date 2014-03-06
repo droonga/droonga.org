@@ -109,7 +109,7 @@ You can specify the class as any one of following choices:
  * A class path string of a handler class, like `"Droonga::Plugins::FooPlugin::Handler"`.
    This is also useful to define the class itself after the description.
 
-You must define the referenced class by the time the Droonga Engine actually processes the step, if you specify the name of the handler class as a symbl or a string.
+You must define the referenced class by the time the Droonga Engine actually processes the step, if you specify the name of the handler class as a symbol or a string.
 If the Droonga Engine fails to find out the actual handler class, or no handler is specified, then the Droonga Engine does nothing for the request.
 
 #### `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
@@ -124,7 +124,7 @@ You can specify the class as any one of following choices:
  * A class path string of a collector class, like `"Droonga::Plugins::FooPlugin::MyCollector"`.
    This is also useful to define the class itself after the description.
 
-You must define the referenced class by the time the Droonga Engine actually collects results, if you specify the name of the collector class as a symbl or a string.
+You must define the referenced class by the time the Droonga Engine actually collects results, if you specify the name of the collector class as a symbol or a string.
 If the Droonga Engine fails to find out the actual collector class, or no collector is specified, then the Droonga Engine doesn't collect results and returns multiple messages as results.
 
 See also [descriptions of collectors][collector].
