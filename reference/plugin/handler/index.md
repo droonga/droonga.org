@@ -76,8 +76,10 @@ Any error raised from the handler is handled by the Droonga Engine itself. See a
 
 ## Configurations {#config}
 
-`action.synchronous` (boolean, optional, default=false)
-: (TBD)
+`action.synchronous` (boolean, optional, default=`false`)
+: Indicates that the request must be processed synchronously.
+  For example, a request to define a new column in a table must be processed after a request to define the table itself, if the table does not exist yet.
+  Then handlers for these requests have the configuration `action.synchronous = true`.
 
 
 ## Classes and methods {#classes}
@@ -89,15 +91,70 @@ This is the common base class of any handler. Your plugin's handler class must i
 #### `#handle(message)` {#classes-Droonga-Handler-handle}
 
 This method receives a [`Droonga::HandlerMessage`](#classes-Droonga-HandlerMessage) wrapped task message.
+You can read the request information via its methods.
 
-(TBD)
+In this base class, this method is defined as just a placeholder and it does nothing.
+To process messages, you have to override it by yours, like following:
+
+~~~ruby
+module Droonga::Plugins::MySearch
+  class Handler < Droonga::Handler
+    def handle(message)
+      search_query = message.request["body"]["query"]
+      ...
+      { ... } # the result
+    end
+  end
+end
+~~~
+
+The Droonga Engine uses the returned value of this method as the result of the handling.
+It will be used to build the body of the unified response, and delivered to the Protocol Adapter.
+
 
 ### `Droonga::HandlerMessage` {#classes-Droonga-HandlerMessage}
 
+This is a wrapper for a task message.
+
+The Droonga Engine analyzes a transferred request message, and build multiple task massages to process the request.
+A task massage has some information: a request, a step, descendant tasks, and so on.
+
 #### `#request` {#classes-Droonga-HandlerMessage-request}
 
-Returns the request message.
+This returns the request message.
+You can read request body via this method. For example:
 
-(TBD)
+~~~ruby
+module Droonga::Plugins::MySearch
+  class Handler < Droonga::Handler
+    def handle(message)
+      request = message.request
+      search_query = request["body"]["query"]
+      ...
+    end
+  end
+end
+~~~
+
+#### `@context` {#classes-Droonga-HandlerMessage-context}
+
+This is a reference to the `Groonga::Context` instance for the storage of the partition.
+See the [class reference of Rroonga][Groonga::Context].
+
+You can use any feature of Rroonga via `@context`.
+For example, this code returns the number of records in the specified table:
+
+~~~ruby
+module Droonga::Plugins::CountRecords
+  class Handler < Droonga::Handler
+    def handle(message)
+      request = message.request
+      table_name = request["body"]["table"]
+      count = @context[table_name].size
+    end
+  end
+end
+~~~
 
   [error handling]: ../error/
+  [Groonga::Context]: http://ranguba.org/rroonga/en/Groonga/Context.html
