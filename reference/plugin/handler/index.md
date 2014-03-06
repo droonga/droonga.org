@@ -42,7 +42,7 @@ Steps to define a handler:
 
  1. Define a module for your plugin (ex. `Droonga::Plugins::FooPlugin`) and register it as a plugin. (required)
  2. Define a "single step" corresponding to the handler you are going to implement, via [`Droonga::SingleStepDefinition`](#class-Droonga-SingleStepDefinition). (required)
- 2. Define a handler class (ex. `Droonga::Plugins::FooPlugin::Handler`) inheriting [`Droonga::Handler`](#classes-Droonga-Handler). (required)
+ 3. Define a handler class (ex. `Droonga::Plugins::FooPlugin::Handler`) inheriting [`Droonga::Handler`](#classes-Droonga-Handler). (required)
  4. Define handling logic for requests as [`#handle`](#classes-Droonga-Handler-handle). (optional)
 
 See also the [plugin development tutorial](../../../tutorial/plugin-development/handler/).

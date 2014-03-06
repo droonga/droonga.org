@@ -18,13 +18,12 @@ layout: ja
 
 ## 概要 {#abstract}
 
-Each Droonga Engine plugin can have its *handler*.
-On the handling phase, handlers can process a request and return a result.
+各々のDroonga Engineプラグインは、それ自身のための*ハンドラー*を持つことができます。Handling Phaseでは、ハンドラーはリクエストを処理して結果を返すことができます。
 
 
-### How to define a handler? {#howto-define}
+### ハンドラーの定義の仕方 {#howto-define}
 
-For example, here is a sample plugin named "foo" with a handler:
+例えば、「foo」という名前のプラグインにハンドラーを定義する場合は以下のようにします：
 
 ~~~ruby
 require "droonga/plugin"
@@ -41,54 +40,53 @@ module Droonga::Plugins::FooPlugin
 
   class Handler < Droonga::Handler
     def handle(message)
-      # operations to process a request
+      # リクエストを処理するための操作
     end
   end
 end
 ~~~
 
-Steps to define a handler:
+ハンドラーを定義するための手順は以下の通りです：
 
- 1. Define a module for your plugin (ex. `Droonga::Plugins::FooPlugin`) and register it as a plugin. (required)
- 2. Define a "single step" corresponding to the handler you are going to implement, via [`Droonga::SingleStepDefinition`](#class-Droonga-SingleStepDefinition). (required)
- 2. Define a handler class (ex. `Droonga::Plugins::FooPlugin::Handler`) inheriting [`Droonga::Handler`](#classes-Droonga-Handler). (required)
- 4. Define handling logic for requests as [`#handle`](#classes-Droonga-Handler-handle). (optional)
-
-See also the [plugin development tutorial](../../../tutorial/plugin-development/handler/).
+ 1. プラグイン用のモジュール（例：`Droonga::Plugins::FooPlugin`）を定義し、プラグインとして登録する。（必須）
+ 2. [`Droonga::SingleStepDefinition`](#class-Droonga-SingleStepDefinition)を使い、実装しようとしているハンドラーに対応する「single step」を定義する。（必須）
+ 3. [`Droonga::Handler`](#classes-Droonga-Handler)を継承したハンドラークラス（例：`Droonga::Plugins::FooPlugin::Handler`）を定義する。（必須）
+ 4. リクエストを処理する操作を[`#handle`](#classes-Droonga-Handler-handle)として定義する。（任意）
 
 
-### How a handler works? {#how-works}
+[プラグイン開発チュートリアル](../../../tutorial/plugin-development/handler/)も併せて参照して下さい。
 
-A handler works like following:
 
- 1. The Droonga Engine starts.
-    * Your custom steps are registered.
-      Your custom handler classes also.
-    * Then the Droonga Engine starts to wait for request messages.
- 2. A request message is transferred from the adaption phase.
-    Then, the processing phase starts.
-    * The Droonga Engine finds a step definition from the message type.
-    * The Droonga Engine builds a "single step" based on the registered definition.
-    * A "single step" creates an instance of the registered handler class.
-      Then the Droonga Engine enters to the handling phase.
-      * The handler's [`#handle`](#classes-Droonga-Handler-handle) is called with a task massage including the request.
-        * The method can process the given incoming message as you like.
-        * The method returns a result value, as the output.
-      * After the handler finishes, the handling phase for the task message (and the request) ends.
-    * If no "step" is found for the type, nothing happens.
-    * All "step"s finish their task, the processing phase for the request ends.
+### ハンドラーはどのように操作するか {#how-works}
 
-As described above, the Droonga Engine creates an instance of the handler class for each request.
+ハンドラーは以下のように動作します：
 
-Any error raised from the handler is handled by the Droonga Engine itself. See also [error handling][].
+ 1. Droonga Engineが起動する。
+    * stepとハンドラークラスが登録される。
+    * Droonga Engineが起動し、入力メッセージを待ち受ける。
+ 2. Adaption Phaseからメッセージが転送されてくる。
+    この時点でProcessing Phaseが開始される。
+    * Droonga Engineが、メッセージタイプからstepの定義を見つける。
+    * Droonga Engineが、登録済みの定義に従ってsingle stepを作成する。
+    * single stepが、登録済みのハンドラークラスのインスタンスを作成する。
+      この時点でHandling Phaseが開始される。
+      * ハンドラーの[`#handle`](#classes-Droonga-Handler-handle)メソッドが、リクエストの情報を含むタスクメッセージを伴って呼ばれる。
+        * このメソッドにより、入力メッセージを任意に処理することができる。
+        * このメソッドは、処理結果の出力を戻り値として返す。
+      * ハンドラーの処理が完了した時点で、そのタスクメッセージ（およびリクエスト）のHandling Phaseが終了する。
+    * メッセージタイプからstepが見つからなかった場合は、何も処理されない。
+    * すべてのstepが処理を終えた時点で、そのリクエストに対するProcessing Phaseが終了する。
+
+上記の通り、Droonga Engineは各リクエストに対してその都度ハンドラークラスのインスタンスを生成します。
+
+ハンドラー内で発生したすべてのエラーは、Droonga Engine自身によって処理されます。[エラー処理][error handling]も併せて参照して下さい。
 
 
 ## 設定 {#config}
 
-`action.synchronous` (boolean, optional, default=`false`)
-: Indicates that the request must be processed synchronously.
-  For example, a request to define a new column in a table must be processed after a request to define the table itself, if the table does not exist yet.
-  Then handlers for these requests have the configuration `action.synchronous = true`.
+`action.synchronous` (真偽値, 省略可能, 初期値=`false`)
+: リクエストを同期的に処理する必要があるかどうかを示す。
+  例えば、テーブル内に新しいカラムを追加するリクエストは、テーブルが存在しない場合には必ず、テーブル作成用のリクエストの後で処理する必要がある。このような場合のハンドラーは、 `action.synchronous = true` の指定を伴うことになる。
 
 
 ## クラスとメソッド {#classes}
