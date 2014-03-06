@@ -90,7 +90,10 @@ This provides methods to describe the "step" corresponding to the handler.
 
 #### `#name=(name)` {#classes-Droonga-SingleStepDefinition-name}
 
-(TBD)
+Describes the name of the step itself.
+The Droonga Engine treats an incoming message as a request of a "command", if there is any step with the `name` which equals to the message's `type`.
+In other words, this defines the name of the command corresponding to the step itself.
+
 
 #### `#handler=(handler)` {#classes-Droonga-SingleStepDefinition-handler}
 
