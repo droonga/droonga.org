@@ -92,7 +92,9 @@ layout: ja
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### `version` {#parameter-version}
+#### Parameters
+
+##### `version` {#parameter-version}
 
 概要
 : カタログファイルのバージョン番号。
@@ -106,7 +108,7 @@ layout: ja
 継承可能性
 : 不可。
 
-#### `effectiveDate` {#parameter-effective_date}
+##### `effectiveDate` {#parameter-effective_date}
 
 概要
 : このカタログが有効になる時刻。
@@ -120,7 +122,7 @@ layout: ja
 継承可能性
 : 不可。
 
-#### `datasets` {#parameter-datasets}
+##### `datasets` {#parameter-datasets}
 
 概要
 : データセットの定義。
@@ -133,7 +135,7 @@ layout: ja
 継承可能性
 : 不可。
 
-#### `nWorkers` {#parameter-n_workers}
+##### `nWorkers` {#parameter-n_workers}
 
 概要
 : データベースインスタンス毎にspawnされるワーカの数。
@@ -147,12 +149,28 @@ layout: ja
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
+
+#### Example
+
+A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2013-09-01T00:00:00Z",
+  "datasets": {
+  }
+}
+~~~
+
 ### Dataset 定義 {#dataset}
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### `plugins` {#parameter-plugins}
+#### Parameters
+
+##### `plugins` {#parameter-plugins}
 
 概要
 : このデータセットにおいて有効にするプラグイン名文字列の配列。
@@ -166,7 +184,7 @@ layout: ja
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
-#### `schema` {#parameter-schema}
+##### `schema` {#parameter-schema}
 
 概要
 : テーブルとそのカラムの定義。
@@ -180,7 +198,7 @@ layout: ja
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
-#### `fact` {#parameter-fact}
+##### `fact` {#parameter-fact}
 
 概要
 : fact テーブルの名前。`dataset`が複数の`slice`に格納される場合、[`schema`](#parameter-schema)パラメータで定義されたテーブルの中から、1つ[fact table](http://en.wikipedia.org/wiki/Fact_table)を選択する必要があります。
@@ -194,7 +212,7 @@ layout: ja
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
-#### `replicas` {#parameter-replicas}
+##### `replicas` {#parameter-replicas}
 
 概要
 : 互いに複製されるボリュームの集合。
@@ -208,12 +226,29 @@ layout: ja
 継承可能性
 : 不可。
 
+#### Example
+
+A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:
+
+~~~
+{
+  "nWorkers": 4,
+  "plugins": ["groonga", "crud", "search"],
+  "schema": {
+  },
+  "replicas": [
+  ]
+}
+~~~
+
 ### Table 定義 {#table}
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### `type` {#parameter-table-type}
+#### Parameters
+
+##### `type` {#parameter-table-type}
 
 Abstract
 : Specifies which data structure is used for managing keys of the table.
@@ -232,7 +267,7 @@ Default value
 継承可能性
 : 不可。
 
-#### `keyType` {#parameter-keyType}
+##### `keyType` {#parameter-keyType}
 
 Abstract
 : Data type of the key of the table. Mustn't be assigned when the `type` is "Array".
@@ -253,7 +288,7 @@ Default value
 継承可能性
 : 不可。
 
-#### `tokenizer` {#parameter-tokenizer}
+##### `tokenizer` {#parameter-tokenizer}
 
 Abstract
 : Specifies the type of tokenizer used for splitting each text value, when the table is used as a lexicon. Only available when the `keyType` is "ShortText".
@@ -280,7 +315,7 @@ Value
 継承可能性
 : 不可。
 
-#### `normalizer` {#parameter-normalizer}
+##### `normalizer` {#parameter-normalizer}
 
 Abstract
 : Specifies the type of normalizer which normalizes and restricts the key values. Only available when the `keyType` is "ShortText".
@@ -297,7 +332,7 @@ Value
 継承可能性
 : 不可。
 
-#### `columns` {#parameter-columns}
+##### `columns` {#parameter-columns}
 
 Abstract
 : Column definition for the table.
@@ -311,13 +346,45 @@ Value
 継承可能性
 : 不可。
 
+#### Examples
+
+##### Example 1: Hash table
+
+A `Hash` table whose key is `ShortText` type, with no columns:
+
+~~~
+{
+  "type": "Hash",
+  "keyType": "ShortText",
+  "columns": {
+  }
+}
+~~~
+
+##### Example 2: PatriciaTrie table
+
+A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normalizer, with no columns:
+
+~~~
+{
+  "type": "PatriciaTrie",
+  "keyType": "ShortText",
+  "tokenizer": "TokenBigram",
+  "normalizer": "NormalizerAuto",
+  "columns": {
+  }
+}
+~~~
+
 ### Column 定義 {#column}
 
 値
 
 : An object with the following key/value pairs.
 
-#### `type` {#parameter-column-type}
+#### Parameters
+
+##### `type` {#parameter-column-type}
 
 Abstract
 : Specifies the quantity of data stored as each column value.
@@ -335,7 +402,7 @@ Default value
 継承可能性
 : 不可。
 
-#### `valueType` {#parameter-valueType}
+##### `valueType` {#parameter-valueType}
 
 Abstract
 : Data type of the column value.
@@ -358,7 +425,7 @@ Value
 継承可能性
 : 不可。
 
-#### `indexOptions` {#parameter-indexOptions}
+##### `indexOptions` {#parameter-indexOptions}
 
 Abstract
 : Specifies the optional properties of a "Index" column.
@@ -372,12 +439,43 @@ Default value
 継承可能性
 : 不可。
 
+#### Examples
+
+##### Example 1: Scalar column
+
+A scaler column to store `ShortText` values:
+
+~~~
+{
+  "type": "Scalar",
+  "valueType": "ShortText"
+}
+~~~
+
+##### Example 2: Index column
+
+A column to index `address` column on `Store` table:
+
+~~~
+{
+  "type": "Index",
+  "valueType": "Store",
+  "indexOptions": {
+    "sources": [
+      "address"
+    ]
+  }
+}
+~~~
+
 ### indexOption 定義 {#indexOption}
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### `section` {#parameter-section}
+#### Parameters
+
+##### `section` {#parameter-section}
 
 Abstract
 : Specifies whether the index column stores the section data or not. Section data is typically used for distinguishing in which part of the sources the value appears.
@@ -391,7 +489,7 @@ Default value
 継承可能性
 : 不可。
 
-#### `weight` {#parameter-weight}
+##### `weight` {#parameter-weight}
 
 Abstract
 : Specifies whether the index column stores the weight data or not. Weight data is used for indicating the importance of the value in the sources.
@@ -405,7 +503,7 @@ Default value
 継承可能性
 : 不可。
 
-#### `position` {#parameter-position}
+##### `position` {#parameter-position}
 
 Abstract
 : Specifies whether the index column stores the position data or not. Position data is used for specifying the position where the value appears in the sources. It is indispensable for fast and accurate phrase-search.
@@ -419,7 +517,7 @@ Default value
 継承可能性
 : 不可。
 
-#### `sources` {#parameter-sources}
+##### `sources` {#parameter-sources}
 
 Abstract
 : Makes the column an inverted index of the referencing table's columns.
@@ -433,6 +531,23 @@ Value
 継承可能性
 : 不可。
 
+#### Example
+
+Store the section data, the weight data and the position data.
+Index `name` and `address` on the referencing table.
+
+~~~
+{
+  "section": true,
+  "weight": true,
+  "position": true
+  "sources": [
+    "name",
+    "address"
+  ]
+}
+~~~
+
 ### Volume 定義 {#volume}
 
 概要
@@ -441,7 +556,37 @@ Value
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### `address` {#parameter-address}
+#### Types of Slicers {#types-of-slicers}
+
+In order to define a volume which consists of a collection of `slices`,
+the way how slice recodes into slices must be decided.
+
+The slicer function that specified as `slicer` and
+the column (or key) specified as `dimension`,
+which is input for the slicer function, defines that.
+
+Slicers are categorized into three types. Here are three types of slicers:
+
+##### Ratio-scaled
+
+*Ratio-scaled slicers* slice datapoints in the specified ratio,
+e.g. hash function of _key.
+
+##### Ordinal-scaled
+
+*Ordinal-scaled slicers* slice datapoints with ordinal values;
+the values have some ranking, e.g. time, integer,
+element of `{High, Middle, Low}`.
+
+##### Nominal-scaled
+
+*Nominal-scaled slicers* slice datapoints with nominal values;
+the values denotes categories,which have no order,
+e.g. country, zip code, color.
+
+#### Parameters
+
+##### `address` {#parameter-address}
 
 概要
 : データベースインスタンスの場所を指定します。
@@ -460,7 +605,7 @@ Value
 継承可能性
 : 不可。
 
-#### `dimension` {#parameter-dimension}
+##### `dimension` {#parameter-dimension}
 
 概要
 : fact表の中でレコードをスライスする次元を指定します。fact表の'_key'または[`columns`](#parameter-columns)からスカラー型のカラムを選択します。[dimension](http://en.wikipedia.org/wiki/Dimension_%28data_warehouse%29)を参照してください。
@@ -474,7 +619,7 @@ Value
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
-#### `slicer` {#parameter-slicer}
+##### `slicer` {#parameter-slicer}
 
 概要
 : dimensionカラムをsliceする関数。
@@ -488,7 +633,7 @@ Value
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
-#### `slices` {#parameter-slices}
+##### `slices` {#parameter-slices}
 
 概要
 : データを格納するスライスの定義。
@@ -502,6 +647,40 @@ Value
 継承可能性
 : 不可。
 
+#### Examples
+
+##### Example 1: Single instance
+
+A volume at "localhost:24224/volume.000":
+
+~~~
+{
+  "address": "localhost:24224/volume.000"
+}
+~~~
+
+##### Example 2: Slices
+
+A volume that consists of three slices, records are to be distributed according to `hash`,
+which is ratio-scaled slicer function, of `_key`.
+
+~~~
+{
+  "dimension": "_key",
+  "slicer": "hash",
+  "slices": {
+    "volume": {
+      "address": "localhost:24224/volume.000"
+    },
+    "volume": {
+      "address": "localhost:24224/volume.001"
+    },
+    "volume": {
+      "address": "localhost:24224/volume.002"
+    }
+  }
+~~~
+
 ### Slice 定義 {#slice}
 
 概要
@@ -510,7 +689,9 @@ Value
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### `weight` {#parameter-slice-weight}
+#### Parameters
+
+##### `weight` {#parameter-slice-weight}
 
 概要
 : スライス内での割り当て量を指定します。`slicer`が atio-scaledの場合のみ有効。
@@ -524,7 +705,7 @@ Value
 継承可能性
 : 不可。
 
-#### `label` {#parameter-label}
+##### `label` {#parameter-label}
 
 概要
 : slicer が返す具体的な値。 slicerがnominal-scaledの場合のみ有効。
@@ -538,7 +719,7 @@ Value
 継承可能性
 : 不可。
 
-#### `boundary` {#parameter-boundary}
+##### `boundary` {#parameter-boundary}
 
 概要
 : `slicer`の返す値と比較可能な具体的な値。`slicer`がordinal-scaledの場合のみ有効。
@@ -552,7 +733,7 @@ Value
 継承可能性
 : 不可。
 
-#### `volume` {#parameter-volume}
+##### `volume` {#parameter-volume}
 
 概要
 : スライスに対応するデータを格納するボリューム。
@@ -566,3 +747,47 @@ Value
 
 継承可能性
 : 不可。
+
+#### Examples
+
+##### Example 1: Ratio-scaled
+
+Slice for a ratio-scaled slicer, with the weight `1`:
+
+~~~
+{
+  "weight": 1,
+  "volume": {
+  }
+}
+~~~
+
+##### Example 2: Nominal-scaled
+
+Slice for a nominal-scaled slicer, with the label `"1"`:
+
+~~~
+{
+  "label": "1",
+  "volume": {
+  }
+}
+~~~
+
+##### Example 3: Ordinal-scaled
+
+Slice for a ordinal-scaled slicer, with the boundary `100`:
+
+~~~
+{
+  "boundary": 100,
+  "volume": {
+  }
+}
+~~~
+
+## Realworld example
+
+See the catalog of [basic tutorial].
+
+  [basic tutorial]: ../../../tutorial/basic

@@ -123,7 +123,10 @@ msgstr ""
 "値\n"
 ": 以下のキーと値のペアを持つオブジェクト。"
 
-msgid "#### `version` {#parameter-version}"
+msgid "#### Parameters"
+msgstr ""
+
+msgid "##### `version` {#parameter-version}"
 msgstr ""
 
 msgid ""
@@ -155,7 +158,7 @@ msgstr ""
 "継承可能性\n"
 ": 不可。"
 
-msgid "#### `effectiveDate` {#parameter-effective_date}"
+msgid "##### `effectiveDate` {#parameter-effective_date}"
 msgstr ""
 
 msgid ""
@@ -174,7 +177,7 @@ msgstr ""
 ": [W3C-DTF](http://www.w3.org/TR/NOTE-datetime \"Date and Time Formats\") でフォーマッ"
 "トされたタイムゾーン付きの時刻。"
 
-msgid "#### `datasets` {#parameter-datasets}"
+msgid "##### `datasets` {#parameter-datasets}"
 msgstr ""
 
 msgid ""
@@ -190,7 +193,7 @@ msgid ""
 "ion](#dataset)."
 msgstr ": データセット名をキーとし、[`dataset` 定義](#dataset) を値とするオブジェクト。"
 
-msgid "#### `nWorkers` {#parameter-n_workers}"
+msgid "##### `nWorkers` {#parameter-n_workers}"
 msgstr ""
 
 msgid ""
@@ -221,10 +224,27 @@ msgstr ""
 "継承可能性\n"
 ": 可。`dataset`と`volume`の定義でオーバライドできます。"
 
+msgid "#### Example"
+msgstr ""
+
+msgid "A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"version\": 2,\n"
+"  \"effectiveDate\": \"2013-09-01T00:00:00Z\",\n"
+"  \"datasets\": {\n"
+"  }\n"
+"}\n"
+"~~~"
+msgstr ""
+
 msgid "### Dataset definition {#dataset}"
 msgstr "### Dataset 定義 {#dataset}"
 
-msgid "#### `plugins` {#parameter-plugins}"
+msgid "##### `plugins` {#parameter-plugins}"
 msgstr ""
 
 msgid ""
@@ -241,7 +261,7 @@ msgstr ""
 "値\n"
 ": 文字列の配列。"
 
-msgid "#### `schema` {#parameter-schema}"
+msgid "##### `schema` {#parameter-schema}"
 msgstr ""
 
 msgid ""
@@ -259,7 +279,7 @@ msgstr ""
 "値\n"
 ": テーブル名をキーとし、[`table` 定義](#table)を値とするオブジェクト。"
 
-msgid "#### `fact` {#parameter-fact}"
+msgid "##### `fact` {#parameter-fact}"
 msgstr ""
 
 msgid ""
@@ -287,7 +307,7 @@ msgstr ""
 "デフォルト値\n"
 ": なし。"
 
-msgid "#### `replicas` {#parameter-replicas}"
+msgid "##### `replicas` {#parameter-replicas}"
 msgstr ""
 
 msgid ""
@@ -304,10 +324,26 @@ msgstr ""
 "値\n"
 ": [`volume` 定義](#volume)の配列。"
 
+msgid "A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"nWorkers\": 4,\n"
+"  \"plugins\": [\"groonga\", \"crud\", \"search\"],\n"
+"  \"schema\": {\n"
+"  },\n"
+"  \"replicas\": [\n"
+"  ]\n"
+"}\n"
+"~~~"
+msgstr ""
+
 msgid "### Table definition {#table}"
 msgstr "### Table 定義 {#table}"
 
-msgid "#### `type` {#parameter-table-type}"
+msgid "##### `type` {#parameter-table-type}"
 msgstr ""
 
 msgid ""
@@ -332,7 +368,7 @@ msgid ""
 ": \"Hash\""
 msgstr ""
 
-msgid "#### `keyType` {#parameter-keyType}"
+msgid "##### `keyType` {#parameter-keyType}"
 msgstr ""
 
 msgid ""
@@ -361,7 +397,7 @@ msgid ""
 ": None. Mandatory for tables with keys."
 msgstr ""
 
-msgid "#### `tokenizer` {#parameter-tokenizer}"
+msgid "##### `tokenizer` {#parameter-tokenizer}"
 msgstr ""
 
 msgid ""
@@ -390,7 +426,7 @@ msgid ""
 "* \"TokenDelimitNull\""
 msgstr ""
 
-msgid "#### `normalizer` {#parameter-normalizer}"
+msgid "##### `normalizer` {#parameter-normalizer}"
 msgstr ""
 
 msgid ""
@@ -409,7 +445,7 @@ msgid ""
 "* \"NormalizerNFKC51\""
 msgstr ""
 
-msgid "#### `columns` {#parameter-columns}"
+msgid "##### `columns` {#parameter-columns}"
 msgstr ""
 
 msgid ""
@@ -423,6 +459,47 @@ msgid ""
 "n](#column)."
 msgstr ""
 
+msgid "#### Examples"
+msgstr ""
+
+msgid "##### Example 1: Hash table"
+msgstr ""
+
+msgid "A `Hash` table whose key is `ShortText` type, with no columns:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"type\": \"Hash\",\n"
+"  \"keyType\": \"ShortText\",\n"
+"  \"columns\": {\n"
+"  }\n"
+"}\n"
+"~~~"
+msgstr ""
+
+msgid "##### Example 2: PatriciaTrie table"
+msgstr ""
+
+msgid ""
+"A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` norma"
+"lizer, with no columns:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"type\": \"PatriciaTrie\",\n"
+"  \"keyType\": \"ShortText\",\n"
+"  \"tokenizer\": \"TokenBigram\",\n"
+"  \"normalizer\": \"NormalizerAuto\",\n"
+"  \"columns\": {\n"
+"  }\n"
+"}\n"
+"~~~"
+msgstr ""
+
 msgid "### Column definition {#column}"
 msgstr "### Column 定義 {#column}"
 
@@ -432,7 +509,7 @@ msgstr "値"
 msgid ": An object with the following key/value pairs."
 msgstr ""
 
-msgid "#### `type` {#parameter-column-type}"
+msgid "##### `type` {#parameter-column-type}"
 msgstr ""
 
 msgid ""
@@ -457,7 +534,7 @@ msgid ""
 ": \"Scalar\""
 msgstr ""
 
-msgid "#### `valueType` {#parameter-valueType}"
+msgid "##### `valueType` {#parameter-valueType}"
 msgstr ""
 
 msgid ""
@@ -484,7 +561,7 @@ msgid ""
 ") based geometric point value."
 msgstr ""
 
-msgid "#### `indexOptions` {#parameter-indexOptions}"
+msgid "##### `indexOptions` {#parameter-indexOptions}"
 msgstr ""
 
 msgid ""
@@ -502,10 +579,45 @@ msgid ""
 ": `{}` (Void object)."
 msgstr ""
 
+msgid "##### Example 1: Scalar column"
+msgstr ""
+
+msgid "A scaler column to store `ShortText` values:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"type\": \"Scalar\",\n"
+"  \"valueType\": \"ShortText\"\n"
+"}\n"
+"~~~"
+msgstr ""
+
+msgid "##### Example 2: Index column"
+msgstr ""
+
+msgid "A column to index `address` column on `Store` table:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"type\": \"Index\",\n"
+"  \"valueType\": \"Store\",\n"
+"  \"indexOptions\": {\n"
+"    \"sources\": [\n"
+"      \"address\"\n"
+"    ]\n"
+"  }\n"
+"}\n"
+"~~~"
+msgstr ""
+
 msgid "### indexOption definition {#indexOption}"
 msgstr "### indexOption 定義 {#indexOption}"
 
-msgid "#### `section` {#parameter-section}"
+msgid "##### `section` {#parameter-section}"
 msgstr ""
 
 msgid ""
@@ -525,7 +637,7 @@ msgid ""
 ": `false`."
 msgstr ""
 
-msgid "#### `weight` {#parameter-weight}"
+msgid "##### `weight` {#parameter-weight}"
 msgstr ""
 
 msgid ""
@@ -534,7 +646,7 @@ msgid ""
 "a is used for indicating the importance of the value in the sources."
 msgstr ""
 
-msgid "#### `position` {#parameter-position}"
+msgid "##### `position` {#parameter-position}"
 msgstr ""
 
 msgid ""
@@ -544,7 +656,7 @@ msgid ""
 "es. It is indispensable for fast and accurate phrase-search."
 msgstr ""
 
-msgid "#### `sources` {#parameter-sources}"
+msgid "##### `sources` {#parameter-sources}"
 msgstr ""
 
 msgid ""
@@ -556,6 +668,25 @@ msgid ""
 "Value\n"
 ": An array of column names of the referencing table assigned as [`valueType`]("
 "#parameter-valueType)."
+msgstr ""
+
+msgid ""
+"Store the section data, the weight data and the position data.\n"
+"Index `name` and `address` on the referencing table."
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"section\": true,\n"
+"  \"weight\": true,\n"
+"  \"position\": true\n"
+"  \"sources\": [\n"
+"    \"name\",\n"
+"    \"address\"\n"
+"  ]\n"
+"}\n"
+"~~~"
 msgstr ""
 
 msgid "### Volume definition {#volume}"
@@ -574,7 +705,50 @@ msgstr ""
 "集合で構成されます。ボリュームが単一のデータベースインスタンスから構成される場合は、`address`パラメータを指定しなければなりません。このとき、それ以"
 "外のパラメータを指定してはいけません。そうでない場合は、`dimension`と`slicer`と`slices`が必須で、他は指定してはいけません。"
 
-msgid "#### `address` {#parameter-address}"
+msgid "#### Types of Slicers {#types-of-slicers}"
+msgstr ""
+
+msgid ""
+"In order to define a volume which consists of a collection of `slices`,\n"
+"the way how slice recodes into slices must be decided."
+msgstr ""
+
+msgid ""
+"The slicer function that specified as `slicer` and\n"
+"the column (or key) specified as `dimension`,\n"
+"which is input for the slicer function, defines that."
+msgstr ""
+
+msgid "Slicers are categorized into three types. Here are three types of slicers:"
+msgstr ""
+
+msgid "##### Ratio-scaled"
+msgstr ""
+
+msgid ""
+"*Ratio-scaled slicers* slice datapoints in the specified ratio,\n"
+"e.g. hash function of _key."
+msgstr ""
+
+msgid "##### Ordinal-scaled"
+msgstr ""
+
+msgid ""
+"*Ordinal-scaled slicers* slice datapoints with ordinal values;\n"
+"the values have some ranking, e.g. time, integer,\n"
+"element of `{High, Middle, Low}`."
+msgstr ""
+
+msgid "##### Nominal-scaled"
+msgstr ""
+
+msgid ""
+"*Nominal-scaled slicers* slice datapoints with nominal values;\n"
+"the values denotes categories,which have no order,\n"
+"e.g. country, zip code, color."
+msgstr ""
+
+msgid "##### `address` {#parameter-address}"
 msgstr ""
 
 msgid ""
@@ -601,7 +775,7 @@ msgstr ""
 "* database_type: 省略可能。デフォルト値は\"groonga\"。\n"
 "* port_number: 省略可能。デフォルト値は 10047。"
 
-msgid "#### `dimension` {#parameter-dimension}"
+msgid "##### `dimension` {#parameter-dimension}"
 msgstr ""
 
 msgid ""
@@ -623,7 +797,7 @@ msgstr ""
 "デフォルト値\n"
 ": \"_key\""
 
-msgid "#### `slicer` {#parameter-slicer}"
+msgid "##### `slicer` {#parameter-slicer}"
 msgstr ""
 
 msgid ""
@@ -647,7 +821,7 @@ msgstr ""
 "デフォルト値\n"
 ": \"hash\""
 
-msgid "#### `slices` {#parameter-slices}"
+msgid "##### `slices` {#parameter-slices}"
 msgstr ""
 
 msgid ""
@@ -664,6 +838,48 @@ msgstr ""
 "値\n"
 ": [`slice` 定義](#slice)の配列。"
 
+msgid "##### Example 1: Single instance"
+msgstr ""
+
+msgid "A volume at \"localhost:24224/volume.000\":"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"address\": \"localhost:24224/volume.000\"\n"
+"}\n"
+"~~~"
+msgstr ""
+
+msgid "##### Example 2: Slices"
+msgstr ""
+
+msgid ""
+"A volume that consists of three slices, records are to be distributed accordin"
+"g to `hash`,\n"
+"which is ratio-scaled slicer function, of `_key`."
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"dimension\": \"_key\",\n"
+"  \"slicer\": \"hash\",\n"
+"  \"slices\": {\n"
+"    \"volume\": {\n"
+"      \"address\": \"localhost:24224/volume.000\"\n"
+"    },\n"
+"    \"volume\": {\n"
+"      \"address\": \"localhost:24224/volume.001\"\n"
+"    },\n"
+"    \"volume\": {\n"
+"      \"address\": \"localhost:24224/volume.002\"\n"
+"    }\n"
+"  }\n"
+"~~~"
+msgstr ""
+
 msgid "### Slice definition {#slice}"
 msgstr "### Slice 定義 {#slice}"
 
@@ -675,7 +891,7 @@ msgstr ""
 "概要\n"
 ": スライスの定義。スライスされたデータの範囲と、それを保存するボリュームを指定する。"
 
-msgid "#### `weight` {#parameter-slice-weight}"
+msgid "##### `weight` {#parameter-slice-weight}"
 msgstr ""
 
 msgid ""
@@ -700,7 +916,7 @@ msgstr ""
 "デフォルト値\n"
 ": `1`"
 
-msgid "#### `label` {#parameter-label}"
+msgid "##### `label` {#parameter-label}"
 msgstr ""
 
 msgid ""
@@ -718,7 +934,7 @@ msgid ""
 "hed. Therefore, only one slice without `label` is allowed in slices."
 msgstr ""
 
-msgid "#### `boundary` {#parameter-boundary}"
+msgid "##### `boundary` {#parameter-boundary}"
 msgstr ""
 
 msgid ""
@@ -736,7 +952,7 @@ msgid ""
 ", only one slice without `boundary` is allowed in a slices."
 msgstr ""
 
-msgid "#### `volume` {#parameter-volume}"
+msgid "##### `volume` {#parameter-volume}"
 msgstr ""
 
 msgid ""
@@ -748,3 +964,60 @@ msgstr ""
 
 msgid ": An object which is a [`volume` definition](#volume)"
 msgstr ": [`volume` 定義](#volume)オブジェクト"
+
+msgid "##### Example 1: Ratio-scaled"
+msgstr ""
+
+msgid "Slice for a ratio-scaled slicer, with the weight `1`:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"weight\": 1,\n"
+"  \"volume\": {\n"
+"  }\n"
+"}\n"
+"~~~"
+msgstr ""
+
+msgid "##### Example 2: Nominal-scaled"
+msgstr ""
+
+msgid "Slice for a nominal-scaled slicer, with the label `\"1\"`:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"label\": \"1\",\n"
+"  \"volume\": {\n"
+"  }\n"
+"}\n"
+"~~~"
+msgstr ""
+
+msgid "##### Example 3: Ordinal-scaled"
+msgstr ""
+
+msgid "Slice for a ordinal-scaled slicer, with the boundary `100`:"
+msgstr ""
+
+msgid ""
+"~~~\n"
+"{\n"
+"  \"boundary\": 100,\n"
+"  \"volume\": {\n"
+"  }\n"
+"}\n"
+"~~~"
+msgstr ""
+
+msgid "## Realworld example"
+msgstr ""
+
+msgid "See the catalog of [basic tutorial]."
+msgstr ""
+
+msgid "  [basic tutorial]: ../../../tutorial/basic"
+msgstr ""
