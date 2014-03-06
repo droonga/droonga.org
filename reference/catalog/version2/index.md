@@ -778,3 +778,9 @@ Slice for a ordinal-scaled slicer, with the boundary `100`:
   }
 }
 ~~~
+
+## Realworld example
+
+See the catalog of [basic tutorial].
+
+  [basic tutorial]: ../../../tutorial/basic
