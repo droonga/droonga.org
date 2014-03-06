@@ -91,6 +91,8 @@ This provides methods to describe the "step" corresponding to the handler.
 #### `#name=(name)` {#classes-Droonga-SingleStepDefinition-name}
 
 Describes the name of the step itself.
+Possible value is a string.
+
 The Droonga Engine treats an incoming message as a request of a "command", if there is any step with the `name` which equals to the message's `type`.
 In other words, this defines the name of the command corresponding to the step itself.
 
@@ -108,7 +110,6 @@ You can specify the class as any one of following choices:
  * A class path string of a handler class, like `"Droonga::Plugins::FooPlugin::Handler"`.
    This is also useful to define the class itself after the description.
    You must define the class by the time it is actually used.
-
 
 #### `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
 
@@ -128,7 +129,15 @@ See also [descriptions of collectors][collector].
 
 #### `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
 
-(TBD)
+Describes whether the step modifies any data in the storage or don't.
+If a request aims to modify some data in the storage, the request must be processed for all replicas.
+Otherwise the Droonga Engine can optimize handling of the step.
+For example, caching of results, reducing of CPU/memory resources, and so on.
+
+Possible values are:
+
+ * `true`, means "this step can modify the storage."
+ * `false`, means "this step never modifies the storage."
 
 #### `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
 
