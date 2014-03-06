@@ -109,10 +109,10 @@ Droonga Engineは、メッセージの`type`に一致する`name`を持つstep�
 ハンドラークラスは以下のいずれかの方法で指定します：
 
  * `Handler` や `Droonga::Plugins::FooPlugin::Handler` のような、ハンドラークラス自体への参照。
-   当然ながら、参照先のクラス箱の時点で定義済みでなければなりません。
+   当然ながら、参照先のクラスはその時点で定義済みでなければなりません。
  * `:Handler`のような、その名前空間で定義されているハンドラークラスのクラス名のシンボル。
    この記法は、stepを先に記述して後からハンドラークラスを定義する場合に有用です。
- * `"Droonga::Plugins::FooPlugin::Handler"` のような、ハンドr-あくらすのクラスパス文字列。
+ * `"Droonga::Plugins::FooPlugin::Handler"` のような、ハンドラークラスのクラスパス文字列。
    この記法もまた、stepの後でハンドラークラスを定義する場合に有用です。
 
 ハンドラークラスをシンボルまたは文字列で指定した場合、参照先のクラスは、Droonga Engineが実際にそのstepを処理する時点までの間に定義しておく必要があります。
@@ -120,40 +120,39 @@ Droonga Engineがハンドラークラスの実体を見つけられなかった
 
 #### `#collector`, `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
 
-Associates a specific collector class to the step itself.
-You can specify the class as any one of following choices:
+特定のコレクタークラスをstepに紐付けます。
+コレクタークラスは以下のいずれかの方法で指定します：
 
- * A reference to a collector class itself, like `Collectors::Something` or `Droonga::Plugins::FooPlugin::MyCollector`.
-   Of course, the class have to be already defined at the time.
- * A symbol which refers the name of a collector class in the current namespace, like `:MyCollector`.
-   This is useful if you want to describe the step at first and define the actual class after that.
- * A class path string of a collector class, like `"Droonga::Plugins::FooPlugin::MyCollector"`.
-   This is also useful to define the class itself after the description.
+ * `Collectors::Something` や `Droonga::Plugins::FooPlugin::MyCollector` のような、コレクタークラス自体への参照。
+   当然ながら、参照先のクラスはその時点で定義済みでなければなりません。
+ * `:MyCollector`のような、その名前空間で定義されているコレクタークラスのクラス名のシンボル。
+   この記法は、stepを先に記述して後からコレクタークラスを定義する場合に有用です。
+ * `"Droonga::Plugins::FooPlugin::MyCollector"` のような、コレクタークラスのクラスパス文字列。
+   この記法もまた、stepの後でコレクタークラスを定義する場合に有用です。
 
-You must define the referenced class by the time the Droonga Engine actually collects results, if you specify the name of the collector class as a symbol or a string.
-If the Droonga Engine fails to find out the actual collector class, or no collector is specified, then the Droonga Engine doesn't collect results and returns multiple messages as results.
+コレクタークラスをシンボルまたは文字列で指定した場合、参照先のクラスは、Droonga Engineが実際にそのstepの結果を集約する時点までの間に定義しておく必要があります。
+Droonga Engineがコレクタークラスの実体を見つけられなかった場合、またはコレクタークラスが未指定の場合には、Droonga Engineは処理結果を集約せず、複数のメッセージとして返します。
 
-See also [descriptions of collectors][collector].
+[コレクターの説明][collector]も併せて参照して下さい。
 
 #### `#write`, `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
 
-Describes whether the step modifies any data in the storage or don't.
-If a request aims to modify some data in the storage, the request must be processed for all replicas.
-Otherwise the Droonga Engine can optimize handling of the step.
-For example, caching of results, reducing of CPU/memory usage, and so on.
+stepがストレージ内の情報を変更し得るかどうかを記述します。
+リクエストがストレージ内のデータを変更することを意図する物である場合、そのリクエストはすべてのreplicaで処理される必要があります。
+それ以外の場合、Droonga Engineは結果をキャッシュしたり、CPUやメモリの使用量を削減するなどして、処理を最適化することができます。
 
-Possible values are:
+取り得る値：
 
- * `true`, means "this step can modify the storage."
- * `false`, means "this step never modifies the storage."
+ * `true`： そのstepではストレージの内容が変更される可能性がある事を示す。
+ * `false`： そのstepではストレージの内容が変更される可能性はない事を示す。（初期値）"
 
 #### `#inputs`, `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
 
-(TBD)
+（未稿）
 
 #### `#output`, `#output=(output)` {#classes-Droonga-SingleStepDefinition-output}
 
-(TBD)
+（未稿）
 
 ### `Droonga::Handler` {#classes-Droonga-Handler}
 

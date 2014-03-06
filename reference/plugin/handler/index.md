@@ -139,7 +139,7 @@ For example, caching of results, reducing of CPU/memory usage, and so on.
 Possible values are:
 
  * `true`, means "this step can modify the storage."
- * `false`, means "this step never modifies the storage."
+ * `false`, means "this step never modifies the storage." (default)
 
 #### `#inputs`, `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
 
