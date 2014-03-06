@@ -132,7 +132,7 @@ See also [descriptions of collectors][collector].
 Describes whether the step modifies any data in the storage or don't.
 If a request aims to modify some data in the storage, the request must be processed for all replicas.
 Otherwise the Droonga Engine can optimize handling of the step.
-For example, caching of results, reducing of CPU/memory resources, and so on.
+For example, caching of results, reducing of CPU/memory usage, and so on.
 
 Possible values are:
 
