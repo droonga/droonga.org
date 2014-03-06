@@ -85,7 +85,7 @@ end
 対になった入力メッセージと出力メッセージのための状態を示す情報をアダプター自身のインスタンス変数として保持してはいけません。
 代わりに、状態を示す情報を入力メッセージのbodyの一部として埋め込み、対応する出力メッセージのbodyから取り出すようにして下さい。
 
-アダプターないで発生したすべてのエラーは、Droonga Engine自身によって処理されます。[エラー処理][error handling]も併せて参照して下さい。
+アダプター内で発生したすべてのエラーは、Droonga Engine自身によって処理されます。[エラー処理][error handling]も併せて参照して下さい。
 
 
 ## 設定 {#config}
@@ -108,11 +108,11 @@ end
 
 #### `#adapt_input(input_message)` {#classes-Droonga-Adapter-adapt_input}
 
-This method receives a [`Droonga::InputMessage`](#classes-Droonga-InputMessage) wrapped incoming message.
-You can modify the incoming message via its methods.
+このメソッドは、[`Droonga::InputMessage`](#classes-Droonga-InputMessage)でラップされた入力メッセージを受け取ります。
+入力メッセージは、メソッドを通じて内容を変更することができます。
 
-In this base class, this method is defined as just a placeholder and it does nothing.
-To modify incoming messages, you have to override it by yours, like following:
+この基底クラスにおいて、このメソッドは何もしない単なるプレースホルダとして定義されています。
+入力メッセージを変更するには、以下のようにメソッドを再定義して下さい：
 
 ~~~ruby
 module Droonga::Plugins::QueryFixer
@@ -126,11 +126,11 @@ end
 
 #### `#adapt_output(output_message)` {#classes-Droonga-Adapter-adapt_output}
 
-This method receives a [`Droonga::OutputMessage`](#classes-Droonga-OutputMessage) wrapped outgoing message.
-You can modify the outgoing message via its methods.
+このメソッドは、[`Droonga::OutputMessage`](#classes-Droonga-OutputMessage)でラップされた出力メッセージを受け取ります。
+出力メッセージは、メソッドを通じて内容を変更することができます。
 
-In this base class, this method is defined as just a placeholder and it does nothing.
-To modify outgoing messages, you have to override it by yours, like following:
+この基底クラスにおいて、このメソッドは何もしない単なるプレースホルダとして定義されています。
+出力メッセージを変更するには、以下のようにメソッドを再定義して下さい：
 
 ~~~ruby
 module Droonga::Plugins::ErrorConcealer
@@ -146,9 +146,9 @@ end
 
 #### `#type`, `#type=(type)` {#classes-Droonga-InputMessage-type}
 
-This returns the `"type"` of the incoming message.
+入力メッセージの`"type"`の値を返します。
 
-You can override it by assigning a new string value, like:
+以下のように、新しい文字列値を代入することで値を変更できます：
 
 ~~~ruby
 module Droonga::Plugins::MySearch
@@ -158,28 +158,28 @@ module Droonga::Plugins::MySearch
     def adapt_input(input_message)
       p input_message.type
       # => "my-search"
-      #    This message will be handled by a plugin
-      #    for the custom "my-search" type.
+      #    このメッセージは「my-search」というメッセージタイプに
+      #    対応したプラグインによって処理される。
 
       input_message.type = "search"
 
       p input_message.type
       # => "search"
-      #    The messge type (type) is changed.
-      #    This message will be handled by the "search" plugin,
-      #    as a regular search request.
+      #    メッセージタイプが変更された。
+      #    このメッセージはsearchプラグインによって、
+      #    通常の検索リクエストとして処理される。
     end
   end
 end
 ~~~
 
-Note: On Droonga 0.9.9, this method is named as `command` but changed to `type` on Droonga 1.0.0, like above. If you write plugins for Droonga 0.9.9, you have to migrate it.
+注意: Droonga 0.9.9では、このメソッドは`command`という名前でしたが、Droonga 1.0.0で上記の通りに`type`に変更されました。Droonga 0.9.9用に開発されたプラグインは、移行のために書き換える必要があります。
 
 #### `#body`, `#body=(body)` {#classes-Droonga-InputMessage-body}
 
-This returns the `"body"` of the incoming message.
+入力メッセージの`"body"`の値を返します。
 
-You can override it by assigning a new value, partially or fully. For example:
+以下のように、新しい値を代入したり部分的に値を代入したりすることで、値を変更することができます：
 
 ~~~ruby
 module Droonga::Plugins::MinimumLimit
@@ -194,13 +194,13 @@ module Droonga::Plugins::MinimumLimit
         query["output"]["limit"] ||= MAXIMUM_LIMIT
         query["output"]["limit"] = [query["output"]["limit"], MAXIMUM_LIMIT].min
       end
-      # Now, all queries have "output.limit=10".
+      # この時点で、すべての検索クエリが"output.limit=10"の指定を持っている。
     end
   end
 end
 ~~~
 
-Another case:
+別の例：
 
 ~~~ruby
 module Droonga::Plugins::MySearch
@@ -208,10 +208,10 @@ module Droonga::Plugins::MySearch
     input_message.pattern = ["type", :equal, "my-search"]
 
     def adapt_input(input_message)
-      # Extract the query string from the custom type message.
+      # 独自形式のメッセージからクエリ文字列を取り出す。
       query_string = input_message["body"]["query"]
 
-      # Construct internal search request for the "search" type.
+      # "search"型の内部的な検索リクエストを組み立てる。
       input_message.type = "search"
       input_message.body = {
         "queries" => {
@@ -226,7 +226,7 @@ module Droonga::Plugins::MySearch
           },
         },
       }
-      # Now, both "type" and "body" are completely replaced.
+      # この時点で、"type"と"body"は両方とも完全に置き換えられている。
     end
   end
 end
@@ -236,9 +236,9 @@ end
 
 #### `#status_code`, `#status_code=(status_code)` {#classes-Droonga-OutputMessage-status_code}
 
-This returns the `"statusCode"` of the outgoing message.
+出力メッセージの`"statusCode"`の値を返します。
 
-You can override it by assigning a new status code. For example: 
+以下のように、新しいステータスコードを代入することで値を変更できます： 
 
 ~~~ruby
 module Droonga::Plugins::ErrorConcealer
@@ -250,8 +250,8 @@ module Droonga::Plugins::ErrorConcealer
         output_message.status_code = Droonga::StatusCode::OK
         output_message.body = {}
         output_message.errors = nil
-        # Now any internal server error is ignored and clients
-        # receive regular responses.
+        # この時点で、内部的なサーバーエラーはすべて無視されるため
+        # クライアントは通常のレスポンスを受け取る事になる。
       end
     end
   end
@@ -260,9 +260,9 @@ end
 
 #### `#errors`, `#errors=(errors)` {#classes-Droonga-OutputMessage-errors}
 
-This returns the `"errors"` of the outgoing message.
+出力メッセージの`"errors"`の値を返します。
 
-You can override it by assigning new error information, partially or fully. For example:
+以下のように、新しいエラー情報を代入したり値を部分的に書き換えたりする事ができます：
 
 ~~~ruby
 module Droonga::Plugins::ErrorExporter
@@ -271,7 +271,7 @@ module Droonga::Plugins::ErrorExporter
 
     def adapt_output(output_message)
       output_message.errors.delete(secret_database)
-      # Delete error information from secret database
+      # 秘密のデータベースからのエラー情報を削除する。
 
       output_message.body["errors"] = {
         "records" => output_message.errors.collect do |database, error|
@@ -281,7 +281,7 @@ module Droonga::Plugins::ErrorExporter
           }
         end,
       }
-      # Convert error informations to a fake search result named "errors".
+      # エラー情報を、"error"という名前の擬似的な検索結果に変換する。
     end
   end
 end
@@ -289,9 +289,9 @@ end
 
 #### `#body`, `#body=(body)` {#classes-Droonga-OutputMessage-body}
 
-This returns the `"body"` of the outgoing message.
+出力メッセージの`"body"`の値を返します。
 
-You can override it by assigning a new value, partially or fully. For example:
+以下のように、新しい値を代入したり部分的に値を代入したりすることで、値を変更することができます：
 
 ~~~ruby
 module Droonga::Plugins::SponsoredSearch
@@ -303,7 +303,7 @@ module Droonga::Plugins::SponsoredSearch
         next unless result["records"]
         result["records"].unshift(sponsored_entry)
       end
-      # Now all search results include sponsored entry.
+      # これにより、すべての検索結果が広告エントリを含むようになる。
     end
 
     def sponsored_entry
