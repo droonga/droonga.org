@@ -354,7 +354,7 @@ A `Hash` table whose key is `ShortText` type, with no columns:
 }
 ~~~
 
-#### Example 2
+##### Example 2
 
 A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normalizer, with no columns:
 
