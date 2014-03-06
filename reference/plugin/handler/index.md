@@ -41,7 +41,7 @@ end
 Steps to define a handler:
 
  1. Define a module for your plugin (ex. `Droonga::Plugins::FooPlugin`) and register it as a plugin. (required)
- 2. Define a "single step" corresponding to the handler you are going to implement. (required)
+ 2. Define a "single step" corresponding to the handler you are going to implement, via [`Droonga::SingleStepDefinition`](#class-Droonga-SingleStepDefinition). (required)
  2. Define a handler class (ex. `Droonga::Plugins::FooPlugin::Handler`) inheriting [`Droonga::Handler`](#classes-Droonga-Handler). (required)
  4. Define handling logic for requests as [`#handle`](#classes-Droonga-Handler-handle). (optional)
 
@@ -84,9 +84,38 @@ Any error raised from the handler is handled by the Droonga Engine itself. See a
 
 ## Classes and methods {#classes}
 
+### `Droonga::SingleStepDefinition` {#classes-Droonga-SingleStepDefinition}
+
+This provides methods to describe the "step" corresponding to the handler.
+
+#### `#name=(name)` {#classes-Droonga-SingleStepDefinition-name}
+
+(TBD)
+
+#### `#handler=(handler)` {#classes-Droonga-SingleStepDefinition-handler}
+
+(TBD)
+
+#### `#collector=(collector)` {#classes-Droonga-SingleStepDefinition-collector}
+
+(TBD)
+
+#### `#write=(write)` {#classes-Droonga-SingleStepDefinition-write}
+
+(TBD)
+
+#### `#inputs=(inputs)` {#classes-Droonga-SingleStepDefinition-inputs}
+
+(TBD)
+
+#### `#output=(output)` {#classes-Droonga-SingleStepDefinition-output}
+
+(TBD)
+
 ### `Droonga::Handler` {#classes-Droonga-Handler}
 
-This is the common base class of any handler. Your plugin's handler class must inherit this.
+This is the common base class of any handler.
+Your plugin's handler class must inherit this.
 
 #### `#handle(message)` {#classes-Droonga-Handler-handle}
 
