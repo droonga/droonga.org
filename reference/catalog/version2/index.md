@@ -367,6 +367,7 @@ A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normali
   "columns": {
   }
 }
+~~~
 
 ### Column definition {#column}
 
@@ -444,6 +445,7 @@ A column to index `address` column on `Store` table:
     ]
   }
 }
+~~~
 
 ##### `indexOptions` {#parameter-indexOptions}
 
