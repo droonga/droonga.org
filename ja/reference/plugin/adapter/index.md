@@ -90,21 +90,21 @@ end
 
 ## 設定 {#config}
 
-`input_message.pattern` ([matching pattern][], optional, default=`nil`)
-: A [matching pattern][] for incoming messages.
-  If no pattern (`nil`) is given, any message is regarded as "matched".
+`input_message.pattern` ([マッチングパターン][matching pattern], 省略可能, 初期値=`nil`)
+: 入力メッセージに対する[マッチングパターン][matching pattern]。
+  パターンが指定されていない（もしくは`nil`が指定された）場合は、すべてのメッセージがマッチします。
 
-`output_message.pattern` ([matching pattern][], optional, default=`nil`)
-: A [matching pattern][] for outgoing messages.
-  If no pattern (`nil`) is given, any message is regarded as "matched".
+`output_message.pattern` ([マッチングパターン][matching pattern], 省略可能, 初期値=`nil`)
+: 出力メッセージに対する[マッチングパターン][matching pattern]。
+  パターンが指定されていない（もしくは`nil`が指定された）場合は、すべてのメッセージがマッチします。
 
-Note: On Droonga 0.9.9, they are named as `message.input_pattern` and `message.output_pattern` but changed to new configurations on Droonga 1.0.0, like above. If you write plugins for Droonga 0.9.9, you have to migrate it.
+注意: Droonga 0.9.9では、これらの設定は`message.input_pattern`および`message.output_pattern`という名前でしたが、Droonga 1.0.0で上記の通りに変更されました。Droonga 0.9.9用に開発されたプラグインは、移行のために書き換える必要があります。
 
-## Classes and methods {#classes}
+## クラスとメソッド {#classes}
 
 ### `Droonga::Adapter` {#classes-Droonga-Adapter}
 
-This is the common base class of any adapter. Your plugin's adapter class must inherit this.
+これはすべてのアダプターに共通の基底クラスです。独自プラグインのアダプタークラスは、このクラスを継承する必要があります。
 
 #### `#adapt_input(input_message)` {#classes-Droonga-Adapter-adapt_input}
 
