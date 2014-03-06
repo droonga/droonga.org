@@ -92,7 +92,7 @@ layout: ja
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `version` {#parameter-version}
 
@@ -150,7 +150,7 @@ layout: ja
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
 
-#### Example
+#### 例
 
 A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 
@@ -168,7 +168,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `plugins` {#parameter-plugins}
 
@@ -226,7 +226,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 継承可能性
 : 不可。
 
-#### Example
+#### 例
 
 A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:
 
@@ -246,7 +246,7 @@ A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `type` {#parameter-table-type}
 
@@ -346,9 +346,9 @@ Value
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Hash table
+##### 例1: Hashテーブル
 
 A `Hash` table whose key is `ShortText` type, with no columns:
 
@@ -361,7 +361,7 @@ A `Hash` table whose key is `ShortText` type, with no columns:
 }
 ~~~
 
-##### Example 2: PatriciaTrie table
+##### 例2: PatriciaTrieテーブル
 
 A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normalizer, with no columns:
 
@@ -382,7 +382,7 @@ A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normali
 
 : An object with the following key/value pairs.
 
-#### Parameters
+#### パラメータ
 
 ##### `type` {#parameter-column-type}
 
@@ -439,9 +439,9 @@ Default value
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Scalar column
+##### 例1: スカラー型カラム
 
 A scaler column to store `ShortText` values:
 
@@ -452,7 +452,7 @@ A scaler column to store `ShortText` values:
 }
 ~~~
 
-##### Example 2: Index column
+##### 例2: インデクスカラム
 
 A column to index `address` column on `Store` table:
 
@@ -473,7 +473,7 @@ A column to index `address` column on `Store` table:
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `section` {#parameter-section}
 
@@ -531,7 +531,7 @@ Value
 継承可能性
 : 不可。
 
-#### Example
+#### 例
 
 Store the section data, the weight data and the position data.
 Index `name` and `address` on the referencing table.
@@ -556,7 +556,7 @@ Index `name` and `address` on the referencing table.
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Types of Slicers {#types-of-slicers}
+#### スライサーの種類
 
 In order to define a volume which consists of a collection of `slices`,
 the way how slice recodes into slices must be decided.
@@ -584,7 +584,7 @@ element of `{High, Middle, Low}`.
 the values denotes categories,which have no order,
 e.g. country, zip code, color.
 
-#### Parameters
+#### パラメータ
 
 ##### `address` {#parameter-address}
 
@@ -647,9 +647,9 @@ e.g. country, zip code, color.
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Single instance
+##### 例1: 単一のインスタンス
 
 A volume at "localhost:24224/volume.000":
 
@@ -659,7 +659,7 @@ A volume at "localhost:24224/volume.000":
 }
 ~~~
 
-##### Example 2: Slices
+##### Example 2: 複数のスライス
 
 A volume that consists of three slices, records are to be distributed according to `hash`,
 which is ratio-scaled slicer function, of `_key`.
@@ -689,7 +689,7 @@ which is ratio-scaled slicer function, of `_key`.
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `weight` {#parameter-slice-weight}
 
@@ -748,9 +748,9 @@ Value
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Ratio-scaled
+"##### 例1: Ratio-scaled
 
 Slice for a ratio-scaled slicer, with the weight `1`:
 
@@ -762,7 +762,7 @@ Slice for a ratio-scaled slicer, with the weight `1`:
 }
 ~~~
 
-##### Example 2: Nominal-scaled
+##### 例2: Nominal-scaled
 
 Slice for a nominal-scaled slicer, with the label `"1"`:
 
@@ -774,7 +774,7 @@ Slice for a nominal-scaled slicer, with the label `"1"`:
 }
 ~~~
 
-##### Example 3: Ordinal-scaled
+##### 例3: Ordinal-scaled
 
 Slice for a ordinal-scaled slicer, with the boundary `100`:
 
@@ -786,8 +786,8 @@ Slice for a ordinal-scaled slicer, with the boundary `100`:
 }
 ~~~
 
-## Realworld example
+## 実際の例
 
-See the catalog of [basic tutorial].
+[基本的な使い方のチュートリアル][basic tutorial]に登場するカタログを参照してください。
 
   [basic tutorial]: ../../../tutorial/basic

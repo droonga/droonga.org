@@ -124,7 +124,7 @@ msgstr ""
 ": 以下のキーと値のペアを持つオブジェクト。"
 
 msgid "#### Parameters"
-msgstr ""
+msgstr "#### パラメータ"
 
 msgid "##### `version` {#parameter-version}"
 msgstr ""
@@ -225,7 +225,7 @@ msgstr ""
 ": 可。`dataset`と`volume`の定義でオーバライドできます。"
 
 msgid "#### Example"
-msgstr ""
+msgstr "#### 例"
 
 msgid "A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:"
 msgstr ""
@@ -460,10 +460,10 @@ msgid ""
 msgstr ""
 
 msgid "#### Examples"
-msgstr ""
+msgstr "#### 例"
 
 msgid "##### Example 1: Hash table"
-msgstr ""
+msgstr "##### 例1: Hashテーブル"
 
 msgid "A `Hash` table whose key is `ShortText` type, with no columns:"
 msgstr ""
@@ -480,7 +480,7 @@ msgid ""
 msgstr ""
 
 msgid "##### Example 2: PatriciaTrie table"
-msgstr ""
+msgstr "##### 例2: PatriciaTrieテーブル"
 
 msgid ""
 "A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` norma"
@@ -580,7 +580,7 @@ msgid ""
 msgstr ""
 
 msgid "##### Example 1: Scalar column"
-msgstr ""
+msgstr "##### 例1: スカラー型カラム"
 
 msgid "A scaler column to store `ShortText` values:"
 msgstr ""
@@ -595,7 +595,7 @@ msgid ""
 msgstr ""
 
 msgid "##### Example 2: Index column"
-msgstr ""
+msgstr "##### 例2: インデクスカラム"
 
 msgid "A column to index `address` column on `Store` table:"
 msgstr ""
@@ -706,7 +706,7 @@ msgstr ""
 "外のパラメータを指定してはいけません。そうでない場合は、`dimension`と`slicer`と`slices`が必須で、他は指定してはいけません。"
 
 msgid "#### Types of Slicers {#types-of-slicers}"
-msgstr ""
+msgstr "#### スライサーの種類"
 
 msgid ""
 "In order to define a volume which consists of a collection of `slices`,\n"
@@ -839,7 +839,7 @@ msgstr ""
 ": [`slice` 定義](#slice)の配列。"
 
 msgid "##### Example 1: Single instance"
-msgstr ""
+msgstr "##### 例1: 単一のインスタンス"
 
 msgid "A volume at \"localhost:24224/volume.000\":"
 msgstr ""
@@ -853,7 +853,7 @@ msgid ""
 msgstr ""
 
 msgid "##### Example 2: Slices"
-msgstr ""
+msgstr "##### Example 2: 複数のスライス"
 
 msgid ""
 "A volume that consists of three slices, records are to be distributed accordin"
@@ -966,7 +966,7 @@ msgid ": An object which is a [`volume` definition](#volume)"
 msgstr ": [`volume` 定義](#volume)オブジェクト"
 
 msgid "##### Example 1: Ratio-scaled"
-msgstr ""
+msgstr "\"##### 例1: Ratio-scaled"
 
 msgid "Slice for a ratio-scaled slicer, with the weight `1`:"
 msgstr ""
@@ -982,7 +982,7 @@ msgid ""
 msgstr ""
 
 msgid "##### Example 2: Nominal-scaled"
-msgstr ""
+msgstr "##### 例2: Nominal-scaled"
 
 msgid "Slice for a nominal-scaled slicer, with the label `\"1\"`:"
 msgstr ""
@@ -998,7 +998,7 @@ msgid ""
 msgstr ""
 
 msgid "##### Example 3: Ordinal-scaled"
-msgstr ""
+msgstr "##### 例3: Ordinal-scaled"
 
 msgid "Slice for a ordinal-scaled slicer, with the boundary `100`:"
 msgstr ""
@@ -1014,10 +1014,10 @@ msgid ""
 msgstr ""
 
 msgid "## Realworld example"
-msgstr ""
+msgstr "## 実際の例"
 
 msgid "See the catalog of [basic tutorial]."
-msgstr ""
+msgstr "[基本的な使い方のチュートリアル][basic tutorial]に登場するカタログを参照してください。"
 
 msgid "  [basic tutorial]: ../../../tutorial/basic"
 msgstr ""
