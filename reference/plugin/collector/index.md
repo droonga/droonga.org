@@ -15,7 +15,7 @@ The Droonga Engine tries to collect three or more values by applying the specifi
 ## Built-in collector classes {#builtin-collectors}
 
 There are some pre-defined collector classes used by built-in plugins.
-Of course they are avialable for your custom plugins.
+Of course they are available for your custom plugins.
 
 ### `Droonga::Collectors::And`
 
