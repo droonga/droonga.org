@@ -228,7 +228,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 
 #### 例
 
-A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:
+4ワーカーを持ち、プラグイン`groonga`、`crud`、`search`を使用するデータセット:
 
 ~~~
 {
@@ -350,7 +350,7 @@ Value
 
 ##### 例1: Hashテーブル
 
-A `Hash` table whose key is `ShortText` type, with no columns:
+`ShortText`型のキーを持つ`Hash`テーブルで、カラムは無いもの:
 
 ~~~
 {
@@ -363,7 +363,7 @@ A `Hash` table whose key is `ShortText` type, with no columns:
 
 ##### 例2: PatriciaTrieテーブル
 
-A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normalizer, with no columns:
+`TokenBigram`トークナイザと`NormalizerAuto`ノーマライザを利用する`PatriciaTrie`テーブル
 
 ~~~
 {
@@ -443,7 +443,7 @@ Default value
 
 ##### 例1: スカラー型カラム
 
-A scaler column to store `ShortText` values:
+`ShortText`を格納するスカラー型のカラム:
 
 ~~~
 {
@@ -454,7 +454,7 @@ A scaler column to store `ShortText` values:
 
 ##### 例2: インデクスカラム
 
-A column to index `address` column on `Store` table:
+`Store`テーブルの`address`カラムをインデクスするカラム:
 
 ~~~
 {
@@ -651,7 +651,7 @@ e.g. country, zip code, color.
 
 ##### 例1: 単一のインスタンス
 
-A volume at "localhost:24224/volume.000":
+"localhost:24224/volume.000"にあるボリューム:
 
 ~~~
 {
@@ -661,8 +661,7 @@ A volume at "localhost:24224/volume.000":
 
 ##### Example 2: 複数のスライス
 
-A volume that consists of three slices, records are to be distributed according to `hash`,
-which is ratio-scaled slicer function, of `_key`.
+3つのスライスから構成され、`_key`に対してratio-scaledなスライサー関数`hash`を適用してレコードを分散させるボリューム
 
 ~~~
 {
@@ -752,7 +751,7 @@ Value
 
 "##### 例1: Ratio-scaled
 
-Slice for a ratio-scaled slicer, with the weight `1`:
+ratio-scaledなスライサーのためのスライス、重みは`1`
 
 ~~~
 {
@@ -764,7 +763,7 @@ Slice for a ratio-scaled slicer, with the weight `1`:
 
 ##### 例2: Nominal-scaled
 
-Slice for a nominal-scaled slicer, with the label `"1"`:
+nominal-scaledなスライサーのためのスライス、ラベルは `"1"`
 
 ~~~
 {
@@ -776,7 +775,7 @@ Slice for a nominal-scaled slicer, with the label `"1"`:
 
 ##### 例3: Ordinal-scaled
 
-Slice for a ordinal-scaled slicer, with the boundary `100`:
+ordinal-scaledなスライサーに対するスライス、境界値は`100`:
 
 ~~~
 {

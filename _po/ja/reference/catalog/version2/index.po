@@ -325,7 +325,7 @@ msgstr ""
 ": [`volume` 定義](#volume)の配列。"
 
 msgid "A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:"
-msgstr ""
+msgstr "4ワーカーを持ち、プラグイン`groonga`、`crud`、`search`を使用するデータセット:"
 
 msgid ""
 "~~~\n"
@@ -466,7 +466,7 @@ msgid "##### Example 1: Hash table"
 msgstr "##### 例1: Hashテーブル"
 
 msgid "A `Hash` table whose key is `ShortText` type, with no columns:"
-msgstr ""
+msgstr "`ShortText`型のキーを持つ`Hash`テーブルで、カラムは無いもの:"
 
 msgid ""
 "~~~\n"
@@ -485,7 +485,7 @@ msgstr "##### 例2: PatriciaTrieテーブル"
 msgid ""
 "A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` norma"
 "lizer, with no columns:"
-msgstr ""
+msgstr "`TokenBigram`トークナイザと`NormalizerAuto`ノーマライザを利用する`PatriciaTrie`テーブル"
 
 msgid ""
 "~~~\n"
@@ -583,7 +583,7 @@ msgid "##### Example 1: Scalar column"
 msgstr "##### 例1: スカラー型カラム"
 
 msgid "A scaler column to store `ShortText` values:"
-msgstr ""
+msgstr "`ShortText`を格納するスカラー型のカラム:"
 
 msgid ""
 "~~~\n"
@@ -598,7 +598,7 @@ msgid "##### Example 2: Index column"
 msgstr "##### 例2: インデクスカラム"
 
 msgid "A column to index `address` column on `Store` table:"
-msgstr ""
+msgstr "`Store`テーブルの`address`カラムをインデクスするカラム:"
 
 msgid ""
 "~~~\n"
@@ -842,7 +842,7 @@ msgid "##### Example 1: Single instance"
 msgstr "##### 例1: 単一のインスタンス"
 
 msgid "A volume at \"localhost:24224/volume.000\":"
-msgstr ""
+msgstr "\"localhost:24224/volume.000\"にあるボリューム:"
 
 msgid ""
 "~~~\n"
@@ -859,7 +859,7 @@ msgid ""
 "A volume that consists of three slices, records are to be distributed accordin"
 "g to `hash`,\n"
 "which is ratio-scaled slicer function, of `_key`."
-msgstr ""
+msgstr "3つのスライスから構成され、`_key`に対してratio-scaledなスライサー関数`hash`を適用してレコードを分散させるボリューム"
 
 msgid ""
 "~~~\n"
@@ -969,7 +969,7 @@ msgid "##### Example 1: Ratio-scaled"
 msgstr "\"##### 例1: Ratio-scaled"
 
 msgid "Slice for a ratio-scaled slicer, with the weight `1`:"
-msgstr ""
+msgstr "ratio-scaledなスライサーのためのスライス、重みは`1`"
 
 msgid ""
 "~~~\n"
@@ -985,7 +985,7 @@ msgid "##### Example 2: Nominal-scaled"
 msgstr "##### 例2: Nominal-scaled"
 
 msgid "Slice for a nominal-scaled slicer, with the label `\"1\"`:"
-msgstr ""
+msgstr "nominal-scaledなスライサーのためのスライス、ラベルは `\"1\"`"
 
 msgid ""
 "~~~\n"
@@ -1001,7 +1001,7 @@ msgid "##### Example 3: Ordinal-scaled"
 msgstr "##### 例3: Ordinal-scaled"
 
 msgid "Slice for a ordinal-scaled slicer, with the boundary `100`:"
-msgstr ""
+msgstr "ordinal-scaledなスライサーに対するスライス、境界値は`100`:"
 
 msgid ""
 "~~~\n"
