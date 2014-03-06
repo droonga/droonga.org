@@ -652,7 +652,7 @@ A volume at "localhost:24224/volume.000":
 }
 ~~~
 
-#### Example 2
+##### Example 2
 
 A volume that consists of three slices, records are to be distributed according to `hash`,
 which is ratio-scaled slicer function, of `_key`.
