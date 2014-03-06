@@ -341,7 +341,7 @@ Inheritable
 
 #### Examples
 
-##### Example 1
+##### Example 1: Hash table
 
 A `Hash` table whose key is `ShortText` type, with no columns:
 
@@ -354,7 +354,7 @@ A `Hash` table whose key is `ShortText` type, with no columns:
 }
 ~~~
 
-##### Example 2
+##### Example 2: PatriciaTrie table
 
 A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normalizer, with no columns:
 
@@ -434,7 +434,7 @@ Inheritable
 
 #### Examples
 
-##### Example 1
+##### Example 1: Scalar column
 
 A scaler column to store `ShortText` values:
 
@@ -445,7 +445,7 @@ A scaler column to store `ShortText` values:
 }
 ~~~
 
-##### Example 2
+##### Example 2: Index column
 
 A column to index `address` column on `Store` table:
 
@@ -642,7 +642,7 @@ Inheritable
 
 #### Examples
 
-##### Example 1
+##### Example 1: Single instance
 
 A volume at "localhost:24224/volume.000":
 
@@ -652,7 +652,7 @@ A volume at "localhost:24224/volume.000":
 }
 ~~~
 
-##### Example 2
+##### Example 2: Slices
 
 A volume that consists of three slices, records are to be distributed according to `hash`,
 which is ratio-scaled slicer function, of `_key`.
@@ -743,7 +743,7 @@ Inheritable
 
 #### Examples
 
-##### Example 1
+##### Example 1: Ratio-scaled
 
 Slice for a ratio-scaled slicer, with the weight `1`:
 
@@ -755,7 +755,7 @@ Slice for a ratio-scaled slicer, with the weight `1`:
 }
 ~~~
 
-##### Example 2
+##### Example 2: Nominal-scaled
 
 Slice for a nominal-scaled slicer, with the label `"1"`:
 
@@ -767,7 +767,7 @@ Slice for a nominal-scaled slicer, with the label `"1"`:
 }
 ~~~
 
-##### Example 3
+##### Example 3: Ordinal-scaled
 
 Slice for a ordinal-scaled slicer, with the boundary `100`:
 
