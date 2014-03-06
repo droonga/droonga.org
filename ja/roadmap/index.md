@@ -39,7 +39,7 @@ layout: ja
 
 # 1.0.1
 
-  * Groonga HTTPサーバ互換機能
+  * Planning Phaseを拡張可能にする
   * 2014/3/29 リリース予定
 
 # 1.0.2
