@@ -269,18 +269,17 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 
 ##### `keyType` {#parameter-keyType}
 
-Abstract
-: Data type of the key of the table. Mustn't be assigned when the `type` is "Array".
+概要
+: テーブルにおけるキーのデータ型。`type`が"Array"の場合は指定してはいけません。
 
-Value
-: Any of the following data types.
+: 以下のデータ型のうちの何れか。
 
-* "Integer"       : 64bit signed integer.
-* "Float"         : 64bit floating-point number.
-* "Time"          : Time value with microseconds resolution.
-* "ShortText"     : Text value up to 4095 bytes length.
-* "TokyoGeoPoint" : Tokyo Datum based geometric point value.
-* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
+* "Integer"       : 64bit 符号付き整数。
+* "Float"         : 64bit 浮動小数点数。
+* "Time"          : マイクロ秒精度の時刻。
+* "ShortText"     : 4095バイトまでの文字列。
+* "TokyoGeoPoint" : 旧日本測地系による経緯度。
+* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) による経緯度。
 
 Default value
 : None. Mandatory for tables with keys.
