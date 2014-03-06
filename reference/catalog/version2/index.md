@@ -447,7 +447,7 @@ A column to index `address` column on `Store` table:
 }
 ~~~
 
-#### `indexOptions` {#parameter-indexOptions}
+##### `indexOptions` {#parameter-indexOptions}
 
 Abstract
 : Specifies the optional properties of a "Index" column.
