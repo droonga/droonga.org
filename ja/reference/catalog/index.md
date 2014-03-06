@@ -14,7 +14,7 @@ layout: ja
 
 複数のリソースが集まり、Droongaネットワークを構成します。それらのリソースを **カタログ** に記述しなければいけません。ネットワーク上のすべてのノードは同じカタログを共有します。
 
-Catalog specification is versioned. Here are available versions:
+カタログの指定はバージョン管理されています。利用可能なバージョンは以下のとおりです:
 
  * [version 1](version1/): (It is deprecated since 1.0.0.)
  * [version 2](version2/)

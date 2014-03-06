@@ -28,7 +28,7 @@ msgstr ""
 "ードは同じカタログを共有します。"
 
 msgid "Catalog specification is versioned. Here are available versions:"
-msgstr ""
+msgstr "カタログの指定はバージョン管理されています。利用可能なバージョンは以下のとおりです:"
 
 msgid ""
 " * [version 1](version1/): (It is deprecated since 1.0.0.)\n"
