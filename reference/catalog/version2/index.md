@@ -765,7 +765,7 @@ Slice for a nominal-scaled slicer, with the label `"1"`:
 }
 ~~~
 
-#### Example 3
+##### Example 3
 
 Slice for a ordinal-scaled slicer, with the boundary `100`:
 
