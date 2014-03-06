@@ -228,7 +228,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 
 #### 例
 
-4ワーカーを持ち、プラグイン`groonga`、`crud`、`search`を使用するデータセット:
+データベースインスタンスに1つにつき4ワーカーを持ち、プラグイン`groonga`、`crud`、`search`を使用するデータセット:
 
 ~~~
 {

@@ -324,8 +324,10 @@ msgstr ""
 "値\n"
 ": [`volume` 定義](#volume)の配列。"
 
-msgid "A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:"
-msgstr "4ワーカーを持ち、プラグイン`groonga`、`crud`、`search`を使用するデータセット:"
+msgid ""
+"A dataset with 4 workers per a database instance, with plugins `groonga`, `cru"
+"d` and `search`:"
+msgstr "データベースインスタンスに1つにつき4ワーカーを持ち、プラグイン`groonga`、`crud`、`search`を使用するデータセット:"
 
 msgid ""
 "~~~\n"

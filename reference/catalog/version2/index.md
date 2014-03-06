@@ -221,7 +221,7 @@ Inheritable
 
 #### Example
 
-A dataset with 4 workers, with plugins `groonga`, `crud` and `search`:
+A dataset with 4 workers per a database instance, with plugins `groonga`, `crud` and `search`:
 
 ~~~
 {
