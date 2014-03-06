@@ -36,6 +36,8 @@ Otherwise `true`.
 
 ### `Droonga::Collectors::Sum`
 
+Returns a summarized value of two input values.
+
 This collector works a little complicatedly.
 
  * If one of values is equal to `null` (`nil`), then the other value becomes the result.
