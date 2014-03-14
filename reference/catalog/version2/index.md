@@ -37,6 +37,9 @@ This [`version`](#parameter-version) of `catalog` will be available from Droonga
                 "<Name of the column 1>": {
                   "type"         : <"Scalar", "Vector" or "Index">,
                   "valueType"    : "<Type of the value>",
+                  "vectorOptions": {
+                    "weight"     : <Weight>,
+                  },
                   "indexOptions" : {
                     "section"    : <Section>,
                     "weight"     : <Weight>,
@@ -418,6 +421,20 @@ Default value
 Inheritable
 : False.
 
+##### `vectorOptions` {#parameter-vectorOptions}
+
+Abstract
+: Specifies the optional properties of a "Vector" column.
+
+Value
+: An object which is an [`vectorOptions` definition](#vectorOptions)
+
+Default value
+: `{}` (Void object).
+
+Inheritable
+: False.
+
 ##### `indexOptions` {#parameter-indexOptions}
 
 Abstract
@@ -445,7 +462,21 @@ A scaler column to store `ShortText` values:
 }
 ~~~
 
-##### Example 2: Index column
+##### Example 2: Vector column
+
+A vector column to store `ShortText` values with weight:
+
+~~~
+{
+  "type": "Scalar",
+  "valueType": "ShortText",
+  "vectorOptions": {
+    "weight": true
+  }
+}
+~~~
+
+##### Example 3: Index column
 
 A column to index `address` column on `Store` table:
 
@@ -458,6 +489,37 @@ A column to index `address` column on `Store` table:
       "address"
     ]
   }
+}
+~~~
+
+### vectorOptions definition {#vectorOptions}
+
+Value
+: An object with the following key/value pairs.
+
+#### Parameters
+
+##### `weight` {#parameter-vectorOptions-weight}
+
+Abstract
+: Specifies whether the vector column stores the weight data or not. Weight data is used for indicating the importance of the value.
+
+Value
+: A boolean value (`true` or `false`).
+
+Default value
+: `false`.
+
+Inheritable
+: False.
+
+#### Example
+
+Store the weight data.
+
+~~~
+{
+  "weight": true
 }
 ~~~
 
