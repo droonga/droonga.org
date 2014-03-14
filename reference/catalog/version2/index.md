@@ -441,7 +441,7 @@ Abstract
 : Specifies the optional properties of a "Index" column.
 
 Value
-: An object which is an [`indexOption` definition](#indexOption)
+: An object which is an [`indexOptions` definition](#indexOptions)
 
 Default value
 : `{}` (Void object).
@@ -523,7 +523,7 @@ Store the weight data.
 }
 ~~~
 
-### indexOption definition {#indexOption}
+### indexOptions definition {#indexOptions}
 
 Value
 : An object with the following key/value pairs.
