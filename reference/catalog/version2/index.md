@@ -530,7 +530,7 @@ Value
 
 #### Parameters
 
-##### `section` {#parameter-section}
+##### `section` {#parameter-indexOptions-section}
 
 Abstract
 : Specifies whether the index column stores the section data or not. Section data is typically used for distinguishing in which part of the sources the value appears.
@@ -544,7 +544,7 @@ Default value
 Inheritable
 : False.
 
-##### `weight` {#parameter-weight}
+##### `weight` {#parameter-indexOptions-weight}
 
 Abstract
 : Specifies whether the index column stores the weight data or not. Weight data is used for indicating the importance of the value in the sources.
@@ -558,7 +558,7 @@ Default value
 Inheritable
 : False.
 
-##### `position` {#parameter-position}
+##### `position` {#parameter-indexOptions-position}
 
 Abstract
 : Specifies whether the index column stores the position data or not. Position data is used for specifying the position where the value appears in the sources. It is indispensable for fast and accurate phrase-search.
@@ -572,7 +572,7 @@ Default value
 Inheritable
 : False.
 
-##### `sources` {#parameter-sources}
+##### `sources` {#parameter-indexOptions-sources}
 
 Abstract
 : Makes the column an inverted index of the referencing table's columns.
