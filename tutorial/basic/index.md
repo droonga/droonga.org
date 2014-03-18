@@ -85,7 +85,7 @@ In this section we install a fluent-plugin-droonga and load searchable data to t
 
 Required packages are prepared by the command above. Let's continue to the configuration step.
 
-### Prepare a configuration file to start a Droonga engine
+### Prepare configuration files to start a Droonga engine
 
 Create a directory for a Droonga engine:
 
