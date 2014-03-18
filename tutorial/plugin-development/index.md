@@ -22,7 +22,7 @@ This is not easy to be done in one-size-fits-all approach.
 
  * One may want to modify incoming requests to work well with other systems, one may want to modify outgoing responses to help other systems understand the result.
  * One may want to do more complex data processing than that provided by Droonga as built-in, to have direct storage access for efficiency.
- * One may need to control data distribution and collection logic of Droonga to profit from distributed nature of Droonga.
+ * One may need to control data distribution and collection logic of Droonga to profit from the distributed nature of Droonga.
 
 You can use plugins in those situations.
 
@@ -66,7 +66,7 @@ Adding a new command for a complex task
 
 In this tutorial, we focus on the adaption at first.
 This is the most "basic" usecase of plugins, so it will help you to understand the overview of Droonga plugin development.
-Then, we focus an other cases in this order.
+Then, we focus on other cases in this order.
 Following this tutorial, you will learn how to write plugins.
 This will be the first step to create plugins fit with your own requirements.
 

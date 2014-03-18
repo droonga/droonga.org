@@ -427,7 +427,7 @@ Abstract
 : Specifies the optional properties of a "Vector" column.
 
 Value
-: An object which is an [`vectorOptions` definition](#vectorOptions)
+: An object which is a [`vectorOptions` definition](#vectorOptions)
 
 Default value
 : `{}` (Void object).
@@ -438,7 +438,7 @@ Inheritable
 ##### `indexOptions` {#parameter-indexOptions}
 
 Abstract
-: Specifies the optional properties of a "Index" column.
+: Specifies the optional properties of an "Index" column.
 
 Value
 : An object which is an [`indexOptions` definition](#indexOptions)

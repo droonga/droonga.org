@@ -12,8 +12,8 @@ Learning steps to setup a Droonga based search system by yourself.
 
 ## Precondition
 
-* You must have basic knowledges and experiences how setup and operate an [Ubuntu][] Server.
-* You must have basic knowledges and experiences to develop applications based on the [Ruby][] and the [Node.js][].
+* You must have basic knowledge and experiences to setup and operate an [Ubuntu][] Server.
+* You must have basic knowledge and experiences to develop applications based on the [Ruby][] and the [Node.js][].
 
 ## Abstract
 
@@ -54,9 +54,9 @@ This tutorial describes steps to build a system like following:
                                  \--------------------------------------------------/
                                        This tutorial describes about this part.
 
-User agents (ex. a Web browser) sends search requests to a protocol adapter. The adapter receives them, and sends internal (translated) search requests to a Droonga engine. The engine processes them actually. Search results are sent from the engine to the protocol adapter, and finally delivered to the user agent.
+User agents (ex. a Web browser) send search requests to a protocol adapter. The adapter receives them, and sends internal (translated) search requests to a Droonga engine. The engine processes them actually. Search results are sent from the engine to the protocol adapter, and finally delivered to the user agents.
 
-For example let's try to build a database system to find [Starbucks stores in New York](http://geocommons.com/overlays/430038).
+For example, let's try to build a database system to find [Starbucks stores in New York](http://geocommons.com/overlays/430038).
 
 
 ## Prepare an environment for experiments
@@ -85,7 +85,7 @@ In this section we install a fluent-plugin-droonga and load searchable data to t
 
 Required packages are prepared by the command above. Let's continue to the configuration step.
 
-### Prepare a configuration file to start a Droonga engine
+### Prepare configuration files to start a Droonga engine
 
 Create a directory for a Droonga engine:
 
@@ -1180,7 +1180,7 @@ search-all-stores.json:
 }
 ~~~
 
-Send the request to Droonga Engine:
+Send the request to the Droonga Engine:
 
 ~~~
 # droonga-request --tag starbucks search-all-stores.json
@@ -1541,12 +1541,12 @@ Next step, let's try more meaningful query. To search stores which contain "Colu
       }
     }
 
-As the result two stores are found by the search condition.
+As the result, two stores are found by the search condition.
 
 
 ### Asynchronous search request via Socket.IO
 
-A Droonga protocol adapter supports not only REST API, but also [Socket.IO][]. If you send a request to a protocol adapter via Socket.IO, then the protocol adapter sends back the response for the request after the operation is finished. So you can develop a system based on a client application and an API server communicating each other asynchronously.
+A Droonga protocol adapter supports not only REST API, but also [Socket.IO][]. If you send a request to a protocol adapter via Socket.IO, then the protocol adapter sends back the response for the request after the operation is finished. So you can develop a system based on a client application and an API server communicating with each other asynchronously.
 
 Now, let's create such a system based on Socket.IO.
 

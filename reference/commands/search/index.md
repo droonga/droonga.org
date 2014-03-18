@@ -107,7 +107,7 @@ So, this means: "name the search result of the query as `people`".
 
 Why the command above returns all informations of the table? Because:
 
- * There is no search condition. This command matches to all records in the specified table, if no condition is specified.
+ * There is no search condition. This command matches all records in the specified table, if no condition is specified.
  * [`output`](#query-output)'s `elements` contains `records` (and `count`) column(s). The parameter `elements` controls the returned information. Matched records are returned as `records`, the total number of matched records are returned as `count`.
  * [`output`](#query-output)'s `limit` is `-1`. The parameter `limit` controls the number of returned records, and `-1` means "return all records".
  * [`output`](#query-output)'s `attributes` contains all columns of the Person table. The parameter `attributes` controls which columns' value are returned.
@@ -119,7 +119,7 @@ Search conditions are specified via the `condition` parameter. There are two sty
 
 ##### Search conditions in Script syntax {#usage-condition-script-syntax}
 
-Search conditions in script syntax are similar to ECMAScript. For example, following query means "find records that `name` contains `Alice` and `age` is larger than `25`":
+Search conditions in script syntax are similar to ECMAScript. For example, following query means "find records that `name` contains `Alice` and `age` is larger than or equal to `25`":
 
     {
       "type" : "search",
@@ -328,7 +328,7 @@ Search results can be retuned partially via `offset` and `limit` under the [`out
       }
     }
     
-    => returns 10 results from the 21th to the 30th.
+    => returns 10 results from the 21st to the 30th.
 
 The value `-1` is not recommended  for the `limit` parameter, in regular use. It will return too much results and increase traffic loads. Instead `100` or less value is recommended for the `limit` parameter. Then you should do paging by the `offset` parameter.
 
@@ -1005,7 +1005,7 @@ An output definition is given as a hash like:
            { "label" : "itemsCount", "source" : "_nsubrecs", }
        
      * This exports samples of the source records of grouped records, as the `"items"` column of grouped records.
-       The format of the `"attributes"` is jsut same to this section.
+       The format of the `"attributes"` is just same to this section.
        
            { "label" : "items", "source" : "_subrecs",
              "attributes": ["name", "price"] }

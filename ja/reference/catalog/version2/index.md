@@ -45,6 +45,9 @@ layout: ja
                 "<Name of the column 1>": {
                   "type"         : <"Scalar", "Vector" or "Index">,
                   "valueType"    : "<Type of the value>",
+                  "vectorOptions": {
+                    "weight"     : <Weight>,
+                  },
                   "indexOptions" : {
                     "section"    : <Section>,
                     "weight"     : <Weight>,
@@ -424,13 +427,27 @@ Value
 継承可能性
 : 不可。
 
+##### `vectorOptions` {#parameter-vectorOptions}
+
+概要
+: データベースインスタンスの場所を指定します。
+
+Value
+: An object which is a [`vectorOptions` definition](#vectorOptions)
+
+Default value
+: `{}` (Void object).
+
+継承可能性
+: 不可。
+
 ##### `indexOptions` {#parameter-indexOptions}
 
 Abstract
-: Specifies the optional properties of a "Index" column.
+: Specifies the optional properties of an "Index" column.
 
 Value
-: An object which is an [`indexOption` definition](#indexOption)
+: An object which is an [`indexOptions` definition](#indexOptions)
 
 Default value
 : `{}` (Void object).
@@ -448,6 +465,20 @@ Default value
 {
   "type": "Scalar",
   "valueType": "ShortText"
+}
+~~~
+
+##### 例1: スカラー型カラム
+
+A vector column to store `ShortText` values with weight:
+
+~~~
+{
+  "type": "Scalar",
+  "valueType": "ShortText",
+  "vectorOptions": {
+    "weight": true
+  }
 }
 ~~~
 
@@ -474,7 +505,38 @@ Default value
 
 #### パラメータ
 
-##### `section` {#parameter-section}
+##### `weight` {#parameter-vectorOptions-weight}
+
+Abstract
+: Specifies whether the vector column stores the weight data or not. Weight data is used for indicating the importance of the value.
+
+Value
+: A boolean value (`true` or `false`).
+
+Default value
+: `false`.
+
+継承可能性
+: 不可。
+
+#### 例
+
+Store the weight data.
+
+~~~
+{
+  "weight": true
+}
+~~~
+
+### indexOption 定義 {#indexOption}
+
+値
+: 以下のキーと値のペアを持つオブジェクト。
+
+#### パラメータ
+
+##### `section` {#parameter-indexOptions-section}
 
 Abstract
 : Specifies whether the index column stores the section data or not. Section data is typically used for distinguishing in which part of the sources the value appears.
@@ -488,7 +550,7 @@ Default value
 継承可能性
 : 不可。
 
-##### `weight` {#parameter-weight}
+##### `weight` {#parameter-indexOptions-weight}
 
 Abstract
 : Specifies whether the index column stores the weight data or not. Weight data is used for indicating the importance of the value in the sources.
@@ -502,7 +564,7 @@ Default value
 継承可能性
 : 不可。
 
-##### `position` {#parameter-position}
+##### `position` {#parameter-indexOptions-position}
 
 Abstract
 : Specifies whether the index column stores the position data or not. Position data is used for specifying the position where the value appears in the sources. It is indispensable for fast and accurate phrase-search.
@@ -516,7 +578,7 @@ Default value
 継承可能性
 : 不可。
 
-##### `sources` {#parameter-sources}
+##### `sources` {#parameter-indexOptions-sources}
 
 Abstract
 : Makes the column an inverted index of the referencing table's columns.
