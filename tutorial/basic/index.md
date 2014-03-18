@@ -1180,7 +1180,7 @@ search-all-stores.json:
 }
 ~~~
 
-Send the request to Droonga Engine:
+Send the request to the Droonga Engine:
 
 ~~~
 # droonga-request --tag starbucks search-all-stores.json
@@ -1541,7 +1541,7 @@ Next step, let's try more meaningful query. To search stores which contain "Colu
       }
     }
 
-As the result two stores are found by the search condition.
+As the result, two stores are found by the search condition.
 
 
 ### Asynchronous search request via Socket.IO
