@@ -328,7 +328,7 @@ Search results can be retuned partially via `offset` and `limit` under the [`out
       }
     }
     
-    => returns 10 results from the 21th to the 30th.
+    => returns 10 results from the 21st to the 30th.
 
 The value `-1` is not recommended  for the `limit` parameter, in regular use. It will return too much results and increase traffic loads. Instead `100` or less value is recommended for the `limit` parameter. Then you should do paging by the `offset` parameter.
 
