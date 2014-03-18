@@ -1546,7 +1546,7 @@ As the result, two stores are found by the search condition.
 
 ### Asynchronous search request via Socket.IO
 
-A Droonga protocol adapter supports not only REST API, but also [Socket.IO][]. If you send a request to a protocol adapter via Socket.IO, then the protocol adapter sends back the response for the request after the operation is finished. So you can develop a system based on a client application and an API server communicating each other asynchronously.
+A Droonga protocol adapter supports not only REST API, but also [Socket.IO][]. If you send a request to a protocol adapter via Socket.IO, then the protocol adapter sends back the response for the request after the operation is finished. So you can develop a system based on a client application and an API server communicating with each other asynchronously.
 
 Now, let's create such a system based on Socket.IO.
 
