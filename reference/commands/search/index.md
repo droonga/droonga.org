@@ -107,7 +107,7 @@ So, this means: "name the search result of the query as `people`".
 
 Why the command above returns all informations of the table? Because:
 
- * There is no search condition. This command matches to all records in the specified table, if no condition is specified.
+ * There is no search condition. This command matches all records in the specified table, if no condition is specified.
  * [`output`](#query-output)'s `elements` contains `records` (and `count`) column(s). The parameter `elements` controls the returned information. Matched records are returned as `records`, the total number of matched records are returned as `count`.
  * [`output`](#query-output)'s `limit` is `-1`. The parameter `limit` controls the number of returned records, and `-1` means "return all records".
  * [`output`](#query-output)'s `attributes` contains all columns of the Person table. The parameter `attributes` controls which columns' value are returned.
