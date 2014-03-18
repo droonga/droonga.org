@@ -129,7 +129,7 @@ Personテーブル（主キーあり）:
 
 ##### スクリプト構文形式の検索条件 {#usage-condition-script-syntax}
 
-Search conditions in script syntax are similar to ECMAScript. For example, following query means "find records that `name` contains `Alice` and `age` is larger than or equal to `25`":
+スクリプト構文形式は、ECMAScriptの書式に似ています。「`name` に `Alice` を含み、且つ`age` が `25` 以上である」という検索条件は、スクリプト構文形式で以下のように表現できます。
 
     {
       "type" : "search",
@@ -338,7 +338,7 @@ Search conditions in script syntax are similar to ECMAScript. For example, follo
       }
     }
     
-    => 0件目から9件目までの10件が返される。
+    => 20件目から29件目までの10件が返される。
 
 `limit` の指定 `-1` は、実際の運用では推奨されません。膨大な量のレコードがマッチした場合、出力のための処理にリソースを使いすぎてしまいますし、ネットワークの帯域も浪費してしまいます。コンピュータの性能にもよりますが、`limit` には `100` 程度までの値を上限として指定し、それ以上のレコードは適宜ページングで取得するようにして下さい。
 
