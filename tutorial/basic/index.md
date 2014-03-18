@@ -12,7 +12,7 @@ Learning steps to setup a Droonga based search system by yourself.
 
 ## Precondition
 
-* You must have basic knowledge and experiences how setup and operate an [Ubuntu][] Server.
+* You must have basic knowledge and experiences to setup and operate an [Ubuntu][] Server.
 * You must have basic knowledge and experiences to develop applications based on the [Ruby][] and the [Node.js][].
 
 ## Abstract
