@@ -119,7 +119,7 @@ Search conditions are specified via the `condition` parameter. There are two sty
 
 ##### Search conditions in Script syntax {#usage-condition-script-syntax}
 
-Search conditions in script syntax are similar to ECMAScript. For example, following query means "find records that `name` contains `Alice` and `age` is larger than `25`":
+Search conditions in script syntax are similar to ECMAScript. For example, following query means "find records that `name` contains `Alice` and `age` is larger than or equal to `25`":
 
     {
       "type" : "search",
