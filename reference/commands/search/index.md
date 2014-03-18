@@ -1005,7 +1005,7 @@ An output definition is given as a hash like:
            { "label" : "itemsCount", "source" : "_nsubrecs", }
        
      * This exports samples of the source records of grouped records, as the `"items"` column of grouped records.
-       The format of the `"attributes"` is jsut same to this section.
+       The format of the `"attributes"` is just same to this section.
        
            { "label" : "items", "source" : "_subrecs",
              "attributes": ["name", "price"] }
