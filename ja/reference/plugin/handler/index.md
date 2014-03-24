@@ -210,8 +210,8 @@ end
 そのパーティションのストレージに対応する`Groonga::Context`のインスタンスへの参照。
 [Rroongaのクラスリファレンス][Groonga::Context]も併せて参照して下さい
 
-You can use any feature of Rroonga via `@context`.
-For example, this code returns the number of records in the specified table:
+`@context`を経由して、Rroongaのすべての機能を利用できます。
+例えば、以下は指定されたテーブルのすべてのレコードの数を返す例です：
 
 ~~~ruby
 module Droonga::Plugins::CountRecords

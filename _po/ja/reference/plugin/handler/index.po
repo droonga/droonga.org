@@ -433,6 +433,8 @@ msgid ""
 "You can use any feature of Rroonga via `@context`.\n"
 "For example, this code returns the number of records in the specified table:"
 msgstr ""
+"`@context`を経由して、Rroongaのすべての機能を利用できます。\n"
+"例えば、以下は指定されたテーブルのすべてのレコードの数を返す例です："
 
 msgid ""
 "~~~ruby\n"
