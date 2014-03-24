@@ -31,8 +31,7 @@ Droonga Engineは3つ以上の値に対しても、指定されたコレクタ�
 `and` 論理演算子によって2つの値を比較した結果を返します。
 両方の値が論理的に真である場合、どちらかの値が返されます（どちらが返されるかは不定です）。
 
-Values `null` (`nil`) and `false` are treated as `false`.
-Otherwise `true`.
+`null` (`nil`) および `false` は論理的に偽として扱われ、それ以外の場合はすべて真として扱われます。
 
 ### `Droonga::Collectors::Or`
 
@@ -40,8 +39,7 @@ Otherwise `true`.
 片方の値だけが論理的に真である場合、その値が返り値となります。
 そうでなく2つの値が論理的に等しい場合は、どちらかの値が返されます（どちらが返されるかは不定です）。
 
-Values `null` (`nil`) and `false` are treated as `false`.
-Otherwise `true`.
+`null` (`nil`) および `false` は論理的に偽として扱われ、それ以外の場合はすべて真として扱われます。
 
 ### `Droonga::Collectors::Sum`
 

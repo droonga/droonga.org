@@ -56,8 +56,10 @@ msgstr ""
 "`and` 論理演算子によって2つの値を比較した結果を返します。\n"
 "両方の値が論理的に真である場合、どちらかの値が返されます（どちらが返されるかは不定です）。"
 
-msgid "`null` (`nil`) および `false` は論理的に偽として扱われ、それ以外の場合はすべて真として扱われます。"
-msgstr ""
+msgid ""
+"Values `null` (`nil`) and `false` are treated as `false`.\n"
+"Otherwise `true`."
+msgstr "`null` (`nil`) および `false` は論理的に偽として扱われ、それ以外の場合はすべて真として扱われます。"
 
 msgid "### `Droonga::Collectors::Or`"
 msgstr ""
