@@ -1,5 +1,5 @@
 ---
-title: Collector
+title: コレクター
 layout: ja
 ---
 
@@ -18,43 +18,43 @@ layout: ja
 
 ## 概要 {#abstract}
 
-A collector merges two input values to single value.
-The Droonga Engine tries to collect three or more values by applying the specified collector for two of them again and again.
+コレクターは、2つの入力値を1つの値に結合します。
+Droonga Engineは3つ以上の値に対しても、指定されたコレクターを繰り返し適用することによって、それらを1つの値にします。
 
-## Built-in collector classes {#builtin-collectors}
+## 組み込みのコレクタークラス {#builtin-collectors}
 
-There are some pre-defined collector classes used by built-in plugins.
-Of course they are available for your custom plugins.
+組み込みのプラグインによって使われている、定義済みのコレクタークラスがいくつかあります。
+これらは当然ですが、自作プラグインからも利用することができます。
 
 ### `Droonga::Collectors::And`
 
-Returns a result from comparison of two values by the `and` logical operator.
-If both values are logically equal to `true`, then one of them (it is indeterminate) becomes the result.
+`and` 論理演算子によって2つの値を比較した結果を返します。
+両方の値が論理的に真である場合、どちらかの値が返されます（どちらが返されるかは不定です）。
 
 Values `null` (`nil`) and `false` are treated as `false`.
 Otherwise `true`.
 
 ### `Droonga::Collectors::Or`
 
-Returns a result from comparison of two values by the `or` logical operator.
-If only one of them is logically equal to `true`, then the value becomes the result.
-Otherwise, if values are logically same, one of them (it is indeterminate) becomes the result.
+`or` 論理演算子によって2つの値を比較した結果を返します。
+片方の値だけが論理的に真である場合、その値が返り値となります。
+そうでなく2つの値が論理的に等しい場合は、どちらかの値が返されます（どちらが返されるかは不定です）。
 
 Values `null` (`nil`) and `false` are treated as `false`.
 Otherwise `true`.
 
 ### `Droonga::Collectors::Sum`
 
-Returns a summarized value of two input values.
+2つの値のまとめた結果を返します。
 
-This collector works a little complicatedly.
+このコレクターは若干複雑な動作をします。
 
- * If one of values is equal to `null` (`nil`), then the other value becomes the result.
- * If both values are hash, then a merged hash becomes the result.
-   * The result hash has all keys of two hashes.
-     If both have same keys, then one of their values appears as the value of the key in the reuslt hash.
-   * It is indeterminate which value becomes the base.
- * Otherwise the result of `a + b` becomes the result.
-   * If they are arrays or strings, a concatenated value becomes the result.
-     It is indeterminate which value becomes the lefthand.
+ * 片方の値が `null` (`nil`) である場合、もう片方の値を返します。
+ * 両方の値がハッシュである場合、ハッシュの結合結果を値として返します。
+   * 結果のハッシュは、2つのハッシュが持つキーのすべてを持ちます。
+     両方のハッシュでキーが重複した場合、重複したキーの値はどちらかのハッシュの値となります。
+   * 重複するキーの値についてどちらのハッシュの値が使われるかは不定です。
+ * それ以外の場合は、 `a + b` の結果を値として返します。
+   * 両方ともの値が配列または文字列であった場合、それらを連結した結果を値として返します。
+     どちらの値が左辺になるかは不定です。
 
