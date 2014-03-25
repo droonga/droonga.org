@@ -443,8 +443,8 @@ Default value
 
 ##### `indexOptions` {#parameter-indexOptions}
 
-Abstract
-: Specifies the optional properties of an "Index" column.
+概要
+: データベースインスタンスの場所を指定します。
 
 Value
 : An object which is an [`indexOptions` definition](#indexOptions)

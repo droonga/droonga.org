@@ -609,6 +609,13 @@ msgid "##### `indexOptions` {#parameter-indexOptions}"
 msgstr ""
 
 msgid ""
+"Abstract\n"
+": Specifies the optional properties of an \"Index\" column."
+msgstr ""
+"概要\n"
+": データベースインスタンスの場所を指定します。"
+
+msgid ""
 "Value\n"
 ": An object which is an [`indexOptions` definition](#indexOptions)"
 msgstr ""
