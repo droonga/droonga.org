@@ -16,5 +16,5 @@ layout: ja
 
 カタログの指定はバージョン管理されています。利用可能なバージョンは以下のとおりです:
 
- * [version 1](version1/): (It is deprecated since 1.0.0.)
  * [version 2](version2/)
+ * [version 1](version1/): (It is deprecated since 1.0.0.)

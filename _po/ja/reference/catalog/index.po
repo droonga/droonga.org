@@ -31,6 +31,6 @@ msgid "Catalog specification is versioned. Here are available versions:"
 msgstr "カタログの指定はバージョン管理されています。利用可能なバージョンは以下のとおりです:"
 
 msgid ""
-" * [version 1](version1/): (It is deprecated since 1.0.0.)\n"
-" * [version 2](version2/)"
+" * [version 2](version2/)\n"
+" * [version 1](version1/): (It is deprecated since 1.0.0.)"
 msgstr ""
