@@ -1,5 +1,5 @@
 ---
-title: "プラグイン: リクエストとレスポンスを加工し、既存のコマンドに基づいた新しいコマンドを作成する"
+title: "プラグイン：リクエストとレスポンスをAdaptして、既存のコマンドに基づいた新たなコマンドを作成する"
 layout: ja
 ---
 
@@ -17,23 +17,25 @@ layout: ja
 
 ## チュートリアルのゴール
 
-Learning steps to develop a Droonga plugin by yourself.
+Droongaプラグインを自分で開発するための手順を身につける事が、このチュートリアルの目標です。
 
-This page focuses on the "adaption" by Droonga plugins.
-At the last, we create a new command `storeSearch` based on the existing `search` command, with a small practical plugin.
+このページの内容は、Droongaプラグインによる「adaption」に焦点を当てています。
+最後には、練習のための小さなプラグインとして、既存の`search`コマンドを利用して`storeSearch`というコマンドを作成します。
 
 ## 前提条件
 
-* [基本的な使い方のチュートリアル][basic tutorial] を完了している必要があります。
+* [基本のチュートリアル][basic tutorial]を完了しておいて下さい。
 
 
-## 入力メッセージの加工
+## 入力メッセージに対するAdaption
 
-まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を学びましょう。
+最初に、adaption phaseで動作する`sample-logger`という名前の単純なロギング用プラグインの作成を通じて基本を学びましょう。
 
-外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセクションでは、どのようにしてadaption phaseのプラグインをつくるのかをみていきます。
+We sometime need to modify incoming requests from outside to Droonga Engine.
+We can use a plugin for this purpose.
+Let's see how to create a plugin for the adaption phase, in this section.
 
-### ディレクトリの構造
+### Directory Structure
 
 Assume that we are going to add a new plugin to the system built in the [basic tutorial][].
 In that tutorial, Groonga engine was placed under `engine` directory.
@@ -57,7 +59,7 @@ engine
 ~~~
 
 
-### プラグインの作成
+### Create a plugin
 
 You must put codes for a plugin into a file which has the name *same to the plugin itself*.
 Because the plugin now you creating is `sample-logger`, put codes into a file `sample-logger.rb` in the `droonga/plugins` directory.
@@ -89,7 +91,7 @@ This plugin does nothing except registering itself to the Droonga Engine.
    An adapter class must be defined as a subclass of the `Droonga::Adapter`, under the namespace of the plugin module.
 
 
-### `catalog.json`でプラグインを有効化する
+### Activate the plugin with `catalog.json`
 
 You need to update `catalog.json` to activate your plugin.
 Insert the name of the plugin `"sample-logger"` to the `"plugins"` list under the dataset, like:
@@ -107,7 +109,7 @@ catalog.json:
 
 Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins at the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
 
-### 実行と動作を確認する
+### Run and test
 
 Let's get Droonga started.
 Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
@@ -186,7 +188,7 @@ Elapsed time: 0.021544
 This is the search result.
 
 
-### プラグインを動作させる: ログをとる
+### Do something in the plugin: take logs
 
 The plugin we have created do nothing so far. Let's get the plugin to do some interesting.
 
@@ -264,7 +266,7 @@ You will see something like below fluentd's log in `fluentd.log`:
 
 This shows the message is received by our `SampleLoggerPlugin::Adapter` and then passed to Droonga. Here we can modify the message before the actual data processing.
 
-### プラグインでメッセージを加工する
+### Modify messages with the plugin
 
 Suppose that we want to restrict the number of records returned in the response, say `1`.
 What we need to do is set `limit` to be `1` for every request.
@@ -328,13 +330,13 @@ You will see something like below fluentd's log in `fluentd.log`:
 ~~~
 
 
-## 出力メッセージの加工
+## Adaption for outgoing messages
 
 In case we need to modify outgoing messages from Droonga Engine, for example, search results, then we can do it simply by another method.
 In this section, we are going to define a method to adapt outgoing messages.
 
 
-### 出力のメッセージを加工するメソッドを追加する
+### Add a method to adapt outgoing messages
 
 Let's take logs of results of `search` command.
 Define the `adapt_output` method to process outgoing messages.
@@ -362,7 +364,7 @@ lib/droonga/plugins/sample-logger.rb:
 The method `adapt_output` is called only for outgoing messages triggered by incoming messages processed by the plugin itself.
 See the [reference manual for plugin developers](../../../reference/plugin/adapter/) for more details.
 
-### 実行する
+### Run
 
 Let's restart fluentd:
 
@@ -409,7 +411,7 @@ The fluentd's log should be like as follows:
 This shows that the result of `search` is passed to the `adapt_output` method (and logged), then outputted.
 
 
-### 結果をadaption phaseで加工する
+### Modify results in the adaption phase
 
 Let's modify the result.
 For example, add `completedAt` attribute that shows the time completed the request.
@@ -474,7 +476,7 @@ The results in `fluentd.log` will be like this:
 ~~~
 
 
-## 入出力メッセージの加工
+## Adaption for both incoming and outgoing messages
 
 We have learned the basics of plugins for the adaption phase so far.
 Let's try to build more practical plugin.
@@ -482,7 +484,7 @@ Let's try to build more practical plugin.
 You may feel the Droonga's `search` command is too flexible for your purpose.
 Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface, with a new plugin named `store-search`.
 
-### シンプルなリクエストを受け取る
+### Accepting of simple requests
 
 First, create the `store-search` plugin.
 Remember, you must put codes into a file which has the name same to the plugin now you are creating.
@@ -621,7 +623,7 @@ Now we can perform store search with simple requests.
 
 Note: look at the `"type"` of the response message. Now it became `"storeSearch.result"`, from `"search.result"`. Because it is triggered from the incoming message with the type `"storeSearch"`, the outgoing message has the type `"(incoming command).result"` automatically. In other words, you don't have to change the type of the outgoing messages, like `input_message.type = "search"` in the method `adapt_input`.
 
-### シンプルなレスポンスを返す
+### Returning of simple responses
 
 Second, let's return results in more simple way: just an array of the names of stores.
 

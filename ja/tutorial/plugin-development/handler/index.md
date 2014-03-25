@@ -212,7 +212,7 @@ The `Collectors::Sum` is one of built-in collectors.
 It merges results returned from handler instances for each partition to one result.
 
 
-### `catalog.json`でプラグインを有効化する
+### Activate the plugin with `catalog.json`
 
 Update catalog.json to activate this plugin.
 Add `"count-records"` to `"plugins"`.
@@ -226,7 +226,7 @@ Add `"count-records"` to `"plugins"`.
 (snip)
 ~~~
 
-### 実行と動作を確認する
+### Run and test
 
 Let's get Droonga started.
 Note that you need to specify ./lib directory in RUBYLIB environment variable in order to make ruby possible to find your plugin.
@@ -369,7 +369,7 @@ If the request is successfully processed, the `body` becomes `true`. Otherwise `
 The `body` is just one boolean value, because we don't have to receive multiple results from partitions.
 
 
-### ディレクトリの構造
+### Directory Structure
 
 Now let's create the `delete-stores` plugin, as the file `delete-stores.rb`. The directory tree will be:
 
@@ -470,7 +470,7 @@ The handler finds and deletes existing records which have the given keyword in i
 And, the `Collectors::And` is bound to the step by the configuration `step.collector`.
 It is is also one of built-in collectors, and merges boolean values returned from handler instances for each partition and replica, to one boolean value.
 
-### `catalog.json`でプラグインを有効化する
+### Activate the plugin with `catalog.json`
 
 Update catalog.json to activate this plugin.
 Add `"delete-stores"` to `"plugins"`.
@@ -484,7 +484,7 @@ Add `"delete-stores"` to `"plugins"`.
 (snip)
 ~~~
 
-### 実行と動作を確認する
+### Run and test
 
 Restart the Droonga Engine and send the request.
 
