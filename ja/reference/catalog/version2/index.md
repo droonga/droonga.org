@@ -95,7 +95,7 @@ layout: ja
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `version` {#parameter-version}
 
@@ -153,7 +153,7 @@ layout: ja
 : 可。`dataset`と`volume`の定義でオーバライドできます。
 
 
-#### Example
+#### 例
 
 A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 
@@ -171,7 +171,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `plugins` {#parameter-plugins}
 
@@ -229,7 +229,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 継承可能性
 : 不可。
 
-#### Example
+#### 例
 
 データベースインスタンスに1つにつき4ワーカーを持ち、プラグイン`groonga`、`crud`、`search`を使用するデータセット:
 
@@ -249,22 +249,22 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `type` {#parameter-table-type}
 
-Abstract
-: Specifies which data structure is used for managing keys of the table.
+概要
+: テーブルのキーを管理するためのデータ構造を指定する。
 
-Value
-: Any of the following values.
+値
+: 以下のうち何れかの値。
 
-* "Array": for tables which have no keys.
-* "Hash": for hash tables.
-* "PatriciaTrie": for patricia trie tables.
-* "DoubleArrayTrie": for double array trie tables.
+* "Array": キーの無いテーブル
+* "Hash": ハッシュテーブル
+* "PatriciaTrie": パトリシアトライテーブル
+* "DoubleArrayTrie": ダブル配列トライテーブル
 
-Default value
+デフォルト値
 : "Hash"
 
 継承可能性
@@ -272,18 +272,17 @@ Default value
 
 ##### `keyType` {#parameter-keyType}
 
-Abstract
-: Data type of the key of the table. Mustn't be assigned when the `type` is "Array".
+概要
+: テーブルにおけるキーのデータ型。`type`が"Array"の場合は指定してはいけません。
 
-Value
-: Any of the following data types.
+: 以下のデータ型のうちの何れか。
 
-* "Integer"       : 64bit signed integer.
-* "Float"         : 64bit floating-point number.
-* "Time"          : Time value with microseconds resolution.
-* "ShortText"     : Text value up to 4095 bytes length.
-* "TokyoGeoPoint" : Tokyo Datum based geometric point value.
-* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
+* "Integer"       : 64bit 符号付き整数。
+* "Float"         : 64bit 浮動小数点数。
+* "Time"          : マイクロ秒精度の時刻。
+* "ShortText"     : 4095バイトまでの文字列。
+* "TokyoGeoPoint" : 旧日本測地系による経緯度。
+* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) による経緯度。
 
 Default value
 : None. Mandatory for tables with keys.
@@ -349,11 +348,11 @@ Value
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Hash table
+##### 例1: Hashテーブル
 
-A `Hash` table whose key is `ShortText` type, with no columns:
+`ShortText`型のキーを持つ`Hash`テーブルで、カラムは無いもの:
 
 ~~~
 {
@@ -364,9 +363,9 @@ A `Hash` table whose key is `ShortText` type, with no columns:
 }
 ~~~
 
-##### Example 2: PatriciaTrie table
+##### 例2: PatriciaTrieテーブル
 
-A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normalizer, with no columns:
+`TokenBigram`トークナイザと`NormalizerAuto`ノーマライザを利用する`PatriciaTrie`テーブル
 
 ~~~
 {
@@ -385,7 +384,7 @@ A `PatriciaTrie` table with `TokenBigram` tokenizer and `NormalizerAuto` normali
 
 : An object with the following key/value pairs.
 
-#### Parameters
+#### パラメータ
 
 ##### `type` {#parameter-column-type}
 
@@ -442,10 +441,10 @@ Default value
 継承可能性
 : 不可。
 
-### indexOption 定義 {#indexOption}
+##### `indexOptions` {#parameter-indexOptions}
 
-概要
-: データベースインスタンスの場所を指定します。
+Abstract
+: Specifies the optional properties of an "Index" column.
 
 Value
 : An object which is an [`indexOptions` definition](#indexOptions)
@@ -456,11 +455,11 @@ Default value
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Scalar column
+##### 例1: スカラー型カラム
 
-A scaler column to store `ShortText` values:
+`ShortText`を格納するスカラー型のカラム:
 
 ~~~
 {
@@ -485,7 +484,7 @@ A vector column to store `ShortText` values with weight:
 
 ##### 例2: インデクスカラム
 
-A column to index `address` column on `Store` table:
+`Store`テーブルの`address`カラムをインデクスするカラム:
 
 ~~~
 {
@@ -504,7 +503,7 @@ A column to index `address` column on `Store` table:
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `weight` {#parameter-vectorOptions-weight}
 
@@ -520,7 +519,7 @@ Default value
 継承可能性
 : 不可。
 
-#### Example
+#### 例
 
 Store the weight data.
 
@@ -535,7 +534,7 @@ Store the weight data.
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `section` {#parameter-indexOptions-section}
 
@@ -593,7 +592,7 @@ Value
 継承可能性
 : 不可。
 
-#### Example
+#### 例
 
 Store the section data, the weight data and the position data.
 Index `name` and `address` on the referencing table.
@@ -618,7 +617,7 @@ Index `name` and `address` on the referencing table.
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Types of Slicers {#types-of-slicers}
+#### スライサーの種類
 
 In order to define a volume which consists of a collection of `slices`,
 the way how slice recodes into slices must be decided.
@@ -646,7 +645,7 @@ element of `{High, Middle, Low}`.
 the values denotes categories,which have no order,
 e.g. country, zip code, color.
 
-#### Parameters
+#### パラメータ
 
 ##### `address` {#parameter-address}
 
@@ -709,11 +708,11 @@ e.g. country, zip code, color.
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Single instance
+##### 例1: 単一のインスタンス
 
-A volume at "localhost:24224/volume.000":
+"localhost:24224/volume.000"にあるボリューム:
 
 ~~~
 {
@@ -721,10 +720,9 @@ A volume at "localhost:24224/volume.000":
 }
 ~~~
 
-##### Example 2: Slices
+##### Example 2: 複数のスライス
 
-A volume that consists of three slices, records are to be distributed according to `hash`,
-which is ratio-scaled slicer function, of `_key`.
+3つのスライスから構成され、`_key`に対してratio-scaledなスライサー関数`hash`を適用してレコードを分散させるボリューム
 
 ~~~
 {
@@ -751,7 +749,7 @@ which is ratio-scaled slicer function, of `_key`.
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### Parameters
+#### パラメータ
 
 ##### `weight` {#parameter-slice-weight}
 
@@ -810,11 +808,11 @@ Value
 継承可能性
 : 不可。
 
-#### Examples
+#### 例
 
-##### Example 1: Ratio-scaled
+"##### 例1: Ratio-scaled
 
-Slice for a ratio-scaled slicer, with the weight `1`:
+ratio-scaledなスライサーのためのスライス、重みは`1`
 
 ~~~
 {
@@ -824,9 +822,9 @@ Slice for a ratio-scaled slicer, with the weight `1`:
 }
 ~~~
 
-##### Example 2: Nominal-scaled
+##### 例2: Nominal-scaled
 
-Slice for a nominal-scaled slicer, with the label `"1"`:
+nominal-scaledなスライサーのためのスライス、ラベルは `"1"`
 
 ~~~
 {
@@ -836,9 +834,9 @@ Slice for a nominal-scaled slicer, with the label `"1"`:
 }
 ~~~
 
-##### Example 3: Ordinal-scaled
+##### 例3: Ordinal-scaled
 
-Slice for a ordinal-scaled slicer, with the boundary `100`:
+ordinal-scaledなスライサーに対するスライス、境界値は`100`:
 
 ~~~
 {
@@ -848,8 +846,8 @@ Slice for a ordinal-scaled slicer, with the boundary `100`:
 }
 ~~~
 
-## Realworld example
+## 実際の例
 
-See the catalog of [basic tutorial].
+[基本的な使い方のチュートリアル][basic tutorial]に登場するカタログを参照してください。
 
   [basic tutorial]: ../../../tutorial/basic
