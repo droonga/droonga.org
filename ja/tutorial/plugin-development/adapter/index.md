@@ -17,10 +17,10 @@ layout: ja
 
 ## チュートリアルのゴール
 
-Learning steps to develop a Droonga plugin by yourself.
+Droongaプラグインを自分で開発するための手順を身につけましょう。
 
-This page focuses on the "adaption" by Droonga plugins.
-At the last, we create a new command `storeSearch` based on the existing `search` command, with a small practical plugin.
+このページでは、Droongaプラグインによる「加工」（adaption）に焦点を当てます。
+最後には、死鯨練習用のプラグインを開発して、既存の`search`コマンドに基づく新しいコマンド`storeSearch`を開発することになります。
 
 ## 前提条件
 
@@ -35,17 +35,17 @@ At the last, we create a new command `storeSearch` based on the existing `search
 
 ### ディレクトリの構造
 
-Assume that we are going to add a new plugin to the system built in the [basic tutorial][].
-In that tutorial, Groonga engine was placed under `engine` directory.
+[基本のチュートリアル][basic tutorial]で作成したシステムに対してプラグインを追加すると仮定します。
+先のチュートリアルでは、Droongaエンジンは `engine` ディレクトリ内に置かれていました。
 
-Plugins need to be placed in an appropriate directory. Let's create the directory:
+プラグインは、適切な位置のディレクトリに置かれる必要があります。ディレクトリを作成しましょう：
 
 ~~~
 # cd engine
 # mkdir -p lib/droonga/plugins
 ~~~
 
-After creating the directory, the directory structure should be like this:
+ディレクトリを作成した後は、ディレクトリ構造は以下のようになります：
 
 ~~~
 engine
