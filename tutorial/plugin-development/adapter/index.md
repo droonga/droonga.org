@@ -29,7 +29,7 @@ Let's see how to create a plugin for the adaption phase, in this section.
 ### Directory Structure
 
 Assume that we are going to add a new plugin to the system built in the [basic tutorial][].
-In that tutorial, Groonga engine was placed under `engine` directory.
+In that tutorial, Droonga engine was placed under `engine` directory.
 
 Plugins need to be placed in an appropriate directory. Let's create the directory:
 
