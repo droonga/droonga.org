@@ -29,9 +29,9 @@ Droongaプラグインを自分で開発するための手順を身につけま�
 
 ## 入力メッセージの加工
 
-まず`sample-logger`という簡単なロガープラグインを使って、adaption phaseに作用するプラグインを作りながら、基礎を学びましょう。
+まず`sample-logger`という簡単なロガープラグインを使って、加工フェイズに作用するプラグインを作りながら、基礎を学びましょう。
 
-外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセクションでは、どのようにしてadaption phaseのプラグインをつくるのかをみていきます。
+外部のシステムからDroonga Engineにやってくるリクエストを加工する必要がある場合があります。このようなときに、プラグインを利用できます。このセクションでは、どのようにして加工フェイズのプラグインをつくるのかをみていきます。
 
 ### ディレクトリの構造
 
@@ -59,8 +59,8 @@ engine
 
 ### プラグインの作成
 
-You must put codes for a plugin into a file which has the name *same to the plugin itself*.
-Because the plugin now you creating is `sample-logger`, put codes into a file `sample-logger.rb` in the `droonga/plugins` directory.
+プラグイン用のコードは、*プラグイン自身の名前と同じ名前*のファイルに書く必要があります。
+これから作るプラグインの名前は`sample-logger`なので、コードは`droonga/plugins`ディレクトリ内の`sample-logger.rb`の中に書いていくことになります。
 
 lib/droonga/plugins/sample-logger.rb:
 
@@ -74,25 +74,25 @@ module Droonga
       register("sample-logger")
 
       class Adapter < Droonga::Adapter
-        # You'll put codes to modify messages here.
+        # メッセージを加工するためのコードをここに書きます。
       end
     end
   end
 end
 ~~~
 
-This plugin does nothing except registering itself to the Droonga Engine.
+このプラグインは、Droonga Engineに自分自身を登録する以外の事は何もしません。
 
- * The `sample-logger` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
- * As the example above, you must define your plugin as a module.
- * Behaviors at the adaption phase is defined a class called *adapter*.
-   An adapter class must be defined as a subclass of the `Droonga::Adapter`, under the namespace of the plugin module.
+ * `sample-logger`は、このプラグイン自身の名前です。これは`catalog.json`の中で、プラグインを有効化するために使う事になります。
+ * 上記の例のように、プラグインはモジュールとして定義する必要があります。
+ * 加工フェイズでの振る舞いは、*アダプター*と呼ばれるクラスとして定義します。
+   アダプタークラスは必ず、プラグインのモジュールの名前空間の配下で、`Droonga::Adapter`のサブクラスとして定義する必要があります。
 
 
 ### `catalog.json`でプラグインを有効化する
 
-You need to update `catalog.json` to activate your plugin.
-Insert the name of the plugin `"sample-logger"` to the `"plugins"` list under the dataset, like:
+プラグインを有効化するには、`catalog.json`を更新する必要があります。
+プラグインの名前`"sample-logger"`を、データセットの配下の`"plugins"`のリストに挿入します。例：
 
 catalog.json:
 
@@ -105,20 +105,20 @@ catalog.json:
 (snip)
 ~~~
 
-Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins at the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
+注意：`"sample-logger"`は`"search"`よりも前に置く必要があります。これは、`sample-logger`プラグインが`search`に依存しているからです。Droonga Engineは加工フェイズにおいて、プラグインを`catalog.json`で定義された順に適用しますので、プラグイン同士の依存関係は（今のところは）自分で解決しなくてはなりません。
 
 ### 実行と動作を確認する
 
-Let's get Droonga started.
-Note that you need to specify `./lib` directory in `RUBYLIB` environment variable in order to make ruby possible to find your plugin.
+Droongaを起動しましょう。
+Rubyがあなたの書いたプラグインのコード群を見つけられるように、`RUBYLIB`環境変数に`./lib`を加えることに注意して下さい。
 
 ~~~
 # kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-Then, verify that the engine is correctly working.
-First, create a request as a JSON.
+そうしたら、Engineが正しく動作しているかを確かめます。
+まず、以下のようなJSON形式のリクエストを作成します。
 
 search-columbus.json:
 
@@ -151,10 +151,10 @@ search-columbus.json:
 }
 ~~~
 
-This is corresponding to the example to search "Columbus" in the [basic tutorial][].
-Note that the request for the Protocol Adapter is encapsulated in `"body"` element.
+これは[基本のチュートリアル](basic tutorial)において"Columbus"を検索する例に対応しています。
+Protocol Adapterへのリクエストは`"body"`要素の中に置かれていることに注意して下さい。
 
-Send the request to engine with `droonga-request`:
+`droonga-request`コマンドを使ってリクエストをDroonga Engineに送信します：
 
 ~~~
 # droonga-request --tag starbucks search-columbus.json
@@ -183,14 +183,14 @@ Elapsed time: 0.021544
 ]
 ~~~
 
-This is the search result.
+これが検索結果です。
 
 
 ### プラグインを動作させる: ログをとる
 
-The plugin we have created do nothing so far. Let's get the plugin to do some interesting.
+ここまでで作成したプラグインは、何もしない物でした。それでは、このプラグインを何か面白いことをする物にしましょう。
 
-First of all, trap `search` request and log it. Update the plugin like below:
+まず最初に、`search`のリクエストを捕まえてログ出力してみます。プラグインを以下のように更新して下さい：
 
 lib/droonga/plugins/sample-logger.rb:
 
@@ -211,9 +211,9 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-The line beginning with `input_message.pattern` is a configuration.
-This example defines a plugin for any incoming message with `"type":"search"`.
-See the [reference manual's configuration section](../../../reference/plugin/adapter/#config)
+`input_message.pattern`で始まる行は、設定です。
+この例では、プラグインを`"type":"search"`という情報を持つすべての入力メッセージに対して働くように定義しています。.
+詳しくは[リファレンスマニュアルの設定のセクション](../../../reference/plugin/adapter/#config)を参照して下さい。
 
 (Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
 
