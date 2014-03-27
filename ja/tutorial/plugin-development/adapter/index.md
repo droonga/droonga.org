@@ -690,10 +690,10 @@ In the way just described, we can use adapter to implement the application speci
 
 ## まとめ
 
-We have learned how to add a new command based only on a custom adapter and an existing command.
-In the process, we also have learned how to receive and modify messages, both of incoming and outgoing.
+既存のコマンドと独自のアダプターのみを使って新しいコマンドを追加する方法について学びました。
+その過程で、入力メッセージと出力メッセ0時の両方について、どのように受け取り加工するのかについても学びました。
 
-See also the [reference manual](../../../reference/plugin/adapter/) for more details.
+詳細は[リファレンスマニュアル](../../../reference/plugin/adapter/)を参照して下さい。
 
 
   [basic tutorial]: ../../basic/
