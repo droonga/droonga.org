@@ -98,8 +98,6 @@ end
 : 出力メッセージに対する[マッチングパターン][matching pattern]。
   パターンが指定されていない（もしくは`nil`が指定された）場合は、すべてのメッセージがマッチします。
 
-注意: Droonga 0.9.9では、これらの設定は`message.input_pattern`および`message.output_pattern`という名前でしたが、Droonga 1.0.0で上記の通りに変更されました。Droonga 0.9.9用に開発されたプラグインは、移行のために書き換える必要があります。
-
 ## クラスとメソッド {#classes}
 
 ### `Droonga::Adapter` {#classes-Droonga-Adapter}
@@ -172,8 +170,6 @@ module Droonga::Plugins::MySearch
   end
 end
 ~~~
-
-注意: Droonga 0.9.9では、このメソッドは`command`という名前でしたが、Droonga 1.0.0で上記の通りに`type`に変更されました。Droonga 0.9.9用に開発されたプラグインは、移行のために書き換える必要があります。
 
 #### `#body`, `#body=(body)` {#classes-Droonga-InputMessage-body}
 

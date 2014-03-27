@@ -215,19 +215,17 @@ lib/droonga/plugins/sample-logger.rb:
 この例では、プラグインを`"type":"search"`という情報を持つすべての入力メッセージに対して働くように定義しています。.
 詳しくは[リファレンスマニュアルの設定のセクション](../../../reference/plugin/adapter/#config)を参照して下さい。
 
-(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
+`adapt_input`メソッドは、パターンに当てはまるすべての入力メッセージに対して毎回呼ばれます。
+引数の`input_message`は、入力メッセージをラップした物です。
 
-The method `adapt_input` is called for every incoming message matching to the pattern.
-The argument `input_message` is a wrapped version of the incoming message.
-
-Restart fluentd:
+fluentdを再起動します：
 
 ~~~
 # kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-Send the request same as the previous section:
+前のセクションと同じリクエストを送信します：
 
 ~~~
 # droonga-request --tag starbucks search-columbus.json
@@ -256,13 +254,13 @@ Elapsed time: 0.014714
 ]
 ~~~
 
-You will see something like below fluentd's log in `fluentd.log`:
+すると、fluentdのログファイルである`fluentd.log`に以下のようなログが出力される事を確認できるでしょう。
 
 ~~~
 2014-02-17 15:20:37 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f8ae3e1dd98 @raw_message={"dataset"=>"Starbucks", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64591/droonga"}, "id"=>"1392618037.935901", "date"=>"2014-02-17 15:20:37 +0900", "appliedAdapters"=>[]}>
 ~~~
 
-This shows the message is received by our `SampleLoggerPlugin::Adapter` and then passed to Droonga. Here we can modify the message before the actual data processing.
+このログは、メッセージが`SampleLoggerPlugin::Adapter`によって受信されて、Droongaに渡されたことを示しています。実際のデータ処理の前に、この時点でメッセージを加工することができます。
 
 ### プラグインでメッセージを加工する
 
@@ -284,7 +282,7 @@ lib/droonga/plugins/sample-logger.rb:
 Like above, you can modify the incoming message via methods of the argument `input_message`.
 See the [reference manual for the message class](../../../reference/plugin/adapter/#classes-Droonga-InputMessage).
 
-Restart fluentd:
+fluentdを再起動します：
 
 ~~~
 # kill $(cat fluentd.pid)
@@ -321,7 +319,7 @@ Elapsed time: 0.017343
 
 Note that `count` is still `2` because `limit` does not affect to `count`. See [search][] for details of the `search` command.
 
-You will see something like below fluentd's log in `fluentd.log`:
+すると、fluentdのログファイルである`fluentd.log`に以下のようなログが出力される事を確認できるでしょう。
 
 ~~~
 2014-02-17 15:24:39 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f956685c908 @raw_message={"dataset"=>"Starbucks", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64616/droonga"}, "id"=>"1392618279.0578449", "date"=>"2014-02-17 15:24:39 +0900", "appliedAdapters"=>[]}>
@@ -429,7 +427,7 @@ lib/droonga/plugins/sample-logger.rb:
 Like above, you can modify the outgoing message via methods of the argument `output_message`. 
 See the [reference manual for the message class](../../../reference/plugin/adapter/#classes-Droonga-OutputMessage).
 
-Restart fluentd:
+fluentdを再起動します：
 
 ~~~
 # kill $(cat fluentd.pid)
@@ -542,8 +540,6 @@ module Droonga
 end
 ~~~
 
-(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
-
 Then update your `catalog.json` to activate the plugin.
 Remove the `sample-logger` plugin previously created.
 
@@ -560,7 +556,7 @@ catalog.json:
 
 Remember, you must place your plugin `"store-search"` before the `"search"` because yours depends on it.
 
-Restart fluentd:
+fluentdを再起動します：
 
 ~~~
 # kill $(cat fluentd.pid)
@@ -653,7 +649,7 @@ lib/droonga/plugins/store-search.rb:
 
 The `adapt_output` method receives outgoing messages only corresponding to the incoming messages processed by the `adapt_input` method.
 
-Restart fluentd:
+fluentdを再起動します：
 
 ~~~
 # kill $(cat fluentd.pid)
