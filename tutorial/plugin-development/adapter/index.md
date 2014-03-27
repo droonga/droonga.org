@@ -208,8 +208,6 @@ The line beginning with `input_message.pattern` is a configuration.
 This example defines a plugin for any incoming message with `"type":"search"`.
 See the [reference manual's configuration section](../../../reference/plugin/adapter/#config)
 
-(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
-
 The method `adapt_input` is called for every incoming message matching to the pattern.
 The argument `input_message` is a wrapped version of the incoming message.
 
@@ -534,8 +532,6 @@ module Droonga
   end
 end
 ~~~
-
-(Note: `input_message.pattern` is for Droonga 1.0.0 and later. On Droonga 0.9.9, you have to use a deprecated configuration `message.input_pattern` instead.)
 
 Then update your `catalog.json` to activate the plugin.
 Remove the `sample-logger` plugin previously created.
