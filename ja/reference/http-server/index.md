@@ -95,13 +95,15 @@ catalog.json:
       }
     }
 
-Then, you'll start the HTTP server on the host 192.168.10.90, with options like:
+この時、192.168.10.90のコンピュータ上でHTTPサーバを起動する際のコマンドラインオプションは以下のようになります：
 
     # droonga-http-server --receive-host-name 192.168.10.90 \
                           --droonga-engine-host-name 192.168.10.100 \
                           --droonga-engine-port 24324 \
                           --default-dataset Books \
                           --tag books
+
+[基本のチュートリアル][basic tutorial]も併せて参照して下さい。
 
 ## 組み込みのAPI {#usage-api}
 
@@ -156,6 +158,7 @@ Droonga HTTP Serverは以下のAPIを含んでいます：
 （未稿）
 
 
+  [basic tutorial]: ../../tutorial/basic/
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [droonga-http-server npm module]: https://npmjs.org/package/droonga-http-server
   [Node.js]: http://nodejs.org/

@@ -94,6 +94,8 @@ Then, you'll start the HTTP server on the host 192.168.10.90, with options like:
                           --default-dataset Books \
                           --tag books
 
+See also the [basic tutorial][].
+
 ## Built-in APIs {#usage-api}
 
 The Droonga HTTP Server includes following APIs:
@@ -148,6 +150,7 @@ Available query parameters are:
 (TBD)
 
 
+  [basic tutorial]: ../../tutorial/basic/
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [droonga-http-server npm module]: https://npmjs.org/package/droonga-http-server
   [Node.js]: http://nodejs.org/

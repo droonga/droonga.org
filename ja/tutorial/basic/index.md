@@ -1502,12 +1502,16 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 以上 2 件が検索結果として該当することがわかりました。
 
+Droonga HTTP Serverの詳細については[リファレンスマニュアル][http-server]を参照して下さい。
+
 
 ## まとめ
 
 [Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [droonga-http-server][] をセットアップしました。
 これらのパッケージを利用することで、HTTP Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
 
+
+  [http-server]: ../../reference/http-server/
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga

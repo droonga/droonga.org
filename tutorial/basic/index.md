@@ -1495,12 +1495,16 @@ Next step, let's try more meaningful query. To search stores which contain "Colu
 
 As the result, two stores are found by the search condition.
 
+For more details of the Droonga HTTP Server, see the [reference manual][http-server].
+
 
 ## Conclusion
 
 In this tutorial, you did setup both packages [fluent-plugin-droonga][] and [droonga-http-server][] which construct [Droonga][] service on a [Ubuntu Linux][Ubuntu].
 Moreover, you built a search system based on an HTTP protocol adapter with a Droonga engine, and successfully searched.
 
+
+  [http-server]: ../../reference/http-server/
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga

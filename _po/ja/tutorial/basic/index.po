@@ -1730,6 +1730,11 @@ msgstr ""
 msgid "As the result, two stores are found by the search condition."
 msgstr "以上 2 件が検索結果として該当することがわかりました。"
 
+msgid ""
+"For more details of the Droonga HTTP Server, see the [reference manual][http-s"
+"erver]."
+msgstr "Droonga HTTP Serverの詳細については[リファレンスマニュアル][http-server]を参照して下さい。"
+
 msgid "## Conclusion"
 msgstr "## まとめ"
 
@@ -1746,6 +1751,7 @@ msgstr ""
 "ました。"
 
 msgid ""
+"  [http-server]: ../../reference/http-server/\n"
 "  [Ubuntu]: http://www.ubuntu.com/\n"
 "  [Droonga]: https://droonga.org/\n"
 "  [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga\n"
