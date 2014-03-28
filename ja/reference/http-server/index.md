@@ -41,17 +41,17 @@ Droonga HTTP Serverは、HTTPサーバを起動するための`droonga-http-serv
 指定可能なオプションと既定値は以下の通りです：
 
 `--port <13000>`
-: The port number which the server receives HTTP requests at.
+: HTTPリクエストを受け付けるポート番号。
 
 `--receive-host-name <127.0.0.1>`
-: The host name (or the IP address) of the computer itself which the server is running.
-  It is used by the Droonga Engine, to send response messages to the protocol adapter.
+: HTTPサーバが動作するコンピュータ自身のホスト名（またはIPアドレス）。
+  Droonga EngineからProtocol Adapterへレスポンスのメッセージを送出する際の宛先に使われます。
 
 `--droonga-engine-host-name <127.0.0.1>`
-: The host name (or the IP address) of the computer which the Droonga Engine is running on.
+: Droonga Engineが動作するコンピュータのホスト名（またはIPアドレス）。
 
 `--droonga-engine-port <24224>`
-: The port number which the Droonga Engine receives messages at.
+: Droonga Engineがメッセージを受け付けるポートの番号。
 
 `--default-dataset <Droonga>`
 : The name of the default dataset.
