@@ -14,7 +14,7 @@ layout: ja
 
 # 概要
 
-Droongaは主に、[fluent-plugin-droonga][]と[express-droonga][]の2つのパッケージから構成されています。
+Droongaは主に、[fluent-plugin-droonga][]と[droonga-http-server][]の2つのパッケージから構成されています。
 
 ## 依存関係
 
@@ -24,7 +24,7 @@ Droongaは主に、[fluent-plugin-droonga][]と[express-droonga][]の2つのパ�
 
 ### Node.js
 
-[express-droonga][]は[Node.js][]を必要とします。
+[droonga-http-server][]は[Node.js][]を必要とします。
 
 
 # Ubuntu 13.10
@@ -37,13 +37,13 @@ Droongaは主に、[fluent-plugin-droonga][]と[express-droonga][]の2つのパ�
 
     sudo gem install fluent-plugin-droonga
 
-## express-droongaのインストール
+## droonga-http-serverのインストール
 
-    sudo npm install express-droonga
+    sudo npm install -g droonga-http-server
 
 以上で、Droongaベースのデータ処理システムを構築する準備が整いました。ここから先は[チュートリアル](/ja/tutorial/)を参照して下さい。
 
   [Ruby]: http://www.ruby-lang.org/
   [Node.js]: http://nodejs.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
-  [express-droonga]: https://github.com/droonga/express-droonga
+  [droonga-http-server]: https://github.com/droonga/droonga-http-server

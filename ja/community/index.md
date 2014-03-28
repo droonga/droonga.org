@@ -34,7 +34,8 @@ Droongaのメーリングリストは次の通りです。
 Droonga関連のGitHub issuesは次の通りです。
 
  * [Issues - droonga/fluent-plugin-droonga](https://github.com/droonga/fluent-plugin-droonga/issues)：Droonga Engineに関すること用。
- * [Issues - droonga/express-droonga](https://github.com/droonga/express-droonga/issues)：Protocol Adapterに関すること用。
+ * [Issues - droonga/express-droonga](https://github.com/droonga/express-droonga/issues)：HTTP Protocol Adapterに関すること用。
+ * [Issues - droonga/droonga-http-server](https://github.com/droonga/droonga-http-server/issues)：HTTP Protocol Adapterのフロントエンドに関すること用。
 
 Droongaのどのモジュールの問題かわからないときはDroonga EngineのGitHub issuesを使ってください。開発者が作られたissueを適切なGitHub issuesに移動します。
 

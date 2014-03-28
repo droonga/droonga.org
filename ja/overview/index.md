@@ -77,7 +77,7 @@ Droonga Engineのクラスタ内部の通信にはMessagePack data stream(Fluent
 ### Protocol Adapter
 
 Protocol Adapterは、WebアプリケーションからDroongaを利用しやすくするために、DroongaにHTTPおよびSocket.IOインタフェースを追加するコンポーネントです。
-Protocol Adapterは、Node.js用のWebプラットフォームExpressのplugin(express-droonga)として実装されています。
+Protocol Adapterは、Node.jsベースのHTTPサーバとして実装されています。
 Protocol Adapterを使用することにより、検索クエリをHTTPリクエストとして送信し、検索結果をそのレスポンスとして受け取るC/S型のサービスが利用できるようになります。また、Socket.IOの特質を生かしたpub/sub型のサービスも利用することができます。
 
 ![droonga01](../../overview/droonga01.png)

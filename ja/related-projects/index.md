@@ -29,6 +29,7 @@ Droongaシステムのカテゴリには、Droongのコア機能を提供する�
 
  * [fluent-plugin-droonga][]: 分散検索エンジンモジュール
  * [express-droonga][]: APIサーバモジュール
+ * [droonga-http-server][]: HTTP Protocol Adapterフロントエンド
  * [Groonga][]: カラムストア機能付き全文検索エンジン
 
 ## Droongaクライアント
@@ -57,6 +58,7 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
 
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
+  [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
   [droonga-client-ruby]: https://github.com/droonga/droonga-client-ruby
   [drntest]: https://github.com/droonga/drntest
