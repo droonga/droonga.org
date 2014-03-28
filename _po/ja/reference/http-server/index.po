@@ -205,7 +205,7 @@ msgid "### REST API {#usage-rest}"
 msgstr ""
 
 msgid "#### `GET /tables/<table name>` {#usage-rest-get-tables-table}"
-msgstr ""
+msgstr "#### `GET /tables/<テーブル名>` {#usage-rest-get-tables-table}"
 
 msgid ""
 "This emits a simple [search request](../commands/search/).\n"
@@ -308,7 +308,7 @@ msgid "### Groonga HTTP server compatible API {#usage-groonga}"
 msgstr "### Groonga HTTPサーバ互換API {#usage-groonga}"
 
 msgid "#### `GET /d/<command name>` {#usage-groonga-d}"
-msgstr ""
+msgstr "#### `GET /d/<コマンド名>` {#usage-groonga-d}"
 
 msgid "(TBD)"
 msgstr "（未稿）"

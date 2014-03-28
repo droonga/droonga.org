@@ -109,7 +109,7 @@ Droonga HTTP Serverは以下のAPIを含んでいます：
 
 ### REST API {#usage-rest}
 
-#### `GET /tables/<table name>` {#usage-rest-get-tables-table}
+#### `GET /tables/<テーブル名>` {#usage-rest-get-tables-table}
 
 単純な[検索リクエスト](../commands/search/)を発行します。
 リクエストの[`source`](../commands/search/#query-source)は、パス中で指定されたテーブル名となります。
@@ -151,7 +151,7 @@ Droonga HTTP Serverは以下のAPIを含んでいます：
 
 ### Groonga HTTPサーバ互換API {#usage-groonga}
 
-#### `GET /d/<command name>` {#usage-groonga-d}
+#### `GET /d/<コマンド名>` {#usage-groonga-d}
 
 （未稿）
 
