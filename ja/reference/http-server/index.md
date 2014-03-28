@@ -17,15 +17,15 @@ layout: ja
 
 ## 概要 {#abstract}
 
-The [Droonga HTTP Server][droonga-http-server] is as an HTTP protocol adapter for the Droonga Engine.
+[Droonga HTTP Server][droonga-http-server]は、Droonga Engine用のHTTP Protocol Adapterです。
 
-The Droonga Engine supports only the fluentd protocol, so you have to use `fluent-cat` or something, to communicate with the Drooga Engine.
-This application provides ability to communicate with the Droonga Engine via HTTP.
+Droonga Engineはfluentdプロトコルにのみ対応しているため、Droonga Engineとの通信には`cluent-cat`などを使う必要があります。
+このアプリケーションは、Droonga EngineとHTTP経由で通信するための機能を提供します。
 
-## Install {#install}
+## インストール {#install}
 
-It is released as the [droonga-http-server npm module][], a [Node.js][] module package.
-You can install it via the `npm` command, like:
+Droonga HTTP Serverは、[Node.js][] 用の[droonga-http-server npmモジュール][droonga-http-server npm module]として提供されています。
+以下のように、`npm`コマンドでインストールすることができます：
 
     # npm install -g droonga-http-server
 
