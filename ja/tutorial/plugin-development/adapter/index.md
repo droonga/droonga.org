@@ -264,9 +264,7 @@ Elapsed time: 0.014714
 
 ### プラグインでメッセージを加工する
 
-Suppose that we want to restrict the number of records returned in the response, say `1`.
-What we need to do is set `limit` to be `1` for every request.
-Update plugin like below:
+レスポンスで返されるレコードの数を常に1つだけに制限したい場合、すべてのリクエストについて`limit`を`1`に指定する必要があります。プラグインを以下のように変更してみましょう：
 
 lib/droonga/plugins/sample-logger.rb:
 
@@ -279,8 +277,8 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-Like above, you can modify the incoming message via methods of the argument `input_message`.
-See the [reference manual for the message class](../../../reference/plugin/adapter/#classes-Droonga-InputMessage).
+上の例のように、プラグインは`adapt_input`メソッドの引数として渡される`input_message`を通じて入力メッセージの内容を加工することができます。
+詳細は[当該メッセージの実装であるクラスのリファレンスマニュアル](../../../reference/plugin/adapter/#classes-Droonga-InputMessage)を参照して下さい。
 
 fluentdを再起動します：
 
@@ -289,9 +287,9 @@ fluentdを再起動します：
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-After restart, the response always includes only one record in `records` section.
+再起動後、レスポンスは`records`の値としてレコードを常に（最大で）1つだけ含むようになります。
 
-Send the request same as the previous:
+先の場合と同じリクエストを投げてみましょう：
 
 ~~~
 # droonga-request --tag starbucks search-columbus.json
@@ -317,7 +315,7 @@ Elapsed time: 0.017343
 ]
 ~~~
 
-Note that `count` is still `2` because `limit` does not affect to `count`. See [search][] for details of the `search` command.
+`count`が依然として`2`であることに注意して下さい。これは、`limit`が`count`には影響を与えないという`search`コマンド自体の仕様によるものです。`search`コマンドの詳細については[`search`コマンドのリファレンスマニュアル][search]を参照して下さい。
 
 すると、fluentdのログファイルである`fluentd.log`に以下のようなログが出力される事を確認できるでしょう。
 
@@ -328,15 +326,15 @@ Note that `count` is still `2` because `limit` does not affect to `count`. See [
 
 ## 出力メッセージの加工
 
-In case we need to modify outgoing messages from Droonga Engine, for example, search results, then we can do it simply by another method.
-In this section, we are going to define a method to adapt outgoing messages.
+Droonga Engineからの出力メッセージ（例えば検索結果など）を加工したい場合は、別のメソッドを定義することでそれを実現できます。
+このセクションでは、出力メッセージを加工するメソッドを定義してみましょう。
 
 
 ### 出力のメッセージを加工するメソッドを追加する
 
-Let's take logs of results of `search` command.
-Define the `adapt_output` method to process outgoing messages.
-Remove `adapt_input` at this moment for the simplicity.
+`search`コマンドの結果のログを取ってみましょう。
+出力メッセージを処理するために、`adapt_output`メソッドを定義します。
+説明を簡単にするために、ここでは`adapt_input`メソッドの定義を一旦削除します。
 
 lib/droonga/plugins/sample-logger.rb:
 
@@ -347,7 +345,7 @@ lib/droonga/plugins/sample-logger.rb:
       register("sample-logger")
 
       class Adapter < Droonga::Adapter
-        (snip)
+        input_message.pattern = ["type", :equal, "search"]
 
         def adapt_output(output_message)
           logger.info("SampleLoggerPlugin::Adapter", :message => output_message)
@@ -357,19 +355,19 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-The method `adapt_output` is called only for outgoing messages triggered by incoming messages processed by the plugin itself.
-See the [reference manual for plugin developers](../../../reference/plugin/adapter/) for more details.
+`adapt_output`メソッドは、そのプラグイン自身によって捕捉された入力メッセージに起因して送出された出力メッセージに対してのみ呼ばれます（マッチングパターンのみが指定されていて、`adapt_input`メソッドが定義されていない場合であっても）。
+詳細は[プラグイン開発APIのリファレンスマニュアル](../../../reference/plugin/adapter/)を参照して下さい。
 
 ### 実行する
 
-Let's restart fluentd:
+fluentdを再起動しましょう：
 
 ~~~
 # kill $(cat fluentd.pid)
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-And send search request (Use the same JSON for request as in the previous section):
+次に、検索リクエストを送ります（前のセクションと同じJSONをリクエストとして使います）：
 
 ~~~
 # droonga-request --tag starbucks search-columbus.json
