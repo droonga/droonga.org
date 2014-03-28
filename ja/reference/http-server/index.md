@@ -31,14 +31,14 @@ Droonga HTTP Serverは、[Node.js][] 用の[droonga-http-server npmモジュー�
 
 ## 使い方 {#usage}
 
-### Command line options {#usage-command}
+### コマンドラインオプション {#usage-command}
 
-It includes a command `droonga-http-server` to start an HTTP server.
-You can start it with command line options, like:
+Droonga HTTP Serverは、HTTPサーバを起動するための`droonga-http-server`コマンドを含んでいます。
+以下のようにコマンドラインオプションを指定して起動できます：
 
     # droonga-http-server --port 3003
 
-Available options and their default values are:
+指定可能なオプションと既定値は以下の通りです：
 
 `--port <13000>`
 : The port number which the server receives HTTP requests at.
@@ -103,9 +103,13 @@ Then, you'll start the HTTP server on the host 192.168.10.90, with options like:
                           --default-dataset Books \
                           --tag books
 
-## Built-in APIs
+## Built-in APIs {#usage-api}
 
-### `GET /tables/<table name>`
+The Droonga HTTP Server includes following APIs:
+
+### REST API {#usage-rest}
+
+#### `GET /tables/<table name>` {#usage-rest-get-tables-table}
 
 This emits a simple [search request](../commands/search/).
 The [`source`](../commands/search/#query-source) is filled by the table name in the path.
@@ -145,6 +149,12 @@ Available query parameters are:
 `offset`
 : Corresponds to [`output.offset`](../commands/search/#query-output).
   The value is an integer.
+
+### Groonga HTTP server compatible API {#usage-groonga}
+
+#### `GET /d/<command name>` {#usage-groonga-d}
+
+（未稿）
 
 
   [droonga-http-server]: https://github.com/droonga/droonga-http-server

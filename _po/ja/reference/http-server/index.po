@@ -63,18 +63,20 @@ msgid "## Usage {#usage}"
 msgstr "## 使い方 {#usage}"
 
 msgid "### Command line options {#usage-command}"
-msgstr ""
+msgstr "### コマンドラインオプション {#usage-command}"
 
 msgid ""
 "It includes a command `droonga-http-server` to start an HTTP server.\n"
 "You can start it with command line options, like:"
 msgstr ""
+"Droonga HTTP Serverは、HTTPサーバを起動するための`droonga-http-server`コマンドを含んでいます。\n"
+"以下のようにコマンドラインオプションを指定して起動できます："
 
 msgid "    # droonga-http-server --port 3003"
 msgstr ""
 
 msgid "Available options and their default values are:"
-msgstr ""
+msgstr "指定可能なオプションと既定値は以下の通りです："
 
 msgid ""
 "`--port <13000>`\n"
@@ -174,10 +176,16 @@ msgid ""
 "                          --tag books"
 msgstr ""
 
-msgid "## Built-in APIs"
+msgid "## Built-in APIs {#usage-api}"
 msgstr ""
 
-msgid "### `GET /tables/<table name>`"
+msgid "The Droonga HTTP Server includes following APIs:"
+msgstr ""
+
+msgid "### REST API {#usage-rest}"
+msgstr ""
+
+msgid "#### `GET /tables/<table name>` {#usage-rest-get-tables-table}"
 msgstr ""
 
 msgid ""
@@ -244,6 +252,15 @@ msgid ""
 ": Corresponds to [`output.offset`](../commands/search/#query-output).\n"
 "  The value is an integer."
 msgstr ""
+
+msgid "### Groonga HTTP server compatible API {#usage-groonga}"
+msgstr ""
+
+msgid "#### `GET /d/<command name>` {#usage-groonga-d}"
+msgstr ""
+
+msgid "(TBD)"
+msgstr "（未稿）"
 
 msgid ""
 "  [droonga-http-server]: https://github.com/droonga/droonga-http-server\n"

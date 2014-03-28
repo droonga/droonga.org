@@ -94,9 +94,13 @@ Then, you'll start the HTTP server on the host 192.168.10.90, with options like:
                           --default-dataset Books \
                           --tag books
 
-## Built-in APIs
+## Built-in APIs {#usage-api}
 
-### `GET /tables/<table name>`
+The Droonga HTTP Server includes following APIs:
+
+### REST API {#usage-rest}
+
+#### `GET /tables/<table name>` {#usage-rest-get-tables-table}
 
 This emits a simple [search request](../commands/search/).
 The [`source`](../commands/search/#query-source) is filled by the table name in the path.
@@ -136,6 +140,12 @@ Available query parameters are:
 `offset`
 : Corresponds to [`output.offset`](../commands/search/#query-output).
   The value is an integer.
+
+### Groonga HTTP server compatible API {#usage-groonga}
+
+#### `GET /d/<command name>` {#usage-groonga-d}
+
+(TBD)
 
 
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
