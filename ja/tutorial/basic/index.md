@@ -1345,14 +1345,14 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 次に、サーバを起動します。
 
-    # droonga-http-server
+    # droonga-http-server --port 3000 --default-dataset Starbucks --tag starbucks
 
 
 ### HTTPでの検索リクエスト
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    # curl "http://localhost:3000/droonga/tables/Store?attributes=_key&limit=-1"
+    # curl "http://localhost:3000/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,

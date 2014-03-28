@@ -1338,14 +1338,14 @@ Let's use the `droonga-http-server` as an HTTP protocol adapter. It is an npm pa
 
 Then, run it.
 
-    # droonga-http-server
+    # droonga-http-server --port 3000 --default-dataset Starbucks --tag starbucks
 
 
 ### Search request via HTTP
 
 We're all set. Let's send a search request to the protocol adapter via HTTP. At first, try to get all records of the `Stores` table by a request like following. (Note: The `attributes=_key` parameter means "export the value of the column `_key` to the search result". If you don't set the parameter, each record returned in the `records` will become just a blank array. You can specify multiple column names by the delimiter `,`. For example `attributes=_key,location` will return both the primary key and the location for each record.)
 
-    # curl "http://localhost:3000/droonga/tables/Store?attributes=_key&limit=-1"
+    # curl "http://localhost:3000/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
