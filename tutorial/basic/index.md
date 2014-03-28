@@ -39,8 +39,8 @@ The component "Protocol Adapter" provides ability for clients to communicate wit
 The only one available protocol of a Droonga engine is the fluentd protocol.
 Instead, protocol adapters translate it to other common protocols (like HTTP, Socket.OP, etc.) between the Droonga Engine and clients.
 
-Currently, there is an implementation for the HTTP: [express-droonga][], a [Node.js][] module package.
-In other words, the express-droonga is one of Droonga Progocol Adapters, and it's a "Droonga HTTP Protocol Adapter".
+Currently, there is an implementation for the HTTP: [droonga-http-server][], a [Node.js][] module package.
+In other words, the droonga-http-server is one of Droonga Progocol Adapters, and it's a "Droonga HTTP Protocol Adapter".
 
 ## Abstract of the system described in this tutorial
 
@@ -48,9 +48,9 @@ This tutorial describes steps to build a system like following:
 
     +-------------+              +------------------+             +----------------+
     | Web Browser |  <-------->  | Protocol Adapter |  <------->  | Droonga Engine |
-    +-------------+   HTTP /     +------------------+   Fluent    +----------------+
-                      Socket.IO   w/express-droonga     protocol   w/fluent-plugin
-                                                                           -droonga
+    +-------------+   HTTP       +------------------+   Fluent    +----------------+
+                                 w/droonga-http        protocol   w/fluent-plugin
+                                           -server                         -droonga
 
 
                                  \--------------------------------------------------/
@@ -1326,72 +1326,22 @@ Elapsed time: 0.008286785
 ~~~
 
 Now the store names are retrieved. The engine looks working correctly.
-Next, setup a protocol adapter for clients to accept search requests using popular protocols.
+Next, setup a protocol adapter for clients to accept search requests via HTTP.
 
-## Build a protocol adapter
+## Setup an HTTP Protocol Adapter
 
-Let's use the `express-droonga` to build a protocol adapter. It is an npm package for the Node.js.
+Let's use the `droonga-http-server` as an HTTP protocol adapter. It is an npm package for the Node.js.
 
-### Install a express-droonga
+### Install the droonga-http-server
 
-    # cd ~
-    # mkdir protocol-adapter
-    # cd protocol-adapter
+    # npm install -g droonga-http-server
 
-After that, put a file `package.json` like following, into the directory:
+Then, run it.
 
-package.json:
-
-    {
-      "name": "protocol-adapter",
-      "description": "Droonga Protocol Adapter",
-      "version": "0.0.0",
-      "author": "Droonga Project",
-      "private": true,
-      "dependencies": {
-        "express": "*",
-        "express-droonga": "*"
-      }
-    }
-
-Install depending packages.
-
-    $ npm install
+    # droonga-http-server
 
 
-### Create a protocol adapter
-
-Put a file `application.js` like following, into the directory:
-
-application.js:
-
-    var express = require('express'),
-        droonga = require('express-droonga');
-    
-    var application = express();
-    var server = require('http').createServer(application);
-    server.listen(3000); // the port to communicate with clients
-    
-    application.droonga({
-      prefix: '/droonga',
-      tag: 'starbucks',
-      defaultDataset: 'Starbucks',
-      server: server, // this is required to initialize Socket.IO API!
-      plugins: [
-        droonga.API_REST,
-        droonga.API_SOCKET_IO,
-        droonga.API_GROONGA,
-        droonga.API_DROONGA
-      ]
-    });
-
-Then, run the `application.js`.
-
-    # nodejs application.js
-       info  - socket.io started
-
-
-### Synchronous search request via HTTP
+### Search request via HTTP
 
 We're all set. Let's send a search request to the protocol adapter via HTTP. At first, try to get all records of the `Stores` table by a request like following. (Note: The `attributes=_key` parameter means "export the value of the column `_key` to the search result". If you don't set the parameter, each record returned in the `records` will become just a blank array. You can specify multiple column names by the delimiter `,`. For example `attributes=_key,location` will return both the primary key and the location for each record.)
 
@@ -1546,142 +1496,15 @@ Next step, let's try more meaningful query. To search stores which contain "Colu
 As the result, two stores are found by the search condition.
 
 
-### Asynchronous search request via Socket.IO
-
-A Droonga protocol adapter supports not only REST API, but also [Socket.IO][]. If you send a request to a protocol adapter via Socket.IO, then the protocol adapter sends back the response for the request after the operation is finished. So you can develop a system based on a client application and an API server communicating with each other asynchronously.
-
-Now, let's create such a system based on Socket.IO.
-
-The sample client application is a simple Web page `index.html` loaded in a Web browser, returned by the protocol adapter itself.
-Put a file `index.html` into the `protocol-adaptor` directory, like following:
-
-index.html:
-
-    <html>
-      <head>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-          var socket = io.connect();
-          socket.on('search.result', function (data) {
-            document.body.textContent += JSON.stringify(data);
-          });
-          socket.emit('search', { queries: {
-            stores: {
-              source: 'Store',
-              output: {
-                 elements: [
-                   'startTime',
-                   'elapsedTime',
-                   'count',
-                   'attributes',
-                   'records'
-                 ],
-                 attributes: ['_key'],
-                 limit: -1
-              }
-            }
-          }});
-        </script>
-      </head>
-      <body>
-      </body>
-    </html>
-
-This client sends a search query by `socket.emit()`. After the request is processed and the result is returned, the callback given as `socket.on('search.result', ...)` will be called with the result, and it will render the result to the page.
-
-The first argument `'search'` for the method call `socket.emit()` means that the request is a search request.
-The second argument includes parameters of the search request. See the command reference of the [`search` command](/reference/commands/search) for more details.
-(By the way, we used a REST API to do search in the previous section. In the case the protocol adapter translates a HTTP request to a message in the format described in the [command reference of the `search`](/reference/commands/search) internally and sends it to the Droonga engine.)
-
-Next, modify the `application.js` to host the `index.html` by the protocol adapter, like:
-
-application.js:
-
-    var express = require('express'),
-        droonga = require('express-droonga');
-    
-    var application = express();
-    var server = require('http').createServer(application);
-    server.listen(3000); // the port to communicate with clients
-    
-    application.droonga({
-      prefix: '/droonga',
-      tag: 'starbucks',
-      defaultDataset: 'Starbucks',
-      server: server, // this is required to initialize Socket.IO API!
-      plugins: [
-        droonga.API_REST,
-        droonga.API_SOCKET_IO,
-        droonga.API_GROONGA,
-        droonga.API_DROONGA
-      ]
-    });
-
-    //============== INSERTED ==============
-    application.get('/', function(req, res) {
-      res.sendfile(__dirname + '/index.html');
-    });
-    //============= /INSERTED ==============
-
-Then, type the IP address of the server for experiments into the address bar of your Web browser. For example, if the IP address is `192.0.2.1`, then the location is `http://192.0.2.1:3000/` and you can see the contents of the `index.html`. When you see the search result like following, then the search request is successfully processed:
-
-    {"stores":{"count":40,"records":[["76th & Second - New York NY (W)"],["15th & Third - New York NY (W)"],["41st and Broadway - New York NY (W)"],["West 43rd and Broadway - New York NY (W)"],["Macy's 6th Floor - Herald Square - New York NY (W)"],["Herald Square- Macy's - New York NY"],["Columbus @ 67th - New York NY (W)"],["45th & Broadway - New York NY (W)"],["1585 Broadway (47th) - New York NY (W)"],["85th & First - New York NY (W)"],["92nd & 3rd - New York NY (W)"],["1656 Broadway - New York NY (W)"],["19th & 8th - New York NY (W)"],["60th & Broadway-II - New York NY (W)"],["195 Broadway - New York NY (W)"],["2 Broadway - New York NY (W)"],["NY Plaza - New York NY (W)"],["36th and Madison - New York NY (W)"],["125th St. btwn Adam Clayton & FDB - New York NY"],["2138 Broadway - New York NY (W)"],["118th & Frederick Douglas Blvd. - New York NY (W)"],["42nd & Second - New York NY (W)"],["1st Avenue & 75th St. - New York NY (W)"],["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY (W)"],["150 E. 42nd Street - New York NY (W)"],["Macy's 35th Street Balcony - New York NY"],["Macy's 5th Floor - Herald Square - New York NY (W)"],["80th & York - New York NY (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY (W)"],["52nd & Seventh - New York NY (W)"],["165 Broadway - 1 Liberty - New York NY (W)"],["54th & Broadway - New York NY (W)"],["Limited Brands-NYC - New York NY"],["63rd & Broadway - New York NY (W)"],["2 Columbus Ave. - New York NY (W)"],["70th & Broadway - New York NY (W)"],["Broadway @ 81st - New York NY (W)"],["Fashion Inst of Technology - New York NY"]]}}
-
-Your Web browser sends a request to the protocol adapter via Socket.IO, the protocol adapter sends it to the Droonga engine via fluent protocol, the engine returns the search result to the protocol adapter, and the protocol adapter sends back the search result to the client.
-
-Next, try a fulltext search request like the previous section, to find stores with the town name "Columbus".
-Modify the parameter given to the `socket.emit()` method in the `index.html`, like following:
-
-    <html>
-      <head>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-          var socket = io.connect();
-          socket.on('search.result', function (data) {
-            document.body.textContent += JSON.stringify(data);
-          });
-          socket.emit('search', { queries: {
-            stores: {
-              source: 'Store',
-              condition: {
-                query: 'Columbus',
-                matchTo: '_key'
-              },
-              output: {
-                 elements: [
-                   'startTime',
-                   'elapsedTime',
-                   'count',
-                   'attributes',
-                   'records'
-                 ],
-                 attributes: ['_key'],
-                 limit: -1
-              }
-            }
-          }});
-        </script>
-      </head>
-      <body>
-      </body>
-    </html>
-
-Reload the current page `http://192.0.2.1:3000` in your Web browser, then you'll see a search result like following:
-
-    {"stores":{"count":2,"records":[["Columbus @ 67th - New York NY (W)"],["2 Columbus Ave. - New York NY (W)"]]}}
-
-OK, you've successfully created a client application which can send search requests and receive responses asynchronously via Socket.IO.
-
-
 ## Conclusion
 
-In this tutorial, you did setup both packages [fluent-plugin-droonga][] and [express-droonga][] which construct [Droonga][] service on a [Ubuntu Linux][Ubuntu].
-Moreover, you built a search system based on a protocol adapter with a Droonga engine, and successfully searched.
+In this tutorial, you did setup both packages [fluent-plugin-droonga][] and [droonga-http-server][] which construct [Droonga][] service on a [Ubuntu Linux][Ubuntu].
+Moreover, you built a search system based on an HTTP protocol adapter with a Droonga engine, and successfully searched.
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
-  [express-droonga]: https://github.com/droonga/express-droonga
+  [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
   [Ruby]: http://www.ruby-lang.org/
   [nvm]: https://github.com/creationix/nvm

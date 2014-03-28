@@ -48,8 +48,8 @@ Protocol Adapter は、Droonga を様々なプロトコルで利用できるよ�
 Droonga Engine自体は通信プロトコルとしてfluentdプロトコルにのみ対応しています。
 その代わりに、Protocol AdapterがDroonga Engineとクライアントの間に立って、fluentdプロトコルと他の一般的なプロトコル（HTTP、Socket.IOなど）とを翻訳することになります。
 
-Currently, there is an implementation for the HTTP: [express-droonga][], a [Node.js][] module package.
-In other words, the express-droonga is one of Droonga Progocol Adapters, and it's a "Droonga HTTP Protocol Adapter".
+現在の所、HTTP用の実装として、[Node.js][]用モジュールパッケージの[droonga-http-server][]が存在しています。
+言い直すと、droonga-http-serverはDroonga Protocol Adapterの一実装で、言わば「Droonga HTTP Protocol Adapter」であるという事です。
 
 ## チュートリアルでつくるシステムの全体像
 
@@ -57,9 +57,9 @@ In other words, the express-droonga is one of Droonga Progocol Adapters, and it'
 
     +-------------+              +------------------+             +----------------+
     | Web Browser |  <-------->  | Protocol Adapter |  <------->  | Droonga Engine |
-    +-------------+   HTTP /     +------------------+   Fluent    +----------------+
-                      Socket.IO   w/express-droonga     protocol   w/fluent-plugin
-                                                                           -droonga
+    +-------------+   HTTP       +------------------+   Fluent    +----------------+
+                                 w/droonga-http        protocol   w/fluent-plugin
+                                           -server                         -droonga
 
 
                                  \--------------------------------------------------/
@@ -1333,72 +1333,22 @@ Elapsed time: 0.008286785
 ]
 ~~~
 
-店舗の名前が取得できました。エンジンは正しく動作しているようです。引き続き Protocol Adapter を構築して、検索リクエストを受け付けられるようにしましょう。
+店舗の名前が取得できました。エンジンは正しく動作しているようです。引き続き Protocol Adapter を構築して、検索リクエストをHTTPで受け付けられるようにしましょう。
 
-## Protocol Adapter を構築する
+## HTTP Protocol Adapter を用意する
 
-Protocol Adapter を構築するために、 `express-droonga` を使用します。 `express-droonga` は、Node.js のパッケージです。
+HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga-http-server`は、Node.js のパッケージです。
 
-### express-droonga をインストールする
+### droonga-http-serverをインストールする
 
-    # cd ~
-    # mkdir protocol-adapter
-    # cd protocol-adapter
+    # npm install -g droonga-http-server
 
-以下のような `package.json` を用意します。
+次に、サーバを起動します。
 
-package.json:
-
-    {
-      "name": "protocol-adapter",
-      "description": "Droonga Protocol Adapter",
-      "version": "0.0.0",
-      "author": "Droonga Project",
-      "private": true,
-      "dependencies": {
-        "express": "*",
-        "express-droonga": "*"
-      }
-    }
-
-必要なパッケージをインストールします。
-
-    $ npm install
+    # droonga-http-server
 
 
-### Protocol Adapter を作成する
-
-以下のような内容で `application.js` を作成します。
-
-application.js:
-
-    var express = require('express'),
-        droonga = require('express-droonga');
-    
-    var application = express();
-    var server = require('http').createServer(application);
-    server.listen(3000); // the port to communicate with clients
-    
-    application.droonga({
-      prefix: '/droonga',
-      tag: 'starbucks',
-      defaultDataset: 'Starbucks',
-      server: server, // this is required to initialize Socket.IO API!
-      plugins: [
-        droonga.API_REST,
-        droonga.API_SOCKET_IO,
-        droonga.API_GROONGA,
-        droonga.API_DROONGA
-      ]
-    });
-
-`application.js` を実行します。
-
-    # nodejs application.js
-       info  - socket.io started
-
-
-### HTTPでの同期的な検索のリクエスト
+### HTTPでの検索リクエスト
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
@@ -1553,146 +1503,15 @@ application.js:
 以上 2 件が検索結果として該当することがわかりました。
 
 
-### Socket.IO を用いた非同期処理
-
-Droonga の Protocol Adapter は、 REST API だけでなく、 [Socket.IO][] にも対応しています。Socket.IO 経由で Protocol Adapter へリクエストを送ると、処理が完了した時点で Protocol Adapter から結果を送り返してもらえます。この仕組を利用すると、クライアントアプリケーションと Droonga の間でリクエストとレスポンスを別々に送り合う、非同期な通信を行うことができます。
-
-ここでは、Webブラウザを「クライアントアプリケーション」とし、Protocol Adapter との間で Socket.IO を利用して通信するアプリケーションを作成してみましょう。
-
-Protocol Adapter から `index.html` を配信し、Webブラウザに渡すことにしましょう。
-`protocol-adapter` ディレクトリの下に以下の内容の `index.html` を配置します。
-
-index.html:
-
-    <html>
-      <head>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-          var socket = io.connect();
-          socket.on('search.result', function (data) {
-            document.body.textContent += JSON.stringify(data);
-          });
-          socket.emit('search', { queries: {
-            stores: {
-              source: 'Store',
-              output: {
-                 elements: [
-                   'startTime',
-                   'elapsedTime',
-                   'count',
-                   'attributes',
-                   'records'
-                 ],
-                 attributes: ['_key'],
-                 limit: -1
-              }
-            }
-          }});
-        </script>
-      </head>
-      <body>
-      </body>
-    </html>
-
-`socket.emit()` でクエリを送信します。クエリの処理が完了し、結果が戻ってくると、 `socket.on('search.result', ...)` のコールバックが呼ばれ、ページ内にその結果が表示されます。
-
-`socket.emit()` の第1引数 `'search'` は、このリクエストが検索リクエストであることを指定しています。
-第2引数でどのような検索を行うかを指定しています。
-詳しくは [search](/ja/reference/commands/search) を参照してください。
-ところで、前のセクションでは、REST API を利用して検索を行いました。
-REST API を利用した場合は、 `express-droonga` が内部で REST リクエストから上記の形式のメッセージへと変換し、`fluent-plugin-droonga` に送信するようになっています。
-
-では、この `index.html` を Protocol Adapter でホストできるようにするため、`application.js` を以下のように書き換えます。
-
-application.js:
-
-    var express = require('express'),
-        droonga = require('express-droonga');
-    
-    var application = express();
-    var server = require('http').createServer(application);
-    server.listen(3000); // the port to communicate with clients
-    
-    application.droonga({
-      prefix: '/droonga',
-      tag: 'starbucks',
-      defaultDataset: 'Starbucks',
-      server: server, // this is required to initialize Socket.IO API!
-      plugins: [
-        droonga.API_REST,
-        droonga.API_SOCKET_IO,
-        droonga.API_GROONGA,
-        droonga.API_DROONGA
-      ]
-    });
-
-    //============== INSERTED ==============
-    application.get('/', function(req, res) {
-      res.sendfile(__dirname + '/index.html');
-    });
-    //============= /INSERTED ==============
-
-Web ブラウザにサーバの IP アドレスを入れて、リクエストを送信してみましょう。
-以降、サーバの IP アドレスが `192.0.2.1` であったとします。
-`http://192.0.2.1:3000/` をリクエストすると、先の `index.html` が返されるようになります。
-Webブラウザから `http://192.0.2.1:3000` を開いてみてください。以下のように検索結果が表示されれば成功です。
-
-    {"stores":{"count":40,"records":[["76th & Second - New York NY (W)"],["15th & Third - New York NY (W)"],["41st and Broadway - New York NY (W)"],["West 43rd and Broadway - New York NY (W)"],["Macy's 6th Floor - Herald Square - New York NY (W)"],["Herald Square- Macy's - New York NY"],["Columbus @ 67th - New York NY (W)"],["45th & Broadway - New York NY (W)"],["1585 Broadway (47th) - New York NY (W)"],["85th & First - New York NY (W)"],["92nd & 3rd - New York NY (W)"],["1656 Broadway - New York NY (W)"],["19th & 8th - New York NY (W)"],["60th & Broadway-II - New York NY (W)"],["195 Broadway - New York NY (W)"],["2 Broadway - New York NY (W)"],["NY Plaza - New York NY (W)"],["36th and Madison - New York NY (W)"],["125th St. btwn Adam Clayton & FDB - New York NY"],["2138 Broadway - New York NY (W)"],["118th & Frederick Douglas Blvd. - New York NY (W)"],["42nd & Second - New York NY (W)"],["1st Avenue & 75th St. - New York NY (W)"],["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY (W)"],["150 E. 42nd Street - New York NY (W)"],["Macy's 35th Street Balcony - New York NY"],["Macy's 5th Floor - Herald Square - New York NY (W)"],["80th & York - New York NY (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY (W)"],["52nd & Seventh - New York NY (W)"],["165 Broadway - 1 Liberty - New York NY (W)"],["54th & Broadway - New York NY (W)"],["Limited Brands-NYC - New York NY"],["63rd & Broadway - New York NY (W)"],["2 Columbus Ave. - New York NY (W)"],["70th & Broadway - New York NY (W)"],["Broadway @ 81st - New York NY (W)"],["Fashion Inst of Technology - New York NY"]]}}
-
-Web ブラウザから Socket.IO 経由でリクエストが Protocol Adapter に送信され、それが Engine に送られ、検索結果が Protocol Adapter に返され、さらに Web ブラウザに返されます。
-
-今度は全文検索を行ってみましょう。先ほどと同様に「Columbus」を店名に含む店舗を検索します。`index.html` の `socket.emit()` の呼び出しを書き換え、以下の様な `index.html` を用意します。
-
-    <html>
-      <head>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>
-          var socket = io.connect();
-          socket.on('search.result', function (data) {
-            document.body.textContent += JSON.stringify(data);
-          });
-          socket.emit('search', { queries: {
-            stores: {
-              source: 'Store',
-              condition: {
-                query: 'Columbus',
-                matchTo: '_key'
-              },
-              output: {
-                 elements: [
-                   'startTime',
-                   'elapsedTime',
-                   'count',
-                   'attributes',
-                   'records'
-                 ],
-                 attributes: ['_key'],
-                 limit: -1
-              }
-            }
-          }});
-        </script>
-      </head>
-      <body>
-      </body>
-    </html>
-
-ブラウザで再度 `http://192.0.2.1:3000` を開くと、以下のような検索結果が表示されます。
-
-    {"stores":{"count":2,"records":[["Columbus @ 67th - New York NY (W)"],["2 Columbus Ave. - New York NY (W)"]]}}
-
-このように、Socket.IO を利用して、リクエストとレスポンスを非同期に送受信する検索クライアントを作成することができました。
-
-
 ## まとめ
 
-[Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [express-droonga][] をセットアップしました。
-これらのパッケージを利用することで、Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
+[Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [droonga-http-server][] をセットアップしました。
+これらのパッケージを利用することで、HTTP Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
-  [express-droonga]: https://github.com/droonga/express-droonga
+  [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
   [Ruby]: http://www.ruby-lang.org/
   [nvm]: https://github.com/creationix/nvm
