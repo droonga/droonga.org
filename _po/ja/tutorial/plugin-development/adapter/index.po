@@ -1004,7 +1004,7 @@ msgid ""
 "of incoming and outgoing."
 msgstr ""
 "既存のコマンドと独自のアダプターのみを使って新しいコマンドを追加する方法について学びました。\n"
-"その過程で、入力メッセージと出力メッセ0時の両方について、どのように受け取り加工するのかについても学びました。"
+"その過程で、入力メッセージと出力メッセージの両方について、どのように受け取り加工するのかについても学びました。"
 
 msgid ""
 "See also the [reference manual](../../../reference/plugin/adapter/) for more d"
