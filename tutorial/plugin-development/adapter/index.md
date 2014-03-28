@@ -350,7 +350,7 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-The method `adapt_output` is called only for outgoing messages triggered by incoming messages processed by the plugin itself.
+The method `adapt_output` is called only for outgoing messages triggered by incoming messages trapped by the plugin itself, even if there is only the matching pattern and the `adapt_input` method is not defined.
 See the [reference manual for plugin developers](../../../reference/plugin/adapter/) for more details.
 
 ### Run
