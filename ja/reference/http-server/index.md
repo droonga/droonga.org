@@ -19,7 +19,7 @@ layout: ja
 
 [Droonga HTTP Server][droonga-http-server]は、Droonga Engine用のHTTP Protocol Adapterです。
 
-Droonga Engineはfluentdプロトコルにのみ対応しているため、Droonga Engineとの通信には`cluent-cat`などを使う必要があります。
+Droonga Engineはfluentdプロトコルにのみ対応しているため、Droonga Engineとの通信には`fluent-cat`などを使う必要があります。
 このアプリケーションは、Droonga EngineとHTTP経由で通信するための機能を提供します。
 
 ## インストール {#install}

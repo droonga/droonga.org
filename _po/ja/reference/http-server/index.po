@@ -40,7 +40,7 @@ msgid ""
 "This application provides ability to communicate with the Droonga Engine via H"
 "TTP."
 msgstr ""
-"Droonga Engineはfluentdプロトコルにのみ対応しているため、Droonga Engineとの通信には`cluent-cat`などを使う必要"
+"Droonga Engineはfluentdプロトコルにのみ対応しているため、Droonga Engineとの通信には`fluent-cat`などを使う必要"
 "があります。\n"
 "このアプリケーションは、Droonga EngineとHTTP経由で通信するための機能を提供します。"
 
