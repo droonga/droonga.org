@@ -181,7 +181,9 @@ msgid "### `GET /tables/<table name>`"
 msgstr ""
 
 msgid ""
-"This emits a [search request](../commands/search/).\n"
+"This emits a simple [search request](../commands/search/).\n"
+"The [`source`](../commands/search/#query-source) is filled by the table name i"
+"n the path.\n"
 "Available query parameters are:"
 msgstr ""
 

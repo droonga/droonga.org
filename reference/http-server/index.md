@@ -98,7 +98,8 @@ Then, you'll start the HTTP server on the host 192.168.10.90, with options like:
 
 ### `GET /tables/<table name>`
 
-This emits a [search request](../commands/search/).
+This emits a simple [search request](../commands/search/).
+The [`source`](../commands/search/#query-source) is filled by the table name in the path.
 Available query parameters are:
 
 `attributes`
