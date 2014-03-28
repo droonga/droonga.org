@@ -36,9 +36,11 @@ It internally uses [Groonga][] as its search engine. Groonga is an open source, 
 
 The component "Protocol Adapter" provides ability for clients to communicate with a Droonga engine, using various protocols.
 
-This component is developed as a module for the [Node.js][], and released as the [express-droonga][] package.
+The only one available protocol of a Droonga engine is the fluentd protocol.
+Instead, protocol adapters translate it to other common protocols (like HTTP, Socket.OP, etc.) between the Droonga Engine and clients.
 
-The only one available protocol of a Droonga engine is the fluentd protocol. Instead, a protocol adapter provides various interfaces, HTTP, Socket.IO, and so on, for applications, between them and a Droonga engine.
+Currently, there is an implementation for the HTTP: [express-droonga][], a [Node.js][] module package.
+In other words, the express-droonga is one of Droonga Progocol Adapters, and it's a "Droonga HTTP Protocol Adapter".
 
 ## Abstract of the system described in this tutorial
 

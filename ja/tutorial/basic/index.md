@@ -43,11 +43,13 @@ Droonga Engine は Droonga における分散データ処理の要となるコ�
 
 #### Protocol Adapter
 
-Protocol Adapter は、Droonga を様々なプロトコルで利用できるようにするためのアダプタです。
+Protocol Adapter は、Droonga を様々なプロトコルで利用できるようにするためのコンポーネントです。
 
-このコンポーネントは [Node.js][] のパッケージとして実装されており、[express-droonga][] パッケージとして提供されます。
+Droonga Engine自体は通信プロトコルとしてfluentdプロトコルにのみ対応しています。
+その代わりに、Protocol AdapterがDroonga Engineとクライアントの間に立って、fluentdプロトコルと他の一般的なプロトコル（HTTP、Socket.IOなど）とを翻訳することになります。
 
-Droonga Engine は fluentd プロトコルで通信を行います。Protocol Adapter は、ユーザがアプリケーションを構築する際に利用しやすいよう、 Droonga Engine の機能を HTTP や Socket.IO などのインタフェースで提供します。
+Currently, there is an implementation for the HTTP: [express-droonga][], a [Node.js][] module package.
+In other words, the express-droonga is one of Droonga Progocol Adapters, and it's a "Droonga HTTP Protocol Adapter".
 
 ## チュートリアルでつくるシステムの全体像
 
