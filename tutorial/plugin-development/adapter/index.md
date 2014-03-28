@@ -340,7 +340,7 @@ lib/droonga/plugins/sample-logger.rb:
       register("sample-logger")
 
       class Adapter < Droonga::Adapter
-        (snip)
+        input_message.pattern = ["type", :equal, "search"]
 
         def adapt_output(output_message)
           logger.info("SampleLoggerPlugin::Adapter", :message => output_message)
