@@ -1,6 +1,6 @@
 ---
-title: "Plugin: Handle requests on all partitions, to add a new command working around the storage"
-layout: en
+title: "プラグイン: 全てのパーティション上でリクエストを処理し、ストレージを操作する新たなコマンドを追加する"
+layout: ja
 ---
 
 {% comment %}
