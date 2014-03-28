@@ -1,5 +1,5 @@
 ---
-title: Droonga HTTP Server
+title: HTTP Server
 layout: en
 ---
 
