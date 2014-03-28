@@ -46,7 +46,7 @@ Available options and their default values are:
 
 `--default-dataset <Droonga>`
 : The name of the default dataset.
-  It is used for requests triggered via REST APIs.
+  It is used for requests triggered via built-in HTTP APIs.
 
 `--tag <droonga>`
 : The tag used for fluentd messages sent to the Droonga Engine.

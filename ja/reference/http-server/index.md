@@ -54,20 +54,20 @@ Droonga HTTP Serverは、HTTPサーバを起動するための`droonga-http-serv
 : Droonga Engineがメッセージを受け付けるポートの番号。
 
 `--default-dataset <Droonga>`
-: The name of the default dataset.
-  It is used for requests triggered via REST APIs.
+: 既定のデータセット名。
+  組み込みのHTTP APIから発行されるリクエストに使われます。
 
 `--tag <droonga>`
-: The tag used for fluentd messages sent to the Droonga Engine.
+: Droonga Engineに送るfluentdメッセージに使われます。
 
 `--enable-logging`
-: If you specify this option, log messages are printed to the standard output.
+: このオプションを指定した場合、ログが標準出力に出力されるようになります。
 
 `--cache-size <100>`
-: The maximum size of the LRU response cache.
-  Droonga HTTP server caches all responses for GET requests on the RAM, unthil this size.
+: LRUレスポンスキャッシュの最大サイズ。
+  Droonga HTTP ServerはすべてのGETリクエストについて、レスポンスをここで指定した件数までメモリ上にキャッシュします。
 
-You have to specify appropriate values for your Droonga Engine. For example, if the HTTP server is running on the host 192.168.10.90 and the Droonga engine is running on the host 192.168.10.100 with following configurations:
+コマンドラインオプションには、組み合わせるDroonga Engineに合わせた値を適切に指定する必要があります。例えば、HTTPサーバが192.168.10.90のコンピュータ上で動作し、Droonga Engineが192.168.10.100のコンピュータ上で以下の設定を伴って動作する時：
 
 fluentd.conf:
 
@@ -103,54 +103,53 @@ Then, you'll start the HTTP server on the host 192.168.10.90, with options like:
                           --default-dataset Books \
                           --tag books
 
-## Built-in APIs {#usage-api}
+## 組み込みのAPI {#usage-api}
 
-The Droonga HTTP Server includes following APIs:
+Droonga HTTP Serverは以下のAPIを含んでいます：
 
 ### REST API {#usage-rest}
 
 #### `GET /tables/<table name>` {#usage-rest-get-tables-table}
 
-This emits a simple [search request](../commands/search/).
-The [`source`](../commands/search/#query-source) is filled by the table name in the path.
-Available query parameters are:
+単純な[検索リクエスト](../commands/search/)を発行します。
+リクエストの[`source`](../commands/search/#query-source)は、パス中で指定されたテーブル名となります。
+指定できるクエリパラメータは以下の通りです：
 
 `attributes`
-: Corresponds to [`output.attributes`](../commands/search/#query-output).
-  The value is a comma-separated list, like: `attributes=_key,name,age`.
+: [`output.attributes`](../commands/search/#query-output)に対応。
+  値はカンマ区切りのリストです。例：`attributes=_key,name,age`.
 
 `query`
-: Corresponds to [`condition.*.query`](../commands/search/#query-condition-query-syntax-hash).
-  The vlaue is a query string.
+: [`condition.*.query`](../commands/search/#query-condition-query-syntax-hash)に対応。
+  値はクエリ文字列です。
 
 `match_to`
-: Corresponds to [`condition.*.matchTo`](../commands/search/#query-condition-query-syntax-hash).
-  The vlaue is an comma-separated list, like: `match_to=_key,name`.
+: [`condition.*.matchTo`](../commands/search/#query-condition-query-syntax-hash)に対応。
+  値はカンマ区切りのリストです。例：`match_to=_key,name`.
 
 `match_escalation_threshold`
-: Corresponds to [`condition.*.matchEscalationThreshold`](../commands/search/#query-condition-query-syntax-hash).
-  The vlaue is an integer.
+: [`condition.*.matchEscalationThreshold`](../commands/search/#query-condition-query-syntax-hash)に対応。
+  値は整数です。
 
 `script`
-: Corresponds to [`condition`](../commands/search/#query-condition-query-syntax-hash) in the script syntax.
-  If you specity both `query` and `script`, then they work with an `and` logical condition.
+: [`condition`](../commands/search/#query-condition-query-syntax-hash)におけるスクリプト形式の指定に対応。もし`query`と両方同時に指定した場合には、両者の`and`条件と見なされます。
 
 `adjusters`
-: Corresponds to `adjusters`.
+: `adjusters`に対応します。
 
 `sort_by`
-: Corresponds to [`sortBy`](../commands/search/#query-sortBy).
-  The value is a column name string.
+: [`sortBy`](../commands/search/#query-sortBy)に対応します。
+  値はカラム名の文字列です。
 
 `limit`
-: Corresponds to [`output.limit`](../commands/search/#query-output).
-  The value is an integer.
+: [`output.limit`](../commands/search/#query-output)に対応。
+  値は整数です。
 
 `offset`
-: Corresponds to [`output.offset`](../commands/search/#query-output).
-  The value is an integer.
+: [`output.offset`](../commands/search/#query-output)に対応。
+  値は整数です。
 
-### Groonga HTTP server compatible API {#usage-groonga}
+### Groonga HTTPサーバ互換API {#usage-groonga}
 
 #### `GET /d/<command name>` {#usage-groonga-d}
 
