@@ -12,5 +12,8 @@ layout: en
 [Commands](commands/)
 : Describes details of built-in commands available on the Droonga Engines.
 
+[Droonga HTTP Server](http-server/)
+: Describes usage of the [droonga-http-server](https://github.com/droonga/droonga-http-server).
+
 [Plugin development](plugin/)
 : Describes details of public APIs to develop custom plugins for the Droonga Engine.
