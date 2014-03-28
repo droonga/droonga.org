@@ -96,7 +96,7 @@ Then, you'll start the HTTP server on the host 192.168.10.90, with options like:
 
 ## Built-in APIs
 
-### GET /tables/<table name>`
+### `GET /tables/<table name>`
 
 This emits a [search request](../commands/search/).
 Available query parameters are:
