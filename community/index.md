@@ -24,7 +24,8 @@ Here is the mailing list for Droonga:
 Here is a list of Droonga related the GitHub issues:
 
  * [Issues - droonga/fluent-plugin-droonga](https://github.com/droonga/fluent-plugin-droonga/issues) for Droonga Engine.
- * [Issues - droonga/express-droonga](https://github.com/droonga/express-droonga/issues) for Protocol Adapter.
+ * [Issues - droonga/express-droonga](https://github.com/droonga/express-droonga/issues) for HTTP Protocol Adapter.
+ * [Issues - droonga/droonga-http-server](https://github.com/droonga/droonga-http-server/issues) for HTTP Protocol Adapter frontend.
 
 You can use the GitHub issues for Droonga Engine for general problem. The developers will move the created issue to suitable GitHub issues.
 

@@ -20,6 +20,7 @@ Here are related projects:
 
  * [fluent-plugin-droonga][]: Distributed search engine module
  * [express-droonga][]: API server module
+ * [droonga-http-server][]: HTTP procol adapter frontend
  * [Groonga][]: An open-source fulltext search engine and column store
 
 ## Droonga client
@@ -48,6 +49,7 @@ Other category includes other related projects:
 
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
   [express-droonga]: https://github.com/droonga/express-droonga
+  [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
   [droonga-client-ruby]: https://github.com/droonga/droonga-client-ruby
   [drntest]: https://github.com/droonga/drntest

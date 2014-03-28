@@ -5,7 +5,7 @@ layout: en
 
 # Overview
 
-The main part of Droonga consists of two packages: [fluent-plugin-droonga][] and [express-droonga][].
+The main part of Droonga consists of two packages: [fluent-plugin-droonga][] and [droonga-http-server][].
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ The main part of Droonga consists of two packages: [fluent-plugin-droonga][] and
 
 ### Node.js
 
-[express-droonga][] requires [Node.js][].
+[droonga-http-server][] requires [Node.js][].
 
 
 # Ubuntu 13.10
@@ -28,13 +28,13 @@ The main part of Droonga consists of two packages: [fluent-plugin-droonga][] and
 
     sudo gem install fluent-plugin-droonga
 
-## Install express-droonga
+## Install droonga-http-server
 
-    sudo npm install express-droonga
+    sudo npm install -g droonga-http-server
 
 Now you are ready for building your own data processing system with Droonga. See [tutorial](/tutorial/) to get started.
 
   [Ruby]: http://www.ruby-lang.org/
   [Node.js]: http://nodejs.org/
   [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
-  [express-droonga]: https://github.com/droonga/express-droonga
+  [droonga-http-server]: https://github.com/droonga/droonga-http-server
