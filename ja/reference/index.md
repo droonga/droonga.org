@@ -21,5 +21,8 @@ layout: ja
 [コマンドリファレンス](commands/)
 : Droonga Engineで利用可能な組み込みのコマンドの詳細。
 
+[HTTPサーバ](http-server/)
+: [droonga-http-server](https://github.com/droonga/droonga-http-server)の使用方法。
+
 [プラグイン開発](plugin/)
 : Droonga Engine用の独自のプラグインを開発するための公開APIの詳細。
