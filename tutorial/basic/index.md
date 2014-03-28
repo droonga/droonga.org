@@ -1478,7 +1478,7 @@ Because the `count` says `40`, you know there are all 40 records in the table. S
 
 Next step, let's try more meaningful query. To search stores which contain "Columbus" in their name, give `Columbus` as the parameter `query`, and give `_key` as the parameter `match_to` which means the column to be searched. Then:
 
-    # curl "http://localhost:3000/droonga/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://localhost:3000/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,

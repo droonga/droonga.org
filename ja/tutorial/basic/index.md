@@ -1485,7 +1485,7 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 もう少し複雑なクエリを試してみましょう。例えば、店名に「Columbus」を含む店舗を検索します。`query` パラメータにクエリ `Columbus` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
-    # curl "http://localhost:3000/droonga/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://localhost:3000/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,
