@@ -396,20 +396,20 @@ Elapsed time: 0.015491
 ]
 ~~~
 
-The fluentd's log should be like as follows:
+fluentdのログは以下のようになっているはずです：
 
 ~~~
 2014-02-17 15:41:09 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fddcad4d5a0 @raw_message={"dataset"=>"Starbucks", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64724/droonga"}, "id"=>"1392619269.184789", "date"=>"2014-02-17 15:41:09 +0900", "appliedAdapters"=>["Droonga::Plugins::SampleLoggerPlugin::Adapter", "Droonga::Plugins::Error::Adapter"]}>
 ~~~
 
-This shows that the result of `search` is passed to the `adapt_output` method (and logged), then outputted.
+ここには、`search`の結果が`adapt_output`メソッドに渡された事（そしてログ出力された事）が示されています。
 
 
-### 結果をadaption phaseで加工する
+### 結果をアダプション・フェーズで加工する
 
-Let's modify the result.
-For example, add `completedAt` attribute that shows the time completed the request.
-Update your plugin as follows:
+結果を加工してみましょう。
+例えば、リクエストに対する処理が完了した時刻を示す`completedAt`というアトリビュートを加えるとします。
+プラグインを以下のように更新して下さい：
 
 lib/droonga/plugins/sample-logger.rb:
 
@@ -422,8 +422,8 @@ lib/droonga/plugins/sample-logger.rb:
 (snip)
 ~~~
 
-Like above, you can modify the outgoing message via methods of the argument `output_message`. 
-See the [reference manual for the message class](../../../reference/plugin/adapter/#classes-Droonga-OutputMessage).
+上の例のように、出力メッセージは`adapt_output`メソッドの引数として渡される`output_message`を通じて加工することができます。
+詳細は[当該メッセージの実装のクラスのリファレンスマニュアル](../../../reference/plugin/adapter/#classes-Droonga-OutputMessage)を参照して下さい。
 
 fluentdを再起動します：
 
@@ -432,7 +432,7 @@ fluentdを再起動します：
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-Send the same search request:
+同じ検索リクエストを送ってみましょう：
 
 ~~~
 # droonga-request --tag starbucks search-columbus.json
@@ -462,8 +462,8 @@ Elapsed time: 0.013983
 ]
 ~~~
 
-Now you can see `completedAt` attribute containing the time completed the request.
-The results in `fluentd.log` will be like this:
+リクエストの処理が完了した時刻を含むアトリビュートである`completedAt`が追加された事を確認できました。
+`fluentd.log`には以下のように出力されているはずです：
 
 ~~~
 2014-02-17 15:45:28 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fd384f3ab60 @raw_message={"dataset"=>"Starbucks", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64849/droonga"}, "id"=>"1392619528.235121", "date"=>"2014-02-17 15:45:28 +0900", "appliedAdapters"=>["Droonga::Plugins::SampleLoggerPlugin::Adapter", "Droonga::Plugins::Error::Adapter"]}>
@@ -472,17 +472,17 @@ The results in `fluentd.log` will be like this:
 
 ## 入出力メッセージの加工
 
-We have learned the basics of plugins for the adaption phase so far.
-Let's try to build more practical plugin.
+ここまでで、アダプション・フェーズで動作するプラグインの基本を学びました。
+それでは、より実践的なプラグインを開発してみることにしましょう。
 
-You may feel the Droonga's `search` command is too flexible for your purpose.
-Here, we're going to add our own `storeSearch` command to wrap the `search` command in order to provide an application-specific and simple interface, with a new plugin named `store-search`.
+Droongaの`search`コマンドを見た時、目的に対していささか柔軟すぎるという印象を持ったことと思います
+そこで、ここではアプリケーション固有の単純なインターフェースを持つコマンドとして、`search`コマンドをラップする`storeSearch`というコマンドを、`store-search`というプラグインで追加していくことにします。
 
 ### シンプルなリクエストを受け取る
 
-First, create the `store-search` plugin.
-Remember, you must put codes into a file which has the name same to the plugin now you are creating.
-So, the file is `store-search.rb` in the `droonga/plugins` directory. Then define your `StoreSearchPlugin` as follows:
+まず最初に、`store-search`プラグインを作ります。
+思い出して下さい、プラグインを実装するコードは、これから作ろうとしているプラグインと同じ名前のファイルに書かなくてはなりませんでしたよね。
+ですので、実装を書くファイルは`droonga/plugins`ディレクトリに置かれた`store-search.rb`となります。`StoreSearchPlugin`を以下のように定義しましょう：
 
 lib/droonga/plugins/store-search.rb:
 
@@ -538,8 +538,8 @@ module Droonga
 end
 ~~~
 
-Then update your `catalog.json` to activate the plugin.
-Remove the `sample-logger` plugin previously created.
+次に、プラグインを有効化するために`catalog.json`を更新します。
+先程作成した`sample-logger`は削除しておきます。
 
 catalog.json:
 
@@ -552,7 +552,7 @@ catalog.json:
 (snip)
 ~~~
 
-Remember, you must place your plugin `"store-search"` before the `"search"` because yours depends on it.
+思い出して下さい、`"store-search"`は`"search"`に依存しているので、`"search"`よりも前に置く必要があります。
 
 fluentdを再起動します：
 
@@ -561,7 +561,7 @@ fluentdを再起動します：
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-Now you can use this new command by the following request:
+これで、以下のようなリクエストで新しいコマンドを使えるようになりました：
 
 store-search-columbus.json:
 
@@ -575,7 +575,7 @@ store-search-columbus.json:
 }
 ~~~
 
-In order to issue this request, you need to run:
+リクエストを発行するために、以下のようにコマンドを実行しましょう：
 
 ~~~
 # droonga-request --tag starbucks store-search-columbus.json
@@ -604,22 +604,22 @@ Elapsed time: 0.01494
 ]
 ~~~
 
-And you will see the result on fluentd's log in `fluentd.log`:
+この時、`fluentd.log`には以下のようなログが出力されているはずです：
 
 ~~~
 2014-02-17 16:12:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007fe4791d3958 @raw_message={"dataset"=>"Starbucks", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49934/droonga"}, "id"=>"1392621168.0119512", "date"=>"2014-02-17 16:12:48 +0900", "appliedAdapters"=>[]}>
 2014-02-17 16:12:48 +0900 [info]: storeSearch query="Columbus"
 ~~~
 
-Now we can perform store search with simple requests.
+以上の手順で、単純なリクエストによって店舗の検索を行えるようになりました。
 
-Note: look at the `"type"` of the response message. Now it became `"storeSearch.result"`, from `"search.result"`. Because it is triggered from the incoming message with the type `"storeSearch"`, the outgoing message has the type `"(incoming command).result"` automatically. In other words, you don't have to change the type of the outgoing messages, like `input_message.type = "search"` in the method `adapt_input`.
+注意：レスポンスのメッセージの`"type"`の値が`"search.result"`から`"storeSearch.result"`に変わっていることに注目して下さい。これは、このレスポンスが、`type`が`"storeSearch"`であるリクエストに起因して発生した物であるために、Droonga Engineによって自動的に`"(入力メッセージのtype).result"`という`type`が設定されたからです。言い換えると、出力メッセージの`type`は、`adapt_input`での`input_message.type = "search"`のような方法でわざわざ自分で設定し直す必要はありません。
 
 ### シンプルなレスポンスを返す
 
-Second, let's return results in more simple way: just an array of the names of stores.
+次に、結果をより単純な形で、単に店舗の名前の配列だけを返すだけという物にしてみましょう。
 
-Define the `adapt_output` method as follows.
+`adapt_output`を以下のように定義して下さい。
 
 lib/droonga/plugins/store-search.rb:
 
@@ -645,7 +645,7 @@ lib/droonga/plugins/store-search.rb:
 (snip)
 ~~~
 
-The `adapt_output` method receives outgoing messages only corresponding to the incoming messages processed by the `adapt_input` method.
+`adapt_output`メソッドは、そのプラグインによって捕捉された入力メッセージに対応する出力メッセージのみを受け取ります。
 
 fluentdを再起動します：
 
@@ -654,7 +654,7 @@ fluentdを再起動します：
 # RUBYLIB=./lib fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
 ~~~
 
-Send the request:
+リクエストを送ってみましょう：
 
 ~~~
 # droonga-request --tag starbucks store-search-columbus.json
@@ -674,7 +674,7 @@ Elapsed time: 0.014859
 ]
 ~~~
 
-The log in `fluentd.log` will be like this:
+`fluentd.log`には以下のようなログが出力されているはずです：
 
 ~~~
 2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ffb8ada9d68 @raw_message={"dataset"=>"Starbucks", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>[]}>
@@ -682,9 +682,9 @@ The log in `fluentd.log` will be like this:
 2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007ffb8ad78e48 @raw_message={"dataset"=>"Starbucks", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>["Droonga::Plugins::StoreSearchPlugin::Adapter", "Droonga::Plugins::Error::Adapter"], "originalTypes"=>["storeSearch"]}>
 ~~~
 
-Now you've got the simplified response.
+このように、単純化されたレスポンスを受け取ることができました。
 
-In the way just described, we can use adapter to implement the application specific search logic.
+ここで解説したように、アダプターはアプリケーション固有の検索機能を実装するために利用できます。
 
 ## まとめ
 

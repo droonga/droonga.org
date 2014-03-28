@@ -640,7 +640,7 @@ lib/droonga/plugins/store-search.rb:
 (snip)
 ~~~
 
-The `adapt_output` method receives outgoing messages only corresponding to the incoming messages processed by the `adapt_input` method.
+The `adapt_output` method receives outgoing messages only corresponding to the incoming messages trapped by the plugin.
 
 Restart fluentd:
 
