@@ -230,7 +230,7 @@ msgstr ""
 msgid ""
 "`sort_by`\n"
 ": Corresponds to [`sortBy`](../commands/search/#query-sortBy).\n"
-"  The value is an integer."
+"  The value is a column name string."
 msgstr ""
 
 msgid ""

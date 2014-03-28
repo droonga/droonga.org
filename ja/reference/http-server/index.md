@@ -136,7 +136,7 @@ Available query parameters are:
 
 `sort_by`
 : Corresponds to [`sortBy`](../commands/search/#query-sortBy).
-  The value is an integer.
+  The value is a column name string.
 
 `limit`
 : Corresponds to [`output.limit`](../commands/search/#query-output).
