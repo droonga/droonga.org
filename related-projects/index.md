@@ -39,6 +39,7 @@ Here are related projects:
 
  * [drntest][]: A testing framework for Droonga
  * [drnbench][]: Generic benchmark tool for HTTP servers, mainly Droonga
+ * [grn2drn][]: A converter from Groonga's command list to something for Droonga
  * [chef-cookbooks][]: Chef cookbooks for Droonga
 
 ## Others
@@ -54,5 +55,6 @@ Other category includes other related projects:
   [droonga-client-ruby]: https://github.com/droonga/droonga-client-ruby
   [drntest]: https://github.com/droonga/drntest
   [drnbench]: https://github.com/droonga/drnbench
+  [grn2drn]: https://github.com/droonga/grn2drn
   [chef-cookbooks]: https://github.com/droonga/chef-cookbooks
   [droonga/droonga.org]: https://github.com/droonga/droonga.org
