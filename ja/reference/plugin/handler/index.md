@@ -207,7 +207,7 @@ end
 
 #### `@context` {#classes-Droonga-HandlerMessage-context}
 
-そのパーティションのストレージに対応する`Groonga::Context`のインスタンスへの参照。
+対応するボリュームのストレージを示す、`Groonga::Context`のインスタンスへの参照。
 [Rroongaのクラスリファレンス][Groonga::Context]も併せて参照して下さい
 
 `@context`を経由して、Rroongaのすべての機能を利用できます。

@@ -423,10 +423,10 @@ msgstr ""
 
 msgid ""
 "This is a reference to the `Groonga::Context` instance for the storage of the "
-"partition.\n"
+"corresponding volume.\n"
 "See the [class reference of Rroonga][Groonga::Context]."
 msgstr ""
-"そのパーティションのストレージに対応する`Groonga::Context`のインスタンスへの参照。\n"
+"対応するボリュームのストレージを示す、`Groonga::Context`のインスタンスへの参照。\n"
 "[Rroongaのクラスリファレンス][Groonga::Context]も併せて参照して下さい"
 
 msgid ""
