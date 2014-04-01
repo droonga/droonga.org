@@ -1,5 +1,5 @@
 ---
-title: "Plugin: Handle requests on all partitions, to add a new command working around the storage"
+title: "Plugin: Handle requests on all volumes, to add a new command working around the storage"
 layout: en
 ---
 
@@ -8,7 +8,7 @@ layout: en
 
 ## The goal of this tutorial
 
-This tutorial aims to help you to learn how to develop plugins which do something dispersively for/in each partition, around the handling phase.
+This tutorial aims to help you to learn how to develop plugins which do something dispersively for/in each volume, around the handling phase.
 In other words, this tutorial describes *how to add a new simple command to the Droonga Engine*.
 
 ## Precondition
@@ -24,12 +24,12 @@ One *step* is constructed from some sub phases: *planning phase*, *distribution 
 
  * At the *planning phase*, the Droonga Engine generates multiple sub steps to process the request.
    In simple cases, you don't have to write codes for this phase, then there is just one sub step to handle the request.
- * At the *distribution phase*, the Droonga Engine distributes task messages for the request, to multiple partitions.
+ * At the *distribution phase*, the Droonga Engine distributes task messages for the request, to multiple volumes.
    (It is completely done by the Droonga Engine itself, so this phase is not pluggable.)
- * At the *handling phase*, *each partition simply processes only one distributed task message as its input, and returns a result.*
+ * At the *handling phase*, *each single volume simply processes only one distributed task message as its input, and returns a result.*
    This is the time that actual storage accesses happen.
    Actually, some commands (`search`, `add`, `create_table` and so on) access to the storage at the time.
- * At the *collection phase*, the Droonga Engine collects results from partitions to one unified result.
+ * At the *collection phase*, the Droonga Engine collects results from volumes to one unified result.
    There are some useful generic collectors, so you don't have to write codes for this phase in most cases.
 
 After all steps are finished, the Droonga Engine transfers the result to the post adaption phase.
@@ -47,7 +47,7 @@ Put simply, adding of a new handler means adding a new command.
 Here, in this tutorial, we are going to add a new custom `countRecords` command.
 At first, let's design it.
 
-The command reports the number of records about a specified table, for each partition.
+The command reports the number of records about a specified table, for each single volume.
 So it will help you to know how records are distributed in the cluster.
 Nothing is changed by the command, so it is a *read-only command*.
 
@@ -66,7 +66,7 @@ The request must have the name of one table, like:
 Create a JSON file `count-records.json` with the content above.
 We'll use it for testing.
 
-The response must have number of records in the table, for each partition.
+The response must have number of records in the table, for each single volume.
 They can be appear in an array, like:
 
 ~~~json
@@ -78,8 +78,8 @@ They can be appear in an array, like:
 }
 ~~~
 
-If there are 2 partitions and 20 records are stored evenly, the array will have two elements like above.
-It means that a partition has 10 records and another one also has 10 records.
+If there are 2 volumes and 20 records are stored evenly, the array will have two elements like above.
+It means that a volume has 10 records and another one also has 10 records.
 
 We're going to create a plugin to accept such requests and return such responses.
 
@@ -200,7 +200,7 @@ lib/droonga/plugins/count-records.rb:
 ~~~
 
 The `Collectors::Sum` is one of built-in collectors.
-It merges results returned from handler instances for each partition to one result.
+It merges results returned from handler instances for each volume to one result.
 
 
 ### Activate the plugin with `catalog.json`
@@ -253,16 +253,16 @@ Look at these points:
    It is automatically named by the Droonga Engine.
  * The format of the `body` is same to the returned value of the handler's `handle` method.
 
-There are 3 elements in the array. Why?
+There are three elements in the array. Why?
 
- * Remember that we have configured the `Starbucks` dataset to use 3 partitions (and each has 2 replicas) in the `catalog.json` of [the basic tutorial][basic].
- * Because it is a read-only command, a request is delivered only to partitions, not to replicas.
-   So there are only 3 results, not 6.
-   (TODO: I have to add a figure to indicate active nodes: [000, 001, 010, 011, 020, 021] => [000, 011, 020])
+ * Remember that the `Starbucks` dataset was configured with two replicas and three sub volumes for each replica, in the `catalog.json` of [the basic tutorial][basic].
+ * Because it is a read-only command, a request is delivered to only one replica (and it is chosen at random).
+   Then only three single volumes receive the command, so only three results appear, not six.
+   (TODO: I have to add a figure to indicate active nodes: [000, 001, 002, 010, 011, 012] => [000, 001, 002])
  * The `Collectors::Sum` collects them.
-   Those 3 results are joined to just one array by the collector.
+   Those three results are joined to just one array by the collector.
 
-As the result, just one array with 3 elements appears in the final response.
+As the result, just one array with three elements appears in the final response.
 
 ### Read-only access to the storage
 
@@ -290,7 +290,7 @@ It is different from the one an adapter receives.
 A handler receives a message meaning a distributed task.
 So you have to extract the request message from the distributed task by the code `request = message.request`.
 
-The instance variable `@context` is an instance of `Groonga::Context` for the storage of the partition.
+The instance variable `@context` is an instance of `Groonga::Context` for the storage of the corresponding single volume.
 See the [class reference of Rroonga][Groonga::Context].
 You can use any feature of Rroonga via `@context`.
 For now, we simply access to the table itself by its name and read the value of its `size` method - it returns the number of records.
@@ -340,7 +340,7 @@ The request must have the condition to select records to be deleted, like:
 }
 ~~~
 
-Any record including the given keyword `"Broadway"` in its `"key"` is deleted from the storage of all partitions.
+Any record including the given keyword `"Broadway"` in its `"key"` is deleted from the storage of all volumes.
 
 Create a JSON file `delete-stores-broadway.json` with the content above.
 We'll use it for testing.
@@ -357,7 +357,7 @@ The response must have a boolean value to indicate "success" or "fail", like:
 ~~~
 
 If the request is successfully processed, the `body` becomes `true`. Otherwise `false`.
-The `body` is just one boolean value, because we don't have to receive multiple results from partitions.
+The `body` is just one boolean value, because we don't have to receive multiple results from volumes.
 
 
 ### Directory Structure
@@ -459,7 +459,7 @@ Remember, you have to extract the request message from the received task message
 The handler finds and deletes existing records which have the given keyword in its "key", by the [API of Rroonga][Groonga::Table_delete].
 
 And, the `Collectors::And` is bound to the step by the configuration `step.collector`.
-It is is also one of built-in collectors, and merges boolean values returned from handler instances for each partition and replica, to one boolean value.
+It is is also one of built-in collectors, and merges boolean values returned from handler instances for each volume, to one boolean value.
 
 ### Activate the plugin with `catalog.json`
 
@@ -496,7 +496,7 @@ Elapsed time: 0.01494
 ]
 ~~~
 
-Because results from partitions are unified to just one boolean value, the response's `body` is a `true`.
+Because results from volumes are unified to just one boolean value, the response's `body` is a `true`.
 As the verification, send the request of `countRecords` command.
 
 ~~~
@@ -519,7 +519,7 @@ Elapsed time: 0.01494
 ~~~
 
 Note, the number of records are smaller than the previous result.
-This means that 4 or some records are deleted from each partitions.
+This means that four or some records are deleted from each volume.
 
 ## Conclusion
 

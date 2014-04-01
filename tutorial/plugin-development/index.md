@@ -36,7 +36,7 @@ Adaption phase
 : At this phase, a plugin can modify incoming requests and outgoing responses.
 
 Processing phase
-: At this phase, a plugin can process incoming requests on each partition, step by step.
+: At this phase, a plugin can process incoming requests on each volume, step by step.
 
 The processing phase includes 3 sub pluggable phases:
 
@@ -75,8 +75,8 @@ This will be the first step to create plugins fit with your own requirements.
 For more details, let's read these sub tutorials:
 
  1. [Adapt requests and responses, to add a new command based on other existing commands][adapter].
- 2. [Handle requests on all partitions, to add a new command working around the storage][handler].
- 3. Handle requests only on a specific partition, to add a new command around the storage more smartly. (under construction)
+ 2. [Handle requests on all volumes, to add a new command working around the storage][handler].
+ 3. Handle requests only on a specific volume, to add a new command around the storage more smartly. (under construction)
  4. Distribute requests and collect responses, to add a new complex command based on sub tasks. (under construction)
 
 

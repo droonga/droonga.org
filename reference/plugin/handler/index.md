@@ -204,7 +204,7 @@ end
 
 #### `@context` {#classes-Droonga-HandlerMessage-context}
 
-This is a reference to the `Groonga::Context` instance for the storage of the partition.
+This is a reference to the `Groonga::Context` instance for the storage of the corresponding volume.
 See the [class reference of Rroonga][Groonga::Context].
 
 You can use any feature of Rroonga via `@context`.

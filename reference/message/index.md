@@ -131,7 +131,7 @@ Abstract
 Value
 : Object.
 
-This information will appear only when the command is distributed to multiple nodes (partitions/replications) and they returned errors. Otherwise, the response message will have no `errors` field. For more details, see [the "Error response" section](#error).
+This information will appear only when the command is distributed to multiple volumes and they returned errors. Otherwise, the response message will have no `errors` field. For more details, see [the "Error response" section](#error).
 
 ## Error response {#error}
 
@@ -139,7 +139,7 @@ Some commands can return an error response.
 
 An error response has the `type` same to a regular response, but it has different `statusCode` and `body`. General type of the error is indicated by the `statusCode`, and details are reported as the `body`.
 
-If a command is distributed to multiple nodes (partitions/replications) and they return errors, then the response message will have an `error` field. All errors from all nodes are stored to the field, like:
+If a command is distributed to multiple volumes and they return errors, then the response message will have an `error` field. All errors from all nodes are stored to the field, like:
 
     {
       "type"       : "add.result",

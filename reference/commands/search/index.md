@@ -916,7 +916,7 @@ Grouped results will have all columns of [the result of the basic conditions for
 `_subrecs`
 : An array of sample records which have the value in its grouped column.
   
-*Note: On the version {{ site.droonga_version }}, too many records can be returned larger than the specified `maxNSubRecords`, if the dataset has multiple partitions. This is a known problem and to be fixed in a future version.
+*Note: On the version {{ site.droonga_version }}, too many records can be returned larger than the specified `maxNSubRecords`, if the dataset has multiple volumes. This is a known problem and to be fixed in a future version.
 
 
 #### `output` {#query-output}
