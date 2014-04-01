@@ -212,11 +212,10 @@ This `catalog.json` defines a dataset `Starbucks` as:
 
  * At the top level, there is one volume based on two sub volumes, called "replicas".
  * At the next lower level, one replica volume is based on three sub volumes, called "slices".
-   They are atomic elements of the dataset.
+   They are minimum elements constructing a Droonga's dataset.
 
 These six atomic volumes having `"address"` information are internally called as *single volume*s.
-They are minimum elements constructing a Droonga's dataset.
-It indicates the location of the corresponding physical storage which is a database for Groonga, they are managed by `fluent-plugin-droonga` instances automatically.
+The `"address"` indicates the location of the corresponding physical storage which is a database for Groonga, they are managed by `fluent-plugin-droonga` instances automatically.
 
 For more details of the configuration file `catalog.json`, see [the reference manual of catalog.json](/reference/catalog).
 
