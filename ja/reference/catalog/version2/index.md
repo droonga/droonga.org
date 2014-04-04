@@ -265,7 +265,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 * "DoubleArrayTrie": ダブル配列トライテーブル
 
 既定値
-: "Hash"
+: `"Hash"`
 
 継承可能性
 : 不可。
@@ -648,7 +648,7 @@ Index `name` and `address` on the referencing table.
 : 文字列。
 
 既定値
-: "_key"
+: `"_key"`
 
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
@@ -662,7 +662,7 @@ Index `name` and `address` on the referencing table.
 : スライサー関数の名前。
 
 既定値
-: "hash"
+: `"Hash"`
 
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。

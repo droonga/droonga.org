@@ -258,7 +258,7 @@ Value
 * "DoubleArrayTrie": for double array trie tables.
 
 Default value
-: "Hash"
+: `"Hash"`
 
 Inheritable
 : False.
@@ -641,7 +641,7 @@ Value
 : A string.
 
 Default value
-: "_key"
+: `"_key"`
 
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
@@ -655,7 +655,7 @@ Value
 : Name of slicer function.
 
 Default value
-: "hash"
+: `"Hash"`
 
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
