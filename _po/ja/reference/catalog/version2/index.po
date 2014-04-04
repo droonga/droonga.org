@@ -822,12 +822,12 @@ msgid "Slicers are categorized into three types. Here are three types of slicers
 msgstr "スライサーは以下の3種類に分けられます："
 
 msgid "##### Ratio-scaled"
-msgstr "##### 比例尺度"
+msgstr "##### 比率尺度"
 
 msgid ""
 "*Ratio-scaled slicers* slice datapoints in the specified ratio,\n"
 "e.g. hash function of _key."
-msgstr "*比例尺度スライサー*は、個々のデータを指定された割合で、_keyのハッシュ値などに基づいて振り分けます。"
+msgstr "*比率尺度スライサー*は、個々のデータを指定された比率で、_keyのハッシュ値などに基づいて振り分けます。"
 
 msgid "##### Ordinal-scaled"
 msgstr "##### 順序尺度"
