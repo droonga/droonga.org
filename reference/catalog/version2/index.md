@@ -611,34 +611,6 @@ Abstract
 Value
 : An object with the following key/value pairs.
 
-#### Types of Slicers {#types-of-slicers}
-
-In order to define a volume which consists of a collection of `slices`,
-the way how slice recodes into slices must be decided.
-
-The slicer function that specified as `slicer` and
-the column (or key) specified as `dimension`,
-which is input for the slicer function, defines that.
-
-Slicers are categorized into three types. Here are three types of slicers:
-
-##### Ratio-scaled
-
-*Ratio-scaled slicers* slice datapoints in the specified ratio,
-e.g. hash function of _key.
-
-##### Ordinal-scaled
-
-*Ordinal-scaled slicers* slice datapoints with ordinal values;
-the values have some ranking, e.g. time, integer,
-element of `{High, Middle, Low}`.
-
-##### Nominal-scaled
-
-*Nominal-scaled slicers* slice datapoints with nominal values;
-the values denotes categories,which have no order,
-e.g. country, zip code, color.
-
 #### Parameters
 
 ##### `address` {#parameter-address}
@@ -687,6 +659,38 @@ Default value
 
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.
+
+In order to define a volume which consists of a collection of `slices`,
+the way how slice recodes into slices must be decided.
+
+The slicer function that specified as `slicer` and
+the column (or key) specified as `dimension`,
+which is input for the slicer function, defines that.
+
+Slicers are categorized into three types. Here are three types of slicers:
+
+Ratio-scaled
+: *Ratio-scaled slicers* slice datapoints in the specified ratio,
+  e.g. hash function of _key.
+  Slicers of this type are:
+  
+  * `hash`
+
+Ordinal-scaled
+: *Ordinal-scaled slicers* slice datapoints with ordinal values;
+  the values have some ranking, e.g. time, integer,
+  element of `{High, Middle, Low}`.
+  Slicers of this type are:
+  
+  * (not implemented yet)
+
+Nominal-scaled
+: *Nominal-scaled slicers* slice datapoints with nominal values;
+  the values denotes categories,which have no order,
+  e.g. country, zip code, color.
+  Slicers of this type are:
+  
+  * (not implemented yet)
 
 ##### `slices` {#parameter-slices}
 
