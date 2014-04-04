@@ -252,10 +252,10 @@ Abstract
 Value
 : Any of the following values.
 
-* "Array": for tables which have no keys.
-* "Hash": for hash tables.
-* "PatriciaTrie": for patricia trie tables.
-* "DoubleArrayTrie": for double array trie tables.
+* `"Array"`: for tables which have no keys.
+* `"Hash"`: for hash tables.
+* `"PatriciaTrie"`: for patricia trie tables.
+* `"DoubleArrayTrie"`: for double array trie tables.
 
 Default value
 : `"Hash"`
@@ -266,17 +266,17 @@ Inheritable
 ##### `keyType` {#parameter-keyType}
 
 Abstract
-: Data type of the key of the table. Mustn't be assigned when the `type` is "Array".
+: Data type of the key of the table. Mustn't be assigned when the `type` is `"Array"`.
 
 Value
 : Any of the following data types.
 
-* "Integer"       : 64bit signed integer.
-* "Float"         : 64bit floating-point number.
-* "Time"          : Time value with microseconds resolution.
-* "ShortText"     : Text value up to 4095 bytes length.
-* "TokyoGeoPoint" : Tokyo Datum based geometric point value.
-* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
+* `"Integer"`       : 64bit signed integer.
+* `"Float"`         : 64bit floating-point number.
+* `"Time"`          : Time value with microseconds resolution.
+* `"ShortText"`     : Text value up to 4095 bytes length.
+* `"TokyoGeoPoint"` : Tokyo Datum based geometric point value.
+* `"WGS84GeoPoint"` : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
 Default value
 : None. Mandatory for tables with keys.
@@ -287,23 +287,23 @@ Inheritable
 ##### `tokenizer` {#parameter-tokenizer}
 
 Abstract
-: Specifies the type of tokenizer used for splitting each text value, when the table is used as a lexicon. Only available when the `keyType` is "ShortText".
+: Specifies the type of tokenizer used for splitting each text value, when the table is used as a lexicon. Only available when the `keyType` is `"ShortText"`.
 
 Value
 : Any of the following tokenizer names.
 
-* "TokenDelimit"
-* "TokenUnigram"
-* "TokenBigram"
-* "TokenTrigram"
-* "TokenBigramSplitSymbol"
-* "TokenBigramSplitSymbolAlpha"
-* "TokenBigramSplitSymbolAlphaDigit"
-* "TokenBigramIgnoreBlank"
-* "TokenBigramIgnoreBlankSplitSymbol"
-* "TokenBigramIgnoreBlankSplitSymbolAlpha"
-* "TokenBigramIgnoreBlankSplitSymbolAlphaDigit"
-* "TokenDelimitNull"
+* `"TokenDelimit"`
+* `"TokenUnigram"`
+* `"TokenBigram"`
+* `"TokenTrigram"`
+* `"TokenBigramSplitSymbol"`
+* `"TokenBigramSplitSymbolAlpha"`
+* `"TokenBigramSplitSymbolAlphaDigit"`
+* `"TokenBigramIgnoreBlank"`
+* `"TokenBigramIgnoreBlankSplitSymbol"`
+* `"TokenBigramIgnoreBlankSplitSymbolAlpha"`
+* `"TokenBigramIgnoreBlankSplitSymbolAlphaDigit"`
+* `"TokenDelimitNull"`
 
 Default value
 : None.
@@ -314,13 +314,13 @@ Inheritable
 ##### `normalizer` {#parameter-normalizer}
 
 Abstract
-: Specifies the type of normalizer which normalizes and restricts the key values. Only available when the `keyType` is "ShortText".
+: Specifies the type of normalizer which normalizes and restricts the key values. Only available when the `keyType` is `"ShortText"`.
 
 Value
 : Any of the following normalizer names.
 
-* "NormalizerAuto"
-* "NormalizerNFKC51"
+* `"NormalizerAuto"`
+* `"NormalizerNFKC51"`
 
 Default value
 : None.
@@ -388,12 +388,12 @@ Abstract
 Value
 : Any of the followings.
 
-* "Scalar": A single value.
-* "Vector": A list of values.
-* "Index" : A set of unique values with additional properties respectively. Properties can be specified in [`indexOptions`](#parameter-indexOptions).
+* `"Scalar"`: A single value.
+* `"Vector"`: A list of values.
+* `"Index"` : A set of unique values with additional properties respectively. Properties can be specified in [`indexOptions`](#parameter-indexOptions).
 
 Default value
-: "Scalar"
+: `"Scalar"`
 
 Inheritable
 : False.
@@ -406,14 +406,14 @@ Abstract
 Value
 : Any of the following data types or the name of another table defined in the same dataset. When a table name is assigned, the column acts as a foreign key references the table.
 
-* "Bool"          : `true` or `false`.
-* "Integer"       : 64bit signed integer.
-* "Float"         : 64bit floating-point number.
-* "Time"          : Time value with microseconds resolution.
-* "ShortText"     : Text value up to 4,095 bytes length.
-* "Text"          : Text value up to 2,147,483,647 bytes length.
-* "TokyoGeoPoint" : Tokyo Datum based geometric point value.
-* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
+* `"Bool"`          : `true` or `false`.
+* `"Integer"`       : 64bit signed integer.
+* `"Float"`         : 64bit floating-point number.
+* `"Time"`          : Time value with microseconds resolution.
+* `"ShortText"`     : Text value up to 4,095 bytes length.
+* `"Text"`          : Text value up to 2,147,483,647 bytes length.
+* `"TokyoGeoPoint"` : Tokyo Datum based geometric point value.
+* `"WGS84GeoPoint"` : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
 Default value
 : None. This is a required parameter.

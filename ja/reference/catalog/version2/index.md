@@ -259,10 +259,10 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : 以下のうちいずれかの値。
 
-* "Array": キーの無いテーブル
-* "Hash": ハッシュテーブル
-* "PatriciaTrie": パトリシアトライテーブル
-* "DoubleArrayTrie": ダブル配列トライテーブル
+* `"Array"`: キーの無いテーブル
+* `"Hash"`: ハッシュテーブル
+* `"PatriciaTrie"`: パトリシアトライテーブル
+* `"DoubleArrayTrie"`: ダブル配列トライテーブル
 
 既定値
 : `"Hash"`
@@ -273,17 +273,17 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 ##### `keyType` {#parameter-keyType}
 
 概要
-: テーブルにおけるキーのデータ型。`type`が"Array"の場合は指定してはいけません。
+: テーブルにおけるキーのデータ型。`type`が`"Array"`の場合は指定してはいけません。
 
 値
 : 以下のデータ型のうちのいずれか。
 
-* "Integer"       : 64bit 符号付き整数。
-* "Float"         : 64bit 浮動小数点数。
-* "Time"          : マイクロ秒精度の時刻。
-* "ShortText"     : 4095バイトまでの文字列。
-* "TokyoGeoPoint" : 旧日本測地系による経緯度。
-* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) による経緯度。
+* `"Integer"`       : 64bit 符号付き整数。
+* `"Float"`         : 64bit 浮動小数点数。
+* `"Time"`          : マイクロ秒精度の時刻。
+* `"ShortText"`     : 4095バイトまでの文字列。
+* `"TokyoGeoPoint"` : 旧日本測地系による経緯度。
+* `"WGS84GeoPoint"` : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) による経緯度。
 
 既定値
 : なし。キーを持つテーブルでは指定が必須です。
@@ -294,23 +294,23 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 ##### `tokenizer` {#parameter-tokenizer}
 
 概要
-: 語彙表として使われるテーブルにおける、文字列型の値を分割するために使うトークナイザーの種類を指定します。`keyType`が"ShortText"である場合にのみ有効です。
+: 語彙表として使われるテーブルにおける、文字列型の値を分割するために使うトークナイザーの種類を指定します。`keyType`が`"ShortText"`である場合にのみ有効です。
 
 値
 : 以下のトークナイザー名のうちのいずれか。
 
-* "TokenDelimit"
-* "TokenUnigram"
-* "TokenBigram"
-* "TokenTrigram"
-* "TokenBigramSplitSymbol"
-* "TokenBigramSplitSymbolAlpha"
-* "TokenBigramSplitSymbolAlphaDigit"
-* "TokenBigramIgnoreBlank"
-* "TokenBigramIgnoreBlankSplitSymbol"
-* "TokenBigramIgnoreBlankSplitSymbolAlpha"
-* "TokenBigramIgnoreBlankSplitSymbolAlphaDigit"
-* "TokenDelimitNull"
+* `"TokenDelimit"`
+* `"TokenUnigram"`
+* `"TokenBigram"`
+* `"TokenTrigram"`
+* `"TokenBigramSplitSymbol"`
+* `"TokenBigramSplitSymbolAlpha"`
+* `"TokenBigramSplitSymbolAlphaDigit"`
+* `"TokenBigramIgnoreBlank"`
+* `"TokenBigramIgnoreBlankSplitSymbol"`
+* `"TokenBigramIgnoreBlankSplitSymbolAlpha"`
+* `"TokenBigramIgnoreBlankSplitSymbolAlphaDigit"`
+* `"TokenDelimitNull"`
 
 既定値
 : なし。
@@ -321,13 +321,13 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 ##### `normalizer` {#parameter-normalizer}
 
 概要
-: キーの値を正規化・制限するノーマライザーの種類を指定します。`keyType`が"ShortText"である場合にのみ有効です。
+: キーの値を正規化・制限するノーマライザーの種類を指定します。`keyType`が`"ShortText"`である場合にのみ有効です。
 
 値
 : 以下のノーマライザー名のうちのいずれか。
 
-* "NormalizerAuto"
-* "NormalizerNFKC51"
+* `"NormalizerAuto"`
+* `"NormalizerNFKC51"`
 
 既定値
 : なし。
@@ -395,12 +395,12 @@ Abstract
 Value
 : Any of the followings.
 
-* "Scalar": A single value.
-* "Vector": A list of values.
-* "Index" : A set of unique values with additional properties respectively. Properties can be specified in [`indexOptions`](#parameter-indexOptions).
+* `"Scalar"`: A single value.
+* `"Vector"`: A list of values.
+* `"Index"` : A set of unique values with additional properties respectively. Properties can be specified in [`indexOptions`](#parameter-indexOptions).
 
 Default value
-: "Scalar"
+: `"Scalar"`
 
 継承可能性
 : 不可。
@@ -413,14 +413,14 @@ Abstract
 Value
 : Any of the following data types or the name of another table defined in the same dataset. When a table name is assigned, the column acts as a foreign key references the table.
 
-* "Bool"          : `true` or `false`.
-* "Integer"       : 64bit signed integer.
-* "Float"         : 64bit floating-point number.
-* "Time"          : Time value with microseconds resolution.
-* "ShortText"     : Text value up to 4,095 bytes length.
-* "Text"          : Text value up to 2,147,483,647 bytes length.
-* "TokyoGeoPoint" : Tokyo Datum based geometric point value.
-* "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
+* `"Bool"`          : `true` or `false`.
+* `"Integer"`       : 64bit signed integer.
+* `"Float"`         : 64bit floating-point number.
+* `"Time"`          : Time value with microseconds resolution.
+* `"ShortText"`     : Text value up to 4,095 bytes length.
+* `"Text"`          : Text value up to 2,147,483,647 bytes length.
+* `"TokyoGeoPoint"` : Tokyo Datum based geometric point value.
+* `"WGS84GeoPoint"` : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
 既定値
 : なし。これは必須のパラメータです。
