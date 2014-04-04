@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "gettext", ">= 3.1.1"
+gem "jekyll-task-i18n"
 gem "rake"
 gem "yard"
 gem "coderay"

@@ -15,9 +15,10 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-require_relative "_tasks/i18n"
+require "bundler/setup"
+require "jekyll/task/i18n"
 
-I18nTask.define do |task|
+Jekyll::Task::I18n.define do |task|
   task.locales = ["ja"]
   task.translator_name = "Droonga Project"
   task.translator_email = "droonga@groonga.org"
@@ -48,4 +49,4 @@ I18nTask.define do |task|
   end
 end
 
-task :default => "i18n:translate"
+task :default => "jekyll:i18n:translate"
