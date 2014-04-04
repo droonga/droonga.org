@@ -40,7 +40,7 @@ layout: ja
       "flags"             : "<テーブルの属性>",
       "key_type"          : "<主キーの型>",
       "value_type"        : "<値の型>",
-      "default_tokenizer" : "<デフォルトトークナイザー>",
+      "default_tokenizer" : "<既定のトークナイザー>",
       "normalizer"        : "<ノーマライザー>"
     }
 

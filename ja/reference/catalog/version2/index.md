@@ -105,7 +105,7 @@ layout: ja
 値
 : `2`. (このページに記述されている仕様はこの値が`2`のときのみ有効です)
 
-デフォルト値
+既定値
 : なし。これは必須のパラメータです。
 
 継承可能性
@@ -119,7 +119,7 @@ layout: ja
 値
 : [W3C-DTF](http://www.w3.org/TR/NOTE-datetime "Date and Time Formats") でフォーマットされたタイムゾーン付きの時刻。
 
-デフォルト値
+既定値
 : なし。これは必須のパラメータです。
 
 継承可能性
@@ -132,7 +132,7 @@ layout: ja
 
 : データセット名をキーとし、[`dataset` 定義](#dataset) を値とするオブジェクト。
 
-デフォルト値
+既定値
 : なし。これは必須のパラメータです。
 
 継承可能性
@@ -146,7 +146,7 @@ layout: ja
 値
 : 整数。
 
-デフォルト値
+既定値
 : 0 (ワーカー無し。全ての処理がマスタープロセス内で行われます)
 
 継承可能性
@@ -181,7 +181,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : 文字列の配列。
 
-デフォルト値
+既定値
 : なし。これは必須のパラメータです。
 
 継承可能性
@@ -195,7 +195,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : テーブル名をキーとし、[`table` 定義](#table)を値とするオブジェクト。
 
-デフォルト値
+既定値
 : なし。これは必須のパラメータです。
 
 継承可能性
@@ -209,7 +209,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : 文字列。
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -223,7 +223,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 値
 : [`volume` 定義](#volume)の配列。
 
-デフォルト値
+既定値
 : なし。これは必須のパラメータです。
 
 継承可能性
@@ -264,7 +264,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 * "PatriciaTrie": パトリシアトライテーブル
 * "DoubleArrayTrie": ダブル配列トライテーブル
 
-デフォルト値
+既定値
 : "Hash"
 
 継承可能性
@@ -285,7 +285,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 * "TokyoGeoPoint" : 旧日本測地系による経緯度。
 * "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) による経緯度。
 
-デフォルト値
+既定値
 : なし。キーを持つテーブルでは指定が必須です。
 
 継承可能性
@@ -312,7 +312,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 * "TokenBigramIgnoreBlankSplitSymbolAlphaDigit"
 * "TokenDelimitNull"
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -329,7 +329,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 * "NormalizerAuto"
 * "NormalizerNFKC51"
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -343,7 +343,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 Value
 : An object keyed by the name of the column with value the [`column` definition](#column).
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -422,7 +422,7 @@ Value
 * "TokyoGeoPoint" : Tokyo Datum based geometric point value.
 * "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) based geometric point value.
 
-デフォルト値
+既定値
 : なし。これは必須のパラメータです。
 
 継承可能性
@@ -587,7 +587,7 @@ Abstract
 Value
 : An array of column names of the referencing table assigned as [`valueType`](#parameter-valueType).
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -650,10 +650,10 @@ Index `name` and `address` on the referencing table.
 
 "[database_type:]hostname[:port_number]/localpath/to/the/database"
 
-* database_type: 省略可能。デフォルト値は"groonga"。
-* port_number: 省略可能。デフォルト値は 10047。
+* database_type: 省略可能。既定値は"groonga"。
+* port_number: 省略可能。既定値は 10047。
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -667,7 +667,7 @@ Index `name` and `address` on the referencing table.
 値
 : 文字列。
 
-デフォルト値
+既定値
 : "_key"
 
 継承可能性
@@ -681,7 +681,7 @@ Index `name` and `address` on the referencing table.
 値
 : スライサー関数の名前。
 
-デフォルト値
+既定値
 : "hash"
 
 継承可能性
@@ -695,7 +695,7 @@ Index `name` and `address` on the referencing table.
 値
 : [`slice` 定義](#slice)の配列。
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -752,7 +752,7 @@ Index `name` and `address` on the referencing table.
 値
 : 数値。
 
-デフォルト値
+既定値
 : `1`
 
 継承可能性
@@ -766,7 +766,7 @@ Index `name` and `address` on the referencing table.
 Value
 : A value of the dimension column data type. When the value is not provided, this slice is regarded as *else*; matched only if all other labels are not matched. Therefore, only one slice without `label` is allowed in slices.
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -780,7 +780,7 @@ Value
 Value
 : A value of the dimension column data type. When the value is not provided, this slice is regarded as *else*; this means the slice is open-ended. Therefore, only one slice without `boundary` is allowed in a slices.
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性
@@ -795,7 +795,7 @@ Value
 
 : [`volume` 定義](#volume)オブジェクト
 
-デフォルト値
+既定値
 : なし。
 
 継承可能性

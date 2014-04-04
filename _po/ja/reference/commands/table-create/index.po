@@ -83,7 +83,7 @@ msgstr ""
 "      \"flags\"             : \"<テーブルの属性>\",\n"
 "      \"key_type\"          : \"<主キーの型>\",\n"
 "      \"value_type\"        : \"<値の型>\",\n"
-"      \"default_tokenizer\" : \"<デフォルトトークナイザー>\",\n"
+"      \"default_tokenizer\" : \"<既定のトークナイザー>\",\n"
 "      \"normalizer\"        : \"<ノーマライザー>\"\n"
 "    }"
 
