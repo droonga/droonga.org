@@ -618,33 +618,25 @@ Index `name` and `address` on the referencing table.
 値
 : 以下のキーと値のペアを持つオブジェクト。
 
-#### スライサーの種類
+#### スライサーの種類 {#types-of-slicers}
 
-In order to define a volume which consists of a collection of `slices`,
-the way how slice recodes into slices must be decided.
+`slices`の集合からなるボリュームを定義するためには、レコードを複数のスライスに振り分けるための方法を決める必要があります。
 
-The slicer function that specified as `slicer` and
-the column (or key) specified as `dimension`,
-which is input for the slicer function, defines that.
+`slice`で指定されたスライサー関数と、スライサー関数への入力として与えられる`dimension`で指定されたカラム（またはキー）によって、それが決まります。
 
-Slicers are categorized into three types. Here are three types of slicers:
+スライサーは3種類に分けられます。3種類のスライサーは以下の通りです：
 
 ##### Ratio-scaled
 
-*Ratio-scaled slicers* slice datapoints in the specified ratio,
-e.g. hash function of _key.
+*Ratio-scaledスライサー*は、個々のデータを指定された割合で、_keyのハッシュ値などに基づいて振り分けます。
 
 ##### Ordinal-scaled
 
-*Ordinal-scaled slicers* slice datapoints with ordinal values;
-the values have some ranking, e.g. time, integer,
-element of `{High, Middle, Low}`.
+*Ordinal-scaledスライサー*は、個々のデータを序列のある値（時間、整数、`{High, Middle, Low}`など）に基づいて振り分けます。
 
 ##### Nominal-scaled
 
-*Nominal-scaled slicers* slice datapoints with nominal values;
-the values denotes categories,which have no order,
-e.g. country, zip code, color.
+*Nominal-scaledスライサー*は、個々のデータをカテゴリを示す列挙型の名前（国名、郵便番号、色など）で振り分けます。
 
 #### パラメータ
 
