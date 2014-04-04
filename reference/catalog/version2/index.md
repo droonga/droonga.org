@@ -651,8 +651,8 @@ Value
 
 "[database_type:]hostname[:port_number]/localpath/to/the/database"
 
-* database_type: Omittable. Default value is "groonga".
-* port_number: Omittable. Default value is 10047.
+* database_type: Optional. Default value is "groonga".
+* port_number: Optional. Default value is 10047.
 
 Default value
 : None.
