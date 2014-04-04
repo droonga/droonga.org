@@ -819,35 +819,33 @@ msgstr ""
 "ります。"
 
 msgid "Slicers are categorized into three types. Here are three types of slicers:"
-msgstr "スライサーは3種類に分けられます。3種類のスライサーは以下の通りです："
+msgstr "スライサーは以下の3種類に分けられます："
 
 msgid "##### Ratio-scaled"
-msgstr ""
+msgstr "##### 比例尺度"
 
 msgid ""
 "*Ratio-scaled slicers* slice datapoints in the specified ratio,\n"
 "e.g. hash function of _key."
-msgstr "*Ratio-scaledスライサー*は、個々のデータを指定された割合で、_keyのハッシュ値などに基づいて振り分けます。"
+msgstr "*比例尺度スライサー*は、個々のデータを指定された割合で、_keyのハッシュ値などに基づいて振り分けます。"
 
 msgid "##### Ordinal-scaled"
-msgstr ""
+msgstr "##### 順序尺度"
 
 msgid ""
 "*Ordinal-scaled slicers* slice datapoints with ordinal values;\n"
 "the values have some ranking, e.g. time, integer,\n"
 "element of `{High, Middle, Low}`."
-msgstr ""
-"*Ordinal-scaledスライサー*は、個々のデータを序列のある値（時間、整数、`{High, Middle, Low}`など）に基づいて振り分けます"
-"。"
+msgstr "*順序尺度スライサー*は、個々のデータを順序のある値（時間、整数、`{High, Middle, Low}`など）に基づいて振り分けます。"
 
 msgid "##### Nominal-scaled"
-msgstr ""
+msgstr "##### 名義尺度"
 
 msgid ""
 "*Nominal-scaled slicers* slice datapoints with nominal values;\n"
 "the values denotes categories,which have no order,\n"
 "e.g. country, zip code, color."
-msgstr "*Nominal-scaledスライサー*は、個々のデータをカテゴリを示す列挙型の名前（国名、郵便番号、色など）で振り分けます。"
+msgstr "*名義尺度スライサー*は、個々のデータをカテゴリを示す名義（国名、郵便番号、色など）で振り分けます。"
 
 msgid "##### `address` {#parameter-address}"
 msgstr ""
