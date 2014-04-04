@@ -257,7 +257,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 : テーブルのキーを管理するためのデータ構造を指定する。
 
 値
-: 以下のうち何れかの値。
+: 以下のうちいずれかの値。
 
 * "Array": キーの無いテーブル
 * "Hash": ハッシュテーブル
@@ -276,7 +276,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 : テーブルにおけるキーのデータ型。`type`が"Array"の場合は指定してはいけません。
 
 値
-: 以下のデータ型のうちの何れか。
+: 以下のデータ型のうちのいずれか。
 
 * "Integer"       : 64bit 符号付き整数。
 * "Float"         : 64bit 浮動小数点数。
@@ -297,7 +297,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 : 語彙表として使われるテーブルにおける、文字列型の値を分割するために使うトークナイザーの種類を指定します。`keyType`が"ShortText"である場合にのみ有効です。
 
 値
-: 以下のトークナイザー名のうちの何れか。
+: 以下のトークナイザー名のうちのいずれか。
 
 * "TokenDelimit"
 * "TokenUnigram"
@@ -324,7 +324,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 : キーの値を正規化・制限するノーマライザーの種類を指定します。`keyType`が"ShortText"である場合にのみ有効です。
 
 値
-: 以下のノーマライザー名のうちの何れか。
+: 以下のノーマライザー名のうちのいずれか。
 
 * "NormalizerAuto"
 * "NormalizerNFKC51"
