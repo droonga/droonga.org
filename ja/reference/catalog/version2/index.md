@@ -275,6 +275,7 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 概要
 : テーブルにおけるキーのデータ型。`type`が"Array"の場合は指定してはいけません。
 
+値
 : 以下のデータ型のうちの何れか。
 
 * "Integer"       : 64bit 符号付き整数。
@@ -284,19 +285,19 @@ A version 2 catalog effective after `2013-09-01T00:00:00Z`, with no datasets:
 * "TokyoGeoPoint" : 旧日本測地系による経緯度。
 * "WGS84GeoPoint" : [WGS84](http://en.wikipedia.org/wiki/World_Geodetic_System) による経緯度。
 
-Default value
-: None. Mandatory for tables with keys.
+デフォルト値
+: なし。キーを持つテーブルでは指定が必須です。
 
 継承可能性
 : 不可。
 
 ##### `tokenizer` {#parameter-tokenizer}
 
-Abstract
-: Specifies the type of tokenizer used for splitting each text value, when the table is used as a lexicon. Only available when the `keyType` is "ShortText".
+概要
+: 語彙表として使われるテーブルにおける、文字列型の値を分割するために使うトークナイザーの種類を指定します。`keyType`が"ShortText"である場合にのみ有効です。
 
-Value
-: Any of the following tokenizer names.
+値
+: 以下のトークナイザー名のうちの何れか。
 
 * "TokenDelimit"
 * "TokenUnigram"
@@ -319,11 +320,11 @@ Value
 
 ##### `normalizer` {#parameter-normalizer}
 
-Abstract
-: Specifies the type of normalizer which normalizes and restricts the key values. Only available when the `keyType` is "ShortText".
+概要
+: キーの値を正規化・制限するノーマライザーの種類を指定します。`keyType`が"ShortText"である場合にのみ有効です。
 
-Value
-: Any of the following normalizer names.
+値
+: 以下のノーマライザー名のうちの何れか。
 
 * "NormalizerAuto"
 * "NormalizerNFKC51"
@@ -336,8 +337,8 @@ Value
 
 ##### `columns` {#parameter-columns}
 
-Abstract
-: Column definition for the table.
+概要
+: テーブルのカラムの定義。
 
 Value
 : An object keyed by the name of the column with value the [`column` definition](#column).
