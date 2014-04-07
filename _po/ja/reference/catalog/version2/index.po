@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2014-04-07 16:11+0900\n"
+"PO-Revision-Date: 2014-04-07 16:12+0900\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -878,7 +878,7 @@ msgstr ""
 
 msgid ""
 "In order to define a volume which consists of a collection of `slices`,\n"
-"the way how slice recodes into slices must be decided."
+"the way how slice records into slices must be decided."
 msgstr "`slices`の集合からなるボリュームを定義するためには、レコードを複数のスライスに振り分けるための方法を決める必要があります。"
 
 msgid ""

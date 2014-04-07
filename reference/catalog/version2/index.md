@@ -661,7 +661,7 @@ Inheritable
 : True. Overridable in `dataset` and `volume` definition.
 
 In order to define a volume which consists of a collection of `slices`,
-the way how slice recodes into slices must be decided.
+the way how slice records into slices must be decided.
 
 The slicer function that specified as `slicer` and
 the column (or key) specified as `dimension`,
