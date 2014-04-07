@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2014-04-07 16:12+0900\n"
+"PO-Revision-Date: 2014-04-07 16:25+0900\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1081,7 +1081,7 @@ msgid ": An object which is a [`volume` definition](#volume)"
 msgstr ": [`volume` 定義](#volume)オブジェクト"
 
 msgid "##### Example 1: Ratio-scaled"
-msgstr "\"##### 例1: Ratio-scaled"
+msgstr "##### 例1: Ratio-scaled"
 
 msgid "Slice for a ratio-scaled slicer, with the weight `1`:"
 msgstr "ratio-scaledなスライサーのためのスライス、重みは`1`"

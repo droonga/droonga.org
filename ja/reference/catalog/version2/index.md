@@ -813,7 +813,7 @@ Value
 
 #### 例
 
-"##### 例1: Ratio-scaled
+##### 例1: Ratio-scaled
 
 ratio-scaledなスライサーのためのスライス、重みは`1`
 
