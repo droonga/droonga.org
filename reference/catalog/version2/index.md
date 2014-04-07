@@ -655,7 +655,7 @@ Value
 : Name of slicer function.
 
 Default value
-: `"Hash"`
+: `"hash"`
 
 Inheritable
 : True. Overridable in `dataset` and `volume` definition.

@@ -662,7 +662,7 @@ Index `name` and `address` on the referencing table.
 : スライサー関数の名前。
 
 既定値
-: `"Hash"`
+: `"hash"`
 
 継承可能性
 : 可。`dataset`と`volume`の定義でオーバライドできます。
