@@ -57,7 +57,7 @@ TBD
 ## Conclusion
 
 In this tutorial, you did setup a [Droonga][] server on a [Ubuntu Linux][Ubuntu].
-Moreover, you load data to it and and select data from it successfully, as a [Groonga][] compatible server.
+Moreover, you load data to it and select data from it successfully, as a [Groonga][] compatible server.
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
