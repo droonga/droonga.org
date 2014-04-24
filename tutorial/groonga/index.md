@@ -45,7 +45,7 @@ However, currently there is no such an easy way to set up a database system base
 We are planning to provide a better way (like a chef cookbook), but for now, you have to set up it by your hand.
 
 A database system based on the Droonga is called *Droonga cluster*.
-A Droonga cluster is constructed with multiple computers, called *Droonga node*.
+A Droonga cluster is constructed from multiple computers, called *Droonga node*.
 So you have to set up multiple Droonga nodes for your Droonga cluster.
 
 Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
@@ -74,31 +74,60 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     
  5. Create a `catalog.json`, *on one of Droonga nodes*.
     The file defines the structure of your Droonga cluster.
-    You'll specify the list of your Droonga node's IP addresses as the `--nodes` option, like:
+    You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--nodes` option, like:
     
-        # droonga-catalog-generate --dataset=Dataset \
+        # droonga-catalog-generate --dataset=Starbucks \
                                    --nodes=192.168.0.10,192.168.0.11 \
                                    --output=./catalog.json
     
     If you have only one computer and trying to set up it just for testing, then you'll do:
     
-        # droonga-catalog-generate --dataset=Dataset \
+        # droonga-catalog-generate --dataset=Starbucks \
                                    --nodes=127.0.0.1 \
                                    --output=./catalog.json
     
  6. Share the generated `catalog.json` *to your all Droonga nodes*.
     
         # scp ~/droonga/catalog.json 192.169.0.2:~/droonga/
+    
+    (Or, of course, you can generate same `catalog.json` on each computer, instead of copying.)
 
 All Droonga nodes for your Droonga cluster are prepared by steps described above.
 Let's continue to the next step.
 
-## Start and stop services
+## Start and stop services on each Droonga node
 
-For Groonga, you simply have to install the Groonga and run it with the option `-d`, like:
+You can run Groonga as an HTTP server with the option `-d`, like:
 
-    # groonga -p 10080 -d --protocol http /tmp/databases/db
+    # groonga -p 3000 -d --protocol http /tmp/databases/db
 
+On the other hand, you have to run two servers for each Droonga node to use your Droonga cluster via HTTP.
+
+To start required services, run commands like following on each Droonga node:
+
+    # cd ~/droonga
+    # host=192.168.0.10
+    # droonga-engine --host=$host &
+    # cat $! > droonga-engine.pid
+    # droonga-http-server --port=3000 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --default-dataset=Starbucks &
+    # cat $! > droonga-http-server.pid
+
+Note that you have to specify the host name of the Droonga node itself via some options.
+It will be used to communicate with other Droonga nodes in the cluster.
+So you have to specify different host name on another Droonga node, like:
+
+    # cd ~/droonga
+    # host=192.168.0.11
+    # droonga-engine --host=$host &
+    ...
+
+To stop services, run commands like following on each Droonga node:
+
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
 
 ## Create a table
 
