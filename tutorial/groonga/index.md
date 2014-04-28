@@ -15,7 +15,7 @@ Learning steps to run a Droonga cluster by your hand, and use it as a [Groonga][
 * You must have basic knowledge and experiences to set up and operate an [Ubuntu][] Server.
 * You must have basic knowledge and experiences to use the [Groonga][groonga] via HTTP.
 
-## Abstract
+## What's Droonga?
 
 It is a data processing engine based on a distributed architecture, named after the terms "distributed-Groonga".
 As its name suggests, it can work as a Groonga compatible server with some improvements - replication and sharding.
@@ -25,7 +25,9 @@ However, you don't have to understand the whole architecture of the Droonga, if 
 
 For example, let's try to build a database system to find [Starbucks stores in New York](http://geocommons.com/overlays/430038).
 
-## Prepare an environment for experiments
+## Set up a Droonga cluster
+
+### Prepare an environment for experiments
 
 Prepare a computer at first.
 This tutorial describes steps to set up a Droonga cluster based on existing computers.
@@ -36,7 +38,7 @@ Otherwise, you may experience a strange build error.
 
 You need to prepare two or more computers for effective replication.
 
-## Set up a Droonga cluster
+### Steps to install Droonga components
 
 Groonga provides binary packages and you can install Groonga easily, for some environments.
 (See: [how to install Groonga](http://groonga.org/docs/install.html))
@@ -95,7 +97,9 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
 All Droonga nodes for your Droonga cluster are prepared by steps described above.
 Let's continue to the next step.
 
-## Start and stop services on each Droonga node
+## Use the Droonga cluster, via HTTP
+
+### Start and stop services on each Droonga node
 
 You can run Groonga as an HTTP server with the option `-d`, like:
 
@@ -130,15 +134,15 @@ To stop services, run commands like following on each Droonga node:
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
 
-## Create a table
+### Create a table
 
 TBD
 
-## Load data to a table
+### Load data to a table
 
 TBD
 
-## Select data from a table
+### Select data from a table
 
 TBD
 
