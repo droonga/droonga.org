@@ -61,8 +61,8 @@ Droongaは大きく二つのコンポーネントで構成されます。
 ### Droonga Engine
 
 分散データ処理の要となるコンポーネントです。実際にデータを管理・処理します。
-Droonga Engineは、Fluentdのplugin(fluent-plugin-droonga)として実装されています。
-Droonga Engineへの入出力インタフェースにはFluentdで使用できるあらゆるpluginがそのまま適用できます。
+Droonga Engineは、Fluentdプロトコルで通信するサーバ(droonga-engine)として実装されています。
+Droonga Engineへの入出力にはFluentdをそのまま接続することができます。
 Droonga Engineのクラスタ内部の通信にはMessagePack data stream(Fluent protocol)が使用されます。
 
 ### Protocol Adapter
@@ -108,9 +108,9 @@ Droongaクラスタは一つ以上のDroonga Engineプロセスで構成され�
 
 ![droonga02](../../overview/droonga02.png)
 
-Droonga Engineは、Fluentdのoutput pluginとして動作します。
+Droonga Engineは、Fluentdとプロトコルレベルで互換性を持つサーバソフトウェアです。
 
-任意のinput plugin経由で受信するデータストリームをDroongaに対する入力として扱うことができます。
+fluentd protocolで受信するデータストリームをDroongaに対する入力として扱うことができます。
 
 Droonga Engineが受信したデータは、tag名などに応じて、Adapterと呼ばれるモジュールに渡されます。Adapterは、個々のJSONデータを、Droongaの内部処理モジュールが受理できる形式に変換します。
 

@@ -14,13 +14,13 @@ layout: ja
 
 # 概要
 
-Droongaは主に、[fluent-plugin-droonga][]と[droonga-http-server][]の2つのパッケージから構成されています。
+Droongaは主に、[droonga-engine][]と[droonga-http-server][]の2つのパッケージから構成されています。
 
 ## 依存関係
 
 ### Ruby
 
-[fluent-plugin-droonga][]は[Ruby][]を必要とします。
+[droonga-engine][]は[Ruby][]を必要とします。
 
 ### Node.js
 
@@ -33,9 +33,9 @@ Droongaは主に、[fluent-plugin-droonga][]と[droonga-http-server][]の2つの
 
     sudo apt-get install -y ruby ruby-dev build-essential nodejs npm
 
-## fluent-plugin-droongaのインストール
+## droonga-engineのインストール
 
-    sudo gem install fluent-plugin-droonga
+    sudo gem install droonga-engine
 
 ## droonga-http-serverのインストール
 
@@ -45,5 +45,5 @@ Droongaは主に、[fluent-plugin-droonga][]と[droonga-http-server][]の2つの
 
   [Ruby]: http://www.ruby-lang.org/
   [Node.js]: http://nodejs.org/
-  [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
+  [droonga-engine]: https://github.com/droonga/droonga-engine
   [droonga-http-server]: https://github.com/droonga/droonga-http-server

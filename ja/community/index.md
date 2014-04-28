@@ -33,7 +33,7 @@ Droongaのメーリングリストは次の通りです。
 
 Droonga関連のGitHub issuesは次の通りです。
 
- * [Issues - droonga/fluent-plugin-droonga](https://github.com/droonga/fluent-plugin-droonga/issues)：Droonga Engineに関すること用。
+ * [Issues - droonga/droonga-engine](https://github.com/droonga/droonga-engine/issues)：Droonga Engineに関すること用。
  * [Issues - droonga/express-droonga](https://github.com/droonga/express-droonga/issues)：HTTP Protocol Adapterに関すること用。
  * [Issues - droonga/droonga-http-server](https://github.com/droonga/droonga-http-server/issues)：HTTP Protocol Adapterのフロントエンドに関すること用。
 

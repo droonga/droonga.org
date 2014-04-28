@@ -115,8 +115,8 @@ msgstr ""
 
 msgid ""
 "分散データ処理の要となるコンポーネントです。実際にデータを管理・処理します。\n"
-"Droonga Engineは、Fluentdのplugin(fluent-plugin-droonga)として実装されています。\n"
-"Droonga Engineへの入出力インタフェースにはFluentdで使用できるあらゆるpluginがそのまま適用できます。\n"
+"Droonga Engineは、Fluentdプロトコルで通信するサーバ(droonga-engine)として実装されています。\n"
+"Droonga Engineへの入出力にはFluentdをそのまま接続することができます。\n"
 "Droonga Engineのクラスタ内部の通信にはMessagePack data stream(Fluent protocol)が使用されます。"
 msgstr ""
 
@@ -185,10 +185,10 @@ msgstr ""
 msgid "![droonga02](../../overview/droonga02.png)"
 msgstr ""
 
-msgid "Droonga Engineは、Fluentdのoutput pluginとして動作します。"
+msgid "Droonga Engineは、Fluentdとプロトコルレベルで互換性を持つサーバソフトウェアです。"
 msgstr ""
 
-msgid "任意のinput plugin経由で受信するデータストリームをDroongaに対する入力として扱うことができます。"
+msgid "fluentd protocolで受信するデータストリームをDroongaに対する入力として扱うことができます。"
 msgstr ""
 
 msgid ""
