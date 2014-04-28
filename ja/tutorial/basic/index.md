@@ -38,8 +38,10 @@ Droonga は複数のコンポーネントから構成されています。ユー
 
 Droonga Engine は Droonga における分散データ処理の要となるコンポーネントです。リクエストに基いて実際のデータ処理を行います。
 
-このコンポーネントは [Fluentd] のプラグインとして実装されており、 [fluent-plugin-droonga][] パッケージとして提供されます。
-[fluent-plugin-droonga][] は検索エンジンとして、オープンソースのカラムストア機能付き全文検索エンジン [Groonga][] を使用しています。
+このコンポーネントは[droonga-engine][]という名前で開発およびリリースされています。
+通信に使用するプロトコルは[Fluentd]と互換性があります。
+
+[droonga-engine][] は検索エンジンとして、オープンソースのカラムストア機能付き全文検索エンジン [Groonga][] を使用しています。
 
 #### Protocol Adapter
 
@@ -58,8 +60,8 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
     +-------------+              +------------------+             +----------------+
     | Web Browser |  <-------->  | Protocol Adapter |  <------->  | Droonga Engine |
     +-------------+   HTTP       +------------------+   Fluent    +----------------+
-                                 w/droonga-http        protocol   w/fluent-plugin
-                                           -server                         -droonga
+                                 w/droonga-http        protocol   w/droonga-engine
+                                           -server
 
 
                                  \--------------------------------------------------/
@@ -77,6 +79,8 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
 
 注意：Droongaが必要とするパッケージをインストールする前に、マシンが2GB以上のメモリを備えていることを確認して下さい。メモリが不足していると、ビルド時にエラーが出て、ビルドに失敗することがあります。
 
+ホストが `192.168.0.10` だと仮定します。
+
 ## セットアップに必要なパッケージをインストールする
 
 Droonga をセットアップするために必要になるパッケージをインストールします。
@@ -88,11 +92,11 @@ Droonga をセットアップするために必要になるパッケージをイ
 ## Droonga Engine を構築する
 
 Droonga Engine は、データベースを保持し、実際の検索を担当する部分です。
-このセクションでは、 fluent-plugin-droonga をインストールし、検索対象となるデータを準備します。
+このセクションでは、 droonga-engine をインストールし、検索対象となるデータを準備します。
 
-### fluent-plugin-droongaとdroonga-clientをインストールする
+### droonga-engineとdroonga-clientをインストールする
 
-    # gem install fluent-plugin-droonga droonga-client
+    # gem install droonga-engine droonga-client
 
 Droonga Engine を構築するのに必要なパッケージがセットアップできました。引き続き設定に移ります。
 
@@ -103,21 +107,7 @@ Droonga Engine を構築するのに必要なパッケージがセットアッ�
     # mkdir engine
     # cd engine
 
-以下の内容で `fluentd.conf` と `catalog.json` を作成します。
-
-fluentd.conf:
-
-    <source>
-      type forward
-      port 24224
-    </source>
-    <match starbucks.message>
-      name localhost:24224/starbucks
-      type droonga
-    </match>
-    <match output.message>
-      type stdout
-    </match>
+以下の内容で `catalog.json` を作成します。
 
 catalog.json:
 
@@ -176,17 +166,17 @@ catalog.json:
               "slices": [
                 {
                   "volume": {
-                    "address": "localhost:24224/starbucks.000"
+                    "address": "192.168.0.10:10031/droonga.000"
                   }
                 },
                 {
                   "volume": {
-                    "address": "localhost:24224/starbucks.001"
+                    "address": "192.168.0.10:10031/droonga.001"
                   }
                 },
                 {
                   "volume": {
-                    "address": "localhost:24224/starbucks.002"
+                    "address": "192.168.0.10:10031/droonga.002"
                   }
                 }
               ]
@@ -197,17 +187,17 @@ catalog.json:
               "slices": [
                 {
                   "volume": {
-                    "address": "localhost:24224/starbucks.010"
+                    "address": "192.168.0.10:10031/droonga.010"
                   }
                 },
                 {
                   "volume": {
-                    "address": "localhost:24224/starbucks.011"
+                    "address": "192.168.0.10:10031/droonga.011"
                   }
                 },
                 {
                   "volume": {
-                    "address": "localhost:24224/starbucks.012"
+                    "address": "192.168.0.10:10031/droonga.012"
                   }
                 }
               ]
@@ -228,43 +218,25 @@ catalog.json:
 
 `catalog.json` の詳細については [catalog.json](/ja/reference/catalog) を参照してください。
 
-### fluent-plugin-droonga を起動する
+### droonga-engine を起動する
 
-以下のようにして fluentd-plugin-droonga を起動します。
+以下のようにして droonga-engine を起動します。
 
-    # fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
-    # tail -F fluentd.log
-      </match>
-      <match output.message>
-        type stdout
-      </match>
-    </ROOT>
-    2014-02-09 14:37:08 +0900 [info]: adding source type="forward"
-    2014-02-09 14:37:08 +0900 [info]: adding match pattern="starbucks.message" type="droonga"
-    2014-02-09 14:37:08 +0900 [info]: adding match pattern="output.message" type="stdout"
-    2014-02-09 14:37:08 +0900 [info]: catalog loaded path="/tmp/engine/catalog.json" mtime=2014-02-09 14:29:22 +0900
-    2014-02-09 14:37:08 +0900 [info]: listening fluent socket on 0.0.0.0:24224
+    # droonga-engine --host 192.168.0.10 --log-file=$PWD/droonga-engine.log --daemon --pid-file $PWD/droonga-engine.pid
 
-### fluent-plugin-droonga を終了する
+### droonga-engine を終了する
 
-最初にfluent-plugin-droongaを終了する方法を知っておきましょう。
+最初にdroonga-engineを終了する方法を知っておきましょう。
 
 fluentdにSIGTERMを送ります。
 
-    # kill $(cat fluentd.pid)
+    # kill $(cat droonga-engine.pid)
 
-`tail -F fluentd.log` を実行しているターミナルに次のメッセージがでているはずです。
-
-    # tail -F fluentd.log
-    ...
-    2014-02-09 14:39:27 +0900 [info]: shutting down fluentd
-    2014-02-09 14:39:30 +0900 [info]: process finished code=0
-
-これがfluent-plugin-droongaを終了する方法です。
+これがdroonga-engineを終了する方法です。
 
 再度fluent-plugin-droongaを起動します。
 
-    # fluentd --config fluentd.conf --log fluentd.log --daemon fluentd.pid
+    # droonga-engine --host 192.168.0.10 --log-file=$PWD/droonga-engine.log --daemon --pid-file $PWD/droonga-engine.pid
 
 ### データベースを作成する
 
@@ -1200,7 +1172,7 @@ search-all-stores.json:
 Droonga Engine にリクエストを送信します:
 
 ~~~
-# droonga-request --tag starbucks search-all-stores.json
+# droonga-request search-all-stores.json
 Elapsed time: 0.008286785
 [
   "droonga.message",
@@ -1352,14 +1324,19 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 次に、サーバを起動します。
 
-    # droonga-http-server --port 3000 --default-dataset Starbucks --tag starbucks
+    # droonga-http-server --port 3000 \
+                          --receive-host-name=192.168.0.10 \
+                          --droonga-engine-host-name=192.168.0.10 \
+                          --default-dataset=Starbucks \
+                          --daemon \
+                          --pid-file $PWD/droonga-http-server.pid
 
 
 ### HTTPでの検索リクエスト
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    # curl "http://localhost:3000/tables/Store?attributes=_key&limit=-1"
+    # curl "http://192.168.0.10:3000/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
@@ -1492,7 +1469,7 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 もう少し複雑なクエリを試してみましょう。例えば、店名に「Columbus」を含む店舗を検索します。`query` パラメータにクエリ `Columbus` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
-    # curl "http://localhost:3000/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://192.168.0.10:3000/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,
@@ -1514,14 +1491,14 @@ Droonga HTTP Serverの詳細については[リファレンスマニュアル][h
 
 ## まとめ
 
-[Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [fluent-plugin-droonga][] と [droonga-http-server][] をセットアップしました。
+[Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [droonga-engine][] と [droonga-http-server][] をセットアップしました。
 これらのパッケージを利用することで、HTTP Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
 
 
   [http-server]: ../../reference/http-server/
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
-  [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
+  [droonga-engine]: https://github.com/droonga/droonga-engine
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
   [Ruby]: http://www.ruby-lang.org/

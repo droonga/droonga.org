@@ -12,6 +12,10 @@ layout: ja
 {% endcomment %}
 
 
+## Groonga利用者向け
+
+ * [Groongaからの移行手順](groonga/)
+
 ## アプリケーション開発者向け
 
  * [基本的な使い方のチュートリアル](basic/)

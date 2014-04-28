@@ -19,6 +19,12 @@ msgstr ""
 "layout: ja\n"
 "---"
 
+msgid "## For Groonga users"
+msgstr "## Groonga利用者向け"
+
+msgid " * [How to migrate from Groonga?](groonga/)"
+msgstr " * [Groongaからの移行手順](groonga/)"
+
 msgid "## For application developers"
 msgstr "## アプリケーション開発者向け"
 
