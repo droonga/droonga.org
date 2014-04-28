@@ -112,8 +112,9 @@ To start required services, run commands like following on each Droonga node:
     # droonga-http-server --port=3000 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
-                          --default-dataset=Starbucks &
-    # cat $! > droonga-http-server.pid
+                          --default-dataset=Starbucks \
+                          --daemon \
+                          --pid-file droonga-http-server.pid
 
 Note that you have to specify the host name of the Droonga node itself via some options.
 It will be used to communicate with other Droonga nodes in the cluster.
