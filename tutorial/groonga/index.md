@@ -266,6 +266,10 @@ Of course you can specify conditions via the `query` option:
 In this tutorial, you did set up a [Droonga][] cluster on [Ubuntu Linux][Ubuntu] computers.
 Moreover, you load data to it and select data from it successfully, as a [Groonga][] compatible server.
 
+Currently, Droonga supports only some limited features of Groonga compatible commands.
+See the [command reference][] for more details.
+
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
+  [command reference]: ../../reference/commands/
