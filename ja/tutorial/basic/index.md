@@ -214,7 +214,7 @@ catalog.json:
    これらはDroongaのデータセットの最小の構成要素である。
 
 これらの6つの、`"address"`の情報を持つ最小単位のボリュームは、内部的に*シングル・ボリューム*と呼ばれます。
-`"address"`の情報は、対応する物理的なストレージであるGroongaのデータベースの位置を示していて、それらのデータベースは`fluent-plugin-droonga`によって自動的に作成されます。
+`"address"`の情報は、対応する物理的なストレージであるGroongaのデータベースの位置を示していて、それらのデータベースは`droonga-engine`によって自動的に作成されます。
 
 `catalog.json` の詳細については [catalog.json](/ja/reference/catalog) を参照してください。
 
@@ -234,7 +234,7 @@ droonga-engineにSIGTERMを送ります。
 
 これがdroonga-engineを終了する方法です。
 
-再度fluent-plugin-droongaを起動します。
+再度droonga-engineを起動します。
 
     # droonga-engine --host 192.168.0.10 --log-file=$PWD/droonga-engine.log --daemon --pid-file $PWD/droonga-engine.pid
 

@@ -27,7 +27,7 @@ Droongaシステムのカテゴリには、Droongのコア機能を提供する�
 
 関連プロジェクト:
 
- * [fluent-plugin-droonga][]: 分散検索エンジンモジュール
+ * [droonga-engine][]: 分散検索エンジンモジュール
  * [express-droonga][]: APIサーバモジュール
  * [droonga-http-server][]: HTTP Protocol Adapterフロントエンド
  * [Groonga][]: カラムストア機能付き全文検索エンジン
@@ -57,7 +57,7 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
 
  * [droonga/droonga.org][]: このサイトのソースコード
 
-  [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
+  [droonga-engine]: https://github.com/droonga/droonga-engine
   [express-droonga]: https://github.com/droonga/express-droonga
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/

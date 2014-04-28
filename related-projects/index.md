@@ -18,7 +18,7 @@ Droonga system category includes projects that provide Droonga core features.
 
 Here are related projects:
 
- * [fluent-plugin-droonga][]: Distributed search engine module
+ * [droonga-engine][]: Distributed search engine module
  * [express-droonga][]: API server module
  * [droonga-http-server][]: HTTP procol adapter frontend
  * [Groonga][]: An open-source fulltext search engine and column store
@@ -48,7 +48,7 @@ Other category includes other related projects:
 
  * [droonga/droonga.org][]: The source of this site
 
-  [fluent-plugin-droonga]: https://github.com/droonga/fluent-plugin-droonga
+  [droonga-engine]: https://github.com/droonga/droonga-engine
   [express-droonga]: https://github.com/droonga/express-droonga
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
