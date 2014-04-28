@@ -64,7 +64,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
         # gem install droonga-engine
     
  3. Install an npm package `droonga-http-server`, *on each computer*.
-    It is the frontend component.
+    It is the frontend component, and required to translate HTTP requests to Droonga's native one.
     
         # npm install -g droonga-http-server
     
