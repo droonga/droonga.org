@@ -147,10 +147,15 @@ Note that you have to specify the host, one of Droonga nodes with active droonga
 In other words, you can use any favorite node in the cluster as an endpoint.
 All requests will be distributed to suitable nodes in the cluster.
 
-OK, now the table has been created.
+OK, now the table has been created successfully.
 Let's see it by the `table_list` command:
 
     # curl "http://192.168.0.10:3000/d/table_list"
+    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
+
+Because it is a cluster, another endpoint returns same result.
+
+    # curl "http://192.168.0.11:3000/d/table_list"
     [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
 
 ### Create a column
