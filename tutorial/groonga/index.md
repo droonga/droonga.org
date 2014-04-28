@@ -138,7 +138,7 @@ To stop services, run commands like following on each Droonga node:
 Now your Droonga cluster actually works as a Groonga's HTTP server.
 
 Requests are completely same to ones for a Groonga server.
-To create a new table, you just have to send a GET request for the `table_create` command, like:
+To create a new table `Store`, you just have to send a GET request for the `table_create` command, like:
 
     # curl "http://192.168.0.10:3000/d/table_create?name=Store&type=Hash&key_type=ShortText"
     [[0,1398662266.3853862,0.08530688285827637],true]
@@ -160,7 +160,7 @@ Because it is a cluster, another endpoint returns same result.
 
 ### Create a column
 
-Next, create a new column to the table by the `column_create` command, like:
+Next, create a new column `location` to the `Store` table by the `column_create` command, like:
 
     # curl "http://192.168.0.10:3000/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
     [[0,1398664305.8856306,0.00026226043701171875],true]
@@ -180,17 +180,84 @@ Create indexes also.
     [[0,1398664429.5348525,0.13435077667236328],true]
     # curl "http://192.168.0.10:3000/d/table_create?name=Term&type=PatriciaTrie&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
     [[0,1398664454.446939,0.14734888076782227],true]
-    # curl "http://192.168.0.10:3000/d/column_create?table=Term&name=stores__key&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=_key"
+    # curl "http://192.168.0.10:3000/d/column_create?table=Term&name=store__key&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=_key"
     [[0,1398664474.7112074,0.12619781494140625],true]
 
 
 ### Load data to a table
 
-TBD
+Let's load data to the `Store` table.
+First. prepare the data as a JSON file `stores.json`.
+
+stores.json:
+
+~~~
+[
+["_key","location"],
+["1st Avenue & 75th St. - New York NY  (W)","40.770262,-73.954798"],
+["76th & Second - New York NY  (W)","40.771056,-73.956757"],
+["2nd Ave. & 9th Street - New York NY","40.729445,-73.987471"],
+["15th & Third - New York NY  (W)","40.733946,-73.9867"],
+["41st and Broadway - New York NY  (W)","40.755111,-73.986225"],
+["84th & Third Ave - New York NY  (W)","40.777485,-73.954979"],
+["150 E. 42nd Street - New York NY  (W)","40.750784,-73.975582"],
+["West 43rd and Broadway - New York NY  (W)","40.756197,-73.985624"],
+["Macy's 35th Street Balcony - New York NY","40.750703,-73.989787"],
+["Macy's 6th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
+["Herald Square- Macy's - New York NY","40.750703,-73.989787"],
+["Macy's 5th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
+["80th & York - New York NY  (W)","40.772204,-73.949862"],
+["Columbus @ 67th - New York NY  (W)","40.774009,-73.981472"],
+["45th & Broadway - New York NY  (W)","40.75766,-73.985719"],
+["Marriott Marquis - Lobby - New York NY","40.759123,-73.984927"],
+["Second @ 81st - New York NY  (W)","40.77466,-73.954447"],
+["52nd & Seventh - New York NY  (W)","40.761829,-73.981141"],
+["1585 Broadway (47th) - New York NY  (W)","40.759806,-73.985066"],
+["85th & First - New York NY  (W)","40.776101,-73.949971"],
+["92nd & 3rd - New York NY  (W)","40.782606,-73.951235"],
+["165 Broadway - 1 Liberty - New York NY  (W)","40.709727,-74.011395"],
+["1656 Broadway - New York NY  (W)","40.762434,-73.983364"],
+["54th & Broadway - New York NY  (W)","40.764275,-73.982361"],
+["Limited Brands-NYC - New York NY","40.765219,-73.982025"],
+["19th & 8th - New York NY  (W)","40.743218,-74.000605"],
+["60th & Broadway-II - New York NY  (W)","40.769196,-73.982576"],
+["63rd & Broadway - New York NY  (W)","40.771376,-73.982709"],
+["195 Broadway - New York NY  (W)","40.710703,-74.009485"],
+["2 Broadway - New York NY  (W)","40.704538,-74.01324"],
+["2 Columbus Ave. - New York NY  (W)","40.769262,-73.984764"],
+["NY Plaza - New York NY  (W)","40.702802,-74.012784"],
+["36th and Madison - New York NY  (W)","40.748917,-73.982683"],
+["125th St. btwn Adam Clayton & FDB - New York NY","40.808952,-73.948229"],
+["70th & Broadway - New York NY  (W)","40.777463,-73.982237"],
+["2138 Broadway - New York NY  (W)","40.781078,-73.981167"],
+["118th & Frederick Douglas Blvd. - New York NY  (W)","40.806176,-73.954109"],
+["42nd & Second - New York NY  (W)","40.750069,-73.973393"],
+["Broadway @ 81st - New York NY  (W)","40.784972,-73.978987"],
+["Fashion Inst of Technology - New York NY","40.746948,-73.994557"]
+]
+~~~
+
+Then, send it as a POST request of the `load` command, like:
+
+    # curl --data "@stores.json" "http://192.168.0.10:3000/d/load?table=Store"
+    [[0,1398666180.023,0.069],[40]]
+
+Now all data in the JSON file are successfully loaded.
 
 ### Select data from a table
 
-TBD
+OK, all data is now ready.
+
+As the starter, let's select initial ten records with the `select` command:
+
+    # curl "http://192.168.0.10:3000/d/select?table=Store&output_columns=_key&limit=10"
+    [[0,1398666260.887927,0.000017404556274414062],[[[40],[["_key","ShortText"]],[["1st Avenue & 75th St. - New York NY  (W)"],["2nd Ave. & 9th Street - New York NY"],["76th & Second - New York NY  (W)"],["15th & Third - New York NY  (W)"],["41st and Broadway - New York NY  (W)"],["West 43rd and Broadway - New York NY  (W)"],["84th & Third Ave - New York NY  (W)"],["150 E. 42nd Street - New York NY  (W)"],["Macy's 35th Street Balcony - New York NY"],["Herald Square- Macy's - New York NY"]]]]]
+
+Of course you can specify conditions via the `query` option:
+
+    # curl "http://192.168.0.10:3000/d/select?table=Store&query=Columbus&match_columns=_key&output_columns=_key&limit=10"
+    [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],[["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
+
 
 ## Conclusion
 
