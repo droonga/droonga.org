@@ -220,7 +220,7 @@ Start a Droonga engine, you can start it with the command `droonga-engine`, like
 
 First, you need to know how to stop droonga-engine.
 
-Send SIGTERM to fluentd:
+Send SIGTERM to droonga-engine:
 
     # kill $(cat droonga-engine.pid)
 

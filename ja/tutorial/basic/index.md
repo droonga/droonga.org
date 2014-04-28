@@ -228,7 +228,7 @@ catalog.json:
 
 最初にdroonga-engineを終了する方法を知っておきましょう。
 
-fluentdにSIGTERMを送ります。
+droonga-engineにSIGTERMを送ります。
 
     # kill $(cat droonga-engine.pid)
 

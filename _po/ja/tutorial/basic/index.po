@@ -385,8 +385,8 @@ msgstr "### droonga-engine を終了する"
 msgid "First, you need to know how to stop droonga-engine."
 msgstr "最初にdroonga-engineを終了する方法を知っておきましょう。"
 
-msgid "Send SIGTERM to fluentd:"
-msgstr "fluentdにSIGTERMを送ります。"
+msgid "Send SIGTERM to droonga-engine:"
+msgstr "droonga-engineにSIGTERMを送ります。"
 
 msgid "    # kill $(cat droonga-engine.pid)"
 msgstr ""
