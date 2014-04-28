@@ -110,21 +110,22 @@ On the other hand, you have to run two servers for each Droonga node to use your
 To start them, run commands like following on each Droonga node:
 
     # cd ~/droonga
-    # droonga-engine --host=192.168.0.10 &
-    # cat $! > droonga-engine.pid
+    # droonga-engine --host=192.168.0.10 \
+                     --daemon \
+                     --pid-file-$PWD/droonga-engine.pid
     # droonga-http-server --port=3000 \
                           --receive-host-name=192.168.0.10 \
                           --droonga-engine-host-name=192.168.0.10 \
                           --default-dataset=Starbucks \
                           --daemon \
-                          --pid-file droonga-http-server.pid
+                          --pid-file $PWD/droonga-http-server.pid
 
 Note that you have to specify the host name of the Droonga node itself via some options.
 It will be used to communicate with other Droonga nodes in the cluster.
 So you have to specify different host name on another Droonga node, like:
 
     # cd ~/droonga
-    # droonga-engine --host=192.168.0.11 &
+    # droonga-engine --host=192.168.0.11 \
     ...
 
 To stop services, run commands like following on each Droonga node:
