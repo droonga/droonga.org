@@ -59,12 +59,12 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
         # apt-get install -y ruby ruby-dev build-essential nodejs npm
     
  2. Install a gem package `droonga-engine`, *on each computer*.
-    It is the core component.
+    It is the core component provides most features of Droonga system.
     
         # gem install droonga-engine
     
  3. Install an npm package `droonga-http-server`, *on each computer*.
-    It is the frontend component, and required to translate HTTP requests to Droonga's native one.
+    It is the frontend component required to translate HTTP requests to Droonga's native one.
     
         # npm install -g droonga-http-server
     
@@ -107,7 +107,7 @@ You can run Groonga as an HTTP server with the option `-d`, like:
 
 On the other hand, you have to run two servers for each Droonga node to use your Droonga cluster via HTTP.
 
-To start required services, run commands like following on each Droonga node:
+To start them, run commands like following on each Droonga node:
 
     # cd ~/droonga
     # host=192.168.0.10
