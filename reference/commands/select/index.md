@@ -58,9 +58,15 @@ On the version {{ site.droonga_version }}, only following parameters are availab
  * `table`
  * `match_columns`
  * `query`
+ * `filter`
  * `output_columns`
  * `offset`
  * `limit`
+ * `drilldown`
+ * `drilldown_output_columns`
+ * `drilldown_sortby`
+ * `drilldown_offset`
+ * `drilldown_limit`
 
 All parameters are compatible to [parameters for `select` command of the Groonga](http://groonga.org/docs/reference/commands/select.html#parameters). See the linked document for more details.
 
