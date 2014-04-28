@@ -257,6 +257,8 @@ Of course you can specify conditions via the `query` option:
 
     # curl "http://192.168.0.10:3000/d/select?table=Store&query=Columbus&match_columns=_key&output_columns=_key&limit=10"
     [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],[["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
+    # curl "http://192.168.0.10:3000/d/select?table=Store&filter=_key@'Ave'&output_columns=_key&limit=10"
+    [[0,1398670586.193325,0.0003848075866699219],[[[3],[["_key","ShortText"]],[["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
 
 
 ## Conclusion
