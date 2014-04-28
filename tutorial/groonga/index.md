@@ -135,7 +135,49 @@ To stop services, run commands like following on each Droonga node:
 
 ### Create a table
 
-TBD
+Now your Droonga cluster actually works as a Groonga's HTTP server.
+
+Requests are completely same to ones for a Groonga server.
+To create a new table, you just have to send a GET request for the `table_create` command, like:
+
+    # curl "http://192.168.0.10:3000/d/table_create?name=Store&type=Hash&key_type=ShortText"
+    [[0,1398662266.3853862,0.08530688285827637],true]
+
+Note that you have to specify the host, one of Droonga nodes with active droonga-http-server, in your Droonga cluster.
+In other words, you can use any favorite node in the cluster as an endpoint.
+All requests will be distributed to suitable nodes in the cluster.
+
+OK, now the table has been created.
+Let's see it by the `table_list` command:
+
+    # curl "http://192.168.0.10:3000/d/table_list"
+    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
+
+### Create a column
+
+Next, create a new column to the table by the `column_create` command, like:
+
+    # curl "http://192.168.0.10:3000/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
+    [[0,1398664305.8856306,0.00026226043701171875],true]
+
+Then verify that the column is correctly created, by the `column_list` command:
+
+    # curl "http://192.168.0.10:3000/d/column_list?table=Store"
+    [[0,1398664345.9680889,0.0011739730834960938],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["type","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["source","ShortText"]],[257,"location","/home/username/groonga/droonga-engine/000/db.0000101","fix","COLUMN_SCALAR","Store","WGS84GeoPoint",[]]]]
+
+### Create indexes
+
+Create indexes also.
+
+    # curl "http://192.168.0.10:3000/d/table_create?name=Location&type=PatriciaTrie&key_type=WGS84GeoPoint"
+    [[0,1398664401.4927232,0.12011909484863281],true]
+    # curl "http://192.168.0.10:3000/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
+    [[0,1398664429.5348525,0.13435077667236328],true]
+    # curl "http://192.168.0.10:3000/d/table_create?name=Term&type=PatriciaTrie&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
+    [[0,1398664454.446939,0.14734888076782227],true]
+    # curl "http://192.168.0.10:3000/d/column_create?table=Term&name=stores__key&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=_key"
+    [[0,1398664474.7112074,0.12619781494140625],true]
+
 
 ### Load data to a table
 
