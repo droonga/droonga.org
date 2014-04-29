@@ -90,7 +90,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     
  6. Share the generated `catalog.json` *to your all Droonga nodes*.
     
-        # scp ~/droonga/catalog.json 192.169.0.2:~/droonga/
+        # scp ~/droonga/catalog.json 192.169.0.12:~/droonga/
     
     (Or, of course, you can generate same `catalog.json` on each computer, instead of copying.)
 
