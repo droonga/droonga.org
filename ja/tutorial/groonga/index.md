@@ -99,7 +99,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     
  6. Share the generated `catalog.json` *to your all Droonga nodes*.
     
-        # scp ~/droonga/catalog.json 192.169.0.2:~/droonga/
+        # scp ~/droonga/catalog.json 192.169.0.11:~/droonga/
     
     (Or, of course, you can generate same `catalog.json` on each computer, instead of copying.)
 
@@ -121,7 +121,7 @@ To start them, run commands like following on each Droonga node:
     # cd ~/droonga
     # droonga-engine --host=192.168.0.10 \
                      --daemon \
-                     --pid-file-$PWD/droonga-engine.pid
+                     --pid-file $PWD/droonga-engine.pid
     # droonga-http-server --port=3000 \
                           --receive-host-name=192.168.0.10 \
                           --droonga-engine-host-name=192.168.0.10 \
