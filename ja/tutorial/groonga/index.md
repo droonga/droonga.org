@@ -38,85 +38,85 @@ Droongaは分散アーキテクチャに基づくデータ処理エンジンで�
 
 ### 実験用の環境を準備する
 
-Prepare a computer at first.
-This tutorial describes steps to set up a Droonga cluster based on existing computers.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 13.10 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+まず最初にコンピュータを用意します。
+このチュートリアルは、既存のコンピュータを使ってDroongaクラスタを構築する手順について解説しています。
+以下の説明は基本的には、[DigitalOcean](https://www.digitalocean.com/)上のサーバで`Ubuntu 13.10 x64`の仮想マシンが正しく準備されており、コンソールが利用できる状態になっている、という前提に基づいています。
 
-NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
-Otherwise, you may experience a strange build error.
+注意：Droongaの依存パッケージをインストールする前に、仮想マシンのインスタンスが少なくとも2GB以上のメモリを備えていることを確認して下さい。
+メモリが足らないと、ビルド時におかしなエラーに遭遇することになります。
 
-You need to prepare two or more computers for effective replication.
+また、有効なレプリケーションを実現するためには2台以上のコンピュータを用意する必要もあります。
 
-### Steps to install Droonga components
+### Droongaの構成コンポーネントをインストールする
 
-Groonga provides binary packages and you can install Groonga easily, for some environments.
-(See: [how to install Groonga](http://groonga.org/docs/install.html))
+Groongaはバイナリのパッケージを提供しているため、環境によっては簡単にインストールできます。
+（[Groongaのインストール手順](http://groonga.org/docs/install.html)を参照）
 
-However, currently there is no such an easy way to set up a database system based on Droonga.
-We are planning to provide a better way (like a chef cookbook), but for now, you have to set up it by your hand.
+しかしながら、現在の所Droongaに基づくデータベースシステムをセットアップするための簡単な方法はありません。
+将来的にはより良い方法（例えばChefのクックブックなど）を用意する計画がありますが、今のところは、セットアップは手動で行う必要があります。
 
-A database system based on the Droonga is called *Droonga cluster*.
-A Droonga cluster is constructed from multiple computers, called *Droonga node*.
-So you have to set up multiple Droonga nodes for your Droonga cluster.
+Droongaベースのデータベースシステムは、*Droongaクラスタ*と呼ばれます。
+Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュータによって構成されます。
+よって、Droongaクラスタを構築するには複数のDroongaノードをセットアップする必要があります。
 
-Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
+`192.168.0.10`と`192.168.0.11`の2つのコンピュータがあると仮定しましょう。
 
- 1. Install required platform packages, *on each computer*.
+ 1. *それぞれのコンピュータで*、プラットフォームごとに要求されるパッケージをインストールする。
     
         # apt-get update
         # apt-get -y upgrade
         # apt-get install -y ruby ruby-dev build-essential nodejs npm
     
- 2. Install a gem package `droonga-engine`, *on each computer*.
-    It is the core component provides most features of Droonga system.
+ 2. *それぞれのコンピュータで*、Gemパッケージ `droonga-engine` をインストールする。
+    これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。
     
         # gem install droonga-engine
     
- 3. Install an npm package `droonga-http-server`, *on each computer*.
-    It is the frontend component required to translate HTTP requests to Droonga's native one.
+ 3. *それぞれのコンピュータで*、npmパッケージ `droonga-http-server` をインストールする。
+    これはHTTPのリクエストをDroongaネイティブのリクエストに変換するために必要な、フロントエンドとなるコンポーネントです。
     
         # npm install -g droonga-http-server
     
- 4. Prepare a configuration directory for a Droonga node, *on each computer*.
-    All physical databases are placed under this directory.
+ 4. *それぞれのコンピュータで*、Droongaノードとしての情報を保存するための設定ディレクトリを用意する。
+    すべてのデータベースの実体は、このディレクトリ以下に保存されます。
     
         # mkdir ~/droonga
         # cd ~/droonga
     
- 5. Create a `catalog.json`, *on one of Droonga nodes*.
-    The file defines the structure of your Droonga cluster.
-    You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
+ 5. *いずれか1つのDroongaノードで*、`catalog.json`を作成します。
+    このファイルはDroongaクラスタの構成を定義する物です。
+    データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
     
         # droonga-catalog-generate --dataset=Starbucks \
                                    --hosts=192.168.0.10,192.168.0.11 \
                                    --output=./catalog.json
     
-    If you have only one computer and trying to set up it just for testing, then you'll do:
+    コンピュータが1台だけの単なる検証用の構成をセットアップする場合は、以下のようにします：
     
         # droonga-catalog-generate --dataset=Starbucks \
                                    --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
- 6. Share the generated `catalog.json` *to your all Droonga nodes*.
+6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
         # scp ~/droonga/catalog.json 192.169.0.11:~/droonga/
     
-    (Or, of course, you can generate same `catalog.json` on each computer, instead of copying.)
+    （もしくは、できあがったファイルをコピーする代わりに、各コンピュータ上で同じ設定の`catalog.json`を作成しても結構です。）
 
-All Droonga nodes for your Droonga cluster are prepared by steps described above.
-Let's continue to the next step.
+上記の手順により、DroongaクラスタのためのすべてのDroongaノードの準備が完了しました。
+次の段階に進みましょう。
 
-## Use the Droonga cluster, via HTTP
+## DroongaクラスタをHTTP経由で使用する
 
-### Start and stop services on each Droonga node
+### 各Droongaノードの上でのサービスの開始と停止
 
-You can run Groonga as an HTTP server with the option `-d`, like:
+GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプションを指定するだけでサーバを起動できます：
 
     # groonga -p 10041 -d --protocol http /tmp/databases/db
 
-On the other hand, you have to run two servers for each Droonga node to use your Droonga cluster via HTTP.
+一方、DroongaクラスタをHTTP経由で使うためには、各Droongaノードにおいて2つのサービスを起動する必要があります。
 
-To start them, run commands like following on each Droonga node:
+サービスを起動するには、各Droongaノードで以下のようにコマンドを実行します：
 
     # cd ~/droonga
     # droonga-engine --host=192.168.0.10 \
@@ -129,15 +129,15 @@ To start them, run commands like following on each Droonga node:
                           --daemon \
                           --pid-file $PWD/droonga-http-server.pid
 
-Note that you have to specify the host name of the Droonga node itself via some options.
-It will be used to communicate with other Droonga nodes in the cluster.
-So you have to specify different host name on another Droonga node, like:
+いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
+この情報は、クラスタ無いのたのDroongaノードとの通信のために使われます。
+よって、別のDroongaノード上では以下のように別のホスト名を指定する事になります：
 
     # cd ~/droonga
     # droonga-engine --host=192.168.0.11 \
     ...
 
-To stop services, run commands like following on each Droonga node:
+サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
