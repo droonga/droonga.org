@@ -17,26 +17,26 @@ layout: ja
 
 ## チュートリアルのゴール
 
-Learning steps to run a Droonga cluster by your hand, and use it as a [Groonga][groonga] compatible server.
+Droongaクラスタを自分で構築して、[Groonga][groonga]互換のサーバとして利用できるようにするための手順を学ぶこと。
 
 ## 前提条件
 
-* You must have basic knowledge and experiences to set up and operate an [Ubuntu][] Server.
-* You must have basic knowledge and experiences to use the [Groonga][groonga] via HTTP.
+* [Ubuntu][]サーバのセットアップと操作について、基本的な知識と経験があること。
+* [Groonga][groonga]のHTTP経由での利用について、基本的な知識と経験があること。
 
-## What's Droonga?
+## Droongaとは何か？
 
-It is a data processing engine based on a distributed architecture, named after the terms "distributed-Groonga".
-As its name suggests, it can work as a Groonga compatible server with some improvements - replication and sharding.
+Droongaは分散アーキテクチャに基づくデータ処理エンジンで、「distributed-Groonga」がその名の由来です。
+名前が示す通り、Droongaはいくつかの点での改善（具体的には、レプリケーションとシャーディング）を含んだGroonga互換のサーバとして動作することができます。
 
-In a certain sense, the Droonga is quite different from Groonga, about its architecture, design, API etc.
-However, you don't have to understand the whole architecture of the Droonga, if you simply use it just as a Groonga compatible server.
+アーキテクチャ、設計、APIなどの点で、DroongaはGroongaと大きく異なっています。
+しかしながら、Droongaを単にGroonga互換のサーバとして使う限りにおいては、Droongaのアーキテクチャ全体を理解する必要はありません。
 
 例として、[ニューヨークにあるスターバックスの店舗](http://geocommons.com/overlays/430038)を検索できるデータベースシステムを作成することにします。
 
-## Set up a Droonga cluster
+## Droongaクラスタをセットアップする
 
-### Prepare an environment for experiments
+### 実験用の環境を準備する
 
 Prepare a computer at first.
 This tutorial describes steps to set up a Droonga cluster based on existing computers.
