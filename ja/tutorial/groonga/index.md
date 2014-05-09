@@ -77,13 +77,20 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     
         # npm install -g droonga-http-server
     
- 4. *それぞれのコンピュータで*、Droongaノードとしての情報を保存するための設定ディレクトリを用意する。
+ 4. *それぞれのコンピュータで*、[Serf][]のコマンドをインストールします。
+    これはクラスタの各ノードの死活監視を行うために必要です。
+    
+        # wget https://dl.bintray.com/mitchellh/serf/0.5.0_linux_amd64.zip
+        # unzip 0.5.0_linux_amd64.zip
+        # sudo mv serf /usr/local/bin/
+    
+ 5. *それぞれのコンピュータで*、Droongaノードとしての情報を保存するための設定ディレクトリを用意する。
     すべてのデータベースの実体は、このディレクトリ以下に保存されます。
     
         # mkdir ~/droonga
         # cd ~/droonga
     
- 5. *いずれか1つのDroongaノードで*、`catalog.json`を作成します。
+ 6. *いずれか1つのDroongaノードで*、`catalog.json`を作成します。
     このファイルはDroongaクラスタの構成を定義する物です。
     データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
     
@@ -97,7 +104,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
                                    --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
-6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
+7. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
         # scp ~/droonga/catalog.json 192.169.0.11:~/droonga/
     
@@ -114,33 +121,39 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
     # groonga -p 10041 -d --protocol http /tmp/databases/db
 
-一方、DroongaクラスタをHTTP経由で使うためには、各Droongaノードにおいて2つのサービスを起動する必要があります。
+一方、DroongaクラスタをHTTP経由で使うためには、各Droongaノードにおいて複数のサービスを起動する必要があります。
 
 サービスを起動するには、各Droongaノードで以下のようにコマンドを実行します：
 
     # cd ~/droonga
-    # droonga-engine --host=192.168.0.10 \
+    # host=192.168.0.10
+    # droonga-engine --host=$host \
                      --daemon \
-                     --pid-file $PWD/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
     # droonga-http-server --port=10041 \
-                          --receive-host-name=192.168.0.10 \
-                          --droonga-engine-host-name=192.168.0.10 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
                           --default-dataset=Starbucks \
                           --daemon \
-                          --pid-file $PWD/droonga-http-server.pid
+                          --pid-file=$PWD/droonga-http-server.pid
+    # serf agent -node="${node}:10031" -bind=$host \
+                 -event-handler="droonga-handle-serf-event --base-dir=$PWD" &
+    # cat $! > $PWD/droonga-serf-agent.pid
 
 いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
 この情報は、クラスタ無いのたのDroongaノードとの通信のために使われます。
 よって、別のDroongaノード上では以下のように別のホスト名を指定する事になります：
 
     # cd ~/droonga
-    # droonga-engine --host=192.168.0.11 \
+    # host=192.168.0.11
+    # droonga-engine --host=$host \
     ...
 
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-serf-agent.pid)
 
 ### Create a table
 
@@ -281,4 +294,5 @@ See the [command reference][] for more details.
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
+  [Serf]: http://www.serfdom.io/
   [command reference]: ../../reference/commands/
