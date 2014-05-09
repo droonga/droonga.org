@@ -68,13 +68,20 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     
         # npm install -g droonga-http-server
     
- 4. Prepare a configuration directory for a Droonga node, *on each computer*.
+ 4. Install [Serf][] command, *on each computer*.
+    It is required to do alive monitoring of nodes in the cluster.
+    
+        # wget https://dl.bintray.com/mitchellh/serf/0.5.0_linux_amd64.zip
+        # unzip 0.5.0_linux_amd64.zip
+        # sudo mv serf /usr/local/bin/
+    
+ 5. Prepare a configuration directory for a Droonga node, *on each computer*.
     All physical databases are placed under this directory.
     
         # mkdir ~/droonga
         # cd ~/droonga
     
- 5. Create a `catalog.json`, *on one of Droonga nodes*.
+ 6. Create a `catalog.json`, *on one of Droonga nodes*.
     The file defines the structure of your Droonga cluster.
     You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
     
@@ -88,7 +95,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
                                    --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
- 6. Share the generated `catalog.json` *to your all Droonga nodes*.
+ 7. Share the generated `catalog.json` *to your all Droonga nodes*.
     
         # scp ~/droonga/catalog.json 192.169.0.11:~/droonga/
     
@@ -105,33 +112,39 @@ You can run Groonga as an HTTP server with the option `-d`, like:
 
     # groonga -p 10041 -d --protocol http /tmp/databases/db
 
-On the other hand, you have to run two servers for each Droonga node to use your Droonga cluster via HTTP.
+On the other hand, you have to run multiple servers for each Droonga node to use your Droonga cluster via HTTP.
 
 To start them, run commands like following on each Droonga node:
 
     # cd ~/droonga
-    # droonga-engine --host=192.168.0.10 \
+    # host=192.168.0.10
+    # droonga-engine --host=$host \
                      --daemon \
-                     --pid-file $PWD/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
     # droonga-http-server --port=10041 \
-                          --receive-host-name=192.168.0.10 \
-                          --droonga-engine-host-name=192.168.0.10 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
                           --default-dataset=Starbucks \
                           --daemon \
-                          --pid-file $PWD/droonga-http-server.pid
+                          --pid-file=$PWD/droonga-http-server.pid
+    # serf agent -node="${node}:10031" -bind=$host \
+                 -event-handler="droonga-handle-serf-event --base-dir=$PWD" &
+    # cat $! > $PWD/droonga-serf-agent.pid
 
 Note that you have to specify the host name of the Droonga node itself via some options.
 It will be used to communicate with other Droonga nodes in the cluster.
 So you have to specify different host name on another Droonga node, like:
 
     # cd ~/droonga
-    # droonga-engine --host=192.168.0.11 \
+    # host=192.168.0.11
+    # droonga-engine --host=$host \
     ...
 
 To stop services, run commands like following on each Droonga node:
 
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-serf-agent.pid)
 
 ### Create a table
 
@@ -272,4 +285,5 @@ See the [command reference][] for more details.
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
+  [Serf]: http://www.serfdom.io/
   [command reference]: ../../reference/commands/
