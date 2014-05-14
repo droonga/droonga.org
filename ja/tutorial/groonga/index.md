@@ -137,8 +137,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
                           --daemon \
                           --pid-file=$PWD/droonga-http-server.pid
     # serf agent -node="${node}:10031" -bind=$host \
-                 -event-handler="droonga-handle-serf-event --base-dir=$PWD" &
-    # cat $! > $PWD/droonga-serf-agent.pid
+                 -event-handler="droonga-handle-serf-event --base-dir=$PWD"
 
 いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
 この情報は、クラスタ無いのたのDroongaノードとの通信のために使われます。
@@ -149,11 +148,17 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
     # droonga-engine --host=$host \
     ...
 
+その後、死活監視のために、"192.168.0.10" のノードにおいて以下のコマンドを実行します：
+
+    # serf join 192.168.0.11
+
+このコマンドにより、2つのノードはクラスタを形成し、互いの生死を監視するようになります。もしクラスタ内のどれか1つのノードが機能を停止し、他のノードがまだ機能し続けていた場合には、残ったノードがDroongaクラスタとして動作し続けます。そのため、そのような事態が起こっても秘密裏に、機能停止したノードを復旧したりクラスタに復帰させたりすることができます。
+
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
-    # kill $(cat ~/droonga/droonga-serf-agent.pid)
+    # serf leave
 
 ### Create a table
 
