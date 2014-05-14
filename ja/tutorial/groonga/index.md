@@ -136,8 +136,8 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
                           --default-dataset=Starbucks \
                           --daemon \
                           --pid-file=$PWD/droonga-http-server.pid
-    # serf agent -node="${node}:10031" -bind=$host \
-                 -event-handler="droonga-handle-serf-event --base-dir=$PWD"
+    # serf agent -node="${host}:10031" -bind=$host \
+                 -event-handler="droonga-handle-serf-event --base-dir $PWD"
 
 いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
 この情報は、クラスタ無いのたのDroongaノードとの通信のために使われます。
