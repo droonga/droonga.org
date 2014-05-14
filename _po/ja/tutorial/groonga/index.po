@@ -270,7 +270,7 @@ msgid ""
 "                          --daemon \\\n"
 "                          --pid-file=$PWD/droonga-http-server.pid\n"
 "    # serf agent -node=\"${host}:10031\" -bind=$host \\\n"
-"                 -event-handler=\"droonga-handle-serf-event --base-dir $PWD\""
+"                 -event-handler=\"droonga-handle-serf-event --base-dir $PWD\" &"
 msgstr ""
 
 msgid ""

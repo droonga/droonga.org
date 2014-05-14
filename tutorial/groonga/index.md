@@ -128,7 +128,7 @@ To start them, run commands like following on each Droonga node:
                           --daemon \
                           --pid-file=$PWD/droonga-http-server.pid
     # serf agent -node="${host}:10031" -bind=$host \
-                 -event-handler="droonga-handle-serf-event --base-dir $PWD"
+                 -event-handler="droonga-handle-serf-event --base-dir $PWD" &
 
 Note that you have to specify the host name of the Droonga node itself via some options.
 It will be used to communicate with other Droonga nodes in the cluster.
