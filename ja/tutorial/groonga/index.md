@@ -106,7 +106,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     
 7. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
-        # scp ~/droonga/catalog.json 192.169.0.11:~/droonga/
+        # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
     
     （もしくは、できあがったファイルをコピーする代わりに、各コンピュータ上で同じ設定の`catalog.json`を作成しても結構です。）
 
@@ -167,7 +167,8 @@ Now your Droonga cluster actually works as a Groonga's HTTP server.
 Requests are completely same to ones for a Groonga server.
 To create a new table `Store`, you just have to send a GET request for the `table_create` command, like:
 
-    # curl "http://192.168.0.10:10041/d/table_create?name=Store&type=Hash&key_type=ShortText"
+    # endpoint="http://192.168.0.10:10041/d"
+    # curl "${endpoint}/table_create?name=Store&type=Hash&key_type=ShortText"
     [[0,1398662266.3853862,0.08530688285827637],true]
 
 Note that you have to specify the host, one of Droonga nodes with active droonga-http-server, in your Droonga cluster.
@@ -177,7 +178,7 @@ All requests will be distributed to suitable nodes in the cluster.
 OK, now the table has been created successfully.
 Let's see it by the `table_list` command:
 
-    # curl "http://192.168.0.10:10041/d/table_list"
+    # curl "${endpoint}/table_list"
     [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
 
 Because it is a cluster, another endpoint returns same result.
@@ -189,25 +190,25 @@ Because it is a cluster, another endpoint returns same result.
 
 Next, create a new column `location` to the `Store` table by the `column_create` command, like:
 
-    # curl "http://192.168.0.10:10041/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
+    # curl "${endpoint}/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
     [[0,1398664305.8856306,0.00026226043701171875],true]
 
 Then verify that the column is correctly created, by the `column_list` command:
 
-    # curl "http://192.168.0.10:10041/d/column_list?table=Store"
+    # curl "${endpoint}/column_list?table=Store"
     [[0,1398664345.9680889,0.0011739730834960938],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["type","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["source","ShortText"]],[257,"location","/home/username/groonga/droonga-engine/000/db.0000101","fix","COLUMN_SCALAR","Store","WGS84GeoPoint",[]]]]
 
 ### Create indexes
 
 Create indexes also.
 
-    # curl "http://192.168.0.10:10041/d/table_create?name=Location&type=PatriciaTrie&key_type=WGS84GeoPoint"
+    # curl "${endpoint}/table_create?name=Location&type=PatriciaTrie&key_type=WGS84GeoPoint"
     [[0,1398664401.4927232,0.12011909484863281],true]
-    # curl "http://192.168.0.10:10041/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
+    # curl "${endpoint}/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
     [[0,1398664429.5348525,0.13435077667236328],true]
-    # curl "http://192.168.0.10:10041/d/table_create?name=Term&type=PatriciaTrie&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
+    # curl "${endpoint}/table_create?name=Term&type=PatriciaTrie&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
     [[0,1398664454.446939,0.14734888076782227],true]
-    # curl "http://192.168.0.10:10041/d/column_create?table=Term&name=store__key&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=_key"
+    # curl "${endpoint}/column_create?table=Term&name=store__key&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=_key"
     [[0,1398664474.7112074,0.12619781494140625],true]
 
 
@@ -266,7 +267,7 @@ stores.json:
 
 Then, send it as a POST request of the `load` command, like:
 
-    # curl --data "@stores.json" "http://192.168.0.10:10041/d/load?table=Store"
+    # curl --data "@stores.json" "${endpoint}/load?table=Store"
     [[0,1398666180.023,0.069],[40]]
 
 Now all data in the JSON file are successfully loaded.
@@ -277,14 +278,14 @@ OK, all data is now ready.
 
 As the starter, let's select initial ten records with the `select` command:
 
-    # curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=_key&limit=10"
+    # curl "${endpoint}/select?table=Store&output_columns=_key&limit=10"
     [[0,1398666260.887927,0.000017404556274414062],[[[40],[["_key","ShortText"]],[["1st Avenue & 75th St. - New York NY  (W)"],["2nd Ave. & 9th Street - New York NY"],["76th & Second - New York NY  (W)"],["15th & Third - New York NY  (W)"],["41st and Broadway - New York NY  (W)"],["West 43rd and Broadway - New York NY  (W)"],["84th & Third Ave - New York NY  (W)"],["150 E. 42nd Street - New York NY  (W)"],["Macy's 35th Street Balcony - New York NY"],["Herald Square- Macy's - New York NY"]]]]]
 
 Of course you can specify conditions via the `query` option:
 
-    # curl "http://192.168.0.10:10041/d/select?table=Store&query=Columbus&match_columns=_key&output_columns=_key&limit=10"
+    # curl "${endpoint}/select?table=Store&query=Columbus&match_columns=_key&output_columns=_key&limit=10"
     [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],[["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
-    # curl "http://192.168.0.10:10041/d/select?table=Store&filter=_key@'Ave'&output_columns=_key&limit=10"
+    # curl "${endpoint}/select?table=Store&filter=_key@'Ave'&output_columns=_key&limit=10"
     [[0,1398670586.193325,0.0003848075866699219],[[[3],[["_key","ShortText"]],[["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
 
 
