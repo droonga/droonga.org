@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2014-04-07 16:25+0900\n"
+"PO-Revision-Date: 2014-05-15 18:12+0900\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -690,7 +690,7 @@ msgid ""
 msgstr ""
 
 msgid "### vectorOptions definition {#vectorOptions}"
-msgstr "### indexOption 定義 {#indexOption}"
+msgstr "### vectorOptions 定義 {#vectorOptions}"
 
 msgid "##### `weight` {#parameter-vectorOptions-weight}"
 msgstr ""

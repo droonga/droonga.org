@@ -499,7 +499,7 @@ A vector column to store `ShortText` values with weight:
 }
 ~~~
 
-### indexOption 定義 {#indexOption}
+### vectorOptions 定義 {#vectorOptions}
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
