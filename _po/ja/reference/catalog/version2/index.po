@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2014-05-15 18:12+0900\n"
+"PO-Revision-Date: 2014-05-15 18:14+0900\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -723,7 +723,7 @@ msgid ""
 msgstr ""
 
 msgid "### indexOptions definition {#indexOptions}"
-msgstr "### indexOption 定義 {#indexOption}"
+msgstr "### indexOptions 定義 {#indexOptions}"
 
 msgid "##### `section` {#parameter-indexOptions-section}"
 msgstr ""

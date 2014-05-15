@@ -530,7 +530,7 @@ Store the weight data.
 }
 ~~~
 
-### indexOption 定義 {#indexOption}
+### indexOptions 定義 {#indexOptions}
 
 値
 : 以下のキーと値のペアを持つオブジェクト。
