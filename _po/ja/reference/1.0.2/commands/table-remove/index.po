@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2014-05-19 16:10+0900\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"---\n"
+"title: table_remove\n"
+"layout: en\n"
+"---"
+msgstr ""
+
+msgid ""
+"* TOC\n"
+"{:toc}"
+msgstr ""
+
+msgid "## Abstract {#abstract}"
+msgstr ""
+
+msgid "The `table_remove` command removes an existing table."
+msgstr ""
+
+msgid ""
+"This is compatible to [the `table_remove` command of the Groonga](http://groon"
+"ga.org/docs/reference/commands/table_remove.html)."
+msgstr ""
+
+msgid ""
+"Style\n"
+": Request-Response. One response message is always returned per one request."
+msgstr ""
+
+msgid ""
+"`type` of the request\n"
+": `table_remove`"
+msgstr ""
+
+msgid ""
+"`body` of the request\n"
+": A hash of parameters."
+msgstr ""
+
+msgid ""
+"`type` of the response\n"
+": `table_remove.result`"
+msgstr ""
+
+msgid "## Parameter syntax {#syntax}"
+msgstr ""
+
+msgid ""
+"    {\n"
+"      \"name\" : \"<Name of the table>\"\n"
+"    }"
+msgstr ""
+
+msgid "## Parameter details {#parameters}"
+msgstr ""
+
+msgid "The only one parameter `name` is required."
+msgstr ""
+
+msgid ""
+"They are compatible to [the parameters of the `table_remove` command of the Gr"
+"oonga](http://groonga.org/docs/reference/commands/table_remove.html#parameters"
+"). See the linked document for more details."
+msgstr ""
+
+msgid "## Responses {#response}"
+msgstr ""
+
+msgid "This returns an array meaning the result of the operation, as the `body`."
+msgstr ""
+
+msgid ""
+"    [\n"
+"      [\n"
+"        <Groonga's status code>,\n"
+"        <Start time>,\n"
+"        <Elapsed time>\n"
+"      ],\n"
+"      <Table is successfully removed or not>\n"
+"    ]"
+msgstr ""
+
+msgid ""
+"This command always returns a response with `200` as its `statusCode`, because"
+" this is a Groonga compatible command and errors of this command must be handl"
+"ed in the way same to Groonga's one."
+msgstr ""
+
+msgid "Response body's details:"
+msgstr ""
+
+msgid ""
+"Status code\n"
+": An integer which means the operation's result. Possible values are:"
+msgstr ""
+
+msgid ""
+"   * `0` (`Droonga::GroongaHandler::Status::SUCCESS`) : Successfully processed"
+".\n"
+"   * `-22` (`Droonga::GroongaHandler::Status::INVALID_ARGUMENT`) : There is an"
+"y invalid argument."
+msgstr ""
+
+msgid ""
+"Start time\n"
+": An UNIX time which the operation was started on."
+msgstr ""
+
+msgid ""
+"Elapsed time\n"
+": A decimal of seconds meaning the elapsed time for the operation."
+msgstr ""
+
+msgid ""
+"Table is successfully removed or not\n"
+": A boolean value meaning the table was successfully removed or not. Possible "
+"values are:"
+msgstr ""
+
+msgid ""
+"   * `true`：The table was successfully removed.\n"
+"   * `false`：The table was not removed."
+msgstr ""

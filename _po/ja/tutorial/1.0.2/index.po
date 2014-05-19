@@ -1,0 +1,34 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2014-05-19 16:10+0900\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"---\n"
+"title: Droonga tutorial\n"
+"layout: en\n"
+"---"
+msgstr ""
+
+msgid "## For Groonga users"
+msgstr ""
+
+msgid " * [How to migrate from Groonga?](groonga/)"
+msgstr ""
+
+msgid "## For application developers"
+msgstr ""
+
+msgid " * [Basic usage tutorial](basic/)"
+msgstr ""
+
+msgid "## For plugin developers"
+msgstr ""
+
+msgid " * [Plugin development tutorial](plugin-development/)"
+msgstr ""
