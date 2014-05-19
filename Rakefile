@@ -23,6 +23,7 @@ Jekyll::Task::I18n.define do |task|
   task.translator_name = "Droonga Project"
   task.translator_email = "droonga@groonga.org"
   task.files = Rake::FileList["**/*.md"]
+  task.files = Rake::FileList["{reference,tutorial}/**/*.html"]
   task.files -= Rake::FileList["README.md"]
   task.files -= Rake::FileList["_*/**/*.md"]
   task.files -= Rake::FileList["news/**/*.md"]

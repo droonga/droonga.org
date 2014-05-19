@@ -10,29 +10,7 @@ msgstr ""
 
 msgid ""
 "---\n"
-"title: Droonga tutorial\n"
-"layout: en\n"
+"layout: redirect-to-current-version\n"
+"unversioned_path: /tutorial/\n"
 "---"
 msgstr ""
-"---\n"
-"title: Droonga チュートリアル\n"
-"layout: ja\n"
-"---"
-
-msgid "## For Groonga users"
-msgstr "## Groonga利用者向け"
-
-msgid " * [How to migrate from Groonga?](groonga/)"
-msgstr " * [Groongaからの移行手順](groonga/)"
-
-msgid "## For application developers"
-msgstr "## アプリケーション開発者向け"
-
-msgid " * [Basic usage tutorial](basic/)"
-msgstr " * [基本的な使い方のチュートリアル](basic/)"
-
-msgid "## For plugin developers"
-msgstr "## プラグイン開発者向け"
-
-msgid " * [Plugin development tutorial](plugin-development/)"
-msgstr " * [プラグイン開発のチュートリアル](plugin-development/)"

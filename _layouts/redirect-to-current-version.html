@@ -1,0 +1,13 @@
+---
+layout: empty
+---
+{% capture current_version_path %}{{ page.unversioned_path }}{{ site.droonga_version }}/{% endcapture %}
+{% capture current_version_url %}{{ page.url | replace_first: page.unversioned_path, current_version_path | remove: "index.html" }}{% endcapture %}
+
+<head>
+  <meta http-equiv="refresh" content="0;URL={{ current_version_url }}">
+</head>
+
+<body>
+  Moved to <a href="{{ current_version_url }}">{{ current_version_url }}</a>.
+</body>
