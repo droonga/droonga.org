@@ -97,7 +97,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
                                    --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
-6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
+ 6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
         # scp ~/droonga/catalog.json 192.169.0.11:~/droonga/
     
