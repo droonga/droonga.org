@@ -469,7 +469,7 @@ Default value
 }
 ~~~
 
-##### 例1: スカラー型カラム
+##### 例2: ベクター型カラム
 
 A vector column to store `ShortText` values with weight:
 
@@ -483,9 +483,9 @@ A vector column to store `ShortText` values with weight:
 }
 ~~~
 
-##### 例2: インデクスカラム
+##### 例3: インデックスカラム
 
-`Store`テーブルの`address`カラムをインデクスするカラム:
+`Store`テーブルの`address`カラムをインデックスするカラム:
 
 ~~~
 {
