@@ -68,20 +68,13 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     
         # npm install -g droonga-http-server
     
- 4. Install [Serf][] command, *on each computer*.
-    It is required to do alive monitoring of nodes in the cluster.
-    
-        # wget https://dl.bintray.com/mitchellh/serf/0.5.0_linux_amd64.zip
-        # unzip 0.5.0_linux_amd64.zip
-        # sudo mv serf /usr/local/bin/
-    
- 5. Prepare a configuration directory for a Droonga node, *on each computer*.
+ 4. Prepare a configuration directory for a Droonga node, *on each computer*.
     All physical databases are placed under this directory.
     
         # mkdir ~/droonga
         # cd ~/droonga
     
- 6. Create a `catalog.json`, *on one of Droonga nodes*.
+ 5. Create a `catalog.json`, *on one of Droonga nodes*.
     The file defines the structure of your Droonga cluster.
     You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
     
@@ -95,7 +88,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
                                    --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
- 7. Share the generated `catalog.json` *to your all Droonga nodes*.
+ 6. Share the generated `catalog.json` *to your all Droonga nodes*.
     
         # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
     
@@ -127,8 +120,6 @@ To start them, run commands like following on each Droonga node:
                           --default-dataset=Starbucks \
                           --daemon \
                           --pid-file=$PWD/droonga-http-server.pid
-    # serf agent -node="${host}:10031" -bind=$host \
-                 -event-handler="droonga-handle-serf-event --base-dir $PWD" &
 
 Note that you have to specify the host name of the Droonga node itself via some options.
 It will be used to communicate with other Droonga nodes in the cluster.
@@ -139,10 +130,6 @@ So you have to specify different host name on another Droonga node, like:
     # droonga-engine --host=$host \
     ...
 
-After that, run following command to start alive monitoring, on the node "192.168.0.10":
-
-    # serf join 192.168.0.11
-
 By the command two nodes construct a cluster and they monitor each other.
 If one of nodes dies and there is any still alive node, survivor(s) will work as the Droonga cluster.
 Then you can recover the dead node and re-join it to the cluster secretly.
@@ -151,7 +138,6 @@ To stop services, run commands like following on each Droonga node:
 
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
-    # serf leave
 
 ### Create a table
 
@@ -293,5 +279,4 @@ See the [command reference][] for more details.
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
-  [Serf]: http://www.serfdom.io/
   [command reference]: ../../reference/commands/

@@ -77,20 +77,13 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     
         # npm install -g droonga-http-server
     
- 4. *それぞれのコンピュータで*、[Serf][]のコマンドをインストールします。
-    これはクラスタの各ノードの死活監視を行うために必要です。
-    
-        # wget https://dl.bintray.com/mitchellh/serf/0.5.0_linux_amd64.zip
-        # unzip 0.5.0_linux_amd64.zip
-        # sudo mv serf /usr/local/bin/
-    
- 5. *それぞれのコンピュータで*、Droongaノードとしての情報を保存するための設定ディレクトリを用意する。
+ 4. *それぞれのコンピュータで*、Droongaノードとしての情報を保存するための設定ディレクトリを用意する。
     すべてのデータベースの実体は、このディレクトリ以下に保存されます。
     
         # mkdir ~/droonga
         # cd ~/droonga
     
- 6. *いずれか1つのDroongaノードで*、`catalog.json`を作成します。
+ 5. *いずれか1つのDroongaノードで*、`catalog.json`を作成します。
     このファイルはDroongaクラスタの構成を定義する物です。
     データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
     
@@ -104,7 +97,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
                                    --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
-7. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
+ 6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
         # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
     
@@ -136,8 +129,6 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
                           --default-dataset=Starbucks \
                           --daemon \
                           --pid-file=$PWD/droonga-http-server.pid
-    # serf agent -node="${host}:10031" -bind=$host \
-                 -event-handler="droonga-handle-serf-event --base-dir $PWD" &
 
 いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
 この情報は、クラスタ内の他のDroongaノードとの通信のために使われます。
@@ -148,17 +139,12 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
     # droonga-engine --host=$host \
     ...
 
-その後、死活監視のために、"192.168.0.10" のノードにおいて以下のコマンドを実行します：
-
-    # serf join 192.168.0.11
-
 このコマンドにより、2つのノードはクラスタを形成し、互いの生死を監視するようになります。もしクラスタ内のどれか1つのノードが機能を停止し、他のノードがまだ機能し続けていた場合には、残ったノードがDroongaクラスタとして動作し続けます。そのため、そのような事態が起こっても秘密裏に、機能停止したノードを復旧したりクラスタに復帰させたりすることができます。
 
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
-    # serf leave
 
 ### Create a table
 
@@ -300,5 +286,4 @@ See the [command reference][] for more details.
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
-  [Serf]: http://www.serfdom.io/
   [command reference]: ../../reference/commands/
