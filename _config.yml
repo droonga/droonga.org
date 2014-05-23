@@ -6,7 +6,7 @@ blog_base_url: /news/
 droonga_version: 1.0.2
 copyright_year: 2013-2014
 exclude: ["Rakefile", "Gemfile", "Gemfile.lock", "README.md"]
-description: Droonga is a scalable data processing engine.
+description: Droonga is a distributed full text search engine.
 
 kramdown:
   enable_coderay: true
