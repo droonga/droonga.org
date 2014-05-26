@@ -273,6 +273,8 @@ Moreover, you load data to it and select data from it successfully, as a [Groong
 Currently, Droonga supports only some limited features of Groonga compatible commands.
 See the [command reference][] for more details.
 
+Next, let's learn [how to backup and restore contents of a Droonga cluster](../restore/).
+
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
