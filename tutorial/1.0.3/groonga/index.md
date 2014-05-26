@@ -1,5 +1,5 @@
 ---
-title: "Droonga tutorial: How to migrate from Groonga?"
+title: "Droonga tutorial: Getting started/How to migrate from Groonga?"
 layout: en
 ---
 

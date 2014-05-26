@@ -1,5 +1,5 @@
 ---
-title: "Droonga tutorial: basic usage"
+title: "Droonga tutorial: Basic usage of low-layer commands"
 layout: en
 ---
 
@@ -8,7 +8,7 @@ layout: en
 
 ## The goal of this tutorial
 
-Learning steps to setup a Droonga based search system by yourself.
+Learning steps to setup a Droonga based search system by yourself, with low-layer commands of Droonga.
 
 ## Precondition
 
