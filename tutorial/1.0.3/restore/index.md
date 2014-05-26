@@ -194,7 +194,7 @@ For example, if there are two clusters: the source has two nodes `192.168.0.10` 
 ~~~
 # drndump --host=192.168.0.10 \
            --receiver-host=192.168.0.12 | \
-    droonga-request --host=192.168.0.10 \
+    droonga-request --host=192.168.0.20 \
                     --receiver-host=192.168.0.12
 Elapsed time: 0.027541763
 {
