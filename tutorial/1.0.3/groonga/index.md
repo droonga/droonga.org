@@ -78,14 +78,12 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     The file defines the structure of your Droonga cluster.
     You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
     
-        # droonga-catalog-generate --dataset=Starbucks \
-                                   --hosts=192.168.0.10,192.168.0.11 \
+        # droonga-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
                                    --output=./catalog.json
     
     If you have only one computer and trying to set up it just for testing, then you'll do:
     
-        # droonga-catalog-generate --dataset=Starbucks \
-                                   --hosts=127.0.0.1 \
+        # droonga-catalog-generate --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
  6. Share the generated `catalog.json` *to your all Droonga nodes*.
@@ -117,7 +115,6 @@ To start them, run commands like following on each Droonga node:
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
-                          --default-dataset=Starbucks \
                           --daemon \
                           --pid-file=$PWD/droonga-http-server.pid
 
