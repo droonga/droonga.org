@@ -87,13 +87,13 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     このファイルはDroongaクラスタの構成を定義する物です。
     データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
     
-        # droonga-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
-                                   --output=./catalog.json
+        # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
+                                          --output=./catalog.json
     
     コンピュータが1台だけの単なる検証用の構成をセットアップする場合は、以下のようにします：
     
-        # droonga-catalog-generate --hosts=127.0.0.1 \
-                                   --output=./catalog.json
+        # droonga-engine-catalog-generate --hosts=127.0.0.1 \
+                                          --output=./catalog.json
     
  6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
@@ -279,6 +279,8 @@ Moreover, you load data to it and select data from it successfully, as a [Groong
 
 Currently, Droonga supports only some limited features of Groonga compatible commands.
 See the [command reference][] for more details.
+
+Next, let's learn [how to backup and restore contents of a Droonga cluster](../restore/).
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/

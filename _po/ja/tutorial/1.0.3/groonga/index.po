@@ -189,8 +189,8 @@ msgstr ""
 "    データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい："
 
 msgid ""
-"        # droonga-catalog-generate --hosts=192.168.0.10,192.168.0.11 \\\n"
-"                                   --output=./catalog.json"
+"        # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \\\n"
+"                                          --output=./catalog.json"
 msgstr ""
 
 msgid ""
@@ -199,8 +199,8 @@ msgid ""
 msgstr "    コンピュータが1台だけの単なる検証用の構成をセットアップする場合は、以下のようにします："
 
 msgid ""
-"        # droonga-catalog-generate --hosts=127.0.0.1 \\\n"
-"                                   --output=./catalog.json"
+"        # droonga-engine-catalog-generate --hosts=127.0.0.1 \\\n"
+"                                          --output=./catalog.json"
 msgstr ""
 
 msgid " 6. Share the generated `catalog.json` *to your all Droonga nodes*."
@@ -513,6 +513,11 @@ msgid ""
 "Currently, Droonga supports only some limited features of Groonga compatible c"
 "ommands.\n"
 "See the [command reference][] for more details."
+msgstr ""
+
+msgid ""
+"Next, let's learn [how to backup and restore contents of a Droonga cluster](.."
+"/restore/)."
 msgstr ""
 
 msgid ""

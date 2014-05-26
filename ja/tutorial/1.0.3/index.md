@@ -16,6 +16,7 @@ layout: ja
 
  * [使ってみる/Groongaからの移行手順](groonga/)
  * [データベースのバックアップと復元](restore/)
+ * [既存クラスタへのreplicaの追加](add-replica/)
 
 ## 低レイヤのアプリケーション開発者向け
 
