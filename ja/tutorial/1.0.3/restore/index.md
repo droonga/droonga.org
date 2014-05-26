@@ -42,38 +42,28 @@ After that, establish that the `drndump` command has been installed successfully
     # drndump --version
     drndump 1.0.0
 
-## Droongaクラスタのデータをバックアップする
+### Droongaクラスタ内のデータをダンプする
 
 The `drndump` command extracts all schema and data as JSONs.
 Let's dump contents of existing your Droonga cluster.
 
-For example, if your cluster is constructed from two nodes `192.168.0.10` and `192.168.0.11`, their `droonga-engine` is listening the port `10031`, there is a dataset named `Starbucks`, and now your are logged in to the host `192.168.0.12` then the command line is:
+For example, if your cluster is constructed from two nodes `192.168.0.10` and `192.168.0.11`, and now your are logged in to the host `192.168.0.12` then the command line is:
 
 ~~~
 # drndump --host=192.168.0.10 \
-           --dataset=Starbucks \
            --receiver-host=192.168.0.12
 {
   "type": "table_create",
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "body": {
     "name": "Location",
     "flags": "TABLE_HASH_KEY",
     "key_type": "WGS84GeoPoint"
   }
 }
-{
-  "type": "table_create",
-  "dataset": "Starbucks",
-  "body": {
-    "name": "Store",
-    "flags": "TABLE_HASH_KEY",
-    "key_type": "ShortText"
-  }
-}
 ...
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "body": {
     "table": "Store",
     "key": "Fashion Inst of Technology - New York NY",
@@ -85,7 +75,7 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
 }
 {
   "type": "column_create",
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "body": {
     "table": "Location",
     "name": "store",
@@ -96,7 +86,7 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
 }
 {
   "type": "column_create",
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "body": {
     "table": "Term",
     "name": "store__key",
@@ -107,23 +97,33 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
 }
 ~~~
 
-Note, you must pecify valid host name or IP address of the computer you are logged in.
+Note to these things:
 
+ * You must specify valid host name or IP address of one of nodes, via the option `--host`.
+ * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
+   It is used by the Droonga cluster, to send messages.
+
+The result is printed to the standard output.
+To save it as a JSONs file, you'll use a redirection like:
+
+    # drndump --host=192.168.0.10 \
+               --receiver-host=192.168.0.12 \
+        > dump.jsons
 
 
 ## Droongaクラスタのデータを復元する
 
 TBD
 
-### Install `droonga-client`
+### `droonga-client`のインストール
 
 TBD
 
-## Droongaクラスタのデータを復元する
+## ダンプ結果からデータを復元する
 
 TBD
 
-### Replicate data from another Droonga cluster
+### 他のDroongaクラスタからデータを複製する
 
 TBD
 
