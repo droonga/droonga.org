@@ -103,37 +103,137 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
 
 Note to these things:
 
- * You must specify valid host name or IP address of one of nodes, via the option `--host`.
+ * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
  * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
    It is used by the Droonga cluster, to send messages.
+ * The result includes complete commands to construct a dataset, same to the source.
 
 The result is printed to the standard output.
 To save it as a JSONs file, you'll use a redirection like:
 
     # drndump --host=192.168.0.10 \
-               --receiver-host=192.168.0.12 \
+              --receiver-host=192.168.0.12 \
         > dump.jsons
 
 
 ## Restore data to a Droonga cluster
 
-TBD
-
 ### Install `droonga-client`
 
-TBD
+The result of `drndump` command is a list of Droonga messages.
 
-### Restore data from a dump result
+You need to use `droonga-request` command to send it to your Droogna cluster.
+Install the command included in the package `droonga-client`, via rubygems:
 
-TBD
+    # gem install droonga-client
 
-### Replicate data from another Droonga cluster
+After that, establish that the `droonga-request` command has been installed successfully:
 
-TBD
+    # droonga-request --version
+    droonga-request 0.1.7
+
+### Restore data from a dump result, to an empty Droonga cluster
+
+Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
+You just have to pour the contents of the dump file to an empty cluster, by the `droonga-request` command.
+
+For example, if your cluster is empty and constructed from two nodes `192.168.0.10` and `192.168.0.11`, now your are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons` in the current directory, then the command line is:
+
+~~~
+# droonga-request --host=192.168.0.10 \
+                    --receiver-host=192.168.0.12 \
+                    dump.jsons
+Elapsed time: 0.027541763
+{
+  "inReplyTo": "1401099940.5548894",
+  "statusCode": 200,
+  "type": "table_create.result",
+  "body": [
+    [
+      0,
+      1401099940.591563,
+      0.00031876564025878906
+    ],
+    true
+  ]
+}
+...
+Elapsed time: 0.008678467
+{
+  "inReplyTo": "1401099941.0794394",
+  "statusCode": 200,
+  "type": "column_create.result",
+  "body": [
+    [
+      0,
+      1401099941.1154332,
+      0.00027871131896972656
+    ],
+    true
+  ]
+}
+~~~
+
+Note to these things:
+
+ * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
+ * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
+   It is used by the Droonga cluster, to send response messages.
+
+
+### Replicate data from another Droonga cluster, to an empty Droonga cluster
+
+If you have multiple Droonga clusters, then you can replicate one to another with `drndump` and `droonga-request` commands.
+
+The command `drndump` reports its result to the standard output.
+On the other hand, `droonga-request` can receive messages from the standard input.
+So, you just connect them with a pipe, to replicate contents of a cluster to another.
+
+For example, if there are two clusters: the source has two nodes `192.168.0.10` and `192.168.0.11`, the destination has two nodes `192.168.0.20` and `192.168.0.21`, and now your are logged in to the host `192.168.0.12`, then the command line is:
+
+~~~
+# drndump --host=192.168.0.10 \
+           --receiver-host=192.168.0.12 | \
+    droonga-request --host=192.168.0.10 \
+                    --receiver-host=192.168.0.12
+Elapsed time: 0.027541763
+{
+  "inReplyTo": "1401099940.5548894",
+  "statusCode": 200,
+  "type": "table_create.result",
+  "body": [
+    [
+      0,
+      1401099940.591563,
+      0.00031876564025878906
+    ],
+    true
+  ]
+}
+...
+Elapsed time: 0.008678467
+{
+  "inReplyTo": "1401099941.0794394",
+  "statusCode": 200,
+  "type": "column_create.result",
+  "body": [
+    [
+      0,
+      1401099941.1154332,
+      0.00027871131896972656
+    ],
+    true
+  ]
+}
+~~~
+
 
 ## Conclusion
 
 In this tutorial, you did backup a [Droonga][] cluster and restore the data.
+Moreover, you did replicate contents of an existing Droogna cluster to another empty cluster.
+
+Next, let's learn [how to add a new replica to an existing Droonga cluster](../add-replica/).
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
