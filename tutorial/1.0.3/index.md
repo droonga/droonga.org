@@ -3,11 +3,11 @@ title: Droonga tutorial
 layout: en
 ---
 
-## For Groonga users
+## For beginners and Groonga users
 
  * [How to migrate from Groonga?](groonga/)
 
-## For application developers
+## For low-layer application developers
 
  * [Basic usage tutorial](basic/)
 
