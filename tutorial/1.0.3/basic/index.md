@@ -214,7 +214,10 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 
 Start a Droonga engine, you can start it with the command `droonga-engine`, like:
 
-    # droonga-engine --host 192.168.0.10 --log-file=$PWD/droonga-engine.log --daemon --pid-file $PWD/droonga-engine.pid
+    # droonga-engine --host 192.168.0.10 \
+                     --log-file=$PWD/droonga-engine.log \
+                     --daemon \
+                     --pid-file $PWD/droonga-engine.pid
 
 ### Stop an instance of droonga-engine
 
@@ -228,7 +231,10 @@ This is the way to stop droonga-engine.
 
 Start droonga-engine again:
 
-    # droonga-engine --host 192.168.0.10 --log-file=$PWD/droonga-engine.log --daemon --pid-file $PWD/droonga-engine.pid
+    # droonga-engine --host 192.168.0.10 \
+                     --log-file=$PWD/droonga-engine.log \
+                     --daemon \
+                     --pid-file $PWD/droonga-engine.pid
 
 ### Create a database
 
