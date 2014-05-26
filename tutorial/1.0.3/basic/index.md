@@ -691,7 +691,7 @@ Open another terminal and send the json to the Droonga engine.
 Send `stores.jsons` as follows:
 
 ~~~
-# droonga-request --tag droonga stores.jsons
+# droonga-request stores.jsons
 Elapsed time: 0.01101195
 [
   "droonga.message",
