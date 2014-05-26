@@ -107,7 +107,7 @@ catalog.json:
       "version": 2,
       "effectiveDate": "2013-09-01T00:00:00Z",
       "datasets": {
-        "Starbucks": {
+        "Default": {
           "nWorkers": 4,
           "plugins": ["groonga", "crud", "search"],
           "schema": {
@@ -199,7 +199,7 @@ catalog.json:
       }
     }
 
-This `catalog.json` defines a dataset `Starbucks` as:
+This `catalog.json` defines a dataset `Default` as:
 
  * At the top level, there is one volume based on two sub volumes, called "replicas".
  * At the next lower level, one replica volume is based on three sub volumes, called "slices".
@@ -239,7 +239,7 @@ stores.jsons:
 
 ~~~
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -250,7 +250,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -261,7 +261,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -272,7 +272,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -283,7 +283,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -294,7 +294,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -305,7 +305,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -316,7 +316,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -327,7 +327,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -338,7 +338,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -349,7 +349,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -360,7 +360,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -371,7 +371,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -382,7 +382,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -393,7 +393,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -404,7 +404,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -415,7 +415,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -426,7 +426,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -437,7 +437,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -448,7 +448,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -459,7 +459,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -470,7 +470,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -481,7 +481,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -492,7 +492,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -503,7 +503,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -514,7 +514,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -525,7 +525,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -536,7 +536,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -547,7 +547,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -558,7 +558,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -569,7 +569,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -580,7 +580,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -591,7 +591,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -602,7 +602,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -613,7 +613,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -624,7 +624,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -635,7 +635,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -646,7 +646,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -657,7 +657,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -668,7 +668,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -685,7 +685,7 @@ Open another terminal and send the json to the Droonga engine.
 Send `stores.jsons` as follows:
 
 ~~~
-# droonga-request --tag starbucks stores.jsons
+# droonga-request --tag droonga stores.jsons
 Elapsed time: 0.01101195
 [
   "droonga.message",
@@ -1138,7 +1138,7 @@ search-all-stores.json:
 
 ~~~
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "search",
   "body": {
     "queries": {
@@ -1320,7 +1320,6 @@ Then, run it.
     # droonga-http-server --port 3000 \
                           --receive-host-name=192.168.0.10 \
                           --droonga-engine-host-name=192.168.0.10 \
-                          --default-dataset=Starbucks \
                           --daemon \
                           --pid-file $PWD/droonga-http-server.pid
 
