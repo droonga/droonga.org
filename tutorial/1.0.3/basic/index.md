@@ -1317,8 +1317,7 @@ Let's use the `droonga-http-server` as an HTTP protocol adapter. It is an npm pa
 
 Then, run it.
 
-    # droonga-http-server --port 3000 \
-                          --receive-host-name=192.168.0.10 \
+    # droonga-http-server --receive-host-name=192.168.0.10 \
                           --droonga-engine-host-name=192.168.0.10 \
                           --daemon \
                           --pid-file $PWD/droonga-http-server.pid
@@ -1328,7 +1327,7 @@ Then, run it.
 
 We're all set. Let's send a search request to the protocol adapter via HTTP. At first, try to get all records of the `Stores` table by a request like following. (Note: The `attributes=_key` parameter means "export the value of the column `_key` to the search result". If you don't set the parameter, each record returned in the `records` will become just a blank array. You can specify multiple column names by the delimiter `,`. For example `attributes=_key,location` will return both the primary key and the location for each record.)
 
-    # curl "http://192.168.0.10:3000/tables/Store?attributes=_key&limit=-1"
+    # curl "http://192.168.0.10:10041/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
@@ -1461,7 +1460,7 @@ Because the `count` says `40`, you know there are all 40 records in the table. S
 
 Next step, let's try more meaningful query. To search stores which contain "Columbus" in their name, give `Columbus` as the parameter `query`, and give `_key` as the parameter `match_to` which means the column to be searched. Then:
 
-    # curl "http://192.168.0.10:3000/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://192.168.0.10:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,
