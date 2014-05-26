@@ -115,7 +115,7 @@ catalog.json:
       "version": 2,
       "effectiveDate": "2013-09-01T00:00:00Z",
       "datasets": {
-        "Starbucks": {
+        "Default": {
           "nWorkers": 4,
           "plugins": ["groonga", "crud", "search"],
           "schema": {
@@ -222,7 +222,10 @@ catalog.json:
 
 以下のようにして droonga-engine を起動します。
 
-    # droonga-engine --host 192.168.0.10 --log-file=$PWD/droonga-engine.log --daemon --pid-file $PWD/droonga-engine.pid
+    # droonga-engine --host 192.168.0.10 \
+                     --log-file=$PWD/droonga-engine.log \
+                     --daemon \
+                     --pid-file $PWD/droonga-engine.pid
 
 ### droonga-engine を終了する
 
@@ -236,7 +239,10 @@ droonga-engineにSIGTERMを送ります。
 
 再度droonga-engineを起動します。
 
-    # droonga-engine --host 192.168.0.10 --log-file=$PWD/droonga-engine.log --daemon --pid-file $PWD/droonga-engine.pid
+    # droonga-engine --host 192.168.0.10 \
+                     --log-file=$PWD/droonga-engine.log \
+                     --daemon \
+                     --pid-file $PWD/droonga-engine.pid
 
 ### データベースを作成する
 
@@ -247,7 +253,7 @@ stores.jsons:
 
 ~~~
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -258,7 +264,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -269,7 +275,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -280,7 +286,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -291,7 +297,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -302,7 +308,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -313,7 +319,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -324,7 +330,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -335,7 +341,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -346,7 +352,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -357,7 +363,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -368,7 +374,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -379,7 +385,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -390,7 +396,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -401,7 +407,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -412,7 +418,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -423,7 +429,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -434,7 +440,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -445,7 +451,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -456,7 +462,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -467,7 +473,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -478,7 +484,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -489,7 +495,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -500,7 +506,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -511,7 +517,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -522,7 +528,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -533,7 +539,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -544,7 +550,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -555,7 +561,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -566,7 +572,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -577,7 +583,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -588,7 +594,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -599,7 +605,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -610,7 +616,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -621,7 +627,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -632,7 +638,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -643,7 +649,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -654,7 +660,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -665,7 +671,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -676,7 +682,7 @@ stores.jsons:
   }
 }
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "add",
   "body": {
     "table": "Store",
@@ -693,7 +699,7 @@ stores.jsons:
 以下のようにして`stores.json`を送信します:
 
 ~~~
-# droonga-request --tag starbucks stores.jsons
+# droonga-request stores.jsons
 Elapsed time: 0.01101195
 [
   "droonga.message",
@@ -1146,7 +1152,7 @@ search-all-stores.json:
 
 ~~~
 {
-  "dataset": "Starbucks",
+  "dataset": "Default",
   "type": "search",
   "body": {
     "queries": {
@@ -1324,10 +1330,8 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 次に、サーバを起動します。
 
-    # droonga-http-server --port 3000 \
-                          --receive-host-name=192.168.0.10 \
+    # droonga-http-server --receive-host-name=192.168.0.10 \
                           --droonga-engine-host-name=192.168.0.10 \
-                          --default-dataset=Starbucks \
                           --daemon \
                           --pid-file $PWD/droonga-http-server.pid
 
@@ -1336,7 +1340,7 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    # curl "http://192.168.0.10:3000/tables/Store?attributes=_key&limit=-1"
+    # curl "http://192.168.0.10:10041/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
@@ -1469,7 +1473,7 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 もう少し複雑なクエリを試してみましょう。例えば、店名に「Columbus」を含む店舗を検索します。`query` パラメータにクエリ `Columbus` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
-    # curl "http://192.168.0.10:3000/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://192.168.0.10:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,

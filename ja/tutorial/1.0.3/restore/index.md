@@ -31,9 +31,99 @@ layout: ja
 
 ## Droongaクラスタのデータをバックアップする
 
+### Install `drndump`
+
+First, install a command line tool named `drndump` via rubygems:
+
+    # gem install droonga-engine
+
+After that, establish that the `drndump` command has been installed successfully:
+
+    # drndump --version
+    drndump 1.0.0
+
+## Droongaクラスタのデータをバックアップする
+
+The `drndump` command extracts all schema and data as JSONs.
+Let's dump contents of existing your Droonga cluster.
+
+For example, if your cluster is constructed from two nodes `192.168.0.10` and `192.168.0.11`, their `droonga-engine` is listening the port `10031`, there is a dataset named `Starbucks`, and now your are logged in to the host `192.168.0.12` then the command line is:
+
+~~~
+# drndump --host=192.168.0.10 \
+           --dataset=Starbucks \
+           --receiver-host=192.168.0.12
+{
+  "type": "table_create",
+  "dataset": "Starbucks",
+  "body": {
+    "name": "Location",
+    "flags": "TABLE_HASH_KEY",
+    "key_type": "WGS84GeoPoint"
+  }
+}
+{
+  "type": "table_create",
+  "dataset": "Starbucks",
+  "body": {
+    "name": "Store",
+    "flags": "TABLE_HASH_KEY",
+    "key_type": "ShortText"
+  }
+}
+...
+{
+  "dataset": "Starbucks",
+  "body": {
+    "table": "Store",
+    "key": "Fashion Inst of Technology - New York NY",
+    "values": {
+      "location": "146689013x-266380405"
+    }
+  },
+  "type": "add"
+}
+{
+  "type": "column_create",
+  "dataset": "Starbucks",
+  "body": {
+    "table": "Location",
+    "name": "store",
+    "type": "Store",
+    "flags": "COLUMN_INDEX",
+    "source": "location"
+  }
+}
+{
+  "type": "column_create",
+  "dataset": "Starbucks",
+  "body": {
+    "table": "Term",
+    "name": "store__key",
+    "type": "Store",
+    "flags": "COLUMN_INDEX|WITH_POSITION",
+    "source": "_key"
+  }
+}
+~~~
+
+Note, you must pecify valid host name or IP address of the computer you are logged in.
+
+
+
+## Droongaクラスタのデータを復元する
+
+TBD
+
+### Install `droonga-client`
+
 TBD
 
 ## Droongaクラスタのデータを復元する
+
+TBD
+
+### Replicate data from another Droonga cluster
 
 TBD
 

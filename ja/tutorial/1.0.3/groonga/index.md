@@ -87,14 +87,12 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     このファイルはDroongaクラスタの構成を定義する物です。
     データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
     
-        # droonga-catalog-generate --dataset=Starbucks \
-                                   --hosts=192.168.0.10,192.168.0.11 \
+        # droonga-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
                                    --output=./catalog.json
     
     コンピュータが1台だけの単なる検証用の構成をセットアップする場合は、以下のようにします：
     
-        # droonga-catalog-generate --dataset=Starbucks \
-                                   --hosts=127.0.0.1 \
+        # droonga-catalog-generate --hosts=127.0.0.1 \
                                    --output=./catalog.json
     
  6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
@@ -126,7 +124,6 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
-                          --default-dataset=Starbucks \
                           --daemon \
                           --pid-file=$PWD/droonga-http-server.pid
 
