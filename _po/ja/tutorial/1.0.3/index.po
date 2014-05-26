@@ -24,11 +24,11 @@ msgstr "## 初心者とGroonga利用者向け"
 
 msgid ""
 " * [Getting started/How to migrate from Groonga?](groonga/)\n"
-" * [How to backup and restore the database?](restore/)\n"
+" * [How to backup and restore the database?](dump-restore/)\n"
 " * [How to add a new replica to an existing cluster?](add-replica/)"
 msgstr ""
 " * [使ってみる/Groongaからの移行手順](groonga/)\n"
-" * [データベースのバックアップと復元](restore/)\n"
+" * [データベースのバックアップと復元](dump-restore/)\n"
 " * [既存クラスタへのreplicaの追加](add-replica/)"
 
 msgid "## For low-layer application developers"

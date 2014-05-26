@@ -517,7 +517,7 @@ msgstr ""
 
 msgid ""
 "Next, let's learn [how to backup and restore contents of a Droonga cluster](.."
-"/restore/)."
+"/dump-restore/)."
 msgstr ""
 
 msgid ""
