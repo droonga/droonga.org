@@ -7,6 +7,7 @@ layout: en
 
  * [Getting started/How to migrate from Groonga?](groonga/)
  * [How to backup and restore the database?](restore/)
+ * [How to add a new replica to an existing cluster?](add-replica/)
 
 ## For low-layer application developers
 
