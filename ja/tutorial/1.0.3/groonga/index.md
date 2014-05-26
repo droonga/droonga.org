@@ -1,5 +1,5 @@
 ---
-title: "Droongaチュートリアル: Groongaからの移行手順"
+title: "Droongaチュートリアル: 使ってみる/Groongaからの移行手順"
 layout: ja
 ---
 
