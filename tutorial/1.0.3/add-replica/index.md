@@ -8,7 +8,7 @@ layout: en
 
 ## The goal of this tutorial
 
-Learning steps to add a new replica node, and replace a dead replica with new one, for your existing [Droonga][] cluster.
+Learning steps to add a new replica node, remove an existing replica, and replace a replica with new one, for your existing [Droonga][] cluster.
 
 ## Precondition
 
@@ -81,7 +81,7 @@ Let's start the server.
                           --daemon \
                           --pid-file=~/droonga/droonga-http-server.pid
 
-Then there are two Droonga clusters on this time.
+Then there are two separate Droonga clusters on this time.
 
  * The existing cluster including two replicas.
    Let's give a name *"alpha"* to it, for now.
@@ -144,7 +144,7 @@ Re-generate the `catalog.json` on the newly joining node `192.168.0.12`, with al
 
 The server process detects new `catalog.json` and restats itself automatically.
 
-Then there are two Droonga clusters on this time.
+Then there are two overlapping Droonga clusters theoretically on this time.
 
  * The existing cluster "alpha", including two replicas.
    * `192.168.0.10`
@@ -186,20 +186,105 @@ Resume inpouring of requests which can modify the data in the cluster - cronjobs
 With that, a new replica node has joined to your Droonga cluster successfully.
 
 
-## Replace a broken replica node in a cluster with a new node
+## Remove an existing replica node from an existing cluster
 
-### Unjoin the broken replica from the cluster
+A Droonga node can die by various fatal reasons - for example, OOM killer, disk-full error, troubles around its hardware, etc.
+Because nodes in a Droonga cluster observe each other and they stop delivering messages to dead nodes automatically, the cluster keeps working even if there are some dead nodes.
+Then you have to remove dead nodes from the cluster.
 
-TBD
+Of course, even if a node is still working, you may plan to remove it to reuse for another purpose.
+
+Assume that there is a Droonga cluster constructed with trhee replica nodes `192.168.0.10`, `192.168.0.11` and `192.168.0.12`, and planning to remove the last node `192.168.0.12` from the cluster.
+
+### Unjoin an existing replica from the cluster
+
+To remove a replica from an existing cluster, you just have to update the "catalog.json" with new list of replica nodes except the node to be removed:
+
+    (on 192.168.0.10)
+    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
+                                      --output=~/droonga/catalog.json
+
+Then there are two overlapping Droonga clusters theoretically on this time.
+
+ * The existing cluster "charlie" including three replicas.
+   * `192.168.0.10`
+   * `192.168.0.11`
+   * `192.168.0.12`
+ * The new cluster including two replicas.
+   Let's give a name *"delta"* to it, for now.
+   * `192.168.0.10`
+   * `192.168.0.11`
+
+The node `192.168.0.10` with new `catalog.json` knows the cluster delta includes only two nodes, so it doesn't deliver incoming messages to the missing node `192.168.0.12` anymore.
+
+Next, copy new `catalog.json` from `192.168.0.10` to others.
+
+    (on 192.168.0.10)
+    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+    # scp ~/droonga/catalog.json 192.168.0.12:~/droonga/
+
+Then there is only one Droonga cluster on this time.
+
+ * The new cluster "delta" including two replicas.
+   * `192.168.0.10`
+   * `192.168.0.11`
+
+Even if both nodes `192.168.0.11` and `192.168.0.12` receive requests, they are delivered to the nodes of the cluster delta.
+The orphan node `192.168.0.12` never process requests by self.
+
+OK, the node is ready to be removed.
+Stop servers and shutdown it if needed.
+
+    (on 192.168.0.12)
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
+
+## Replace an existing replica node in a cluster with a new one
+
+Replacing of nodes is a combination of those instructions above.
+
+Assume that there is a Droonga cluster constructed with two replica nodes `192.168.0.10` and `192.168.0.11`, the node `192.168.0.11` is unstable, and planning to replace it with a new node `192.168.0.12`.
+
+### Unjoin an existing replica from the cluster
+
+First, remove the unstable node.
+Re-generate `catalog.json` without the node to be removed, and spread it to other nodes in the cluster:
+
+    (on 192.168.0.10)
+    # droonga-engine-catalog-generate --hosts=192.168.0.10 \
+                                      --output=~/droonga/catalog.json
+    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+
+After that the node `192.168.0.11` unjoins from the cluster successfully.
 
 ### Add a new replica
 
-TBD
+Next, setup the new replica.
+Construct a temporary cluster with only one node, and duplicate data from the existing cluster:
+
+    (on 192.168.0.12)
+    # droonga-engine-catalog-generate --hosts=192.168.0.12 \
+                                      --output=~/droonga/catalog.json
+    # drndump --host=192.168.0.10 \
+              --receiver-host=192.168.0.12 | \
+        droonga-request --host=192.168.0.12 \
+                        --receiver-host=192.168.0.12
+
+After the duplication successfully finished, the node is ready to join the cluster.
+Re-generate `catalog.json` and spread it to all nodes in the cluster:
+
+    (on 192.168.0.12)
+    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.12 \
+                                      --output=~/droonga/catalog.json
+    # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
+
+Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.168.0.12` is here.
+
 
 ## Conclusion
 
 In this tutorial, you did add a new replica node to an existing [Droonga][] cluster.
-Moreover, you did replace a dead replica with a new one.
+Moreover, you did remove an existing replica, and did replace a replica with a new one.
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
