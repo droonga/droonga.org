@@ -44,23 +44,22 @@ layout: ja
 
 ## Droongaクラスタのデータをバックアップする
 
-### Install `drndump`
+### `drndump` のインストール
 
-First, install a command line tool named `drndump` via rubygems:
+最初に、Rubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:
 
     # gem install droonga-engine
 
-After that, establish that the `drndump` command has been installed successfully:
+その後、`drndump` コマンドが正しくインストールできたかどうかを確認します:
 
     # drndump --version
     drndump 1.0.0
 
 ### Droongaクラスタ内のデータをダンプする
 
-The `drndump` command extracts all schema and data as JSONs.
-Let's dump contents of existing your Droonga cluster.
+`drndump` コマンドはすべてのスキ−マ定義とデータをJSONs形式で取り出します。既存のDroongaクラスタのすべての内容をダンプ出力してみましょう。
 
-For example, if your cluster is constructed from two nodes `192.168.0.10` and `192.168.0.11`, and now your are logged in to the host `192.168.0.12` then the command line is:
+例えば、クラスタが `192.168.0.10` と `192.168.0.11` の2つのノードから構成されていて、別のホスト `192.168.0.12` にログインしている場合、コマンドラインは以下の要領です。
 
 ~~~
 # drndump --host=192.168.0.10 \
@@ -110,7 +109,7 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
 }
 ~~~
 
-Note to these things:
+以下の点に注意して下さい:
 
  * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
  * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
@@ -183,7 +182,7 @@ Elapsed time: 0.008678467
 }
 ~~~
 
-Note to these things:
+以下の点に注意して下さい:
 
  * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
  * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.

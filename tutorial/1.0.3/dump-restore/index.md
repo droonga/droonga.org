@@ -51,7 +51,7 @@ After that, establish that the `drndump` command has been installed successfully
 The `drndump` command extracts all schema and data as JSONs.
 Let's dump contents of existing your Droonga cluster.
 
-For example, if your cluster is constructed from two nodes `192.168.0.10` and `192.168.0.11`, and now your are logged in to the host `192.168.0.12` then the command line is:
+For example, if your cluster is constructed from two nodes `192.168.0.10` and `192.168.0.11`, and now you are logged in to the host `192.168.0.12` then the command line is:
 
 ~~~
 # drndump --host=192.168.0.10 \
