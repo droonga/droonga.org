@@ -171,19 +171,19 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 
 ### カラムの作成
 
-Next, create a new column `location` to the `Store` table by the `column_create` command, like:
+次は、`column_create` コマンドを使って `Store` テーブルに `location` という新しいカラムを作ります:
 
     # curl "${endpoint}/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
     [[0,1398664305.8856306,0.00026226043701171875],true]
 
-Then verify that the column is correctly created, by the `column_list` command:
+`column_list` コマンドを使って、カラムが正しく作成された事を確認しましょう:
 
     # curl "${endpoint}/column_list?table=Store"
     [[0,1398664345.9680889,0.0011739730834960938],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["type","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["source","ShortText"]],[257,"location","/home/username/groonga/droonga-engine/000/db.0000101","fix","COLUMN_SCALAR","Store","WGS84GeoPoint",[]]]]
 
-### Create indexes
+### インデックスの作成
 
-Create indexes also.
+インデックスも作成しましょう。
 
     # curl "${endpoint}/table_create?name=Location&type=PatriciaTrie&key_type=WGS84GeoPoint"
     [[0,1398664401.4927232,0.12011909484863281],true]
@@ -195,10 +195,10 @@ Create indexes also.
     [[0,1398664474.7112074,0.12619781494140625],true]
 
 
-### Load data to a table
+### テーブルへのデータの読み込み
 
-Let's load data to the `Store` table.
-First. prepare the data as a JSON file `stores.json`.
+それでは、`Store` テーブルにデータを読み込みましょう。
+まず、データを `stores.json` という名前のJSON形式のファイルとして用意します。
 
 stores.json:
 
@@ -248,23 +248,23 @@ stores.json:
 ]
 ~~~
 
-Then, send it as a POST request of the `load` command, like:
+データが準備できたら、`load` コマンドのPOSTリクエストとして送信します:
 
     # curl --data "@stores.json" "${endpoint}/load?table=Store"
     [[0,1398666180.023,0.069],[40]]
 
-Now all data in the JSON file are successfully loaded.
+これで、JSONファイル中のすべてのデータが正しく読み込まれます。
 
-### Select data from a table
+### テーブル中のデータを取り出す
 
-OK, all data is now ready.
+以上で、すべてのデータが準備できました。
 
-As the starter, let's select initial ten records with the `select` command:
+試しに、`select` コマンドを使って最初の10レコードを取り出してみましょう:
 
     # curl "${endpoint}/select?table=Store&output_columns=_key&limit=10"
     [[0,1398666260.887927,0.000017404556274414062],[[[40],[["_key","ShortText"]],[["1st Avenue & 75th St. - New York NY  (W)"],["2nd Ave. & 9th Street - New York NY"],["76th & Second - New York NY  (W)"],["15th & Third - New York NY  (W)"],["41st and Broadway - New York NY  (W)"],["West 43rd and Broadway - New York NY  (W)"],["84th & Third Ave - New York NY  (W)"],["150 E. 42nd Street - New York NY  (W)"],["Macy's 35th Street Balcony - New York NY"],["Herald Square- Macy's - New York NY"]]]]]
 
-Of course you can specify conditions via the `query` option:
+もちろん、`query` オプションを使って検索条件を指定する事もできます:
 
     # curl "${endpoint}/select?table=Store&query=Columbus&match_columns=_key&output_columns=_key&limit=10"
     [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],[["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
@@ -274,13 +274,13 @@ Of course you can specify conditions via the `query` option:
 
 ## まとめ
 
-In this tutorial, you did set up a [Droonga][] cluster on [Ubuntu Linux][Ubuntu] computers.
-Moreover, you load data to it and select data from it successfully, as a [Groonga][] compatible server.
+このチュートリアルでは、[Ubuntu Linux][Ubuntu]のコンピュータを使って[Droonga][]クラスタを構築しました。
+また、[Groonga][]サーバ互換のシステムとしてデータを読み込ませたり取り出したりすることにも成功しました。
 
-Currently, Droonga supports only some limited features of Groonga compatible commands.
-See the [command reference][] for more details.
+現在の所、DroongaはGroonga互換のコマンドのうちいくつかの限定的な機能にのみ対応しています。
+詳細は[コマンドリファレンス][command reference]を参照して下さい。
 
-Next, let's learn [how to backup and restore contents of a Droonga cluster](../restore/).
+続いて、[Droongaクラスタのデータをバックアップしたり復元したりする手順](../dump-restore/)を学びましょう。
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/

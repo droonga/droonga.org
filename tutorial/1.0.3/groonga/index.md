@@ -191,7 +191,7 @@ Create indexes also.
 ### Load data to a table
 
 Let's load data to the `Store` table.
-First. prepare the data as a JSON file `stores.json`.
+First, prepare the data as a JSON file `stores.json`.
 
 stores.json:
 
@@ -273,7 +273,7 @@ Moreover, you load data to it and select data from it successfully, as a [Groong
 Currently, Droonga supports only some limited features of Groonga compatible commands.
 See the [command reference][] for more details.
 
-Next, let's learn [how to backup and restore contents of a Droonga cluster](../restore/).
+Next, let's learn [how to backup and restore contents of a Droonga cluster](../dump-restore/).
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
