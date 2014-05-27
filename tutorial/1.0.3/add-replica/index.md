@@ -33,7 +33,7 @@ We'll improve extensibility for slices in the future.
 Anyway, this tutorial explains how to add a new replica node to an existing Droogna cluster.
 Here we go!
 
-## Steps to add a new replica node to an existing cluster
+## Add a new replica node to an existing cluster
 
 ### Setup a new node
 
@@ -55,7 +55,7 @@ TBD
 
 TBD
 
-## Steps to replace a broken replica node in a cluster with a new node
+## Replace a broken replica node in a cluster with a new node
 
 ### Unjoin the broken replica from the cluster
 
