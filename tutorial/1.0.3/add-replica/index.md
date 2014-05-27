@@ -8,7 +8,7 @@ layout: en
 
 ## The goal of this tutorial
 
-Learning steps to add a new node to your existing [Droonga][] cluster, as a replica.
+Learning steps to add a new replica node, and replace a dead replica with new one, for your existing [Droonga][] cluster.
 
 ## Precondition
 
@@ -33,29 +33,42 @@ We'll improve extensibility for slices in the future.
 Anyway, this tutorial explains how to add a new replica node to an existing Droogna cluster.
 Here we go!
 
-## Setup a new node
+## Steps to add a new replica node to an existing cluster
+
+### Setup a new node
 
 TBD
 
-## Stop inpouring of "write" requests
+### Stop inpouring of "write" requests
 
 TBD
 
-## Replicate data from the cluster to the new replica
+### Replicate data from the cluster to the new replica
 
 TBD
 
-## Join the new replica to the cluster
+### Join the new replica to the cluster
 
 TBD
 
-## Restart inpouring of "write" requests
+### Restart inpouring of "write" requests
+
+TBD
+
+## Steps to replace a broken replica node in a cluster with a new node
+
+### Unjoin the broken replica from the cluster
+
+TBD
+
+### Add a new replica
 
 TBD
 
 ## Conclusion
 
 In this tutorial, you did add a new replica node to an existing [Droonga][] cluster.
+Moreover, you did replace a dead replica with a new one.
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
