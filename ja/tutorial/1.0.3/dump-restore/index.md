@@ -192,11 +192,11 @@ Note to these things:
 
 ### Droongaクラスタから別の空のDroongaクラスタへデータを複製する
 
-If you have multiple Droonga clusters, then you can replicate one to another with `drndump` and `droonga-request` commands.
+If you have multiple Droonga clusters, then you can duplicate one to another with `drndump` and `droonga-request` commands.
 
 The command `drndump` reports its result to the standard output.
 On the other hand, `droonga-request` can receive messages from the standard input.
-So, you just connect them with a pipe, to replicate contents of a cluster to another.
+So, you just connect them with a pipe, to duplicate contents of a cluster to another.
 
 For example, if there are two clusters: the source has two nodes `192.168.0.10` and `192.168.0.11`, the destination has two nodes `192.168.0.20` and `192.168.0.21`, and now your are logged in to the host `192.168.0.12`, then the command line is:
 

@@ -181,13 +181,13 @@ Note to these things:
    It is used by the Droonga cluster, to send response messages.
 
 
-### Replicate data from another Droonga cluster, to an empty Droonga cluster
+### Duplicate data from another Droonga cluster, to an empty Droonga cluster
 
-If you have multiple Droonga clusters, then you can replicate one to another with `drndump` and `droonga-request` commands.
+If you have multiple Droonga clusters, then you can duplicate one to another with `drndump` and `droonga-request` commands.
 
 The command `drndump` reports its result to the standard output.
 On the other hand, `droonga-request` can receive messages from the standard input.
-So, you just connect them with a pipe, to replicate contents of a cluster to another.
+So, you just connect them with a pipe, to duplicate contents of a cluster to another.
 
 For example, if there are two clusters: the source has two nodes `192.168.0.10` and `192.168.0.11`, the destination has two nodes `192.168.0.20` and `192.168.0.21`, and now your are logged in to the host `192.168.0.12`, then the command line is:
 
@@ -231,7 +231,7 @@ Elapsed time: 0.008678467
 ## Conclusion
 
 In this tutorial, you did backup a [Droonga][] cluster and restore the data.
-Moreover, you did replicate contents of an existing Droogna cluster to another empty cluster.
+Moreover, you did duplicate contents of an existing Droogna cluster to another empty cluster.
 
 Next, let's learn [how to add a new replica to an existing Droonga cluster](../add-replica/).
 
