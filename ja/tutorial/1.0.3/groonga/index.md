@@ -143,33 +143,33 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
 
-### Create a table
+### テーブルの作成
 
-Now your Droonga cluster actually works as a Groonga's HTTP server.
+以上の手順で、Groonga HTTPサーバ互換のサービスとして動作するDroongaクラスタができました。
 
-Requests are completely same to ones for a Groonga server.
-To create a new table `Store`, you just have to send a GET request for the `table_create` command, like:
+リクエストの送信方法はGroongaサーバの場合と全く同じです。
+新しいテーブル `Store` を作るには、`table_create` コマンドにあたるGETリクエストを送信して下さい:
 
     # endpoint="http://192.168.0.10:10041/d"
     # curl "${endpoint}/table_create?name=Store&type=Hash&key_type=ShortText"
     [[0,1398662266.3853862,0.08530688285827637],true]
 
-Note that you have to specify the host, one of Droonga nodes with active droonga-http-server, in your Droonga cluster.
-In other words, you can use any favorite node in the cluster as an endpoint.
-All requests will be distributed to suitable nodes in the cluster.
+リクエストの送信先として、Droongaノード中でdroonga-http-serverが動作しているDroongaノードのどれか1つを指定する必要がある事に注意して下さい。
+言い換えると、接続先（エンドポイント）としてはクラスタ中のどのノードでも好きな物を使う事ができます。
+すべてのリクエストは、クラスタ中の適切なノードに配送されます。
 
-OK, now the table has been created successfully.
-Let's see it by the `table_list` command:
+さて、テーブルを正しく作成できました。
+`table_list` コマンドを使って、作成されたテーブルの情報を見てみましょう:
 
     # curl "${endpoint}/table_list"
     [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
 
-Because it is a cluster, another endpoint returns same result.
+Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
     # curl "http://192.168.0.11:10041/d/table_list"
     [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
 
-### Create a column
+### カラムの作成
 
 Next, create a new column `location` to the `Store` table by the `column_create` command, like:
 
