@@ -35,7 +35,7 @@ msgstr "## 前提条件"
 
 msgid ""
 "* You must have an existing [Droonga][] cluster with some data.\n"
-"  Please complete [the \"getting started\" tutorial](../groonga/) before this.\n"
+"  Please complete the [\"getting started\" tutorial](../groonga/) before this.\n"
 "* Your `catalog.json` must have the dataset `Default`.\n"
 "  Otherwise, you must change the name of the dataset, like:"
 msgstr ""

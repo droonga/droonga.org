@@ -13,7 +13,7 @@ Learning steps to backup and restore data by your hand.
 ## Precondition
 
 * You must have an existing [Droonga][] cluster with some data.
-  Please complete [the "getting started" tutorial](../groonga/) before this.
+  Please complete the ["getting started" tutorial](../groonga/) before this.
 * Your `catalog.json` must have the dataset `Default`.
   Otherwise, you must change the name of the dataset, like:
 
