@@ -91,9 +91,9 @@ Then there are two Droonga clusters on this time.
    Let's give a name *"beta"* to it, for now.
    * `192.168.0.12`
 
-### Stop inpouring of "write" requests
+### Suspend inpouring of "write" requests
 
-Before starting  duplication of data, you must stop inpouring of "write" requests to the cluster alpha, because we have to synchronize data in clusters alpha and beta completely.
+Before starting  duplication of data, you must suspend inpouring of "write" requests to the cluster alpha, because we have to synchronize data in clusters alpha and beta completely.
 Otherwise, the new added replica node will contain incomplete data.
 Because data in replicas will be inconsistent, results for any request to the cluster become unstable.
 
@@ -212,9 +212,14 @@ Then there are just one Droonga clusters on this time.
 Note that the old cluster named "alpha" is gone.
 Now the new cluster "charlie" with three replicas works perfectly, instead of the old one with two replicas.
 
-### Restart inpouring of "write" requests
+### Resume inpouring of "write" requests
 
-TBD
+OK, it's the time.
+Because all replica nodes are completely synchronized, the cluster now can process any request stably.
+Resume inpouring of requests which can modify the data in the cluster - cronjobs, crawlers, buffers, and so on.
+
+With that, a new replica node has joined to your Droonga cluster successfully.
+
 
 ## Replace a broken replica node in a cluster with a new node
 
