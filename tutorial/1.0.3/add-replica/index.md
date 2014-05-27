@@ -41,7 +41,7 @@ You can add a new replica, in the backstage, without downing your service.
 On the other hand, you have to stop inpouring of new data to the cluster until the new node starts working.
 (In the future we'll provide mechanism to add new nodes completely silently without any stopping of data-flow, but currently can't.)
 
-Assume that there is a Droonga cluster constructed with two replica nodes `192.168.0.10` amd `192.168.0.11`, and we are going to add a new replica node `192.168.0.12`.
+Assume that there is a Droonga cluster constructed with two replica nodes `192.168.0.10` and `192.168.0.11`, and we are going to add a new replica node `192.168.0.12`.
 
 ### Setup a new node
 
@@ -142,20 +142,7 @@ Re-generate the `catalog.json` on the newly joining node `192.168.0.12`, with al
     # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11,192.168.0.12 \
                                       --output=~/droonga/catalog.json
 
-And restart servers on the new node:
-
-    (on 192.168.0.12)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
-    # host=192.168.0.12
-    # droonga-engine --host=$host \
-                     --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
+The server process detects new `catalog.json` and restats itself automatically.
 
 Then there are two Droonga clusters on this time.
 
@@ -172,35 +159,13 @@ Note that the temporary cluster named "beta" is gone.
 And, the new node `192.168.0.12` knows the cluster charlie includes three nodes, other two existing nodes don't know that.
 Because both two existing nodes think that there are only them in the cluster they belong to, any incoming request to them never delivered to the new replica `192.168.0.12` yet.
 
-Next, copy new `catalog.json` from `192.168.0.12` to others and restart servers:
+Next, copy new `catalog.json` from `192.168.0.12` to others.
 
-    (on 192.168.0.10)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
-    # scp 192.168.0.12:~/droonga/catalog.json ~/droonga/
-    # host=192.168.0.10
-    # droonga-engine --host=$host \
-                     --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
+    (on 192.168.0.12)
+    # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
+    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
 
-    (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
-    # scp 192.168.0.12:~/droonga/catalog.json ~/droonga/
-    # host=192.168.0.11
-    # droonga-engine --host=$host \
-                     --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
+Servers detect new `catalog.json` and restart themselves automatically.
 
 Then there are just one Droonga clusters on this time.
 
