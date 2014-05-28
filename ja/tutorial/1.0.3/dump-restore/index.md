@@ -111,13 +111,13 @@ layout: ja
 
 以下の点に注意して下さい:
 
- * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
- * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
-   It is used by the Droonga cluster, to send messages.
- * The result includes complete commands to construct a dataset, same to the source.
+ * `--host` オプションには、クラスタ内のいずれかのノードの正しいホスト名またはIPアドレスを指定します。
+ * `--receiver-host` オプションには、今操作しているコンピュータ自身の正しいホスト名またはIPアドレスを指定します。
+   この情報は、Droongaクラスタがメッセージを送り返すために使われます。
+ * コマンドの実行結果は、ダンプ出力元と同じ内容のデータセットを構築するのに必要なすべての情報を含んでいます。
 
-The result is printed to the standard output.
-To save it as a JSONs file, you'll use a redirection like:
+実行結果は標準出力に出力されます。
+結果をJSONs形式のファイルに保存する場合は、リダイレクトを使って以下のようにして下さい:
 
     # drndump --host=192.168.0.10 \
               --receiver-host=192.168.0.12 \
@@ -128,24 +128,24 @@ To save it as a JSONs file, you'll use a redirection like:
 
 ### `droonga-client`のインストール
 
-The result of `drndump` command is a list of Droonga messages.
+`drndump` コマンドの実行結果は、Droonga用のメッセージの一覧です。
 
-You need to use `droonga-request` command to send it to your Droogna cluster.
-Install the command included in the package `droonga-client`, via rubygems:
+Droongaクラスタにそれらのメッセージを送信するには、`droonga-request` コマンドを使います。
+このコマンドを含んでいるGemパッケージ `droonga-client` をインストールして下さい:
 
     # gem install droonga-client
 
-After that, establish that the `droonga-request` command has been installed successfully:
+`droonga-request` コマンドが正しくインストールされた事を確認しましょう:
 
     # droonga-request --version
     droonga-request 0.1.7
 
 ### ダンプ結果から空のDroongaクラスタへデータを復元する
 
-Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
-You just have to pour the contents of the dump file to an empty cluster, by the `droonga-request` command.
+`drndump` の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
+やり方は単純で、単にダンプファイルを `droonga-request` コマンドを使ってからのクラスタに流し込むだけです。
 
-For example, if your cluster is empty and constructed from two nodes `192.168.0.10` and `192.168.0.11`, now your are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons` in the current directory, then the command line is:
+例えば、2つのノード `192.168.0.10` と `192.168.0.11` からなる空のクラスタがあり、今 `192.168.0.12` にログインして操作を行っていて、ダンプファイルが `dump.jsons` という名前で手元にあるのであれば、実行するコマンドはこのようになります:
 
 ~~~
 # droonga-request --host=192.168.0.10 \
@@ -184,20 +184,20 @@ Elapsed time: 0.008678467
 
 以下の点に注意して下さい:
 
- * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
- * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
-   It is used by the Droonga cluster, to send response messages.
+ * `--host` オプションには、クラスタ内のいずれかのノードの正しいホスト名またはIPアドレスを指定します。
+ * `--receiver-host` オプションには、今操作しているコンピュータ自身の正しいホスト名またはIPアドレスを指定します。
+   この情報は、Droongaクラスタがメッセージを送り返すために使われます。
 
 
 ### Droongaクラスタから別の空のDroongaクラスタへデータを複製する
 
-If you have multiple Droonga clusters, then you can duplicate one to another with `drndump` and `droonga-request` commands.
+複数のDroongaクラスタが存在する時に、`drndump` と `droonga-request` の2つのコマンドを併用すると、片方のクラスタの内容をもう片方に複製する事ができます。
 
-The command `drndump` reports its result to the standard output.
-On the other hand, `droonga-request` can receive messages from the standard input.
-So, you just connect them with a pipe, to duplicate contents of a cluster to another.
+`drndump` コマンドは結果を標準出力に出力します。
+その一方で、`droonga-request` コマンドは標準入力からメッセージを受け取る事ができます。
+ですので、これらをパイプで繋げるだけで、片方のクラスタの内容をもう片方に複製できます。
 
-For example, if there are two clusters: the source has two nodes `192.168.0.10` and `192.168.0.11`, the destination has two nodes `192.168.0.20` and `192.168.0.21`, and now your are logged in to the host `192.168.0.12`, then the command line is:
+例えば、複製元として2つのノード `192.168.0.10` と `192.168.0.11` からなるクラスタ、複製先として2つのノード `192.168.0.20` と `192.168.0.21` からなる空のクラスタがあり、今 `192.168.0.12` にログインして操作を行っているのであれば、実行するコマンドはこのようになります:
 
 ~~~
 # drndump --host=192.168.0.10 \
