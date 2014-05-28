@@ -25,8 +25,8 @@ layout: ja
 
 ### HTTP {#api-types-http}
 
-Request endpoint
-: `(Document Root)/d/table_create`
+リクエスト先
+: `(ドキュメントルート)/d/table_create`
 
 リクエストメソッド
 : `GET`

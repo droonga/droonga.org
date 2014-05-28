@@ -1,6 +1,6 @@
 ---
 title: table_remove
-layout: en
+layout: ja
 ---
 
 {% comment %}
@@ -25,8 +25,8 @@ layout: en
 
 ### HTTP {#api-types-http}
 
-Request endpoint
-: `(Document Root)/d/table_remove`
+リクエスト先
+: `(ドキュメントルート)/d/table_remove`
 
 リクエストメソッド
 : `GET`

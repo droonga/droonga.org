@@ -25,8 +25,8 @@ layout: ja
 
 ### HTTP {#api-types-http}
 
-Request endpoint
-: `(Document Root)/d/select`
+リクエスト先
+: `(ドキュメントルート)/d/select`
 
 リクエストメソッド
 : `GET`
