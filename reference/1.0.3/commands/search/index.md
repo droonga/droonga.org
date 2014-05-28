@@ -72,7 +72,7 @@ This is a simple example to output all records of the Person table:
             "source" : "Person",
             "output" : {
               "elements"   : ["count", "records"],
-              "attributes" : ["_key", "name", "age", "sex", "job", "note"],
+              "attributes" : ["_key", "*"],
               "limit"      : -1
             }
           }
@@ -110,7 +110,7 @@ Why the command above returns all informations of the table? Because:
  * There is no search condition. This command matches all records in the specified table, if no condition is specified.
  * [`output`](#query-output)'s `elements` contains `records` (and `count`) column(s). The parameter `elements` controls the returned information. Matched records are returned as `records`, the total number of matched records are returned as `count`.
  * [`output`](#query-output)'s `limit` is `-1`. The parameter `limit` controls the number of returned records, and `-1` means "return all records".
- * [`output`](#query-output)'s `attributes` contains all columns of the Person table. The parameter `attributes` controls which columns' value are returned.
+ * [`output`](#query-output)'s `attributes` contains two values `"_key"` and `"*"`. They mean "all columns of the Person table, including the `_key`" and it equals to `["_key", "name", "age", "sex", "job", "note"]` in this case. The parameter `attributes` controls which columns' value are returned.
 
 
 #### Search conditions {#usage-condition}

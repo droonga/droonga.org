@@ -82,7 +82,7 @@ Personテーブル（主キーあり）:
             "source" : "Person",
             "output" : {
               "elements"   : ["count", "records"],
-              "attributes" : ["_key", "name", "age", "sex", "job", "note"],
+              "attributes" : ["_key", "*"],
               "limit"      : -1
             }
           }
@@ -120,7 +120,7 @@ Personテーブル（主キーあり）:
  * 検索条件を何も指定していないため。検索条件を指定しないとすべてのレコードがマッチします。
  * [`output`](#query-output) の `elements` パラメータに `records` （および `count`）が指定されているため。 `elements` は結果に出力する情報を制御します。マッチしたレコードの情報は `records` に、マッチしたレコードの総数は `count` に出力されます。
  * [`output`](#query-output) の `limit` パラメータに `-1` が指定されているため。 `limit` は出力するレコードの最大数の指定ですが、 `-1` を指定するとすべてのレコードが出力されます。
- * [`output`](#query-output) の `attributes` パラメータに Person テーブルのすべてのカラムの名前が列挙されているため。 `attributes` は個々のレコードに出力するカラムを制御します。
+ * [`output`](#query-output) の `attributes` パラメータに `"_key"` と `"*"` の2つが指定されているため（これは「`_key` を含む Person テーブルのすべてのカラムを出力する」という指定で、`["_key", "name", "age", "sex", "job", "note"]` と書くのに等しいです）。 `attributes` は個々のレコードに出力するカラムを制御します。
 
 
 #### 検索条件 {#usage-condition}
