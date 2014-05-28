@@ -262,14 +262,14 @@ stores.json:
 試しに、`select` コマンドを使って最初の10レコードを取り出してみましょう:
 
     # curl "${endpoint}/select?table=Store&output_columns=_key&limit=10"
-    [[0,1398666260.887927,0.000017404556274414062],[[[40],[["_key","ShortText"]],[["1st Avenue & 75th St. - New York NY  (W)"],["2nd Ave. & 9th Street - New York NY"],["76th & Second - New York NY  (W)"],["15th & Third - New York NY  (W)"],["41st and Broadway - New York NY  (W)"],["West 43rd and Broadway - New York NY  (W)"],["84th & Third Ave - New York NY  (W)"],["150 E. 42nd Street - New York NY  (W)"],["Macy's 35th Street Balcony - New York NY"],["Herald Square- Macy's - New York NY"]]]]]
+    [[0,1398666260.887927,0.000017404556274414062],[[[40],[["_key","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["2nd Ave. & 9th Street - New York NY"],["76th & Second - New York NY  (W)"],["15th & Third - New York NY  (W)"],["41st and Broadway - New York NY  (W)"],["West 43rd and Broadway - New York NY  (W)"],["84th & Third Ave - New York NY  (W)"],["150 E. 42nd Street - New York NY  (W)"],["Macy's 35th Street Balcony - New York NY"],["Herald Square- Macy's - New York NY"]]]]
 
 もちろん、`query` オプションを使って検索条件を指定する事もできます:
 
     # curl "${endpoint}/select?table=Store&query=Columbus&match_columns=_key&output_columns=_key&limit=10"
-    [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],[["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
+    [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]
     # curl "${endpoint}/select?table=Store&filter=_key@'Ave'&output_columns=_key&limit=10"
-    [[0,1398670586.193325,0.0003848075866699219],[[[3],[["_key","ShortText"]],[["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]]
+    [[0,1398670586.193325,0.0003848075866699219],[[[3],[["_key","ShortText"]],["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]
 
 
 ## まとめ
