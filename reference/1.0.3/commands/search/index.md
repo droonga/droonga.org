@@ -980,7 +980,6 @@ An output definition is given as a hash like:
   
    1. An array of column definitions.
    2. A hash of column definitions.
-   3. A special pattern: `["*"]`. This exports all columns, as is.
   
   Each column can be defined in one of following styles:
   
@@ -1018,6 +1017,12 @@ An output definition is given as a hash like:
         "age",
         { "label" : "realName", "source" : "name" }
       ]
+  
+  In this case, you can use a special column name `"*"` which means "all columns except `_key`":
+  
+    * `["*"]` exports all columns except `_key`, as is.
+    * `["_key", "*"]` exports exports all columns as is, with preceding `_key`.
+    * `["*", "_key"]` exports exports all columns as is, with following `_key`.
   
   A hash of column definitions can contain any type definition described above except `label` of hashes, because keys of the hash means `label` of each column, like:
   
