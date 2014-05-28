@@ -105,12 +105,34 @@ layout: ja
 
 すべてのパラメータの意味は[Groonga の `select` コマンドの引数](http://groonga.org/ja/docs/reference/commands/select.html#parameters)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
-
-
 ## レスポンス {#response}
 
 このコマンドは、レスポンスの `body` として検索結果の配列を返却します。
 
+    [
+      [
+        <Groonga's status code>,
+        <Start time>,
+        <Elapsed time>
+      ],
+      <List of columns>
+    ]
+
 検索結果の配列の構造は[Groonga の `select` コマンドの返り値](http://groonga.org/ja/docs/reference/commands/select.html#id6)と共通です。詳細はGroongaのコマンドリファレンスを参照して下さい。
 
 このコマンドはレスポンスの `statusCode` として常に `200` を返します。これは、Groonga互換コマンドのエラー情報はGroongaのそれと同じ形で処理される必要があるためです。
+
+レスポンスの `body` の詳細：
+
+ステータスコード
+: コマンドが正常に受け付けられたかどうかを示す整数値です。以下のいずれかの値をとります。
+  
+   * `0` (`Droonga::GroongaHandler::Status::SUCCESS`) : 正常に処理された。.
+   * `-22` (`Droonga::GroongaHandler::Status::INVALID_ARGUMENT`) : 引数が不正である。
+
+開始時刻
+: 処理を開始した時刻を示す数値（UNIX秒）。
+
+処理に要した時間
+: 処理を開始してから完了までの間にかかった時間を示す数値。
+
