@@ -190,19 +190,19 @@ cronjobを有効化する、クローラの動作を再開する、バッファ�
 以上で、Droongaクラスタに新しいreplicaノードを無事参加させる事ができました。
 
 
-## Remove an existing replica node from an existing cluster
+## 既存のクラスタからreplicaノードを削除する
 
-A Droonga node can die by various fatal reasons - for example, OOM killer, disk-full error, troubles around its hardware, etc.
-Because nodes in a Droonga cluster observe each other and they stop delivering messages to dead nodes automatically, the cluster keeps working even if there are some dead nodes.
-Then you have to remove dead nodes from the cluster.
+Droongaノードは、メモリ不足、ディスク容量不足、ハードウェア障害など、様々な致命的な理由によって動作しなくなり得ます。
+Droongaクラスタ内のノードは互いに監視しあっており、動作しなくなったノードに対してはメッセージの配送を自動的に停止して、動作しないノードがあってもクラスタ全体としては動作し続けるようになっています。
+このような時には、動作していないノードを取り除く必要があります。
 
-Of course, even if a node is still working, you may plan to remove it to reuse for another purpose.
+もちろん、他の目的に転用したいといった理由から、正常動作中のノードを取り除きたいと考える場合もあるでしょう。
 
-Assume that there is a Droonga cluster constructed with trhee replica nodes `192.168.0.10`, `192.168.0.11` and `192.168.0.12`, and planning to remove the last node `192.168.0.12` from the cluster.
+ここでは、`192.168.0.10`、`192.168.0.11`、および `192.168.0.12` の3つのreplicaノードからなるDroongaクラスタが存在していて、最後のノード `192.168.0.12` をクラスタから取り除こうとしていると仮定します。
 
-### Unjoin an existing replica from the cluster
+### 既存のreplicaをクラスタから分離する
 
-To remove a replica from an existing cluster, you just have to update the "catalog.json" with new list of replica nodes except the node to be removed:
+既存のクラスタからreplicaノードを取り除くには、単に、そのノードを含まないreplicaノードのリストを伴って`catalog.json` を更新するだけでよいです:
 
     (on 192.168.0.10)
     # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
@@ -210,61 +210,60 @@ To remove a replica from an existing cluster, you just have to update the "catal
 
 この時点で、理論上、部分的に重なり合う2つのDroongaクラスタが存在するようになりました。
 
- * The existing cluster "charlie" including three replicas.
+ * 3つのreplicaを含む既存のクラスタ「charlie」。
    * `192.168.0.10`
    * `192.168.0.11`
    * `192.168.0.12`
- * The new cluster including two replicas.
-   Let's give a name *"delta"* to it, for now.
+ * 2つのreplicaを含む新しいクラスタ。以下、*「delta」*と仮称します。
    * `192.168.0.10`
    * `192.168.0.11`
 
-The node `192.168.0.10` with new `catalog.json` knows the cluster delta includes only two nodes, so it doesn't deliver incoming messages to the missing node `192.168.0.12` anymore.
+新しい `catalog.json` を持つノード `192.168.0.10` は、クラスタ delta が2つしかノードを含んでいない事を知っています。ですので、流入してくるメッセージは、既に存在しないノード `192.168.0.12` へは配送されません。
 
-Next, copy new `catalog.json` from `192.168.0.10` to others.
+次に、新しい `catalog.json` を `192.168.0.10` から他のノードへコピーします。
 
     (on 192.168.0.10)
     # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
     # scp ~/droonga/catalog.json 192.168.0.12:~/droonga/
 
-Then there is only one Droonga cluster on this time.
+この時点で、Droongaクラスタは1つだけ存在する状態となっています。
 
  * The new cluster "delta" including two replicas.
    * `192.168.0.10`
    * `192.168.0.11`
 
-Even if both nodes `192.168.0.11` and `192.168.0.12` receive requests, they are delivered to the nodes of the cluster delta.
-The orphan node `192.168.0.12` never process requests by self.
+`192.168.0.11` と `192.168.0.12` の両方がそれぞれリクエストを受け取ったとしても、それらのノードはリクエストをクラスタ delta 内のノードに対してのみ配送します。
+取り残されたノード `192.168.0.12` へは、自分自身すらもリクエストを配送しません。
 
-OK, the node is ready to be removed.
-Stop servers and shutdown it if needed.
+これで、ノードを取り除く準備ができました。
+必要に応じて、サービスを停止させ、コンピュータを停止させましょう。
 
     (on 192.168.0.12)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
 
-## Replace an existing replica node in a cluster with a new one
+## クラスタ内の既存のreplicaノードを新しいreplicaノードで置き換える
 
-Replacing of nodes is a combination of those instructions above.
+ノードの置き換えは、上記の手順の組み合わせで行います。
 
-Assume that there is a Droonga cluster constructed with two replica nodes `192.168.0.10` and `192.168.0.11`, the node `192.168.0.11` is unstable, and planning to replace it with a new node `192.168.0.12`.
+`192.168.0.10` と `192.168.0.11` の2つのノードからなるDroongaクラスタがあり、ノード `192.168.0.11` の動作が不安定になっていて、これを新しいノード `192.168.0.12` で置き換えようとしていると仮定します。
 
-### Unjoin an existing replica from the cluster
+### 既存のreplicaをクラスタから分離する
 
-First, remove the unstable node.
-Re-generate `catalog.json` without the node to be removed, and spread it to other nodes in the cluster:
+まず、不安定になっているノードを取り除きます。
+取り除かれるノードを含まないように `catalog.json` を再作成して、クラスタ内の各ノードに展開します:
 
     (on 192.168.0.10)
     # droonga-engine-catalog-generate --hosts=192.168.0.10 \
                                       --output=~/droonga/catalog.json
     # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
 
-After that the node `192.168.0.11` unjoins from the cluster successfully.
+これで、ノード `192.168.0.11` がクラスタから無事に分離します。
 
-### Add a new replica
+### 新しいreplicaを追加する
 
-Next, setup the new replica.
-Construct a temporary cluster with only one node, and duplicate data from the existing cluster:
+次に、新しいreplicaをセットアップします。
+1つのノードだけを含む仮のクラスタを作り、既存クラスタから新しいクラスタへデータを複製します:
 
     (on 192.168.0.12)
     # droonga-engine-catalog-generate --hosts=192.168.0.12 \
@@ -274,21 +273,21 @@ Construct a temporary cluster with only one node, and duplicate data from the ex
         droonga-request --host=192.168.0.12 \
                         --receiver-host=192.168.0.12
 
-After the duplication successfully finished, the node is ready to join the cluster.
-Re-generate `catalog.json` and spread it to all nodes in the cluster:
+データの複製が完了したら、ノードをクラスタに参加させる準備は完了です。
+`catalog.json` を再作成し、クラスタ内のすべてのノードにそれを複製します:
 
     (on 192.168.0.12)
     # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.12 \
                                       --output=~/droonga/catalog.json
     # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
 
-Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.168.0.12` is here.
+最終的に、`192.168.0.10` と `192.168.0.12` の2つのノードからなるDroongaクラスタができあがりました。
 
 
 ## まとめ
 
-In this tutorial, you did add a new replica node to an existing [Droonga][] cluster.
-Moreover, you did remove an existing replica, and did replace a replica with a new one.
+このチュートリアルでは、既存の[Droonga][]クラスタに新しいreplicaノードを追加する方法を学びました。
+また、既存のreplicaを取り除く方法と、既存のreplicaを新しいreplicaで置き換える方法も学びました。
 
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
