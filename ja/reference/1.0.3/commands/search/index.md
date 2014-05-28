@@ -996,8 +996,9 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 : レコードのカラムの値について、出力形式を配列で指定します。
   個々のカラムの値の出力形式は以下のいずれかで指定します。
   
-   1. カラムの定義の配列。
-   2. カラムの定義を値としたハッシュ
+   1. An array of column definitions.
+   2. A hash of column definitions.
+   3. A special pattern: `["*"]`. This exports all columns, as is.
   
   各カラムは以下の形式のいずれかで指定します。
   

@@ -980,6 +980,7 @@ An output definition is given as a hash like:
   
    1. An array of column definitions.
    2. A hash of column definitions.
+   3. A special pattern: `["*"]`. This exports all columns, as is.
   
   Each column can be defined in one of following styles:
   
