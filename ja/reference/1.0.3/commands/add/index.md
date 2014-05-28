@@ -19,9 +19,9 @@ layout: ja
 
 `add` は、テーブルにレコードを登録します。対象のテーブルが主キーを持っており、同じキーのレコードが既に存在している場合には、既存レコードのカラムの値を更新します。
 
-## プロトコル {#protocols}
+## APIの形式 {#api-types}
 
-### HTTP {#protocols-http}
+### HTTP {#api-types-http}
 
 リクエスト先
 : `(ドキュメントルート)/droonga/add`
@@ -38,11 +38,11 @@ layout: ja
 レスポンスのbody
 : [レスポンスメッセージ](#response)。
 
-### REST {#protocols-rest}
+### REST {#api-types-rest}
 
 対応していません。
 
-### Fluentd {#protocols-fluentd}
+### Fluentd {#api-types-fluentd}
 
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。

@@ -35,10 +35,10 @@ msgstr ""
 "`add` は、テーブルにレコードを登録します。対象のテーブルが主キーを持っており、同じキーのレコードが既に存在している場合には、既存レコードのカラムの値を"
 "更新します。"
 
-msgid "## Protocols {#protocols}"
-msgstr "## プロトコル {#protocols}"
+msgid "## API types {#api-types}"
+msgstr "## APIの形式 {#api-types}"
 
-msgid "### HTTP {#protocols-http}"
+msgid "### HTTP {#api-types-http}"
 msgstr ""
 
 msgid ""
@@ -76,13 +76,13 @@ msgstr ""
 "レスポンスのbody\n"
 ": [レスポンスメッセージ](#response)。"
 
-msgid "### REST {#protocols-rest}"
+msgid "### REST {#api-types-rest}"
 msgstr ""
 
 msgid "Not supported."
 msgstr "対応していません。"
 
-msgid "### Fluentd {#protocols-fluentd}"
+msgid "### Fluentd {#api-types-fluentd}"
 msgstr ""
 
 msgid ""

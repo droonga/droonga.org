@@ -12,9 +12,9 @@ The `search` command finds records from the specified table based on given condi
 
 This is designed as the most basic (low layer) command on Droonga, to search information from a database. When you want to add a new plugin including "search" feature, you should develop it as just a wrapper of this command, instead of developing something based on more low level technologies.
 
-## Protocols {#protocols}
+## API types {#api-types}
 
-### HTTP {#protocols-http}
+### HTTP {#api-types-http}
 
 Request endpoint
 : `(Document Root)/droonga/search`
@@ -31,7 +31,7 @@ Request body
 Response body
 : A [response message](#response).
 
-### REST {#protocols-rest}
+### REST {#api-types-rest}
 
 Request endpoint
 : `(Document Root)/tables/(table name)`
@@ -73,7 +73,7 @@ Request body
 Response body
 : A [response message](#response).
 
-### Fluentd {#protocols-fluentd}
+### Fluentd {#api-types-fluentd}
 
 Style
 : Request-Response. One response message is always returned per one request.

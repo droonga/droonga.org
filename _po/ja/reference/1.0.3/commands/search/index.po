@@ -41,10 +41,10 @@ msgstr ""
 "これは、Droonga において検索機能を提供する最も低レベルのコマンドです。\n"
 "検索用のコマンドをプラグインとして実装する際は、内部的にこのコマンドを使用して検索を行うという用途が想定されます。"
 
-msgid "## Protocols {#protocols}"
-msgstr "## プロトコル {#protocols}"
+msgid "## API types {#api-types}"
+msgstr "## APIの形式 {#api-types}"
 
-msgid "### HTTP {#protocols-http}"
+msgid "### HTTP {#api-types-http}"
 msgstr ""
 
 msgid ""
@@ -82,7 +82,7 @@ msgstr ""
 "レスポンスのbody\n"
 ": [レスポンスメッセージ](#response)。"
 
-msgid "### REST {#protocols-rest}"
+msgid "### REST {#api-types-rest}"
 msgstr ""
 
 msgid ""
@@ -175,7 +175,7 @@ msgstr ""
 "リクエストのbody\n"
 ": なし。"
 
-msgid "### Fluentd {#protocols-fluentd}"
+msgid "### Fluentd {#api-types-fluentd}"
 msgstr ""
 
 msgid ""

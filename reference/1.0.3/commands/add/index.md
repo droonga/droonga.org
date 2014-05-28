@@ -10,9 +10,9 @@ layout: en
 
 The `add` command adds a new record to the specified table. Column values of the existing record are updated by given values, if the table has a primary key and there is existing record with the specified key.
 
-## Protocols {#protocols}
+## API types {#api-types}
 
-### HTTP {#protocols-http}
+### HTTP {#api-types-http}
 
 Request endpoint
 : `(Document Root)/droonga/add`
@@ -29,11 +29,11 @@ Request body
 Response body
 : A [response message](#response).
 
-### REST {#protocols-rest}
+### REST {#api-types-rest}
 
 Not supported.
 
-### Fluentd {#protocols-fluentd}
+### Fluentd {#api-types-fluentd}
 
 Style
 : Request-Response. One response message is always returned per one request.

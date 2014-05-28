@@ -22,9 +22,9 @@ layout: ja
 これは、Droonga において検索機能を提供する最も低レベルのコマンドです。
 検索用のコマンドをプラグインとして実装する際は、内部的にこのコマンドを使用して検索を行うという用途が想定されます。
 
-## プロトコル {#protocols}
+## APIの形式 {#api-types}
 
-### HTTP {#protocols-http}
+### HTTP {#api-types-http}
 
 リクエスト先
 : `(ドキュメントルート)/droonga/search`
@@ -41,7 +41,7 @@ layout: ja
 レスポンスのbody
 : [レスポンスメッセージ](#response)。
 
-### REST {#protocols-rest}
+### REST {#api-types-rest}
 
 リクエスト先
 : `(ドキュメントルート)/tables/(テーブル名)`
@@ -75,7 +75,7 @@ layout: ja
 レスポンスのbody
 : [レスポンスメッセージ](#response)。
 
-### Fluentd {#protocols-fluentd}
+### Fluentd {#api-types-fluentd}
 
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
