@@ -39,6 +39,52 @@ msgstr ""
 "このコマンドは[Groonga の `select` コマンド](http://groonga.org/ja/docs/reference/commands"
 "/select.html)と互換性があります。"
 
+msgid "## API types {#api-types}"
+msgstr "## APIの形式 {#api-types}"
+
+msgid "### HTTP {#api-types-http}"
+msgstr ""
+
+msgid ""
+"Request endpoint\n"
+": `(Document Root)/d/select`"
+msgstr ""
+
+msgid ""
+"Request methd\n"
+": `GET`"
+msgstr ""
+"リクエストメソッド\n"
+": `GET`"
+
+msgid ""
+"Request URL parameters\n"
+": Same to the list of [parameters](#parameters)."
+msgstr ""
+
+msgid ""
+"Request body\n"
+": Nothing."
+msgstr ""
+"リクエストのbody\n"
+": なし。"
+
+msgid ""
+"Response body\n"
+": A [response message](#response)."
+msgstr ""
+"レスポンスのbody\n"
+": [レスポンスメッセージ](#response)。"
+
+msgid "### REST {#api-types-rest}"
+msgstr ""
+
+msgid "Not supported."
+msgstr "対応していません。"
+
+msgid "### Fluentd {#api-types-fluentd}"
+msgstr ""
+
 msgid ""
 "Style\n"
 ": Request-Response. One response message is always returned per one request."
@@ -55,10 +101,10 @@ msgstr ""
 
 msgid ""
 "`body` of the request\n"
-": A hash of parameters."
+": A hash of [parameters](#parameters)."
 msgstr ""
 "リクエストの `body`\n"
-": パラメータのハッシュ。"
+": [パラメータ](#parameters)のハッシュ。"
 
 msgid ""
 "`type` of the response\n"

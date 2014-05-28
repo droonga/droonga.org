@@ -12,6 +12,31 @@ The `table_create` command creates a new table.
 
 This is compatible to [the `table_create` command of the Groonga](http://groonga.org/docs/reference/commands/table_create.html).
 
+## API types {#api-types}
+
+### HTTP {#api-types-http}
+
+Request endpoint
+: `(Document Root)/d/table_create`
+
+Request methd
+: `GET`
+
+Request URL parameters
+: Same to the list of [parameters](#parameters).
+
+Request body
+: Nothing.
+
+Response body
+: A [response message](#response).
+
+### REST {#api-types-rest}
+
+Not supported.
+
+### Fluentd {#api-types-fluentd}
+
 Style
 : Request-Response. One response message is always returned per one request.
 
@@ -19,7 +44,7 @@ Style
 : `table_create`
 
 `body` of the request
-: A hash of parameters.
+: A hash of [parameters](#parameters).
 
 `type` of the response
 : `table_create.result`

@@ -21,6 +21,31 @@ layout: ja
 
 このコマンドは[Groonga の `column_create` コマンド](http://groonga.org/ja/docs/reference/commands/column_create.html)と互換性があります。
 
+## APIの形式 {#api-types}
+
+### HTTP {#api-types-http}
+
+リクエスト先
+: `(ドキュメントルート)/d/column_create`
+
+リクエストメソッド
+: `GET`
+
+リクエストのURLパラメータ
+: [パラメータの一覧](#parameters)で定義されている物を指定します。
+
+リクエストのbody
+: なし。
+
+レスポンスのbody
+: [レスポンスメッセージ](#response)。
+
+### REST {#api-types-rest}
+
+対応していません。
+
+### Fluentd {#api-types-fluentd}
+
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
@@ -28,7 +53,7 @@ layout: ja
 : `column_create`
 
 リクエストの `body`
-: パラメータのハッシュ。
+: [パラメータ](#parameters)のハッシュ。
 
 レスポンスの `type`
 : `column_create.result`

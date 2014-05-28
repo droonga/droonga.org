@@ -12,6 +12,31 @@ The `select` command finds records from the specified table based on given condi
 
 This is compatible to [the `select` command of the Groonga](http://groonga.org/docs/reference/commands/select.html).
 
+## API types {#api-types}
+
+### HTTP {#api-types-http}
+
+Request endpoint
+: `(Document Root)/d/select`
+
+Request methd
+: `GET`
+
+Request URL parameters
+: Same to the list of [parameters](#parameters).
+
+Request body
+: Nothing.
+
+Response body
+: A [response message](#response).
+
+### REST {#api-types-rest}
+
+Not supported.
+
+### Fluentd {#api-types-fluentd}
+
 Style
 : Request-Response. One response message is always returned per one request.
 
@@ -19,7 +44,7 @@ Style
 : `select`
 
 `body` of the request
-: A hash of parameters.
+: A hash of [parameters](#parameters).
 
 `type` of the response
 : `select.result`

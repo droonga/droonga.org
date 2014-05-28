@@ -21,6 +21,31 @@ layout: en
 
 このコマンドは[Groonga の `table_remove` コマンド](http://groonga.org/ja/docs/reference/commands/table_remove.html)と互換性があります。
 
+## APIの形式 {#api-types}
+
+### HTTP {#api-types-http}
+
+Request endpoint
+: `(Document Root)/d/table_remove`
+
+リクエストメソッド
+: `GET`
+
+リクエストのURLパラメータ
+: [パラメータの一覧](#parameters)で定義されている物を指定します。
+
+リクエストのbody
+: なし。
+
+レスポンスのbody
+: [レスポンスメッセージ](#response)。
+
+### REST {#api-types-rest}
+
+対応していません。
+
+### Fluentd {#api-types-fluentd}
+
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
@@ -28,7 +53,7 @@ layout: en
 : `table_remove`
 
 リクエストの `body`
-: パラメータのハッシュ。
+: [パラメータ](#parameters)のハッシュ。
 
 レスポンスの `type`
 : `table_remove.result`

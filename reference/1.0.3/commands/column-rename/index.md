@@ -12,6 +12,31 @@ The `column_rename` command renames an existing column in a table.
 
 This is compatible to [the `column_rename` command of the Groonga](http://groonga.org/docs/reference/commands/column_rename.html).
 
+## API types {#api-types}
+
+### HTTP {#api-types-http}
+
+Request endpoint
+: `(Document Root)/d/column_rename`
+
+Request methd
+: `GET`
+
+Request URL parameters
+: Same to the list of [parameters](#parameters).
+
+Request body
+: Nothing.
+
+Response body
+: A [response message](#response).
+
+### REST {#api-types-rest}
+
+Not supported.
+
+### Fluentd {#api-types-fluentd}
+
 Style
 : Request-Response. One response message is always returned per one request.
 
@@ -19,7 +44,7 @@ Style
 : `column_rename`
 
 `body` of the request
-: A hash of parameters.
+: A hash of [parameters](#parameters).
 
 `type` of the response
 : `column_rename.result`

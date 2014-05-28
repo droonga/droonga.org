@@ -12,6 +12,31 @@ The `column_remove` command removes an existing column in a table.
 
 This is compatible to [the `column_remove` command of the Groonga](http://groonga.org/docs/reference/commands/column_remove.html).
 
+## API types {#api-types}
+
+### HTTP {#api-types-http}
+
+Request endpoint
+: `(Document Root)/d/column_remove`
+
+Request methd
+: `GET`
+
+Request URL parameters
+: Same to the list of [parameters](#parameters).
+
+Request body
+: Nothing.
+
+Response body
+: A [response message](#response).
+
+### REST {#api-types-rest}
+
+Not supported.
+
+### Fluentd {#api-types-fluentd}
+
 Style
 : Request-Response. One response message is always returned per one request.
 
@@ -19,7 +44,7 @@ Style
 : `column_remove`
 
 `body` of the request
-: A hash of parameters.
+: A hash of [parameters](#parameters).
 
 `type` of the response
 : `column_remove.result`
