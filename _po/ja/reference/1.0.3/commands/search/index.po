@@ -1802,7 +1802,7 @@ msgid ""
 "   2. A hash of column definitions."
 msgstr ""
 "   1. カラムの定義の配列。\n"
-"   2. カラムの定義のハッシュ。"
+"   2. カラムの定義を値としたハッシュ。"
 
 msgid "  Each column can be defined in one of following styles:"
 msgstr "  各カラムは以下の形式のいずれかで指定します。"
