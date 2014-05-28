@@ -1018,11 +1018,11 @@ An output definition is given as a hash like:
         { "label" : "realName", "source" : "name" }
       ]
   
-  In this case, you can use a special column name `"*"` which means "all columns except `_key`":
+  In this case, you can use a special column name `"*"` which means "all columns except special columns like `_key`".
   
-    * `["*"]` exports all columns except `_key`, as is.
+    * `["*"]` exports all columns (except `_key` and `_id`), as is.
     * `["_key", "*"]` exports exports all columns as is, with preceding `_key`.
-    * `["*", "_key"]` exports exports all columns as is, with following `_key`.
+    * `["*", "_nsubrecs"]` exports exports all columns as is, with following `_nsubrecs`.
   
   A hash of column definitions can contain any type definition described above except `label` of hashes, because keys of the hash means `label` of each column, like:
   
