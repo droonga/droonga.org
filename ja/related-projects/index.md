@@ -38,7 +38,7 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
 
 関連プロジェクト:
 
- * [droonga-client-ruby][]: Ruby用Droongaクライアントライブラリ
+ * [droonga-client-ruby][]: Ruby用Droongaクライアントライブラリ * [drndump][]: Droongaクラスタの内容をダンプ出力するコマンドラインツール
 
 ## ユーティリティ
 
@@ -62,6 +62,7 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
   [droonga-client-ruby]: https://github.com/droonga/droonga-client-ruby
+  [drndump]: https://github.com/droonga/drndump
   [drntest]: https://github.com/droonga/drntest
   [drnbench]: https://github.com/droonga/drnbench
   [grn2drn]: https://github.com/droonga/grn2drn

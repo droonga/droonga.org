@@ -30,6 +30,7 @@ Droonga client category includes libraries that provide Droonga client feature.
 Here are related projects:
 
  * [droonga-client-ruby][]: Droonga client for Ruby
+ * [drndump][]: A command line tool to dump contents of a Droonga cluster
 
 ## Utilities
 
@@ -53,6 +54,7 @@ Other category includes other related projects:
   [droonga-http-server]: https://github.com/droonga/droonga-http-server
   [Groonga]: http://groonga.org/
   [droonga-client-ruby]: https://github.com/droonga/droonga-client-ruby
+  [drndump]: https://github.com/droonga/drndump
   [drntest]: https://github.com/droonga/drntest
   [drnbench]: https://github.com/droonga/drnbench
   [grn2drn]: https://github.com/droonga/grn2drn
