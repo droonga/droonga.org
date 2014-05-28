@@ -17,7 +17,7 @@ layout: ja
 
 ## チュートリアルのゴール
 
-Learning steps to add a new replica node, remove an existing replica, and replace a replica with new one, for your existing [Droonga][] cluster.
+既存の[Droonga][]クラスタについて、新しいreplicaを追加し、既存のreplicaを削除し、および、既存のreplicaを新しいreplicaで置き換えるための手順を学ぶこと。
 
 ## 前提条件
 
@@ -26,35 +26,35 @@ Learning steps to add a new replica node, remove an existing replica, and replac
 * You must know how to duplicate data between multiple clusters.
   Please complete the ["How to backup and restore the database?" tutorial](../dump-restore/) before this.
 
-## What's "replica"?
+## 「replica」とは？
 
-There are two axes, "replica" and "slice", for Droonga nodes.
+Droongaのノードの集合には、「replica」と「slice」という2つの軸があります。
 
-All "replica" nodes have completely equal data, so they can process your requests (ex. "search") parallelly.
-You can increase the capacity of your cluster to process increasing requests, by adding new replicas.
+「replica」のノード群は、完全に同一のデータを持っており、検索などのリクエストを各ノードが並行して処理する事ができます
+新しいreplicaを追加する事によって、増加するリクエストに対して処理能力を増強することができます。
 
-On the other hand, "slice" nodes have different data, for example, one node contains data of the year 2013, another has data of 2014.
-You can increase the capacity of your cluster to store increasing data, by adding new slices.
+他方、「slice」のノード群はそれぞれ異なるデータを持ちます（例えば、あるノードは2013年のデータ、別のノードは2014年のデータ、という具合です）。
+新しいsliceを追加する事によって、増大するデータ量に対してクラスタとしての容量を拡大することができます。
 
-Currently, for a Droonga cluster which is configured as a Groonga compatible system, only replicas can be added, but slices cannot be done.
-We'll improve extensibility for slices in the future.
+現在の所、Groonga互換のシステムとして設定されたDroongaクラスタについては、replicaを追加することはできますが、sliceを追加することはできません。
+この点については将来のバージョンで改善する予定です。
 
-Anyway, this tutorial explains how to add a new replica node to an existing Droogna cluster.
-Here we go!
+ともかく、このチュートリアルでは既存のDroongaクラスタに新しいreplicaを追加する手順を解説します。
+早速始めましょう。
 
-## Add a new replica node to an existing cluster
+## 既存のクラスタに新しいreplicaノードを追加する
 
-In this case you don't have to stop the cluster working, for any read-only requests like "search".
-You can add a new replica, in the backstage, without downing your service.
+このケースでは、検索のように読み取りのみを行うリクエストに対しては、クラスタの動作を止める必要はありません。
+サービスを停止することなく、その裏側でシームレスに新しいreplicaを追加することができます。
 
-On the other hand, you have to stop inpouring of new data to the cluster until the new node starts working.
-(In the future we'll provide mechanism to add new nodes completely silently without any stopping of data-flow, but currently can't.)
+その一方で、クラスタへの新しいデータの流入は、新しいノードが動作を始めるまでの間停止しておく必要があります。
+（将来的には、新しいノードを完全に無停止で追加できるようにする予定ですが、今のところはそれはできません。）
 
-Assume that there is a Droonga cluster constructed with two replica nodes `192.168.0.10` and `192.168.0.11`, and we are going to add a new replica node `192.168.0.12`.
+ここでは、`192.168.0.10` と `192.168.0.11` の2つのreplicaノードからなるDroongaクラスタがあり、新しいreplicaノードとして `192.168.0.12` を追加すると仮定します。
 
-### Setup a new node
+### 新しいノードをセットアップする
 
-First, prepare a new computer, install required softwares and configure them.
+まず、新しいコンピュータをセットアップし、必要なソフトウェアのインストールと設定を済ませます。
 
     (on 192.168.0.12)
     # apt-get update
@@ -64,20 +64,19 @@ First, prepare a new computer, install required softwares and configure them.
     # npm install -g droonga-http-server
     # mkdir ~/droonga
 
-Then, remember the command line you executed to generate `catalog.json` for your cluster.
-It was:
+ここで、以前にクラスタを構築する時に `catalog.json` を生成するために実行したコマンド列を思い出して下さい:
 
     (on 192.168.0.10 or 192.168.0.11)
     # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
                                       --output=~/droonga/catalog.json
 
-For the new node, you have to generate a `custom.json` includes only one node, with same options except the `--host` option, like:
+新しいノード用には、`--host` オプションの値以外はすべて同じ指定で、単一のノードだけを含む `catalog.json` を生成します:
 
     (on 192.168.0.12)
     # droonga-engine-catalog-generate --hosts=192.168.0.12 \
                                       --output=~/droonga/catalog.json
 
-Let's start the server.
+では、サーバを起動しましょう。
 
     (on 192.168.0.12)
     # host=192.168.0.12
@@ -90,24 +89,21 @@ Let's start the server.
                           --daemon \
                           --pid-file=~/droonga/droonga-http-server.pid
 
-Then there are two separate Droonga clusters on this time.
+この時点で、2つの別々のDroongaクラスタが存在するようになりました。
 
- * The existing cluster including two replicas.
-   Let's give a name *"alpha"* to it, for now.
+ * 2つのreplicaを含む既存のクラスタ。以下、*「alpha」*と仮称します。
    * `192.168.0.10`
    * `192.168.0.11`
- * The new cluster including just one replica.
-   Let's give a name *"beta"* to it, for now.
+ * 1つのreplicaを含む新しいクラスタ。以下、*「beta」*と仮称します。
    * `192.168.0.12`
 
-### Suspend inpouring of "write" requests
+### 書き込みを伴うリクエストの流入を一時的に停止する
 
-Before starting  duplication of data, you must suspend inpouring of "write" requests to the cluster alpha, because we have to synchronize data in clusters alpha and beta completely.
-Otherwise, the new added replica node will contain incomplete data.
-Because data in replicas will be inconsistent, results for any request to the cluster become unstable.
+クラスタ alpha とクラスタ beta のデータを完全に同期する必要があるので、データの複製を始める前に、クラスタ alphaへのデータの書き込みを行うリクエストの流入を一時停止する必要があります。
+そうしないと、新しく追加したreplicaが中途半端なデータしか持たない状態となってしまいます。
+replica同士の内容に矛盾があると、リクエストに対してクラスタが返す処理結果が不安定になります。
 
-What's "write" request?
-In particular, these commands modify data in the cluster:
+データの書き込みを伴うリクエストとは、具体的には、クラスタ内のデータを変更する以下のコマンドです:
 
  * `add`
  * `column_create`
@@ -117,15 +113,15 @@ In particular, these commands modify data in the cluster:
  * `table_create`
  * `table_remove`
 
-If you load new data via the `load` command triggered by a batch script started as a cronjob, disable the job.
-If a crawler agent adds new data via the `add` command, stop it.
-If you put a fluentd as a buffer between crawler or loader and the cluster, stop outgoing messages from the buffer. 
+cronjobとして実行されるバッチスクリプトによって `load` コマンド経由で新しいデータを投入している場合は、cronjobを停止して下さい。
+クローラが `add` コマンド経由で新しいデータを投入している場合は、クローラを停止して下さい。
+あるいは、クローラやローダーとクラスタの間にFluentdを置いてバッファとして利用しているのであれば、バッファからのメッセージ出力を停止して下さい。 
 
-### Duplicate data from the existing cluster to the new replica
+### 既存のクラスタから新しいreplicaへデータを複製する
 
-Duplicate data from the cluster alpha to the cluster beta.
-It can be done by `drndump` and `droonga-request` commands.
-(You have to install `drndump` and `droonga-client` gem packages.)
+クラスタ alpha からクラスタ beta へデータを複製します。
+これは `drndump` と `droonga-request` の各コマンドを使って行います。
+（Gemパッケージ `drndump` と `droonga-client` をあらかじめインストールしておいて下さい。）
 
     (on 192.168.0.12)
     # drndump --host=192.168.0.10 \
@@ -133,8 +129,8 @@ It can be done by `drndump` and `droonga-request` commands.
         droonga-request --host=192.168.0.12 \
                         --receiver-host=192.168.0.12
 
-Note that you must specify the host name or the IP address of the machine via the `--receiver-host` option.
-If you run the command line on the node `192.168.0.11`, then:
+`--receiver-host` オプションに作業マシン自身のホスト名またはIPアドレスを指定しておく必要がある事に注意して下さい。
+ノード `192.168.0.11` の上で作業する場合であれば、コマンド列は以下の通りです:
 
     (on 192.168.0.11)
     # drndump --host=192.168.0.10 \
@@ -142,57 +138,56 @@ If you run the command line on the node `192.168.0.11`, then:
         droonga-request --host=192.168.0.12 \
                         --receiver-host=192.168.0.11
 
-### Join the new replica to the cluster
+### 新しいreplicaをクラスタに参加させる
 
-After the duplication is successfully done, join the new replica to the existing clster.
-Re-generate the `catalog.json` on the newly joining node `192.168.0.12`, with all nodes specified via the `--hosts` option, like:
+データを正しく複製できたら、新しいreplicaを既存のクラスタに参加させます。
+新たにkる明日谷参加するノード `192.168.0.12` 上で、すべてノードを `--hosts` オプションに指定して `catalog.json` を再作成してください:
 
     (on 192.168.0.12)
     # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11,192.168.0.12 \
                                       --output=~/droonga/catalog.json
 
-The server process detects new `catalog.json` and restats itself automatically.
+すると、サーバのプロセスが新しい `catalog.json` を検知して、自動的に自分自身を再起動させます。
 
-Then there are two overlapping Droonga clusters theoretically on this time.
+この時点で、理論上、部分的に重なり合う2つのDroongaクラスタが存在するようになりました。
 
- * The existing cluster "alpha", including two replicas.
+ * 2つのreplicaを含む既存のクラスタ「alpha」。
    * `192.168.0.10`
    * `192.168.0.11`
- * The new cluster including three replicas.
-   Let's give a name *"charlie"* to it, for now.
+ * 3つのreplicaを含む新しいクラスタ。以下、*「charlie」*と仮称します。
    * `192.168.0.10`
    * `192.168.0.11`
    * `192.168.0.12`
 
-Note that the temporary cluster named "beta" is gone.
-And, the new node `192.168.0.12` knows the cluster charlie includes three nodes, other two existing nodes don't know that.
-Because both two existing nodes think that there are only them in the cluster they belong to, any incoming request to them never delivered to the new replica `192.168.0.12` yet.
+「beta」と仮称した一時的なクラスタが姿を消している事に注意してください。
+この時、新しいノード `192.168.0.12` はクラスタ charlie が3つのノードを含んでいる事を知っていますが、他の2つの既存のノードはその事を知りません。
+既存の2つのノードは、自分自身が属しているクラスタ内にいるノードは2つだけだと認識しているため、流入してきたリクエストは、新しいノード `192.168.0.12` へはまだ配送されません。
 
-Next, copy new `catalog.json` from `192.168.0.12` to others.
+次に、新しい `catalog.json` を`192.168.0.12` から他のノードにコピーします。
 
     (on 192.168.0.12)
     # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
     # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
 
-Servers detect new `catalog.json` and restart themselves automatically.
+コピー先のノードのサーバが新しい `catalog.json` を認識して、自動的に再起動します。
 
-Then there are just one Droonga clusters on this time.
+この時点で、Droongaクラスタは1つだけ存在する状態となっています。
 
- * The new cluster "charlie",including three replicas.
+ * 3つのreplicaを含む新しいクラスタ「charlie」。
    * `192.168.0.10`
    * `192.168.0.11`
    * `192.168.0.12`
 
-Note that the old cluster named "alpha" is gone.
-Now the new cluster "charlie" with three replicas works perfectly, instead of the old one with two replicas.
+「alpha」と仮称した古いクラスタが姿を消している事に注意してください。
+この時、2つのreplicaからなる古いクラスタの代わりとして、新しいクラスタ「charlie」は3つのreplicaのもとで完璧に動作しています。
 
-### Resume inpouring of "write" requests
+### 書き込みを伴うリクエストの流入を再開する
 
-OK, it's the time.
-Because all replica nodes are completely synchronized, the cluster now can process any request stably.
-Resume inpouring of requests which can modify the data in the cluster - cronjobs, crawlers, buffers, and so on.
+さて、準備ができました。
+すべてのreplicaは完全に同期した状態となっているので、このクラスタはリクエストを安定して処理できます。
+cronjobを有効化する、クローラの動作を再開する、バッファからのメッセージ送出を再開する、などの操作を行って、クラスタ内のデータを変更するリクエストの流入を再開して下さい。
 
-With that, a new replica node has joined to your Droonga cluster successfully.
+以上で、Droongaクラスタに新しいreplicaノードを無事参加させる事ができました。
 
 
 ## Remove an existing replica node from an existing cluster
@@ -213,7 +208,7 @@ To remove a replica from an existing cluster, you just have to update the "catal
     # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
                                       --output=~/droonga/catalog.json
 
-Then there are two overlapping Droonga clusters theoretically on this time.
+この時点で、理論上、部分的に重なり合う2つのDroongaクラスタが存在するようになりました。
 
  * The existing cluster "charlie" including three replicas.
    * `192.168.0.10`

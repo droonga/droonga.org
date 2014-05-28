@@ -167,7 +167,7 @@ Next, copy new `catalog.json` from `192.168.0.12` to others.
 
 Servers detect new `catalog.json` and restart themselves automatically.
 
-Then there are just one Droonga clusters on this time.
+Then there is just one Droonga clusters on this time.
 
  * The new cluster "charlie",including three replicas.
    * `192.168.0.10`
