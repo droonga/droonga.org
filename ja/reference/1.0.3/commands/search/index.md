@@ -59,10 +59,20 @@ layout: ja
    * `offset`: [`(root).(テーブル名).output.offset`](#query-output) に対応する整数。
    * `limit`: [`(root).(テーブル名).output.limit`](#query-output) に対応する整数。
    * `timeout`: [`(root).timeout`](#parameter-timeout) に対応する整数。
+
+<!--
+   * `group_by[(column name)][key]`: A string, applied to [`(root).(column name).groupBy.key`](#query-groupBy).
+   * `group_by[(column name)][max_n_sub_records]`: An integer, applied to [`(root).(column name).groupBy.maxNSubRecords`](#query-groupBy).
+   * `group_by[(column name)][attributes]`: A comma-separated string, applied to [`(root).(column name).output.attributes`](#query-output).
+   * `group_by[(column name)][attributes][(attribute name)][source]`: A string, applied to [`(root).(column name).output.attributes.(attribute name).source`](#query-output).
+   * `group_by[(column name)][attributes][(attribute name)][attributes]`: A comma-separated string, applied to [`(root).(column name).output.attributes.(attribute name).attributes`](#query-output).
+   * `group_by[(column name)][limit]`: An integer, applied to [`(root).(column name).output.limit`](#query-output).
+-->
   
   例:
   
    * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10`
+
 <!--
    * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10&group_by[location][key]=location&group_by[location][limit]=5&group_by[location][attributes]=_key,_nsubrecs`
    * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10&group_by[location][key]=location&group_by[location][limit]=5&group_by[location][attributes][_key][souce]=_key&group_by[location][attributes][_nsubrecs][souce]=_nsubrecs`

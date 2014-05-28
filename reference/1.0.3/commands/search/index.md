@@ -48,6 +48,8 @@ Request URL parameters
    * `attributes`: A comma-separated string, applied to [`(root).(table name).output.attributes`](#query-output).
    * `offset`: An integer, applied to [`(root).(table name).output.offset`](#query-output).
    * `limit`: An integer, applied to [`(root).(table name).output.limit`](#query-output).
+   * `timeout`: An integer, applied to [`(root).timeout`](#parameter-timeout).
+
 <!--
    * `group_by[(column name)][key]`: A string, applied to [`(root).(column name).groupBy.key`](#query-groupBy).
    * `group_by[(column name)][max_n_sub_records]`: An integer, applied to [`(root).(column name).groupBy.maxNSubRecords`](#query-groupBy).
@@ -56,11 +58,11 @@ Request URL parameters
    * `group_by[(column name)][attributes][(attribute name)][attributes]`: A comma-separated string, applied to [`(root).(column name).output.attributes.(attribute name).attributes`](#query-output).
    * `group_by[(column name)][limit]`: An integer, applied to [`(root).(column name).output.limit`](#query-output).
 -->
-   * `timeout`: An integer, applied to [`(root).timeout`](#parameter-timeout).
   
   For example:
   
    * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10`
+
 <!--
    * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10&group_by[location][key]=location&group_by[location][limit]=5&group_by[location][attributes]=_key,_nsubrecs`
    * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10&group_by[location][key]=location&group_by[location][limit]=5&group_by[location][attributes][_key][souce]=_key&group_by[location][attributes][_nsubrecs][souce]=_nsubrecs`
