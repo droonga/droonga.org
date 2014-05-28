@@ -22,6 +22,61 @@ layout: ja
 これは、Droonga において検索機能を提供する最も低レベルのコマンドです。
 検索用のコマンドをプラグインとして実装する際は、内部的にこのコマンドを使用して検索を行うという用途が想定されます。
 
+## プロトコル {#protocols}
+
+### HTTP {#protocols-http}
+
+リクエスト先
+: `(ドキュメントルート)/droonga/search`
+
+リクエストメソッド
+: `POST`
+
+リクエストのURLパラメータ
+: なし。
+
+リクエストのbody
+: [パラメータ](#parameters)のハッシュ。
+
+レスポンスのbody
+: [レスポンスメッセージ](#response)。
+
+### REST {#protocols-rest}
+
+リクエスト先
+: `(ドキュメントルート)/tables/(テーブル名)`
+
+リクエストメソッド
+: `GET`
+
+リクエストのURLパラメータ
+: [検索リクエストのパラメータ](#parameters)に対応する以下のパラメータを受け付けます:
+  
+   * `query`: [`(root).(テーブル名).condition.query`](#usage-condition-query-syntax) に対応する文字列。
+   * `match_to`: [`(root).(テーブル名).condition.matchTo`](#usage-condition-query-syntax) に対応するカンマ区切りの文字列。
+   * `sort_by`:  [`(root).(テーブル名).sortBy`](#query-sortBy) に対応するカンマ区切りの文字列。
+   * `attributes`: [`(root).(テーブル名).output.attributes`](#query-output) に対応するカンマ区切りの文字列。
+   * `offset`: [`(root).(テーブル名).output.offset`](#query-output) に対応する整数。
+   * `limit`: [`(root).(テーブル名).output.limit`](#query-output) に対応する整数。
+   * `timeout`: [`(root).timeout`](#parameter-timeout) に対応する整数。
+  
+  例:
+  
+   * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10`
+<!--
+   * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10&group_by[location][key]=location&group_by[location][limit]=5&group_by[location][attributes]=_key,_nsubrecs`
+   * `/tables/Store?query=NY&match_to=_key&attributes=_key,*&limit=10&group_by[location][key]=location&group_by[location][limit]=5&group_by[location][attributes][_key][souce]=_key&group_by[location][attributes][_nsubrecs][souce]=_nsubrecs`
+   * `/tables/Store?query=NY&match_to=_key&limit=0&group_by[location][key]=location&group_by[location][max_n_sub_records]=5&group_by[location][limit]=5&group_by[location][attributes][sub_records][source]=_subrecs&group_by[location][attributes][sub_records][attributes]=_key,location`
+-->
+
+リクエストのbody
+: なし。
+
+レスポンスのbody
+: [レスポンスメッセージ](#response)。
+
+### Fluentd {#protocols-fluentd}
+
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
@@ -29,7 +84,7 @@ layout: ja
 : `search`
 
 リクエストの `body`
-: パラメータのハッシュ。
+: [パラメータ](#parameters)のハッシュ。
 
 レスポンスの `type`
 : `search.result`
@@ -996,8 +1051,8 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 : レコードのカラムの値について、出力形式を配列で指定します。
   個々のカラムの値の出力形式は以下のいずれかで指定します。
   
-   1. An array of column definitions.
-   2. A hash of column definitions.
+   1. カラムの定義の配列。
+   2. カラムの定義のハッシュ。
   
   各カラムは以下の形式のいずれかで指定します。
   
