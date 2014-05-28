@@ -1,6 +1,6 @@
 ---
 title: delete
-layout: en
+layout: ja
 ---
 
 {% comment %}
@@ -25,8 +25,8 @@ This is compatible to [the `delete` command of the Groonga](http://groonga.org/d
 
 ### HTTP {#api-types-http}
 
-Request endpoint
-: `(Document Root)/d/delete`
+リクエスト先
+: `(ドキュメントルート)/d/delete`
 
 リクエストメソッド
 : `GET`
@@ -49,13 +49,13 @@ Request endpoint
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
-`type` of the request
+リクエストの `type`
 : `delete`
 
 リクエストの `body`
 : [パラメータ](#parameters)のハッシュ。
 
-`type` of the response
+レスポンスの `type`
 : `delete.result`
 
 ## パラメータの構文 {#syntax}
@@ -65,14 +65,14 @@ Request endpoint
       "key"   : "<Key of the record>"
     }
 
-or
+または
 
     {
       "table" : "<Name of the table>",
       "id"    : "<ID of the record>"
     }
 
-or
+または
 
     {
       "table"  : "<Name of the table>",

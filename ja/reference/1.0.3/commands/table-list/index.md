@@ -1,6 +1,6 @@
 ---
 title: table_list
-layout: en
+layout: ja
 ---
 
 {% comment %}
@@ -25,8 +25,8 @@ This is compatible to [the `table_list` command of the Groonga](http://groonga.o
 
 ### HTTP {#api-types-http}
 
-Request endpoint
-: `(Document Root)/d/table_list`
+リクエスト先
+: `(ドキュメントルート)/d/table_list`
 
 リクエストメソッド
 : `GET`
@@ -49,13 +49,13 @@ Request endpoint
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
-`type` of the request
+リクエストの `type`
 : `table_list`
 
-`body` of the request
-: `null` or a blank hash.
+リクエストの `body`
+: `null` または空のハッシュ。
 
-`type` of the response
+レスポンスの `type`
 : `table_list.result`
 
 ## レスポンス {#response}

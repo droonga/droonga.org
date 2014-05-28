@@ -1,6 +1,6 @@
 ---
 title: column_list
-layout: en
+layout: ja
 ---
 
 {% comment %}
@@ -25,8 +25,8 @@ This is compatible to [the `column_list` command of the Groonga](http://groonga.
 
 ### HTTP {#api-types-http}
 
-Request endpoint
-: `(Document Root)/d/column_list`
+リクエスト先
+: `(ドキュメントルート)/d/column_list`
 
 リクエストメソッド
 : `GET`
@@ -49,13 +49,13 @@ Request endpoint
 形式
 : Request-Response型。コマンドに対しては必ず対応するレスポンスが返されます。
 
-`type` of the request
+リクエストの `type`
 : `column_list`
 
 リクエストの `body`
 : [パラメータ](#parameters)のハッシュ。
 
-`type` of the response
+レスポンスの `type`
 : `column_list.result`
 
 ## パラメータの構文 {#syntax}
