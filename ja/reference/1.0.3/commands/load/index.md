@@ -1,6 +1,6 @@
 ---
 title: load
-layout: en
+layout: ja
 ---
 
 {% comment %}
@@ -26,8 +26,8 @@ This is compatible to [the `load` command of the Groonga](http://groonga.org/doc
 
 ### HTTP (GET) {#api-types-http-get}
 
-Request endpoint
-: `(Document Root)/d/load`
+リクエスト先
+: `(ドキュメントルート)/d/load`
 
 リクエストメソッド
 : `GET`
@@ -43,17 +43,17 @@ Request endpoint
 
 ### HTTP (POST) {#api-types-http-post}
 
-Request endpoint
-: `(Document Root)/d/load`
+リクエスト先
+: `(ドキュメントルート)/d/load`
 
 リクエストメソッド
 : `POST`
 
-Request URL parameters
-: Same to the list of [parameters](#parameters), except `values`.
+リクエストのURLパラメータ
+: [パラメータの一覧](#parameters)で定義されている物のうち、`values` 以外を指定します。
 
-Request body
-: The value for the [parameter](#parameters) `values`.
+リクエストのbody
+: [パラメータ](#parameters)の `values` 用の値を指定します。
 
 レスポンスのbody
 : [レスポンスメッセージ](#response)。
