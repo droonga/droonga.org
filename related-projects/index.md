@@ -41,6 +41,7 @@ Here are related projects:
  * [drntest][]: A testing framework for Droonga
  * [drnbench][]: Generic benchmark tool for HTTP servers, mainly Droonga
  * [grn2drn][]: A converter from Groonga's command list to something for Droonga
+ * [droonga-message-pack-packer-ruby][]: A MessagePack packer for Groonga specific values
  * [chef-cookbooks][]: Chef cookbooks for Droonga
 
 ## Others
@@ -58,5 +59,6 @@ Other category includes other related projects:
   [drntest]: https://github.com/droonga/drntest
   [drnbench]: https://github.com/droonga/drnbench
   [grn2drn]: https://github.com/droonga/grn2drn
+  [droonga-message-pack-packer-ruby]: https://github.com/droonga/droonga-message-pack-packer-ruby
   [chef-cookbooks]: https://github.com/droonga/chef-cookbooks
   [droonga/droonga.org]: https://github.com/droonga/droonga.org

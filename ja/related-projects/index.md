@@ -49,6 +49,7 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
  * [drntest][]:Droonga用テスティングフレームワーク
  * [drnbench][]: HTTPサーバ用汎用ベンチマークツール(主にDroonga向け)
  * [grn2drn][]: GroongaコマンドリストからDroonga用データへのコンバーター
+ * [droonga-message-pack-packer-ruby][]: Groonga固有の値のためのMessagePack用packer
  * [chef-cookbooks][]: Droonga用Chef cookbook
 
 ## その他
@@ -66,5 +67,6 @@ Droongaクライアントのカテゴリには、Droongaクライアントの機
   [drntest]: https://github.com/droonga/drntest
   [drnbench]: https://github.com/droonga/drnbench
   [grn2drn]: https://github.com/droonga/grn2drn
+  [droonga-message-pack-packer-ruby]: https://github.com/droonga/droonga-message-pack-packer-ruby
   [chef-cookbooks]: https://github.com/droonga/chef-cookbooks
   [droonga/droonga.org]: https://github.com/droonga/droonga.org
