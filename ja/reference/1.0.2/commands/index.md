@@ -22,12 +22,6 @@ layout: ja
 ## Groonga互換コマンド
 
  * [column_create](column-create/)
- * [column_list](column-list/)
- * [column_remove](column-remove/)
- * [column_rename](column-rename/)
- * [delete](delete/)
- * [load](load/)
  * [select](select/)
  * [table_create](table-create/)
- * [table_list](table-list/)
  * [table_remove](table-remove/)
