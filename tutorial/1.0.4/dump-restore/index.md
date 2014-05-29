@@ -132,14 +132,11 @@ After that, establish that the `droonga-request` command has been installed succ
     # droonga-request --version
     droonga-request 0.1.7
 
-### Restore data from a dump result, to an empty Droonga cluster
-
-Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
-You just have to pour the contents of the dump file to an empty cluster, by the `droonga-request` command.
+### Prepare an empty Droonga cluster
 
 Assume that there is an empty Droonga cluster constructed from two nodes `192.168.0.10` and `192.168.0.11`, now your are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons`.
 
-(If you are reading this tutorial sequentially, you'll have an existing cluster and the dump file.
+If you are reading this tutorial sequentially, you'll have an existing cluster and the dump file.
 Make it empty with these commands:
 
     (on 192.168.0.10)
@@ -176,9 +173,14 @@ Make it empty with these commands:
                           --daemon \
                           --pid-file=~/droonga/droonga-http-server.pid
 
-After that the cluster becomes empty.)
+After that the cluster becomes empty.
 
-Then you can restore the cluster from the dump file, with a command line like:
+### Restore data from a dump result, to an empty Droonga cluster
+
+Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
+You just have to pour the contents of the dump file to an empty cluster, by the `droonga-request` command.
+
+To restore the cluster from the dump file, run a command line like:
 
 ~~~
 # droonga-request --host=192.168.0.10 \
