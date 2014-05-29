@@ -1029,8 +1029,8 @@ Droongaはそのカラムの値が同じであるレコードを集約し、カ�
 : その検索クエリの結果として[レスポンス](#response)に出力する情報を、プロパティ名の文字列の配列で指定します。
   以下の項目を指定できます。項目は1つだけ指定する場合であっても必ず配列で指定します。
   
-   * `"startTime"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
-   * `"elapsedTime"` ※バージョン {{ site.droonga_version }} では未実装です。指定しても機能しません。
+   * `"startTime"`
+   * `"elapsedTime"`
    * `"count"`
    * `"attributes"`
    * `"records"`

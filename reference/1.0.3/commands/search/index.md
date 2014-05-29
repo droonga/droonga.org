@@ -1012,8 +1012,8 @@ An output definition is given as a hash like:
 : An array of strings, meaning the list of elements exported to the result of the search query in a [search response](#response).
   Possible values are following, and you must specify it as an array even if you export just one element:
   
-   * `"startTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
-   * `"elapsedTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
+   * `"startTime"`
+   * `"elapsedTime"`
    * `"count"`
    * `"attributes"`
    * `"records"`
