@@ -471,6 +471,24 @@ msgid ""
 "~~~"
 msgstr ""
 
+msgid "After that contents of these two clusters are completely synchronized."
+msgstr "以上の操作で、2つのクラスタの内容が完全に同期されます。"
+
+msgid "### Unite two Droonga clusters"
+msgstr "### 2つのDroongaクラスタを結合する"
+
+msgid "Run following command line to unite these two clusters:"
+msgstr "これらの2つのクラスタを結合するために、以下のコマンド列を実行しましょう:"
+
+msgid ""
+"    (on 192.168.0.10, 192.168.0.11)\n"
+"    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \\\n"
+"                                      --output=~/droonga/catalog.json"
+msgstr ""
+
+msgid "After that there is just one cluster - yes, it's the initial state."
+msgstr "これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。"
+
 msgid "## Conclusion"
 msgstr "## まとめ"
 

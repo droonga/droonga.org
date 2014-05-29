@@ -305,6 +305,17 @@ Elapsed time: 0.008678467
 }
 ~~~
 
+After that contents of these two clusters are completely synchronized.
+
+### Unite two Droonga clusters
+
+Run following command line to unite these two clusters:
+
+    (on 192.168.0.10, 192.168.0.11)
+    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
+                                      --output=~/droonga/catalog.json
+
+After that there is just one cluster - yes, it's the initial state.
 
 ## Conclusion
 
