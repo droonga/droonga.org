@@ -251,6 +251,7 @@ Construct two clusters and make one empty, with these commands:
     # host=192.168.0.11
     # droonga-engine-catalog-generate --hosts=$host \
                                       --output=~/droonga/catalog.json
+    # cd ~/droonga
     # droonga-engine --host=$host \
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \

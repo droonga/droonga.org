@@ -147,7 +147,7 @@ Requests are completely same to ones for a Groonga server.
 To create a new table `Store`, you just have to send a GET request for the `table_create` command, like:
 
     # endpoint="http://192.168.0.10:10041/d"
-    # curl "${endpoint}/table_create?name=Store&type=Hash&key_type=ShortText"
+    # curl "${endpoint}/table_create?name=Store&type=PatriciaTrie&key_type=ShortText"
     [[0,1398662266.3853862,0.08530688285827637],true]
 
 Note that you have to specify the host, one of Droonga nodes with active droonga-http-server, in your Droonga cluster.
@@ -158,21 +158,23 @@ OK, now the table has been created successfully.
 Let's see it by the `table_list` command:
 
     # curl "${endpoint}/table_list"
-    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
+    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_PAT_KEY|PERSISTENT","ShortText",null,null,null]]]
 
 Because it is a cluster, another endpoint returns same result.
 
     # curl "http://192.168.0.11:10041/d/table_list"
-    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
+    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_PAT_KEY|PERSISTENT","ShortText",null,null,null]]]
 
 ### Create a column
 
-Next, create a new column `location` to the `Store` table by the `column_create` command, like:
+Next, create new columns `name` and `location` to the `Store` table by the `column_create` command, like:
 
+    # curl "${endpoint}/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText"
+    [[0,1398664305.8856306,0.00026226043701171875],true]
     # curl "${endpoint}/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
     [[0,1398664305.8856306,0.00026226043701171875],true]
 
-Then verify that the column is correctly created, by the `column_list` command:
+Then verify that columns are correctly created, by the `column_list` command:
 
     # curl "${endpoint}/column_list?table=Store"
     [[0,1398664345.9680889,0.0011739730834960938],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["type","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["source","ShortText"]],[257,"location","/home/username/groonga/droonga-engine/000/db.0000101","fix","COLUMN_SCALAR","Store","WGS84GeoPoint",[]]]]
@@ -200,47 +202,47 @@ stores.json:
 
 ~~~
 [
-["_key","location"],
-["1st Avenue & 75th St. - New York NY  (W)","40.770262,-73.954798"],
-["76th & Second - New York NY  (W)","40.771056,-73.956757"],
-["2nd Ave. & 9th Street - New York NY","40.729445,-73.987471"],
-["15th & Third - New York NY  (W)","40.733946,-73.9867"],
-["41st and Broadway - New York NY  (W)","40.755111,-73.986225"],
-["84th & Third Ave - New York NY  (W)","40.777485,-73.954979"],
-["150 E. 42nd Street - New York NY  (W)","40.750784,-73.975582"],
-["West 43rd and Broadway - New York NY  (W)","40.756197,-73.985624"],
-["Macy's 35th Street Balcony - New York NY","40.750703,-73.989787"],
-["Macy's 6th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
-["Herald Square- Macy's - New York NY","40.750703,-73.989787"],
-["Macy's 5th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
-["80th & York - New York NY  (W)","40.772204,-73.949862"],
-["Columbus @ 67th - New York NY  (W)","40.774009,-73.981472"],
-["45th & Broadway - New York NY  (W)","40.75766,-73.985719"],
-["Marriott Marquis - Lobby - New York NY","40.759123,-73.984927"],
-["Second @ 81st - New York NY  (W)","40.77466,-73.954447"],
-["52nd & Seventh - New York NY  (W)","40.761829,-73.981141"],
-["1585 Broadway (47th) - New York NY  (W)","40.759806,-73.985066"],
-["85th & First - New York NY  (W)","40.776101,-73.949971"],
-["92nd & 3rd - New York NY  (W)","40.782606,-73.951235"],
-["165 Broadway - 1 Liberty - New York NY  (W)","40.709727,-74.011395"],
-["1656 Broadway - New York NY  (W)","40.762434,-73.983364"],
-["54th & Broadway - New York NY  (W)","40.764275,-73.982361"],
-["Limited Brands-NYC - New York NY","40.765219,-73.982025"],
-["19th & 8th - New York NY  (W)","40.743218,-74.000605"],
-["60th & Broadway-II - New York NY  (W)","40.769196,-73.982576"],
-["63rd & Broadway - New York NY  (W)","40.771376,-73.982709"],
-["195 Broadway - New York NY  (W)","40.710703,-74.009485"],
-["2 Broadway - New York NY  (W)","40.704538,-74.01324"],
-["2 Columbus Ave. - New York NY  (W)","40.769262,-73.984764"],
-["NY Plaza - New York NY  (W)","40.702802,-74.012784"],
-["36th and Madison - New York NY  (W)","40.748917,-73.982683"],
-["125th St. btwn Adam Clayton & FDB - New York NY","40.808952,-73.948229"],
-["70th & Broadway - New York NY  (W)","40.777463,-73.982237"],
-["2138 Broadway - New York NY  (W)","40.781078,-73.981167"],
-["118th & Frederick Douglas Blvd. - New York NY  (W)","40.806176,-73.954109"],
-["42nd & Second - New York NY  (W)","40.750069,-73.973393"],
-["Broadway @ 81st - New York NY  (W)","40.784972,-73.978987"],
-["Fashion Inst of Technology - New York NY","40.746948,-73.994557"]
+["_key","name","location"],
+["store0","1st Avenue & 75th St. - New York NY  (W)","40.770262,-73.954798"],
+["store1","76th & Second - New York NY  (W)","40.771056,-73.956757"],
+["store2","2nd Ave. & 9th Street - New York NY","40.729445,-73.987471"],
+["store3","15th & Third - New York NY  (W)","40.733946,-73.9867"],
+["store4","41st and Broadway - New York NY  (W)","40.755111,-73.986225"],
+["store5","84th & Third Ave - New York NY  (W)","40.777485,-73.954979"],
+["store6","150 E. 42nd Street - New York NY  (W)","40.750784,-73.975582"],
+["store7","West 43rd and Broadway - New York NY  (W)","40.756197,-73.985624"],
+["store8","Macy's 35th Street Balcony - New York NY","40.750703,-73.989787"],
+["store9","Macy's 6th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
+["store10","Herald Square- Macy's - New York NY","40.750703,-73.989787"],
+["store11","Macy's 5th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
+["store12","80th & York - New York NY  (W)","40.772204,-73.949862"],
+["store13","Columbus @ 67th - New York NY  (W)","40.774009,-73.981472"],
+["store14","45th & Broadway - New York NY  (W)","40.75766,-73.985719"],
+["store15","Marriott Marquis - Lobby - New York NY","40.759123,-73.984927"],
+["store16","Second @ 81st - New York NY  (W)","40.77466,-73.954447"],
+["store17","52nd & Seventh - New York NY  (W)","40.761829,-73.981141"],
+["store18","1585 Broadway (47th) - New York NY  (W)","40.759806,-73.985066"],
+["store19","85th & First - New York NY  (W)","40.776101,-73.949971"],
+["store20","92nd & 3rd - New York NY  (W)","40.782606,-73.951235"],
+["store21","165 Broadway - 1 Liberty - New York NY  (W)","40.709727,-74.011395"],
+["store22","1656 Broadway - New York NY  (W)","40.762434,-73.983364"],
+["store23","54th & Broadway - New York NY  (W)","40.764275,-73.982361"],
+["store24","Limited Brands-NYC - New York NY","40.765219,-73.982025"],
+["store25","19th & 8th - New York NY  (W)","40.743218,-74.000605"],
+["store26","60th & Broadway-II - New York NY  (W)","40.769196,-73.982576"],
+["store27","63rd & Broadway - New York NY  (W)","40.771376,-73.982709"],
+["store28","195 Broadway - New York NY  (W)","40.710703,-74.009485"],
+["store29","2 Broadway - New York NY  (W)","40.704538,-74.01324"],
+["store30","2 Columbus Ave. - New York NY  (W)","40.769262,-73.984764"],
+["store31","NY Plaza - New York NY  (W)","40.702802,-74.012784"],
+["store32","36th and Madison - New York NY  (W)","40.748917,-73.982683"],
+["store33","125th St. btwn Adam Clayton & FDB - New York NY","40.808952,-73.948229"],
+["store34","70th & Broadway - New York NY  (W)","40.777463,-73.982237"],
+["store35","2138 Broadway - New York NY  (W)","40.781078,-73.981167"],
+["store36","118th & Frederick Douglas Blvd. - New York NY  (W)","40.806176,-73.954109"],
+["store37","42nd & Second - New York NY  (W)","40.750069,-73.973393"],
+["store38","Broadway @ 81st - New York NY  (W)","40.784972,-73.978987"],
+["store39","Fashion Inst of Technology - New York NY","40.746948,-73.994557"]
 ]
 ~~~
 
