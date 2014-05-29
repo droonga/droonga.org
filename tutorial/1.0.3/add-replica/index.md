@@ -95,6 +95,31 @@ Then there are two separate Droonga clusters on this time.
    Let's give a name *"beta"* to it, for now.
    * `192.168.0.12`
 
+You can confirm that, via the status file `live-nodes.json` on each node:
+
+~~~
+(on 192.168.0.10, 192.168.0.11)
+# cat ~/droonga/state/live-nodes.json
+{
+  "192.168.0.10:10031/droonga": {
+    "serfAddress": "192.168.100.52:7946"
+  },
+  "192.168.0.11:10031/droonga": {
+    "serfAddress": "192.168.100.50:7946"
+  }
+}
+~~~
+
+~~~
+(on 192.168.0.12)
+# cat ~/droonga/state/live-nodes.json
+{
+  "192.168.0.12:10031/droonga": {
+    "serfAddress": "192.168.100.51:7946"
+  }
+}
+~~~
+
 ### Suspend inpouring of "write" requests
 
 Before starting  duplication of data, you must suspend inpouring of "write" requests to the cluster alpha, because we have to synchronize data in clusters alpha and beta completely.
@@ -161,9 +186,41 @@ Then there are two overlapping Droonga clusters theoretically on this time.
    * `192.168.0.11`
    * `192.168.0.12`
 
+You can confirm that, via the status file `live-nodes.json` on each node:
+
+~~~
+(on 192.168.0.10, 192.168.0.11)
+# cat ~/droonga/state/live-nodes.json
+{
+  "192.168.0.10:10031/droonga": {
+    "serfAddress": "192.168.100.52:7946"
+  },
+  "192.168.0.11:10031/droonga": {
+    "serfAddress": "192.168.100.50:7946"
+  }
+}
+~~~
+
+~~~
+(on 192.168.0.12)
+# cat ~/droonga/state/live-nodes.json
+{
+  "192.168.0.10:10031/droonga": {
+    "serfAddress": "192.168.100.52:7946"
+  },
+  "192.168.0.11:10031/droonga": {
+    "serfAddress": "192.168.100.50:7946"
+  },
+  "192.168.0.12:10031/droonga": {
+    "serfAddress": "192.168.100.51:7946"
+  }
+}
+~~~
+
 Note that the temporary cluster named "beta" is gone.
 And, the new node `192.168.0.12` knows the cluster charlie includes three nodes, other two existing nodes don't know that.
 Because both two existing nodes think that there are only them in the cluster they belong to, any incoming request to them never delivered to the new replica `192.168.0.12` yet.
+
 
 Next, copy new `catalog.json` from `192.168.0.12` to others.
 
@@ -179,6 +236,24 @@ Then there is just one Droonga clusters on this time.
    * `192.168.0.10`
    * `192.168.0.11`
    * `192.168.0.12`
+
+You can confirm that, via the status file `live-nodes.json` on each node:
+
+~~~
+(on 192.168.0.10, 192.168.0.11, 192.168.0.12)
+# cat ~/droonga/state/live-nodes.json
+{
+  "192.168.0.10:10031/droonga": {
+    "serfAddress": "192.168.100.52:7946"
+  },
+  "192.168.0.11:10031/droonga": {
+    "serfAddress": "192.168.100.50:7946"
+  },
+  "192.168.0.12:10031/droonga": {
+    "serfAddress": "192.168.100.51:7946"
+  }
+}
+~~~
 
 Note that the old cluster named "alpha" is gone.
 Now the new cluster "charlie" with three replicas works perfectly, instead of the old one with two replicas.
