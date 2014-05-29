@@ -224,7 +224,7 @@ Note to these things:
    It is used by the Droonga cluster, to send response messages.
 
 
-### Duplicate data from another Droonga cluster, to an empty Droonga cluster
+## Duplicate an existing Droonga cluster to another empty cluster
 
 If you have multiple Droonga clusters, then you can duplicate one to another with `drndump` and `droonga-request` commands.
 
@@ -232,28 +232,17 @@ The command `drndump` reports its result to the standard output.
 On the other hand, `droonga-request` can receive messages from the standard input.
 So, you just connect them with a pipe, to duplicate contents of a cluster to another.
 
+### Prepare multiple Droonga clusters
+
 Assume that there are two clusters: the source has a node `192.168.0.10`, the destination has a node `192.168.0.11`, and now your are logged in to the host `192.168.0.12`.
 
-(If you are reading this tutorial sequentially, you'll have an existing cluster with two nodes.
+If you are reading this tutorial sequentially, you'll have an existing cluster with two nodes.
 Construct two clusters and make one empty, with these commands:
 
     (on 192.168.0.10)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
-    # kill $(cat ~/droonga/droonga-engine.pid)
     # host=192.168.0.10
     # droonga-engine-catalog-generate --hosts=$host \
                                       --output=~/droonga/catalog.json
-    # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
-                     --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
     (on 192.168.0.11)
     # kill $(cat ~/droonga/droonga-http-server.pid)
@@ -274,9 +263,11 @@ Construct two clusters and make one empty, with these commands:
                           --daemon \
                           --pid-file=~/droonga/droonga-http-server.pid
 
-After that there are two clusters: one contains `192.168.0.10` and data, another contains `192.168.0.11` with no data.)
+After that there are two clusters: one contains `192.168.0.10` with data, another contains `192.168.0.11` with no data.
 
-Then you can duplicate the source cluster to the destination cluster, with a command line like:
+### Duplicate data between two Droonga clusters
+
+To duplicate the source cluster to the destination cluster, run a command line like:
 
 ~~~
 # drndump --host=192.168.0.10 \

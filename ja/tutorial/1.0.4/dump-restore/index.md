@@ -231,7 +231,7 @@ Elapsed time: 0.008678467
    この情報は、Droongaクラスタがメッセージを送り返すために使われます。
 
 
-### Droongaクラスタから別の空のDroongaクラスタへデータを複製する
+## 既存のクラスタを別の空のクラスタに複製する
 
 複数のDroongaクラスタが存在する時に、`drndump` と `droonga-request` の2つのコマンドを併用すると、片方のクラスタの内容をもう片方に複製する事ができます。
 
@@ -239,27 +239,16 @@ Elapsed time: 0.008678467
 その一方で、`droonga-request` コマンドは標準入力からメッセージを受け取る事ができます。
 ですので、これらをパイプで繋げるだけで、片方のクラスタの内容をもう片方に複製できます。
 
+### 複数のDroongaクラスタを用意する
+
 ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先クラスタの2つのクラスタがあり、今 `192.168.0.12` にログインして操作を行っていると仮定します。
 
-（もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。以下の操作で2つのクラスタを作り、1つを空にしましょう:
+もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。以下の操作で2つのクラスタを作り、1つを空にしましょう:
 
     (on 192.168.0.10)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
-    # kill $(cat ~/droonga/droonga-engine.pid)
     # host=192.168.0.10
     # droonga-engine-catalog-generate --hosts=$host \
                                       --output=~/droonga/catalog.json
-    # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
-                     --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
     (on 192.168.0.11)
     # kill $(cat ~/droonga/droonga-http-server.pid)
@@ -280,9 +269,11 @@ Elapsed time: 0.008678467
                           --daemon \
                           --pid-file=~/droonga/droonga-http-server.pid
 
-これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができます。）
+これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができます。
 
-この時、以下のようなコマンド列によって、複製元クラスタから複製先クラスタへデータを複製することができます:
+### 2つのDroongaクラスタの間でデータを複製する
+
+複製元クラスタから複製先クラスタへデータを複製するには、以下のようなコマンドを実行します:
 
 ~~~
 # drndump --host=192.168.0.10 \
