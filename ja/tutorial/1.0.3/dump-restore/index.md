@@ -69,7 +69,7 @@ layout: ja
   "dataset": "Default",
   "body": {
     "name": "Location",
-    "flags": "TABLE_HASH_KEY",
+    "flags": "TABLE_PAT_KEY",
     "key_type": "WGS84GeoPoint"
   }
 }
@@ -78,9 +78,10 @@ layout: ja
   "dataset": "Default",
   "body": {
     "table": "Store",
-    "key": "Fashion Inst of Technology - New York NY",
+    "key": "store9",
     "values": {
-      "location": "146689013x-266380405"
+      "location": "146702531x-266363233",
+      "name": "Macy's 6th Floor - Herald Square - New York NY  (W)"
     }
   },
   "type": "add"
@@ -101,10 +102,10 @@ layout: ja
   "dataset": "Default",
   "body": {
     "table": "Term",
-    "name": "store__key",
+    "name": "store_name",
     "type": "Store",
     "flags": "COLUMN_INDEX|WITH_POSITION",
-    "source": "_key"
+    "source": "name"
   }
 }
 ~~~
@@ -147,7 +148,6 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 もし順番にこのチュートリアルを読み進めているのであれば、クラスタとダンプファイルが既に手元にあるはずです。以下の操作でクラスタを空にしましょう:
 
     (on 192.168.0.10)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -r ~/droonga/000
     # host=192.168.0.10
@@ -155,16 +155,8 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -r ~/droonga/000
     # host=192.168.0.11
@@ -172,15 +164,12 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
-これでクラスタは空になります。
+これでクラスタは空になりました。確かめてみましょう:
+
+    # endpoint="http://192.168.0.10:10041/d"
+    # curl "${endpoint}/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363465.610241,0],[[[null],[]]]]
 
 ### ダンプ結果から空のDroongaクラスタへデータを復元する
 
@@ -230,6 +219,12 @@ Elapsed time: 0.008678467
  * `--receiver-host` オプションには、今操作しているコンピュータ自身の正しいホスト名またはIPアドレスを指定します。
    この情報は、Droongaクラスタがメッセージを送り返すために使われます。
 
+これで、データが完全に復元されました。確かめてみましょう:
+
+    # ${endpoint}/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
+
+
 ## 既存のクラスタを別の空のクラスタに複製する
 
 複数のDroongaクラスタが存在する時に、`drndump` と `droonga-request` の2つのコマンドを併用すると、片方のクラスタの内容をもう片方に複製する事ができます。
@@ -250,7 +245,6 @@ Elapsed time: 0.008678467
                                       --output=~/droonga/catalog.json
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -r ~/droonga/000
     # host=192.168.0.11
@@ -260,13 +254,6 @@ Elapsed time: 0.008678467
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
 これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができます。
 

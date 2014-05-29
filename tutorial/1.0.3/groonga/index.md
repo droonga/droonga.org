@@ -117,6 +117,7 @@ To start them, run commands like following on each Droonga node:
         droonga-http-server --port=10041 \
                             --receive-host-name=$host \
                             --droonga-engine-host-name=$host \
+                            --cache-size=-1 \
                             --daemon \
                             --pid-file=~/droonga/droonga-http-server.pid
 

@@ -126,6 +126,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
         droonga-http-server --port=10041 \
                             --receive-host-name=$host \
                             --droonga-engine-host-name=$host \
+                            --cache-size=-1 \
                             --daemon \
                             --pid-file=~/droonga/droonga-http-server.pid
 

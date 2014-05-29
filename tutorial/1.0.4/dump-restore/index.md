@@ -61,7 +61,7 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
   "dataset": "Default",
   "body": {
     "name": "Location",
-    "flags": "TABLE_HASH_KEY",
+    "flags": "TABLE_PAT_KEY",
     "key_type": "WGS84GeoPoint"
   }
 }
@@ -70,9 +70,10 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
   "dataset": "Default",
   "body": {
     "table": "Store",
-    "key": "Fashion Inst of Technology - New York NY",
+    "key": "store9",
     "values": {
-      "location": "146689013x-266380405"
+      "location": "146702531x-266363233",
+      "name": "Macy's 6th Floor - Herald Square - New York NY  (W)"
     }
   },
   "type": "add"
@@ -93,10 +94,10 @@ For example, if your cluster is constructed from two nodes `192.168.0.10` and `1
   "dataset": "Default",
   "body": {
     "table": "Term",
-    "name": "store__key",
+    "name": "store_name",
     "type": "Store",
     "flags": "COLUMN_INDEX|WITH_POSITION",
-    "source": "_key"
+    "source": "name"
   }
 }
 ~~~
@@ -140,7 +141,6 @@ If you are reading this tutorial sequentially, you'll have an existing cluster a
 Make it empty with these commands:
 
     (on 192.168.0.10)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -r ~/droonga/000
     # host=192.168.0.10
@@ -148,16 +148,8 @@ Make it empty with these commands:
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -r ~/droonga/000
     # host=192.168.0.11
@@ -165,15 +157,12 @@ Make it empty with these commands:
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
-After that the cluster becomes empty.
+After that the cluster becomes empty. Confirm it:
+
+    # endpoint="http://192.168.0.10:10041/d"
+    # curl "${endpoint}/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363465.610241,0],[[[null],[]]]]
 
 ### Restore data from a dump result, to an empty Droonga cluster
 
@@ -223,6 +212,10 @@ Note to these things:
  * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
    It is used by the Droonga cluster, to send response messages.
 
+Then the data is completely restored. Confirm it:
+
+    # ${endpoint}/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
 
 ## Duplicate an existing Droonga cluster to another empty cluster
 
@@ -245,7 +238,6 @@ Construct two clusters and make one empty, with these commands:
                                       --output=~/droonga/catalog.json
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -r ~/droonga/000
     # host=192.168.0.11
@@ -256,13 +248,6 @@ Construct two clusters and make one empty, with these commands:
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
 
 After that there are two clusters: one contains `192.168.0.10` with data, another contains `192.168.0.11` with no data.
 
