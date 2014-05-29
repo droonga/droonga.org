@@ -22,7 +22,7 @@ The main part of Droonga consists of two packages: [droonga-engine][] and [droon
 
 ## Install dependencies
 
-    sudo apt-get install -y ruby ruby-dev build-essential nodejs npm
+    sudo apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
 
 ## Install droonga-engine
 

@@ -31,7 +31,7 @@ Droongaは主に、[droonga-engine][]と[droonga-http-server][]の2つのパッ�
 
 ## 依存パッケージのインストール
 
-    sudo apt-get install -y ruby ruby-dev build-essential nodejs npm
+    sudo apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
 
 ## droonga-engineのインストール
 

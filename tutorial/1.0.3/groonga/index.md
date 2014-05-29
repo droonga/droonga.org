@@ -56,7 +56,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     
         # apt-get update
         # apt-get -y upgrade
-        # apt-get install -y ruby ruby-dev build-essential nodejs npm
+        # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     
  2. Install a gem package `droonga-engine`, *on each computer*.
     It is the core component provides most features of Droonga system.

@@ -79,7 +79,7 @@ Install packages required to setup a Droonga engine.
 
     # apt-get update
     # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs npm
+    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
 
 ## Build a Droonga engine
 

@@ -142,7 +142,8 @@ msgstr " 1. *それぞれのコンピュータで*、プラットフォームご
 msgid ""
 "        # apt-get update\n"
 "        # apt-get -y upgrade\n"
-"        # apt-get install -y ruby ruby-dev build-essential nodejs npm"
+"        # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legac"
+"y npm"
 msgstr ""
 
 msgid ""

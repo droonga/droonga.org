@@ -48,7 +48,9 @@ msgstr ""
 msgid "## Install dependencies"
 msgstr "## 依存パッケージのインストール"
 
-msgid "    sudo apt-get install -y ruby ruby-dev build-essential nodejs npm"
+msgid ""
+"    sudo apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy"
+" npm"
 msgstr ""
 
 msgid "## Install droonga-engine"

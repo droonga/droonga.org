@@ -195,7 +195,8 @@ msgstr "Droonga をセットアップするために必要になるパッケー�
 msgid ""
 "    # apt-get update\n"
 "    # apt-get -y upgrade\n"
-"    # apt-get install -y ruby ruby-dev build-essential nodejs npm"
+"    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy np"
+"m"
 msgstr ""
 
 msgid "## Build a Droonga engine"

@@ -65,7 +65,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     
         # apt-get update
         # apt-get -y upgrade
-        # apt-get install -y ruby ruby-dev build-essential nodejs npm
+        # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     
  2. *それぞれのコンピュータで*、Gemパッケージ `droonga-engine` をインストールする。
     これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。

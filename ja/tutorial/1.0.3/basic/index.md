@@ -87,7 +87,7 @@ Droonga をセットアップするために必要になるパッケージをイ
 
     # apt-get update
     # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs npm
+    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
 
 ## Droonga Engine を構築する
 
