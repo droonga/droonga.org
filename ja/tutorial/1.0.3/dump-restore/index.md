@@ -255,7 +255,12 @@ Elapsed time: 0.008678467
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
 
-これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができます。
+これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
+
+    # curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
+    # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363465.610241,0],[[[null],[]]]]
 
 ### 2つのDroongaクラスタの間でデータを複製する
 
@@ -297,7 +302,12 @@ Elapsed time: 0.008678467
 }
 ~~~
 
-以上の操作で、2つのクラスタの内容が完全に同期されます。
+以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
+
+    # curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
+    # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
+    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
 
 ### 2つのDroongaクラスタを結合する
 
