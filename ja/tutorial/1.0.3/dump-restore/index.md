@@ -148,22 +148,24 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 もし順番にこのチュートリアルを読み進めているのであれば、クラスタとダンプファイルが既に手元にあるはずです。以下の操作でクラスタを空にしましょう:
 
     (on 192.168.0.10)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # rm -r ~/droonga/000
+    # cd ~/droonga
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -r 000
     # host=192.168.0.10
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # rm -r ~/droonga/000
+    # cd ~/droonga
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -r 000
     # host=192.168.0.11
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
 
 これでクラスタは空になりました。確かめてみましょう:
 
@@ -245,15 +247,16 @@ Elapsed time: 0.008678467
                                       --output=~/droonga/catalog.json
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # rm -r ~/droonga/000
+    # cd ~/droonga
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -r 000
     # host=192.168.0.11
     # droonga-engine-catalog-generate --hosts=$host \
-                                      --output=~/droonga/catalog.json
+                                      --output=$PWD/catalog.json
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
 
 これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
 

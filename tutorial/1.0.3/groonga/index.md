@@ -110,16 +110,16 @@ To start them, run commands like following on each Droonga node:
     # cd ~/droonga
     # host=192.168.0.10
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
     # env NODE_ENV=production \
         droonga-http-server --port=10041 \
                             --receive-host-name=$host \
                             --droonga-engine-host-name=$host \
                             --cache-size=-1 \
                             --daemon \
-                            --pid-file=~/droonga/droonga-http-server.pid
+                            --pid-file=$PWD/droonga-http-server.pid
 
 Note that you have to specify the host name of the Droonga node itself via some options.
 It will be used to communicate with other Droonga nodes in the cluster.

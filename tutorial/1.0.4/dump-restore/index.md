@@ -141,22 +141,24 @@ If you are reading this tutorial sequentially, you'll have an existing cluster a
 Make it empty with these commands:
 
     (on 192.168.0.10)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # rm -r ~/droonga/000
+    # cd ~/droonga
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -r 000
     # host=192.168.0.10
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # rm -r ~/droonga/000
+    # cd ~/droonga
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -r 000
     # host=192.168.0.11
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
 
 After that the cluster becomes empty. Confirm it:
 
@@ -238,16 +240,16 @@ Construct two clusters and make one empty, with these commands:
                                       --output=~/droonga/catalog.json
 
     (on 192.168.0.11)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # rm -r ~/droonga/000
+    # cd ~/droonga
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -r 000
     # host=192.168.0.11
     # droonga-engine-catalog-generate --hosts=$host \
-                                      --output=~/droonga/catalog.json
-    # cd ~/droonga
+                                      --output=$PWD/catalog.json
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
+                     --pid-file=$PWD/droonga-engine.pid
 
 After that there are two clusters: one contains `192.168.0.10` with data, another contains `192.168.0.11` with no data. Confirm it:
 
