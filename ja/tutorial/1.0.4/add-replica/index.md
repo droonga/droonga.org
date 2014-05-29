@@ -81,11 +81,14 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     (on 192.168.0.12)
     # host=192.168.0.12
     # droonga-engine --host=$host \
+                     --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
+                          --access-log-file=~/droonga/droonga-http-server.access.log \
+                          --system-log-file=~/droonga/droonga-http-server.system.log \
                           --daemon \
                           --pid-file=~/droonga/droonga-http-server.pid
 
