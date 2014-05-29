@@ -238,6 +238,13 @@ msgstr ""
 "クローラが `add` コマンド経由で新しいデータを投入している場合は、クローラを停止して下さい。\n"
 "あるいは、クローラやローダーとクラスタの間にFluentdを置いてバッファとして利用しているのであれば、バッファからのメッセージ出力を停止して下さい。"
 
+msgid ""
+"If you are reading this tutorial sequentially after the [previous topic](../du"
+"mp-restore/), there is no incoming requests, so you have nothing to do."
+msgstr ""
+"[前項](../dump-restore/)から順番にチュートリアルを読んでいる場合、クラスタに流入しているリクエストはありませんので、ここでは特に何もする"
+"必要はありません。"
+
 msgid "### Duplicate data from the existing cluster to the new replica"
 msgstr "### 既存のクラスタから新しいreplicaへデータを複製する"
 

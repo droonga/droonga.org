@@ -116,6 +116,8 @@ If you load new data via the `load` command triggered by a batch script started 
 If a crawler agent adds new data via the `add` command, stop it.
 If you put a fluentd as a buffer between crawler or loader and the cluster, stop outgoing messages from the buffer. 
 
+If you are reading this tutorial sequentially after the [previous topic](../dump-restore/), there is no incoming requests, so you have nothing to do.
+
 ### Duplicate data from the existing cluster to the new replica
 
 Duplicate data from the cluster alpha to the cluster beta.
