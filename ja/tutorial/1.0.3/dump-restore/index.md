@@ -237,12 +237,55 @@ Elapsed time: 0.008678467
 その一方で、`droonga-request` コマンドは標準入力からメッセージを受け取る事ができます。
 ですので、これらをパイプで繋げるだけで、片方のクラスタの内容をもう片方に複製できます。
 
-例えば、複製元として2つのノード `192.168.0.10` と `192.168.0.11` からなるクラスタ、複製先として2つのノード `192.168.0.20` と `192.168.0.21` からなる空のクラスタがあり、今 `192.168.0.12` にログインして操作を行っているのであれば、実行するコマンドはこのようになります:
+ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先クラスタの2つのクラスタがあり、今 `192.168.0.12` にログインして操作を行っていると仮定します。
+
+（もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。以下の操作で2つのクラスタを作り、1つを空にしましょう:
+
+    (on 192.168.0.10)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # host=192.168.0.10
+    # droonga-engine-catalog-generate --hosts=$host \
+                                      --output=~/droonga/catalog.json
+    # droonga-engine --host=$host \
+                     --log-file=~/droonga/droonga-engine.log \
+                     --daemon \
+                     --pid-file=~/droonga/droonga-engine.pid
+    # droonga-http-server --port=10041 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --access-log-file=~/droonga/droonga-http-server.access.log \
+                          --system-log-file=~/droonga/droonga-http-server.system.log \
+                          --daemon \
+                          --pid-file=~/droonga/droonga-http-server.pid
+
+    (on 192.168.0.11)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # rm -r ~/droonga/000
+    # host=192.168.0.11
+    # droonga-engine-catalog-generate --hosts=$host \
+                                      --output=~/droonga/catalog.json
+    # droonga-engine --host=$host \
+                     --log-file=~/droonga/droonga-engine.log \
+                     --daemon \
+                     --pid-file=~/droonga/droonga-engine.pid
+    # droonga-http-server --port=10041 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --access-log-file=~/droonga/droonga-http-server.access.log \
+                          --system-log-file=~/droonga/droonga-http-server.system.log \
+                          --daemon \
+                          --pid-file=~/droonga/droonga-http-server.pid
+
+これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができます。）
+
+この時、以下のようなコマンド列によって、複製元クラスタから複製先クラスタへデータを複製することができます:
 
 ~~~
 # drndump --host=192.168.0.10 \
            --receiver-host=192.168.0.12 | \
-    droonga-request --host=192.168.0.20 \
+    droonga-request --host=192.168.0.11 \
                     --receiver-host=192.168.0.12
 Elapsed time: 0.027541763
 {
