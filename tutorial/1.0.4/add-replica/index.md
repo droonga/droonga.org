@@ -50,7 +50,7 @@ First, prepare a new computer, install required softwares and configure them.
     (on 192.168.0.12)
     # apt-get update
     # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs npm
+    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
@@ -71,18 +71,19 @@ For the new node, you have to generate a `custom.json` includes only one node, w
 Let's start the server.
 
     (on 192.168.0.12)
+    # cd ~/droonga
     # host=192.168.0.12
     # droonga-engine --host=$host \
-                     --log-file=~/droonga/droonga-engine.log \
+                     --log-file=$PWD/droonga-engine.log \
                      --daemon \
-                     --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
+                     --pid-file=$PWD/droonga-engine.pid
+    # env NODE_ENV=production \
+        droonga-http-server --port=10041 \
+                            --receive-host-name=$host \
+                            --droonga-engine-host-name=$host \
+                            --cache-size=-1 \
+                            --daemon \
+                            --pid-file=$PWD/droonga-http-server.pid
 
 Then there are two separate Droonga clusters on this time.
 
