@@ -21,10 +21,10 @@ layout: ja
 
 ## 前提条件
 
-* You must have an existing Droonga cluster with some data.
-  Please complete the ["getting started" tutorial](../groonga/) before this.
-* You must know how to duplicate data between multiple clusters.
-  Please complete the ["How to backup and restore the database?" tutorial](../dump-restore/) before this.
+* 何らかのデータが格納されている状態の[Droonga][]クラスタがあること。
+  このチュートリアルを始める前に、[「使ってみる」のチュートリアル](../groonga/)を完了している事が望ましいです
+* 複数のクラスタの間でのデータの複製方法を把握していること。
+  このチュートリアルを始める前に、[バックアップと復元のチュートリアル](../dump-restore/)を完了しておいてください。
 
 ## 「replica」とは？
 
@@ -231,7 +231,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 この時点で、Droongaクラスタは1つだけ存在する状態となっています。
 
- * The new cluster "delta" including two replicas.
+ * 2つのreplicaを含むクラスタ「delta」。
    * `192.168.0.10`
    * `192.168.0.11`
 
