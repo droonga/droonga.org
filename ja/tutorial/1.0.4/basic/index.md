@@ -222,10 +222,11 @@ catalog.json:
 
 以下のようにして droonga-engine を起動します。
 
+    # base_path=$PWD
     # droonga-engine --host 192.168.0.10 \
-                     --log-file=$PWD/droonga-engine.log \
+                     --log-file=$base_path/droonga-engine.log \
                      --daemon \
-                     --pid-file $PWD/droonga-engine.pid
+                     --pid-file $base_path/droonga-engine.pid
 
 ### droonga-engine を終了する
 
@@ -239,10 +240,11 @@ droonga-engineにSIGTERMを送ります。
 
 再度droonga-engineを起動します。
 
+    # base_path=$PWD
     # droonga-engine --host 192.168.0.10 \
-                     --log-file=$PWD/droonga-engine.log \
+                     --log-file=$base_path/droonga-engine.log \
                      --daemon \
-                     --pid-file $PWD/droonga-engine.pid
+                     --pid-file $base_path/droonga-engine.pid
 
 ### データベースを作成する
 
@@ -1330,10 +1332,11 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 次に、サーバを起動します。
 
+    # base_path=$PWD
     # droonga-http-server --receive-host-name=192.168.0.10 \
                           --droonga-engine-host-name=192.168.0.10 \
                           --daemon \
-                          --pid-file $PWD/droonga-http-server.pid
+                          --pid-file $base_path/droonga-http-server.pid
 
 
 ### HTTPでの検索リクエスト

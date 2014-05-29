@@ -214,10 +214,11 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 
 Start a Droonga engine, you can start it with the command `droonga-engine`, like:
 
+    # base_path=$PWD
     # droonga-engine --host 192.168.0.10 \
-                     --log-file=$PWD/droonga-engine.log \
+                     --log-file=$base_path/droonga-engine.log \
                      --daemon \
-                     --pid-file $PWD/droonga-engine.pid
+                     --pid-file $base_path/droonga-engine.pid
 
 ### Stop an instance of droonga-engine
 
@@ -231,10 +232,11 @@ This is the way to stop droonga-engine.
 
 Start droonga-engine again:
 
+    # base_path=$PWD
     # droonga-engine --host 192.168.0.10 \
-                     --log-file=$PWD/droonga-engine.log \
+                     --log-file=$base_path/droonga-engine.log \
                      --daemon \
-                     --pid-file $PWD/droonga-engine.pid
+                     --pid-file $base_path/droonga-engine.pid
 
 ### Create a database
 
@@ -1323,10 +1325,11 @@ Let's use the `droonga-http-server` as an HTTP protocol adapter. It is an npm pa
 
 Then, run it.
 
+    # base_path=$PWD
     # droonga-http-server --receive-host-name=192.168.0.10 \
                           --droonga-engine-host-name=192.168.0.10 \
                           --daemon \
-                          --pid-file $PWD/droonga-http-server.pid
+                          --pid-file $base_path/droonga-http-server.pid
 
 
 ### Search request via HTTP
