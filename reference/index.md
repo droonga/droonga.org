@@ -8,12 +8,12 @@ release.
 
 ## The current release
 
-* [1.0.2](1.0.2/)
+* [1.0.3](1.0.3/)
 
 ## The next release
 
-* [1.0.3](1.0.3/)
+* [1.0.4](1.0.4/)
 
 ## Old releases
 
-* None
+* [1.0.2](1.0.2/)
