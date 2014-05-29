@@ -295,7 +295,7 @@ msgid "After that the cluster becomes empty.)"
 msgstr "これでクラスタは空になります。）"
 
 msgid "Then you can restore the cluster from the dump file, with a command line like:"
-msgstr ""
+msgstr "この時、以下のようなコマンド列によって、ダンプファイルからクラスタを復元することができます:"
 
 msgid ""
 "~~~\n"

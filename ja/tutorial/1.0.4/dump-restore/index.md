@@ -185,7 +185,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 
 これでクラスタは空になります。）
 
-Then you can restore the cluster from the dump file, with a command line like:
+この時、以下のようなコマンド列によって、ダンプファイルからクラスタを復元することができます:
 
 ~~~
 # droonga-request --host=192.168.0.10 \
