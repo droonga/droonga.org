@@ -122,13 +122,12 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
                      --log-file=~/droonga/droonga-engine.log \
                      --daemon \
                      --pid-file=~/droonga/droonga-engine.pid
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --access-log-file=~/droonga/droonga-http-server.access.log \
-                          --system-log-file=~/droonga/droonga-http-server.system.log \
-                          --daemon \
-                          --pid-file=~/droonga/droonga-http-server.pid
+    # env NODE_ENV=production \
+        droonga-http-server --port=10041 \
+                            --receive-host-name=$host \
+                            --droonga-engine-host-name=$host \
+                            --daemon \
+                            --pid-file=~/droonga/droonga-http-server.pid
 
 いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
 この情報は、クラスタ内の他のDroongaノードとの通信のために使われます。
@@ -146,7 +145,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
     # kill $(cat ~/droonga/droonga-engine.pid)
     # kill $(cat ~/droonga/droonga-http-server.pid)
 
-### テーブルの作成
+### テーブル、カラム、インデックスの作成
 
 以上の手順で、Groonga HTTPサーバ互換のサービスとして動作するDroongaクラスタができました。
 
@@ -154,49 +153,41 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 新しいテーブル `Store` を作るには、`table_create` コマンドにあたるGETリクエストを送信して下さい:
 
     # endpoint="http://192.168.0.10:10041/d"
-    # curl "${endpoint}/table_create?name=Store&type=Hash&key_type=ShortText"
-    [[0,1398662266.3853862,0.08530688285827637],true]
+    # curl "${endpoint}/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText"
+    [[0,1401358896.360356,0.0035653114318847656],true]
 
 リクエストの送信先として、Droongaノード中でdroonga-http-serverが動作しているDroongaノードのどれか1つを指定する必要がある事に注意して下さい。
 言い換えると、接続先（エンドポイント）としてはクラスタ中のどのノードでも好きな物を使う事ができます。
 すべてのリクエストは、クラスタ中の適切なノードに配送されます。
 
+次は、`column_create` コマンドを使って `Store` テーブルに `name` と `location` という新しいカラムを作ります:
+
+    # curl "${endpoint}/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText"
+    [[0,1401358348.6541538,0.0004096031188964844],true]
+    # curl "${endpoint}/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
+    [[0,1401358359.084659,0.002511262893676758],true],true]
+
+インデックスも作成しましょう。
+
+    # curl "${endpoint}/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
+    [[0,1401358475.7229664,0.002419710159301758],true]
+    # curl "${endpoint}/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name"
+    [[0,1401358494.1656318,0.006799221038818359],true]
+    # curl "${endpoint}/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint"
+    [[0,1401358505.708896,0.0016951560974121094],true]
+    # curl "${endpoint}/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
+    [[0,1401358519.6187897,0.024788379669189453],true]
+
 さて、テーブルを正しく作成できました。
 `table_list` コマンドを使って、作成されたテーブルの情報を見てみましょう:
 
     # curl "${endpoint}/table_list"
-    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
+    [[0,1401358908.9126804,0.001600027084350586],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/vagrant/droonga/000/db.0000100","TABLE_PAT_KEY|PERSISTENT","ShortText",null,null,null]]]
 
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
     # curl "http://192.168.0.11:10041/d/table_list"
-    [[0,1398662423.509928,0.003869295120239258],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/username/groonga/droonga-engine/000/db.0000100","TABLE_HASH_KEY|PERSISTENT","ShortText",null,null,null]]]
-
-### カラムの作成
-
-次は、`column_create` コマンドを使って `Store` テーブルに `location` という新しいカラムを作ります:
-
-    # curl "${endpoint}/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
-    [[0,1398664305.8856306,0.00026226043701171875],true]
-
-`column_list` コマンドを使って、カラムが正しく作成された事を確認しましょう:
-
-    # curl "${endpoint}/column_list?table=Store"
-    [[0,1398664345.9680889,0.0011739730834960938],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["type","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["source","ShortText"]],[257,"location","/home/username/groonga/droonga-engine/000/db.0000101","fix","COLUMN_SCALAR","Store","WGS84GeoPoint",[]]]]
-
-### インデックスの作成
-
-インデックスも作成しましょう。
-
-    # curl "${endpoint}/table_create?name=Location&type=PatriciaTrie&key_type=WGS84GeoPoint"
-    [[0,1398664401.4927232,0.12011909484863281],true]
-    # curl "${endpoint}/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
-    [[0,1398664429.5348525,0.13435077667236328],true]
-    # curl "${endpoint}/table_create?name=Term&type=PatriciaTrie&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
-    [[0,1398664454.446939,0.14734888076782227],true]
-    # curl "${endpoint}/column_create?table=Term&name=store__key&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=_key"
-    [[0,1398664474.7112074,0.12619781494140625],true]
-
+    [[0,1401358908.9126804,0.001600027084350586],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/vagrant/droonga/000/db.0000100","TABLE_PAT_KEY|PERSISTENT","ShortText",null,null,null]]]
 
 ### テーブルへのデータの読み込み
 
@@ -207,54 +198,54 @@ stores.json:
 
 ~~~
 [
-["_key","location"],
-["1st Avenue & 75th St. - New York NY  (W)","40.770262,-73.954798"],
-["76th & Second - New York NY  (W)","40.771056,-73.956757"],
-["2nd Ave. & 9th Street - New York NY","40.729445,-73.987471"],
-["15th & Third - New York NY  (W)","40.733946,-73.9867"],
-["41st and Broadway - New York NY  (W)","40.755111,-73.986225"],
-["84th & Third Ave - New York NY  (W)","40.777485,-73.954979"],
-["150 E. 42nd Street - New York NY  (W)","40.750784,-73.975582"],
-["West 43rd and Broadway - New York NY  (W)","40.756197,-73.985624"],
-["Macy's 35th Street Balcony - New York NY","40.750703,-73.989787"],
-["Macy's 6th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
-["Herald Square- Macy's - New York NY","40.750703,-73.989787"],
-["Macy's 5th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
-["80th & York - New York NY  (W)","40.772204,-73.949862"],
-["Columbus @ 67th - New York NY  (W)","40.774009,-73.981472"],
-["45th & Broadway - New York NY  (W)","40.75766,-73.985719"],
-["Marriott Marquis - Lobby - New York NY","40.759123,-73.984927"],
-["Second @ 81st - New York NY  (W)","40.77466,-73.954447"],
-["52nd & Seventh - New York NY  (W)","40.761829,-73.981141"],
-["1585 Broadway (47th) - New York NY  (W)","40.759806,-73.985066"],
-["85th & First - New York NY  (W)","40.776101,-73.949971"],
-["92nd & 3rd - New York NY  (W)","40.782606,-73.951235"],
-["165 Broadway - 1 Liberty - New York NY  (W)","40.709727,-74.011395"],
-["1656 Broadway - New York NY  (W)","40.762434,-73.983364"],
-["54th & Broadway - New York NY  (W)","40.764275,-73.982361"],
-["Limited Brands-NYC - New York NY","40.765219,-73.982025"],
-["19th & 8th - New York NY  (W)","40.743218,-74.000605"],
-["60th & Broadway-II - New York NY  (W)","40.769196,-73.982576"],
-["63rd & Broadway - New York NY  (W)","40.771376,-73.982709"],
-["195 Broadway - New York NY  (W)","40.710703,-74.009485"],
-["2 Broadway - New York NY  (W)","40.704538,-74.01324"],
-["2 Columbus Ave. - New York NY  (W)","40.769262,-73.984764"],
-["NY Plaza - New York NY  (W)","40.702802,-74.012784"],
-["36th and Madison - New York NY  (W)","40.748917,-73.982683"],
-["125th St. btwn Adam Clayton & FDB - New York NY","40.808952,-73.948229"],
-["70th & Broadway - New York NY  (W)","40.777463,-73.982237"],
-["2138 Broadway - New York NY  (W)","40.781078,-73.981167"],
-["118th & Frederick Douglas Blvd. - New York NY  (W)","40.806176,-73.954109"],
-["42nd & Second - New York NY  (W)","40.750069,-73.973393"],
-["Broadway @ 81st - New York NY  (W)","40.784972,-73.978987"],
-["Fashion Inst of Technology - New York NY","40.746948,-73.994557"]
+["_key","name","location"],
+["store0","1st Avenue & 75th St. - New York NY  (W)","40.770262,-73.954798"],
+["store1","76th & Second - New York NY  (W)","40.771056,-73.956757"],
+["store2","2nd Ave. & 9th Street - New York NY","40.729445,-73.987471"],
+["store3","15th & Third - New York NY  (W)","40.733946,-73.9867"],
+["store4","41st and Broadway - New York NY  (W)","40.755111,-73.986225"],
+["store5","84th & Third Ave - New York NY  (W)","40.777485,-73.954979"],
+["store6","150 E. 42nd Street - New York NY  (W)","40.750784,-73.975582"],
+["store7","West 43rd and Broadway - New York NY  (W)","40.756197,-73.985624"],
+["store8","Macy's 35th Street Balcony - New York NY","40.750703,-73.989787"],
+["store9","Macy's 6th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
+["store10","Herald Square- Macy's - New York NY","40.750703,-73.989787"],
+["store11","Macy's 5th Floor - Herald Square - New York NY  (W)","40.750703,-73.989787"],
+["store12","80th & York - New York NY  (W)","40.772204,-73.949862"],
+["store13","Columbus @ 67th - New York NY  (W)","40.774009,-73.981472"],
+["store14","45th & Broadway - New York NY  (W)","40.75766,-73.985719"],
+["store15","Marriott Marquis - Lobby - New York NY","40.759123,-73.984927"],
+["store16","Second @ 81st - New York NY  (W)","40.77466,-73.954447"],
+["store17","52nd & Seventh - New York NY  (W)","40.761829,-73.981141"],
+["store18","1585 Broadway (47th) - New York NY  (W)","40.759806,-73.985066"],
+["store19","85th & First - New York NY  (W)","40.776101,-73.949971"],
+["store20","92nd & 3rd - New York NY  (W)","40.782606,-73.951235"],
+["store21","165 Broadway - 1 Liberty - New York NY  (W)","40.709727,-74.011395"],
+["store22","1656 Broadway - New York NY  (W)","40.762434,-73.983364"],
+["store23","54th & Broadway - New York NY  (W)","40.764275,-73.982361"],
+["store24","Limited Brands-NYC - New York NY","40.765219,-73.982025"],
+["store25","19th & 8th - New York NY  (W)","40.743218,-74.000605"],
+["store26","60th & Broadway-II - New York NY  (W)","40.769196,-73.982576"],
+["store27","63rd & Broadway - New York NY  (W)","40.771376,-73.982709"],
+["store28","195 Broadway - New York NY  (W)","40.710703,-74.009485"],
+["store29","2 Broadway - New York NY  (W)","40.704538,-74.01324"],
+["store30","2 Columbus Ave. - New York NY  (W)","40.769262,-73.984764"],
+["store31","NY Plaza - New York NY  (W)","40.702802,-74.012784"],
+["store32","36th and Madison - New York NY  (W)","40.748917,-73.982683"],
+["store33","125th St. btwn Adam Clayton & FDB - New York NY","40.808952,-73.948229"],
+["store34","70th & Broadway - New York NY  (W)","40.777463,-73.982237"],
+["store35","2138 Broadway - New York NY  (W)","40.781078,-73.981167"],
+["store36","118th & Frederick Douglas Blvd. - New York NY  (W)","40.806176,-73.954109"],
+["store37","42nd & Second - New York NY  (W)","40.750069,-73.973393"],
+["store38","Broadway @ 81st - New York NY  (W)","40.784972,-73.978987"],
+["store39","Fashion Inst of Technology - New York NY","40.746948,-73.994557"]
 ]
 ~~~
 
 データが準備できたら、`load` コマンドのPOSTリクエストとして送信します:
 
     # curl --data "@stores.json" "${endpoint}/load?table=Store"
-    [[0,1398666180.023,0.069],[40]]
+    [[0,1401358564.909,0.158],[40]]
 
 これで、JSONファイル中のすべてのデータが正しく読み込まれます。
 
@@ -264,16 +255,15 @@ stores.json:
 
 試しに、`select` コマンドを使って最初の10レコードを取り出してみましょう:
 
-    # curl "${endpoint}/select?table=Store&output_columns=_key&limit=10"
-    [[0,1398666260.887927,0.000017404556274414062],[[[40],[["_key","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["2nd Ave. & 9th Street - New York NY"],["76th & Second - New York NY  (W)"],["15th & Third - New York NY  (W)"],["41st and Broadway - New York NY  (W)"],["West 43rd and Broadway - New York NY  (W)"],["84th & Third Ave - New York NY  (W)"],["150 E. 42nd Street - New York NY  (W)"],["Macy's 35th Street Balcony - New York NY"],["Herald Square- Macy's - New York NY"]]]]
+    # curl "${endpoint}/select?table=Store&output_columns=name&limit=10"
+    [[0,1401362059.7437818,0.00004935264587402344],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
 
 もちろん、`query` オプションを使って検索条件を指定する事もできます:
 
-    # curl "${endpoint}/select?table=Store&query=Columbus&match_columns=_key&output_columns=_key&limit=10"
+    # curl "${endpoint}/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10"
     [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]
-    # curl "${endpoint}/select?table=Store&filter=_key@'Ave'&output_columns=_key&limit=10"
+    # curl "${endpoint}/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10"
     [[0,1398670586.193325,0.0003848075866699219],[[[3],[["_key","ShortText"]],["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]
-
 
 ## まとめ
 
