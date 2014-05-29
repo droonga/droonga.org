@@ -137,7 +137,48 @@ After that, establish that the `droonga-request` command has been installed succ
 Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
 You just have to pour the contents of the dump file to an empty cluster, by the `droonga-request` command.
 
-For example, if your cluster is empty and constructed from two nodes `192.168.0.10` and `192.168.0.11`, now your are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons` in the current directory, then the command line is:
+Assume that there is an empty Droonga cluster constructed from two nodes `192.168.0.10` and `192.168.0.11`, now your are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons`.
+
+(If you are reading this tutorial sequentially, you'll have an existing cluster and the dump file.
+Make it empty with these commands:
+
+    (on 192.168.0.10)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # rm -r ~/droonga/000
+    # host=192.168.0.10
+    # droonga-engine --host=$host \
+                     --log-file=~/droonga/droonga-engine.log \
+                     --daemon \
+                     --pid-file=~/droonga/droonga-engine.pid
+    # droonga-http-server --port=10041 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --access-log-file=~/droonga/droonga-http-server.access.log \
+                          --system-log-file=~/droonga/droonga-http-server.system.log \
+                          --daemon \
+                          --pid-file=~/droonga/droonga-http-server.pid
+
+    (on 192.168.0.11)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # rm -r ~/droonga/000
+    # host=192.168.0.11
+    # droonga-engine --host=$host \
+                     --log-file=~/droonga/droonga-engine.log \
+                     --daemon \
+                     --pid-file=~/droonga/droonga-engine.pid
+    # droonga-http-server --port=10041 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --access-log-file=~/droonga/droonga-http-server.access.log \
+                          --system-log-file=~/droonga/droonga-http-server.system.log \
+                          --daemon \
+                          --pid-file=~/droonga/droonga-http-server.pid
+
+After that the cluster becomes empty.)
+
+Then you can restore the cluster from the dump file, with a command line like:
 
 ~~~
 # droonga-request --host=192.168.0.10 \

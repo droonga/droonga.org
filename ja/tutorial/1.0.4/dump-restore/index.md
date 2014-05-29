@@ -145,7 +145,47 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 `drndump` の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
 やり方は単純で、単にダンプファイルを `droonga-request` コマンドを使ってからのクラスタに流し込むだけです。
 
-例えば、2つのノード `192.168.0.10` と `192.168.0.11` からなる空のクラスタがあり、今 `192.168.0.12` にログインして操作を行っていて、ダンプファイルが `dump.jsons` という名前で手元にあるのであれば、実行するコマンドはこのようになります:
+2つのノード `192.168.0.10` と `192.168.0.11` からなる空のクラスタがあり、今 `192.168.0.12` にログインして操作を行っていて、ダンプファイルが `dump.jsons` という名前で手元にあると仮定します。
+
+（もし順番にこのチュートリアルを読み進めているのであれば、クラスタとダンプファイルが既に手元にあるはずです。以下の操作でクラスタを空にしましょう:
+
+    (on 192.168.0.10)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # rm -r ~/droonga/000
+    # host=192.168.0.10
+    # droonga-engine --host=$host \
+                     --log-file=~/droonga/droonga-engine.log \
+                     --daemon \
+                     --pid-file=~/droonga/droonga-engine.pid
+    # droonga-http-server --port=10041 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --access-log-file=~/droonga/droonga-http-server.access.log \
+                          --system-log-file=~/droonga/droonga-http-server.system.log \
+                          --daemon \
+                          --pid-file=~/droonga/droonga-http-server.pid
+
+    (on 192.168.0.11)
+    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat ~/droonga/droonga-engine.pid)
+    # rm -r ~/droonga/000
+    # host=192.168.0.11
+    # droonga-engine --host=$host \
+                     --log-file=~/droonga/droonga-engine.log \
+                     --daemon \
+                     --pid-file=~/droonga/droonga-engine.pid
+    # droonga-http-server --port=10041 \
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --access-log-file=~/droonga/droonga-http-server.access.log \
+                          --system-log-file=~/droonga/droonga-http-server.system.log \
+                          --daemon \
+                          --pid-file=~/droonga/droonga-http-server.pid
+
+これでクラスタは空になります。）
+
+Then you can restore the cluster from the dump file, with a command line like:
 
 ~~~
 # droonga-request --host=192.168.0.10 \
