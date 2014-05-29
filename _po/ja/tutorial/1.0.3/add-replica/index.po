@@ -291,7 +291,7 @@ msgid ""
 "all nodes specified via the `--hosts` option, like:"
 msgstr ""
 "データを正しく複製できたら、新しいreplicaを既存のクラスタに参加させます。\n"
-"新たにkる明日谷参加するノード `192.168.0.12` 上で、すべてノードを `--hosts` オプションに指定して `catalog.json` "
+"新たにクラスタに参加するノード `192.168.0.12` 上で、すべてノードを `--hosts` オプションに指定して `catalog.json` "
 "を再作成してください:"
 
 msgid ""
