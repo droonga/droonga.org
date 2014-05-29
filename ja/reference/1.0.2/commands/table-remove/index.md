@@ -1,6 +1,6 @@
 ---
 title: table_remove
-layout: en
+layout: ja
 ---
 
 {% comment %}

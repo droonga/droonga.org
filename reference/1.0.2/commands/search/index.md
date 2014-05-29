@@ -625,7 +625,7 @@ You can use search queries just internally, without output. For example, the fol
 
 #### `timeout` {#parameter-timeout}
 
-*Note: This parameter is not implemented yet on the version {{ site.droonga_version }}.
+*Note: This parameter is not implemented yet on the version 1.0.2.
 
 Abstract
 : Threshold to time out for the request.
@@ -652,7 +652,7 @@ Default value
 
 You can put multiple search queries in a `search` request.
 
-On the {{ site.droonga_version }}, all search results for a request are returned in one time. In the future, as an optional behaviour, each result can be returned as separated messages progressively.
+On the version 1.0.2, all search results for a request are returned in one time. In the future, as an optional behaviour, each result can be returned as separated messages progressively.
 
 ### Parameters of each query {#query-parameters}
 
@@ -916,7 +916,7 @@ Grouped results will have all columns of [the result of the basic conditions for
 `_subrecs`
 : An array of sample records which have the value in its grouped column.
   
-*Note: On the version {{ site.droonga_version }}, too many records can be returned larger than the specified `maxNSubRecords`, if the dataset has multiple volumes. This is a known problem and to be fixed in a future version.
+*Note: On the version 1.0.2, too many records can be returned larger than the specified `maxNSubRecords`, if the dataset has multiple volumes. This is a known problem and to be fixed in a future version.
 
 
 #### `output` {#query-output}
@@ -947,8 +947,8 @@ An output definition is given as a hash like:
 : An array of strings, meaning the list of elements exported to the result of the search query in a [search response](#response).
   Possible values are following, and you must specify it as an array even if you export just one element:
   
-   * `"startTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
-   * `"elapsedTime"` *Note: This will be ignored because it is not implemented on the version {{ site.droonga_version }} yet.
+   * `"startTime"` *Note: This will be ignored because it is not implemented on the version 1.0.2 yet.
+   * `"elapsedTime"` *Note: This will be ignored because it is not implemented on the version 1.0.2 yet.
    * `"count"`
    * `"attributes"`
    * `"records"`
