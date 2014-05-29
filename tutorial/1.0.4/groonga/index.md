@@ -171,6 +171,10 @@ Create indexes also.
     # curl "${endpoint}/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
     [[0,1401358519.6187897,0.024788379669189453],true]
 
+*IMPORTANT NOTE*: Don't run `table_list` or `column_list` before the table is completely created.
+Otherwise indexes can be broken.
+This is a known issue on the version {{ site.droonga_version }}, and it will be fixed in a future release.
+
 OK, now the table has been created successfully.
 Let's see it by the `table_list` command:
 
