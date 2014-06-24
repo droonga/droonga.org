@@ -25,6 +25,12 @@ layout: ja
   このチュートリアルを始める前に、[「使ってみる」のチュートリアル](../groonga/)を完了している事が望ましいです
 * 複数のクラスタの間でのデータの複製方法を把握していること。
   このチュートリアルを始める前に、[バックアップと復元のチュートリアル](../dump-restore/)を完了しておいてください。
+* `catalog.json`に`status`プラグインが登録済みであること。
+  未登録の場合は、以下のようにして`plugins`の一覧に`status`を追加しておいて下さい：
+  
+      - "plugins": ["groonga", "crud", "search", "dump"],
+      + "plugins": ["groonga", "crud", "search", "dump", "status"],
+  
 
 ## 「replica」とは？
 

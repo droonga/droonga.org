@@ -21,11 +21,11 @@ Learning steps to backup and restore data by your hand.
       -   "Starbucks": {
       +   "Default": {
   
-* Your `catalog.json` must have the plugin `dump` in the list of plugins.
-  Otherwise, you must add the plugin to the list of `plugins`, like:
+* Your `catalog.json` must have `dump` and `status` plugins in the list of plugins.
+  Otherwise, you must add them to the list of `plugins`, like:
   
       - "plugins": ["groonga", "crud", "search"],
-      + "plugins": ["groonga", "crud", "search", "dump"],
+      + "plugins": ["groonga", "crud", "search", "dump", "status"],
   
 * Your `catalog.json` must not have any information in its `schema` section.
   Otherwise, you must make the `schema` section empty, like:

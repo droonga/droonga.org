@@ -16,6 +16,12 @@ Learning steps to add a new replica node, remove an existing replica, and replac
   Please complete the ["getting started" tutorial](../groonga/) before this.
 * You must know how to duplicate data between multiple clusters.
   Please complete the ["How to backup and restore the database?" tutorial](../dump-restore/) before this.
+* Your `catalog.json` must have the plugin `status` in the list of plugins.
+  Otherwise, you must add it, like:
+  
+      - "plugins": ["groonga", "crud", "search", "dump"],
+      + "plugins": ["groonga", "crud", "search", "dump", "status"],
+  
 
 ## What's "replica"?
 
