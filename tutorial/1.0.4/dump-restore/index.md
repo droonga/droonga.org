@@ -135,7 +135,7 @@ After that, establish that the `droonga-request` command has been installed succ
 
 ### Prepare an empty Droonga cluster
 
-Assume that there is an empty Droonga cluster constructed from two nodes `192.168.0.10` and `192.168.0.11`, now your are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons`.
+Assume that there is an empty Droonga cluster constructed from two nodes `192.168.0.10` and `192.168.0.11`, now you are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons`.
 
 If you are reading this tutorial sequentially, you'll have an existing cluster and the dump file.
 Make it empty with these commands:
