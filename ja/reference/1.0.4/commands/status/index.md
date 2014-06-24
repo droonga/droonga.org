@@ -112,4 +112,4 @@ layout: ja
 
 ## エラーの種類 {#errors}
 
-このコマンドは[一般的なエラー](../../message/#error)を返します。
+このコマンドは[一般的なエラー](/reference/message/#error)を返します。
