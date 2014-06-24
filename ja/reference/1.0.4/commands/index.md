@@ -18,6 +18,7 @@ layout: ja
 
  * [search](search/): データの検索
  * [add](add/): レコードの追加
+ * [status](status/): クラスタの状態の取得
 
 ## Groonga互換コマンド
 
