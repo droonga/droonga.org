@@ -222,7 +222,7 @@ Add `"count-records"` to `"plugins"`.
       "datasets": {
         "Starbucks": {
           (snip)
-          "plugins": ["count-records", "groonga", "crud", "search"],
+          "plugins": ["count-records", "groonga", "crud", "search", "dump", "status"],
 (snip)
 ~~~
 
@@ -480,7 +480,7 @@ Add `"delete-stores"` to `"plugins"`.
       "datasets": {
         "Starbucks": {
           (snip)
-          "plugins": ["delete-stores", "count-records", "groonga", "crud", "search"],
+          "plugins": ["delete-stores", "count-records", "groonga", "crud", "search", "dump", "status"],
 (snip)
 ~~~
 
