@@ -62,8 +62,8 @@ layout: ja
 
 ## 使い方 {#usage}
 
-On the version {{ site.droonga_version }}, this command just reports the list of nodes and their vital information.
-For example:
+バージョン {{ site.droonga_version }} では、このコマンドは単に各ノードの死活情報のみを出力します。
+例:
 
     {
       "type" : "status",
@@ -87,7 +87,7 @@ For example:
 
 ## レスポンス {#response}
 
-This returns a hash like following as the response's `body`, with `200` as its `statusCode`.
+このコマンドは以下のようなハッシュを `body` 、`200` を `statusCode` としたレスポンスを返します。以下はその一例です。。
 
     {
       "nodes" : {
@@ -100,16 +100,16 @@ This returns a hash like following as the response's `body`, with `200` as its `
     }
 
 `nodes`
-: A hash including information of nodes in the cluster.
-  Keys of the hash are identifiers of nodes defined in the `catalog.json`, with the format: `hostname:port/tag`.
-  Each value indicates status information of corresponding node, and have following information:
+: クラスタ内のノードの情報を含むハッシュ。
+  ハッシュのキーは、`catalog.json` で定義された各ノードの識別子（形式は `ホスト名:ポート番号/タグ`）です。
+  ハッシュの値は対応するノードのステータス情報を表し、以下の情報を含んでいます:
   
   `live`
-  : A boolean value indicating vital state of the node.
-    If `true`, the node can process messages, and messages are delivered to it.
-    Otherwise, the node doesn't process any message for now, because it is down or some reasons.
+  : そのノードの死活状態を示す真偽値。
+    `true` であれば、そのノードはメッセージを処理する事ができ、他のノードもそのノード宛にメッセージを配送します。
+    それ以外の場合、そのノードはサービスが停止しているなどの理由によりメッセージを処理しません。
 
 
 ## エラーの種類 {#errors}
 
-This command reports [general errors](/reference/message/#error).
+このコマンドは[一般的なエラー](../../message/#error)を返します。
