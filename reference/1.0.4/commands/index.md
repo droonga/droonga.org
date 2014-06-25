@@ -9,7 +9,8 @@ Here are available commands
 
  * [search](search/): Searches data
  * [add](add/): Adds a record
- * [system](system/): Reports system information of the cluster
+ * system: Reports system information of the cluster
+   * [system.status](system/status/): Reports status information of the cluster
 
 ## Groonga compatible commands
 
