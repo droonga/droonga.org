@@ -107,27 +107,31 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
  * 1つのreplicaを含む新しいクラスタ。以下、*「beta」*と仮称します。
    * `192.168.0.12`
 
-この事は、各ノード上にあるステータスファイル `live-nodes.json` を見ると確認できます:
+この事は、`status` コマンドの結果を見ると確認できます:
 
 ~~~
-(on 192.168.0.10, 192.168.0.11)
-# cat ~/droonga/state/live-nodes.json
+(for the cluster alpha)
+# curl "http://192.168.0.10:10041/droonga/status"
 {
-  "192.168.0.10:10031/droonga": {
-    "serfAddress": "192.168.100.52:7946"
-  },
-  "192.168.0.11:10031/droonga": {
-    "serfAddress": "192.168.100.50:7946"
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
   }
 }
 ~~~
 
 ~~~
-(on 192.168.0.12)
-# cat ~/droonga/state/live-nodes.json
+(for the cluster beta)
+# curl "http://192.168.0.12:10041/droonga/status"
 {
-  "192.168.0.12:10031/droonga": {
-    "serfAddress": "192.168.100.51:7946"
+  "nodes": {
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
   }
 }
 ~~~
