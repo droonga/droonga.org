@@ -16,16 +16,16 @@ msgid ""
 msgstr ""
 
 msgid "## For Groonga users"
-msgstr ""
+msgstr "## Groonga利用者向け"
 
 msgid " * [How to migrate from Groonga?](groonga/)"
-msgstr ""
+msgstr " * [Groongaからの移行手順](groonga/)"
 
 msgid "## For application developers"
-msgstr ""
+msgstr "## アプリケーション開発者向け"
 
 msgid " * [Basic usage tutorial](basic/)"
-msgstr ""
+msgstr " * [基本的な使い方のチュートリアル](basic/)"
 
 msgid "## For plugin developers"
 msgstr ""

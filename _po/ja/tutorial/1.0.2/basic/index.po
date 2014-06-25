@@ -14,6 +14,10 @@ msgid ""
 "layout: en\n"
 "---"
 msgstr ""
+"---\n"
+"title: \"Droonga チュートリアル: 基本的な使い方\"\n"
+"layout: ja\n"
+"---"
 
 msgid ""
 "* TOC\n"
@@ -24,7 +28,7 @@ msgid "## The goal of this tutorial"
 msgstr ""
 
 msgid "Learning steps to setup a Droonga based search system by yourself."
-msgstr ""
+msgstr "Droonga を使った検索システムを自分で構築できるようになる。"
 
 msgid "## Precondition"
 msgstr ""
@@ -306,7 +310,7 @@ msgid ""
 msgstr ""
 
 msgid "This `catalog.json` defines a dataset `Starbucks` as:"
-msgstr ""
+msgstr "この`catalog.json`では、データセット`Starbucks`を以下のように定義しています："
 
 msgid ""
 " * At the top level, there is one volume based on two sub volumes, called \"rep"

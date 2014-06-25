@@ -1049,9 +1049,7 @@ msgstr "### 全体のパラメータ {#container-parameters}"
 msgid "#### `timeout` {#parameter-timeout}"
 msgstr ""
 
-msgid ""
-"*Note: This parameter is not implemented yet on the version {{ site.droonga_ve"
-"rsion }}."
+msgid "*Note: This parameter is not implemented yet on the version 1.0.3."
 msgstr "※註：このパラメータはバージョン 1.0.3 では未実装です。指定しても機能しません。"
 
 msgid ""

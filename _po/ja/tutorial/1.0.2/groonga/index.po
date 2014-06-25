@@ -282,7 +282,7 @@ msgid ""
 msgstr ""
 
 msgid "### Create a table"
-msgstr ""
+msgstr "### テーブルの作成"
 
 msgid "Now your Droonga cluster actually works as a Groonga's HTTP server."
 msgstr ""
@@ -333,12 +333,12 @@ msgid ""
 msgstr ""
 
 msgid "### Create a column"
-msgstr ""
+msgstr "### カラムの作成"
 
 msgid ""
 "Next, create a new column `location` to the `Store` table by the `column_creat"
 "e` command, like:"
-msgstr ""
+msgstr "次は、`column_create` コマンドを使って `Store` テーブルに `location` という新しいカラムを作ります:"
 
 msgid ""
 "    # curl \"http://192.168.0.10:10041/d/column_create?table=Store&name=locatio"
@@ -349,7 +349,7 @@ msgstr ""
 msgid ""
 "Then verify that the column is correctly created, by the `column_list` command"
 ":"
-msgstr ""
+msgstr "`column_list` コマンドを使って、カラムが正しく作成された事を確認しましょう:"
 
 msgid ""
 "    # curl \"http://192.168.0.10:10041/d/column_list?table=Store\"\n"
@@ -361,7 +361,7 @@ msgid ""
 msgstr ""
 
 msgid "### Create indexes"
-msgstr ""
+msgstr "### インデックスの作成"
 
 msgid "Create indexes also."
 msgstr ""
