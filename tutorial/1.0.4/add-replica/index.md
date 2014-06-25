@@ -560,6 +560,32 @@ Re-generate `catalog.json` and spread it to all nodes in the cluster:
 
 Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.168.0.12` is here.
 
+You can confirm that, via the `status` command:
+
+~~~
+# curl "http://192.168.0.10:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
+  }
+}
+# curl "http://192.168.0.12:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
 
 ## Conclusion
 
