@@ -218,6 +218,7 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 ~~~
 
 ~~~
+(for the cluster charlie)
 # curl "http://192.168.0.12:10041/droonga/status"
 {
   "nodes": {

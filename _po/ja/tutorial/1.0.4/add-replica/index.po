@@ -375,6 +375,7 @@ msgstr "この事は、各クラスタに対する `status` コマンドの実�
 
 msgid ""
 "~~~\n"
+"(for the cluster charlie)\n"
 "# curl \"http://192.168.0.12:10041/droonga/status\"\n"
 "{\n"
 "  \"nodes\": {\n"

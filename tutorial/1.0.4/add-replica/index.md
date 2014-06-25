@@ -214,6 +214,7 @@ You can confirm that, via the `status` command for each cluster:
 ~~~
 
 ~~~
+(for the cluster charlie)
 # curl "http://192.168.0.12:10041/droonga/status"
 {
   "nodes": {
