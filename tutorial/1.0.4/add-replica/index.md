@@ -117,7 +117,23 @@ You can confirm that, via the `status` command:
     }
   }
 }
+# curl "http://192.168.0.11:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
 ~~~
+
+`192.168.0.10` and `192.168.0.11` are members of the cluster alpha, so they return same result.
+`192.168.0.12` doesn't appear in the result because it is not a member of the cluster alpha.
+
+On the other hand, `192.168.0.12` returns a result like:
 
 ~~~
 (for the cluster beta)
@@ -130,6 +146,9 @@ You can confirm that, via the `status` command:
   }
 }
 ~~~
+
+It is a result for the cluster beta, so `192.168.0.10` and `192.168.0.11` don't appear.
+
 
 ### Suspend inpouring of "write" requests
 
