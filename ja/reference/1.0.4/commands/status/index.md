@@ -17,7 +17,7 @@ layout: ja
 
 ## 概要 {#abstract}
 
-`statu` コマンドは、クラスタの現在の状態を返します。
+`status` コマンドは、クラスタの現在の状態を返します。
 
 ## APIの形式 {#api-types}
 

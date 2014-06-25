@@ -28,7 +28,7 @@ msgid "## Abstract {#abstract}"
 msgstr "## 概要 {#abstract}"
 
 msgid "The `status` command reports current status of the clsuter itself."
-msgstr "`statu` コマンドは、クラスタの現在の状態を返します。"
+msgstr "`status` コマンドは、クラスタの現在の状態を返します。"
 
 msgid "## API types {#api-types}"
 msgstr "## APIの形式 {#api-types}"
