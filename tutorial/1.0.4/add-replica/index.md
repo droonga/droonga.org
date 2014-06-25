@@ -231,7 +231,24 @@ You can confirm that, via the `status` command for each cluster:
     }
   }
 }
+# curl "http://192.168.0.11:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
 ~~~
+
+Because `catalog.json` on nodes `192.168.0.10` and `192.168.0.11` have no change, the result says that there is still the cluster alpha with only two nodes.
+Any incoming request to the cluster alpha is never delivered to the new replica `192.168.0.12` yet.
+
+However, the new node `192.168.0.12` has a new `catalog.json`.
+It knows the cluster charlie includes three nodes, even if other two existing nodes don't know that:
 
 ~~~
 (for the cluster charlie)
@@ -252,8 +269,6 @@ You can confirm that, via the `status` command for each cluster:
 ~~~
 
 Note that the temporary cluster named "beta" is gone.
-And, the new node `192.168.0.12` knows the cluster charlie includes three nodes, other two existing nodes don't know that.
-Because both two existing nodes think that there are only them in the cluster they belong to, any incoming request to them never delivered to the new replica `192.168.0.12` yet.
 
 Next, copy new `catalog.json` from `192.168.0.12` to others.
 
