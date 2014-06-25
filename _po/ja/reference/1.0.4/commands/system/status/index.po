@@ -28,7 +28,7 @@ msgid "## Abstract {#abstract}"
 msgstr "## 概要 {#abstract}"
 
 msgid "The `system.status` command reports current status of the clsuter itself."
-msgstr ""
+msgstr "`system.status` コマンドは、クラスタの現在の状態を返します。"
 
 msgid "## API types {#api-types}"
 msgstr "## APIの形式 {#api-types}"

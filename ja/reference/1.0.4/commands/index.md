@@ -18,7 +18,8 @@ layout: ja
 
  * [search](search/): データの検索
  * [add](add/): レコードの追加
- * [system](system/): クラスタのシステム情報の取得
+ * system: クラスタのシステム情報の取得
+   * [system.status](system/status/): クラスタのステータス情報の取得
 
 ## Groonga互換コマンド
 
