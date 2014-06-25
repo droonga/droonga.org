@@ -442,8 +442,47 @@ Then there is only one Droonga cluster on this time.
    * `192.168.0.10`
    * `192.168.0.11`
 
-Even if both nodes `192.168.0.11` and `192.168.0.12` receive requests, they are delivered to the nodes of the cluster delta.
-The orphan node `192.168.0.12` never process requests by self.
+You can confirm that, via the `status` command for each cluster:
+
+~~~
+(for the cluster delta)
+# curl "http://192.168.0.10:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
+# curl "http://192.168.0.11:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
+# curl "http://192.168.0.12:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
+Any incoming request is delivered to member nodes of the cluster delta.
+Because the orphan node `192.168.0.12` is not a member, it never process requests by self.
 
 OK, the node is ready to be removed.
 Stop servers and shutdown it if needed.
