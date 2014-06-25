@@ -509,10 +509,38 @@ Re-generate `catalog.json` without the node to be removed, and spread it to othe
 
 After that the node `192.168.0.11` unjoins from the cluster successfully.
 
+Now there is a cluster without the node `192.168.0.11`.
+You can confirm that via the `status` command:
+
+~~~
+# curl "http://192.168.0.10:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 ### Add a new replica
 
 Next, setup the new replica.
-Construct a temporary cluster with only one node, and duplicate data from the existing cluster:
+Construct a temporary cluster with only one node `192.168.0.12`.
+The result of the `status` command will be:
+
+~~~
+# curl "http://192.168.0.12:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
+Then, duplicate data from the existing cluster:
 
     (on 192.168.0.12)
     # droonga-engine-catalog-generate --hosts=192.168.0.12 \
