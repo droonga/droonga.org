@@ -30,7 +30,7 @@ Learning steps to backup and restore data by your hand.
 * Your `catalog.json` must not have any information in its `schema` section.
   Otherwise, you must make the `schema` section empty, like:
   
-      "datasets": {},
+      "schema": {},
   
 
 ## Backup data in a Droonga cluster

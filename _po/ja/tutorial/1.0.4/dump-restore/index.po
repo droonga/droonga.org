@@ -70,7 +70,7 @@ msgstr ""
 "* `catalog.json`の`schema`セクションが情報を含んでいないこと・\n"
 "  スキーマを定義していた場合は、以下のようにして`schema`セクションを空にしておいて下さい："
 
-msgid "      \"datasets\": {},"
+msgid "      \"schema\": {},"
 msgstr ""
 
 msgid "## Backup data in a Droonga cluster"

@@ -39,7 +39,7 @@ layout: ja
 * `catalog.json`の`schema`セクションが情報を含んでいないこと・
   スキーマを定義していた場合は、以下のようにして`schema`セクションを空にしておいて下さい：
   
-      "datasets": {},
+      "schema": {},
   
 
 ## Droongaクラスタのデータをバックアップする
