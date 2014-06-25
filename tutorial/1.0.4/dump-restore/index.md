@@ -142,28 +142,28 @@ Make it empty with these commands:
 
     (on 192.168.0.10)
     # cd ~/droonga
-    # kill $(cat $PWD/droonga-engine.pid)
+    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
     # rm -r 000
     # host=192.168.0.10
     # droonga-engine --host=$host \
-                     --log-file=$PWD/droonga-engine.log \
+                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
-                     --pid-file=$PWD/droonga-engine.pid
+                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
 
     (on 192.168.0.11)
     # cd ~/droonga
-    # kill $(cat $PWD/droonga-engine.pid)
+    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
     # rm -r 000
     # host=192.168.0.11
     # droonga-engine --host=$host \
-                     --log-file=$PWD/droonga-engine.log \
+                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
-                     --pid-file=$PWD/droonga-engine.pid
+                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
 
 After that the cluster becomes empty. Confirm it:
 
-    # endpoint="http://192.168.0.10:10041/d"
-    # curl "${endpoint}/select?table=Store&output_columns=name&limit=10"
+    # endpoint="http://192.168.0.10:10041"
+    # curl "${endpoint}/d/select?table=Store&output_columns=name&limit=10"
     [[0,1401363465.610241,0],[[[null],[]]]]
 
 ### Restore data from a dump result, to an empty Droonga cluster

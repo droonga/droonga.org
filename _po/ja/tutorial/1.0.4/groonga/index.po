@@ -292,8 +292,8 @@ msgid "To stop services, run commands like following on each Droonga node:"
 msgstr "サービスを停止するには、以下のコマンドを各Droongaノード上で実行します："
 
 msgid ""
-"    # kill $(cat ~/droonga/droonga-engine.pid)\n"
-"    # kill $(cat ~/droonga/droonga-http-server.pid)"
+"    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)\n"
+"    # kill $(cat $DROONGA_BASE_DIR/droonga-http-server.pid)"
 msgstr ""
 
 msgid "### Create a table, columns, and indexes"

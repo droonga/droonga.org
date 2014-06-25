@@ -144,8 +144,8 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
+    # kill $(cat $DROONGA_BASE_DIR/droonga-http-server.pid)
 
 ### テーブル、カラム、インデックスの作成
 

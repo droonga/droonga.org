@@ -137,8 +137,8 @@ Then you can recover the dead node and re-join it to the cluster secretly.
 
 To stop services, run commands like following on each Droonga node:
 
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
+    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
+    # kill $(cat $DROONGA_BASE_DIR/droonga-http-server.pid)
 
 ### Create a table, columns, and indexes
 
