@@ -432,9 +432,6 @@ msgstr ""
 "   * `192.168.0.11`\n"
 "   * `192.168.0.12`"
 
-msgid "You can confirm that, via the `status` command on each node:"
-msgstr "この事は、`status` コマンドの実行結果を見ると確認できます:"
-
 msgid ""
 "~~~\n"
 "# curl \"http://192.168.0.10:10041/droonga/status\"\n"

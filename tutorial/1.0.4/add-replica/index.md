@@ -249,7 +249,7 @@ Then there is just one Droonga clusters on this time.
    * `192.168.0.11`
    * `192.168.0.12`
 
-You can confirm that, via the `status` command on each node:
+You can confirm that, via the `status` command:
 
 ~~~
 # curl "http://192.168.0.10:10041/droonga/status"
