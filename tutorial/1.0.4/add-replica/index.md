@@ -302,6 +302,34 @@ You can confirm that, via the `status` command:
     }
   }
 }
+# curl "http://192.168.0.11:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
+  }
+}
+# curl "http://192.168.0.12:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
+  }
+}
 ~~~
 
 Any node returns same result.
