@@ -375,7 +375,60 @@ Then there are two overlapping Droonga clusters theoretically on this time.
    * `192.168.0.10`
    * `192.168.0.11`
 
-The node `192.168.0.10` with new `catalog.json` knows the cluster delta includes only two nodes, so it doesn't deliver incoming messages to the missing node `192.168.0.12` anymore.
+You can confirm that, via the `status` command for each cluster:
+
+~~~
+(for the cluster charlie)
+# curl "http://192.168.0.11:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
+  }
+}
+# curl "http://192.168.0.12:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.12:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
+Because `catalog.json` on nodes `192.168.0.11` and `192.168.0.12` have no change, they still detect three nodes in the cluster charlie.
+
+On the other hand, the node `192.168.0.10` with new `catalog.json` knows the cluster delta includes only two nodes:
+
+~~~
+(for the cluster delta)
+# curl "http://192.168.0.10:10041/droonga/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
+So the node `192.168.0.10` doesn't deliver incoming messages to the missing node `192.168.0.12` anymore.
 
 Next, copy new `catalog.json` from `192.168.0.10` to others.
 
