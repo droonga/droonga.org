@@ -16,11 +16,11 @@ Learning steps to add a new replica node, remove an existing replica, and replac
   Please complete the ["getting started" tutorial](../groonga/) before this.
 * You must know how to duplicate data between multiple clusters.
   Please complete the ["How to backup and restore the database?" tutorial](../dump-restore/) before this.
-* Your `catalog.json` must have the plugin `status` in the list of plugins.
+* Your `catalog.json` must have the plugin `system` in the list of plugins.
   Otherwise, you must add it, like:
   
       - "plugins": ["groonga", "crud", "search", "dump"],
-      + "plugins": ["groonga", "crud", "search", "dump", "status"],
+      + "plugins": ["groonga", "crud", "search", "dump", "system"],
   
 
 ## What's "replica"?
@@ -102,11 +102,11 @@ Then there are two separate Droonga clusters on this time.
    Let's give a name *"beta"* to it, for now.
    * `192.168.0.12`
 
-You can confirm that, via the `status` command:
+You can confirm that, via the `system.status` command:
 
 ~~~
 (for the cluster alpha)
-# curl "http://192.168.0.10:10041/droonga/status"
+# curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -117,7 +117,7 @@ You can confirm that, via the `status` command:
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/status"
+# curl "http://192.168.0.11:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -137,7 +137,7 @@ On the other hand, `192.168.0.12` returns a result like:
 
 ~~~
 (for the cluster beta)
-# curl "http://192.168.0.12:10041/droonga/status"
+# curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.12:10031/droonga": {
@@ -216,11 +216,11 @@ Then there are two overlapping Droonga clusters theoretically on this time.
    * `192.168.0.11`
    * `192.168.0.12`
 
-You can confirm that, via the `status` command for each cluster:
+You can confirm that, via the `system.status` command for each cluster:
 
 ~~~
 (for the cluster alpha)
-# curl "http://192.168.0.10:10041/droonga/status"
+# curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -231,7 +231,7 @@ You can confirm that, via the `status` command for each cluster:
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/status"
+# curl "http://192.168.0.11:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -252,7 +252,7 @@ It knows the cluster charlie includes three nodes, even if other two existing no
 
 ~~~
 (for the cluster charlie)
-# curl "http://192.168.0.12:10041/droonga/status"
+# curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -285,10 +285,10 @@ Then there is just one Droonga clusters on this time.
    * `192.168.0.11`
    * `192.168.0.12`
 
-You can confirm that, via the `status` command:
+You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/status"
+# curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -302,7 +302,7 @@ You can confirm that, via the `status` command:
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/status"
+# curl "http://192.168.0.11:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -316,7 +316,7 @@ You can confirm that, via the `status` command:
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/status"
+# curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -375,11 +375,11 @@ Then there are two overlapping Droonga clusters theoretically on this time.
    * `192.168.0.10`
    * `192.168.0.11`
 
-You can confirm that, via the `status` command for each cluster:
+You can confirm that, via the `system.status` command for each cluster:
 
 ~~~
 (for the cluster charlie)
-# curl "http://192.168.0.11:10041/droonga/status"
+# curl "http://192.168.0.11:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -393,7 +393,7 @@ You can confirm that, via the `status` command for each cluster:
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/status"
+# curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -415,7 +415,7 @@ On the other hand, the node `192.168.0.10` with new `catalog.json` knows the clu
 
 ~~~
 (for the cluster delta)
-# curl "http://192.168.0.10:10041/droonga/status"
+# curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -442,11 +442,11 @@ Then there is only one Droonga cluster on this time.
    * `192.168.0.10`
    * `192.168.0.11`
 
-You can confirm that, via the `status` command for each cluster:
+You can confirm that, via the `system.status` command for each cluster:
 
 ~~~
 (for the cluster delta)
-# curl "http://192.168.0.10:10041/droonga/status"
+# curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -457,7 +457,7 @@ You can confirm that, via the `status` command for each cluster:
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/status"
+# curl "http://192.168.0.11:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -468,7 +468,7 @@ You can confirm that, via the `status` command for each cluster:
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/status"
+# curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -510,10 +510,10 @@ Re-generate `catalog.json` without the node to be removed, and spread it to othe
 After that the node `192.168.0.11` unjoins from the cluster successfully.
 
 Now there is a cluster without the node `192.168.0.11`.
-You can confirm that via the `status` command:
+You can confirm that via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/status"
+# curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -527,10 +527,10 @@ You can confirm that via the `status` command:
 
 Next, setup the new replica.
 Construct a temporary cluster with only one node `192.168.0.12`.
-The result of the `status` command will be:
+The result of the `system.status` command will be:
 
 ~~~
-# curl "http://192.168.0.12:10041/droonga/status"
+# curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.12:10031/droonga": {
@@ -560,10 +560,10 @@ Re-generate `catalog.json` and spread it to all nodes in the cluster:
 
 Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.168.0.12` is here.
 
-You can confirm that, via the `status` command:
+You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/status"
+# curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -574,7 +574,7 @@ You can confirm that, via the `status` command:
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/status"
+# curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
