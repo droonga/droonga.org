@@ -30,11 +30,11 @@ layout: ja
       -   "Starbucks": {
       +   "Default": {
   
-* `catalog.json`に`dump`プラグインと`status`プラグインが登録済みであること。
-  未登録の場合は、以下のようにして`plugins`の一覧に`dump`と`status`を追加しておいて下さい：
+* `catalog.json`に`dump`プラグインと`system`プラグインが登録済みであること。
+  未登録の場合は、以下のようにして`plugins`の一覧に`dump`と`system`を追加しておいて下さい：
   
       - "plugins": ["groonga", "crud", "search"],
-      + "plugins": ["groonga", "crud", "search", "dump", "status"],
+      + "plugins": ["groonga", "crud", "search", "dump", "system"],
   
 * `catalog.json`の`schema`セクションが情報を含んでいないこと・
   スキーマを定義していた場合は、以下のようにして`schema`セクションを空にしておいて下さい：
