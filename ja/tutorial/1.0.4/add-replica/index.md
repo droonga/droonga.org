@@ -87,7 +87,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     (on 192.168.0.12)
     # cd ~/droonga
     # host=192.168.0.12
-    # DROONGA_BASE_DIR=/vagra
+    # DROONGA_BASE_DIR=$PWD
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
