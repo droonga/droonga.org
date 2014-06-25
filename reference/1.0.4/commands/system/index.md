@@ -1,5 +1,5 @@
 ---
-title: status
+title: system
 layout: en
 ---
 
@@ -8,14 +8,14 @@ layout: en
 
 ## Abstract {#abstract}
 
-The `status` command reports current status of the clsuter itself.
+The `system` command reports current system information of the clsuter itself.
 
 ## API types {#api-types}
 
 ### HTTP {#api-types-http}
 
 Request endpoint
-: `(Document Root)/droonga/status`
+: `(Document Root)/droonga/system/status`
 
 Request methd
 : `GET`
@@ -39,13 +39,13 @@ Style
 : Request-Response. One response message is always returned per one request.
 
 `type` of the request
-: `status`
+: `system.status`
 
 `body` of the request
 : Nothing.
 
 `type` of the response
-: `status.result`
+: `system.status.result`
 
 ## Parameter syntax {#syntax}
 
@@ -57,12 +57,12 @@ On the version {{ site.droonga_version }}, this command just reports the list of
 For example:
 
     {
-      "type" : "status",
+      "type" : "system.status",
       "body" : {}
     }
     
     => {
-         "type" : "status.result",
+         "type" : "system.status.result",
          "body" : {
            "nodes": {
              "192.168.0.10:10031/droonga": {
@@ -93,7 +93,7 @@ This returns a hash like following as the response's `body`, with `200` as its `
 `nodes`
 : A hash including information of nodes in the cluster.
   Keys of the hash are identifiers of nodes defined in the `catalog.json`, with the format: `hostname:port/tag`.
-  Each value indicates status information of corresponding node, and have following information:
+  Each value indicates system information of corresponding node, and have following information:
   
   `live`
   : A boolean value indicating vital state of the node.
