@@ -87,17 +87,18 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     (on 192.168.0.12)
     # cd ~/droonga
     # host=192.168.0.12
+    # DROONGA_BASE_DIR=/vagra
     # droonga-engine --host=$host \
-                     --log-file=$PWD/droonga-engine.log \
+                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
-                     --pid-file=$PWD/droonga-engine.pid
+                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
     # env NODE_ENV=production \
         droonga-http-server --port=10041 \
                             --receive-host-name=$host \
                             --droonga-engine-host-name=$host \
                             --cache-size=-1 \
                             --daemon \
-                            --pid-file=$PWD/droonga-http-server.pid
+                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
 この時点で、2つの別々のDroongaクラスタが存在するようになりました。
 
