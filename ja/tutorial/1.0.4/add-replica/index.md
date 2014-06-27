@@ -181,23 +181,14 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 ### 既存のクラスタから新しいreplicaへデータを複製する
 
 クラスタ alpha からクラスタ beta へデータを複製します。
-これは `drndump` と `droonga-request` の各コマンドを使って行います。
-（Gemパッケージ `drndump` と `droonga-client` をあらかじめインストールしておいて下さい。）
+これは `droonga-engine-absorb-data` コマンドを使って行います。
+*新しいreplicaノード上で*、以下のようにコマンドを実行して下さい:
 
     (on 192.168.0.12)
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.12 | \
-        droonga-request --host=192.168.0.12 \
-                        --receiver-host=192.168.0.12
+    # droonga-engine-absorb-data --source-host=192.168.0.10 \
+                                 --receiver-host=192.168.0.12
 
-`--receiver-host` オプションに作業マシン自身のホスト名またはIPアドレスを指定しておく必要がある事に注意して下さい。
-ノード `192.168.0.11` の上で作業する場合であれば、コマンド列は以下の通りです:
-
-    (on 192.168.0.11)
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.11 | \
-        droonga-request --host=192.168.0.12 \
-                        --receiver-host=192.168.0.11
+`--receiver-host` オプションに新しいreplicaノード自身のホスト名またはIPアドレスを指定しておく必要がある事に注意して下さい。
 
 ### 新しいreplicaをクラスタに参加させる
 

@@ -176,23 +176,14 @@ If you are reading this tutorial sequentially after the [previous topic](../dump
 ### Duplicate data from the existing cluster to the new replica
 
 Duplicate data from the cluster alpha to the cluster beta.
-It can be done by `drndump` and `droonga-request` commands.
-(You have to install `drndump` and `droonga-client` gem packages.)
+It can be done by the command `droonga-engine-absorb-data`.
+Run it *on the new replica node*, like:
 
     (on 192.168.0.12)
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.12 | \
-        droonga-request --host=192.168.0.12 \
-                        --receiver-host=192.168.0.12
+    # droonga-engine-absorb-data --source-host=192.168.0.10 \
+                                 --receiver-host=192.168.0.12
 
-Note that you must specify the host name or the IP address of the machine via the `--receiver-host` option.
-If you run the command line on the node `192.168.0.11`, then:
-
-    (on 192.168.0.11)
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.11 | \
-        droonga-request --host=192.168.0.12 \
-                        --receiver-host=192.168.0.11
+Note that you must specify the host name or the IP address of the new replica node itself, via the `--receiver-host` option.
 
 ### Join the new replica to the cluster
 
