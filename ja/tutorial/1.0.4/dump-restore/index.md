@@ -264,43 +264,37 @@ Elapsed time: 0.008678467
     # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
     [[0,1401363465.610241,0],[[[null],[]]]]
 
-### 2つのDroongaクラスタの間でデータを複製する
+### 2つのDroongaクラスタの間で直接データを複製する
 
-複製元クラスタから複製先クラスタへデータを複製するには、以下のようなコマンドを実行します:
+`droonga-engine` パッケージは `droonga-engine-absorb-data` というユーティリティコマンドを含んでいます。
+これを使うと、既存のクラスタから別のクラスタへ直接データをコピーする事ができます。ローカルにダンプファイルを保存する必要がない場合には、この方法がおすすめです。
+
+2つのクラスタの間でデータをコピーするには、*コピー先となるクラスタのノード上で*以下のようにコマンドを実行します:
 
 ~~~
-# drndump --host=192.168.0.10 \
-           --receiver-host=192.168.0.12 | \
-    droonga-request --host=192.168.0.20 \
-                    --receiver-host=192.168.0.12
-Elapsed time: 0.027541763
+(on 192.168.0.11)
+# droonga-engine-absorb-data --source-host=192.168.0.10 \
+                             --receiver-host=192.168.0.11
 {
-  "inReplyTo": "1401099940.5548894",
-  "statusCode": 200,
-  "type": "table_create.result",
-  "body": [
-    [
-      0,
-      1401099940.591563,
-      0.00031876564025878906
-    ],
-    true
-  ]
+  "type": "table_create",
+  "dataset": "Default",
+  "body": {
+    "name": "Location",
+    "flags": "TABLE_PAT_KEY",
+    "key_type": "WGS84GeoPoint"
+  }
 }
 ...
-Elapsed time: 0.008678467
 {
-  "inReplyTo": "1401099941.0794394",
-  "statusCode": 200,
-  "type": "column_create.result",
-  "body": [
-    [
-      0,
-      1401099941.1154332,
-      0.00027871131896972656
-    ],
-    true
-  ]
+  "type": "column_create",
+  "dataset": "Default",
+  "body": {
+    "table": "Term",
+    "name": "store_name",
+    "type": "Store",
+    "flags": "COLUMN_INDEX|WITH_POSITION",
+    "source": "name"
+  }
 }
 ~~~
 

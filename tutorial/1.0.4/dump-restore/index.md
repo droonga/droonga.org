@@ -258,43 +258,37 @@ After that there are two clusters: one contains `192.168.0.10` with data, anothe
     # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
     [[0,1401363465.610241,0],[[[null],[]]]]
 
-### Duplicate data between two Droonga clusters
+### Duplicate data between two Droonga clusters directly
 
-To duplicate the source cluster to the destination cluster, run a command line like:
+The package `droonga-engine` includes a utility command `droonga-engine-absorb-data`.
+It copies all data from an existing cluster to another one directly, so it is recommended if you don't need to save dump file locally.
+
+To copy data between two clusters, run the command *on a node of the destination cluster*, like:
 
 ~~~
-# drndump --host=192.168.0.10 \
-           --receiver-host=192.168.0.12 | \
-    droonga-request --host=192.168.0.20 \
-                    --receiver-host=192.168.0.12
-Elapsed time: 0.027541763
+(on 192.168.0.11)
+# droonga-engine-absorb-data --source-host=192.168.0.10 \
+                             --receiver-host=192.168.0.11
 {
-  "inReplyTo": "1401099940.5548894",
-  "statusCode": 200,
-  "type": "table_create.result",
-  "body": [
-    [
-      0,
-      1401099940.591563,
-      0.00031876564025878906
-    ],
-    true
-  ]
+  "type": "table_create",
+  "dataset": "Default",
+  "body": {
+    "name": "Location",
+    "flags": "TABLE_PAT_KEY",
+    "key_type": "WGS84GeoPoint"
+  }
 }
 ...
-Elapsed time: 0.008678467
 {
-  "inReplyTo": "1401099941.0794394",
-  "statusCode": 200,
-  "type": "column_create.result",
-  "body": [
-    [
-      0,
-      1401099941.1154332,
-      0.00027871131896972656
-    ],
-    true
-  ]
+  "type": "column_create",
+  "dataset": "Default",
+  "body": {
+    "table": "Term",
+    "name": "store_name",
+    "type": "Store",
+    "flags": "COLUMN_INDEX|WITH_POSITION",
+    "source": "name"
+  }
 }
 ~~~
 
