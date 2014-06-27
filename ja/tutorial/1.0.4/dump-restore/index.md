@@ -226,13 +226,10 @@ Elapsed time: 0.008678467
     # ${endpoint}/select?table=Store&output_columns=name&limit=10"
     [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
 
-## 既存のクラスタを別の空のクラスタに複製する
+## 既存のクラスタを別の空のクラスタに直接複製する
 
-複数のDroongaクラスタが存在する時に、`drndump` と `droonga-request` の2つのコマンドを併用すると、片方のクラスタの内容をもう片方に複製する事ができます。
-
-`drndump` コマンドは結果を標準出力に出力します。
-その一方で、`droonga-request` コマンドは標準入力からメッセージを受け取る事ができます。
-ですので、これらをパイプで繋げるだけで、片方のクラスタの内容をもう片方に複製できます。
+複数のDroongaクラスタが存在する場合、片方のクラスタの内容をもう片方のクラスタに複製することができます。
+`droonga-engine` パッケージは `droonga-engine-absorb-data` というユーティリティコマンドを含んでおり、これを使うと、既存のクラスタから別のクラスタへ直接データをコピーする事ができます。ローカルにダンプファイルを保存する必要がない場合には、この方法がおすすめです。
 
 ### 複数のDroongaクラスタを用意する
 
@@ -264,10 +261,7 @@ Elapsed time: 0.008678467
     # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
     [[0,1401363465.610241,0],[[[null],[]]]]
 
-### 2つのDroongaクラスタの間で直接データを複製する
-
-`droonga-engine` パッケージは `droonga-engine-absorb-data` というユーティリティコマンドを含んでいます。
-これを使うと、既存のクラスタから別のクラスタへ直接データをコピーする事ができます。ローカルにダンプファイルを保存する必要がない場合には、この方法がおすすめです。
+### 2つのDroongaクラスタの間でデータを複製する
 
 2つのクラスタの間でデータをコピーするには、*コピー先となるクラスタのノード上で*以下のようにコマンドを実行します:
 

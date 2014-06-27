@@ -219,13 +219,11 @@ Then the data is completely restored. Confirm it:
     # ${endpoint}/select?table=Store&output_columns=name&limit=10"
     [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
 
-## Duplicate an existing Droonga cluster to another empty cluster
+## Duplicate an existing Droonga cluster to another empty cluster directly
 
-If you have multiple Droonga clusters, then you can duplicate one to another with `drndump` and `droonga-request` commands.
-
-The command `drndump` reports its result to the standard output.
-On the other hand, `droonga-request` can receive messages from the standard input.
-So, you just connect them with a pipe, to duplicate contents of a cluster to another.
+If you have multiple Droonga clusters, then you can duplicate one to another.
+For this purpose, the package `droonga-engine` includes a utility command `droonga-engine-absorb-data`.
+It copies all data from an existing cluster to another one directly, so it is recommended if you don't need to save dump file locally.
 
 ### Prepare multiple Droonga clusters
 
@@ -258,10 +256,7 @@ After that there are two clusters: one contains `192.168.0.10` with data, anothe
     # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
     [[0,1401363465.610241,0],[[[null],[]]]]
 
-### Duplicate data between two Droonga clusters directly
-
-The package `droonga-engine` includes a utility command `droonga-engine-absorb-data`.
-It copies all data from an existing cluster to another one directly, so it is recommended if you don't need to save dump file locally.
+### Duplicate data between two Droonga clusters
 
 To copy data between two clusters, run the command *on a node of the destination cluster*, like:
 
