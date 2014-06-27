@@ -235,20 +235,22 @@ Elapsed time: 0.008678467
 
 ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先クラスタの2つのクラスタがあると仮定します。
 
-もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。以下の操作で2つのクラスタを作り、1つを空にしましょう:
+もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。`droonga-engine-modify-catalog` を使って2つのクラスタを作り、1つを空にしましょう。手順は以下の通りです:
 
     (on 192.168.0.10)
     # host=192.168.0.10
-    # droonga-engine-catalog-generate --hosts=$host \
-                                      --output=~/droonga/catalog.json
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --hosts=$host
 
     (on 192.168.0.11)
     # cd ~/droonga
     # kill $(cat $PWD/droonga-engine.pid)
     # rm -r 000
     # host=192.168.0.11
-    # droonga-engine-catalog-generate --hosts=$host \
-                                      --output=$PWD/catalog.json
+    # droonga-engine-modify-catalog --source=$PWD/catalog.json \
+                                    --update \
+                                    --hosts=$host
     # droonga-engine --host=$host \
                      --log-file=$PWD/droonga-engine.log \
                      --daemon \
@@ -303,9 +305,15 @@ Elapsed time: 0.008678467
 
 これらの2つのクラスタを結合するために、以下のコマンド列を実行しましょう:
 
-    (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
-                                      --output=~/droonga/catalog.json
+    (on 192.168.0.10)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.11
+
+    (on 192.168.0.11)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.10
 
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。
 
