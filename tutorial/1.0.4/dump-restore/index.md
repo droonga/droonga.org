@@ -227,7 +227,7 @@ It copies all data from an existing cluster to another one directly, so it is re
 
 ### Prepare multiple Droonga clusters
 
-Assume that there are two clusters: the source has a node `192.168.0.10`, the destination has a node `192.168.0.11`, and now your are logged in to the host `192.168.0.12`.
+Assume that there are two clusters: the source has a node `192.168.0.10`, and the destination has a node `192.168.0.11`.
 
 If you are reading this tutorial sequentially, you'll have an existing cluster with two nodes.
 Construct two clusters and make one empty, with these commands:
