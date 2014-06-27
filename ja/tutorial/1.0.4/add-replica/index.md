@@ -169,13 +169,13 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 新しいreplicaノードを既存のクラスタに追加するには、*新しいreplicaノード自身の上で*`droonga-engine-join`コマンドを実行します:
 
     (on 192.168.0.12)
-    # droonga-engine-join --replica-source-host=192.168.0.10 \
+    # droonga-engine-join --base-dir=~/droonga \
+                          --replica-source-host=192.168.0.10 \
                           --my-host=192.168.0.12
-
-以下の2つのオプションの指定が必須である事に注意して下さい。
 
  * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名またはIPアドレスを指定して下さい。
  * `--my-host` オプションで、その新しいreplicaノード自身のホスト名またはIPアドレスを指定して下さい。
+ * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
 
 コマンドを実行すると、自動的に、クラスタのデータが新しいdeplicaノードへと同期され始めます。
 データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。
@@ -221,95 +221,21 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ### 既存のreplicaをクラスタから分離する
 
-既存のクラスタからreplicaノードを取り除くには、単に、そのノードを含まないreplicaノードのリストを伴って`catalog.json` を更新するだけでよいです:
+新しいreplicaノードを既存のクラスタから削除するには、*新しいreplicaノード自身の上で*`droonga-engine-unjoin`コマンドを実行します:
 
     (on 192.168.0.10)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --remove-replica-hosts=192.168.0.12
+    # droonga-engine-unjoin --base-dir=~/droonga \
+                            --replica-remove-host=192.168.0.12
 
-この時点で、理論上、部分的に重なり合う2つのDroongaクラスタが存在するようになりました。
+ * `--replica-remove-host` オプションで、クラスタから削除するノードのホスト名またはIPアドレスを指定して下さい。
+ * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
 
- * 3つのreplicaを含む既存のクラスタ「charlie」。
-   * `192.168.0.10`
-   * `192.168.0.11`
-   * `192.168.0.12`
- * 2つのreplicaを含む新しいクラスタ。以下、*「delta」*と仮称します。
-   * `192.168.0.10`
-   * `192.168.0.11`
+すると、ノードがクラスタから自動的に離脱し、すべてのノードの `catalog.json` も同時に更新されます。
+これで、ノードはクラスタから無事離脱しました。
 
-この事は、各クラスタに対する `system.status` コマンドの実行結果を見ると確認できます:
+この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-(for the cluster charlie)
-# curl "http://192.168.0.11:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-`192.168.0.11` と `192.168.0.12` の `catalog.json` には何も変更がないため、これらのノードは依然としてクラスタ charlie が3つのノードから構成されていると認識しています。
-
-その一方で、新しい `catalog.json` を持つ `192.168.0.10` は、クラスタ delta が2つのノードから構成されている事を知っています:
-
-~~~
-(for the cluster delta)
-# curl "http://192.168.0.10:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-そのため、ノード `192.168.0.10` へ流入してくるメッセージは、既に存在しないものと認識されているノード `192.168.0.12` へは決して配送されません。
-
-次に、他のノードの既存の `catalog.json` を以下のようにして更新します:
-
-    (on 192.168.0.11, 192.168.0.12)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --remove-replica-hosts=192.168.0.12
-
-この時点で、Droongaクラスタは1つだけ存在する状態となっています。
-
- * 2つのreplicaを含むクラスタ「delta」。
-   * `192.168.0.10`
-   * `192.168.0.11`
-
-この事は、各クラスタに対する `system.status` コマンドの実行結果を見ると確認できます:
-
-~~~
-(for the cluster delta)
 # curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
@@ -344,15 +270,6 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
   }
 }
 ~~~
-
-流入してきたリクエストはクラスタ delta の各ノードに届けられますが、孤立したノード `192.168.0.12` はもはやクラスタの一員ではないため、リクエストを自分自身で処理する事はありません。
-
-これで、ノードを取り除く準備ができました。
-必要に応じて、サービスを停止させ、コンピュータを停止させましょう。
-
-    (on 192.168.0.12)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
 
 ## クラスタ内の既存のreplicaノードを新しいreplicaノードで置き換える
 
@@ -362,18 +279,13 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ### 既存のreplicaをクラスタから分離する
 
-まず、不安定になっているノードを取り除きます。
-以下のようにして `catalog.json` から当該ノードの情報を削除します:
+まず、不安定になっているノードを取り除きます。以下のようにしてクラスタからノードを離脱させて下さい:
 
-    (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --remove-replica-hosts=192.168.0.11
+    (on 192.168.0.10)
+    # droonga-engine-unjoin --base-path=~/droonga \
+                            --replica-remove-host=192.168.0.11
 
-これで、ノード `192.168.0.11` がクラスタから無事に分離します。
-
-この時点で、ノード `192.168.0.11` を含まないクラスタが存在するという状態になっています。
-これは `system.status` コマンドで確認できます:
+これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
 # curl "http://192.168.0.10:10041/droonga/system/status"
@@ -388,43 +300,32 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ### 新しいreplicaを追加する
 
-次に、新しいreplicaをセットアップします。
-1つのノード `192.168.0.12` だけを含む仮のクラスタを作ってください。
-`system.status` コマンドの結果はこのようになります:
-
-~~~
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-クラスタが複数ある状態ができたら、既存クラスタから新しいクラスタへデータを複製します:
+次に、新しいreplicaを用意します。
+必要なパッケージをインストールし、クラスタの既存のノードから `catalog.json` をコピーして、サーバを起動します。
 
     (on 192.168.0.12)
-    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --hosts=192.168.0.12
-    # droonga-engine-absorb-data --source-host=192.168.0.10 \
-                                 --receiver-host=192.168.0.12
+    # cd ~/droonga
+    # scp 192.168.0.10:~/droonga/catalog.json ./
+    # host=192.168.0.12
+    # DROONGA_BASE_DIR=$PWD
+    # droonga-engine --host=$host \
+                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
+                     --daemon \
+                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # env NODE_ENV=production \
+        droonga-http-server --port=10041 \
+                            --receive-host-name=$host \
+                            --droonga-engine-host-name=$host \
+                            --cache-size=-1 \
+                            --daemon \
+                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
-データの複製が完了したら、ノードをクラスタに参加させる準備は完了です。
-`catalog.json` に他のノードの情報を追加します:
+そうしたら、そのノードをクラスタに参加させましょう。
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.10
-
-    (on 192.168.0.10)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.12
+    # droonga-engine-join --base-path=~/droonga \
+                          --replica-source-host=192.168.0.10 \
+                          --my-host=192.168.0.12
 
 最終的に、`192.168.0.10` と `192.168.0.12` の2つのノードからなるDroongaクラスタができあがりました。
 

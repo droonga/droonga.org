@@ -161,13 +161,13 @@ If you are reading this tutorial sequentially after the [previous topic](../dump
 To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` *on the new replica node itself*, like:
 
     (on 192.168.0.12)
-    # droonga-engine-join --replica-source-host=192.168.0.10 \
+    # droonga-engine-join --base-dir=~/droonga \
+                          --replica-source-host=192.168.0.10 \
                           --my-host=192.168.0.12
-
-Note, you must specify two options for the command always.
 
  * You must specify the host name or the IP address of an existing node of the cluster, via the `--replica-source-host` option.
  * You must specify the host name or the IP address of the new replica node itself, via the `--my-host` option.
+ * You must run the command in the directory `catalog.json` is located, or specify path to the directory via the `--base-dir` option.
 
 Then the command automatically starts to synchronize all data of the cluster to the new replica node.
 After data is successfully synchronized, the node restarts and joins to the cluster automatically.
@@ -213,96 +213,21 @@ Assume that there is a Droonga cluster constructed with trhee replica nodes `192
 
 ### Unjoin an existing replica from the cluster
 
-To remove a replica from an existing cluster, you just have to update the "catalog.json" with new list of replica nodes except the node to be removed:
+To remove a replica from an existing cluster, you just run the `droonga-engine-unjoin` command on any existing node in the cluster.
 
     (on 192.168.0.10)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --remove-replica-hosts=192.168.0.12
+    # droonga-engine-unjoin --base-dir=~/droonga \
+                            --replica-remove-host=192.168.0.12
 
-Then there are two overlapping Droonga clusters theoretically on this time.
+ * You must specify the host name or the IP address of an existing node to be removed from the cluster, via the `--replica-remove-host` option.
+ * You must run the command in the directory `catalog.json` is located, or specify path to the directory via the `--base-dir` option.
 
- * The existing cluster "charlie" including three replicas.
-   * `192.168.0.10`
-   * `192.168.0.11`
-   * `192.168.0.12`
- * The new cluster including two replicas.
-   Let's give a name *"delta"* to it, for now.
-   * `192.168.0.10`
-   * `192.168.0.11`
+Then the specified node automatically unjoins from the cluster, and all nedes' `catalog.json` are also updated.
+Now, the node has been successfully unjoined from the cluster.
 
-You can confirm that, via the `system.status` command for each cluster:
+You can confirm that, via the `system.status` command:
 
 ~~~
-(for the cluster charlie)
-# curl "http://192.168.0.11:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-Because `catalog.json` on nodes `192.168.0.11` and `192.168.0.12` have no change, they still detect three nodes in the cluster charlie.
-
-On the other hand, the node `192.168.0.10` with new `catalog.json` knows the cluster delta includes only two nodes:
-
-~~~
-(for the cluster delta)
-# curl "http://192.168.0.10:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-So the node `192.168.0.10` doesn't deliver incoming messages to the missing node `192.168.0.12` anymore.
-
-Next, update existing `catalog.json` on other nodes, like:
-
-    (on 192.168.0.11, 192.168.0.12)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --remove-replica-hosts=192.168.0.12
-
-Then there is only one Droonga cluster on this time.
-
- * The new cluster "delta" including two replicas.
-   * `192.168.0.10`
-   * `192.168.0.11`
-
-You can confirm that, via the `system.status` command for each cluster:
-
-~~~
-(for the cluster delta)
 # curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
@@ -337,16 +262,6 @@ You can confirm that, via the `system.status` command for each cluster:
   }
 }
 ~~~
-
-Any incoming request is delivered to member nodes of the cluster delta.
-Because the orphan node `192.168.0.12` is not a member, it never process requests by self.
-
-OK, the node is ready to be removed.
-Stop servers and shutdown it if needed.
-
-    (on 192.168.0.12)
-    # kill $(cat ~/droonga/droonga-engine.pid)
-    # kill $(cat ~/droonga/droonga-http-server.pid)
 
 ## Replace an existing replica node in a cluster with a new one
 
@@ -357,16 +272,13 @@ Assume that there is a Droonga cluster constructed with two replica nodes `192.1
 ### Unjoin an existing replica from the cluster
 
 First, remove the unstable node.
-Remove the node from existing `catalog.json`, like:
+Remove the node from the cluster, like:
 
-    (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --remove-replica-hosts=192.168.0.11
+    (on 192.168.0.10)
+    # droonga-engine-unjoin --base-path=~/droonga \
+                            --replica-remove-host=192.168.0.11
 
-After that the node `192.168.0.11` unjoins from the cluster successfully.
-
-Now there is a cluster without the node `192.168.0.11`.
+Now the node has been gone.
 You can confirm that via the `system.status` command:
 
 ~~~
@@ -383,42 +295,31 @@ You can confirm that via the `system.status` command:
 ### Add a new replica
 
 Next, setup the new replica.
-Construct a temporary cluster with only one node `192.168.0.12`.
-The result of the `system.status` command will be:
-
-~~~
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-Then, duplicate data from the existing cluster:
+Install required packages and starts the server with the `catalog.json` copied from an existing node of the cluster.
 
     (on 192.168.0.12)
-    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --hosts=192.168.0.12
-    # droonga-engine-absorb-data --source-host=192.168.0.10 \
-                                 --receiver-host=192.168.0.12
+    # cd ~/droonga
+    # scp 192.168.0.10:~/droonga/catalog.json ./
+    # host=192.168.0.12
+    # DROONGA_BASE_DIR=$PWD
+    # droonga-engine --host=$host \
+                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
+                     --daemon \
+                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # env NODE_ENV=production \
+        droonga-http-server --port=10041 \
+                            --receive-host-name=$host \
+                            --droonga-engine-host-name=$host \
+                            --cache-size=-1 \
+                            --daemon \
+                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
-After the duplication successfully finished, the node is ready to join the cluster.
-Add other nodes to the `catalog.json`:
+Then, join the node to the cluster.
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.10
-
-    (on 192.168.0.10)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.12
+    # droonga-engine-join --base-path=~/droonga \
+                          --replica-source-host=192.168.0.10 \
+                          --my-host=192.168.0.12
 
 Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.168.0.12` is here.
 
