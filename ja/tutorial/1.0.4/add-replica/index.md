@@ -493,12 +493,12 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 ### 既存のreplicaをクラスタから分離する
 
 まず、不安定になっているノードを取り除きます。
-取り除かれるノードを含まないように `catalog.json` を再作成して、クラスタ内の各ノードに展開します:
+以下のようにして `catalog.json` から当該ノードの情報を削除します:
 
-    (on 192.168.0.10)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10 \
-                                      --output=~/droonga/catalog.json
-    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+    (on 192.168.0.10, 192.168.0.11)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --remove-replica-hosts=192.168.0.11
 
 これで、ノード `192.168.0.11` がクラスタから無事に分離します。
 
@@ -536,20 +536,25 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 クラスタが複数ある状態ができたら、既存クラスタから新しいクラスタへデータを複製します:
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.12 \
-                                      --output=~/droonga/catalog.json
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.12 | \
-        droonga-request --host=192.168.0.12 \
-                        --receiver-host=192.168.0.12
+    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --hosts=192.168.0.12
+    # droonga-engine-absorb-data --source-host=192.168.0.10 \
+                                 --receiver-host=192.168.0.12
 
 データの複製が完了したら、ノードをクラスタに参加させる準備は完了です。
-`catalog.json` を再作成し、クラスタ内のすべてのノードにそれを複製します:
+`catalog.json` に他のノードの情報を追加します:
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.12 \
-                                      --output=~/droonga/catalog.json
-    # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.10
+
+    (on 192.168.0.10)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.12
 
 最終的に、`192.168.0.10` と `192.168.0.12` の2つのノードからなるDroongaクラスタができあがりました。
 

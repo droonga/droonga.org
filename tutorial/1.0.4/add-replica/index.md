@@ -490,12 +490,12 @@ Assume that there is a Droonga cluster constructed with two replica nodes `192.1
 ### Unjoin an existing replica from the cluster
 
 First, remove the unstable node.
-Re-generate `catalog.json` without the node to be removed, and spread it to other nodes in the cluster:
+Remove the node from existing `catalog.json`, like:
 
-    (on 192.168.0.10)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10 \
-                                      --output=~/droonga/catalog.json
-    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+    (on 192.168.0.10, 192.168.0.11)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --remove-replica-hosts=192.168.0.11
 
 After that the node `192.168.0.11` unjoins from the cluster successfully.
 
@@ -533,20 +533,25 @@ The result of the `system.status` command will be:
 Then, duplicate data from the existing cluster:
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.12 \
-                                      --output=~/droonga/catalog.json
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.12 | \
-        droonga-request --host=192.168.0.12 \
-                        --receiver-host=192.168.0.12
+    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --hosts=192.168.0.12
+    # droonga-engine-absorb-data --source-host=192.168.0.10 \
+                                 --receiver-host=192.168.0.12
 
 After the duplication successfully finished, the node is ready to join the cluster.
-Re-generate `catalog.json` and spread it to all nodes in the cluster:
+Add other nodes to the `catalog.json`:
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.12 \
-                                      --output=~/droonga/catalog.json
-    # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.10
+
+    (on 192.168.0.10)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.12
 
 Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.168.0.12` is here.
 
