@@ -230,11 +230,11 @@ It copies all data from an existing cluster to another one directly, so it is re
 Assume that there are two clusters: the source has a node `192.168.0.10`, and the destination has a node `192.168.0.11`.
 
 If you are reading this tutorial sequentially, you'll have an existing cluster with two nodes.
-Construct two clusters by `droonga-engine-modify-catalog` and make one cluster empty, with these commands:
+Construct two clusters by `droonga-engine-catalog-modify` and make one cluster empty, with these commands:
 
     (on 192.168.0.10)
     # host=192.168.0.10
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --hosts=$host
 
@@ -243,7 +243,7 @@ Construct two clusters by `droonga-engine-modify-catalog` and make one cluster e
     # kill $(cat $PWD/droonga-engine.pid)
     # rm -r 000
     # host=192.168.0.11
-    # droonga-engine-modify-catalog --source=$PWD/catalog.json \
+    # droonga-engine-catalog-modify --source=$PWD/catalog.json \
                                     --update \
                                     --hosts=$host
     # droonga-engine --host=$host \
@@ -301,12 +301,12 @@ After that contents of these two clusters are completely synchronized. Confirm i
 Run following command lines to unite these two clusters:
 
     (on 192.168.0.10)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.11
 
     (on 192.168.0.11)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.10
 

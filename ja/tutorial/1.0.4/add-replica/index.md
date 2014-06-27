@@ -74,7 +74,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 
     (on 192.168.0.12)
     # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --hosts=192.168.0.12
 
@@ -192,7 +192,7 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 新たにクラスタに参加するノード `192.168.0.12` 上で、以下のようにして `catalog.json` を更新して下さい:
 
     (on 192.168.0.12)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.10,192.168.0.11
 
@@ -265,7 +265,7 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 次に、他のノードの既存の `catalog.json` を以下のようにして更新します:
 
     (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.12
 
@@ -354,7 +354,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 既存のクラスタからreplicaノードを取り除くには、単に、そのノードを含まないreplicaノードのリストを伴って`catalog.json` を更新するだけでよいです:
 
     (on 192.168.0.10)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --remove-replica-hosts=192.168.0.12
 
@@ -426,7 +426,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 次に、他のノードの既存の `catalog.json` を以下のようにして更新します:
 
     (on 192.168.0.11, 192.168.0.12)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --remove-replica-hosts=192.168.0.12
 
@@ -496,7 +496,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 以下のようにして `catalog.json` から当該ノードの情報を削除します:
 
     (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --remove-replica-hosts=192.168.0.11
 
@@ -537,7 +537,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
     (on 192.168.0.12)
     # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --hosts=192.168.0.12
     # droonga-engine-absorb-data --source-host=192.168.0.10 \
@@ -547,12 +547,12 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 `catalog.json` に他のノードの情報を追加します:
 
     (on 192.168.0.12)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.10
 
     (on 192.168.0.10)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.12
 

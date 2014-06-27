@@ -65,7 +65,7 @@ For the new node, you have to setup a `catalog.json` includes only one node, bas
 
     (on 192.168.0.12)
     # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --hosts=192.168.0.12
 
@@ -186,7 +186,7 @@ After the duplication is successfully done, join the new replica to the existing
 Update the `catalog.json` on the newly joining node `192.168.0.12`, like:
 
     (on 192.168.0.12)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.10,192.168.0.11
 
@@ -260,7 +260,7 @@ Note that the temporary cluster named "beta" is gone.
 Next, update existing `catalog.json` on other nodes, like:
 
     (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.12
 
@@ -349,7 +349,7 @@ Assume that there is a Droonga cluster constructed with trhee replica nodes `192
 To remove a replica from an existing cluster, you just have to update the "catalog.json" with new list of replica nodes except the node to be removed:
 
     (on 192.168.0.10)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --remove-replica-hosts=192.168.0.12
 
@@ -422,7 +422,7 @@ So the node `192.168.0.10` doesn't deliver incoming messages to the missing node
 Next, update existing `catalog.json` on other nodes, like:
 
     (on 192.168.0.11, 192.168.0.12)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --remove-replica-hosts=192.168.0.12
 
@@ -493,7 +493,7 @@ First, remove the unstable node.
 Remove the node from existing `catalog.json`, like:
 
     (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --remove-replica-hosts=192.168.0.11
 
@@ -534,7 +534,7 @@ Then, duplicate data from the existing cluster:
 
     (on 192.168.0.12)
     # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --hosts=192.168.0.12
     # droonga-engine-absorb-data --source-host=192.168.0.10 \
@@ -544,12 +544,12 @@ After the duplication successfully finished, the node is ready to join the clust
 Add other nodes to the `catalog.json`:
 
     (on 192.168.0.12)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.10
 
     (on 192.168.0.10)
-    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --add-replica-hosts=192.168.0.12
 
