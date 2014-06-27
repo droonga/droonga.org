@@ -68,15 +68,21 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     # gem install droonga-engine
     # npm install -g droonga-http-server
-    # mkdir ~/droonga
 
-新しいノード用には、他のノードにある既存の `catalog.json` を元にして、構成ノードが1つだけの新しい `catalog.json` を用意する必要があります。
+新しいノードには、クラスタの既存のノードから `catalog.json` をコピーする必要があります。
 
     (on 192.168.0.12)
+    # mkdir ~/droonga
     # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --hosts=192.168.0.12
+
+注意点として、空でないノードを既存のクラスタに追加することはできません。
+もしそのコンピュータがかつてDroongaノードとして使われていた事があった場合には、最初に古いデータを消去する必要があります。
+
+    (on 192.168.0.12)
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -rf ~/droonga
+    # mkdir ~/droonga
+    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
 
 では、サーバを起動しましょう。
 
@@ -96,18 +102,12 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
                             --daemon \
                             --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
-この時点で、2つの別々のDroongaクラスタが存在するようになりました。
-
- * 2つのreplicaを含む既存のクラスタ。以下、*「alpha」*と仮称します。
-   * `192.168.0.10`
-   * `192.168.0.11`
- * 1つのreplicaを含む新しいクラスタ。以下、*「beta」*と仮称します。
-   * `192.168.0.12`
+この時点では、ノードの情報が `catalog.json` に含まれていないため、この新しいノードはクラスタのノードとしては動作していません。
+新しいノードにリクエストを送っても、それらはすべてクラスタ内の既存のノードに転送されます。
 
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-(for the cluster alpha)
 # curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
@@ -130,33 +130,23 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     }
   }
 }
-~~~
-
-`192.168.0.10` と `192.168.0.11` は共にクラスタ alpha を構成しているため、両ノードは同じ結果を返します。
-`192.168.0.12` はクラスタ alpha の構成ノードではないため、この結果には登場しません。
-
-他方、`192.168.0.12` は以下のような結果を返します：
-
-~~~
-(for the cluster beta)
 # curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
-    "192.168.0.12:10031/droonga": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
       "live": true
     }
   }
 }
 ~~~
 
-これはクラスタ beta の結果なので、今度は `192.168.0.10` と `192.168.0.11` が登場しません。
-
-
 ### 書き込みを伴うリクエストの流入を一時的に停止する
 
-クラスタ alpha とクラスタ beta のデータを完全に同期する必要があるので、データの複製を始める前に、クラスタ alphaへのデータの書き込みを行うリクエストの流入を一時停止する必要があります。
-そうしないと、新しく追加したreplicaが中途半端なデータしか持たない状態となってしまいます。
-replica同士の内容に矛盾があると、リクエストに対してクラスタが返す処理結果が不安定になります。
+新しいreplicaとの間でデータを完全に同期する必要があるので、クラスタの構成を変更する前に、クラスタへのデータの書き込みを行うリクエストの流入を一時停止する必要があります。
+そうしないと、新しく追加したreplicaが中途半端なデータしか持たない矛盾した状態となってしまい、リクエストに対してクラスタが返す処理結果が不安定になります。
 
 データの書き込みを伴うリクエストとは、具体的には、クラスタ内のデータを変更する以下のコマンドです:
 
@@ -174,109 +164,22 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 
 [前項](../dump-restore/)から順番にチュートリアルを読んでいる場合、クラスタに流入しているリクエストはありませんので、ここでは特に何もする必要はありません。
 
-### 既存のクラスタから新しいreplicaへデータを複製する
-
-クラスタ alpha からクラスタ beta へデータを複製します。
-これは `droonga-engine-absorb-data` コマンドを使って行います。
-*新しいreplicaノード上で*、以下のようにコマンドを実行して下さい:
-
-    (on 192.168.0.12)
-    # droonga-engine-absorb-data --source-host=192.168.0.10 \
-                                 --receiver-host=192.168.0.12
-
-`--receiver-host` オプションに新しいreplicaノード自身のホスト名またはIPアドレスを指定しておく必要がある事に注意して下さい。
-
 ### 新しいreplicaをクラスタに参加させる
 
-データを正しく複製できたら、新しいreplicaを既存のクラスタに参加させます。
-新たにクラスタに参加するノード `192.168.0.12` 上で、以下のようにして `catalog.json` を更新して下さい:
+新しいreplicaノードを既存のクラスタに追加するには、*新しいreplicaノード自身の上で*`droonga-engine-join`コマンドを実行します:
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.10,192.168.0.11
+    # droonga-engine-join --replica-source-host=192.168.0.10 \
+                          --my-host=192.168.0.12
 
-すると、サーバのプロセスが新しい `catalog.json` を検知して、自動的に自分自身を再起動させます。
+以下の2つのオプションの指定が必須である事に注意して下さい。
 
-この時点で、理論上、部分的に重なり合う2つのDroongaクラスタが存在するようになりました。
+ * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名またはIPアドレスを指定して下さい。
+ * `--my-host` オプションで、その新しいreplicaノード自身のホスト名またはIPアドレスを指定して下さい。
 
- * 2つのreplicaを含む既存のクラスタ「alpha」。
-   * `192.168.0.10`
-   * `192.168.0.11`
- * 3つのreplicaを含む新しいクラスタ。以下、*「charlie」*と仮称します。
-   * `192.168.0.10`
-   * `192.168.0.11`
-   * `192.168.0.12`
-
-この事は、各クラスタに対する `system.status` コマンドの実行結果を見ると確認できます:
-
-~~~
-(for the cluster alpha)
-# curl "http://192.168.0.10:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    }
-  }
-}
-# curl "http://192.168.0.11:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-`192.168.0.10` と `192.168.0.11` の `catalog.json` には何も変更がないため、コマンドの実行結果は依然として2つのノードから構成されるクラスタ alpha の情報を返します。
-クラスタ alpha へ流入するリクエストは、まだ新しい replica である `192.168.0.12` には配送されません。
-
-しかし、新しいノード `192.168.0.12` は新しい `catalog.json` を持っています。
-他の2つの既存ノードがその事を知らなくても、このノードはクラスタ charlie が3つのノードを含んでいる事を知っています：
-
-~~~
-(for the cluster charlie)
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-「beta」と仮称した一時的なクラスタが姿を消している事に注意してください。
-
-次に、他のノードの既存の `catalog.json` を以下のようにして更新します:
-
-    (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.12
-
-コピー先のノードのサーバが新しい `catalog.json` を認識して、自動的に再起動します。
-
-この時点で、Droongaクラスタは1つだけ存在する状態となっています。
-
- * 3つのreplicaを含む新しいクラスタ「charlie」。
-   * `192.168.0.10`
-   * `192.168.0.11`
-   * `192.168.0.12`
+コマンドを実行すると、自動的に、クラスタのデータが新しいdeplicaノードへと同期され始めます。
+データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。
+すべてのノードの`catalog.json`も同時に更新され、この時点をもって、新しいノードは晴れてそのクラスタのreplicaノードとして動作し始めます。
 
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
@@ -295,40 +198,7 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
 ~~~
-
-いずれのノードも同じ結果を返します。
-
-「alpha」と仮称した古いクラスタが姿を消している事に注意してください。
-この時、2つのreplicaからなる古いクラスタの代わりとして、新しいクラスタ「charlie」は3つのreplicaのもとで完璧に動作しています。
 
 ### 書き込みを伴うリクエストの流入を再開する
 

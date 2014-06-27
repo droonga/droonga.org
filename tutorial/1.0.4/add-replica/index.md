@@ -59,15 +59,21 @@ First, prepare a new computer, install required softwares and configure them.
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     # gem install droonga-engine
     # npm install -g droonga-http-server
-    # mkdir ~/droonga
 
-For the new node, you have to setup a `catalog.json` includes only one node, based on the existing one on another node.
+For the new node, you have to copy the `catalog.json` from existing node of the cluster.
 
     (on 192.168.0.12)
+    # mkdir ~/droonga
     # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --hosts=192.168.0.12
+
+Note, you cannot add a non-empty node to an existing cluster.
+If the computer was used as a Droonga node in old days, then you must clear old data at first.
+
+    (on 192.168.0.12)
+    # kill $(cat $PWD/droonga-engine.pid)
+    # rm -rf ~/droonga
+    # mkdir ~/droonga
+    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
 
 Let's start the server.
 
@@ -87,20 +93,12 @@ Let's start the server.
                             --daemon \
                             --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
-Then there are two separate Droonga clusters on this time.
-
- * The existing cluster including two replicas.
-   Let's give a name *"alpha"* to it, for now.
-   * `192.168.0.10`
-   * `192.168.0.11`
- * The new cluster including just one replica.
-   Let's give a name *"beta"* to it, for now.
-   * `192.168.0.12`
+Currently, the new node doesn't work as a node of the cluster, because it doesn't appear in the `catalog.json`.
+Even if you send requests to the new node, it just forwards all of them to other existing members of the cluster.
 
 You can confirm that, via the `system.status` command:
 
 ~~~
-(for the cluster alpha)
 # curl "http://192.168.0.10:10041/droonga/system/status"
 {
   "nodes": {
@@ -123,33 +121,23 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-~~~
-
-`192.168.0.10` and `192.168.0.11` are members of the cluster alpha, so they return same result.
-`192.168.0.12` doesn't appear in the result because it is not a member of the cluster alpha.
-
-On the other hand, `192.168.0.12` returns a result like:
-
-~~~
-(for the cluster beta)
 # curl "http://192.168.0.12:10041/droonga/system/status"
 {
   "nodes": {
-    "192.168.0.12:10031/droonga": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
       "live": true
     }
   }
 }
 ~~~
 
-It is a result for the cluster beta, so `192.168.0.10` and `192.168.0.11` don't appear.
-
-
 ### Suspend inpouring of "write" requests
 
-Before starting  duplication of data, you must suspend inpouring of "write" requests to the cluster alpha, because we have to synchronize data in clusters alpha and beta completely.
-Otherwise, the new added replica node will contain incomplete data.
-Because data in replicas will be inconsistent, results for any request to the cluster become unstable.
+Before starting to change cluster composition, you must suspend inpouring of "write" requests to the cluster, because we have to synchronize data to the new replica.
+Otherwise, the new added replica will contain incomplete data and results for requests to the cluster become unstable.
 
 What's "write" request?
 In particular, these commands modify data in the cluster:
@@ -168,110 +156,22 @@ If you put a fluentd as a buffer between crawler or loader and the cluster, stop
 
 If you are reading this tutorial sequentially after the [previous topic](../dump-restore/), there is no incoming requests, so you have nothing to do.
 
-### Duplicate data from the existing cluster to the new replica
+### Joining a new replica node to the cluster
 
-Duplicate data from the cluster alpha to the cluster beta.
-It can be done by the command `droonga-engine-absorb-data`.
-Run it *on the new replica node*, like:
+To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` *on the new replica node itself*, like:
 
     (on 192.168.0.12)
-    # droonga-engine-absorb-data --source-host=192.168.0.10 \
-                                 --receiver-host=192.168.0.12
+    # droonga-engine-join --replica-source-host=192.168.0.10 \
+                          --my-host=192.168.0.12
 
-Note that you must specify the host name or the IP address of the new replica node itself, via the `--receiver-host` option.
+Note, you must specify two options for the command always.
 
-### Join the new replica to the cluster
+ * You must specify the host name or the IP address of an existing node of the cluster, via the `--replica-source-host` option.
+ * You must specify the host name or the IP address of the new replica node itself, via the `--my-host` option.
 
-After the duplication is successfully done, join the new replica to the existing clster.
-Update the `catalog.json` on the newly joining node `192.168.0.12`, like:
-
-    (on 192.168.0.12)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.10,192.168.0.11
-
-The server process detects new `catalog.json` and restats itself automatically.
-
-Then there are two overlapping Droonga clusters theoretically on this time.
-
- * The existing cluster "alpha", including two replicas.
-   * `192.168.0.10`
-   * `192.168.0.11`
- * The new cluster including three replicas.
-   Let's give a name *"charlie"* to it, for now.
-   * `192.168.0.10`
-   * `192.168.0.11`
-   * `192.168.0.12`
-
-You can confirm that, via the `system.status` command for each cluster:
-
-~~~
-(for the cluster alpha)
-# curl "http://192.168.0.10:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    }
-  }
-}
-# curl "http://192.168.0.11:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-Because `catalog.json` on nodes `192.168.0.10` and `192.168.0.11` have no change, the result says that there is still the cluster alpha with only two nodes.
-Any incoming request to the cluster alpha is never delivered to the new replica `192.168.0.12` yet.
-
-However, the new node `192.168.0.12` has a new `catalog.json`.
-It knows the cluster charlie includes three nodes, even if other two existing nodes don't know that:
-
-~~~
-(for the cluster charlie)
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-~~~
-
-Note that the temporary cluster named "beta" is gone.
-
-Next, update existing `catalog.json` on other nodes, like:
-
-    (on 192.168.0.10, 192.168.0.11)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.0.12
-
-Servers detect new `catalog.json` and restart themselves automatically.
-
-Then there is just one Droonga clusters on this time.
-
- * The new cluster "charlie",including three replicas.
-   * `192.168.0.10`
-   * `192.168.0.11`
-   * `192.168.0.12`
+Then the command automatically starts to synchronize all data of the cluster to the new replica node.
+After data is successfully synchronized, the node restarts and joins to the cluster automatically.
+All nodes' `catalog.json` are also updated, and now, yes, the new node starts working as a replica in the cluster.
 
 You can confirm that, via the `system.status` command:
 
@@ -290,40 +190,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
-# curl "http://192.168.0.12:10041/droonga/system/status"
-{
-  "nodes": {
-    "192.168.0.10:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.11:10031/droonga": {
-      "live": true
-    },
-    "192.168.0.12:10031/droonga": {
-      "live": true
-    }
-  }
-}
 ~~~
-
-Any node returns same result.
-
-Note that the old cluster named "alpha" is gone.
-Now the new cluster "charlie" with three replicas works perfectly, instead of the old one with two replicas.
 
 ### Resume inpouring of "write" requests
 
