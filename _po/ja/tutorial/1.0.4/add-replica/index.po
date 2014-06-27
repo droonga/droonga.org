@@ -328,7 +328,7 @@ msgid ""
 "All nodes' `catalog.json` are also updated, and now, yes, the new node starts "
 "working as a replica in the cluster."
 msgstr ""
-"コマンドを実行すると、自動的に、クラスタのデータが新しいdeplicaノードへと同期され始めます。\n"
+"コマンドを実行すると、自動的に、クラスタのデータが新しいreplicaノードへと同期され始めます。\n"
 "データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。\n"
 "すべてのノードの`catalog.json`も同時に更新され、この時点をもって、新しいノードは晴れてそのクラスタのreplicaノードとして動作し始めます。"
 
