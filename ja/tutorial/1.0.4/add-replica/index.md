@@ -70,17 +70,13 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     # npm install -g droonga-http-server
     # mkdir ~/droonga
 
-ここで、以前にクラスタを構築する時に `catalog.json` を生成するために実行したコマンド列を思い出して下さい:
-
-    (on 192.168.0.10 or 192.168.0.11)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
-                                      --output=~/droonga/catalog.json
-
-新しいノード用には、`--host` オプションの値以外はすべて同じ指定で、単一のノードだけを含む `catalog.json` を生成します:
+新しいノード用には、他のノードにある既存の `catalog.json` を元にして、構成ノードが1つだけの新しい `catalog.json` を用意する必要があります。
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.12 \
-                                      --output=~/droonga/catalog.json
+    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --hosts=192.168.0.12
 
 では、サーバを起動しましょう。
 
@@ -193,11 +189,12 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 ### 新しいreplicaをクラスタに参加させる
 
 データを正しく複製できたら、新しいreplicaを既存のクラスタに参加させます。
-新たにクラスタに参加するノード `192.168.0.12` 上で、すべてノードを `--hosts` オプションに指定して `catalog.json` を再作成してください:
+新たにクラスタに参加するノード `192.168.0.12` 上で、以下のようにして `catalog.json` を更新して下さい:
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11,192.168.0.12 \
-                                      --output=~/droonga/catalog.json
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.10,192.168.0.11
 
 すると、サーバのプロセスが新しい `catalog.json` を検知して、自動的に自分自身を再起動させます。
 
@@ -265,11 +262,12 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 
 「beta」と仮称した一時的なクラスタが姿を消している事に注意してください。
 
-次に、新しい `catalog.json` を`192.168.0.12` から他のノードにコピーします。
+次に、他のノードの既存の `catalog.json` を以下のようにして更新します:
 
-    (on 192.168.0.12)
-    # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
-    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+    (on 192.168.0.10, 192.168.0.11)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.12
 
 コピー先のノードのサーバが新しい `catalog.json` を認識して、自動的に再起動します。
 
@@ -356,8 +354,9 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 既存のクラスタからreplicaノードを取り除くには、単に、そのノードを含まないreplicaノードのリストを伴って`catalog.json` を更新するだけでよいです:
 
     (on 192.168.0.10)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
-                                      --output=~/droonga/catalog.json
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --remove-replica-hosts=192.168.0.12
 
 この時点で、理論上、部分的に重なり合う2つのDroongaクラスタが存在するようになりました。
 
@@ -424,11 +423,12 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 そのため、ノード `192.168.0.10` へ流入してくるメッセージは、既に存在しないものと認識されているノード `192.168.0.12` へは決して配送されません。
 
-次に、新しい `catalog.json` を `192.168.0.10` から他のノードへコピーします。
+次に、他のノードの既存の `catalog.json` を以下のようにして更新します:
 
-    (on 192.168.0.10)
-    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
-    # scp ~/droonga/catalog.json 192.168.0.12:~/droonga/
+    (on 192.168.0.11, 192.168.0.12)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --remove-replica-hosts=192.168.0.12
 
 この時点で、Droongaクラスタは1つだけ存在する状態となっています。
 

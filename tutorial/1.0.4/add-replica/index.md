@@ -61,18 +61,13 @@ First, prepare a new computer, install required softwares and configure them.
     # npm install -g droonga-http-server
     # mkdir ~/droonga
 
-Then, remember the command line you executed to generate `catalog.json` for your cluster.
-It was:
-
-    (on 192.168.0.10 or 192.168.0.11)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
-                                      --output=~/droonga/catalog.json
-
-For the new node, you have to generate a `custom.json` includes only one node, with same options except the `--host` option, like:
+For the new node, you have to setup a `catalog.json` includes only one node, based on the existing one on another node.
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.12 \
-                                      --output=~/droonga/catalog.json
+    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --hosts=192.168.0.12
 
 Let's start the server.
 
@@ -188,11 +183,12 @@ Note that you must specify the host name or the IP address of the new replica no
 ### Join the new replica to the cluster
 
 After the duplication is successfully done, join the new replica to the existing clster.
-Re-generate the `catalog.json` on the newly joining node `192.168.0.12`, with all nodes specified via the `--hosts` option, like:
+Update the `catalog.json` on the newly joining node `192.168.0.12`, like:
 
     (on 192.168.0.12)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11,192.168.0.12 \
-                                      --output=~/droonga/catalog.json
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.10,192.168.0.11
 
 The server process detects new `catalog.json` and restats itself automatically.
 
@@ -261,11 +257,12 @@ It knows the cluster charlie includes three nodes, even if other two existing no
 
 Note that the temporary cluster named "beta" is gone.
 
-Next, copy new `catalog.json` from `192.168.0.12` to others.
+Next, update existing `catalog.json` on other nodes, like:
 
-    (on 192.168.0.12)
-    # scp ~/droonga/catalog.json 192.168.0.10:~/droonga/
-    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+    (on 192.168.0.10, 192.168.0.11)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --add-replica-hosts=192.168.0.12
 
 Servers detect new `catalog.json` and restart themselves automatically.
 
@@ -352,8 +349,9 @@ Assume that there is a Droonga cluster constructed with trhee replica nodes `192
 To remove a replica from an existing cluster, you just have to update the "catalog.json" with new list of replica nodes except the node to be removed:
 
     (on 192.168.0.10)
-    # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
-                                      --output=~/droonga/catalog.json
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --remove-replica-hosts=192.168.0.12
 
 Then there are two overlapping Droonga clusters theoretically on this time.
 
@@ -421,11 +419,12 @@ On the other hand, the node `192.168.0.10` with new `catalog.json` knows the clu
 
 So the node `192.168.0.10` doesn't deliver incoming messages to the missing node `192.168.0.12` anymore.
 
-Next, copy new `catalog.json` from `192.168.0.10` to others.
+Next, update existing `catalog.json` on other nodes, like:
 
-    (on 192.168.0.10)
-    # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
-    # scp ~/droonga/catalog.json 192.168.0.12:~/droonga/
+    (on 192.168.0.11, 192.168.0.12)
+    # droonga-engine-modify-catalog --source=~/droonga/catalog.json \
+                                    --update \
+                                    --remove-replica-hosts=192.168.0.12
 
 Then there is only one Droonga cluster on this time.
 
