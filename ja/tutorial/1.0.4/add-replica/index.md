@@ -221,13 +221,13 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ### 既存のreplicaをクラスタから分離する
 
-新しいreplicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で`droonga-engine-unjoin`コマンドを実行します:
+新しいreplicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で、`catalog.json` が置かれたディレクトリにおいて `droonga-engine-unjoin` コマンドを実行します:
 
     (on 192.168.0.10)
-    # droonga-engine-unjoin --base-dir=~/droonga \
-                            --replica-remove-host=192.168.0.12
+    # cd ~/droonga
+    # droonga-engine-unjoin --host=192.168.0.12
 
- * `--replica-remove-host` オプションで、クラスタから削除するノードのホスト名またはIPアドレスを指定して下さい。
+ * `--host` オプションで、クラスタから削除するノードのホスト名またはIPアドレスを指定して下さい。
  * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
 
 すると、ノードがクラスタから自動的に離脱し、すべてのノードの `catalog.json` も同時に更新されます。
