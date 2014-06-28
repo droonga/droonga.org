@@ -703,7 +703,7 @@ Personテーブル（主キーあり）:
 
 #### `timeout` {#parameter-timeout}
 
-※註：このパラメータはバージョン 1.0.4 では未実装です。指定しても機能しません。
+*Note: This parameter is not implemented yet on the version 1.0.4.
 
 概要
 : 検索処理がタイムアウトするまでの時間を指定します。

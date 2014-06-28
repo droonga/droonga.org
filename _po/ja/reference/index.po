@@ -27,17 +27,19 @@ msgstr "次期リリースも含めすべてのリリースのリファレンス
 msgid "## The current release"
 msgstr "## 現行リリース"
 
-msgid "* [1.0.3](1.0.3/)"
+msgid "* [1.0.4](1.0.4/)"
 msgstr ""
 
 msgid "## The next release"
 msgstr "## 次期リリース"
 
-msgid "* [1.0.4](1.0.4/)"
+msgid "* [1.0.5](1.0.5/)"
 msgstr ""
 
 msgid "## Old releases"
 msgstr "## 古いリリース"
 
-msgid "* [1.0.2](1.0.2/)"
+msgid ""
+"* [1.0.3](1.0.3/)\n"
+"* [1.0.2](1.0.2/)"
 msgstr ""
