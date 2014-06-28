@@ -165,7 +165,7 @@ To add a new replica node to an existing cluster, you just run a command `droong
     # droonga-engine-join --host=192.168.0.12 \
                           --replica-source-host=192.168.0.10
 
- * You must specify the host name or the IP address of the new replica node itself, via the `--host` option.
+ * You must specify the host name or the IP address of the new replica node, via the `--host` option.
  * You must specify the host name or the IP address of an existing node of the cluster, via the `--replica-source-host` option.
  * You must run the command in the directory `catalog.json` is located, or specify path to the directory via the `--base-dir` option.
 
