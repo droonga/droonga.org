@@ -275,7 +275,7 @@ First, remove the unstable node.
 Remove the node from the cluster, like:
 
     (on 192.168.0.10)
-    # droonga-engine-unjoin --base-path=~/droonga \
+    # droonga-engine-unjoin --base-dir=~/droonga \
                             --replica-remove-host=192.168.0.11
 
 Now the node has been gone.
@@ -317,7 +317,7 @@ Install required packages and starts the server with the `catalog.json` copied f
 Then, join the node to the cluster.
 
     (on 192.168.0.12)
-    # droonga-engine-join --base-path=~/droonga \
+    # droonga-engine-join --base-dir=~/droonga \
                           --replica-source-host=192.168.0.10 \
                           --my-host=192.168.0.12
 

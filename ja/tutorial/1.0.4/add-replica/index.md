@@ -282,7 +282,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 まず、不安定になっているノードを取り除きます。以下のようにしてクラスタからノードを離脱させて下さい:
 
     (on 192.168.0.10)
-    # droonga-engine-unjoin --base-path=~/droonga \
+    # droonga-engine-unjoin --base-dir=~/droonga \
                             --replica-remove-host=192.168.0.11
 
 これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
@@ -323,7 +323,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 そうしたら、そのノードをクラスタに参加させましょう。
 
     (on 192.168.0.12)
-    # droonga-engine-join --base-path=~/droonga \
+    # droonga-engine-join --base-dir=~/droonga \
                           --replica-source-host=192.168.0.10 \
                           --my-host=192.168.0.12
 

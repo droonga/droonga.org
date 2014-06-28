@@ -453,7 +453,7 @@ msgstr "まず、不安定になっているノードを取り除きます。以
 
 msgid ""
 "    (on 192.168.0.10)\n"
-"    # droonga-engine-unjoin --base-path=~/droonga \\\n"
+"    # droonga-engine-unjoin --base-dir=~/droonga \\\n"
 "                            --replica-remove-host=192.168.0.11"
 msgstr ""
 
@@ -508,13 +508,6 @@ msgstr ""
 
 msgid "Then, join the node to the cluster."
 msgstr "そうしたら、そのノードをクラスタに参加させましょう。"
-
-msgid ""
-"    (on 192.168.0.12)\n"
-"    # droonga-engine-join --base-path=~/droonga \\\n"
-"                          --replica-source-host=192.168.0.10 \\\n"
-"                          --my-host=192.168.0.12"
-msgstr ""
 
 msgid ""
 "Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.1"
