@@ -241,7 +241,7 @@ Elapsed time: 0.008678467
     # host=192.168.0.10
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --hosts=$host
+                                    --replica-hosts=$host
 
     (on 192.168.0.11)
     # cd ~/droonga
@@ -250,7 +250,7 @@ Elapsed time: 0.008678467
     # host=192.168.0.11
     # droonga-engine-catalog-modify --source=$PWD/catalog.json \
                                     --update \
-                                    --hosts=$host
+                                    --replica-hosts=$host
     # droonga-engine --host=$host \
                      --log-file=$PWD/droonga-engine.log \
                      --daemon \

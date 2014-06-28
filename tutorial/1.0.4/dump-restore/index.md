@@ -236,7 +236,7 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
     # host=192.168.0.10
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --hosts=$host
+                                    --replica-hosts=$host
 
     (on 192.168.0.11)
     # cd ~/droonga
@@ -245,7 +245,7 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
     # host=192.168.0.11
     # droonga-engine-catalog-modify --source=$PWD/catalog.json \
                                     --update \
-                                    --hosts=$host
+                                    --replica-hosts=$host
     # droonga-engine --host=$host \
                      --log-file=$PWD/droonga-engine.log \
                      --daemon \
