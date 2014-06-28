@@ -39,7 +39,7 @@ Learning steps to backup and restore data by your hand.
 
 First, install a command line tool named `drndump` via rubygems:
 
-    # gem install droonga-engine
+    # gem install drndump
 
 After that, establish that the `drndump` command has been installed successfully:
 

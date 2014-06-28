@@ -48,7 +48,7 @@ layout: ja
 
 最初に、Rubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:
 
-    # gem install droonga-engine
+    # gem install drndump
 
 その後、`drndump` コマンドが正しくインストールできたかどうかを確認します:
 

@@ -82,7 +82,7 @@ msgstr "### `drndump` のインストール"
 msgid "First, install a command line tool named `drndump` via rubygems:"
 msgstr "最初に、Rubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:"
 
-msgid "    # gem install droonga-engine"
+msgid "    # gem install drndump"
 msgstr ""
 
 msgid ""
