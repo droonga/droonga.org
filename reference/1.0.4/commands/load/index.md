@@ -71,7 +71,7 @@ Not supported.
 
 All parameters except `table` are optional.
 
-On the version {{ site.droonga_version }}, only following parameters are available. Others are simply ignored because they are not implemented.
+On the version 1.0.4, only following parameters are available. Others are simply ignored because they are not implemented.
 
  * `values`
  * `table`

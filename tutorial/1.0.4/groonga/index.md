@@ -209,7 +209,7 @@ Create indexes also.
 
 *IMPORTANT NOTE*: Don't run `table_list` or `column_list` before the table is completely created.
 Otherwise indexes can be broken.
-This is a known issue on the version {{ site.droonga_version }}, and it will be fixed in a future release.
+This is a known issue on the version 1.0.4, and it will be fixed in a future release.
 
 OK, now the table has been created successfully.
 Let's see it by the `table_list` command:
