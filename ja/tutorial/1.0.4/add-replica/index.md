@@ -170,11 +170,11 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 
     (on 192.168.0.12)
     # droonga-engine-join --base-dir=~/droonga \
-                          --replica-source-host=192.168.0.10 \
-                          --my-host=192.168.0.12
+                          --host=192.168.0.12 \
+                          --replica-source-host=192.168.0.10
 
+ * `--host` オプションで、その新しいreplicaノード自身のホスト名またはIPアドレスを指定して下さい。
  * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名またはIPアドレスを指定して下さい。
- * `--my-host` オプションで、その新しいreplicaノード自身のホスト名またはIPアドレスを指定して下さい。
  * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
 
 コマンドを実行すると、自動的に、クラスタのデータが新しいreplicaノードへと同期され始めます。
@@ -324,8 +324,8 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
     (on 192.168.0.12)
     # droonga-engine-join --base-dir=~/droonga \
-                          --replica-source-host=192.168.0.10 \
-                          --my-host=192.168.0.12
+                          --host=192.168.0.12 \
+                          --replica-source-host=192.168.0.10
 
 最終的に、`192.168.0.10` と `192.168.0.12` の2つのノードからなるDroongaクラスタができあがりました。
 
