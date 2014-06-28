@@ -135,6 +135,39 @@ By the command two nodes construct a cluster and they monitor each other.
 If one of nodes dies and there is any still alive node, survivor(s) will work as the Droonga cluster.
 Then you can recover the dead node and re-join it to the cluster secretly.
 
+Let's make sure that the cluster works, by the `system.status` command:
+
+~~~
+# curl "http://192.168.0.10:10041/droonga/system/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
+The result says that two nodes are working correctly.
+Because it is a cluster, another endpoint returns same result.
+
+~~~
+# curl "http://192.168.0.11:10041/droonga/system/status"
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 To stop services, run commands like following on each Droonga node:
 
     # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
