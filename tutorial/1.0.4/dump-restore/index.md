@@ -277,33 +277,14 @@ After that there are two clusters: one contains `192.168.0.10` with data, anothe
 
 ### Duplicate data between two Droonga clusters
 
-To copy data between two clusters, run the command *on a node of the destination cluster*, like:
+To copy data between two clusters, run the `droonga-engine-absorb-data` command on a node, like:
 
 ~~~
-(on 192.168.0.11)
+(on 192.168.0.10 or 192.168.0.11)
 # droonga-engine-absorb-data --source-host=192.168.0.10 \
-                             --receiver-host=192.168.0.11
-{
-  "type": "table_create",
-  "dataset": "Default",
-  "body": {
-    "name": "Location",
-    "flags": "TABLE_PAT_KEY",
-    "key_type": "WGS84GeoPoint"
-  }
-}
-...
-{
-  "type": "column_create",
-  "dataset": "Default",
-  "body": {
-    "table": "Term",
-    "name": "store_name",
-    "type": "Store",
-    "flags": "COLUMN_INDEX|WITH_POSITION",
-    "source": "name"
-  }
-}
+                             --destination-host=192.168.0.11
+Absorbing data...
+Done.
 ~~~
 
 After that contents of these two clusters are completely synchronized. Confirm it:

@@ -282,33 +282,14 @@ Elapsed time: 0.008678467
 
 ### 2つのDroongaクラスタの間でデータを複製する
 
-2つのクラスタの間でデータをコピーするには、*コピー先となるクラスタのノード上で*以下のようにコマンドを実行します:
+2つのクラスタの間でデータをコピーするには、いずれかのノード上で以下のように `droonga-engine-absorb-data` コマンドを実行します:
 
 ~~~
-(on 192.168.0.11)
+(on 192.168.0.10 or 192.168.0.11)
 # droonga-engine-absorb-data --source-host=192.168.0.10 \
-                             --receiver-host=192.168.0.11
-{
-  "type": "table_create",
-  "dataset": "Default",
-  "body": {
-    "name": "Location",
-    "flags": "TABLE_PAT_KEY",
-    "key_type": "WGS84GeoPoint"
-  }
-}
-...
-{
-  "type": "column_create",
-  "dataset": "Default",
-  "body": {
-    "table": "Term",
-    "name": "store_name",
-    "type": "Store",
-    "flags": "COLUMN_INDEX|WITH_POSITION",
-    "source": "name"
-  }
-}
+                             --destination-host=192.168.0.11
+Absorbing data...
+Done.
 ~~~
 
 以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
