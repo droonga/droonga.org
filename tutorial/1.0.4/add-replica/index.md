@@ -158,11 +158,11 @@ If you are reading this tutorial sequentially after the [previous topic](../dump
 
 ### Joining a new replica node to the cluster
 
-To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` *on the new replica node itself*, like:
+To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` on one of existing replica nodes or the new replica node, in the directory the `catalog.jsoin` is located, like:
 
     (on 192.168.0.12)
-    # droonga-engine-join --base-dir=~/droonga \
-                          --host=192.168.0.12 \
+    # cd ~/droonga
+    # droonga-engine-join --host=192.168.0.12 \
                           --replica-source-host=192.168.0.10
 
  * You must specify the host name or the IP address of the new replica node itself, via the `--host` option.

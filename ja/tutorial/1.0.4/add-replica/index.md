@@ -166,11 +166,11 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 
 ### 新しいreplicaをクラスタに参加させる
 
-新しいreplicaノードを既存のクラスタに追加するには、*新しいreplicaノード自身の上で*`droonga-engine-join`コマンドを実行します:
+新しいreplicaノードを既存のクラスタに追加するには、いずれかの既存のノードもしくは新しいreplicaノードのいずれかにおいて、`catalog.json` が置かれているディレクトリで、`droonga-engine-join` コマンドを実行します:
 
     (on 192.168.0.12)
-    # droonga-engine-join --base-dir=~/droonga \
-                          --host=192.168.0.12 \
+    # cd ~/droonga
+    # droonga-engine-join --host=192.168.0.12 \
                           --replica-source-host=192.168.0.10
 
  * `--host` オプションで、その新しいreplicaノード自身のホスト名またはIPアドレスを指定して下さい。
