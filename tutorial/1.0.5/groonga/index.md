@@ -107,9 +107,8 @@ On the other hand, you have to run multiple servers for each Droonga node to use
 
 To start them, run commands like following on each Droonga node:
 
-    # cd ~/droonga
     # host=192.168.0.10
-    # DROONGA_BASE_DIR=$PWD
+    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
@@ -126,8 +125,8 @@ Note that you have to specify the host name of the Droonga node itself via some 
 It will be used to communicate with other Droonga nodes in the cluster.
 So you have to specify different host name on another Droonga node, like:
 
-    # cd ~/droonga
     # host=192.168.0.11
+    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
     ...
 

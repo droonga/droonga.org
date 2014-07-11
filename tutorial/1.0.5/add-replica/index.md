@@ -70,7 +70,7 @@ Note, you cannot add a non-empty node to an existing cluster.
 If the computer was used as a Droonga node in old days, then you must clear old data at first.
 
     (on 192.168.0.12)
-    # kill $(cat $PWD/droonga-engine.pid)
+    # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -rf ~/droonga
     # mkdir ~/droonga
     # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
@@ -78,9 +78,8 @@ If the computer was used as a Droonga node in old days, then you must clear old 
 Let's start the server.
 
     (on 192.168.0.12)
-    # cd ~/droonga
     # host=192.168.0.12
-    # DROONGA_BASE_DIR=$PWD
+    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
@@ -298,10 +297,9 @@ Next, setup the new replica.
 Install required packages and starts the server with the `catalog.json` copied from an existing node of the cluster.
 
     (on 192.168.0.12)
-    # cd ~/droonga
-    # scp 192.168.0.10:~/droonga/catalog.json ./
+    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
     # host=192.168.0.12
-    # DROONGA_BASE_DIR=$PWD
+    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
