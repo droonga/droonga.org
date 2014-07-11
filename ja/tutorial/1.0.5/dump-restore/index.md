@@ -148,20 +148,20 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 もし順番にこのチュートリアルを読み進めているのであれば、クラスタとダンプファイルが既に手元にあるはずです。以下の操作でクラスタを空にしましょう:
 
     (on 192.168.0.10)
-    # cd ~/droonga
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
-    # rm -r 000
     # host=192.168.0.10
+    # export DROONGA_BASE_DIR=$HOME/droonga
+    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
+    # rm -r $DROONGA_BASE_DIR/000
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
 
     (on 192.168.0.11)
-    # cd ~/droonga
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
-    # rm -r 000
     # host=192.168.0.11
+    # export DROONGA_BASE_DIR=$HOME/droonga
+    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
+    # rm -r $DROONGA_BASE_DIR/000
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
@@ -244,10 +244,10 @@ Elapsed time: 0.008678467
                                     --replica-hosts=$host
 
     (on 192.168.0.11)
-    # cd ~/droonga
-    # kill $(cat $PWD/droonga-engine.pid)
-    # rm -r 000
     # host=192.168.0.11
+    # export DROONGA_BASE_DIR=$HOME/droonga
+    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
+    # rm -r $DROONGA_BASE_DIR/000
     # droonga-engine-catalog-modify --source=$PWD/catalog.json \
                                     --update \
                                     --replica-hosts=$host

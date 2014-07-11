@@ -116,9 +116,8 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
 サービスを起動するには、各Droongaノードで以下のようにコマンドを実行します：
 
-    # cd ~/droonga
     # host=192.168.0.10
-    # DROONGA_BASE_DIR=$PWD
+    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
@@ -135,8 +134,8 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 この情報は、クラスタ内の他のDroongaノードとの通信のために使われます。
 よって、別のDroongaノード上では以下のように別のホスト名を指定する事になります：
 
-    # cd ~/droonga
     # host=192.168.0.11
+    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
     ...
 
