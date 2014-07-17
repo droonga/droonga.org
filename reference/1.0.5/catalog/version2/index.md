@@ -621,7 +621,7 @@ Abstract
 Value
 : A string in the following format.
 
-    ${host_name}:${port_number}/${tag}.${name}
+      ${host_name}:${port_number}/${tag}.${name}
 
 * `host_name`: The name of host that has the database instance.
 * `port_number`: The port number for the database instance.
