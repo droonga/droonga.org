@@ -623,10 +623,10 @@ Value
 
       ${host_name}:${port_number}/${tag}.${name}
 
-* `host_name`: The name of host that has the database instance.
-* `port_number`: The port number for the database instance.
-* `tag`: The tag of the database instance. The tag name can't include `.`. You can use multiple tags for one host name and port number pair.
-* `name`: The name of the databases instance. You can use multiple names for one host name, port number and tag triplet.
+  * `host_name`: The name of host that has the database instance.
+  * `port_number`: The port number for the database instance.
+  * `tag`: The tag of the database instance. The tag name can't include `.`. You can use multiple tags for one host name and port number pair.
+  * `name`: The name of the databases instance. You can use multiple names for one host name, port number and tag triplet.
 
 Default value
 : None.
