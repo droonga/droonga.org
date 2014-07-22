@@ -76,6 +76,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
         # source /etc/profile.d/rvm.sh
         # rvm reload
         # rvm install 2.1.2
+        # yum -y install npm
     
  2. *それぞれのコンピュータで*、Gemパッケージ `droonga-engine` をインストールする。
     これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。

@@ -90,6 +90,7 @@ CentOS:
     # source /etc/profile.d/rvm.sh
     # rvm reload
     # rvm install 2.1.2
+    # yum -y install npm
 
 ## Build a Droonga engine
 

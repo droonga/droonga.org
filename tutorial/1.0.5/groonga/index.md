@@ -67,6 +67,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
         # source /etc/profile.d/rvm.sh
         # rvm reload
         # rvm install 2.1.2
+        # yum -y install npm
     
  2. Install a gem package `droonga-engine`, *on each computer*.
     It is the core component provides most features of Droonga system.
