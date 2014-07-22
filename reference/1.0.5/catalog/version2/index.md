@@ -621,10 +621,12 @@ Abstract
 Value
 : A string in the following format.
 
-"[database_type:]hostname[:port_number]/localpath/to/the/database"
+      ${host_name}:${port_number}/${tag}.${name}
 
-* database_type: Optional. Default value is "groonga".
-* port_number: Optional. Default value is 10047.
+  * `host_name`: The name of host that has the database instance.
+  * `port_number`: The port number for the database instance.
+  * `tag`: The tag of the database instance. The tag name can't include `.`. You can use multiple tags for one host name and port number pair.
+  * `name`: The name of the databases instance. You can use multiple names for one host name, port number and tag triplet.
 
 Default value
 : None.
