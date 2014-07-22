@@ -12,7 +12,7 @@ Learning steps to setup a Droonga based search system by yourself, with low-laye
 
 ## Precondition
 
-* You must have basic knowledge and experiences to setup and operate an [Ubuntu][] Server.
+* You must have basic knowledge and experiences to setup and operate an [Ubuntu][] or [CentOS][] Server.
 * You must have basic knowledge and experiences to develop applications based on the [Ruby][] and the [Node.js][].
 
 ## Abstract
@@ -67,7 +67,7 @@ For example, let's try to build a database system to find [Starbucks stores in N
 ## Prepare an environment for experiments
 
 Prepare a computer at first. This tutorial describes steps to develop a search service based on the Droonga, on an existing computer.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 13.10 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 13.10 x64` or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
 NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga. Otherwise, you may experience a strange build error.
 
@@ -77,9 +77,19 @@ Assume that the host is `192.168.0.10`.
 
 Install packages required to setup a Droonga engine.
 
+Ubuntu:
+
     # apt-get update
     # apt-get -y upgrade
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
+
+CentOS:
+
+    # yum -y groupinstall development
+    # curl -L get.rvm.io | bash -s stable
+    # source /etc/profile.d/rvm.sh
+    # rvm reload
+    # rvm install 2.1.2
 
 ## Build a Droonga engine
 
@@ -1072,12 +1082,13 @@ For more details of the Droonga HTTP Server, see the [reference manual][http-ser
 
 ## Conclusion
 
-In this tutorial, you did setup both packages [droonga-engine][] and [droonga-http-server][] which construct [Droonga][] service on a [Ubuntu Linux][Ubuntu].
+In this tutorial, you did setup both packages [droonga-engine][] and [droonga-http-server][] which construct [Droonga][] service on a [Ubuntu Linux][Ubuntu] or [CentOS][] computer.
 Moreover, you built a search system based on an HTTP protocol adapter with a Droonga engine, and successfully searched.
 
 
   [http-server]: ../../reference/http-server/
   [Ubuntu]: http://www.ubuntu.com/
+  [CentOS]: https://www.centos.org/
   [Droonga]: https://droonga.org/
   [droonga-engine]: https://github.com/droonga/droonga-engine
   [droonga-http-server]: https://github.com/droonga/droonga-http-server

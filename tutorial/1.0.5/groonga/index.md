@@ -12,7 +12,7 @@ Learning steps to run a Droonga cluster by your hand, and use it as a [Groonga][
 
 ## Precondition
 
-* You must have basic knowledge and experiences to set up and operate an [Ubuntu][] Server.
+* You must have basic knowledge and experiences to set up and operate an [Ubuntu][] or [CentOS][] Server.
 * You must have basic knowledge and experiences to use the [Groonga][groonga] via HTTP.
 
 ## What's Droonga?
@@ -31,7 +31,7 @@ For example, let's try to build a database system to find [Starbucks stores in N
 
 Prepare a computer at first.
 This tutorial describes steps to set up a Droonga cluster based on existing computers.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 13.10 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 13.10 x64` or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
 NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
 Otherwise, you may experience a strange build error.
@@ -54,9 +54,19 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
 
  1. Install required platform packages, *on each computer*.
     
+    Ubuntu:
+    
         # apt-get update
         # apt-get -y upgrade
         # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
+    
+    CentOS:
+    
+        # yum -y groupinstall development
+        # curl -L get.rvm.io | bash -s stable
+        # source /etc/profile.d/rvm.sh
+        # rvm reload
+        # rvm install 2.1.2
     
  2. Install a gem package `droonga-engine`, *on each computer*.
     It is the core component provides most features of Droonga system.
@@ -299,7 +309,7 @@ Of course you can specify conditions via the `query` option:
 
 ## Conclusion
 
-In this tutorial, you did set up a [Droonga][] cluster on [Ubuntu Linux][Ubuntu] computers.
+In this tutorial, you did set up a [Droonga][] cluster on [Ubuntu Linux][Ubuntu] or [CentOS][] computers.
 Moreover, you load data to it and select data from it successfully, as a [Groonga][] compatible server.
 
 Currently, Droonga supports only some limited features of Groonga compatible commands.
@@ -308,6 +318,7 @@ See the [command reference][] for more details.
 Next, let's learn [how to backup and restore contents of a Droonga cluster](../dump-restore/).
 
   [Ubuntu]: http://www.ubuntu.com/
+  [CentOS]: https://www.centos.org/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
   [command reference]: ../../reference/commands/
