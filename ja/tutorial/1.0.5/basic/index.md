@@ -21,7 +21,7 @@ Droonga の低レイヤのコマンドを用いて、Droonga を使った検索�
 
 ## 前提条件
 
-* [Ubuntu][] Server を自分でセットアップしたり、基本的な操作ができること
+* [Ubuntu][] または [CentOS][] の Server を自分でセットアップしたり、基本的な操作ができること
 * [Ruby][] と [Node.js][] の基本的な知識があること
 
 ## 概要
@@ -75,7 +75,7 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
 ## 実験用のマシンを用意する
 
 まずコンピュータを調達しましょう。このチュートリアルでは、既存のコンピュータにDroongaによる検索システムを構築する手順を解説します。
-以降の説明は基本的に、[DigitalOcean](https://www.digitalocean.com/)で `Ubuntu 13.10 x64` の仮想マシンのセットアップを完了し、コンソールにアクセスできる状態になった後を前提として進めます。
+以降の説明は基本的に、[DigitalOcean](https://www.digitalocean.com/)で `Ubuntu 13.10 x64` または `CentOS 6.5 x64` の仮想マシンのセットアップを完了し、コンソールにアクセスできる状態になった後を前提として進めます。
 
 注意：Droongaが必要とするパッケージをインストールする前に、マシンが2GB以上のメモリを備えていることを確認して下さい。メモリが不足していると、ビルド時にエラーが出て、ビルドに失敗することがあります。
 
@@ -85,9 +85,19 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
 
 Droonga をセットアップするために必要になるパッケージをインストールします。
 
+Ubuntu:
+
     # apt-get update
     # apt-get -y upgrade
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
+
+CentOS:
+
+    # yum -y groupinstall development
+    # curl -L get.rvm.io | bash -s stable
+    # source /etc/profile.d/rvm.sh
+    # rvm reload
+    # rvm install 2.1.2
 
 ## Droonga Engine を構築する
 
@@ -1079,12 +1089,13 @@ Droonga HTTP Serverの詳細については[リファレンスマニュアル][h
 
 ## まとめ
 
-[Ubuntu Linux][Ubuntu] 上に [Droonga][] を構成するパッケージである [droonga-engine][] と [droonga-http-server][] をセットアップしました。
+[Ubuntu Linux][Ubuntu] または [CentOS][] 上に [Droonga][] を構成するパッケージである [droonga-engine][] と [droonga-http-server][] をセットアップしました。
 これらのパッケージを利用することで、HTTP Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
 
 
   [http-server]: ../../reference/http-server/
   [Ubuntu]: http://www.ubuntu.com/
+  [CentOS]: https://www.centos.org/
   [Droonga]: https://droonga.org/
   [droonga-engine]: https://github.com/droonga/droonga-engine
   [droonga-http-server]: https://github.com/droonga/droonga-http-server

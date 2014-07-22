@@ -21,7 +21,7 @@ Droongaクラスタを自分で構築して、[Groonga][groonga]互換のサー�
 
 ## 前提条件
 
-* [Ubuntu][]サーバのセットアップと操作について、基本的な知識と経験があること。
+* [Ubuntu][]または[CentOS][]サーバのセットアップと操作について、基本的な知識と経験があること。
 * [Groonga][groonga]のHTTP経由での利用について、基本的な知識と経験があること。
 
 ## Droongaとは何か？
@@ -40,7 +40,7 @@ Droongaは分散アーキテクチャに基づくデータ処理エンジンで�
 
 まず最初にコンピュータを用意します。
 このチュートリアルは、既存のコンピュータを使ってDroongaクラスタを構築する手順について解説しています。
-以下の説明は基本的には、[DigitalOcean](https://www.digitalocean.com/)上のサーバで`Ubuntu 13.10 x64`の仮想マシンが正しく準備されており、コンソールが利用できる状態になっている、という前提に基づいています。
+以下の説明は基本的には、[DigitalOcean](https://www.digitalocean.com/)上のサーバで`Ubuntu 13.10 x64`または`CentOS 6.5 x64`の仮想マシンが正しく準備されており、コンソールが利用できる状態になっている、という前提に基づいています。
 
 注意：Droongaの依存パッケージをインストールする前に、仮想マシンのインスタンスが少なくとも2GB以上のメモリを備えていることを確認して下さい。
 メモリが足らないと、ビルド時におかしなエラーに遭遇することになります。
@@ -63,9 +63,19 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
 
  1. *それぞれのコンピュータで*、プラットフォームごとに要求されるパッケージをインストールする。
     
+    Ubuntu:
+    
         # apt-get update
         # apt-get -y upgrade
         # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
+    
+    CentOS:
+    
+        # yum -y groupinstall development
+        # curl -L get.rvm.io | bash -s stable
+        # source /etc/profile.d/rvm.sh
+        # rvm reload
+        # rvm install 2.1.2
     
  2. *それぞれのコンピュータで*、Gemパッケージ `droonga-engine` をインストールする。
     これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。
@@ -304,7 +314,7 @@ stores.json:
 
 ## まとめ
 
-このチュートリアルでは、[Ubuntu Linux][Ubuntu]のコンピュータを使って[Droonga][]クラスタを構築しました。
+このチュートリアルでは、[Ubuntu Linux][Ubuntu]または[CentOS][]のコンピュータを使って[Droonga][]クラスタを構築しました。
 また、[Groonga][]サーバ互換のシステムとしてデータを読み込ませたり取り出したりすることにも成功しました。
 
 現在の所、DroongaはGroonga互換のコマンドのうちいくつかの限定的な機能にのみ対応しています。
@@ -313,6 +323,7 @@ stores.json:
 続いて、[Droongaクラスタのデータをバックアップしたり復元したりする手順](../dump-restore/)を学びましょう。
 
   [Ubuntu]: http://www.ubuntu.com/
+  [CentOS]: https://www.centos.org/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
   [command reference]: ../../reference/commands/
