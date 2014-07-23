@@ -214,6 +214,11 @@ msgid ""
 "    # yum -y install npm"
 msgstr ""
 
+msgid ""
+"Yes, in short, you have to activate `gem` and `npm` commands, and install some"
+" packages to build native extensions."
+msgstr "要するに、`gem`と`npm`を使えるようにした上で、ネイティブ拡張をビルドするためのいくつかのパッケージをインストールする必要があるということです。"
+
 msgid "## Build a Droonga engine"
 msgstr "## Droonga Engine を構築する"
 

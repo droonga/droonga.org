@@ -100,6 +100,8 @@ CentOS:
     # rvm install 2.1.2
     # yum -y install npm
 
+要するに、`gem`と`npm`を使えるようにした上で、ネイティブ拡張をビルドするためのいくつかのパッケージをインストールする必要があるということです。
+
 ## Droonga Engine を構築する
 
 Droonga Engine は、データベースを保持し、実際の検索を担当する部分です。

@@ -69,6 +69,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
         # rvm install 2.1.2
         # yum -y install npm
     
+    Yes, in short, you have to activate `gem` and `npm` commands, and install some packages to build native extensions.
  2. Install a gem package `droonga-engine`, *on each computer*.
     It is the core component provides most features of Droonga system.
     

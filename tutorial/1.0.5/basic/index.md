@@ -92,6 +92,8 @@ CentOS:
     # rvm install 2.1.2
     # yum -y install npm
 
+Yes, in short, you have to activate `gem` and `npm` commands, and install some packages to build native extensions.
+
 ## Build a Droonga engine
 
 The part "Droonga engine" stores the database and provides the search feature actually.

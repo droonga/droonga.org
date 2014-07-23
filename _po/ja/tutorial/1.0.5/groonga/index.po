@@ -162,9 +162,13 @@ msgid ""
 msgstr ""
 
 msgid ""
+"    Yes, in short, you have to activate `gem` and `npm` commands, and install "
+"some packages to build native extensions.\n"
 " 2. Install a gem package `droonga-engine`, *on each computer*.\n"
 "    It is the core component provides most features of Droonga system."
 msgstr ""
+"    要するに、`gem`と`npm`を使えるようにした上で、ネイティブ拡張をビルドするためのいくつかのパッケージをインストールする必要があるということで"
+"す。\n"
 " 2. *それぞれのコンピュータで*、Gemパッケージ `droonga-engine` をインストールする。\n"
 "    これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。"
 
