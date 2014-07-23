@@ -628,10 +628,12 @@ Index `name` and `address` on the referencing table.
 値
 : 以下の書式の文字列。
 
-"[database_type:]hostname[:port_number]/localpath/to/the/database"
+      ${host_name}:${port_number}/${tag}.${name}
 
-* database_type: 省略可能。既定値は"groonga"。
-* port_number: 省略可能。既定値は 10047。
+  * `host_name`: データベースのインスタンスを保持するホストの名前。
+  * `port_number`: データベースのインスタンスのためのポート番号。
+  * `tag`: データベースのインスタンスのタグ名。タグ名には`.`を含めることはできません。ホスト名とポート番号のペアごとに、複数のタグを使うことができます。
+  * `name`: データベースのインスタンスの名前。あるホスト名・ポート番号・タグ名の3つの組み合わせごとに、複数のインスタンス名を使うことができます。
 
 既定値
 : なし。
