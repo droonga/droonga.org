@@ -131,15 +131,15 @@ layout: ja
 
 `drndump` コマンドの実行結果は、Droonga用のメッセージの一覧です。
 
-Droongaクラスタにそれらのメッセージを送信するには、`droonga-request` コマンドを使います。
+Droongaクラスタにそれらのメッセージを送信するには、`droonga-send` コマンドを使います。
 このコマンドを含んでいるGemパッケージ `droonga-client` をインストールして下さい:
 
     # gem install droonga-client
 
-`droonga-request` コマンドが正しくインストールされた事を確認しましょう:
+`droonga-send` コマンドが正しくインストールされた事を確認しましょう:
 
-    # droonga-request --version
-    droonga-request 0.1.7
+    # droonga-send --version
+    droonga-send 0.1.9
 
 ### 空のDroongaクラスタを用意する
 
@@ -176,43 +176,13 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 ### ダンプ結果から空のDroongaクラスタへデータを復元する
 
 `drndump` の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
-やり方は単純で、単にダンプファイルを `droonga-request` コマンドを使ってからのクラスタに流し込むだけです。
+やり方は単純で、単にダンプファイルを `droonga-send` コマンドを使ってからのクラスタに流し込むだけです。
 
 ダンプファイルからクラスタの内容を復元するには、以下のようなコマンドを実行します:
 
 ~~~
-# droonga-request --host=192.168.0.10 \
-                    --receiver-host=192.168.0.12 \
+# droonga-send --server=192.168.0.10  \
                     dump.jsons
-Elapsed time: 0.027541763
-{
-  "inReplyTo": "1401099940.5548894",
-  "statusCode": 200,
-  "type": "table_create.result",
-  "body": [
-    [
-      0,
-      1401099940.591563,
-      0.00031876564025878906
-    ],
-    true
-  ]
-}
-...
-Elapsed time: 0.008678467
-{
-  "inReplyTo": "1401099941.0794394",
-  "statusCode": 200,
-  "type": "column_create.result",
-  "body": [
-    [
-      0,
-      1401099941.1154332,
-      0.00027871131896972656
-    ],
-    true
-  ]
-}
 ~~~
 
 以下の点に注意して下さい:
