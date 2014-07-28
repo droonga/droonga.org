@@ -123,15 +123,15 @@ To save it as a JSONs file, you'll use a redirection like:
 
 The result of `drndump` command is a list of Droonga messages.
 
-You need to use `droonga-request` command to send it to your Droogna cluster.
+You need to use `droonga-send` command to send it to your Droogna cluster.
 Install the command included in the package `droonga-client`, via rubygems:
 
     # gem install droonga-client
 
-After that, establish that the `droonga-request` command has been installed successfully:
+After that, establish that the `droonga-send` command has been installed successfully:
 
-    # droonga-request --version
-    droonga-request 0.1.7
+    # droonga-send --version
+    droonga-send 0.1.9
 
 ### Prepare an empty Droonga cluster
 
@@ -169,43 +169,13 @@ After that the cluster becomes empty. Confirm it:
 ### Restore data from a dump result, to an empty Droonga cluster
 
 Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
-You just have to pour the contents of the dump file to an empty cluster, by the `droonga-request` command.
+You just have to pour the contents of the dump file to an empty cluster, by the `droonga-send` command.
 
 To restore the cluster from the dump file, run a command line like:
 
 ~~~
-# droonga-request --host=192.168.0.10 \
-                    --receiver-host=192.168.0.12 \
+# droonga-send --server=192.168.0.10  \
                     dump.jsons
-Elapsed time: 0.027541763
-{
-  "inReplyTo": "1401099940.5548894",
-  "statusCode": 200,
-  "type": "table_create.result",
-  "body": [
-    [
-      0,
-      1401099940.591563,
-      0.00031876564025878906
-    ],
-    true
-  ]
-}
-...
-Elapsed time: 0.008678467
-{
-  "inReplyTo": "1401099941.0794394",
-  "statusCode": 200,
-  "type": "column_create.result",
-  "body": [
-    [
-      0,
-      1401099941.1154332,
-      0.00027871131896972656
-    ],
-    true
-  ]
-}
 ~~~
 
 Note to these things:
