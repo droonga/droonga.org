@@ -163,6 +163,11 @@ To add a new replica node to an existing cluster, you just run a command `droong
     # cd ~/droonga
     # droonga-engine-join --host=192.168.0.12 \
                           --replica-source-host=192.168.0.10
+    --replica-source-host=192.168.100.51Joining new replica to the cluster...
+    ...
+    Update existing hosts in the cluster...
+    ...
+    Done.
 
  * You must specify the host name or the IP address of the new replica node, via the `--host` option.
  * You must specify the host name or the IP address of an existing node of the cluster, via the `--replica-source-host` option.
@@ -217,6 +222,9 @@ To remove a replica from an existing cluster, you just run the `droonga-engine-u
     (on 192.168.0.10)
     # cd ~/droonga
     # droonga-engine-unjoin --host=192.168.0.12
+    Unjoining replica from the cluster...
+    ...
+    Done.
 
  * You must specify the host name or the IP address of an existing node to be removed from the cluster, via the `--host` option.
  * You must run the command in the directory `catalog.json` is located, or specify path to the directory via the `--base-dir` option.

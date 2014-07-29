@@ -171,6 +171,11 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
     # cd ~/droonga
     # droonga-engine-join --host=192.168.0.12 \
                           --replica-source-host=192.168.0.10
+    --replica-source-host=192.168.100.51Joining new replica to the cluster...
+    ...
+    Update existing hosts in the cluster...
+    ...
+    Done.
 
  * `--host` オプションで、その新しいreplicaノードのホスト名またはIPアドレスを指定して下さい。
  * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名またはIPアドレスを指定して下さい。
@@ -225,6 +230,9 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
     (on 192.168.0.10)
     # cd ~/droonga
     # droonga-engine-unjoin --host=192.168.0.12
+    Unjoining replica from the cluster...
+    ...
+    Done.
 
  * `--host` オプションで、クラスタから削除するノードのホスト名またはIPアドレスを指定して下さい。
  * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
