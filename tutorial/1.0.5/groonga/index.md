@@ -125,10 +125,10 @@ To start them, run commands like following on each Droonga node:
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
-    # env NODE_ENV=production \
-        droonga-http-server --port=10041 \
+    # droonga-http-server --port=10041 \
                             --receive-host-name=$host \
                             --droonga-engine-host-name=$host \
+                            --environment=production \
                             --cache-size=-1 \
                             --daemon \
                             --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid

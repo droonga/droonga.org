@@ -84,10 +84,10 @@ Let's start the server.
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
-    # env NODE_ENV=production \
-        droonga-http-server --port=10041 \
+    # droonga-http-server --port=10041 \
                             --receive-host-name=$host \
                             --droonga-engine-host-name=$host \
+                            --environment=production \
                             --cache-size=-1 \
                             --daemon \
                             --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
@@ -304,10 +304,10 @@ Install required packages and starts the server with the `catalog.json` copied f
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
-    # env NODE_ENV=production \
-        droonga-http-server --port=10041 \
+    # droonga-http-server --port=10041 \
                             --receive-host-name=$host \
                             --droonga-engine-host-name=$host \
+                            --environment=production \
                             --cache-size=-1 \
                             --daemon \
                             --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
