@@ -85,12 +85,12 @@ Let's start the server.
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
     # droonga-http-server --port=10041 \
-                            --receive-host-name=$host \
-                            --droonga-engine-host-name=$host \
-                            --environment=production \
-                            --cache-size=-1 \
-                            --daemon \
-                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --environment=production \
+                          --cache-size=-1 \
+                          --daemon \
+                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
 Currently, the new node doesn't work as a node of the cluster, because it doesn't appear in the `catalog.json`.
 Even if you send requests to the new node, it just forwards all of them to other existing members of the cluster.
@@ -305,12 +305,12 @@ Install required packages and starts the server with the `catalog.json` copied f
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
     # droonga-http-server --port=10041 \
-                            --receive-host-name=$host \
-                            --droonga-engine-host-name=$host \
-                            --environment=production \
-                            --cache-size=-1 \
-                            --daemon \
-                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --environment=production \
+                          --cache-size=-1 \
+                          --daemon \
+                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
 Then, join the node to the cluster.
 

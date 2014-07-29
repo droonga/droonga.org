@@ -94,12 +94,12 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
     # droonga-http-server --port=10041 \
-                            --receive-host-name=$host \
-                            --droonga-engine-host-name=$host \
-                            --environment=production \
-                            --cache-size=-1 \
-                            --daemon \
-                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --environment=production \
+                          --cache-size=-1 \
+                          --daemon \
+                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
 この時点では、ノードの情報が `catalog.json` に含まれていないため、この新しいノードはクラスタのノードとしては動作していません。
 新しいノードにリクエストを送っても、それらはすべてクラスタ内の既存のノードに転送されます。
@@ -311,12 +311,12 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
     # droonga-http-server --port=10041 \
-                            --receive-host-name=$host \
-                            --droonga-engine-host-name=$host \
-                            --environment=production \
-                            --cache-size=-1 \
-                            --daemon \
-                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --environment=production \
+                          --cache-size=-1 \
+                          --daemon \
+                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
 そうしたら、そのノードをクラスタに参加させましょう。
 

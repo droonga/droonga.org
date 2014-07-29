@@ -135,12 +135,12 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
                      --daemon \
                      --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
     # droonga-http-server --port=10041 \
-                            --receive-host-name=$host \
-                            --droonga-engine-host-name=$host \
-                            --environment=production \
-                            --cache-size=-1 \
-                            --daemon \
-                            --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+                          --receive-host-name=$host \
+                          --droonga-engine-host-name=$host \
+                          --environment=production \
+                          --cache-size=-1 \
+                          --daemon \
+                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
 
 いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
 この情報は、クラスタ内の他のDroongaノードとの通信のために使われます。
