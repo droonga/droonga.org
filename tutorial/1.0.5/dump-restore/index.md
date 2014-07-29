@@ -203,7 +203,7 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=$host
-    # endpoint="http://192.168.0.11:10041"
+    # endpoint="http://$host:10041"
     # curl "${endpoint}/d/table_remove?name=Location"
     # curl "${endpoint}/d/table_remove?name=Store"
     # curl "${endpoint}/d/table_remove?name=Term"
@@ -240,7 +240,14 @@ To copy data between two clusters, run the `droonga-engine-absorb-data` command 
 (on 192.168.0.10 or 192.168.0.11)
 # droonga-engine-absorb-data --source-host=192.168.0.10 \
                              --destination-host=192.168.0.11
-Absorbing data...
+Start to absorb data from 192.168.0.10
+                       to 192.168.0.11
+  dataset = Default
+  port    = 10031
+  tag     = droonga
+
+Absorbing...
+...
 Done.
 ~~~
 
