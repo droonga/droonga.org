@@ -200,16 +200,13 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 
     (on 192.168.0.11)
     # host=192.168.0.11
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
-    # rm -r $DROONGA_BASE_DIR/000
-    # droonga-engine-catalog-modify --source=$PWD/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=$host
-    # droonga-engine --host=$host \
-                     --log-file=$PWD/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$PWD/droonga-engine.pid
+    # endpoint="http://192.168.0.11:10041"
+    # curl "${endpoint}/d/table_remove?name=Location"
+    # curl "${endpoint}/d/table_remove?name=Store"
+    # curl "${endpoint}/d/table_remove?name=Term"
 
 After that there are two clusters: one contains `192.168.0.10` with data, another contains `192.168.0.11` with no data. Confirm it:
 

@@ -205,16 +205,13 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 
     (on 192.168.0.11)
     # host=192.168.0.11
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
-    # rm -r $DROONGA_BASE_DIR/000
-    # droonga-engine-catalog-modify --source=$PWD/catalog.json \
+    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=$host
-    # droonga-engine --host=$host \
-                     --log-file=$PWD/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$PWD/droonga-engine.pid
+    # endpoint="http://192.168.0.11:10041"
+    # curl "${endpoint}/d/table_remove?name=Location"
+    # curl "${endpoint}/d/table_remove?name=Store"
+    # curl "${endpoint}/d/table_remove?name=Term"
 
 これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
 
