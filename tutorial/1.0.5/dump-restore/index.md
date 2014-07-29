@@ -140,29 +140,19 @@ Assume that there is an empty Droonga cluster constructed from two nodes `192.16
 If you are reading this tutorial sequentially, you'll have an existing cluster and the dump file.
 Make it empty with these commands:
 
-    (on 192.168.0.10)
-    # host=192.168.0.10
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
-    # rm -r $DROONGA_BASE_DIR/000
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
-
-    (on 192.168.0.11)
-    # host=192.168.0.11
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
-    # rm -r $DROONGA_BASE_DIR/000
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # endpoint="http://192.168.0.10:10041"
+    # curl "${endpoint}/d/table_remove?name=Location"
+    [[0,1406610703.2229023,0.0010793209075927734],true]
+    # curl "${endpoint}/d/table_remove?name=Store"
+    [[0,1406610708.2757723,0.006396293640136719],true]
+    # curl "${endpoint}/d/table_remove?name=Term"
+    [[0,1406610712.379644,0.00006723403930664062],true]
 
 After that the cluster becomes empty. Confirm it:
 
     # endpoint="http://192.168.0.10:10041"
+    #  curl "${endpoint}/d/table_list"
+    [[0,1406610804.1535122,0.0002875328063964844],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]]]]
     # curl "${endpoint}/d/select?table=Store&output_columns=name&limit=10"
     [[0,1401363465.610241,0],[[[null],[]]]]
 
