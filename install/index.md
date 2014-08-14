@@ -18,7 +18,7 @@ The main part of Droonga consists of two packages: [droonga-engine][] and [droon
 [droonga-http-server][] requires [Node.js][].
 
 
-# Ubuntu 13.10
+# Ubuntu 14.04
 
 ## Install dependencies
 

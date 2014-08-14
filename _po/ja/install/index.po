@@ -42,7 +42,7 @@ msgstr ""
 msgid "[droonga-http-server][] requires [Node.js][]."
 msgstr "[droonga-http-server][]は[Node.js][]を必要とします。"
 
-msgid "# Ubuntu 13.10"
+msgid "# Ubuntu 14.04"
 msgstr ""
 
 msgid "## Install dependencies"
