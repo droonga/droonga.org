@@ -27,7 +27,7 @@ Droongaは主に、[droonga-engine][]と[droonga-http-server][]の2つのパッ�
 [droonga-http-server][]は[Node.js][]を必要とします。
 
 
-# Ubuntu 13.10
+# Ubuntu 14.04
 
 ## 依存パッケージのインストール
 
