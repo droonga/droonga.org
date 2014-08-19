@@ -211,26 +211,92 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 After that there are two clusters: one contains `192.168.0.10` with data, another contains `192.168.0.11` with no data. Confirm it:
 
 
-    # curl "http://192.168.0.10:10041/droonga/system/status"
-    {
-      "nodes": {
-        "192.168.0.10:10031/droonga": {
-          "live": true
-        }
-      }
+~~~
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
     }
-    # curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10"
-    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
-    # curl "http://192.168.0.11:10041/droonga/system/status"
-    {
-      "nodes": {
-        "192.168.0.11:10031/droonga": {
-          "live": true
-        }
-      }
+  }
+}
+# curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363556.0294158,
+    7.62939453125e-05
+  ],
+  [
+    [
+      [
+        40
+      ],
+      [
+        [
+          "name",
+          "ShortText"
+        ]
+      ],
+      [
+        "1st Avenue & 75th St. - New York NY  (W)"
+      ],
+      [
+        "76th & Second - New York NY  (W)"
+      ],
+      [
+        "Herald Square- Macy's - New York NY"
+      ],
+      [
+        "Macy's 5th Floor - Herald Square - New York NY  (W)"
+      ],
+      [
+        "80th & York - New York NY  (W)"
+      ],
+      [
+        "Columbus @ 67th - New York NY  (W)"
+      ],
+      [
+        "45th & Broadway - New York NY  (W)"
+      ],
+      [
+        "Marriott Marquis - Lobby - New York NY"
+      ],
+      [
+        "Second @ 81st - New York NY  (W)"
+      ],
+      [
+        "52nd & Seventh - New York NY  (W)"
+      ]
+    ]
+  ]
+]
+# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
+{
+  "nodes": {
+    "192.168.0.11:10031/droonga": {
+      "live": true
     }
-    # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
-    [[0,1401363465.610241,0],[[[null],[]]]]
+  }
+}
+# curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363465.610241,
+    0
+  ],
+  [
+    [
+      [
+        null
+      ],
+      []
+    ]
+  ]
+]
+~~~
+
 
 ### Duplicate data between two Droonga clusters
 
@@ -253,10 +319,110 @@ Done.
 
 After that contents of these two clusters are completely synchronized. Confirm it:
 
-    # curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10"
-    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
-    # curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10"
-    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
+~~~
+# curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363556.0294158,
+    7.62939453125e-05
+  ],
+  [
+    [
+      [
+        40
+      ],
+      [
+        [
+          "name",
+          "ShortText"
+        ]
+      ],
+      [
+        "1st Avenue & 75th St. - New York NY  (W)"
+      ],
+      [
+        "76th & Second - New York NY  (W)"
+      ],
+      [
+        "Herald Square- Macy's - New York NY"
+      ],
+      [
+        "Macy's 5th Floor - Herald Square - New York NY  (W)"
+      ],
+      [
+        "80th & York - New York NY  (W)"
+      ],
+      [
+        "Columbus @ 67th - New York NY  (W)"
+      ],
+      [
+        "45th & Broadway - New York NY  (W)"
+      ],
+      [
+        "Marriott Marquis - Lobby - New York NY"
+      ],
+      [
+        "Second @ 81st - New York NY  (W)"
+      ],
+      [
+        "52nd & Seventh - New York NY  (W)"
+      ]
+    ]
+  ]
+]
+# curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363556.0294158,
+    7.62939453125e-05
+  ],
+  [
+    [
+      [
+        40
+      ],
+      [
+        [
+          "name",
+          "ShortText"
+        ]
+      ],
+      [
+        "1st Avenue & 75th St. - New York NY  (W)"
+      ],
+      [
+        "76th & Second - New York NY  (W)"
+      ],
+      [
+        "Herald Square- Macy's - New York NY"
+      ],
+      [
+        "Macy's 5th Floor - Herald Square - New York NY  (W)"
+      ],
+      [
+        "80th & York - New York NY  (W)"
+      ],
+      [
+        "Columbus @ 67th - New York NY  (W)"
+      ],
+      [
+        "45th & Broadway - New York NY  (W)"
+      ],
+      [
+        "Marriott Marquis - Lobby - New York NY"
+      ],
+      [
+        "Second @ 81st - New York NY  (W)"
+      ],
+      [
+        "52nd & Seventh - New York NY  (W)"
+      ]
+    ]
+  ]
+]
+~~~
 
 ### Unite two Droonga clusters
 
@@ -274,17 +440,19 @@ Run following command lines to unite these two clusters:
 
 After that there is just one cluster - yes, it's the initial state.
 
-    # curl "http://192.168.0.10:10041/droonga/system/status"
-    {
-      "nodes": {
-        "192.168.0.10:10031/droonga": {
-          "live": true
-        },
-        "192.168.0.11:10031/droonga": {
-          "live": true
-        }
-      }
+~~~
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+{
+  "nodes": {
+    "192.168.0.10:10031/droonga": {
+      "live": true
+    },
+    "192.168.0.11:10031/droonga": {
+      "live": true
     }
+  }
+}
+~~~
 
 ## Conclusion
 
