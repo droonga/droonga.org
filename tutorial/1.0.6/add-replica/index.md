@@ -98,7 +98,7 @@ Even if you send requests to the new node, it just forwards all of them to other
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -109,7 +109,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status"
+# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -120,7 +120,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status"
+# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -180,7 +180,7 @@ All nodes' `catalog.json` are also updated, and now, yes, the new node starts wo
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -235,7 +235,7 @@ Now, the node has been successfully unjoined from the cluster.
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -246,7 +246,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status"
+# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -257,7 +257,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status"
+# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -289,7 +289,7 @@ Now the node has been gone.
 You can confirm that via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -332,7 +332,7 @@ Finally a Droonga cluster constructed with two nodes `192.168.0.10` and `192.168
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -343,7 +343,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status"
+# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
