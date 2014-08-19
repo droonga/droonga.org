@@ -140,21 +140,102 @@ Assume that there is an empty Droonga cluster constructed from two nodes `192.16
 If you are reading this tutorial sequentially, you'll have an existing cluster and the dump file.
 Make it empty with these commands:
 
-    # endpoint="http://192.168.0.10:10041"
-    # curl "$endpoint/d/table_remove?name=Location"
-    [[0,1406610703.2229023,0.0010793209075927734],true]
-    # curl "$endpoint/d/table_remove?name=Store"
-    [[0,1406610708.2757723,0.006396293640136719],true]
-    # curl "$endpoint/d/table_remove?name=Term"
-    [[0,1406610712.379644,0.00006723403930664062],true]
+~~~
+# endpoint="http://192.168.0.10:10041"
+# curl "$endpoint/d/table_remove?name=Location" | jq "."
+[
+  [
+    0,
+    1406610703.2229023,
+    0.0010793209075927734
+  ],
+  true
+]
+# curl "$endpoint/d/table_remove?name=Store" | jq "."
+[
+  [
+    0,
+    1406610708.2757723,
+    0.006396293640136719
+  ],
+  true
+]
+# curl "$endpoint/d/table_remove?name=Term" | jq "."
+[
+  [
+    0,
+    1406610712.379644,
+    6.723403930664062e-05
+  ],
+  true
+]
+~~~
 
 After that the cluster becomes empty. Confirm it:
 
-    # endpoint="http://192.168.0.10:10041"
-    #  curl "$endpoint/d/table_list"
-    [[0,1406610804.1535122,0.0002875328063964844],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]]]]
-    # curl "$endpoint/d/select?table=Store&output_columns=name&limit=10"
-    [[0,1401363465.610241,0],[[[null],[]]]]
+~~~
+# endpoint="http://192.168.0.10:10041"
+# curl "$endpoint/d/table_list" | jq "."
+[
+  [
+    0,
+    1406610804.1535122,
+    0.0002875328063964844
+  ],
+  [
+    [
+      [
+        "id",
+        "UInt32"
+      ],
+      [
+        "name",
+        "ShortText"
+      ],
+      [
+        "path",
+        "ShortText"
+      ],
+      [
+        "flags",
+        "ShortText"
+      ],
+      [
+        "domain",
+        "ShortText"
+      ],
+      [
+        "range",
+        "ShortText"
+      ],
+      [
+        "default_tokenizer",
+        "ShortText"
+      ],
+      [
+        "normalizer",
+        "ShortText"
+      ]
+    ]
+  ]
+]
+# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363465.610241,
+    0
+  ],
+  [
+    [
+      [
+        null
+      ],
+      []
+    ]
+  ]
+]
+~~~
 
 ### Restore data from a dump result, to an empty Droonga cluster
 
@@ -176,8 +257,59 @@ Note to these things:
 
 Then the data is completely restored. Confirm it:
 
-    # $endpoint/select?table=Store&output_columns=name&limit=10"
-    [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
+~~~
+# curl $endpoint/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363556.0294158,
+    7.62939453125e-05
+  ],
+  [
+    [
+      [
+        40
+      ],
+      [
+        [
+          "name",
+          "ShortText"
+        ]
+      ],
+      [
+        "1st Avenue & 75th St. - New York NY  (W)"
+      ],
+      [
+        "76th & Second - New York NY  (W)"
+      ],
+      [
+        "Herald Square- Macy's - New York NY"
+      ],
+      [
+        "Macy's 5th Floor - Herald Square - New York NY  (W)"
+      ],
+      [
+        "80th & York - New York NY  (W)"
+      ],
+      [
+        "Columbus @ 67th - New York NY  (W)"
+      ],
+      [
+        "45th & Broadway - New York NY  (W)"
+      ],
+      [
+        "Marriott Marquis - Lobby - New York NY"
+      ],
+      [
+        "Second @ 81st - New York NY  (W)"
+      ],
+      [
+        "52nd & Seventh - New York NY  (W)"
+      ]
+    ]
+  ]
+]
+~~~
 
 ## Duplicate an existing Droonga cluster to another empty cluster directly
 
