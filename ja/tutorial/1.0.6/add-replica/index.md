@@ -107,7 +107,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -118,7 +118,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status"
+# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -129,7 +129,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status"
+# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -188,7 +188,7 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -243,7 +243,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -254,7 +254,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status"
+# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -265,7 +265,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status"
+# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -295,7 +295,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -338,7 +338,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -349,7 +349,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status"
+# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
