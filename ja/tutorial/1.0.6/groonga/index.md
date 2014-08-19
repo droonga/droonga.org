@@ -157,7 +157,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 コマンドはHTTP経由で実行できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status"
+# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -174,7 +174,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
 ~~~
-# curl "http://192.168.0.11:10041/droonga/system/status"
+# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "192.168.0.10:10031/droonga": {
@@ -199,9 +199,19 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 リクエストの送信方法はGroongaサーバの場合と全く同じです。
 新しいテーブル `Store` を作るには、`table_create` コマンドにあたるGETリクエストを送信して下さい:
 
-    # endpoint="http://192.168.0.10:10041"
-    # curl "${endpoint}/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText"
-    [[0,1401358896.360356,0.0035653114318847656],true]
+~~~
+# endpoint="http://192.168.0.10:10041"
+# curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
+[
+  [
+    0,
+    1401358896.360356,
+    0.0035653114318847656
+  ],
+  true
+]
+~~~
+
 
 リクエストの送信先として、Droongaノード中でdroonga-http-serverが動作しているDroongaノードのどれか1つを指定する必要がある事に注意して下さい。
 言い換えると、接続先（エンドポイント）としてはクラスタ中のどのノードでも好きな物を使う事ができます。
@@ -209,34 +219,188 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 
 次は、`column_create` コマンドを使って `Store` テーブルに `name` と `location` という新しいカラムを作ります:
 
-    # curl "${endpoint}/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText"
-    [[0,1401358348.6541538,0.0004096031188964844],true]
-    # curl "${endpoint}/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
-    [[0,1401358359.084659,0.002511262893676758],true],true]
+~~~
+# curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText" | jq "."
+[
+  [
+    0,
+    1401358348.6541538,
+    0.0004096031188964844
+  ],
+  true
+]
+# curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint" | jq "."
+[
+  [
+    0,
+    1401358359.084659,
+    0.002511262893676758
+  ],
+  true
+]
+~~~
 
 インデックスも作成しましょう。
 
-    # curl "${endpoint}/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
-    [[0,1401358475.7229664,0.002419710159301758],true]
-    # curl "${endpoint}/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name"
-    [[0,1401358494.1656318,0.006799221038818359],true]
-    # curl "${endpoint}/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint"
-    [[0,1401358505.708896,0.0016951560974121094],true]
-    # curl "${endpoint}/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
-    [[0,1401358519.6187897,0.024788379669189453],true]
+~~~
+# curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto" | jq "."
+[
+  [
+    0,
+    1401358475.7229664,
+    0.002419710159301758
+  ],
+  true
+]
+# curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name" | jq "."
+[
+  [
+    0,
+    1401358494.1656318,
+    0.006799221038818359
+  ],
+  true
+]
+# curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint" | jq "."
+[
+  [
+    0,
+    1401358505.708896,
+    0.0016951560974121094
+  ],
+  true
+]
+# curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location" | jq "."
+[
+  [
+    0,
+    1401358519.6187897,
+    0.024788379669189453
+  ],
+  true
+]
+~~~
 
 *注意*: テーブルが完全にできあがるまでは、`table_list` や `column_list` といったコマンドを実行しないでください。テーブルができあがる前にこれらのコマンドを実行してしまうと、インデックスが破損した状態になってしまいます。これはバージョン{{ site.droonga_version }}での既知の不具合で、将来のバージョンで修正される予定です。
 
 さて、テーブルを正しく作成できました。
 `table_list` コマンドを使って、作成されたテーブルの情報を見てみましょう:
 
-    # curl "${endpoint}/d/table_list"
-    [[0,1401358908.9126804,0.001600027084350586],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/vagrant/droonga/000/db.0000100","TABLE_PAT_KEY|PERSISTENT","ShortText",null,null,null]]]
+~~~
+# curl "$endpoint/d/table_list" | jq "."
+[
+  [
+    0,
+    1401358908.9126804,
+    0.001600027084350586
+  ],
+  [
+    [
+      [
+        "id",
+        "UInt32"
+      ],
+      [
+        "name",
+        "ShortText"
+      ],
+      [
+        "path",
+        "ShortText"
+      ],
+      [
+        "flags",
+        "ShortText"
+      ],
+      [
+        "domain",
+        "ShortText"
+      ],
+      [
+        "range",
+        "ShortText"
+      ],
+      [
+        "default_tokenizer",
+        "ShortText"
+      ],
+      [
+        "normalizer",
+        "ShortText"
+      ]
+    ],
+    [
+      256,
+      "Store",
+      "/home/vagrant/droonga/000/db.0000100",
+      "TABLE_PAT_KEY|PERSISTENT",
+      "ShortText",
+      null,
+      null,
+      null
+    ]
+  ]
+]
+~~~
 
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
-    # curl "http://192.168.0.11:10041/d/table_list"
-    [[0,1401358908.9126804,0.001600027084350586],[[["id","UInt32"],["name","ShortText"],["path","ShortText"],["flags","ShortText"],["domain","ShortText"],["range","ShortText"],["default_tokenizer","ShortText"],["normalizer","ShortText"]],[256,"Store","/home/vagrant/droonga/000/db.0000100","TABLE_PAT_KEY|PERSISTENT","ShortText",null,null,null]]]
+~~~
+# curl "http://192.168.0.11:10041/d/table_list" | jq "."
+[
+  [
+    0,
+    1401358908.9126804,
+    0.001600027084350586
+  ],
+  [
+    [
+      [
+        "id",
+        "UInt32"
+      ],
+      [
+        "name",
+        "ShortText"
+      ],
+      [
+        "path",
+        "ShortText"
+      ],
+      [
+        "flags",
+        "ShortText"
+      ],
+      [
+        "domain",
+        "ShortText"
+      ],
+      [
+        "range",
+        "ShortText"
+      ],
+      [
+        "default_tokenizer",
+        "ShortText"
+      ],
+      [
+        "normalizer",
+        "ShortText"
+      ]
+    ],
+    [
+      256,
+      "Store",
+      "/home/vagrant/droonga/000/db.0000100",
+      "TABLE_PAT_KEY|PERSISTENT",
+      "ShortText",
+      null,
+      null,
+      null
+    ]
+  ]
+]
+~~~
 
 ### テーブルへのデータの読み込み
 
@@ -293,8 +457,19 @@ stores.json:
 
 データが準備できたら、`load` コマンドのPOSTリクエストとして送信します:
 
-    # curl --data "@stores.json" "${endpoint}/d/load?table=Store"
-    [[0,1401358564.909,0.158],[40]]
+~~~
+# curl --data "@stores.json" "$endpoint/d/load?table=Store" | jq "."
+[
+  [
+    0,
+    1401358564.909,
+    0.158
+  ],
+  [
+    40
+  ]
+]
+~~~
 
 これで、JSONファイル中のすべてのデータが正しく読み込まれます。
 
@@ -304,15 +479,121 @@ stores.json:
 
 試しに、`select` コマンドを使って最初の10レコードを取り出してみましょう:
 
-    # curl "${endpoint}/d/select?table=Store&output_columns=name&limit=10"
-    [[0,1401362059.7437818,0.00004935264587402344],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
+~~~
+# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401362059.7437818,
+    4.935264587402344e-05
+  ],
+  [
+    [
+      [
+        40
+      ],
+      [
+        [
+          "name",
+          "ShortText"
+        ]
+      ],
+      [
+        "1st Avenue & 75th St. - New York NY  (W)"
+      ],
+      [
+        "76th & Second - New York NY  (W)"
+      ],
+      [
+        "Herald Square- Macy's - New York NY"
+      ],
+      [
+        "Macy's 5th Floor - Herald Square - New York NY  (W)"
+      ],
+      [
+        "80th & York - New York NY  (W)"
+      ],
+      [
+        "Columbus @ 67th - New York NY  (W)"
+      ],
+      [
+        "45th & Broadway - New York NY  (W)"
+      ],
+      [
+        "Marriott Marquis - Lobby - New York NY"
+      ],
+      [
+        "Second @ 81st - New York NY  (W)"
+      ],
+      [
+        "52nd & Seventh - New York NY  (W)"
+      ]
+    ]
+  ]
+]
+~~~
 
 もちろん、`query` オプションを使って検索条件を指定する事もできます:
 
-    # curl "${endpoint}/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10"
-    [[0,1398670157.661574,0.0012705326080322266],[[[2],[["_key","ShortText"]],["Columbus @ 67th - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]
-    # curl "${endpoint}/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10"
-    [[0,1398670586.193325,0.0003848075866699219],[[[3],[["_key","ShortText"]],["2nd Ave. & 9th Street - New York NY"],["84th & Third Ave - New York NY  (W)"],["2 Columbus Ave. - New York NY  (W)"]]]]
+~~~
+# curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1398670157.661574,
+    0.0012705326080322266
+  ],
+  [
+    [
+      [
+        2
+      ],
+      [
+        [
+          "_key",
+          "ShortText"
+        ]
+      ],
+      [
+        "Columbus @ 67th - New York NY  (W)"
+      ],
+      [
+        "2 Columbus Ave. - New York NY  (W)"
+      ]
+    ]
+  ]
+]
+# curl "$endpoint/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1398670586.193325,
+    0.0003848075866699219
+  ],
+  [
+    [
+      [
+        3
+      ],
+      [
+        [
+          "_key",
+          "ShortText"
+        ]
+      ],
+      [
+        "2nd Ave. & 9th Street - New York NY"
+      ],
+      [
+        "84th & Third Ave - New York NY  (W)"
+      ],
+      [
+        "2 Columbus Ave. - New York NY  (W)"
+      ]
+    ]
+  ]
+]
+~~~
 
 ## まとめ
 
