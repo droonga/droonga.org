@@ -584,6 +584,14 @@ msgid ""
 "~~~"
 msgstr ""
 
+msgid ""
+"Note: `/droonga/system/status` may not return the result like above. It can ca"
+"che the result of old status. We have to update these codes to confirm cluster"
+" changes."
+msgstr ""
+"注意：`/droonga/system/status` が上記の通りの結果を返さないことがあるので、クラスタ構成の変更を確認する方法については要検証・要更新"
+"。"
+
 msgid "### Duplicate data between two Droonga clusters"
 msgstr "### 2つのDroongaクラスタの間でデータを複製する"
 

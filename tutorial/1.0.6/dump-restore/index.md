@@ -429,6 +429,8 @@ After that there are two clusters: one contains `192.168.0.10` with data, anothe
 ]
 ~~~
 
+Note: `/droonga/system/status` may not return the result like above. It can cache the result of old status. We have to update these codes to confirm cluster changes.
+
 
 ### Duplicate data between two Droonga clusters
 
