@@ -59,11 +59,11 @@ layout: ja
 
 `drndump` コマンドはすべてのスキ−マ定義とデータをJSONs形式で取り出します。既存のDroongaクラスタのすべての内容をダンプ出力してみましょう。
 
-例えば、クラスタが `192.168.0.10` と `192.168.0.11` の2つのノードから構成されていて、別のホスト `192.168.0.12` にログインしている場合、コマンドラインは以下の要領です。
+例えば、クラスタが `192.168.100.50` と `192.168.100.51` の2つのノードから構成されていて、別のホスト `192.168.100.52` にログインしている場合、コマンドラインは以下の要領です。
 
 ~~~
-# drndump --host=192.168.0.10 \
-           --receiver-host=192.168.0.12
+# drndump --host=192.168.100.50 \
+           --receiver-host=192.168.100.52
 {
   "type": "table_create",
   "dataset": "Default",
@@ -120,8 +120,8 @@ layout: ja
 実行結果は標準出力に出力されます。
 結果をJSONs形式のファイルに保存する場合は、リダイレクトを使って以下のようにして下さい:
 
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.12 \
+    # drndump --host=192.168.100.50 \
+              --receiver-host=192.168.100.52 \
         > dump.jsons
 
 
@@ -143,12 +143,12 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 
 ### 空のDroongaクラスタを用意する
 
-2つのノード `192.168.0.10` と `192.168.0.11` からなる空のクラスタがあり、今 `192.168.0.12` にログインして操作を行っていて、ダンプファイルが `dump.jsons` という名前で手元にあると仮定します。
+2つのノード `192.168.100.50` と `192.168.100.51` からなる空のクラスタがあり、今 `192.168.100.52` にログインして操作を行っていて、ダンプファイルが `dump.jsons` という名前で手元にあると仮定します。
 
 もし順番にこのチュートリアルを読み進めているのであれば、クラスタとダンプファイルが既に手元にあるはずです。以下の操作でクラスタを空にしましょう:
 
 ~~~
-# endpoint="http://192.168.0.10:10041"
+# endpoint="http://192.168.100.50:10041"
 # curl "$endpoint/d/table_remove?name=Location" | jq "."
 [
   [
@@ -181,7 +181,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 これでクラスタは空になりました。確かめてみましょう:
 
 ~~~
-# endpoint="http://192.168.0.10:10041"
+# endpoint="http://192.168.100.50:10041"
 # curl "$endpoint/d/table_list" | jq "."
 [
   [
@@ -252,7 +252,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 ダンプファイルからクラスタの内容を復元するには、以下のようなコマンドを実行します:
 
 ~~~
-# droonga-send --server=192.168.0.10  \
+# droonga-send --server=192.168.100.50  \
                     dump.jsons
 ~~~
 
@@ -325,18 +325,18 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 
 ### 複数のDroongaクラスタを用意する
 
-ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先クラスタの2つのクラスタがあると仮定します。
+ノード `192.168.100.50` を含む複製元クラスタと、ノード `192.168.100.51` を含む複製先クラスタの2つのクラスタがあると仮定します。
 
 もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。`droonga-engine-catalog-modify` を使って2つのクラスタを作り、1つを空にしましょう。手順は以下の通りです:
 
-    (on 192.168.0.10)
-    # host=192.168.0.10
+    (on 192.168.100.50)
+    # host=192.168.100.50
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=$host
 
-    (on 192.168.0.11)
-    # host=192.168.0.11
+    (on 192.168.100.51)
+    # host=192.168.100.51
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=$host
@@ -345,19 +345,19 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
     # curl "$endpoint/d/table_remove?name=Store"
     # curl "$endpoint/d/table_remove?name=Term"
 
-これで、ノード `192.168.0.10` を含む複製元クラスタと、ノード `192.168.0.11` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
+これで、ノード `192.168.100.50` を含む複製元クラスタと、ノード `192.168.100.51` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
 
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.50:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -408,15 +408,15 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
     ]
   ]
 ]
-# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.51:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -442,11 +442,11 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 2つのクラスタの間でデータをコピーするには、いずれかのノード上で以下のように `droonga-engine-absorb-data` コマンドを実行します:
 
 ~~~
-(on 192.168.0.10 or 192.168.0.11)
-# droonga-engine-absorb-data --source-host=192.168.0.10 \
-                             --destination-host=192.168.0.11
-Start to absorb data from 192.168.0.10
-                       to 192.168.0.11
+(on 192.168.100.50 or 192.168.100.51)
+# droonga-engine-absorb-data --source-host=192.168.100.50 \
+                             --destination-host=192.168.100.51
+Start to absorb data from 192.168.100.50
+                       to 192.168.100.51
   dataset = Default
   port    = 10031
   tag     = droonga
@@ -459,7 +459,7 @@ Done.
 以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
 
 ~~~
-# curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.50:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -510,7 +510,7 @@ Done.
     ]
   ]
 ]
-# curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.51:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -567,26 +567,26 @@ Done.
 
 これらの2つのクラスタを結合するために、以下のコマンド列を実行しましょう:
 
-    (on 192.168.0.10)
+    (on 192.168.100.50)
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --add-replica-hosts=192.168.0.11
+                                    --add-replica-hosts=192.168.100.51
 
-    (on 192.168.0.11)
+    (on 192.168.100.51)
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --add-replica-hosts=192.168.0.10
+                                    --add-replica-hosts=192.168.100.50
 
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }

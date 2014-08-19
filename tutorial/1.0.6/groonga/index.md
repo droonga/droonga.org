@@ -50,7 +50,7 @@ A database system based on the Droonga is called *Droonga cluster*.
 A Droonga cluster is constructed from multiple computers, called *Droonga node*.
 So you have to set up multiple Droonga nodes for your Droonga cluster.
 
-Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
+Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
 
  1. Install required platform packages, *on each computer*.
     
@@ -90,7 +90,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     The file defines the structure of your Droonga cluster.
     You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
     
-        # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
+        # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
                                           --output=./catalog.json
     
     If you have only one computer and trying to set up it just for testing, then you'll do:
@@ -100,7 +100,7 @@ Assume that you have two computers: `192.168.0.10` and `192.168.0.11`.
     
  6. Share the generated `catalog.json` *to your all Droonga nodes*.
     
-        # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+        # scp ~/droonga/catalog.json 192.168.100.51:~/droonga/
     
     (Or, of course, you can generate same `catalog.json` on each computer, instead of copying.)
 
@@ -119,7 +119,7 @@ On the other hand, you have to run multiple servers for each Droonga node to use
 
 To start them, run commands like following on each Droonga node:
 
-    # host=192.168.0.10
+    # host=192.168.100.50
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
@@ -137,7 +137,7 @@ Note that you have to specify the host name of the Droonga node itself via some 
 It will be used to communicate with other Droonga nodes in the cluster.
 So you have to specify different host name on another Droonga node, like:
 
-    # host=192.168.0.11
+    # host=192.168.100.51
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
     ...
@@ -150,13 +150,13 @@ Let's make sure that the cluster works, by the `system.status` command.
 You can see the result via HTTP, like:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
@@ -167,13 +167,13 @@ The result says that two nodes are working correctly.
 Because it is a cluster, another endpoint returns same result.
 
 ~~~
-# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
@@ -193,7 +193,7 @@ Requests are completely same to ones for a Groonga server.
 To create a new table `Store`, you just have to send a GET request for the `table_create` command, like:
 
 ~~~
-# endpoint="http://192.168.0.10:10041"
+# endpoint="http://192.168.100.50:10041"
 # curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
 [
   [
@@ -341,7 +341,7 @@ Let's see it by the `table_list` command:
 Because it is a cluster, another endpoint returns same result.
 
 ~~~
-# curl "http://192.168.0.11:10041/d/table_list" | jq "."
+# curl "http://192.168.100.51:10041/d/table_list" | jq "."
 [
   [
     0,

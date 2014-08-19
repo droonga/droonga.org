@@ -71,7 +71,7 @@ Following instructions are basically written for a successfully prepared virtual
 
 NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga. Otherwise, you may experience a strange build error.
 
-Assume that the host is `192.168.0.10`.
+Assume that the host is `192.168.100.50`.
 
 ## Install packages required for the setup process
 
@@ -171,17 +171,17 @@ catalog.json:
               "slices": [
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.000"
+                    "address": "192.168.100.50:10031/droonga.000"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.001"
+                    "address": "192.168.100.50:10031/droonga.001"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.002"
+                    "address": "192.168.100.50:10031/droonga.002"
                   }
                 }
               ]
@@ -192,17 +192,17 @@ catalog.json:
               "slices": [
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.010"
+                    "address": "192.168.100.50:10031/droonga.010"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.011"
+                    "address": "192.168.100.50:10031/droonga.011"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.012"
+                    "address": "192.168.100.50:10031/droonga.012"
                   }
                 }
               ]
@@ -228,7 +228,7 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 Start a Droonga engine, you can start it with the command `droonga-engine`, like:
 
     # export DROONGA_BASE_DIR=$PWD
-    # droonga-engine --host 192.168.0.10 \
+    # droonga-engine --host 192.168.100.50 \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
@@ -245,7 +245,7 @@ This is the way to stop droonga-engine.
 
 Start droonga-engine again:
 
-    # droonga-engine --host 192.168.0.10 \
+    # droonga-engine --host 192.168.100.50 \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
@@ -920,8 +920,8 @@ Let's use the `droonga-http-server` as an HTTP protocol adapter. It is an npm pa
 
 Then, run it.
 
-    # droonga-http-server --receive-host-name=192.168.0.10 \
-                          --droonga-engine-host-name=192.168.0.10 \
+    # droonga-http-server --receive-host-name=192.168.100.50 \
+                          --droonga-engine-host-name=192.168.100.50 \
                           --daemon \
                           --pid-file $DROONGA_BASE_DIR/droonga-http-server.pid
 
@@ -930,7 +930,7 @@ Then, run it.
 
 We're all set. Let's send a search request to the protocol adapter via HTTP. At first, try to get all records of the `Stores` table by a request like following. (Note: The `attributes=_key` parameter means "export the value of the column `_key` to the search result". If you don't set the parameter, each record returned in the `records` will become just a blank array. You can specify multiple column names by the delimiter `,`. For example `attributes=_key,location` will return both the primary key and the location for each record.)
 
-    # curl "http://192.168.0.10:10041/tables/Store?attributes=_key&limit=-1"
+    # curl "http://192.168.100.50:10041/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
@@ -1063,7 +1063,7 @@ Because the `count` says `40`, you know there are all 40 records in the table. S
 
 Next step, let's try more meaningful query. To search stores which contain "Columbus" in their name, give `Columbus` as the parameter `query`, and give `_key` as the parameter `match_to` which means the column to be searched. Then:
 
-    # curl "http://192.168.0.10:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://192.168.100.50:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,

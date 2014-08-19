@@ -51,11 +51,11 @@ After that, establish that the `drndump` command has been installed successfully
 The `drndump` command extracts all schema and data as JSONs.
 Let's dump contents of existing your Droonga cluster.
 
-For example, if your cluster is constructed from two nodes `192.168.0.10` and `192.168.0.11`, and now you are logged in to the host `192.168.0.12` then the command line is:
+For example, if your cluster is constructed from two nodes `192.168.100.50` and `192.168.100.51`, and now you are logged in to the host `192.168.100.52` then the command line is:
 
 ~~~
-# drndump --host=192.168.0.10 \
-           --receiver-host=192.168.0.12
+# drndump --host=192.168.100.50 \
+           --receiver-host=192.168.100.52
 {
   "type": "table_create",
   "dataset": "Default",
@@ -112,8 +112,8 @@ Note to these things:
 The result is printed to the standard output.
 To save it as a JSONs file, you'll use a redirection like:
 
-    # drndump --host=192.168.0.10 \
-              --receiver-host=192.168.0.12 \
+    # drndump --host=192.168.100.50 \
+              --receiver-host=192.168.100.52 \
         > dump.jsons
 
 
@@ -135,13 +135,13 @@ After that, establish that the `droonga-send` command has been installed success
 
 ### Prepare an empty Droonga cluster
 
-Assume that there is an empty Droonga cluster constructed from two nodes `192.168.0.10` and `192.168.0.11`, now you are logged in to the host `192.168.0.12`, and there is a dump file `dump.jsons`.
+Assume that there is an empty Droonga cluster constructed from two nodes `192.168.100.50` and `192.168.100.51`, now you are logged in to the host `192.168.100.52`, and there is a dump file `dump.jsons`.
 
 If you are reading this tutorial sequentially, you'll have an existing cluster and the dump file.
 Make it empty with these commands:
 
 ~~~
-# endpoint="http://192.168.0.10:10041"
+# endpoint="http://192.168.100.50:10041"
 # curl "$endpoint/d/table_remove?name=Location" | jq "."
 [
   [
@@ -174,7 +174,7 @@ Make it empty with these commands:
 After that the cluster becomes empty. Confirm it:
 
 ~~~
-# endpoint="http://192.168.0.10:10041"
+# endpoint="http://192.168.100.50:10041"
 # curl "$endpoint/d/table_list" | jq "."
 [
   [
@@ -245,7 +245,7 @@ You just have to pour the contents of the dump file to an empty cluster, by the 
 To restore the cluster from the dump file, run a command line like:
 
 ~~~
-# droonga-send --server=192.168.0.10  \
+# droonga-send --server=192.168.100.50  \
                     dump.jsons
 ~~~
 
@@ -319,19 +319,19 @@ It copies all data from an existing cluster to another one directly, so it is re
 
 ### Prepare multiple Droonga clusters
 
-Assume that there are two clusters: the source has a node `192.168.0.10`, and the destination has a node `192.168.0.11`.
+Assume that there are two clusters: the source has a node `192.168.100.50`, and the destination has a node `192.168.100.51`.
 
 If you are reading this tutorial sequentially, you'll have an existing cluster with two nodes.
 Construct two clusters by `droonga-engine-catalog-modify` and make one cluster empty, with these commands:
 
-    (on 192.168.0.10)
-    # host=192.168.0.10
+    (on 192.168.100.50)
+    # host=192.168.100.50
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=$host
 
-    (on 192.168.0.11)
-    # host=192.168.0.11
+    (on 192.168.100.51)
+    # host=192.168.100.51
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=$host
@@ -340,19 +340,19 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
     # curl "$endpoint/d/table_remove?name=Store"
     # curl "$endpoint/d/table_remove?name=Term"
 
-After that there are two clusters: one contains `192.168.0.10` with data, another contains `192.168.0.11` with no data. Confirm it:
+After that there are two clusters: one contains `192.168.100.50` with data, another contains `192.168.100.51` with no data. Confirm it:
 
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.50:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -403,15 +403,15 @@ After that there are two clusters: one contains `192.168.0.10` with data, anothe
     ]
   ]
 ]
-# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.51:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -437,11 +437,11 @@ Note: `/droonga/system/status` may not return the result like above. It can cach
 To copy data between two clusters, run the `droonga-engine-absorb-data` command on a node, like:
 
 ~~~
-(on 192.168.0.10 or 192.168.0.11)
-# droonga-engine-absorb-data --source-host=192.168.0.10 \
-                             --destination-host=192.168.0.11
-Start to absorb data from 192.168.0.10
-                       to 192.168.0.11
+(on 192.168.100.50 or 192.168.100.51)
+# droonga-engine-absorb-data --source-host=192.168.100.50 \
+                             --destination-host=192.168.100.51
+Start to absorb data from 192.168.100.50
+                       to 192.168.100.51
   dataset = Default
   port    = 10031
   tag     = droonga
@@ -454,7 +454,7 @@ Done.
 After that contents of these two clusters are completely synchronized. Confirm it:
 
 ~~~
-# curl "http://192.168.0.10:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.50:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -505,7 +505,7 @@ After that contents of these two clusters are completely synchronized. Confirm i
     ]
   ]
 ]
-# curl "http://192.168.0.11:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "http://192.168.100.51:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -562,26 +562,26 @@ After that contents of these two clusters are completely synchronized. Confirm i
 
 Run following command lines to unite these two clusters:
 
-    (on 192.168.0.10)
+    (on 192.168.100.50)
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --add-replica-hosts=192.168.0.11
+                                    --add-replica-hosts=192.168.100.51
 
-    (on 192.168.0.11)
+    (on 192.168.100.51)
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --add-replica-hosts=192.168.0.10
+                                    --add-replica-hosts=192.168.100.50
 
 After that there is just one cluster - yes, it's the initial state.
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }

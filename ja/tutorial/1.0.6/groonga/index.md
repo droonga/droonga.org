@@ -59,7 +59,7 @@ Droongaベースのデータベースシステムは、*Droongaクラスタ*と�
 Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュータによって構成されます。
 よって、Droongaクラスタを構築するには複数のDroongaノードをセットアップする必要があります。
 
-`192.168.0.10`と`192.168.0.11`の2つのコンピュータがあると仮定しましょう。
+`192.168.100.50`と`192.168.100.51`の2つのコンピュータがあると仮定しましょう。
 
  1. *それぞれのコンピュータで*、プラットフォームごとに要求されるパッケージをインストールする。
     
@@ -99,7 +99,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     このファイルはDroongaクラスタの構成を定義する物です。
     データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
     
-        # droonga-engine-catalog-generate --hosts=192.168.0.10,192.168.0.11 \
+        # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
                                           --output=./catalog.json
     
     コンピュータが1台だけの単なる検証用の構成をセットアップする場合は、以下のようにします：
@@ -109,7 +109,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
     
  6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
-        # scp ~/droonga/catalog.json 192.168.0.11:~/droonga/
+        # scp ~/droonga/catalog.json 192.168.100.51:~/droonga/
     
     （もしくは、できあがったファイルをコピーする代わりに、各コンピュータ上で同じ設定の`catalog.json`を作成しても結構です。）
 
@@ -128,7 +128,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
 サービスを起動するには、各Droongaノードで以下のようにコマンドを実行します：
 
-    # host=192.168.0.10
+    # host=192.168.100.50
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
@@ -146,7 +146,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 この情報は、クラスタ内の他のDroongaノードとの通信のために使われます。
 よって、別のDroongaノード上では以下のように別のホスト名を指定する事になります：
 
-    # host=192.168.0.11
+    # host=192.168.100.51
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
     ...
@@ -157,13 +157,13 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 コマンドはHTTP経由で実行できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
@@ -174,13 +174,13 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
 ~~~
-# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
@@ -200,7 +200,7 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 新しいテーブル `Store` を作るには、`table_create` コマンドにあたるGETリクエストを送信して下さい:
 
 ~~~
-# endpoint="http://192.168.0.10:10041"
+# endpoint="http://192.168.100.50:10041"
 # curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
 [
   [
@@ -346,7 +346,7 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
 ~~~
-# curl "http://192.168.0.11:10041/d/table_list" | jq "."
+# curl "http://192.168.100.51:10041/d/table_list" | jq "."
 [
   [
     0,

@@ -79,7 +79,7 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
 
 注意：Droongaが必要とするパッケージをインストールする前に、マシンが2GB以上のメモリを備えていることを確認して下さい。メモリが不足していると、ビルド時にエラーが出て、ビルドに失敗することがあります。
 
-ホストが `192.168.0.10` だと仮定します。
+ホストが `192.168.100.50` だと仮定します。
 
 ## セットアップに必要なパッケージをインストールする
 
@@ -179,17 +179,17 @@ catalog.json:
               "slices": [
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.000"
+                    "address": "192.168.100.50:10031/droonga.000"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.001"
+                    "address": "192.168.100.50:10031/droonga.001"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.002"
+                    "address": "192.168.100.50:10031/droonga.002"
                   }
                 }
               ]
@@ -200,17 +200,17 @@ catalog.json:
               "slices": [
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.010"
+                    "address": "192.168.100.50:10031/droonga.010"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.011"
+                    "address": "192.168.100.50:10031/droonga.011"
                   }
                 },
                 {
                   "volume": {
-                    "address": "192.168.0.10:10031/droonga.012"
+                    "address": "192.168.100.50:10031/droonga.012"
                   }
                 }
               ]
@@ -236,7 +236,7 @@ catalog.json:
 以下のようにして droonga-engine を起動します。
 
     # export DROONGA_BASE_DIR=$PWD
-    # droonga-engine --host 192.168.0.10 \
+    # droonga-engine --host 192.168.100.50 \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
@@ -253,7 +253,7 @@ droonga-engineにSIGTERMを送ります。
 
 再度droonga-engineを起動します。
 
-    # droonga-engine --host 192.168.0.10 \
+    # droonga-engine --host 192.168.100.50 \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
                      --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
@@ -927,8 +927,8 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 次に、サーバを起動します。
 
-    # droonga-http-server --receive-host-name=192.168.0.10 \
-                          --droonga-engine-host-name=192.168.0.10 \
+    # droonga-http-server --receive-host-name=192.168.100.50 \
+                          --droonga-engine-host-name=192.168.100.50 \
                           --daemon \
                           --pid-file $DROONGA_BASE_DIR/droonga-http-server.pid
 
@@ -937,7 +937,7 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    # curl "http://192.168.0.10:10041/tables/Store?attributes=_key&limit=-1"
+    # curl "http://192.168.100.50:10041/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
@@ -1070,7 +1070,7 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga
 
 もう少し複雑なクエリを試してみましょう。例えば、店名に「Columbus」を含む店舗を検索します。`query` パラメータにクエリ `Columbus` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
-    # curl "http://192.168.0.10:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    # curl "http://192.168.100.50:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,

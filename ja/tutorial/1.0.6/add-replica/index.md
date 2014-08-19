@@ -56,13 +56,13 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 その一方で、クラスタへの新しいデータの流入は、新しいノードが動作を始めるまでの間停止しておく必要があります。
 （将来的には、新しいノードを完全に無停止で追加できるようにする予定ですが、今のところはそれはできません。）
 
-ここでは、`192.168.0.10` と `192.168.0.11` の2つのreplicaノードからなるDroongaクラスタがあり、新しいreplicaノードとして `192.168.0.12` を追加すると仮定します。
+ここでは、`192.168.100.50` と `192.168.100.51` の2つのreplicaノードからなるDroongaクラスタがあり、新しいreplicaノードとして `192.168.100.52` を追加すると仮定します。
 
 ### 新しいノードをセットアップする
 
 まず、新しいコンピュータをセットアップし、必要なソフトウェアのインストールと設定を済ませます。
 
-    (on 192.168.0.12)
+    (on 192.168.100.52)
     # apt-get update
     # apt-get -y upgrade
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
@@ -71,23 +71,23 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 
 新しいノードには、クラスタの既存のノードから `catalog.json` をコピーする必要があります。
 
-    (on 192.168.0.12)
+    (on 192.168.100.52)
     # mkdir ~/droonga
-    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
+    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
 
 注意点として、空でないノードを既存のクラスタに追加することはできません。
 もしそのコンピュータがかつてDroongaノードとして使われていた事があった場合には、最初に古いデータを消去する必要があります。
 
-    (on 192.168.0.12)
+    (on 192.168.100.52)
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -rf ~/droonga
     # mkdir ~/droonga
-    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
+    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
 
 では、サーバを起動しましょう。
 
-    (on 192.168.0.12)
-    # host=192.168.0.12
+    (on 192.168.100.52)
+    # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
@@ -107,35 +107,35 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
@@ -167,11 +167,11 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 
 新しいreplicaノードを既存のクラスタに追加するには、いずれかの既存のノードもしくは新しいreplicaノードのいずれかにおいて、`catalog.json` が置かれているディレクトリで、`droonga-engine-join` コマンドを実行します:
 
-    (on 192.168.0.12)
+    (on 192.168.100.52)
     # cd ~/droonga
-    # droonga-engine-join --host=192.168.0.12 \
-                          --replica-source-host=192.168.0.10
-    --replica-source-host=192.168.100.51Joining new replica to the cluster...
+    # droonga-engine-join --host=192.168.100.52 \
+                          --replica-source-host=192.168.100.50
+    Joining new replica to the cluster...
     ...
     Update existing hosts in the cluster...
     ...
@@ -188,16 +188,16 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     },
-    "192.168.0.12:10031/droonga": {
+    "192.168.100.52:10031/droonga": {
       "live": true
     }
   }
@@ -221,15 +221,15 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 もちろん、他の目的に転用したいといった理由から、正常動作中のノードを取り除きたいと考える場合もあるでしょう。
 
-ここでは、`192.168.0.10`、`192.168.0.11`、および `192.168.0.12` の3つのreplicaノードからなるDroongaクラスタが存在していて、最後のノード `192.168.0.12` をクラスタから取り除こうとしていると仮定します。
+ここでは、`192.168.100.50`、`192.168.100.51`、および `192.168.100.52` の3つのreplicaノードからなるDroongaクラスタが存在していて、最後のノード `192.168.100.52` をクラスタから取り除こうとしていると仮定します。
 
 ### 既存のreplicaをクラスタから分離する
 
 新しいreplicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で、`catalog.json` が置かれたディレクトリにおいて `droonga-engine-unjoin` コマンドを実行します:
 
-    (on 192.168.0.10)
+    (on 192.168.100.50)
     # cd ~/droonga
-    # droonga-engine-unjoin --host=192.168.0.12
+    # droonga-engine-unjoin --host=192.168.100.52
     Unjoining replica from the cluster...
     ...
     Done.
@@ -243,35 +243,35 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.11:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.11:10031/droonga": {
+    "192.168.100.51:10031/droonga": {
       "live": true
     }
   }
@@ -282,23 +282,23 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ノードの置き換えは、上記の手順の組み合わせで行います。
 
-`192.168.0.10` と `192.168.0.11` の2つのノードからなるDroongaクラスタがあり、ノード `192.168.0.11` の動作が不安定になっていて、これを新しいノード `192.168.0.12` で置き換えようとしていると仮定します。
+`192.168.100.50` と `192.168.100.51` の2つのノードからなるDroongaクラスタがあり、ノード `192.168.100.51` の動作が不安定になっていて、これを新しいノード `192.168.100.52` で置き換えようとしていると仮定します。
 
 ### 既存のreplicaをクラスタから分離する
 
 まず、不安定になっているノードを取り除きます。以下のようにしてクラスタからノードを離脱させて下さい:
 
-    (on 192.168.0.10)
+    (on 192.168.100.50)
     # cd ~/droonga
-    # droonga-engine-unjoin --host=192.168.0.11
+    # droonga-engine-unjoin --host=192.168.100.51
 
 これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     }
   }
@@ -310,9 +310,9 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 次に、新しいreplicaを用意します。
 必要なパッケージをインストールし、クラスタの既存のノードから `catalog.json` をコピーして、サーバを起動します。
 
-    (on 192.168.0.12)
-    # scp 192.168.0.10:~/droonga/catalog.json ~/droonga/
-    # host=192.168.0.12
+    (on 192.168.100.52)
+    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
+    # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
@@ -328,34 +328,34 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 そうしたら、そのノードをクラスタに参加させましょう。
 
-    (on 192.168.0.12)
+    (on 192.168.100.52)
     # cd ~/droonga
-    # droonga-engine-join --host=192.168.0.12 \
-                          --replica-source-host=192.168.0.10
+    # droonga-engine-join --host=192.168.100.52 \
+                          --replica-source-host=192.168.100.50
 
-最終的に、`192.168.0.10` と `192.168.0.12` の2つのノードからなるDroongaクラスタができあがりました。
+最終的に、`192.168.100.50` と `192.168.100.52` の2つのノードからなるDroongaクラスタができあがりました。
 
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.0.10:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.12:10031/droonga": {
+    "192.168.100.52:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.0.12:10041/droonga/system/status" | jq "."
+# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.0.10:10031/droonga": {
+    "192.168.100.50:10031/droonga": {
       "live": true
     },
-    "192.168.0.12:10031/droonga": {
+    "192.168.100.52:10031/droonga": {
       "live": true
     }
   }
