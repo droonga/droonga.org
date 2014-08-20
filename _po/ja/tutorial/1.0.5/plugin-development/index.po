@@ -85,7 +85,7 @@ msgid ""
 "Adaption phase\n"
 ": At this phase, a plugin can modify incoming requests and outgoing responses."
 msgstr ""
-"アダプション・フェーズ\n"
+"適合フェーズ（adaption phase）\n"
 ": このフェーズでは、プラグインは入力のリクエストと出力のレスポンスを加工できます。"
 
 msgid ""
