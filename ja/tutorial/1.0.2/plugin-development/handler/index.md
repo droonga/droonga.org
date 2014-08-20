@@ -17,29 +17,29 @@ layout: ja
 
 ## チュートリアルのゴール
 
-This tutorial aims to help you to learn how to develop plugins which do something dispersively for/in each volume, around the handling phase.
-In other words, this tutorial describes *how to add a new simple command to the Droonga Engine*.
+このチュートリアルでは、各ボリュームでのhadling phaseにおいて分散された処理を実行するプラグインを開発するための方法を学びます。
+言い換えると、このチュートリアルでは *新しいコマンドをDroonga Engineに加える方法* を説明します。
 
 ## 前提条件
 
-* You must complete the [tutorial for the adaption phase][adapter].
+* [adaption phaseのチュートリアル][adapter]を完了していること。
 
-## Handling of requests
+## リクエストのハンドリング
 
-When a request is transferred from the adaption phase, the Droonga Engine enters into the *processing phase*.
+adaption phaseからリクエストが転送されてくると、Droonga Engineは*processing phase*に入ります。
 
-In the processing phase, the Droonga Engine processes the request step by step.
-One *step* is constructed from some sub phases: *planning phase*, *distribution phase*, *handling phase*, and *collection phase*.
+processing phaseでは、Droonga Engineはリクエストを「ステップ」ごとに段階的に処理します。
+1つの *ステップ* は、*planning phase*、*distribution phase*、*handling phase*、そして *collection phase* という4つのフェイズから成り立っています。
 
- * At the *planning phase*, the Droonga Engine generates multiple sub steps to process the request.
-   In simple cases, you don't have to write codes for this phase, then there is just one sub step to handle the request.
- * At the *distribution phase*, the Droonga Engine distributes task messages for the request, to multiple volumes.
-   (It is completely done by the Droonga Engine itself, so this phase is not pluggable.)
- * At the *handling phase*, *each single volume simply processes only one distributed task message as its input, and returns a result.*
-   This is the time that actual storage accesses happen.
-   Actually, some commands (`search`, `add`, `create_table` and so on) access to the storage at the time.
- * At the *collection phase*, the Droonga Engine collects results from volumes to one unified result.
-   There are some useful generic collectors, so you don't have to write codes for this phase in most cases.
+ * *planning phase* では、Droonga Engineはリクエストを処理するための複数のより小さなステップを生成します。
+   単純なコマンドでは、このフェイズのためのコードを書く必要はありません。その場合には、リクエストを処理するためのステップが1つだけ存在するということになります。
+ * *distribution phase* では、Droonga Engineは、リクエストを処理するためのタスクを表すメッセージを複数のボリュームに配布します。
+   （この処理は完全にDroonga Engine自身によって行われるため、このフェイズはプラグインでの拡張はできません。）
+ * *handling phase*では、*各single volumeが、配布された単一のタスクメッセージを入力として処理して、その結果を返します*。
+   ストレージへの読み書きが実際に発生するのは、この時になります。
+   実際に、いくつかのコマンド（例えば `search`、`add`、`create_table` など）はこのタイミングでストレージの読み書きを行っています。
+ * *collection phase* では、Droonga Engineが各ボリュームから返された結果を収集して、単一の結果に統合します。
+   Droonga Engineは汎用の便利なcollectorをいくつか含んでいるため、多くの場合において、あなたはこのフェイズのためのコードを書く必要はありません。
 
 After all steps are finished, the Droonga Engine transfers the result to the post adaption phase.
 
