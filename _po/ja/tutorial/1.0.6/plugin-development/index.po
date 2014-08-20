@@ -118,7 +118,7 @@ msgid ""
 "Collection phase\n"
 ": At this phase, a plugin can merge results from steps to a unified result."
 msgstr ""
-"収集フェーズ（collection phase）\n"
+"集約フェーズ（collection phase）\n"
 ": このフェーズでは、プラグインはステップから得られた結果をマージして一つの結果を生成できます。"
 
 msgid ""
