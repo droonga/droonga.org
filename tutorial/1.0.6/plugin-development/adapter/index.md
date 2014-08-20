@@ -24,7 +24,8 @@ First, let's study basics with a simple logger plugin named `sample-logger` affe
 
 We sometime need to modify incoming requests from outside to Droonga Engine.
 We can use a plugin for this purpose.
-Let's see how to create a plugin for the adaption phase, in this section.
+
+Let's see how to create a plugin for the *pre adaption phase*, in this section.
 
 ### Directory Structure
 
@@ -78,7 +79,7 @@ This plugin does nothing except registering itself to the Droonga Engine.
 
  * The `sample-logger` is the name of the plugin itself. You'll use it in your `catalog.json`, to activate the plugin.
  * As the example above, you must define your plugin as a module.
- * Behaviors at the adaption phase is defined a class called *adapter*.
+ * Behaviors at the pre adaption phase is defined a class called *adapter*.
    An adapter class must be defined as a subclass of the `Droonga::Adapter`, under the namespace of the plugin module.
 
 
@@ -98,7 +99,7 @@ catalog.json:
 (snip)
 ~~~
 
-Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins at the adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
+Note: you must place `"sample-logger"` before `"search"`, because the `sample-logger` plugin depends on the `search`. Droonga Engine applies plugins at the pre adaption phase in the order defined in the `catalog.json`, so you must resolve plugin dependencies by your hand (for now).
 
 ### Run and test
 
@@ -402,7 +403,7 @@ This shows that the result of `search` is passed to the `adapt_output` method (a
 
 ### Modify results in the adaption phase
 
-Let's modify the result.
+Let's modify the result at the *post adaption phase*.
 For example, add `completedAt` attribute that shows the time completed the request.
 Update your plugin as follows:
 
@@ -467,7 +468,7 @@ The results in `fluentd.log` will be like this:
 
 ## Adaption for both incoming and outgoing messages
 
-We have learned the basics of plugins for the adaption phase so far.
+We have learned the basics of plugins for the pre adaption phase and the post adaption phase so far.
 Let's try to build more practical plugin.
 
 You may feel the Droonga's `search` command is too flexible for your purpose.
