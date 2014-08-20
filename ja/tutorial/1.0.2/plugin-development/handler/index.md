@@ -53,14 +53,14 @@ layout: ja
 
 ## 読み取り専用のコマンド `countRecords` を設計する
 
-Here, in this tutorial, we are going to add a new custom `countRecords` command.
-At first, let's design it.
+このチュートリアルでは、新しい独自のコマンド `countRecords` を実装することにします。
+まず、コマンドの仕様を設計しましょう。
 
-The command reports the number of records about a specified table, for each single volume.
-So it will help you to know how records are distributed in the cluster.
-Nothing is changed by the command, so it is a *read-only command*.
+このコマンドは、個々のsingle volumeにおける指定テーブルの全レコードの数を報告します。
+これは、クラスタ内でどのようにレコードが分散されているかを調べる助けになるでしょう。
+このコマンドはデータベースの内容を何も変更しないので、これは*読み取り専用のコマンド*と言うことができます。
 
-The request must have the name of one table, like:
+リクエストは、以下のようにテーブル名を必ず1つ含まなくてはなりません
 
 ~~~json
 {
@@ -72,8 +72,8 @@ The request must have the name of one table, like:
 }
 ~~~
 
-Create a JSON file `count-records.json` with the content above.
-We'll use it for testing.
+上記のような内容のJSON形式のファイル `count-records.json` を作成します。
+以降の検証では、このファイルを使い続けていきましょう。
 
 The response must have number of records in the table, for each single volume.
 They can be appear in an array, like:
