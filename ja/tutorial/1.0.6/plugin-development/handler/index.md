@@ -26,22 +26,22 @@ layout: ja
 
 ## リクエストのハンドリング
 
-adaption phaseからリクエストが転送されてくると、Droonga Engineは*processing phase*に入ります。
+適合フェーズからリクエストが転送されてくると、Droonga Engineは*処理フェーズ（processing phase）*に入ります。
 
-processing phaseでは、Droonga Engineはリクエストを「ステップ」ごとに段階的に処理します。
-1つの *ステップ* は、*planning phase*、*distribution phase*、*handling phase*、そして *collection phase* という4つのフェイズから成り立っています。
+処理フェーズでは、Droonga Engineはリクエストを「ステップ」ごとに段階的に処理します。
+1つの *ステップ* は、*立案フェーズ*、*配布フェーズ*、*ハンドリング・フェーズ*、そして *収集フェーズ* という4つのフェーズから成り立っています。
 
- * *planning phase* では、Droonga Engineはリクエストを処理するための複数のより小さなステップを生成します。
-   単純なコマンドでは、このフェイズのためのコードを書く必要はありません。その場合には、リクエストを処理するためのステップが1つだけ存在するということになります。
- * *distribution phase* では、Droonga Engineは、リクエストを処理するためのタスクを表すメッセージを複数のボリュームに配布します。
-   （この処理は完全にDroonga Engine自身によって行われるため、このフェイズはプラグインでの拡張はできません。）
- * *handling phase*では、*各single volumeが、配布された単一のタスクメッセージを入力として処理して、その結果を返します*。
+ * *立案フェーズ* では、Droonga Engineはリクエストを処理するための複数のより小さなステップを生成します。
+   単純なコマンドでは、このフェーズのためのコードを書く必要はありません。その場合には、リクエストを処理するためのステップが1つだけ存在するということになります。
+ * *配布フェーズ* では、Droonga Engineは、リクエストを処理するためのタスクを表すメッセージを複数のボリュームに配布します。
+   （この処理は完全にDroonga Engine自身によって行われるため、このフェーズはプラグインでの拡張はできません。）
+ * *ハンドリング・フェーズ*では、*各single volumeが、配布された単一のタスクメッセージを入力として処理して、その結果を返します*。
    ストレージへの読み書きが実際に発生するのは、この時になります。
    実際に、いくつかのコマンド（例えば `search`、`add`、`create_table` など）はこのタイミングでストレージの読み書きを行っています。
- * *collection phase* では、Droonga Engineが各ボリュームから返された結果を収集して、単一の結果に統合します。
-   Droonga Engineは汎用の便利なcollectorをいくつか含んでいるため、多くの場合において、あなたはこのフェイズのためのコードを書く必要はありません。
+ * *収集フェーズ* では、Droonga Engineが各ボリュームから返された結果を収集して、単一の結果に統合します。
+   Droonga Engineは汎用の便利なcollectorをいくつか含んでいるため、多くの場合において、あなたはこのフェーズのためのコードを書く必要はありません。
 
-After all steps are finished, the Droonga Engine transfers the result to the post adaption phase.
+すべてのステップの処理が終了すると、Droonga Engineは結果を後適合フェーズへと転送します。
 
 A class to define operations at the handling phase is called *handler*.
 Put simply, adding of a new handler means adding a new command.
