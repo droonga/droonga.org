@@ -102,9 +102,11 @@ msgid ""
 "A class to define operations at the handling phase is called *handler*.\n"
 "Put simply, adding of a new handler means adding a new command."
 msgstr ""
+"ハンドリング・フェーズでの操作を定義するクラスは、*ハンドラー*と呼ばれます。\n"
+"簡単に言うと、新しいハンドラーを追加するということは、新しいコマンドを追加するということを意味します。"
 
 msgid "## Design a read-only command `countRecords`"
-msgstr ""
+msgstr "## 読み取り専用のコマンド `countRecords` を設計する"
 
 msgid ""
 "Here, in this tutorial, we are going to add a new custom `countRecords` comman"

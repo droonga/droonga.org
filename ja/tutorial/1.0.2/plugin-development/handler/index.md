@@ -43,15 +43,15 @@ layout: ja
 
 すべてのステップの処理が終了すると、Droonga Engineは結果を後適合フェーズへと転送します。
 
-A class to define operations at the handling phase is called *handler*.
-Put simply, adding of a new handler means adding a new command.
+ハンドリング・フェーズでの操作を定義するクラスは、*ハンドラー*と呼ばれます。
+簡単に言うと、新しいハンドラーを追加するということは、新しいコマンドを追加するということを意味します。
 
 
 
 
 
 
-## Design a read-only command `countRecords`
+## 読み取り専用のコマンド `countRecords` を設計する
 
 Here, in this tutorial, we are going to add a new custom `countRecords` command.
 At first, let's design it.
