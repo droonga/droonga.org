@@ -27,6 +27,8 @@ Jekyll::Task::I18n.define do |task|
   task.files -= Rake::FileList["README.md"]
   task.files -= Rake::FileList["_*/**/*.md"]
   task.files -= Rake::FileList["news/**/*.md"]
+  task.files -= Rake::FileList["vendor/**/*.*"]
+  task.files -= Rake::FileList["_po/ja/vendor/**/*.*"]
   task.locales.each do |locale|
     task.files -= Rake::FileList["#{locale}/**/*.md"]
   end
