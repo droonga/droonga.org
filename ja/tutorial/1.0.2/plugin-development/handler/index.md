@@ -75,8 +75,8 @@ layout: ja
 上記のような内容のJSON形式のファイル `count-records.json` を作成します。
 以降の検証では、このファイルを使い続けていきましょう。
 
-The response must have number of records in the table, for each single volume.
-They can be appear in an array, like:
+レスポンスは、各single volumeごとのそのテーブルにあるレコードの数を含んでいなくてはなりません。
+これは以下のように、配列として表現できます：
 
 ~~~json
 {
@@ -87,16 +87,16 @@ They can be appear in an array, like:
 }
 ~~~
 
-If there are 2 volumes and 20 records are stored evenly, the array will have two elements like above.
-It means that a volume has 10 records and another one also has 10 records.
+ボリュームが2つある場合、20個のレコードが均等に保持されているはずなので、配列は上記のように2つの要素を持つことになるでしょう。
+この例は、各ボリュームがレコードを10個ずつ保持している事を示しています。
 
-We're going to create a plugin to accept such requests and return such responses.
+それでは、ここまでで述べたような形式のリクエストを受け付けて上記のようなレスポンスを返す、というプラグインを作っていきましょう。
 
 
-### Directory structure
+### ディレクトリ構成
 
-The directory structure for plugins are in same rule as explained in the [tutorial for the adaption phase][adapter].
-Now let's create the `count-records` plugin, as the file `count-records.rb`. The directory tree will be:
+プラグインのディレクトリ構成は、[適合フェーズ用のプラグインのチュートリアル][adapter]での説明と同じ様式に則ります。
+`count-records.rb` というファイルとして、`count-records` プラグインを作りましょう。ディレクトリツリーは以下のようになります：
 
 ~~~
 lib
