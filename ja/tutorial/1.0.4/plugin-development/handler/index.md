@@ -186,8 +186,8 @@ end
  * ハンドラークラスは、リクエストをどのように扱うかの処理を実装します。
    インスタンスメソッド `#handle` が実際にリクエストを処理します。
 
-Currently the handler does nothing and returns an result including an array of a number.
-The returned value is used to construct the response body.
+現時点で、このハンドラーは何も処理を行わず、単に数値1つからなる配列を含む処理結果を返すだけです。
+戻り値はレスポンスのbodyを組み立てるのに使われます。
 
 The handler is bound to the step with the configuration `step.handler`.
 Because we define the class `Handler` after `define_single_step`, we specify the handler class with a symbol `:Handler`.

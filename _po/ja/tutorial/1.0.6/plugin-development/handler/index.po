@@ -304,6 +304,8 @@ msgid ""
 " a number.\n"
 "The returned value is used to construct the response body."
 msgstr ""
+"現時点で、このハンドラーは何も処理を行わず、単に数値1つからなる配列を含む処理結果を返すだけです。\n"
+"戻り値はレスポンスのbodyを組み立てるのに使われます。"
 
 msgid ""
 "The handler is bound to the step with the configuration `step.handler`.\n"
