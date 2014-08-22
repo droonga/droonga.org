@@ -105,7 +105,7 @@ lib
             └── count-records.rb
 ~~~
 
-Then, create a skeleton of a plugin as follows:
+次に、以下のようにしてプラグインの骨組みを作ります：
 
 lib/droonga/plugins/count-records.rb:
 
@@ -122,9 +122,9 @@ module Droonga
 end
 ~~~
 
-### Define a "step" for the command
+### コマンドのための「ステップ」を定義する
 
-Define a "step" for the new `countRecords` command, in your plugin. Like:
+以下のようにして、プラグインの中で新しいコマンド `countRecords` のための「ステップ」を定義します：
 
 lib/droonga/plugins/count-records.rb:
 
@@ -145,14 +145,14 @@ module Droonga
 end
 ~~~
 
-The `step.name` equals to the name of the command itself.
-Currently we just define the name of the command.
-That's all.
+`step.name` の値は、コマンド自身の名前と同じです。
+今のところは、コマンドの名前を定義しただけです。
+それ以上のことはしていません。
 
-### Define the handling logic
+### ハンドリングの仕方を定義する
 
-The command has no handler, so it does nothing yet.
-Let's define the behavior.
+このコマンドはハンドラーを持っていないため、まだ何も処理が行われません。
+それではコマンドの挙動を定義しましょう。
 
 lib/droonga/plugins/count-records.rb:
 
@@ -180,11 +180,11 @@ module Droonga
 end
 ~~~
 
-The class `Handler` is a handler class for our new command.
+`Handler` というクラスは、新しいコマンドのためのハンドラークラスです。
 
- * It must inherit a builtin-class `Droonga::Handler`.
- * It implements the logic to handle requests.
-   Its instance method `#handle` actually handles requests.
+ * ハンドラークラスは、組み込みのクラス `Droonga::Handler` を継承してなければなりません。
+ * ハンドラークラスは、リクエストをどのように扱うかの処理を実装します。
+   インスタンスメソッド `#handle` が実際にリクエストを処理します。
 
 Currently the handler does nothing and returns an result including an array of a number.
 The returned value is used to construct the response body.
@@ -380,7 +380,7 @@ lib
             └── delete-stores.rb
 ~~~
 
-Then, create a skeleton of a plugin as follows:
+次に、以下のようにしてプラグインの骨組みを作ります：
 
 lib/droonga/plugins/delete-stores.rb:
 
@@ -398,7 +398,7 @@ end
 ~~~
 
 
-### Define a "step" for the command
+### コマンドのための「ステップ」を定義する
 
 Define a "step" for the new `deleteStores` command, in your plugin. Like:
 
@@ -425,7 +425,7 @@ end
 Look at a new configuration `step.write`.
 Because this command modifies the storage, we must indicate it clearly.
 
-### Define the handling logic
+### ハンドリングの仕方を定義する
 
 Let's define the handler.
 
