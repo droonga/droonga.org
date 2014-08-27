@@ -60,6 +60,10 @@ First, prepare a new computer, install required softwares and configure them.
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
+
+Then generate the `catalog.json` with only one replica, the new node itself:
+
+    (on 192.168.100.52)
     # droonga-engine-catalog-generate --hosts=192.168.100.52 \
                                       --output=~/droonga/catalog.json
 

@@ -69,6 +69,10 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
+
+新しく追加しようとしているノードのみをreplicaとして含む内容で、`catalog.json`を生成します：
+
+    (on 192.168.100.52)
     # droonga-engine-catalog-generate --hosts=192.168.100.52 \
                                       --output=~/droonga/catalog.json
 
