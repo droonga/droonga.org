@@ -25,11 +25,11 @@ layout: ja
   このチュートリアルを始める前に、[「使ってみる」のチュートリアル](../groonga/)を完了している事が望ましいです
 * 複数のクラスタの間でのデータの複製方法を把握していること。
   このチュートリアルを始める前に、[バックアップと復元のチュートリアル](../dump-restore/)を完了しておいてください。
-* `catalog.json`に`system`プラグインが登録済みであること。
-  未登録の場合は、以下のようにして`plugins`の一覧に`system`を追加しておいて下さい：
+* `catalog.json`に`system`と`catalog`プラグインが登録済みであること。
+  未登録の場合は、以下のようにして`plugins`の一覧に`system`と`catalog`を追加しておいて下さい：
   
       - "plugins": ["groonga", "crud", "search", "dump"],
-      + "plugins": ["groonga", "crud", "search", "dump", "system"],
+      + "plugins": ["groonga", "crud", "search", "dump", "system", "catalog"],
   
 
 ## 「replica」とは？
@@ -68,12 +68,9 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     # gem install droonga-engine
     # npm install -g droonga-http-server
-
-新しいノードには、クラスタの既存のノードから `catalog.json` をコピーする必要があります。
-
-    (on 192.168.100.52)
     # mkdir ~/droonga
-    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+                                      --output=~/droonga/catalog.json
 
 注意点として、空でないノードを既存のクラスタに追加することはできません。
 もしそのコンピュータがかつてDroongaノードとして使われていた事があった場合には、最初に古いデータを消去する必要があります。
@@ -82,7 +79,8 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -rf ~/droonga
     # mkdir ~/droonga
-    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+                                      --output=~/droonga/catalog.json
 
 では、サーバを起動しましょう。
 
@@ -179,7 +177,6 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 
  * `--host` オプションで、その新しいreplicaノードのホスト名またはIPアドレスを指定して下さい。
  * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名またはIPアドレスを指定して下さい。
- * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
 
 コマンドを実行すると、自動的に、クラスタのデータが新しいreplicaノードへと同期され始めます。
 データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。
@@ -308,12 +305,13 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 ### 新しいreplicaを追加する
 
 次に、新しいreplicaを用意します。
-必要なパッケージをインストールし、クラスタの既存のノードから `catalog.json` をコピーして、サーバを起動します。
+必要なパッケージをインストールし、`catalog.json`を生成して、サービスを起動します。
 
     (on 192.168.100.52)
-    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
     # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
+    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+                                      --output=$DROONGA_BASE_DIR/catalog.json
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \

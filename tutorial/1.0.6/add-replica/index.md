@@ -16,11 +16,11 @@ Learning steps to add a new replica node, remove an existing replica, and replac
   Please complete the ["getting started" tutorial](../groonga/) before this.
 * You must know how to duplicate data between multiple clusters.
   Please complete the ["How to backup and restore the database?" tutorial](../dump-restore/) before this.
-* Your `catalog.json` must have the plugin `system` in the list of plugins.
-  Otherwise, you must add it, like:
+* Your `catalog.json` must have `system` and `catalog` plugins in the list of plugins.
+  Otherwise, you must add them, like:
   
       - "plugins": ["groonga", "crud", "search", "dump"],
-      + "plugins": ["groonga", "crud", "search", "dump", "system"],
+      + "plugins": ["groonga", "crud", "search", "dump", "system", "catalog"],
   
 
 ## What's "replica"?
@@ -59,12 +59,9 @@ First, prepare a new computer, install required softwares and configure them.
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     # gem install droonga-engine
     # npm install -g droonga-http-server
-
-For the new node, you have to copy the `catalog.json` from existing node of the cluster.
-
-    (on 192.168.100.52)
     # mkdir ~/droonga
-    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+                                      --output=~/droonga/catalog.json
 
 Note, you cannot add a non-empty node to an existing cluster.
 If the computer was used as a Droonga node in old days, then you must clear old data at first.
@@ -73,7 +70,8 @@ If the computer was used as a Droonga node in old days, then you must clear old 
     # kill $(cat ~/droonga/droonga-engine.pid)
     # rm -rf ~/droonga
     # mkdir ~/droonga
-    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
+    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+                                      --output=~/droonga/catalog.json
 
 Let's start the server.
 
@@ -171,7 +169,6 @@ To add a new replica node to an existing cluster, you just run a command `droong
 
  * You must specify the host name or the IP address of the new replica node, via the `--host` option.
  * You must specify the host name or the IP address of an existing node of the cluster, via the `--replica-source-host` option.
- * You must run the command in the directory `catalog.json` is located, or specify path to the directory via the `--base-dir` option.
 
 Then the command automatically starts to synchronize all data of the cluster to the new replica node.
 After data is successfully synchronized, the node restarts and joins to the cluster automatically.
@@ -302,12 +299,13 @@ You can confirm that via the `system.status` command:
 ### Add a new replica
 
 Next, setup the new replica.
-Install required packages and starts the server with the `catalog.json` copied from an existing node of the cluster.
+Install required packages, generate the `catalog.json`, and start services.
 
     (on 192.168.100.52)
-    # scp 192.168.100.50:~/droonga/catalog.json ~/droonga/
     # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
+    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+                                      --output=$DROONGA_BASE_DIR/catalog.json
     # droonga-engine --host=$host \
                      --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
                      --daemon \
