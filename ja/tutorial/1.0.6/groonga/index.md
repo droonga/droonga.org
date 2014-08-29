@@ -95,17 +95,27 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
         # mkdir ~/droonga
         # cd ~/droonga
     
- 5. *いずれか1つのDroongaノードで*、`catalog.json`を作成します。
+ 5. *それぞれのコンピュータで*、ディレクトリ内に`droonga-engine.yaml`を作成します。
+    このファイルはdroonga-engineを上手く動作させるために必要な情報を含みます。
+    現在の所は最低限、`host`というキーでそのコンピュータ自身のホスト名またはIPアドレスだけ指定する筆行があります：
+    
+        (on 192.168.100.50)
+        # echo "host: 192.168.100.50" > ~/droonga/droonga-engine.yaml
+    
+        (on 192.168.100.51)
+        # echo "host: 192.168.100.51" > ~/droonga/droonga-engine.yaml
+    
+ 6. *いずれか1つのDroongaノードで*、ディレクトリ内に`catalog.json`を作成します。
     このファイルはDroongaクラスタの構成を定義する物です。
     データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
     
         # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                          --output=./catalog.json
+                                          --output=~/droonga//catalog.json
     
     コンピュータが1台だけの単なる検証用の構成をセットアップする場合は、以下のようにします：
     
         # droonga-engine-catalog-generate --hosts=127.0.0.1 \
-                                          --output=./catalog.json
+                                          --output=~/droonga//catalog.json
     
  6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
     
@@ -130,10 +140,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
     # host=192.168.100.50
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
@@ -148,7 +155,7 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
     # host=192.168.100.51
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine --host=$host \
+    # droonga-engine
     ...
 
 このコマンドにより、2つのノードはクラスタを形成し、互いの生死を監視するようになります。もしクラスタ内のどれか1つのノードが機能を停止し、他のノードがまだ機能し続けていた場合には、残ったノードがDroongaクラスタとして動作し続けます。そのため、そのような事態が起こっても秘密裏に、機能停止したノードを復旧したりクラスタに復帰させたりすることができます。

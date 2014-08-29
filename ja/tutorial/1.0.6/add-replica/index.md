@@ -69,6 +69,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
+    # echo "host: 192.168.100.52" > ~/droonga/droonga-engine.yaml
 
 新しく追加しようとしているノードのみをreplicaとして含む内容で、`catalog.json`を生成します：
 
@@ -91,10 +92,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     (on 192.168.100.52)
     # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
@@ -314,12 +312,10 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
     (on 192.168.100.52)
     # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+    # echo "host: $host" > $DROONGA_BASE_DIR/droonga-engine.yaml
+    # droonga-engine-catalog-generate --hosts=$host \
                                       --output=$DROONGA_BASE_DIR/catalog.json
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \

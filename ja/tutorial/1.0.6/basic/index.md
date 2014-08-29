@@ -120,7 +120,17 @@ Droonga Engine を構築するのに必要なパッケージがセットアッ�
     # mkdir engine
     # cd engine
 
-以下の内容で `catalog.json` を作成します。
+以下の内容で設定ファイル `droonga-engine.yaml` をディレクトリ内に作成します。
+
+droonga-engine.yaml:
+
+    host: 192.168.100.50
+    port: 10031
+    tag:  droonga
+
+そのコンピュータ自身の正しいホスト名またはIPアドレスを書く必要があります。
+
+次に、以下の内容で別の設定ファイル `catalog.json` をディレクトリ内に作成します。
 
 catalog.json:
 
@@ -236,10 +246,7 @@ catalog.json:
 以下のようにして droonga-engine を起動します。
 
     # export DROONGA_BASE_DIR=$PWD
-    # droonga-engine --host 192.168.100.50 \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
 
 ### droonga-engine を終了する
 
@@ -253,10 +260,7 @@ droonga-engineにSIGTERMを送ります。
 
 再度droonga-engineを起動します。
 
-    # droonga-engine --host 192.168.100.50 \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
 
 ### データベースを作成する
 
