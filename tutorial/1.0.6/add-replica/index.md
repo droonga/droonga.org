@@ -60,7 +60,9 @@ First, prepare a new computer, install required softwares and configure them.
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
-    # echo "host: 192.168.100.52" > ~/droonga/droonga-engine.yaml
+    # echo "host: 192.168.100.52"    >  ~/droonga/droonga-engine.yaml
+    # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
+    # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
 
 Then generate the `catalog.json` with only one replica, the new node itself:
 
@@ -81,16 +83,9 @@ If the computer was used as a Droonga node in old days, then you must clear old 
 Let's start the server.
 
     (on 192.168.100.52)
-    # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --environment=production \
-                          --cache-size=-1 \
-                          --daemon \
-                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+    # droonga-http-server --cache-size=-1
 
 Currently, the new node doesn't work as a node of the cluster, because it doesn't appear in the `catalog.json`.
 Even if you send requests to the new node, it just forwards all of them to other existing members of the cluster.
@@ -160,7 +155,6 @@ If you are reading this tutorial sequentially after the [previous topic](../dump
 To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` on one of existing replica nodes or the new replica node, in the directory the `catalog.json` is located, like:
 
     (on 192.168.100.52)
-    # cd ~/droonga
     # droonga-engine-join --host=192.168.100.52 \
                           --replica-source-host=192.168.100.50
     Joining new replica to the cluster...
@@ -304,24 +298,18 @@ Next, setup the new replica.
 Install required packages, generate the `catalog.json`, and start services.
 
     (on 192.168.100.52)
-    # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # echo "host: $host" > $DROONGA_BASE_DIR/droonga-engine.yaml
+    # echo "host: 192.168.100.52"    >  $DROONGA_BASE_DIR/droonga-engine.yaml
+    # echo "port:        10041"      >  $DROONGA_BASE_DIR/droonga-http-server.yaml
+    # echo "environment: production" >> $DROONGA_BASE_DIR/droonga-http-server.yaml
     # droonga-engine-catalog-generate --hosts=$host \
                                       --output=$DROONGA_BASE_DIR/catalog.json
     # droonga-engine
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --environment=production \
-                          --cache-size=-1 \
-                          --daemon \
-                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+    # droonga-http-server --cache-size=-1
 
 Then, join the node to the cluster.
 
     (on 192.168.100.52)
-    # cd ~/droonga
     # droonga-engine-join --host=192.168.100.52 \
                           --replica-source-host=192.168.100.50
 

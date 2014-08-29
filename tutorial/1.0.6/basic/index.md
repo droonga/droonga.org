@@ -916,18 +916,36 @@ Next, setup a protocol adapter for clients to accept search requests via HTTP.
 
 ## Setup an HTTP Protocol Adapter
 
-Let's use the `droonga-http-server` as an HTTP protocol adapter. It is an npm package for the Node.js.
+Let's use the `droonga-http-server` as an HTTP protocol adapter.
 
 ### Install the droonga-http-server
 
+It is an npm package for the Node.js so you can install it by `npm` command easily:
+
     # npm install -g droonga-http-server
 
-Then, run it.
+Next, put a configuration file `droonga-http-server.yaml` into the configuration directory specified by the environment variable `DROONGA_BASE_DIR`.
 
-    # droonga-http-server --receive-host-name=192.168.100.50 \
-                          --droonga-engine-host-name=192.168.100.50 \
-                          --daemon \
-                          --pid-file $DROONGA_BASE_DIR/droonga-http-server.pid
+droonga-http-server.yaml:
+
+    port:        10041
+    environment: production
+
+Because there is `droogna-engine.yaml` and droonga-http-server automatically loads some information from `droogna-engine.yaml`, you only have to put very few information to the `droonga-http-server.yaml`.
+If no droonga-engine is working on the computer, you have to specify required information completely, to communicate with a droonga-engine server.
+For example, if the computer is `192.168.100.51` and there is a droonga-engine server `192.168.100.50`, then `droonga-http-server.yaml` on `192.168.100.51` should be:
+
+droonga-http-server.yaml:
+
+    port:        10041
+    environment: production
+    engine:
+      host:          192.168.100.50
+      receiver_host: 192.168.100.51
+
+OK, let's run it.
+
+    # droonga-http-server
 
 
 ### Search request via HTTP

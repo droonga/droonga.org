@@ -113,6 +113,12 @@ Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
         # scp ~/droonga/catalog.json 192.168.100.51:~/droonga/
     
     (Or, of course, you can generate same `catalog.json` on each computer, instead of copying.)
+    
+ 7. Create a `droonga-http-server.yaml` in the directory, *on each computer*.
+    It includes information to work droonga-http-server well.
+    
+        # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
+        # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
 
 All Droonga nodes for your Droonga cluster are prepared by steps described above.
 Let's continue to the next step.
@@ -129,25 +135,12 @@ On the other hand, you have to run multiple servers for each Droonga node to use
 
 To start them, run commands like following on each Droonga node:
 
-    # host=192.168.100.50
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --environment=production \
-                          --cache-size=-1 \
-                          --daemon \
-                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+    # droonga-http-server --cache-size=-1
 
-Note that you have to specify the host name of the Droonga node itself via some options.
-It will be used to communicate with other Droonga nodes in the cluster.
-So you have to specify different host name on another Droonga node, like:
-
-    # host=192.168.100.51
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine
-    ...
+The option `--cache-size=-1` for `droonga-http-server` is just for avoiding that you see cached result unexpectedly, after you modify some data in the cluster.
+On an actual production environment, you should not specify it.
 
 By the command two nodes construct a cluster and they monitor each other.
 If one of nodes dies and there is any still alive node, survivor(s) will work as the Droonga cluster.
