@@ -325,17 +325,15 @@ If you are reading this tutorial sequentially, you'll have an existing cluster w
 Construct two clusters by `droonga-engine-catalog-modify` and make one cluster empty, with these commands:
 
     (on 192.168.100.50)
-    # host=192.168.100.50
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --replica-hosts=$host
+                                    --replica-hosts=192.168.100.50
 
     (on 192.168.100.51)
-    # host=192.168.100.51
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --replica-hosts=$host
-    # endpoint="http://$host:10041"
+                                    --replica-hosts=192.168.100.51
+    # endpoint="http://192.168.100.51:10041"
     # curl "$endpoint/d/table_remove?name=Location"
     # curl "$endpoint/d/table_remove?name=Store"
     # curl "$endpoint/d/table_remove?name=Term"

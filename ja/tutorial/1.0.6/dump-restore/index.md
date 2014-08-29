@@ -330,17 +330,15 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。`droonga-engine-catalog-modify` を使って2つのクラスタを作り、1つを空にしましょう。手順は以下の通りです:
 
     (on 192.168.100.50)
-    # host=192.168.100.50
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --replica-hosts=$host
+                                    --replica-hosts=192.168.100.50
 
     (on 192.168.100.51)
-    # host=192.168.100.51
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
-                                    --replica-hosts=$host
-    # endpoint="http://$host:10041"
+                                    --replica-hosts=192.168.100.51
+    # endpoint="http://192.168.100.51:10041"
     # curl "$endpoint/d/table_remove?name=Location"
     # curl "$endpoint/d/table_remove?name=Store"
     # curl "$endpoint/d/table_remove?name=Term"
