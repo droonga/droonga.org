@@ -265,7 +265,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 これで、データが完全に復元されました。確かめてみましょう:
 
 ~~~
-# curl $endpoint/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,

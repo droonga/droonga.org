@@ -303,7 +303,7 @@ msgid "Then the data is completely restored. Confirm it:"
 msgstr "これで、データが完全に復元されました。確かめてみましょう:"
 
 msgid ""
-"    # ${endpoint}/select?table=Store&output_columns=name&limit=10\"\n"
+"    # curl \"${endpoint}/d/select?table=Store&output_columns=name&limit=10\"\n"
 "    [[0,1401363556.0294158,0.0000762939453125],[[[40],[[\"name\",\"ShortText\"]],["
 "\"1st Avenue & 75th St. - New York NY  (W)\"],[\"76th & Second - New York NY  (W)"
 "\"],[\"Herald Square- Macy's - New York NY\"],[\"Macy's 5th Floor - Herald Square "

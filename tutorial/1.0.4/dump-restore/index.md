@@ -216,7 +216,7 @@ Note to these things:
 
 Then the data is completely restored. Confirm it:
 
-    # ${endpoint}/select?table=Store&output_columns=name&limit=10"
+    # curl "${endpoint}/d/select?table=Store&output_columns=name&limit=10"
     [[0,1401363556.0294158,0.0000762939453125],[[[40],[["name","ShortText"]],["1st Avenue & 75th St. - New York NY  (W)"],["76th & Second - New York NY  (W)"],["Herald Square- Macy's - New York NY"],["Macy's 5th Floor - Herald Square - New York NY  (W)"],["80th & York - New York NY  (W)"],["Columbus @ 67th - New York NY  (W)"],["45th & Broadway - New York NY  (W)"],["Marriott Marquis - Lobby - New York NY"],["Second @ 81st - New York NY  (W)"],["52nd & Seventh - New York NY  (W)"]]]]
 
 ## Duplicate an existing Droonga cluster to another empty cluster directly

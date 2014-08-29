@@ -258,7 +258,7 @@ Note to these things:
 Then the data is completely restored. Confirm it:
 
 ~~~
-# curl $endpoint/select?table=Store&output_columns=name&limit=10" | jq "."
+# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,

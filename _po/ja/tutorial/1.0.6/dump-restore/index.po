@@ -382,7 +382,7 @@ msgstr "これで、データが完全に復元されました。確かめてみ
 
 msgid ""
 "~~~\n"
-"# curl $endpoint/select?table=Store&output_columns=name&limit=10\" | jq \".\"\n"
+"# curl \"$endpoint/d/select?table=Store&output_columns=name&limit=10\" | jq \".\"\n"
 "[\n"
 "  [\n"
 "    0,\n"
