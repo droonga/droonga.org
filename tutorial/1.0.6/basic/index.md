@@ -244,7 +244,11 @@ Start a Droonga engine, you can start it with the command `droonga-engine`, like
 
 First, you need to know how to stop droonga-engine.
 
-Send SIGTERM to droonga-engine:
+Run `droonga-engine-stop`, a utility command to stop droonga-engine service:
+
+    # droonga-engine-stop
+
+or, send SIGTERM to droonga-engine directly:
 
     # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
 

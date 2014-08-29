@@ -252,7 +252,11 @@ catalog.json:
 
 最初にdroonga-engineを終了する方法を知っておきましょう。
 
-droonga-engineにSIGTERMを送ります。
+droonga-engineのサービスを停止するためのユーティリティコマンド `droonga-engine-stop` を実行します。
+
+    # droonga-engine-stop
+
+または、droonga-engineに直接SIGTERMを送ります。
 
     # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
 

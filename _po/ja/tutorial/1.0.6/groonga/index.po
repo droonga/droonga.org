@@ -372,7 +372,7 @@ msgid "To stop services, run commands like following on each Droonga node:"
 msgstr "サービスを停止するには、以下のコマンドを各Droongaノード上で実行します："
 
 msgid ""
-"    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)\n"
+"    # droonga-engine-stop\n"
 "    # kill $(cat $DROONGA_BASE_DIR/droonga-http-server.pid)"
 msgstr ""
 

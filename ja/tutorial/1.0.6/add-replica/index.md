@@ -83,7 +83,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 もしそのコンピュータがかつてDroongaノードとして使われていた事があった場合には、最初に古いデータを消去する必要があります。
 
     (on 192.168.100.52)
-    # kill $(cat ~/droonga/droonga-engine.pid)
+    # droonga-engine-stop
     # rm -rf ~/droonga
     # mkdir ~/droonga
     # droonga-engine-catalog-generate --hosts=192.168.100.52 \

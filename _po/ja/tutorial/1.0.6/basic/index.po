@@ -425,8 +425,14 @@ msgstr "### droonga-engine を終了する"
 msgid "First, you need to know how to stop droonga-engine."
 msgstr "最初にdroonga-engineを終了する方法を知っておきましょう。"
 
-msgid "Send SIGTERM to droonga-engine:"
-msgstr "droonga-engineにSIGTERMを送ります。"
+msgid "Run `droonga-engine-stop`, a utility command to stop droonga-engine service:"
+msgstr "droonga-engineのサービスを停止するためのユーティリティコマンド `droonga-engine-stop` を実行します。"
+
+msgid "    # droonga-engine-stop"
+msgstr ""
+
+msgid "or, send SIGTERM to droonga-engine directly:"
+msgstr "または、droonga-engineに直接SIGTERMを送ります。"
 
 msgid "    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)"
 msgstr ""

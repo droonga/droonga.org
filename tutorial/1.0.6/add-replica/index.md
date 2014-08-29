@@ -74,7 +74,7 @@ Note, you cannot add a non-empty node to an existing cluster.
 If the computer was used as a Droonga node in old days, then you must clear old data at first.
 
     (on 192.168.100.52)
-    # kill $(cat ~/droonga/droonga-engine.pid)
+    # droonga-engine-stop
     # rm -rf ~/droonga
     # mkdir ~/droonga
     # droonga-engine-catalog-generate --hosts=192.168.100.52 \

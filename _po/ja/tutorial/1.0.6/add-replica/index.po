@@ -167,7 +167,7 @@ msgstr ""
 
 msgid ""
 "    (on 192.168.100.52)\n"
-"    # kill $(cat ~/droonga/droonga-engine.pid)\n"
+"    # droonga-engine-stop\n"
 "    # rm -rf ~/droonga\n"
 "    # mkdir ~/droonga\n"
 "    # droonga-engine-catalog-generate --hosts=192.168.100.52 \\\n"
