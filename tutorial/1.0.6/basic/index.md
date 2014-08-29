@@ -114,6 +114,8 @@ Create a directory for a Droonga engine:
 
 Then put a configuration file `droonga-engine.yaml` like following, into the directory:
 
+droonga-engine.yaml:
+
     host: 192.168.100.50
     port: 10031
     tag:  droonga
