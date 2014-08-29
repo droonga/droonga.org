@@ -86,17 +86,27 @@ Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
         # mkdir ~/droonga
         # cd ~/droonga
     
- 5. Create a `catalog.json`, *on one of Droonga nodes*.
+ 5. Create a `droonga-engine.yaml` in the directory, *on each computer*.
+    It includes information to work droonga-engine well.
+    Currently you only have to put correct host name or IP address of the computer itself, with the key `host`, like:
+    
+        (on 192.168.100.50)
+        # echo "host: 192.168.100.50" > ~/droonga/droonga-engine.yaml
+    
+        (on 192.168.100.51)
+        # echo "host: 192.168.100.51" > ~/droonga/droonga-engine.yaml
+    
+ 6. Create a `catalog.json` in the directory, *on one of Droonga nodes*.
     The file defines the structure of your Droonga cluster.
     You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
     
         # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                          --output=./catalog.json
+                                          --output=~/droonga//catalog.json
     
     If you have only one computer and trying to set up it just for testing, then you'll do:
     
         # droonga-engine-catalog-generate --hosts=127.0.0.1 \
-                                          --output=./catalog.json
+                                          --output=~/droonga//catalog.json
     
  6. Share the generated `catalog.json` *to your all Droonga nodes*.
     
@@ -121,10 +131,7 @@ To start them, run commands like following on each Droonga node:
 
     # host=192.168.100.50
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
@@ -139,7 +146,7 @@ So you have to specify different host name on another Droonga node, like:
 
     # host=192.168.100.51
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine --host=$host \
+    # droonga-engine
     ...
 
 By the command two nodes construct a cluster and they monitor each other.

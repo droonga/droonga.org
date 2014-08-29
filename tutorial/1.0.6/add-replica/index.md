@@ -60,6 +60,7 @@ First, prepare a new computer, install required softwares and configure them.
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
+    # echo "host: 192.168.100.52" > ~/droonga/droonga-engine.yaml
 
 Then generate the `catalog.json` with only one replica, the new node itself:
 
@@ -82,10 +83,7 @@ Let's start the server.
     (on 192.168.100.52)
     # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \
@@ -308,12 +306,10 @@ Install required packages, generate the `catalog.json`, and start services.
     (on 192.168.100.52)
     # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+    # echo "host: $host" > $DROONGA_BASE_DIR/droonga-engine.yaml
+    # droonga-engine-catalog-generate --hosts=$host \
                                       --output=$DROONGA_BASE_DIR/catalog.json
-    # droonga-engine --host=$host \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file=$DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
     # droonga-http-server --port=10041 \
                           --receive-host-name=$host \
                           --droonga-engine-host-name=$host \

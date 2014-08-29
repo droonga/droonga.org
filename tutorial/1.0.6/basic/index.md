@@ -112,7 +112,15 @@ Create a directory for a Droonga engine:
     # mkdir engine
     # cd engine
 
-Next, put a configuration file `catalog.json` like following, into the directory:
+Then put a configuration file `droonga-engine.yaml` like following, into the directory:
+
+    host: 192.168.100.50
+    port: 10031
+    tag:  droonga
+
+You must put correct host name or IP address of the computer itself.
+
+Next, put another configuration file `catalog.json` like following, into the directory:
 
 catalog.json:
 
@@ -228,10 +236,7 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 Start a Droonga engine, you can start it with the command `droonga-engine`, like:
 
     # export DROONGA_BASE_DIR=$PWD
-    # droonga-engine --host 192.168.100.50 \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
 
 ### Stop an instance of droonga-engine
 
@@ -245,10 +250,7 @@ This is the way to stop droonga-engine.
 
 Start droonga-engine again:
 
-    # droonga-engine --host 192.168.100.50 \
-                     --log-file=$DROONGA_BASE_DIR/droonga-engine.log \
-                     --daemon \
-                     --pid-file $DROONGA_BASE_DIR/droonga-engine.pid
+    # droonga-engine
 
 ### Create a database
 
