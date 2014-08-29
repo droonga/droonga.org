@@ -109,8 +109,15 @@ Required packages are prepared by the command above. Let's continue to the confi
 
 Create a directory for a Droonga engine:
 
-    # mkdir engine
-    # cd engine
+    # mkdir ~/droonga
+    # cd ~/droonga
+
+Define and export a new environment varialbe `DROONGA_BASE_DIR`, the path to the configuration directory.
+
+    # export DROONGA_BASE_DIR=~/droonga
+
+The environment variable is used by droonga-engine and various command line utilities.
+For convenience, you should define and export `DROONGA_BASE_DIR` globally.
 
 Then put a configuration file `droonga-engine.yaml` like following, into the directory:
 
@@ -237,7 +244,6 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 
 Start a Droonga engine, you can start it with the command `droonga-engine`, like:
 
-    # export DROONGA_BASE_DIR=$PWD
     # droonga-engine
 
 ### Stop an instance of droonga-engine

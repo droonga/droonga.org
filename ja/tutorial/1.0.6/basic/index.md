@@ -117,8 +117,15 @@ Droonga Engine を構築するのに必要なパッケージがセットアッ�
 
 まず Droonga Engine 用のディレクトリを作成します。
 
-    # mkdir engine
-    # cd engine
+    # mkdir ~/droonga
+    # cd ~/droonga
+
+作成したディレクトリへのパスを、環境変数 `DROONGA_BASE_DIR` として定義し、エクスポートしておきましょう。
+
+    # export DROONGA_BASE_DIR=~/droonga
+
+この環境変数はdroonga-engineや他のコマンドラインユーティリティなどから参照されます。
+利便性のために、`DROONGA_BASE_DIR`はグローバルに定義・エクスポートしておく事をおすすめします。
 
 以下の内容で設定ファイル `droonga-engine.yaml` をディレクトリ内に作成します。
 
@@ -245,7 +252,6 @@ catalog.json:
 
 以下のようにして droonga-engine を起動します。
 
-    # export DROONGA_BASE_DIR=$PWD
     # droonga-engine
 
 ### droonga-engine を終了する

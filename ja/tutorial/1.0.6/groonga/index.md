@@ -95,6 +95,13 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
         # mkdir ~/droonga
         # cd ~/droonga
     
+    また、作成したディレクトリへのパスを環境変数 `DROONGA_BASE_DIR` として定義します：
+    
+        # export DROONGA_BASE_DIR=~/droonga
+    
+    この環境変数はDroongaによって参照されます。
+    利便性のために、グローバルに定義・エクスポートしておく事をおすすめします。
+    
  5. *それぞれのコンピュータで*、ディレクトリ内に`droonga-engine.yaml`を作成します。
     このファイルはdroonga-engineを上手く動作させるために必要な情報を含みます。
     現在の所は最低限、`host`というキーでそのコンピュータ自身のホスト名またはIPアドレスだけ指定する筆行があります：
@@ -145,7 +152,6 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
 サービスを起動するには、各Droongaノードで以下のようにコマンドを実行します：
 
-    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine
     # droonga-http-server --cache-size=-1
 

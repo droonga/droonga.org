@@ -86,6 +86,13 @@ Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
         # mkdir ~/droonga
         # cd ~/droonga
     
+    And, define an environment variable `DROONGA_BASE_DIR` for the path to the directory like:
+    
+        # export DROONGA_BASE_DIR=~/droonga
+    
+    The environment variable is used by Droonga.
+    For convenience, you should define and export it globally.
+    
  5. Create a `droonga-engine.yaml` in the directory, *on each computer*.
     It includes information to work droonga-engine well.
     Currently you only have to put correct host name or IP address of the computer itself, with the key `host`, like:
@@ -135,7 +142,6 @@ On the other hand, you have to run multiple servers for each Droonga node to use
 
 To start them, run commands like following on each Droonga node:
 
-    # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine
     # droonga-http-server --cache-size=-1
 
