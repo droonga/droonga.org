@@ -199,6 +199,11 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
     # droonga-engine-stop
     # droonga-http-server-stop
 
+確認が終わったら、再度サービスを起動しておきましょう：
+
+    # droonga-engine
+    # droonga-http-server --cache-size=-1
+
 ### テーブル、カラム、インデックスの作成
 
 以上の手順で、Groonga HTTPサーバ互換のサービスとして動作するDroongaクラスタができました。

@@ -191,6 +191,11 @@ To stop services, run commands like following on each Droonga node:
     # droonga-engine-stop
     # droonga-http-server-stop
 
+After verification, start services again, on each Droonga node:
+
+    # droonga-engine
+    # droonga-http-server --cache-size=-1
+
 ### Create a table, columns, and indexes
 
 Now your Droonga cluster actually works as a Groonga's HTTP server.

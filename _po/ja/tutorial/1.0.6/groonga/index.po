@@ -390,6 +390,9 @@ msgid ""
 "    # droonga-http-server-stop"
 msgstr ""
 
+msgid "After verification, start services again, on each Droonga node:"
+msgstr "確認が終わったら、再度サービスを起動しておきましょう："
+
 msgid "### Create a table, columns, and indexes"
 msgstr "### テーブル、カラム、インデックスの作成"
 
