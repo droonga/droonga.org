@@ -191,7 +191,7 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
     # droonga-engine-stop
-    # kill $(cat $DROONGA_BASE_DIR/droonga-http-server.pid)
+    # droonga-http-server-stop
 
 ### テーブル、カラム、インデックスの作成
 

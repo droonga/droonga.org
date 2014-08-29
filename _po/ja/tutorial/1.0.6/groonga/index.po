@@ -373,7 +373,7 @@ msgstr "サービスを停止するには、以下のコマンドを各Droonga�
 
 msgid ""
 "    # droonga-engine-stop\n"
-"    # kill $(cat $DROONGA_BASE_DIR/droonga-http-server.pid)"
+"    # droonga-http-server-stop"
 msgstr ""
 
 msgid "### Create a table, columns, and indexes"

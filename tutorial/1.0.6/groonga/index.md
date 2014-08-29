@@ -183,7 +183,7 @@ Because it is a cluster, another endpoint returns same result.
 To stop services, run commands like following on each Droonga node:
 
     # droonga-engine-stop
-    # kill $(cat $DROONGA_BASE_DIR/droonga-http-server.pid)
+    # droonga-http-server-stop
 
 ### Create a table, columns, and indexes
 
