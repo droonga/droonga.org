@@ -923,18 +923,36 @@ Elapsed time: 0.008286785
 
 ## HTTP Protocol Adapter を用意する
 
-HTTP Protocol Adapterとして`droonga-http-server`を使用します。`droonga-http-server`は、Node.js のパッケージです。
+HTTP Protocol Adapterとして`droonga-http-server`を使用しましょう。
 
 ### droonga-http-serverをインストールする
 
+`droonga-http-server`は、Node.js のパッケージなので、`npm`コマンドで簡単にインストールすることができます：
+
     # npm install -g droonga-http-server
 
-次に、サーバを起動します。
+次に、環境変数 `DROONGA_BASE_DIR` で示されているディレクトリに設定ファイル `droonga-http-server.yaml` を置きます。
 
-    # droonga-http-server --receive-host-name=192.168.100.50 \
-                          --droonga-engine-host-name=192.168.100.50 \
-                          --daemon \
-                          --pid-file $DROONGA_BASE_DIR/droonga-http-server.pid
+droonga-http-server.yaml:
+
+    port:        10041
+    environment: production
+
+`droogna-engine.yaml`が存在する場合、droonga-http-serverは自動的にそのファイルの内容を参照するため、`droonga-http-server.yaml`にはごく一部の情報だけを置けば十分です。
+そのコンピュータ上でdroonga-engineが動作していない場合には、droonga-engineサーバと通信するために、必要な情報尾すべて書く必要があります。
+例えば、そのコンピュータが `192.168.100.51` で、droogna-engineサーバである別のコンピュータ `192.168.100.50` が存在している場合では、`droonga-http-server.yaml`の内容は以下の要領となります：
+
+droonga-http-server.yaml:
+
+    port:        10041
+    environment: production
+    engine:
+      host:          192.168.100.50
+      receiver_host: 192.168.100.51
+
+では、サーバを起動しましょう。
+
+    # droonga-http-server
 
 
 ### HTTPでの検索リクエスト

@@ -69,7 +69,9 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
-    # echo "host: 192.168.100.52" > ~/droonga/droonga-engine.yaml
+    # echo "host: 192.168.100.52"    >  ~/droonga/droonga-engine.yaml
+    # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
+    # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
 
 新しく追加しようとしているノードのみをreplicaとして含む内容で、`catalog.json`を生成します：
 
@@ -90,16 +92,9 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 では、サーバを起動しましょう。
 
     (on 192.168.100.52)
-    # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --environment=production \
-                          --cache-size=-1 \
-                          --daemon \
-                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+    # droonga-http-server --cache-size=-1
 
 この時点では、ノードの情報が `catalog.json` に含まれていないため、この新しいノードはクラスタのノードとしては動作していません。
 新しいノードにリクエストを送っても、それらはすべてクラスタ内の既存のノードに転送されます。
@@ -168,7 +163,6 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 新しいreplicaノードを既存のクラスタに追加するには、いずれかの既存のノードもしくは新しいreplicaノードのいずれかにおいて、`catalog.json` が置かれているディレクトリで、`droonga-engine-join` コマンドを実行します:
 
     (on 192.168.100.52)
-    # cd ~/droonga
     # droonga-engine-join --host=192.168.100.52 \
                           --replica-source-host=192.168.100.50
     Joining new replica to the cluster...
@@ -310,24 +304,18 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 必要なパッケージをインストールし、`catalog.json`を生成して、サービスを起動します。
 
     (on 192.168.100.52)
-    # host=192.168.100.52
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # echo "host: $host" > $DROONGA_BASE_DIR/droonga-engine.yaml
+    # echo "host: 192.168.100.52"    >  $DROONGA_BASE_DIR/droonga-engine.yaml
+    # echo "port:        10041"      >  $DROONGA_BASE_DIR/droonga-http-server.yaml
+    # echo "environment: production" >> $DROONGA_BASE_DIR/droonga-http-server.yaml
     # droonga-engine-catalog-generate --hosts=$host \
                                       --output=$DROONGA_BASE_DIR/catalog.json
     # droonga-engine
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --environment=production \
-                          --cache-size=-1 \
-                          --daemon \
-                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+    # droonga-http-server --cache-size=-1
 
 そうしたら、そのノードをクラスタに参加させましょう。
 
     (on 192.168.100.52)
-    # cd ~/droonga
     # droonga-engine-join --host=192.168.100.52 \
                           --replica-source-host=192.168.100.50
 

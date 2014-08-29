@@ -122,6 +122,13 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
         # scp ~/droonga/catalog.json 192.168.100.51:~/droonga/
     
     （もしくは、できあがったファイルをコピーする代わりに、各コンピュータ上で同じ設定の`catalog.json`を作成しても結構です。）
+    
+ 7. *それぞれのコンピュータで*、ディレクトリ内に`droonga-http-server.yaml`を作成します。
+    このファイルはdroonga-http-serverを上手く動作させるために必要な情報を含みます。
+
+    
+        # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
+        # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
 
 上記の手順により、DroongaクラスタのためのすべてのDroongaノードの準備が完了しました。
 次の段階に進みましょう。
@@ -138,25 +145,12 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
 サービスを起動するには、各Droongaノードで以下のようにコマンドを実行します：
 
-    # host=192.168.100.50
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine
-    # droonga-http-server --port=10041 \
-                          --receive-host-name=$host \
-                          --droonga-engine-host-name=$host \
-                          --environment=production \
-                          --cache-size=-1 \
-                          --daemon \
-                          --pid-file=$DROONGA_BASE_DIR/droonga-http-server.pid
+    # droonga-http-server --cache-size=-1
 
-いくつかのオプションにおいて、そのDroongaノード自身のホスト名を指定する必要がある事に注意して下さい。
-この情報は、クラスタ内の他のDroongaノードとの通信のために使われます。
-よって、別のDroongaノード上では以下のように別のホスト名を指定する事になります：
-
-    # host=192.168.100.51
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine
-    ...
+`droonga-http-server`の`--cache-size=-1`というオプションは、クラスタ内の情報を変更した後の検証で、キャッシュされた結果が意図せず返されてしまうことを防ぐための物です。
+実際のプロダクション環境では、この指定は行わないで下さい。
 
 このコマンドにより、2つのノードはクラスタを形成し、互いの生死を監視するようになります。もしクラスタ内のどれか1つのノードが機能を停止し、他のノードがまだ機能し続けていた場合には、残ったノードがDroongaクラスタとして動作し続けます。そのため、そのような事態が起こっても秘密裏に、機能停止したノードを復旧したりクラスタに復帰させたりすることができます。
 
