@@ -204,7 +204,13 @@ You can run Groonga as an HTTP server with the option `-d`, like:
 
 On the other hand, you have to run multiple servers for each Droonga node to use your Droonga cluster via HTTP.
 
+If services are installed by the installation script, they are already been configured as system services managed via the `service` command.
 To start them, run commands like following on each Droonga node:
+
+    # service droonga-engine start
+    # service droonga-http-server start
+
+If you install services manually, you have to start services by raw commands like:
 
     # droonga-engine
     # droonga-http-server --cache-size=-1
@@ -252,13 +258,15 @@ Because it is a cluster, another endpoint returns same result.
 
 To stop services, run commands like following on each Droonga node:
 
+    # service droonga-engine stop
+    # service droonga-http-server stop
+
+If you install services manually without the installation script, you have to stop services by raw commands like:
+
     # droonga-engine-stop
     # droonga-http-server-stop
 
-After verification, start services again, on each Droonga node:
-
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
+After verification, start services again, on each Droonga node.
 
 ### Create a table, columns, and indexes
 
