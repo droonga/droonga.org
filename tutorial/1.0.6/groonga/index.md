@@ -114,7 +114,7 @@ Let's continue to [the next step, "how to use the cluster"](#use).
 
 ### How to install services manually
 
-Otherwise, you need to setup services manually by following steps:
+If the installation script doesn't work on your platform, you need to setup services manually by following steps:
 
  1. Install required platform packages, *on each computer*.
     
