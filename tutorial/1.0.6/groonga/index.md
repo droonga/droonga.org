@@ -108,12 +108,12 @@ Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
     You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
     
         # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                          --output=~/droonga//catalog.json
+                                          --output=~/droonga/catalog.json
     
     If you have only one computer and trying to set up it just for testing, then you'll do:
     
         # droonga-engine-catalog-generate --hosts=127.0.0.1 \
-                                          --output=~/droonga//catalog.json
+                                          --output=~/droonga/catalog.json
     
  6. Share the generated `catalog.json` *to your all Droonga nodes*.
     
