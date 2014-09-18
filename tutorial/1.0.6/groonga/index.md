@@ -52,15 +52,79 @@ So you have to set up multiple Droonga nodes for your Droonga cluster.
 
 Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
 
+### How to install services by the installation script
+
+If you use a Ubuntu, Debian, or a CentOS 7 (and later) server, there is a useful installation script.
+Download the installation script and run it on the bash, as the root user, like:
+
+~~~
+(on 192.168.100.50)
+$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    sudo HOST=192.168.100.50 bash
+$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    sudo ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
+
+(on 192.168.100.51)
+$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    sudo HOST=192.168.100.51 bash
+$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    sudo ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
+~~~
+
+or:
+
+~~~
+(on 192.168.100.50)
+$ su
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=192.168.100.50 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
+
+(on 192.168.100.51)
+$ su
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=192.168.100.51 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
+~~~
+
+And, let's configure these nodes to work together as a cluster:
+
+~~~
+(on 192.168.100.50, 192.168.100.51)
+$ sudo -u droonga-engine -H \
+    droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+                                    --output=~droonga-engine/droonga/catalog.json
+~~~
+
+or:
+
+~~~
+(on 192.168.100.50, 192.168.100.51)
+$ su
+# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+                                  --output=~droonga-engine/droonga/catalog.json
+# chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json
+~~~
+
+OK, now your Droonga cluster is correctly prepared.
+Let's continue to [the next step, "how to use the cluster"](#use).
+
+
+### How to install services manually
+
+Otherwise, you need to setup services manually by following steps:
+
  1. Install required platform packages, *on each computer*.
     
-    Ubuntu:
+    On a platform that `apt` is available:
     
         # apt-get update
         # apt-get -y upgrade
         # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     
-    CentOS:
+    On a platform that `yum` is available:
     
         # yum -y groupinstall development
         # curl -L get.rvm.io | bash -s stable
@@ -130,7 +194,7 @@ Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
 All Droonga nodes for your Droonga cluster are prepared by steps described above.
 Let's continue to the next step.
 
-## Use the Droonga cluster, via HTTP
+## Use the Droonga cluster, via HTTP {#use}
 
 ### Start and stop services on each Droonga node
 
