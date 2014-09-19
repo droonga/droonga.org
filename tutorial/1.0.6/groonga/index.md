@@ -52,8 +52,6 @@ So you have to set up multiple Droonga nodes for your Droonga cluster.
 
 Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
 
-### How to install services by the installation script
-
 If you use a Ubuntu, Debian, or a CentOS 7 (and later) server, there is a useful installation script.
 Download the installation script and run it on the bash, as the root user, like:
 
@@ -111,88 +109,7 @@ $ su
 OK, now your Droonga cluster is correctly prepared.
 Let's continue to [the next step, "how to use the cluster"](#use).
 
-
-### How to install services manually
-
-If the installation script doesn't work on your platform, you need to setup services manually by following steps:
-
- 1. Install required platform packages, *on each computer*.
-    
-    On a platform that `apt` is available:
-    
-        # apt-get update
-        # apt-get -y upgrade
-        # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-    
-    On a platform that `yum` is available:
-    
-        # yum -y groupinstall development
-        # curl -L get.rvm.io | bash -s stable
-        # source /etc/profile.d/rvm.sh
-        # rvm reload
-        # rvm install 2.1.2
-        # yum -y install npm
-    
-    Yes, in short, you have to activate `gem` and `npm` commands, and install some packages to build native extensions.
- 2. Install a gem package `droonga-engine`, *on each computer*.
-    It is the core component provides most features of Droonga system.
-    
-        # gem install droonga-engine
-    
- 3. Install an npm package `droonga-http-server`, *on each computer*.
-    It is the frontend component required to translate HTTP requests to Droonga's native one.
-    
-        # npm install -g droonga-http-server
-    
- 4. Prepare a configuration directory for a Droonga node, *on each computer*.
-    All physical databases are placed under this directory.
-    
-        # mkdir ~/droonga
-        # cd ~/droonga
-    
-    And, define an environment variable `DROONGA_BASE_DIR` for the path to the directory like:
-    
-        # export DROONGA_BASE_DIR=~/droonga
-    
-    The environment variable is used by Droonga.
-    For convenience, you should define and export it globally.
-    
- 5. Create a `droonga-engine.yaml` in the directory, *on each computer*.
-    It includes information to work droonga-engine well.
-    Currently you only have to put correct host name or IP address of the computer itself, with the key `host`, like:
-    
-        (on 192.168.100.50)
-        # echo "host: 192.168.100.50" > ~/droonga/droonga-engine.yaml
-    
-        (on 192.168.100.51)
-        # echo "host: 192.168.100.51" > ~/droonga/droonga-engine.yaml
-    
- 6. Create a `catalog.json` in the directory, *on one of Droonga nodes*.
-    The file defines the structure of your Droonga cluster.
-    You'll specify the name of the dataset via the `--dataset` option and the list of your Droonga node's IP addresses via the `--hosts` option, like:
-    
-        # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                          --output=~/droonga/catalog.json
-    
-    If you have only one computer and trying to set up it just for testing, then you'll do:
-    
-        # droonga-engine-catalog-generate --hosts=127.0.0.1 \
-                                          --output=~/droonga/catalog.json
-    
- 6. Share the generated `catalog.json` *to your all Droonga nodes*.
-    
-        # scp ~/droonga/catalog.json 192.168.100.51:~/droonga/
-    
-    (Or, of course, you can generate same `catalog.json` on each computer, instead of copying.)
-    
- 7. Create a `droonga-http-server.yaml` in the directory, *on each computer*.
-    It includes information to work droonga-http-server well.
-    
-        # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
-        # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
-
-All Droonga nodes for your Droonga cluster are prepared by steps described above.
-Let's continue to the next step.
+If the installation script doesn't work on your platform, see [the tutorial to install services without installation script](../manual-install/).
 
 ## Use the Droonga cluster, via HTTP {#use}
 
@@ -210,13 +127,7 @@ To start them, run commands like following on each Droonga node:
     # service droonga-engine start
     # service droonga-http-server start
 
-If you installed services manually, you have to start services by raw commands like:
-
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
-
-The option `--cache-size=-1` for `droonga-http-server` is just for avoiding that you see cached result unexpectedly, after you modify some data in the cluster.
-On an actual production environment, you should not specify it.
+If you installed services manually, see [the manual installation tutorial](../manual-install/#start-services).
 
 By the command two nodes construct a cluster and they monitor each other.
 If one of nodes dies and there is any still alive node, survivor(s) will work as the Droonga cluster.
@@ -261,10 +172,7 @@ To stop services, run commands like following on each Droonga node:
     # service droonga-engine stop
     # service droonga-http-server stop
 
-If you installed services manually without the installation script, you have to stop services by raw commands like:
-
-    # droonga-engine-stop
-    # droonga-http-server-stop
+If you installed services manually, see [the manual installation tutorial](../manual-install/#stop-services).
 
 After verification, start services again, on each Droonga node.
 
