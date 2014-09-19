@@ -61,84 +61,64 @@ Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュ�
 
 `192.168.100.50`と`192.168.100.51`の2つのコンピュータがあると仮定しましょう。
 
- 1. *それぞれのコンピュータで*、プラットフォームごとに要求されるパッケージをインストールする。
-    
-    Ubuntu:
-    
-        # apt-get update
-        # apt-get -y upgrade
-        # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-    
-    CentOS:
-    
-        # yum -y groupinstall development
-        # curl -L get.rvm.io | bash -s stable
-        # source /etc/profile.d/rvm.sh
-        # rvm reload
-        # rvm install 2.1.2
-        # yum -y install npm
-    
-    要するに、`gem`と`npm`を使えるようにした上で、ネイティブ拡張をビルドするためのいくつかのパッケージをインストールする必要があるということです。
- 2. *それぞれのコンピュータで*、Gemパッケージ `droonga-engine` をインストールする。
-    これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。
-    
-        # gem install droonga-engine
-    
- 3. *それぞれのコンピュータで*、npmパッケージ `droonga-http-server` をインストールする。
-    これはHTTPのリクエストをDroongaネイティブのリクエストに変換するために必要な、フロントエンドとなるコンポーネントです。
-    
-        # npm install -g droonga-http-server
-    
- 4. *それぞれのコンピュータで*、Droongaノードとしての情報を保存するための設定ディレクトリを用意する。
-    すべてのデータベースの実体は、このディレクトリ以下に保存されます。
-    
-        # mkdir ~/droonga
-        # cd ~/droonga
-    
-    また、作成したディレクトリへのパスを環境変数 `DROONGA_BASE_DIR` として定義します：
-    
-        # export DROONGA_BASE_DIR=~/droonga
-    
-    この環境変数はDroongaによって参照されます。
-    利便性のために、グローバルに定義・エクスポートしておく事をおすすめします。
-    
- 5. *それぞれのコンピュータで*、ディレクトリ内に`droonga-engine.yaml`を作成します。
-    このファイルはdroonga-engineを上手く動作させるために必要な情報を含みます。
-    現在の所は最低限、`host`というキーでそのコンピュータ自身のホスト名またはIPアドレスだけ指定する筆行があります：
-    
-        (on 192.168.100.50)
-        # echo "host: 192.168.100.50" > ~/droonga/droonga-engine.yaml
-    
-        (on 192.168.100.51)
-        # echo "host: 192.168.100.51" > ~/droonga/droonga-engine.yaml
-    
- 6. *いずれか1つのDroongaノードで*、ディレクトリ内に`catalog.json`を作成します。
-    このファイルはDroongaクラスタの構成を定義する物です。
-    データセット名を`--dataset`オプション、各DroongaノードのIPアドレスを`--hosts`オプションで、以下のように指定して下さい：
-    
-        # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                          --output=~/droonga//catalog.json
-    
-    コンピュータが1台だけの単なる検証用の構成をセットアップする場合は、以下のようにします：
-    
-        # droonga-engine-catalog-generate --hosts=127.0.0.1 \
-                                          --output=~/droonga//catalog.json
-    
- 6. *すべてのDroongaノードに*、先程作成した`catalog.json`を共有します。
-    
-        # scp ~/droonga/catalog.json 192.168.100.51:~/droonga/
-    
-    （もしくは、できあがったファイルをコピーする代わりに、各コンピュータ上で同じ設定の`catalog.json`を作成しても結構です。）
-    
- 7. *それぞれのコンピュータで*、ディレクトリ内に`droonga-http-server.yaml`を作成します。
-    このファイルはdroonga-http-serverを上手く動作させるために必要な情報を含みます。
+If you use a Ubuntu, Debian, or a CentOS 7 (and later) server, there is a useful installation script.
+Download the installation script and run it on the bash, as the root user, like:
 
-    
-        # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
-        # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
+~~~
+(on 192.168.100.50)
+$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    sudo HOST=192.168.100.50 bash
+$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    sudo ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
 
-上記の手順により、DroongaクラスタのためのすべてのDroongaノードの準備が完了しました。
-次の段階に進みましょう。
+(on 192.168.100.51)
+$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    sudo HOST=192.168.100.51 bash
+$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    sudo ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
+~~~
+
+or:
+
+~~~
+(on 192.168.100.50)
+$ su
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=192.168.100.50 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
+
+(on 192.168.100.51)
+$ su
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=192.168.100.51 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
+~~~
+
+And, let's configure these nodes to work together as a cluster:
+
+~~~
+(on 192.168.100.50, 192.168.100.51)
+$ sudo -u droonga-engine -H \
+    droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+                                    --output=~droonga-engine/droonga/catalog.json
+~~~
+
+or:
+
+~~~
+(on 192.168.100.50, 192.168.100.51)
+$ su
+# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+                                  --output=~droonga-engine/droonga/catalog.json
+# chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json
+~~~
+
+OK, now your Droonga cluster is correctly prepared.
+Let's continue to [the next step, "how to use the cluster"](#use).
+
+If the installation script doesn't work on your platform, see [the tutorial to install services without installation script](../manual-install/).
 
 ## DroongaクラスタをHTTP経由で使用する
 
@@ -150,13 +130,13 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
 一方、DroongaクラスタをHTTP経由で使うためには、各Droongaノードにおいて複数のサービスを起動する必要があります。
 
-サービスを起動するには、各Droongaノードで以下のようにコマンドを実行します：
+If services are installed by the installation script, they are already been configured as system services managed via the `service` command.
+To start them, run commands like following on each Droonga node:
 
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
+    # service droonga-engine start
+    # service droonga-http-server start
 
-`droonga-http-server`の`--cache-size=-1`というオプションは、クラスタ内の情報を変更した後の検証で、キャッシュされた結果が意図せず返されてしまうことを防ぐための物です。
-実際のプロダクション環境では、この指定は行わないで下さい。
+If you installed services manually, see [the manual installation tutorial](../manual-install/#start-services).
 
 このコマンドにより、2つのノードはクラスタを形成し、互いの生死を監視するようになります。もしクラスタ内のどれか1つのノードが機能を停止し、他のノードがまだ機能し続けていた場合には、残ったノードがDroongaクラスタとして動作し続けます。そのため、そのような事態が起こっても秘密裏に、機能停止したノードを復旧したりクラスタに復帰させたりすることができます。
 
@@ -196,13 +176,12 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
-    # droonga-engine-stop
-    # droonga-http-server-stop
+    # service droonga-engine stop
+    # service droonga-http-server stop
+
+If you installed services manually, see [the manual installation tutorial](../manual-install/#stop-services).
 
 確認が終わったら、再度サービスを起動しておきましょう：
-
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
 
 ### テーブル、カラム、インデックスの作成
 

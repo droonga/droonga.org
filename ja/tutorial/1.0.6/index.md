@@ -20,7 +20,8 @@ layout: ja
 
 ## 低レイヤのアプリケーション開発者向け
 
- * [低レイヤのコマンドの基本的な使い方](basic/)
+ * [Basic usage of low-layer commands](basic/)
+ * [How to setup Droonga services without installation script?](manual-install/)
 
 ## プラグイン開発者向け
 
