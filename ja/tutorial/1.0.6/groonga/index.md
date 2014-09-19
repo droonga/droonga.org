@@ -49,20 +49,17 @@ Droongaは分散アーキテクチャに基づくデータ処理エンジンで�
 
 ### Droongaの構成コンポーネントをインストールする
 
-Groongaはバイナリのパッケージを提供しているため、環境によっては簡単にインストールできます。
-（[Groongaのインストール手順](http://groonga.org/docs/install.html)を参照）
-
-しかしながら、現在の所Droongaに基づくデータベースシステムをセットアップするための簡単な方法はありません。
-将来的にはより良い方法（例えばChefのクックブックなど）を用意する計画がありますが、今のところは、セットアップは手動で行う必要があります。
-
 Droongaベースのデータベースシステムは、*Droongaクラスタ*と呼ばれます。
 Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュータによって構成されます。
 よって、Droongaクラスタを構築するには複数のDroongaノードをセットアップする必要があります。
 
 `192.168.100.50`と`192.168.100.51`の2つのコンピュータがあると仮定しましょう。
 
-If you use a Ubuntu, Debian, or a CentOS 7 (and later) server, there is a useful installation script.
-Download the installation script and run it on the bash, as the root user, like:
+Groongaはバイナリのパッケージを提供しているため、環境によっては簡単にインストールできます。
+（[Groongaのインストール手順](http://groonga.org/docs/install.html)を参照）
+
+On the other hand, there is an installation script to set up a database system based on Droonga.
+If you are using a Ubuntu, Debian, or a CentOS 7 (and later) server, download the script and run it by `bash`, as the root user, like:
 
 ~~~
 (on 192.168.100.50)

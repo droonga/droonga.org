@@ -40,20 +40,17 @@ You need to prepare two or more computers for effective replication.
 
 ### Steps to install Droonga components
 
-Groonga provides binary packages and you can install Groonga easily, for some environments.
-(See: [how to install Groonga](http://groonga.org/docs/install.html))
-
-However, currently there is no such an easy way to set up a database system based on Droonga.
-We are planning to provide a better way (like a chef cookbook), but for now, you have to set up it by your hand.
-
 A database system based on the Droonga is called *Droonga cluster*.
 A Droonga cluster is constructed from multiple computers, called *Droonga node*.
 So you have to set up multiple Droonga nodes for your Droonga cluster.
 
 Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
 
-If you use a Ubuntu, Debian, or a CentOS 7 (and later) server, there is a useful installation script.
-Download the installation script and run it on the bash, as the root user, like:
+Groonga provides binary packages and you can install Groonga easily, for some environments.
+(See: [how to install Groonga](http://groonga.org/docs/install.html))
+
+On the other hand, there is an installation script to set up a database system based on Droonga.
+If you are using a Ubuntu, Debian, or a CentOS 7 (and later) server, download the script and run it by `bash`, as the root user, like:
 
 ~~~
 (on 192.168.100.50)
