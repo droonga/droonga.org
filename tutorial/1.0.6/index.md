@@ -12,6 +12,7 @@ layout: en
 ## For low-layer application developers
 
  * [Basic usage of low-layer commands](basic/)
+ * [How to setup Droonga services without installation script?](manual-install/)
 
 ## For plugin developers
 
