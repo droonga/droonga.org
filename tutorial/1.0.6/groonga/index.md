@@ -98,14 +98,14 @@ $ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/inst
     sudo ENGINE_HOST=$host HOST=$host bash
 ~~~
 
-OK, now two computers successfully start to work as Droonga nodes.
+OK, now two computers successfully prepared to work as Droonga nodes.
 
 If the installation script doesn't work as expected, see [the tutorial to install services without installation script](../manual-install/).
 
 
 ### Configure nodes to work together as a cluster
 
-Currently, these nodes are working just individually.
+Currently, these nodes are still individual nodes.
 Let's configure them to work together as a cluster.
 
 Run this command line on each node:
@@ -126,7 +126,7 @@ $ su
 ~~~
 
 OK, now your Droonga cluster is correctly prepared.
-Two nodes are working together as a Droonga cluster.
+Two nodes are configured to work together as a Droonga cluster.
 
 Let's continue to [the next step, "how to use the cluster"](#use).
 
@@ -135,25 +135,26 @@ Let's continue to [the next step, "how to use the cluster"](#use).
 
 ### Start and stop services on each Droonga node
 
-You can run Groonga as an HTTP server with the option `-d`, like:
+You can run Groonga as an HTTP server daemon with the option `-d`, like:
 
     # groonga -p 10041 -d --protocol http /tmp/databases/db
 
-On the other hand, you have to run multiple servers for each Droonga node to use your Droonga cluster via HTTP.
+On the other hand, you have to run multiple server daemons for each Droonga node to use your Droonga cluster via HTTP.
 
-If services are installed by the installation script, they are already been configured as system services managed via the `service` command.
+If you set up your Droonga nodes by installation scripts, daemons are already been configured as system services managed via the `service` command.
 To start them, run commands like following on each Droonga node:
 
     # service droonga-engine start
     # service droonga-http-server start
 
-If you installed services manually, see [the manual installation tutorial](../manual-install/#start-services).
+If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#start-services).
 
-By the command two nodes construct a cluster and they monitor each other.
+By these commands, services start to work.
+Now two nodes construct a cluster and they monitor each other.
 If one of nodes dies and there is any still alive node, survivor(s) will work as the Droonga cluster.
 Then you can recover the dead node and re-join it to the cluster secretly.
 
-Let's make sure that the cluster works, by the `system.status` command.
+Let's make sure that the cluster works, by a Droonga command, `system.status`.
 You can see the result via HTTP, like:
 
 ~~~
@@ -192,13 +193,13 @@ To stop services, run commands like following on each Droonga node:
     # service droonga-engine stop
     # service droonga-http-server stop
 
-If you installed services manually, see [the manual installation tutorial](../manual-install/#stop-services).
+If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#stop-services).
 
 After verification, start services again, on each Droonga node.
 
 ### Create a table, columns, and indexes
 
-Now your Droonga cluster actually works as a Groonga's HTTP server.
+Now your Droonga cluster actually works as an HTTP server compatible to Groonga's HTTP server.
 
 Requests are completely same to ones for a Groonga server.
 To create a new table `Store`, you just have to send a GET request for the `table_create` command, like:
