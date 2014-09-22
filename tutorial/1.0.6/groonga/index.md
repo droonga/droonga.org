@@ -47,8 +47,8 @@ Otherwise, you may experience a strange build error.
 You need to prepare two or more nodes for effective replication.
 So this tutorial assumes that you have two computers:
 
- * has an IP address `192.168.100.50`, with a hostname `node0`.
- * has an IP address `192.168.100.51`, with a hostname `node1`.
+ * has an IP address `192.168.100.50`, with a host name `node0`.
+ * has an IP address `192.168.100.51`, with a host name `node1`.
 
 ### Set up computers as Droonga nodes
 
@@ -56,7 +56,7 @@ Groonga provides binary packages and you can install Groonga easily, for some en
 (See: [how to install Groonga](http://groonga.org/docs/install.html))
 
 On the other hand, there is installation scripts to set up a computer as a Droonga node.
-Let's log in to the computer `192.168.100.50`, download two scripts, and run them by `bash` as the root user, like:
+Let's log in to the computer `node0` (`192.168.100.50`), download two scripts, and run them by `bash` as the root user, like:
 
 ~~~
 $ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
@@ -112,7 +112,7 @@ Run this command line on each node:
 
 ~~~
 $ sudo -u droonga-engine -H \
-    droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+    droonga-engine-catalog-generate --hosts=node0,node1 \
                                     --output=~droonga-engine/droonga/catalog.json
 ~~~
 
@@ -120,9 +120,25 @@ If you are using a CentOS server, switch to the root before running, instead of 
 
 ~~~
 $ su
-# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+# droonga-engine-catalog-generate --hosts=node0,node1 \
                                   --output=~droonga-engine/droonga/catalog.json
 # chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json
+~~~
+
+NOTE: For the `--hosts` parameter, you must specify host names or IP addresses of all your Droonga nodes which are actually configured to be used.
+To confirm the suitable value, see the `~droonga-engine/droonga/droonga-engine.yaml`, like:
+
+~~~
+$ cat ~droonga-engine/droonga/droonga-engine.yaml | grep host
+host: 192.168.100.50
+~~~
+
+For example, if nodes cannot resolve their host names and you configured them with IP addresses like `HOST=192.168.100.50`, then:
+
+~~~
+$ sudo -u droonga-engine -H \
+    droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+                                    --output=~droonga-engine/droonga/catalog.json
 ~~~
 
 OK, now your Droonga cluster is correctly prepared.
@@ -158,13 +174,13 @@ Let's make sure that the cluster works, by a Droonga command, `system.status`.
 You can see the result via HTTP, like:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+# curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
@@ -175,13 +191,13 @@ The result says that two nodes are working correctly.
 Because it is a cluster, another endpoint returns same result.
 
 ~~~
-# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
+# curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
@@ -205,7 +221,7 @@ Requests are completely same to ones for a Groonga server.
 To create a new table `Store`, you just have to send a GET request for the `table_create` command, like:
 
 ~~~
-# endpoint="http://192.168.100.50:10041"
+# endpoint="http://node0:10041"
 # curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
 [
   [
