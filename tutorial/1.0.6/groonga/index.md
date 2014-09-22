@@ -27,76 +27,98 @@ For example, let's try to build a database system to find [Starbucks stores in N
 
 ## Set up a Droonga cluster
 
-### Prepare an environment for experiments
+A database system based on the Droonga is called *Droonga cluster*.
+This section describes how to set up a Droonga cluster from scratch.
 
-Prepare a computer at first.
-This tutorial describes steps to set up a Droonga cluster based on existing computers.
+### Prepare computers for Droonga nodes
+
+A Droonga cluster is constructed from one or more computers, called *Droonga node*(s).
+Prepare computers for Droonga nodes at first.
+
+This tutorial describes steps to set up Droonga cluster based on existing computers.
 Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 14.04 x64` or `CentOS 7 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
-NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
+NOTE:
+
+ * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
 Otherwise, you may experience a strange build error.
+ * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` is correctly accessible from each other computer in your cluster.
 
-You need to prepare two or more computers for effective replication.
+You need to prepare two or more nodes for effective replication.
+So this tutorial assumes that you have two computers:
 
-### Steps to install Droonga components
+ * has an IP address `192.168.100.50`, with a hostname `node0`.
+ * has an IP address `192.168.100.51`, with a hostname `node1`.
 
-A database system based on the Droonga is called *Droonga cluster*.
-A Droonga cluster is constructed from multiple computers, called *Droonga node*.
-So you have to set up multiple Droonga nodes for your Droonga cluster.
-
-Assume that you have two computers: `192.168.100.50` and `192.168.100.51`.
+### Set up computers as Droonga nodes
 
 Groonga provides binary packages and you can install Groonga easily, for some environments.
 (See: [how to install Groonga](http://groonga.org/docs/install.html))
 
-On the other hand, there is an installation script to set up a database system based on Droonga.
-If you are using a Ubuntu, Debian, or a CentOS 7 (and later) server, download the script and run it by `bash`, as the root user, like:
+On the other hand, there is installation scripts to set up a computer as a Droonga node.
+Let's log in to the computer `192.168.100.50`, download two scripts, and run them by `bash` as the root user, like:
 
 ~~~
-(on 192.168.100.50)
 $ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    sudo HOST=192.168.100.50 bash
+    sudo bash
 $ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    sudo ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
-
-(on 192.168.100.51)
-$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    sudo HOST=192.168.100.51 bash
-$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    sudo ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
+    sudo bash
 ~~~
 
-or:
+If you are using a CentOS server, switch to the root before running, instead of using `sudo`, like:
 
 ~~~
-(on 192.168.100.50)
 $ su
 # curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    HOST=192.168.100.50 bash
+    bash
 # curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
-
-(on 192.168.100.51)
-$ su
-# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    HOST=192.168.100.51 bash
-# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
+    bash
 ~~~
 
-And, let's configure these nodes to work together as a cluster:
+If your computers cannot resolve IP addresse of each other by its host name, specify accessible IP address via environment variables, like:
 
 ~~~
-(on 192.168.100.50, 192.168.100.51)
+$ host=192.168.100.50
+$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    sudo HOST=$host bash
+$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    sudo ENGINE_HOST=$host HOST=$host bash
+~~~
+
+Then the computer `node0` (`192.168.100.50`) is successfully set up as a Droonga node.
+
+Next, run the installation scripts on another node `node1` (`192.168.100.51`).
+If the host name `node1` is not resolvable by others, don't forget to specify correct accessible IP address for the computer, like:
+
+~~~
+$ host=192.168.100.51
+$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    sudo HOST=$host bash
+$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    sudo ENGINE_HOST=$host HOST=$host bash
+~~~
+
+OK, now two computers successfully start to work as Droonga nodes.
+
+If the installation script doesn't work as expected, see [the tutorial to install services without installation script](../manual-install/).
+
+
+### Configure nodes to work together as a cluster
+
+Currently, these nodes are working just individually.
+Let's configure them to work together as a cluster.
+
+Run this command line on each node:
+
+~~~
 $ sudo -u droonga-engine -H \
     droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
                                     --output=~droonga-engine/droonga/catalog.json
 ~~~
 
-or:
+If you are using a CentOS server, switch to the root before running, instead of using `sudo`, like:
 
 ~~~
-(on 192.168.100.50, 192.168.100.51)
 $ su
 # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
                                   --output=~droonga-engine/droonga/catalog.json
@@ -104,9 +126,10 @@ $ su
 ~~~
 
 OK, now your Droonga cluster is correctly prepared.
+Two nodes are working together as a Droonga cluster.
+
 Let's continue to [the next step, "how to use the cluster"](#use).
 
-If the installation script doesn't work on your platform, see [the tutorial to install services without installation script](../manual-install/).
 
 ## Use the Droonga cluster, via HTTP {#use}
 
