@@ -42,7 +42,7 @@ NOTE:
 
  * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
    Otherwise, you may experience a strange build error.
- * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` have to be accessible from each other computer in your cluster.
+ * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` is accessible from each other computer in your cluster.
 
 You need to prepare two or more nodes for effective replication.
 So this tutorial assumes that you have two computers:

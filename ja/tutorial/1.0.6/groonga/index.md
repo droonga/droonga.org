@@ -49,9 +49,9 @@ Droongaクラスタは、*Droongaノード*と呼ばれる1つ以上のコンピ
 
 注意:
 
- * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
-   Otherwise, you may experience a strange build error.
- * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` have to be accessible from each other computer in your cluster.
+ * Droongaの依存パッケージをインストールする前に、仮想マシンのインスタンスが少なくとも2GB以上のメモリを備えていることを確認して下さい。
+   メモリが足りないと、ビルド時におかしなエラーに遭遇することになります。
+ * `hostname -f`で報告されるホスト名、または`hostname -i`で報告されるIPアドレスが、クラスタ内の他のコンピュータからアクセス可能なものであることを確認して下さい。
 
 有効なレプリケーションを実現するためには2台以上のコンピュータを用意する必要があります。
 ですので、このチュートリアルでは以下のような2台のコンピュータがあると仮定して説明を進めます:
