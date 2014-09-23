@@ -143,7 +143,7 @@ To add a new replica node to an existing cluster, you just run a command `droong
 
 ~~~
 (on node2)
-# droonga-engine-join --host=node2 \
+$ droonga-engine-join --host=node2 \
                       --replica-source-host=node0
 Joining new replica to the cluster...
 ...
@@ -170,7 +170,7 @@ To refresh response cacnes, restart the `droonga-http-server` on all nodes:
 You can confirm that they are working as a cluster, via the `system.status` command:
 
 ~~~
-# curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -211,7 +211,7 @@ To remove a replica from an existing cluster, you just run the `droonga-engine-u
 
 ~~~
 (on node0)
-# droonga-engine-unjoin --host=node2
+$ droonga-engine-unjoin --host=node2
 Unjoining replica from the cluster...
 ...
 Done.
@@ -234,7 +234,7 @@ To refresh response cacnes, restart the `droonga-http-server` on all nodes:
 You can confirm that the `node2` is successfully unjoined, via the `system.status` command:
 
 ~~~
-# curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -245,7 +245,7 @@ You can confirm that the `node2` is successfully unjoined, via the `system.statu
     }
   }
 }
-# curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -256,7 +256,7 @@ You can confirm that the `node2` is successfully unjoined, via the `system.statu
     }
   }
 }
-# curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -284,15 +284,24 @@ Assume that there is a Droonga cluster constructed with two replica nodes `node0
 First, remove the unstable node.
 Remove the node from the cluster, like:
 
-    (on node0)
-    # cd ~/droonga
-    # droonga-engine-unjoin --host=node1
+~~~
+(on node0)
+$ droonga-engine-unjoin --host=node1
+~~~
+
+Refresh response caches:
+
+~~~
+(on node0, node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
 
 Now the node has been gone.
 You can confirm that via the `system.status` command:
 
 ~~~
-# curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -304,31 +313,51 @@ You can confirm that via the `system.status` command:
 
 ### Add a new replica
 
-Next, setup the new replica.
+Next, setup the new replica `node2`.
 Install required packages, generate the `catalog.json`, and start services.
 
-    (on node2)
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # echo "host:        node2"      >  $DROONGA_BASE_DIR/droonga-engine.yaml
-    # echo "port:        10041"      >  $DROONGA_BASE_DIR/droonga-http-server.yaml
-    # echo "environment: production" >> $DROONGA_BASE_DIR/droonga-http-server.yaml
-    # droonga-engine-catalog-generate --hosts=$host \
-                                      --output=$DROONGA_BASE_DIR/catalog.json
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
+~~~
+(on node2)
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=node2 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=node2 HOST=node2 bash
+~~~
+
+If the computer was used as a Droonga node in old days, then you must clear old data instead of installation:
+
+~~~
+(on node2)
+# droonga-engine-configure --quiet \
+                           --clear --reset-config --reset-catalog \
+                           --host=node2
+# droonga-http-server-configure --quiet --reset-config \
+                                --droonga-engine-host-name=node2 \
+                                --receive-host-name=node2
+~~~
 
 Then, join the node to the cluster.
 
-    (on node2)
-    # droonga-engine-join --host=node2 \
-                          --replica-source-host=node0
+~~~
+(on node2)
+$ droonga-engine-join --host=node2 \
+                      --replica-source-host=node0
+~~~
+
+And, refresh response caches:
+
+~~~
+(on node0, node2)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
 
 Finally a Droonga cluster constructed with two nodes `node0` and `node2` is here.
 
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -339,7 +368,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
