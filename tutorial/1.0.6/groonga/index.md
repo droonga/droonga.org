@@ -56,8 +56,7 @@ So this tutorial assumes that you have two computers:
 Groonga provides binary packages and you can install Groonga easily, for some environments.
 (See: [how to install Groonga](http://groonga.org/docs/install.html))
 
-On the other hand, there is installation scripts to set up a computer as a Droonga node.
-Steps are:
+On the other hand, steps to set up computers as Droonga nodes are:
 
  1. Install the `droonga-engine` *on each computer*.
  2. Install the `droonga-http-server` *on each computer*.
@@ -153,7 +152,7 @@ Then your computer `node0` is configured as a Droonga node with the host name `1
 As said before, *the configured name is used in various situations*, so *don't forget what is the name of each node*.
 
 This tutorial assumes that all your computers can resolve each other host name `node0` and `node1` correctly.
-Otherwise, read host names `node0` and `node1` in following instructions, as raw IP addresses like `192.168.100.50` and '192.168.100.51`.
+Otherwise, read host names `node0` and `node1` in following instructions, as raw IP addresses like `192.168.100.50` and `192.168.100.51`.
 
 By the way, you can specify your favorite value as the host name of the computer itself via environment variables, for the installation script, like:
 
