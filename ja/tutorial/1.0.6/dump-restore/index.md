@@ -173,7 +173,7 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 ]
 ~~~
 
-And, restart the `droonga-http-server` service on each node to refresh response caches:
+そうしたら、レスポンスキャッシュを空にするために`droonga-http-server`サービスを再起動しましょう:
 
 ~~~
 (on node0, node1)
@@ -252,7 +252,7 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 `drndump` の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
 やり方は単純で、単にダンプファイルを `droonga-send` コマンドを使ってからのクラスタに流し込むだけです。
 
-Before restoration, restart the `droonga-http-server` service on each node to refresh response caches:
+復元の前に、レスポンスキャッシュを空にするために`droonga-http-server`サービスを再起動しておきます:
 
 ~~~
 (on node0, node1)
@@ -336,7 +336,7 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 
 ### 複数のDroongaクラスタを用意する
 
-Assume that there are two clusters: the source has a node `node0` (`192.168.100.50`), and the destination has a node `node1' (`192.168.100.51`).
+ノード `node0` (`192.168.100.50`) を含む複製元クラスタと、ノード `node1' (`192.168.100.51`) を含む複製先クラスタの2つのクラスタがあると仮定します。
 
 もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。`droonga-engine-catalog-modify` を使って2つのクラスタを作り、1つを空にしましょう。手順は以下の通りです:
 
@@ -362,9 +362,9 @@ $ curl "$endpoint/d/table_remove?name=Store"
 $ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
-Note, don't forget to restart the `droonga-http-server` service on each node to refresh response caches, before separation.
+クラスタを分割する前に、レスポンスキャッシュを空にするために`droonga-http-server`サービスを再起動するのを忘れないように注意して下さい。
 
-After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
+これで、ノード `node0` を含む複製元クラスタと、ノード `node1` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
 
 
 ~~~
@@ -473,7 +473,7 @@ Absorbing...
 Done.
 ~~~
 
-To refresh response cacnes, restart the `droonga-http-server` on the destination node:
+レスポンスキャッシュを空にするために、複製先ノードの`droonga-http-server`サービスを再起動します:
 
 ~~~
 (on node1)
@@ -559,7 +559,7 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
  * Restarting  droonga-http-server             [ OK ]
 ~~~
 
-Note that you always have to restart the `droonga-http-server` service on nodes to refresh response caches.
+レスポンスキャッシュを空にするために、常に`droonga-http-server`サービスを再起動する必要があることに注意しましょう。
 
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。
 
