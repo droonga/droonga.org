@@ -357,7 +357,7 @@ $ curl "$endpoint/d/table_remove?name=Store"
 $ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
-Note, don't forget to restart the "droonga-http-server" service on each node to refresh response caches, before separation.
+Note, don't forget to restart the `droonga-http-server` service on each node to refresh response caches, before separation.
 
 After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
 

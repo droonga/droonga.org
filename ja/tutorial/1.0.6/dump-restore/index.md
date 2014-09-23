@@ -21,26 +21,11 @@ layout: ja
 
 ## 前提条件
 
-* 何らかのデータが格納されている状態の[Droonga][]クラスタがあること。
-  このチュートリアルを始める前に、[「使ってみる」のチュートリアル](../groonga/)を完了している事が望ましいです
-* `catalog.json`に`Default`データセットがあること。
-  別の名前でデータセットを作成していた場合は、名前を変更しておいて下さい：
+* You must have an existing [Droonga][] cluster with some data.
+  Please complete the ["getting started" tutorial](../groonga/) before this.
 
-        "datasets": {
-      -   "Starbucks": {
-      +   "Default": {
-  
-* `catalog.json`に`dump`プラグインと`system`プラグインが登録済みであること。
-  未登録の場合は、以下のようにして`plugins`の一覧に`dump`と`system`を追加しておいて下さい：
-  
-      - "plugins": ["groonga", "crud", "search"],
-      + "plugins": ["groonga", "crud", "search", "dump", "system"],
-  
-* `catalog.json`の`schema`セクションが情報を含んでいないこと・
-  スキーマを定義していた場合は、以下のようにして`schema`セクションを空にしておいて下さい：
-  
-      "schema": {},
-  
+This tutorial assumes that there are two existing Droonga nodes prepared by the [previous tutorial](../groonga/): `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), and there is another computer `node2` (`192.168.100.52`) as a working environment.
+If you have Droonga nodes with other names, read `node0`, `node1` and `node2` in following descriptions as yours.
 
 ## Droongaクラスタのデータをバックアップする
 
@@ -48,22 +33,24 @@ layout: ja
 
 最初に、Rubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:
 
-    # gem install drndump
+### `drndump` のインストール
 
 その後、`drndump` コマンドが正しくインストールできたかどうかを確認します:
 
-    # drndump --version
-    drndump 1.0.0
+~~~
+$ drndump --version
+drndump 1.0.0
+~~~
 
 ### Droongaクラスタ内のデータをダンプする
 
 `drndump` コマンドはすべてのスキ−マ定義とデータをJSONs形式で取り出します。既存のDroongaクラスタのすべての内容をダンプ出力してみましょう。
 
-例えば、クラスタが `192.168.100.50` と `192.168.100.51` の2つのノードから構成されていて、別のホスト `192.168.100.52` にログインしている場合、コマンドラインは以下の要領です。
+For example, if your cluster is constructed from two nodes `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), and now you are logged in to new another computer `node2` (`192.168.100.52`). then the command line is:
 
 ~~~
-# drndump --host=192.168.100.50 \
-           --receiver-host=192.168.100.52
+# drndump --host=node0 \
+           --receiver-host=node2
 {
   "type": "table_create",
   "dataset": "Default",
@@ -120,9 +107,11 @@ layout: ja
 実行結果は標準出力に出力されます。
 結果をJSONs形式のファイルに保存する場合は、リダイレクトを使って以下のようにして下さい:
 
-    # drndump --host=192.168.100.50 \
-              --receiver-host=192.168.100.52 \
-        > dump.jsons
+~~~
+$ drndump --host=node0 \
+          --receiver-host=node2 \
+    > dump.jsons
+~~~
 
 
 ## Droongaクラスタのデータを復元する
@@ -134,22 +123,24 @@ layout: ja
 Droongaクラスタにそれらのメッセージを送信するには、`droonga-send` コマンドを使います。
 このコマンドを含んでいるGemパッケージ `droonga-client` をインストールして下さい:
 
-    # gem install droonga-client
+### `droonga-client`のインストール
 
 `droonga-send` コマンドが正しくインストールされた事を確認しましょう:
 
-    # droonga-send --version
-    droonga-send 0.1.9
+~~~
+$ droonga-send --version
+droonga-send 0.1.9
+~~~
 
 ### 空のDroongaクラスタを用意する
 
-2つのノード `192.168.100.50` と `192.168.100.51` からなる空のクラスタがあり、今 `192.168.100.52` にログインして操作を行っていて、ダンプファイルが `dump.jsons` という名前で手元にあると仮定します。
+Assume that there is an empty Droonga cluster constructed from two nodes `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), now you are logged in to the host `node2` (`192.168.100.52`), and there is a dump file `dump.jsons`.
 
 もし順番にこのチュートリアルを読み進めているのであれば、クラスタとダンプファイルが既に手元にあるはずです。以下の操作でクラスタを空にしましょう:
 
 ~~~
-# endpoint="http://192.168.100.50:10041"
-# curl "$endpoint/d/table_remove?name=Location" | jq "."
+$ endpoint="http://node0:10041"
+$ curl "$endpoint/d/table_remove?name=Location" | jq "."
 [
   [
     0,
@@ -158,7 +149,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
   ],
   true
 ]
-# curl "$endpoint/d/table_remove?name=Store" | jq "."
+$ curl "$endpoint/d/table_remove?name=Store" | jq "."
 [
   [
     0,
@@ -167,7 +158,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
   ],
   true
 ]
-# curl "$endpoint/d/table_remove?name=Term" | jq "."
+$ curl "$endpoint/d/table_remove?name=Term" | jq "."
 [
   [
     0,
@@ -178,11 +169,19 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 ]
 ~~~
 
+And, restart the `droonga-http-server` service on each node to refresh response caches:
+
+~~~
+(on node0, node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
 これでクラスタは空になりました。確かめてみましょう:
 
 ~~~
-# endpoint="http://192.168.100.50:10041"
-# curl "$endpoint/d/table_list" | jq "."
+$ endpoint="http://node0:10041"
+$ curl "$endpoint/d/table_list" | jq "."
 [
   [
     0,
@@ -226,7 +225,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
     ]
   ]
 ]
-# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -249,10 +248,18 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 `drndump` の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
 やり方は単純で、単にダンプファイルを `droonga-send` コマンドを使ってからのクラスタに流し込むだけです。
 
+Before restoration, restart the `droonga-http-server` service on each node to refresh response caches:
+
+~~~
+(on node0, node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
 ダンプファイルからクラスタの内容を復元するには、以下のようなコマンドを実行します:
 
 ~~~
-# droonga-send --server=192.168.100.50  \
+$ droonga-send --server=node0  \
                     dump.jsons
 ~~~
 
@@ -265,7 +272,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 これで、データが完全に復元されました。確かめてみましょう:
 
 ~~~
-# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -325,37 +332,47 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 
 ### 複数のDroongaクラスタを用意する
 
-ノード `192.168.100.50` を含む複製元クラスタと、ノード `192.168.100.51` を含む複製先クラスタの2つのクラスタがあると仮定します。
+Assume that there are two clusters: the source has a node `node0` (`192.168.100.50`), and the destination has a node `node1' (`192.168.100.51`).
 
 もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。`droonga-engine-catalog-modify` を使って2つのクラスタを作り、1つを空にしましょう。手順は以下の通りです:
 
-    (on 192.168.100.50)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --replica-hosts=192.168.100.50
+~~~
+(on node0)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --replica-hosts=node0
+~~~
 
-    (on 192.168.100.51)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --replica-hosts=192.168.100.51
-    # endpoint="http://192.168.100.51:10041"
-    # curl "$endpoint/d/table_remove?name=Location"
-    # curl "$endpoint/d/table_remove?name=Store"
-    # curl "$endpoint/d/table_remove?name=Term"
+~~~
+(on node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --replica-hosts=node1
+$ endpoint="http://node1:10041"
+$ curl "$endpoint/d/table_remove?name=Location"
+$ curl "$endpoint/d/table_remove?name=Store"
+$ curl "$endpoint/d/table_remove?name=Term"
+~~~
 
-これで、ノード `192.168.100.50` を含む複製元クラスタと、ノード `192.168.100.51` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
+Note, don't forget to restart the `droonga-http-server` service on each node to refresh response caches, before separation.
+
+After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
 
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.50:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -406,15 +423,15 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
     ]
   ]
 ]
-# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.51:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -432,19 +449,17 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 ]
 ~~~
 
-注意：`/droonga/system/status` が上記の通りの結果を返さないことがあるので、クラスタ構成の変更を確認する方法については要検証・要更新。
-
 
 ### 2つのDroongaクラスタの間でデータを複製する
 
 2つのクラスタの間でデータをコピーするには、いずれかのノード上で以下のように `droonga-engine-absorb-data` コマンドを実行します:
 
 ~~~
-(on 192.168.100.50 or 192.168.100.51)
-# droonga-engine-absorb-data --source-host=192.168.100.50 \
-                             --destination-host=192.168.100.51
-Start to absorb data from 192.168.100.50
-                       to 192.168.100.51
+(on node0 or node1)
+$ droonga-engine-absorb-data --source-host=node0 \
+                             --destination-host=node1
+Start to absorb data from node0
+                       to node1
   dataset = Default
   port    = 10031
   tag     = droonga
@@ -454,61 +469,18 @@ Absorbing...
 Done.
 ~~~
 
+To refresh response cacnes, restart the `droonga-http-server` on the destination node:
+
+~~~
+(on node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
 以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
 
 ~~~
-# curl "http://192.168.100.50:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
-[
-  [
-    0,
-    1401363556.0294158,
-    7.62939453125e-05
-  ],
-  [
-    [
-      [
-        40
-      ],
-      [
-        [
-          "name",
-          "ShortText"
-        ]
-      ],
-      [
-        "1st Avenue & 75th St. - New York NY  (W)"
-      ],
-      [
-        "76th & Second - New York NY  (W)"
-      ],
-      [
-        "Herald Square- Macy's - New York NY"
-      ],
-      [
-        "Macy's 5th Floor - Herald Square - New York NY  (W)"
-      ],
-      [
-        "80th & York - New York NY  (W)"
-      ],
-      [
-        "Columbus @ 67th - New York NY  (W)"
-      ],
-      [
-        "45th & Broadway - New York NY  (W)"
-      ],
-      [
-        "Marriott Marquis - Lobby - New York NY"
-      ],
-      [
-        "Second @ 81st - New York NY  (W)"
-      ],
-      [
-        "52nd & Seventh - New York NY  (W)"
-      ]
-    ]
-  ]
-]
-# curl "http://192.168.100.51:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -565,26 +537,36 @@ Done.
 
 これらの2つのクラスタを結合するために、以下のコマンド列を実行しましょう:
 
-    (on 192.168.100.50)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.100.51
+~~~
+(on node0)
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --add-replica-hosts=node1
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
 
-    (on 192.168.100.51)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=192.168.100.50
+~~~
+(on node1)
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --add-replica-hosts=node0
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
+Note that you always have to restart the `droonga-http-server` service on nodes to refresh response caches.
 
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
