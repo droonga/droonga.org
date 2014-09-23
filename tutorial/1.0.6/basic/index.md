@@ -67,7 +67,7 @@ For example, let's try to build a database system to find [Starbucks stores in N
 ## Prepare an environment for experiments
 
 Prepare a computer at first. This tutorial describes steps to develop a search service based on the Droonga, on an existing computer.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 13.10 x64` or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 14.04 x64`, `CentOS 7 x64`, or or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
 NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga. Otherwise, you may experience a strange build error.
 
@@ -83,13 +83,16 @@ Ubuntu:
     # apt-get -y upgrade
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
 
-CentOS:
+CentOS 7:
+
+    # apt-get update
+    # apt-get -y upgrade
+    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
+
+CentOS 6.5:
 
     # yum -y groupinstall development
-    # curl -L get.rvm.io | bash -s stable
-    # source /etc/profile.d/rvm.sh
-    # rvm reload
-    # rvm install 2.1.2
+    # yum -y install epel-release ruby-devel
     # yum -y install npm
 
 Yes, in short, you have to activate `gem` and `npm` commands, and install some packages to build native extensions.
@@ -99,25 +102,20 @@ Yes, in short, you have to activate `gem` and `npm` commands, and install some p
 The part "Droonga engine" stores the database and provides the search feature actually.
 In this section we install a droonga-engine and load searchable data to the database.
 
-### Install a droonga-engine and droonga-client
+### Install `droonga-engine`
 
-    # gem install droonga-engine droonga-client
+    # gem install droonga-engine
 
 Required packages are prepared by the command above. Let's continue to the configuration step.
 
-### Prepare configuration files to start a Droonga engine
+### Prepare configuration files to start `droonga-engine`
 
-Create a directory for a Droonga engine:
+Create a user for the `droonga-engine` service and the configuration directory.
+All configuration files and physical databases are placed under the directory:
 
-    # mkdir ~/droonga
-    # cd ~/droonga
-
-Define and export a new environment varialbe `DROONGA_BASE_DIR`, the path to the configuration directory.
-
-    # export DROONGA_BASE_DIR=~/droonga
-
-The environment variable is used by droonga-engine and various command line utilities.
-For convenience, you should define and export `DROONGA_BASE_DIR` globally.
+    # useradd -m droonga-engine
+    $ sudo -u droonga-engine -H mkdir ~droonga-engine/droonga
+    $ cd ~droonga-engine/droonga
 
 Then put a configuration file `droonga-engine.yaml` like following, into the directory:
 
@@ -240,29 +238,29 @@ The `"address"` indicates the location of the corresponding physical storage whi
 
 For more details of the configuration file `catalog.json`, see [the reference manual of catalog.json](/reference/catalog).
 
-### Start an instance of droonga-engine
+### Start the `droonga-engine` server process
 
-Start a Droonga engine, you can start it with the command `droonga-engine`, like:
+Start the `droonga-engine` server process. You can do it with the command `droonga-engine`, like:
 
-    # droonga-engine
+    $ sudo -u droonga-engine -H droonga-engine
 
-### Stop an instance of droonga-engine
+### Stop the `droonga-engine` server process
 
-First, you need to know how to stop droonga-engine.
+You need to know how to stop `droonga-engine` server process.
 
 Run `droonga-engine-stop`, a utility command to stop droonga-engine service:
 
-    # droonga-engine-stop
+    $ sudo -u droonga-engine -H droonga-engine-stop
 
 or, send SIGTERM to droonga-engine directly:
 
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
+    $ sudo -u droonga-engine -H  kill $(cat ~droonga-engine/droonga/droonga-engine.pid)
 
 This is the way to stop droonga-engine.
 
 Start droonga-engine again:
 
-    # droonga-engine
+    $ sudo -u droonga-engine -H droonga-engine
 
 ### Create a database
 
@@ -719,7 +717,7 @@ Open another terminal and send the json to the Droonga engine.
 Send `stores.jsons` as follows:
 
 ~~~
-# droonga-request stores.jsons
+$ droonga-request stores.jsons
 Elapsed time: 0.01101195
 [
   "droonga.message",
@@ -781,7 +779,7 @@ search-all-stores.json:
 Send the request to the Droonga Engine:
 
 ~~~
-# droonga-request search-all-stores.json
+$ droonga-request search-all-stores.json
 Elapsed time: 0.008286785
 [
   "droonga.message",
@@ -934,7 +932,13 @@ It is an npm package for the Node.js so you can install it by `npm` command easi
 
     # npm install -g droonga-http-server
 
-Next, put a configuration file `droonga-http-server.yaml` into the configuration directory specified by the environment variable `DROONGA_BASE_DIR`.
+Next, prepare a user for the service.
+
+    # useradd -m droonga-http-server
+    $ sudo -u droonga-http-server -H mkdir ~droonga-http-server/droonga
+    $ cd ~droonga-http-server/droonga
+
+Then put a configuration file `droonga-http-server.yaml` into the configuration directory.
 
 droonga-http-server.yaml:
 
@@ -950,19 +954,19 @@ droonga-http-server.yaml:
     port:        10041
     environment: production
     engine:
-      host:          192.168.100.50
-      receiver_host: 192.168.100.51
+      host:         192.168.100.50
+      receive_host: 192.168.100.51
 
 OK, let's run it.
 
-    # droonga-http-server
+    $ sudo -u droonga-http-server -H droonga-http-server
 
 
 ### Search request via HTTP
 
 We're all set. Let's send a search request to the protocol adapter via HTTP. At first, try to get all records of the `Stores` table by a request like following. (Note: The `attributes=_key` parameter means "export the value of the column `_key` to the search result". If you don't set the parameter, each record returned in the `records` will become just a blank array. You can specify multiple column names by the delimiter `,`. For example `attributes=_key,location` will return both the primary key and the location for each record.)
 
-    # curl "http://192.168.100.50:10041/tables/Store?attributes=_key&limit=-1"
+    $ curl "http://192.168.100.50:10041/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
@@ -1095,7 +1099,7 @@ Because the `count` says `40`, you know there are all 40 records in the table. S
 
 Next step, let's try more meaningful query. To search stores which contain "Columbus" in their name, give `Columbus` as the parameter `query`, and give `_key` as the parameter `match_to` which means the column to be searched. Then:
 
-    # curl "http://192.168.100.50:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    $ curl "http://192.168.100.50:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,

@@ -75,7 +75,7 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
 ## 実験用のマシンを用意する
 
 まずコンピュータを調達しましょう。このチュートリアルでは、既存のコンピュータにDroongaによる検索システムを構築する手順を解説します。
-以降の説明は基本的に、[DigitalOcean](https://www.digitalocean.com/)で `Ubuntu 13.10 x64` または `CentOS 6.5 x64` の仮想マシンのセットアップを完了し、コンソールにアクセスできる状態になった後を前提として進めます。
+以降の説明は基本的に、[DigitalOcean](https://www.digitalocean.com/)で `Ubuntu 14.04 x64`、`CentOS 6.5 x64`、 または `CentOS 7 x64` の仮想マシンのセットアップを完了し、コンソールにアクセスできる状態になった後を前提として進めます。
 
 注意：Droongaが必要とするパッケージをインストールする前に、マシンが2GB以上のメモリを備えていることを確認して下さい。メモリが不足していると、ビルド時にエラーが出て、ビルドに失敗することがあります。
 
@@ -91,13 +91,16 @@ Ubuntu:
     # apt-get -y upgrade
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
 
-CentOS:
+CentOS 7:
+
+    # apt-get update
+    # apt-get -y upgrade
+    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
+
+CentOS 6.5:
 
     # yum -y groupinstall development
-    # curl -L get.rvm.io | bash -s stable
-    # source /etc/profile.d/rvm.sh
-    # rvm reload
-    # rvm install 2.1.2
+    # yum -y install epel-release ruby-devel
     # yum -y install npm
 
 要するに、`gem`と`npm`を使えるようにした上で、ネイティブ拡張をビルドするためのいくつかのパッケージをインストールする必要があるということです。
@@ -107,25 +110,20 @@ CentOS:
 Droonga Engine は、データベースを保持し、実際の検索を担当する部分です。
 このセクションでは、 droonga-engine をインストールし、検索対象となるデータを準備します。
 
-### droonga-engineとdroonga-clientをインストールする
+### `droonga-engine`をインストールする
 
-    # gem install droonga-engine droonga-client
+    # gem install droonga-engine
 
 Droonga Engine を構築するのに必要なパッケージがセットアップできました。引き続き設定に移ります。
 
-### Droonga Engine を起動するための設定ファイルを用意する
+### `droonga-engine`を起動するための設定ファイルを用意する
 
-まず Droonga Engine 用のディレクトリを作成します。
+`droonga-engine`サービス用のユーザを作成し、設定ディレクトリを作成します。
+すべての設定ファイルと物理的なデータベースはこのディレクトリの下に置かれます:
 
-    # mkdir ~/droonga
-    # cd ~/droonga
-
-作成したディレクトリへのパスを、環境変数 `DROONGA_BASE_DIR` として定義し、エクスポートしておきましょう。
-
-    # export DROONGA_BASE_DIR=~/droonga
-
-この環境変数はdroonga-engineや他のコマンドラインユーティリティなどから参照されます。
-利便性のために、`DROONGA_BASE_DIR`はグローバルに定義・エクスポートしておく事をおすすめします。
+    # useradd -m droonga-engine
+    $ sudo -u droonga-engine -H mkdir ~droonga-engine/droonga
+    $ cd ~droonga-engine/droonga
 
 以下の内容で設定ファイル `droonga-engine.yaml` をディレクトリ内に作成します。
 
@@ -248,29 +246,29 @@ catalog.json:
 
 `catalog.json` の詳細については [catalog.json](/ja/reference/catalog) を参照してください。
 
-### droonga-engine を起動する
+### `droonga-engine`をサーバプロセスを起動する
 
-以下のようにして droonga-engine を起動します。
+`droonga-engine`のサーバプロセスを起動します。これは`droonga-engine`コマンドを使って以下のように行います:
 
-    # droonga-engine
+    $ sudo -u droonga-engine -H droonga-engine
 
-### droonga-engine を終了する
+### `droonga-engine` のサーバプロセスを停止する
 
-最初にdroonga-engineを終了する方法を知っておきましょう。
+最初に`droonga-engine`のサーバプロセスを終了する方法を知っておきましょう。
 
 droonga-engineのサービスを停止するためのユーティリティコマンド `droonga-engine-stop` を実行します。
 
-    # droonga-engine-stop
+    $ sudo -u droonga-engine -H droonga-engine-stop
 
 または、droonga-engineに直接SIGTERMを送ります。
 
-    # kill $(cat $DROONGA_BASE_DIR/droonga-engine.pid)
+    $ sudo -u droonga-engine -H  kill $(cat ~droonga-engine/droonga/droonga-engine.pid)
 
 これがdroonga-engineを終了する方法です。
 
 再度droonga-engineを起動します。
 
-    # droonga-engine
+    $ sudo -u droonga-engine -H droonga-engine
 
 ### データベースを作成する
 
@@ -727,7 +725,7 @@ stores.jsons:
 以下のようにして`stores.json`を送信します:
 
 ~~~
-# droonga-request stores.jsons
+$ droonga-request stores.jsons
 Elapsed time: 0.01101195
 [
   "droonga.message",
@@ -789,7 +787,7 @@ search-all-stores.json:
 Droonga Engine にリクエストを送信します:
 
 ~~~
-# droonga-request search-all-stores.json
+$ droonga-request search-all-stores.json
 Elapsed time: 0.008286785
 [
   "droonga.message",
@@ -941,7 +939,13 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用しましょう。
 
     # npm install -g droonga-http-server
 
-次に、環境変数 `DROONGA_BASE_DIR` で示されているディレクトリに設定ファイル `droonga-http-server.yaml` を置きます。
+次に、サービス用のユーザを用意します。
+
+    # useradd -m droonga-http-server
+    $ sudo -u droonga-http-server -H mkdir ~droonga-http-server/droonga
+    $ cd ~droonga-http-server/droonga
+
+以下の内容で設定ファイル `droonga-http-server.yaml` を設定ディレクトリ内に作成します。
 
 droonga-http-server.yaml:
 
@@ -957,19 +961,19 @@ droonga-http-server.yaml:
     port:        10041
     environment: production
     engine:
-      host:          192.168.100.50
-      receiver_host: 192.168.100.51
+      host:         192.168.100.50
+      receive_host: 192.168.100.51
 
 では、サーバを起動しましょう。
 
-    # droonga-http-server
+    $ sudo -u droonga-http-server -H droonga-http-server
 
 
 ### HTTPでの検索リクエスト
 
 準備が整いました。 Protocol Adapter に向けて HTTP 経由でリクエストを発行し、データベースに問い合わせを行ってみましょう。まずは `Shops` テーブルの中身を取得してみます。以下のようなリクエストを用います。(`attributes=_key` を指定しているのは「検索結果に `_key` 値を含めて返してほしい」という意味です。これがないと、`records` に何も値がないレコードが返ってきてしまいます。`attributes` パラメータには `,` 区切りで複数の属性を指定することができます。`attributes=_key,location` と指定することで、緯度経度もレスポンスとして受け取ることができます)
 
-    # curl "http://192.168.100.50:10041/tables/Store?attributes=_key&limit=-1"
+    $ curl "http://192.168.100.50:10041/tables/Store?attributes=_key&limit=-1"
     {
       "stores": {
         "count": 40,
@@ -1102,7 +1106,7 @@ droonga-http-server.yaml:
 
 もう少し複雑なクエリを試してみましょう。例えば、店名に「Columbus」を含む店舗を検索します。`query` パラメータにクエリ `Columbus` を、`match_to` パラメータに検索対象として `_key` を指定し、以下のようなリクエストを発行します。
 
-    # curl "http://192.168.100.50:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
+    $ curl "http://192.168.100.50:10041/tables/Store?query=Columbus&match_to=_key&attributes=_key&limit=-1"
     {
       "stores": {
         "count": 2,
