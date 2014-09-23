@@ -21,11 +21,11 @@ layout: ja
 
 ## 前提条件
 
-* You must have an existing [Droonga][] cluster with some data.
-  Please complete the ["getting started" tutorial](../groonga/) before this.
+* 何らかのデータが格納されている状態の[Droonga][]クラスタがあること。
+  このチュートリアルを始める前に、[「使ってみる」のチュートリアル](../groonga/)を完了しておいて下さい。
 
-This tutorial assumes that there are two existing Droonga nodes prepared by the [previous tutorial](../groonga/): `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), and there is another computer `node2` (`192.168.100.52`) as a working environment.
-If you have Droonga nodes with other names, read `node0`, `node1` and `node2` in following descriptions as yours.
+このチュートリアルでは、[1つ前のチュートリアル](../groonga/)で準備した2つの既存のDroongaノード：`node0` (`192.168.100.50`) 、 `node1` (`192.168.100.51`) と、作業環境として使うもう1台のコンピュータ `node2` (`192.168.100.52`) があると仮定します。
+あなたの手元にあるDroongaノードがこれとは異なる名前である場合には、以下の説明の中の`node0`、`node1`、`node2`は実際の物に読み替えて下さい。
 
 ## Droongaクラスタのデータをバックアップする
 
@@ -33,7 +33,9 @@ If you have Droonga nodes with other names, read `node0`, `node1` and `node2` in
 
 最初に、Rubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:
 
-### `drndump` のインストール
+~~~
+# gem install drndump
+~~~
 
 その後、`drndump` コマンドが正しくインストールできたかどうかを確認します:
 
@@ -46,7 +48,7 @@ drndump 1.0.0
 
 `drndump` コマンドはすべてのスキ−マ定義とデータをJSONs形式で取り出します。既存のDroongaクラスタのすべての内容をダンプ出力してみましょう。
 
-For example, if your cluster is constructed from two nodes `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), and now you are logged in to new another computer `node2` (`192.168.100.52`). then the command line is:
+例えば、クラスタが `node0` (`192.168.100.50`) と `node1` (`192.168.100.51`) の2つのノードから構成されていて、別のホスト `node2` (`192.168.100.52`) にログインしている場合、コマンドラインは以下の要領です。
 
 ~~~
 # drndump --host=node0 \
@@ -123,7 +125,9 @@ $ drndump --host=node0 \
 Droongaクラスタにそれらのメッセージを送信するには、`droonga-send` コマンドを使います。
 このコマンドを含んでいるGemパッケージ `droonga-client` をインストールして下さい:
 
-### `droonga-client`のインストール
+~~~
+# gem install droonga-client
+~~~
 
 `droonga-send` コマンドが正しくインストールされた事を確認しましょう:
 
@@ -134,7 +138,7 @@ droonga-send 0.1.9
 
 ### 空のDroongaクラスタを用意する
 
-Assume that there is an empty Droonga cluster constructed from two nodes `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), now you are logged in to the host `node2` (`192.168.100.52`), and there is a dump file `dump.jsons`.
+2つのノード `node0` (`192.168.100.50`) と `node1` (`192.168.100.51`) からなる空のクラスタがあり、今 `node2` (`192.168.100.52`) にログインして操作を行っていて、ダンプファイルが `dump.jsons` という名前で手元にあると仮定します。
 
 もし順番にこのチュートリアルを読み進めているのであれば、クラスタとダンプファイルが既に手元にあるはずです。以下の操作でクラスタを空にしましょう:
 
