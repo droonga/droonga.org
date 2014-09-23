@@ -1,5 +1,5 @@
 ---
-title: "Droonga tutorial: How to setup Droonga services without installation script?"
+title: "Droonga チュートリアル: インストールスクリプトを使わずにDroongaの構成サービスをセットアップする手順"
 layout: ja
 ---
 
@@ -17,33 +17,33 @@ layout: ja
 
 ## チュートリアルのゴール
 
-Learning steps to setup a Droonga node manually, without installation script.
+インストールスクリプトを使わずに、Droongaノードを手動でセットアップするための手順を学ぶこと。
 
-## Why manual install?
+## なぜ手動インストールが必要なのか？
 
-The installation script of `droonga-engine` and `droonga-http-server` works only on several environments, for now:
+`droonga-engine`と~droonga-http-server`のインストールスクリプトは、現在の所、いくつかの環境でのみ動作します:
 
- * Debian GNU/Linux (latest release)
- * Ubuntu (latest release, latest LTS)
+ * Debian GNU/Linux (最新のリリース)
+ * Ubuntu (最新のリリース、最新のLTS)
  * CentOS 7
 
-Otherwise, you have to install services maually.
-(If you have knowledge to support other platforms, please send a pull request!)
+それ以外の環境では、サービスを手動でインストールする必要があります。
+（上記以外の環境に対応するための知識をお持ちの場合、是非プルリクエストをお送り下さい！）
 
-This tutorial describes how to setup `droonga-engine` and `droonga-http-server` without installation script.
+このチュートリアルでは、`droonga-engine`と`droonga-http-server`をインストールスクリプトを使わずにセットアップする方法を解説します。
 
-## Requirements
+## 必要な物
 
- * 2GB or larger size RAM.
-   Because the gem package `rroonga` (required by `droonga-engine`) includes a native extension, you won't be able to install it successfully if you have only less RAM.
- * Available `gem` command for the RubyGems.
- * Available `npm` command for the npmjs.org.
+ * 2GB以上の大きさのRAM。
+   Gemパッケージ`rroonga`（`droonga-engine`によって要求されます）はネイティブ拡張を含んでおり、RAMの搭載量が小さいと、これをインストールすることができません。
+ * RubyGemsのための`gem`コマンドが利用できる状態になっていること。
+ * npmjs.orgのための`npm`コマンドが利用できる状態になっていること。
 
-## Steps to install services
+## サービスのインストール手順
 
- 1. Install platform packages required to install `gem` and `npm` packages with native extensions.
-    For example, on an Ubuntu server you'll have to install these packages via `apt`: `ruby`, `ruby-dev`, `build-essential`, `nodejs`, `nodejs-legacy`, and `npm`.
-    On a CentOS 6.x server, you can prepare required environment by these steps:
+ 1. ネイティブ拡張を伴う`gem`や`npm`のパッケージをインストールするために必要な、プラットフォームごとのパッケージをインストールする。
+    例えば、Ubuntuサーバであれば`apt`を使って以下のパッケージをインストールします：`ruby`, `ruby-dev`, `build-essential`, `nodejs`, `nodejs-legacy`, `npm` 
+    CentOS 6.xサーバでは、以下の手順で必要な環境を用意できます:
     
         # yum -y groupinstall development
         # curl -L get.rvm.io | bash -s stable
@@ -52,74 +52,79 @@ This tutorial describes how to setup `droonga-engine` and `droonga-http-server` 
         # rvm install 2.1.2
         # yum -y install npm
     
- 2. Install a gem package `droonga-engine`.
-    It is the core component provides most features of Droonga system.
+ 2. Gemパッケージ `droonga-engine` をインストールする。
+    これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。
     
         # gem install droonga-engine
     
- 3. Install an npm package `droonga-http-server`.
-    It is the frontend component required to translate HTTP requests to Droonga's native one.
+ 3. npmパッケージ `droonga-http-server` をインストールする。
+    これはHTTPのリクエストをDroongaネイティブのリクエストに変換するために必要な、フロントエンドとなるコンポーネントです。
     
         # npm install -g droonga-http-server
     
- 4. Prepare users for each service.
-    All configuration files and physical databases are placed under their home directories.
+ 4. 描くサービスのためのユーザを作成する。
+    すべての設定ファイルと物理的なデータベースは、これらのユーザのホームディレクトリ以下に置かれます。
     
         # useradd -m droonga-engine
         # useradd -m droonga-http-server
     
- 5. Prepare a configuration directory `droonga` under the home directory of the `droonga-engine` user.
+ 5. 設定の置き場所となる`droonga`ディレクトリを、各ユーザのホーム直下に作成する。
     
         # mkdir ~droonga-engine/droonga
         # mkdir ~droonga-http-server/droonga
     
- 6. Create a `droonga-engine.yaml` and `catalog.json` for `droonga-engine`.
-    Currently you have to specify correct host name or IP address of the computer itself which is accessible from other computers.
+ 6. そのノードの名前として、アクセス可能なホスト名またはIPアドレスを定義する。
+    [この名前は、他のコンピュータから名前解決できる必要があります。](../groonga/#accessible-host-name)
+    
+        # host=192.168.100.50
+    
+ 7. `droonga-engine`用の設定ファイル`droonga-engine.yaml`と`catalog.json`を作成する。
+    今の所、指定する必要があるのはそのノード自身の名前だけです。
     
         # cd ~droonga-engine/droonga
         # droonga-engine-configure --quiet --reset-config --reset-catalog \
-                                   --host=$(hostname) \
+                                   --host=$host \
                                    --daemon \
                                    --pid-file=droogna-engine.pid
         # chown -R droogna-engine:droonga-engine ~droonga-engine/droonga
     
- 7. Create a `droonga-http-server.yaml` for `droonga-http-server`.
-    Currently you have to specify the host name of the droonga-engine node and correct host name or IP address of the computer itself which is accessible from other computers.
-    For example, if both services work on the computer:
+ 8. `droonga-http-server`用の設定ファイル`droonga-http-server.yaml`を作成する。
+    今の所、指定する必要があるのは接続先にするdroonga-engineノードの名前と、そのノード自身の名前だけです。
+    例えば、両方のサービスがそのコンピュータの上で動作するのであれば以下のようにします:
     
         # cd ~droonga-http-server/droonga
         # droonga-http-server-configure --quiet --reset-config \
-                                        --droonga-engine-host-name=$(hostname) \
-                                        --receiver-host-name=$(hostname) \
+                                        --droonga-engine-host-name=$host \
+                                        --receiver-host-name=$host \
                                         --daemon \
                                         --pid-file=droonga-http-server.pid
         # chown -R droogna-http-server:droonga-http-server ~droonga-http-server/droonga
 
-## How to start services {#start-services}
+## サービスの起動方法 {#start-services}
 
-To start the `droonga-engine` service, run the `droonga-engine` command in the configuration directory, like:
+`droonga-engine`サービスを起動するには、以下のように、設定ディレクトリで`droonga-engine`コマンドを実行します:
 
     # cd ~droonga-engine/droonga
     # sudo -u droogna-engine -H droonga-engine
 
-To start the `droonga-http-server` service, run the `droonga-http-server` command in the configuration directory, like:
+`droonga-http-server`サービスを起動するには、以下のように、設定ディレクトリで`droonga-http-server`コマンドを実行します:
 
     # cd ~droonga-http-server/droonga
     # sudo -u droogna-http-server -H droonga-http-server
 
-Then, PID files are automatically generated and services start as daemons.
+すると、PIDファイルが自動的に作成され、サービスがデーモンとして動作し始めます。
 
-## How to stop services {#stop-services}
+## サービスの停止方法 {#stop-services}
 
-To stop the `droonga-engine` service, run the `droonga-engine-stop` command in the configuration directory, like:
+`droonga-engine`サービスを停止するには、以下のように`droonga-engine-stop`コマンドを実行します:
 
     # cd ~droonga-engine/droonga
     # sudo -u droogna-engine -H droonga-engine-stop
 
-To start the `droonga-http-server-stop` service, run the `droonga-http-server` command in the configuration directory, like:
+`droonga-http-server`サービスを停止するには、以下のように`droonga-http-server-stop`コマンドを実行します:
 
     # cd ~droonga-http-server/droonga
     # sudo -u droogna-http-server -H droonga-http-server-stop
 
-These commands automatically detect the location of PID files and stop daemon processes.
+これらのコマンドはPIDファイルの位置を自動的に検出し、デーモンのプロセスを停止します。
 
