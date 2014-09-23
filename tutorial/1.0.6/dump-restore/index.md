@@ -468,7 +468,7 @@ Absorbing...
 Done.
 ~~~
 
-To refresh the response cacne, restart the `droonga-http-server` on the destination node:
+To refresh response cacnes, restart the `droonga-http-server` on the destination node:
 
 ~~~
 (on node1)

@@ -141,23 +141,33 @@ If you are reading this tutorial sequentially after the [previous topic](../dump
 
 To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` on one of existing replica nodes or the new replica node, in the directory the `catalog.json` is located, like:
 
-    (on node2)
-    # droonga-engine-join --host=node2 \
-                          --replica-source-host=node0
-    Joining new replica to the cluster...
-    ...
-    Update existing hosts in the cluster...
-    ...
-    Done.
+~~~
+(on node2)
+# droonga-engine-join --host=node2 \
+                      --replica-source-host=node0
+Joining new replica to the cluster...
+...
+Update existing hosts in the cluster...
+...
+Done.
+~~~
 
- * You must specify the host name or the IP address of the new replica node, via the `--host` option.
- * You must specify the host name or the IP address of an existing node of the cluster, via the `--replica-source-host` option.
+ * You must specify the host name of the new replica node, via the `--host` option.
+ * You must specify the host name of an existing node of the cluster, via the `--replica-source-host` option.
 
 Then the command automatically starts to synchronize all data of the cluster to the new replica node.
 After data is successfully synchronized, the node restarts and joins to the cluster automatically.
 All nodes' `catalog.json` are also updated, and now, yes, the new node starts working as a replica in the cluster.
 
-You can confirm that, via the `system.status` command:
+To refresh response cacnes, restart the `droonga-http-server` on all nodes:
+
+~~~
+(on node0, node1, node2)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
+You can confirm that they are working as a cluster, via the `system.status` command:
 
 ~~~
 # curl "http://node0:10041/droonga/system/status" | jq "."
@@ -199,12 +209,13 @@ Assume that there is a Droonga cluster constructed with trhee replica nodes `nod
 
 To remove a replica from an existing cluster, you just run the `droonga-engine-unjoin` command on any existing node in the cluster, in the directory the `catalog.json` is located, like:
 
-    (on node0)
-    # cd ~/droonga
-    # droonga-engine-unjoin --host=node2
-    Unjoining replica from the cluster...
-    ...
-    Done.
+~~~
+(on node0)
+# droonga-engine-unjoin --host=node2
+Unjoining replica from the cluster...
+...
+Done.
+~~~
 
  * You must specify the host name or the IP address of an existing node to be removed from the cluster, via the `--host` option.
  * You must run the command in the directory `catalog.json` is located, or specify path to the directory via the `--base-dir` option.
@@ -212,7 +223,15 @@ To remove a replica from an existing cluster, you just run the `droonga-engine-u
 Then the specified node automatically unjoins from the cluster, and all nedes' `catalog.json` are also updated.
 Now, the node has been successfully unjoined from the cluster.
 
-You can confirm that, via the `system.status` command:
+To refresh response cacnes, restart the `droonga-http-server` on all nodes:
+
+~~~
+(on node0, node1, node2)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
+You can confirm that the `node2` is successfully unjoined, via the `system.status` command:
 
 ~~~
 # curl "http://node0:10041/droonga/system/status" | jq "."
@@ -249,6 +268,10 @@ You can confirm that, via the `system.status` command:
   }
 }
 ~~~
+
+Note that the `node2` also says that the `node2` is not a member of the cluster.
+This is the difference between a node unjoined from a cluster and a new node.
+
 
 ## Replace an existing replica node in a cluster with a new one
 
