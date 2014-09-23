@@ -43,7 +43,7 @@ First, install a command line tool named `drndump` via rubygems:
 
 After that, establish that the `drndump` command has been installed successfully:
 
-    # drndump --version
+    $ drndump --version
     drndump 1.0.0
 
 ### Dump all data in a Droonga cluster
@@ -104,15 +104,15 @@ For example, if your cluster is constructed from two nodes `node0` (`192.168.100
 
 Note to these things:
 
- * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
+ * You must specify valid host name of one of nodes in the cluster, via the option `--host`.
  * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
-   It is used by the Droonga cluster, to send messages.
+   It is used by the Droonga cluster, to send response messages.
  * The result includes complete commands to construct a dataset, same to the source.
 
 The result is printed to the standard output.
 To save it as a JSONs file, you'll use a redirection like:
 
-    # drndump --host=node0 \
+    $ drndump --host=node0 \
               --receiver-host=node2 \
         > dump.jsons
 
@@ -130,7 +130,7 @@ Install the command included in the package `droonga-client`, via rubygems:
 
 After that, establish that the `droonga-send` command has been installed successfully:
 
-    # droonga-send --version
+    $ droonga-send --version
     droonga-send 0.1.9
 
 ### Prepare an empty Droonga cluster
@@ -141,8 +141,8 @@ If you are reading this tutorial sequentially, you'll have an existing cluster a
 Make it empty with these commands:
 
 ~~~
-# endpoint="http://node0:10041"
-# curl "$endpoint/d/table_remove?name=Location" | jq "."
+$ endpoint="http://node0:10041"
+$ curl "$endpoint/d/table_remove?name=Location" | jq "."
 [
   [
     0,
@@ -151,7 +151,7 @@ Make it empty with these commands:
   ],
   true
 ]
-# curl "$endpoint/d/table_remove?name=Store" | jq "."
+$ curl "$endpoint/d/table_remove?name=Store" | jq "."
 [
   [
     0,
@@ -160,7 +160,7 @@ Make it empty with these commands:
   ],
   true
 ]
-# curl "$endpoint/d/table_remove?name=Term" | jq "."
+$ curl "$endpoint/d/table_remove?name=Term" | jq "."
 [
   [
     0,
@@ -174,8 +174,8 @@ Make it empty with these commands:
 After that the cluster becomes empty. Confirm it:
 
 ~~~
-# endpoint="http://node0:10041"
-# curl "$endpoint/d/table_list" | jq "."
+$ endpoint="http://node0:10041"
+$ curl "$endpoint/d/table_list" | jq "."
 [
   [
     0,
@@ -219,7 +219,7 @@ After that the cluster becomes empty. Confirm it:
     ]
   ]
 ]
-# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -245,7 +245,7 @@ You just have to pour the contents of the dump file to an empty cluster, by the 
 To restore the cluster from the dump file, run a command line like:
 
 ~~~
-# droonga-send --server=node0  \
+$ droonga-send --server=node0  \
                     dump.jsons
 ~~~
 
@@ -258,7 +258,7 @@ Note to these things:
 Then the data is completely restored. Confirm it:
 
 ~~~
-# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -333,16 +333,16 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
     # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
                                     --update \
                                     --replica-hosts=node1
-    # endpoint="http://node1:10041"
-    # curl "$endpoint/d/table_remove?name=Location"
-    # curl "$endpoint/d/table_remove?name=Store"
-    # curl "$endpoint/d/table_remove?name=Term"
+    $ endpoint="http://node1:10041"
+    $ curl "$endpoint/d/table_remove?name=Location"
+    $ curl "$endpoint/d/table_remove?name=Store"
+    $ curl "$endpoint/d/table_remove?name=Term"
 
 After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
 
 
 ~~~
-# curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -350,7 +350,7 @@ After that there are two clusters: one contains `node0` with data, another conta
     }
   }
 }
-# curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -401,7 +401,7 @@ After that there are two clusters: one contains `node0` with data, another conta
     ]
   ]
 ]
-# curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node1:10031/droonga": {
@@ -409,7 +409,7 @@ After that there are two clusters: one contains `node0` with data, another conta
     }
   }
 }
-# curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -436,7 +436,7 @@ To copy data between two clusters, run the `droonga-engine-absorb-data` command 
 
 ~~~
 (on node0 or node1)
-# droonga-engine-absorb-data --source-host=node0 \
+$ droonga-engine-absorb-data --source-host=node0 \
                              --destination-host=node1
 Start to absorb data from node0
                        to node1
@@ -452,7 +452,7 @@ Done.
 After that contents of these two clusters are completely synchronized. Confirm it:
 
 ~~~
-# curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -503,7 +503,7 @@ After that contents of these two clusters are completely synchronized. Confirm i
     ]
   ]
 ]
-# curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -573,7 +573,7 @@ Run following command lines to unite these two clusters:
 After that there is just one cluster - yes, it's the initial state.
 
 ~~~
-# curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
