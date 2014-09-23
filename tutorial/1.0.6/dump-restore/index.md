@@ -24,12 +24,16 @@ If you have Droonga nodes with other names, read `node0` and `node1` in followin
 
 First, install a command line tool named `drndump` via rubygems:
 
-    # gem install drndump
+~~~
+# gem install drndump
+~~~
 
 After that, establish that the `drndump` command has been installed successfully:
 
-    $ drndump --version
-    drndump 1.0.0
+~~~
+$ drndump --version
+drndump 1.0.0
+~~~
 
 ### Dump all data in a Droonga cluster
 
@@ -97,9 +101,11 @@ Note to these things:
 The result is printed to the standard output.
 To save it as a JSONs file, you'll use a redirection like:
 
-    $ drndump --host=node0 \
-              --receiver-host=node2 \
-        > dump.jsons
+~~~
+$ drndump --host=node0 \
+          --receiver-host=node2 \
+    > dump.jsons
+~~~
 
 
 ## Restore data to a Droonga cluster
@@ -111,12 +117,16 @@ The result of `drndump` command is a list of Droonga messages.
 You need to use `droonga-send` command to send it to your Droogna cluster.
 Install the command included in the package `droonga-client`, via rubygems:
 
-    # gem install droonga-client
+~~~
+# gem install droonga-client
+~~~
 
 After that, establish that the `droonga-send` command has been installed successfully:
 
-    $ droonga-send --version
-    droonga-send 0.1.9
+~~~
+$ droonga-send --version
+droonga-send 0.1.9
+~~~
 
 ### Prepare an empty Droonga cluster
 
@@ -437,8 +447,6 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
   ]
 ]
 ~~~
-
-Note: `/droonga/system/status` may not return the result like above. It can cache the result of old status. We have to update these codes to confirm cluster changes.
 
 
 ### Duplicate data between two Droonga clusters

@@ -205,15 +205,19 @@ Let's continue to [the next step, "how to use the cluster"](#use).
 
 You can run Groonga as an HTTP server daemon with the option `-d`, like:
 
-    # groonga -p 10041 -d --protocol http /tmp/databases/db
+~~~
+# groonga -p 10041 -d --protocol http /tmp/databases/db
+~~~
 
 On the other hand, you have to run multiple server daemons for each Droonga node to use your Droonga cluster via HTTP.
 
 If you set up your Droonga nodes by installation scripts, daemons are already been configured as system services managed via the `service` command.
 To start them, run commands like following on each Droonga node:
 
-    # service droonga-engine start
-    # service droonga-http-server start
+~~~
+# service droonga-engine start
+# service droonga-http-server start
+~~~
 
 If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#start-services).
 
@@ -258,8 +262,10 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 
 To stop services, run commands like following on each Droonga node:
 
-    # service droonga-engine stop
-    # service droonga-http-server stop
+~~~
+# service droonga-engine stop
+# service droonga-http-server stop
+~~~
 
 If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#stop-services).
 
