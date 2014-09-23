@@ -36,86 +36,177 @@ Droongaは分散アーキテクチャに基づくデータ処理エンジンで�
 
 ## Droongaクラスタをセットアップする
 
-### 実験用の環境を準備する
-
-まず最初にコンピュータを用意します。
-このチュートリアルは、既存のコンピュータを使ってDroongaクラスタを構築する手順について解説しています。
-以下の説明は基本的には、[DigitalOcean](https://www.digitalocean.com/)上のサーバで`Ubuntu 13.10 x64`または`CentOS 6.5 x64`の仮想マシンが正しく準備されており、コンソールが利用できる状態になっている、という前提に基づいています。
-
-注意：Droongaの依存パッケージをインストールする前に、仮想マシンのインスタンスが少なくとも2GB以上のメモリを備えていることを確認して下さい。
-メモリが足りないと、ビルド時におかしなエラーに遭遇することになります。
-
-また、有効なレプリケーションを実現するためには2台以上のコンピュータを用意する必要もあります。
-
-### Droongaの構成コンポーネントをインストールする
-
 Droongaベースのデータベースシステムは、*Droongaクラスタ*と呼ばれます。
-Droongaクラスタは、*Droongaノード*と呼ばれる複数のコンピュータによって構成されます。
-よって、Droongaクラスタを構築するには複数のDroongaノードをセットアップする必要があります。
+この節では、Droongaクラスタを0から構築する方法を解説します。
 
-`192.168.100.50`と`192.168.100.51`の2つのコンピュータがあると仮定しましょう。
+### Droongaノード用のコンピュータを用意する
+
+Droongaクラスタは、*Droongaノード*と呼ばれる1つ以上のコンピュータによって構成されます。
+まず、Droongaノードにするためのコンピュータを用意しましょう。
+
+このチュートリアルは、既存のコンピュータを使ってDroongaクラスタを構築する手順について解説しています。
+以下の説明は基本的には、[DigitalOcean](https://www.digitalocean.com/)上のサーバで`Ubuntu 14.04 x64`または`CentOS 7 x64`の仮想マシンが正しく準備されており、コンソールが利用できる状態になっている、という前提に基づいています。
+
+注意:
+
+ * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
+   Otherwise, you may experience a strange build error.
+ * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` have to be accessible from each other computer in your cluster.
+
+有効なレプリケーションを実現するためには2台以上のコンピュータを用意する必要があります。
+ですので、このチュートリアルでは以下のような2台のコンピュータがあると仮定して説明を進めます:
+
+ * IPアドレスが`192.168.100.50`で、ホスト名が`node0`であるコンピュータ。
+ * IPアドレスが`192.168.100.51`で、ホスト名が`node1`であるコンピュータ。
+
+## コンピュータをDroongaノードとしてセットアップする
 
 Groongaはバイナリのパッケージを提供しているため、環境によっては簡単にインストールできます。
 （[Groongaのインストール手順](http://groonga.org/docs/install.html)を参照）
 
-On the other hand, there is an installation script to set up a database system based on Droonga.
-If you are using a Ubuntu, Debian, or a CentOS 7 (and later) server, download the script and run it by `bash`, as the root user, like:
+それに対し、コンピュータをDroongaノードとしてセットアップする手順は以下の通りです:
+
+ 1. `droonga-engine`をインストールする。
+ 2. `droonga-http-server`をインストールする。
+ 3. そのノードを他のノードと協調して動作するように設定する。
+
+上記の手順を各コンピュータに対して実施する必要があることに注意して下さい。
+しかしながら、各手順は非常に簡単です。
+
+それでは、`node0` (`192.168.100.50`)にログインしてDroongaの構成コンポーネントをインストールしましょう。
+
+まず、`droonga-engine`をインストールします。
+これはDroongaシステムの主要な機能を提供する、核となるコンポーネントです。
+インストールスクリプトをダウンロードし、root権限で`bash`で実行して下さい:
 
 ~~~
-(on 192.168.100.50)
-$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    sudo HOST=192.168.100.50 bash
-$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    sudo ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
-
-(on 192.168.100.51)
-$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    sudo HOST=192.168.100.51 bash
-$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    sudo ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
-~~~
-
-or:
-
-~~~
-(on 192.168.100.50)
-$ su
 # curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    HOST=192.168.100.50 bash
-# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    ENGINE_HOST=192.168.100.50 HOST=192.168.100.50 bash
+    bash
+...
+Installing droonga-engine from RubyGems...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+This node is configured with a hostname XXXXXXXX.
 
-(on 192.168.100.51)
-$ su
+Registering droonga-engine as a service...
+...
+Successfully installed droonga-engine.
+~~~
+
+そのノード自身の名前（コンピュータのホスト名から推測されたもの）がメッセージの中に出力されていることに注意して下さい。
+*この名前は様々な場面で使われます*ので、*各ノードの名前が何であるかを忘れないようにして下さい*
+
+次に、`droonga-http-server`をインストールします。
+これはHTTPのリクエストをDroongaネイティブのリクエストに変換するために必要な、フロントエンドとなるコンポーネントです。
+インストールスクリプトをダウンロードし、root権限で`bash`で実行して下さい:
+
+~~~
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    bash
+...
+Installing droonga-http-server from npmjs.org...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+The droonga-engine service is detected on this node.
+The droonga-http-server is configured to be connected
+to this node (XXXXXXXX).
+This node is configured with a hostname XXXXXXXX.
+
+Registering droonga-http-server as a service...
+...
+Successfully installed droonga-http-server.
+~~~
+
+インストールスクリプトが期待通りに動作せずインストールできない場合は、[インストールスクリプトを使わない手動インストールの手順](../manual-install/)を参照して下さい。
+
+ここまでの操作が終わったら、同じ操作をもう1台のコンピュータ `node1` (`192.168.100.51`) に対しても行います。
+これで、無事に2台のコンピュータをDroongaノードとして動作させるための準備が整いました。
+
+### コンピュータが他のコンピュータからアクセスできるホスト名を持っていない場合…… {#accessible-host-name}
+
+各Droongaノードは、他のノードと通信するために、そのノード自身の*アクセス可能な名前*を把握している必要があります。
+
+インストールスクリプトはそのノードのアクセス可能なホスト名を自動的に推測します。
+どのような値がそのノード自身のホストメイトして認識されたかは、以下の手順で確認できます:
+
+~~~
+# cat ~droonga-engine/droonga/droonga-engine.yaml | grep host
+host: XXXXXXXX
+~~~
+
+しかしながら、そのコンピュータが適切に設定されていないと、この自動認識に失敗することがあります。
+例えば、そのノードのホスト名が`node0`であると設定されているにも関わらず、他のノードが`node0`というホスト名から実際のIPアドレスを名前解決できないと、そのノードは他のノードから送られてくるメッセージを何も受信することができません。
+
+そのような場合、以下のようにして、そのノード自身のIPアドレスを使ってノードを再設定する必要があります:
+
+~~~
+(on node0=192.168.100.50)
+# host=192.168.100.50
+# droonga-engine-configure --quiet --reset-config --reset-catalog \
+                           --host=$host
+# droonga-http-server-configure --quiet --reset-config \
+                                --droonga-engine-host-name=$host \
+                                --receive-host-name=$host
+
+(on node1=192.168.100.51)
+# host=192.168.100.51
+...
+~~~
+
+この操作により、コンピュータ `node0` は `192.168.100.50` というホスト名のDroongaノード、コンピュータ `node1` は `192.168.100.51` というホスト名のDroongaノードとして設定されます。
+前述した通り、*ここで設定された名前は様々な場面で使われます*ので、*各ノードの名前が何であるかを忘れないようにして下さい*。
+
+このチュートリアルでは、各コンピュータはお互いのホスト名`node0`と`node1`を正しく名前解決できるものと仮定します。
+あなたの環境ではホスト名の解決ができないという場合には、以下の説明の中の`node0`と`node1`は、実際のIPアドレス（例えば`192.168.100.50`と`192.168.100.51`）に読み替えて下さい。
+
+ちなみに、インストールスクリプトに対しても、以下のように、環境変数を使って任意の値をホスト名として指定することができます:
+
+~~~
+(on node0=192.168.100.50)
+# host=192.168.100.50
 # curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    HOST=192.168.100.51 bash
+    HOST=$host bash
 # curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    ENGINE_HOST=192.168.100.51 HOST=192.168.100.51 bash
+    ENGINE_HOST=$host HOST=$host bash
+
+(on node1=192.168.100.51)
+# host=192.168.100.51
+...
 ~~~
 
-And, let's configure these nodes to work together as a cluster:
+この方法は、使おうとしているコンピュータがお互いのホスト名を名前解決できないことがあらかじめ分かっている場合に便利でしょう。
+
+### 各ノードをクラスタとして動作するように設定する
+
+現時点で、これらのノードはまだ個別に動作する状態になっています。
+それでは、これらを1つのクラスタとして動作するように設定しましょう。
+
+以下のようなコマンドを各ノードで実行して下さい:
 
 ~~~
-(on 192.168.100.50, 192.168.100.51)
-$ sudo -u droonga-engine -H \
-    droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                    --output=~droonga-engine/droonga/catalog.json
-~~~
-
-or:
-
-~~~
-(on 192.168.100.50, 192.168.100.51)
-$ su
-# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+# droonga-engine-catalog-generate --hosts=node0,node1 \
                                   --output=~droonga-engine/droonga/catalog.json
 # chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json
 ~~~
 
-OK, now your Droonga cluster is correctly prepared.
-Let's continue to [the next step, "how to use the cluster"](#use).
+当然ながら、`--hosts`オプションには各ノードの正しいホスト名を指定する必要があります。
+もしこれらのノードがIPアドレスをホスト名として設定されている場合には、コマンド列は以下のようになります:
 
-If the installation script doesn't work on your platform, see [the tutorial to install services without installation script](../manual-install/).
+~~~
+# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+                                  --output=~droonga-engine/droonga/catalog.json
+...
+~~~
+
+これで、Droongaクラスタの準備が完了しました。
+2つのノードは1つのDroongaクラスタとして動作するための準備が完了しています。
+
+引き続き、[クラスタの使い方の説明](#use)に進みましょう。
+
 
 ## DroongaクラスタをHTTP経由で使用する
 
@@ -123,31 +214,38 @@ If the installation script doesn't work on your platform, see [the tutorial to i
 
 GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプションを指定するだけでサーバを起動できます：
 
-    # groonga -p 10041 -d --protocol http /tmp/databases/db
+~~~
+# groonga -p 10041 -d --protocol http /tmp/databases/db
+~~~
 
-一方、DroongaクラスタをHTTP経由で使うためには、各Droongaノードにおいて複数のサービスを起動する必要があります。
+一方、DroongaクラスタをHTTP経由で使うためには、各Droongaノードにおいて複数のサーバ・デーモンを起動する必要があります。
 
-If services are installed by the installation script, they are already been configured as system services managed via the `service` command.
-To start them, run commands like following on each Droonga node:
+Droongaノードをインストールスクリプトを使ってセットアップした場合、デーモンは既に、`service`コマンドによって管理されるシステムのサービスとして設定されています。
+サービスを起動するには、以下のようなコマンドを各Droongaノードで実行して下さい:
 
-    # service droonga-engine start
-    # service droonga-http-server start
+~~~
+# service droonga-engine start
+# service droonga-http-server start
+~~~
 
-If you installed services manually, see [the manual installation tutorial](../manual-install/#start-services).
+Droongaノードを手動でセットアップした場合のデーモンの起動方法は、[手動インストールの手順の説明](../manual-install/#start-services)を参照して下さい。
 
-このコマンドにより、2つのノードはクラスタを形成し、互いの生死を監視するようになります。もしクラスタ内のどれか1つのノードが機能を停止し、他のノードがまだ機能し続けていた場合には、残ったノードがDroongaクラスタとして動作し続けます。そのため、そのような事態が起こっても秘密裏に、機能停止したノードを復旧したりクラスタに復帰させたりすることができます。
+これらのコマンドにより、各サービスが動作し始めます。
+これで、2つのノードは1つのクラスタを形成し、お互いの状態を監視し合う状態になりました。
+もしノードが1つ停止しても、他のノードが生存していれば、それらの生存ノードだけでDroongaクラスタは動作し続けます。
+ですので、秘密裏のうちに機能停止したノードを復旧したりクラスタに復帰させたりすることができます。
 
 クラスタが動作している事を、`system.status` コマンドを使って確認してみましょう。
 コマンドはHTTP経由で実行できます:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
@@ -158,13 +256,13 @@ If you installed services manually, see [the manual installation tutorial](../ma
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
 ~~~
-# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
@@ -173,23 +271,25 @@ Droongaはクラスタで動作するので、他のエンドポイントも同�
 
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
-    # service droonga-engine stop
-    # service droonga-http-server stop
+~~~
+# service droonga-engine stop
+# service droonga-http-server stop
+~~~
 
-If you installed services manually, see [the manual installation tutorial](../manual-install/#stop-services).
+Droongaノードを手動でセットアップした場合のデーモンの停止方法は、[手動インストールの手順の説明](../manual-install/#stop-services)を参照して下さい。
 
 確認が終わったら、再度サービスを起動しておきましょう：
 
 ### テーブル、カラム、インデックスの作成
 
-以上の手順で、Groonga HTTPサーバ互換のサービスとして動作するDroongaクラスタができました。
+以上の手順で、Groonga HTTPサーバ互換のHTTPサーバとして動作するDroongaクラスタができました。
 
 リクエストの送信方法はGroongaサーバの場合と全く同じです。
 新しいテーブル `Store` を作るには、`table_create` コマンドにあたるGETリクエストを送信して下さい:
 
 ~~~
-# endpoint="http://192.168.100.50:10041"
-# curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
+$ endpoint="http://node0:10041"
+$ curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
 [
   [
     0,
@@ -208,7 +308,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
 次は、`column_create` コマンドを使って `Store` テーブルに `name` と `location` という新しいカラムを作ります:
 
 ~~~
-# curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText" | jq "."
+$ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText" | jq "."
 [
   [
     0,
@@ -217,7 +317,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
   ],
   true
 ]
-# curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint" | jq "."
+$ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint" | jq "."
 [
   [
     0,
@@ -231,7 +331,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
 インデックスも作成しましょう。
 
 ~~~
-# curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto" | jq "."
+$ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto" | jq "."
 [
   [
     0,
@@ -240,7 +340,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
   ],
   true
 ]
-# curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name" | jq "."
+$ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name" | jq "."
 [
   [
     0,
@@ -249,7 +349,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
   ],
   true
 ]
-# curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint" | jq "."
+$ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint" | jq "."
 [
   [
     0,
@@ -258,7 +358,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
   ],
   true
 ]
-# curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location" | jq "."
+$ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location" | jq "."
 [
   [
     0,
@@ -275,7 +375,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
 `table_list` コマンドを使って、作成されたテーブルの情報を見てみましょう:
 
 ~~~
-# curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list" | jq "."
 [
   [
     0,
@@ -334,7 +434,7 @@ If you installed services manually, see [the manual installation tutorial](../ma
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
 ~~~
-# curl "http://192.168.100.51:10041/d/table_list" | jq "."
+$ curl "http://node1:10041/d/table_list" | jq "."
 [
   [
     0,
@@ -446,7 +546,7 @@ stores.json:
 データが準備できたら、`load` コマンドのPOSTリクエストとして送信します:
 
 ~~~
-# curl --data "@stores.json" "$endpoint/d/load?table=Store" | jq "."
+$ curl --data "@stores.json" "$endpoint/d/load?table=Store" | jq "."
 [
   [
     0,
@@ -468,7 +568,7 @@ stores.json:
 試しに、`select` コマンドを使って最初の10レコードを取り出してみましょう:
 
 ~~~
-# curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -524,7 +624,7 @@ stores.json:
 もちろん、`query` オプションを使って検索条件を指定する事もできます:
 
 ~~~
-# curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -551,7 +651,7 @@ stores.json:
     ]
   ]
 ]
-# curl "$endpoint/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10" | jq "."
 [
   [
     0,

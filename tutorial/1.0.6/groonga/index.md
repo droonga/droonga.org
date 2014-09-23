@@ -42,8 +42,7 @@ NOTE:
 
  * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
    Otherwise, you may experience a strange build error.
- * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` is correctly accessible from each other computer in your cluster.
-   For simplicity,
+ * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` have to be accessible from each other computer in your cluster.
 
 You need to prepare two or more nodes for effective replication.
 So this tutorial assumes that you have two computers:
@@ -56,11 +55,11 @@ So this tutorial assumes that you have two computers:
 Groonga provides binary packages and you can install Groonga easily, for some environments.
 (See: [how to install Groonga](http://groonga.org/docs/install.html))
 
-On the other hand, steps to set up computers as Droonga nodes are:
+On the other hand, steps to set up a computer as a Droonga node are:
 
- 1. Install the `droonga-engine` *on each computer*.
- 2. Install the `droonga-http-server` *on each computer*.
- 3. Configure *each computer* to work together with each other.
+ 1. Install the `droonga-engine`.
+ 2. Install the `droonga-http-server`.
+ 3. Configure the node to work together with other nodes.
 
 Note that you must do all steps on each computer.
 However, they're very simple.
@@ -113,9 +112,10 @@ Registering droonga-http-server as a service...
 Successfully installed droonga-http-server.
 ~~~
 
-OK, now two computers successfully prepared to work as Droonga nodes.
-
 If installation scripts didn't work as expected and you couldn't install them, see [the tutorial to install services without installation script](../manual-install/).
+
+After that, do same operations on another computer `node1` (`192.168.100.51`) also.
+Then two computers successfully prepared to work as Droonga nodes.
 
 ### When your computers don't have a host name accessible from other computers... {#accessible-host-name}
 
@@ -219,7 +219,7 @@ To start them, run commands like following on each Droonga node:
 # service droonga-http-server start
 ~~~
 
-If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#start-services).
+If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#start-services) to know how to start daemons.
 
 By these commands, services start to work.
 Now two nodes construct a cluster and they monitor each other.
@@ -267,7 +267,7 @@ To stop services, run commands like following on each Droonga node:
 # service droonga-http-server stop
 ~~~
 
-If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#stop-services).
+If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#stop-services) to know how to stop daemons.
 
 After verification, start services again, on each Droonga node.
 
