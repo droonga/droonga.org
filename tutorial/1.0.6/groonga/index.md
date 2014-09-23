@@ -185,7 +185,7 @@ Run commands like this, on each node:
 ~~~
 
 Of course you must specify correct host name of nodes by the `--hosts` option.
-If your nodes are configured with raw IP addresses, the cmmand line is:
+If your nodes are configured with raw IP addresses, the command line is:
 
 ~~~
 # droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
