@@ -156,6 +156,14 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 ]
 ~~~
 
+And, restart the `droonga-http-server` service on each node to refresh response caches:
+
+~~~
+(on node0, node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
 After that the cluster becomes empty. Confirm it:
 
 ~~~
@@ -226,6 +234,14 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 
 Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
 You just have to pour the contents of the dump file to an empty cluster, by the `droonga-send` command.
+
+Before restoration, restart the `droonga-http-server` service on each node to refresh response caches:
+
+~~~
+(on node0, node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
 
 To restore the cluster from the dump file, run a command line like:
 
@@ -309,19 +325,29 @@ Assume that there are two clusters: the source has a node `node0` (`192.168.100.
 If you are reading this tutorial sequentially, you'll have an existing cluster with two nodes.
 Construct two clusters by `droonga-engine-catalog-modify` and make one cluster empty, with these commands:
 
-    (on node0)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --replica-hosts=node0
+~~~
+(on node0)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --replica-hosts=node0
+~~~
 
-    (on node1)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --replica-hosts=node1
-    $ endpoint="http://node1:10041"
-    $ curl "$endpoint/d/table_remove?name=Location"
-    $ curl "$endpoint/d/table_remove?name=Store"
-    $ curl "$endpoint/d/table_remove?name=Term"
+~~~
+(on node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --replica-hosts=node1
+$ endpoint="http://node1:10041"
+$ curl "$endpoint/d/table_remove?name=Location"
+$ curl "$endpoint/d/table_remove?name=Store"
+$ curl "$endpoint/d/table_remove?name=Term"
+~~~
+
+Note, don't forget to restart the "droonga-http-server" service on each node to refresh response caches, before separation.
 
 After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
 
@@ -434,60 +460,17 @@ Absorbing...
 Done.
 ~~~
 
+To refresh the response cacne, restart the `droonga-http-server` on the destination node:
+
+~~~
+(on node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
 After that contents of these two clusters are completely synchronized. Confirm it:
 
 ~~~
-$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
-[
-  [
-    0,
-    1401363556.0294158,
-    7.62939453125e-05
-  ],
-  [
-    [
-      [
-        40
-      ],
-      [
-        [
-          "name",
-          "ShortText"
-        ]
-      ],
-      [
-        "1st Avenue & 75th St. - New York NY  (W)"
-      ],
-      [
-        "76th & Second - New York NY  (W)"
-      ],
-      [
-        "Herald Square- Macy's - New York NY"
-      ],
-      [
-        "Macy's 5th Floor - Herald Square - New York NY  (W)"
-      ],
-      [
-        "80th & York - New York NY  (W)"
-      ],
-      [
-        "Columbus @ 67th - New York NY  (W)"
-      ],
-      [
-        "45th & Broadway - New York NY  (W)"
-      ],
-      [
-        "Marriott Marquis - Lobby - New York NY"
-      ],
-      [
-        "Second @ 81st - New York NY  (W)"
-      ],
-      [
-        "52nd & Seventh - New York NY  (W)"
-      ]
-    ]
-  ]
-]
 $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
@@ -545,15 +528,25 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 
 Run following command lines to unite these two clusters:
 
-    (on node0)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=node1
+~~~
+(on node0)
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --add-replica-hosts=node1
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
 
-    (on node1)
-    # droonga-engine-catalog-modify --source=~/droonga/catalog.json \
-                                    --update \
-                                    --add-replica-hosts=node0
+~~~
+(on node1)
+# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+                                --update \
+                                --add-replica-hosts=node0
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
+Note that you always have to restart the `droonga-http-server` service on nodes to refresh response caches.
 
 After that there is just one cluster - yes, it's the initial state.
 
