@@ -50,47 +50,40 @@ Assume that there is a Droonga cluster constructed with two replica nodes `node0
 
 First, prepare a new computer, install required softwares and configure them.
 
-    (on node2)
-    # apt-get update
-    # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-    # gem install droonga-engine
-    # npm install -g droonga-http-server
-    # mkdir ~/droonga
-    # echo "host:        node2"      >  ~/droonga/droonga-engine.yaml
-    # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
-    # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
-
-Then generate the `catalog.json` with only one replica, the new node itself:
-
-    (on node2)
-    # droonga-engine-catalog-generate --hosts=node2 \
-                                      --output=~/droonga/catalog.json
+~~~
+(on node2)
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=node2 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=node2 HOST=node2 bash
+~~~
 
 Note, you cannot add a non-empty node to an existing cluster.
 If the computer was used as a Droonga node in old days, then you must clear old data at first.
 
-    (on node2)
-    # droonga-engine-stop
-    # rm -rf ~/droonga
-    # mkdir ~/droonga
-    # droonga-engine-catalog-generate --hosts=node2 \
-                                      --output=~/droonga/catalog.json
+~~~
+(on node2)
+# droonga-engine-configure --quiet \
+                           --clear --reset-config --reset-catalog \
+                           --host=node2
+# droonga-http-server-configure --quiet --reset-config \
+                                --droonga-engine-host-name=node2 \
+                                --receive-host-name=node2
+~~~
 
-Let's start the server.
+Let's start services.
 
-    (on node2)
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
+~~~
+(on node2)
+# service start droonga-engine
+# service start droonga-http-server
+~~~
 
-Currently, the new node doesn't work as a node of the cluster, because it doesn't appear in the `catalog.json`.
-Even if you send requests to the new node, it just forwards all of them to other existing members of the cluster.
-
+Currently, the new node doesn't work as a node of the existing cluster.
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -101,7 +94,7 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -112,13 +105,10 @@ You can confirm that, via the `system.status` command:
     }
   }
 }
-# curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "node0:10031/droonga": {
-      "live": true
-    },
-    "node1:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
