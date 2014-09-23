@@ -117,7 +117,7 @@ OK, now two computers successfully prepared to work as Droonga nodes.
 
 If installation scripts didn't work as expected and you couldn't install them, see [the tutorial to install services without installation script](../manual-install/).
 
-### When your computers don't have a host name accessible from other computers...
+### When your computers don't have a host name accessible from other computers... {#accessible-host-name}
 
 Each Droonga node must know the *accessible host name* of the node itself, to communicate with other nodes.
 

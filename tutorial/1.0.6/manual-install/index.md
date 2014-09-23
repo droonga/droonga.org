@@ -64,24 +64,29 @@ This tutorial describes how to setup `droonga-engine` and `droonga-http-server` 
         # mkdir ~droonga-engine/droonga
         # mkdir ~droonga-http-server/droonga
     
- 6. Create a `droonga-engine.yaml` and `catalog.json` for `droonga-engine`.
-    Currently you have to specify correct host name or IP address of the computer itself which is accessible from other computers.
+ 6. Define an accessible host name or an IP address of the computer, for the node name.
+    [It must be resolvable from other computers.](../groonga/#accessible-host-name)
+    
+        # host=192.168.100.50
+    
+ 7. Create a `droonga-engine.yaml` and `catalog.json` for `droonga-engine`.
+    Currently you have to specify the name of the node itself.
     
         # cd ~droonga-engine/droonga
         # droonga-engine-configure --quiet --reset-config --reset-catalog \
-                                   --host=$(hostname) \
+                                   --host=$host \
                                    --daemon \
                                    --pid-file=droogna-engine.pid
         # chown -R droogna-engine:droonga-engine ~droonga-engine/droonga
     
- 7. Create a `droonga-http-server.yaml` for `droonga-http-server`.
-    Currently you have to specify the host name of the droonga-engine node and correct host name or IP address of the computer itself which is accessible from other computers.
+ 8. Create a `droonga-http-server.yaml` for `droonga-http-server`.
+    Currently you have to specify the host name of the droonga-engine node and the name of the node itself.
     For example, if both services work on the computer:
     
         # cd ~droonga-http-server/droonga
         # droonga-http-server-configure --quiet --reset-config \
-                                        --droonga-engine-host-name=$(hostname) \
-                                        --receiver-host-name=$(hostname) \
+                                        --droonga-engine-host-name=$host \
+                                        --receiver-host-name=$host \
                                         --daemon \
                                         --pid-file=droonga-http-server.pid
         # chown -R droogna-http-server:droonga-http-server ~droonga-http-server/droonga
