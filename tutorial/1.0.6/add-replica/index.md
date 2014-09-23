@@ -44,42 +44,42 @@ You can add a new replica, in the backstage, without downing your service.
 On the other hand, you have to stop inpouring of new data to the cluster until the new node starts working.
 (In the future we'll provide mechanism to add new nodes completely silently without any stopping of data-flow, but currently can't.)
 
-Assume that there is a Droonga cluster constructed with two replica nodes `192.168.100.50` and `192.168.100.51`, and we are going to add a new replica node `192.168.100.52`.
+Assume that there is a Droonga cluster constructed with two replica nodes `node0` and `node1`, and we are going to add a new replica node `node2`.
 
 ### Setup a new node
 
 First, prepare a new computer, install required softwares and configure them.
 
-    (on 192.168.100.52)
+    (on node2)
     # apt-get update
     # apt-get -y upgrade
     # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
     # gem install droonga-engine
     # npm install -g droonga-http-server
     # mkdir ~/droonga
-    # echo "host: 192.168.100.52"    >  ~/droonga/droonga-engine.yaml
+    # echo "host:        node2"      >  ~/droonga/droonga-engine.yaml
     # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
     # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
 
 Then generate the `catalog.json` with only one replica, the new node itself:
 
-    (on 192.168.100.52)
-    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+    (on node2)
+    # droonga-engine-catalog-generate --hosts=node2 \
                                       --output=~/droonga/catalog.json
 
 Note, you cannot add a non-empty node to an existing cluster.
 If the computer was used as a Droonga node in old days, then you must clear old data at first.
 
-    (on 192.168.100.52)
+    (on node2)
     # droonga-engine-stop
     # rm -rf ~/droonga
     # mkdir ~/droonga
-    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
+    # droonga-engine-catalog-generate --hosts=node2 \
                                       --output=~/droonga/catalog.json
 
 Let's start the server.
 
-    (on 192.168.100.52)
+    (on node2)
     # export DROONGA_BASE_DIR=$HOME/droonga
     # droonga-engine
     # droonga-http-server --cache-size=-1
@@ -90,35 +90,35 @@ Even if you send requests to the new node, it just forwards all of them to other
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+# curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
+# curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
+# curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
@@ -151,9 +151,9 @@ If you are reading this tutorial sequentially after the [previous topic](../dump
 
 To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` on one of existing replica nodes or the new replica node, in the directory the `catalog.json` is located, like:
 
-    (on 192.168.100.52)
-    # droonga-engine-join --host=192.168.100.52 \
-                          --replica-source-host=192.168.100.50
+    (on node2)
+    # droonga-engine-join --host=node2 \
+                          --replica-source-host=node0
     Joining new replica to the cluster...
     ...
     Update existing hosts in the cluster...
@@ -170,16 +170,16 @@ All nodes' `catalog.json` are also updated, and now, yes, the new node starts wo
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+# curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     },
-    "192.168.100.52:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
@@ -203,15 +203,15 @@ Then you have to remove dead nodes from the cluster.
 
 Of course, even if a node is still working, you may plan to remove it to reuse for another purpose.
 
-Assume that there is a Droonga cluster constructed with trhee replica nodes `192.168.100.50`, `192.168.100.51` and `192.168.100.52`, and planning to remove the last node `192.168.100.52` from the cluster.
+Assume that there is a Droonga cluster constructed with trhee replica nodes `node0`, `node1` and `node2`, and planning to remove the last node `node2` from the cluster.
 
 ### Unjoin an existing replica from the cluster
 
 To remove a replica from an existing cluster, you just run the `droonga-engine-unjoin` command on any existing node in the cluster, in the directory the `catalog.json` is located, like:
 
-    (on 192.168.100.50)
+    (on node0)
     # cd ~/droonga
-    # droonga-engine-unjoin --host=192.168.100.52
+    # droonga-engine-unjoin --host=node2
     Unjoining replica from the cluster...
     ...
     Done.
@@ -225,35 +225,35 @@ Now, the node has been successfully unjoined from the cluster.
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+# curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
+# curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
+# curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
@@ -264,25 +264,25 @@ You can confirm that, via the `system.status` command:
 
 Replacing of nodes is a combination of those instructions above.
 
-Assume that there is a Droonga cluster constructed with two replica nodes `192.168.100.50` and `192.168.100.51`, the node `192.168.100.51` is unstable, and planning to replace it with a new node `192.168.100.52`.
+Assume that there is a Droonga cluster constructed with two replica nodes `node0` and `node1`, the node `node1` is unstable, and planning to replace it with a new node `node2`.
 
 ### Unjoin an existing replica from the cluster
 
 First, remove the unstable node.
 Remove the node from the cluster, like:
 
-    (on 192.168.100.50)
+    (on node0)
     # cd ~/droonga
-    # droonga-engine-unjoin --host=192.168.100.51
+    # droonga-engine-unjoin --host=node1
 
 Now the node has been gone.
 You can confirm that via the `system.status` command:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+# curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     }
   }
@@ -294,9 +294,9 @@ You can confirm that via the `system.status` command:
 Next, setup the new replica.
 Install required packages, generate the `catalog.json`, and start services.
 
-    (on 192.168.100.52)
+    (on node2)
     # export DROONGA_BASE_DIR=$HOME/droonga
-    # echo "host: 192.168.100.52"    >  $DROONGA_BASE_DIR/droonga-engine.yaml
+    # echo "host:        node2"      >  $DROONGA_BASE_DIR/droonga-engine.yaml
     # echo "port:        10041"      >  $DROONGA_BASE_DIR/droonga-http-server.yaml
     # echo "environment: production" >> $DROONGA_BASE_DIR/droonga-http-server.yaml
     # droonga-engine-catalog-generate --hosts=$host \
@@ -306,33 +306,33 @@ Install required packages, generate the `catalog.json`, and start services.
 
 Then, join the node to the cluster.
 
-    (on 192.168.100.52)
-    # droonga-engine-join --host=192.168.100.52 \
-                          --replica-source-host=192.168.100.50
+    (on node2)
+    # droonga-engine-join --host=node2 \
+                          --replica-source-host=node0
 
-Finally a Droonga cluster constructed with two nodes `192.168.100.50` and `192.168.100.52` is here.
+Finally a Droonga cluster constructed with two nodes `node0` and `node2` is here.
 
 You can confirm that, via the `system.status` command:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+# curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.52:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
+# curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.52:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
