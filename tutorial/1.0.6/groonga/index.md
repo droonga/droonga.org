@@ -41,8 +41,9 @@ Following instructions are basically written for a successfully prepared virtual
 NOTE:
 
  * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
-Otherwise, you may experience a strange build error.
+   Otherwise, you may experience a strange build error.
  * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` is correctly accessible from each other computer in your cluster.
+   For simplicity,
 
 You need to prepare two or more nodes for effective replication.
 So this tutorial assumes that you have two computers:
@@ -56,89 +57,141 @@ Groonga provides binary packages and you can install Groonga easily, for some en
 (See: [how to install Groonga](http://groonga.org/docs/install.html))
 
 On the other hand, there is installation scripts to set up a computer as a Droonga node.
-Let's log in to the computer `node0` (`192.168.100.50`), download two scripts, and run them by `bash` as the root user, like:
+Steps are:
+
+ 1. Install the `droonga-engine` *on each computer*.
+ 2. Install the `droonga-http-server` *on each computer*.
+ 3. Configure *each computer* to work together with each other.
+
+Note that you must do all steps on each computer.
+However, they're very simple.
+
+Let's log in to the computer `node0` (`192.168.100.50`), and install Droonga components.
+
+First, install the `droonga-engine`.
+It is the core component provides most features of Droonga system.
+Download the installation script and run it by `bash` as the root user:
 
 ~~~
-$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    sudo bash
-$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    sudo bash
-~~~
-
-If you are using a CentOS server, switch to the root before running, instead of using `sudo`, like:
-
-~~~
-$ su
 # curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
     bash
+...
+Installing droonga-engine from RubyGems...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+This node is configured with a hostname XXXXXXXX.
+
+Registering droonga-engine as a service...
+...
+Successfully installed droonga-engine.
+~~~
+
+Note, The name of the node itself (guessed from the host name of the computer) appears in the message.
+*It is used in various situations*, so *don't forget what is the name of each node*.
+
+Second, install the `droonga-http-server`.
+It is the frontend component required to translate HTTP requests to Droonga's native one.
+Download the installation script and run it by `bash` as the root user:
+
+~~~
 # curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
     bash
-~~~
+...
+Installing droonga-http-server from npmjs.org...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+The droonga-engine service is detected on this node.
+The droonga-http-server is configured to be connected
+to this node (XXXXXXXX).
+This node is configured with a hostname XXXXXXXX.
 
-If your computers cannot resolve IP addresse of each other by its host name, specify accessible IP address via environment variables, like:
-
-~~~
-$ host=192.168.100.50
-$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    sudo HOST=$host bash
-$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    sudo ENGINE_HOST=$host HOST=$host bash
-~~~
-
-Then the computer `node0` (`192.168.100.50`) is successfully set up as a Droonga node.
-
-Next, run the installation scripts on another node `node1` (`192.168.100.51`).
-If the host name `node1` is not resolvable by others, don't forget to specify correct accessible IP address for the computer, like:
-
-~~~
-$ host=192.168.100.51
-$ curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-    sudo HOST=$host bash
-$ curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-    sudo ENGINE_HOST=$host HOST=$host bash
+Registering droonga-http-server as a service...
+...
+Successfully installed droonga-http-server.
 ~~~
 
 OK, now two computers successfully prepared to work as Droonga nodes.
 
-If the installation script doesn't work as expected, see [the tutorial to install services without installation script](../manual-install/).
+If installation scripts didn't work as expected and you couldn't install them, see [the tutorial to install services without installation script](../manual-install/).
 
+### When your computers don't have a host name accessible from other computers...
+
+Each Droonga node must know the *accessible host name* of the node itself, to communicate with other nodes.
+
+The installation script guesses accessible host name of the node automatically.
+You can confirm what value is detected as the host name of the node itself, by following command:
+
+~~~
+# cat ~droonga-engine/droonga/droonga-engine.yaml | grep host
+host: XXXXXXXX
+~~~
+
+However it may be misdetected if the computer is not configured properly.
+For example, even if a node is configured with a host name `node0`, it cannot receive any message from other nodes when others cannot resolve the name `node0` to actual IP address.
+
+Then you have to reconfigure your node with raw IP addresse of the node itself, like:
+
+~~~
+(on node0=192.168.100.50)
+# host=192.168.100.50
+# droonga-engine-configure --quiet --reset-config --reset-catalog \
+                           --host=$host
+# droonga-http-server-configure --quiet --reset-config \
+                                --droonga-engine-host-name=$host \
+                                --receive-host-name=$host
+
+(on node1=192.168.100.51)
+# host=192.168.100.51
+...
+~~~
+
+Then your computer `node0` is configured as a Droonga node with the host name `192.168.100.50`, and `node1` becomes a node with the name `192.168.100.51`.
+As said before, *the configured name is used in various situations*, so *don't forget what is the name of each node*.
+
+This tutorial assumes that all your computers can resolve each other host name `node0` and `node1` correctly.
+Otherwise, read host names `node0` and `node1` in following instructions, as raw IP addresses like `192.168.100.50` and '192.168.100.51`.
+
+By the way, you can specify your favorite value as the host name of the computer itself via environment variables, for the installation script, like:
+
+~~~
+(on node0=192.168.100.50)
+# host=192.168.100.50
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=$host bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=$host HOST=$host bash
+
+(on node1=192.168.100.51)
+# host=192.168.100.51
+...
+~~~
+
+This option will help you, if you already know that your computers are not configured to resolve each other name.
 
 ### Configure nodes to work together as a cluster
 
 Currently, these nodes are still individual nodes.
 Let's configure them to work together as a cluster.
 
-Run this command line on each node:
+Run commands like this, on each node:
 
 ~~~
-$ sudo -u droonga-engine -H \
-    droonga-engine-catalog-generate --hosts=node0,node1 \
-                                    --output=~droonga-engine/droonga/catalog.json
-~~~
-
-If you are using a CentOS server, switch to the root before running, instead of using `sudo`, like:
-
-~~~
-$ su
 # droonga-engine-catalog-generate --hosts=node0,node1 \
                                   --output=~droonga-engine/droonga/catalog.json
 # chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json
 ~~~
 
-NOTE: For the `--hosts` parameter, you must specify host names or IP addresses of all your Droonga nodes which are actually configured to be used.
-To confirm the suitable value, see the `~droonga-engine/droonga/droonga-engine.yaml`, like:
+Of course you must specify correct host name of nodes by the `--hosts` option.
+If your nodes are configured with raw IP addresses, the cmmand line is:
 
 ~~~
-$ cat ~droonga-engine/droonga/droonga-engine.yaml | grep host
-host: 192.168.100.50
-~~~
-
-For example, if nodes cannot resolve their host names and you configured them with IP addresses like `HOST=192.168.100.50`, then:
-
-~~~
-$ sudo -u droonga-engine -H \
-    droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                    --output=~droonga-engine/droonga/catalog.json
+# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
+                                  --output=~droonga-engine/droonga/catalog.json
+...
 ~~~
 
 OK, now your Droonga cluster is correctly prepared.
@@ -369,7 +422,7 @@ Let's see it by the `table_list` command:
 Because it is a cluster, another endpoint returns same result.
 
 ~~~
-# curl "http://192.168.100.51:10041/d/table_list" | jq "."
+# curl "http://node1:10041/d/table_list" | jq "."
 [
   [
     0,
