@@ -14,24 +14,9 @@ Learning steps to backup and restore data by your hand.
 
 * You must have an existing [Droonga][] cluster with some data.
   Please complete the ["getting started" tutorial](../groonga/) before this.
-* Your `catalog.json` must have the dataset `Default`.
-  Otherwise, you must change the name of the dataset, like:
 
-        "datasets": {
-      -   "Starbucks": {
-      +   "Default": {
-  
-* Your `catalog.json` must have `dump` and `system` plugins in the list of plugins.
-  Otherwise, you must add them to the list of `plugins`, like:
-  
-      - "plugins": ["groonga", "crud", "search"],
-      + "plugins": ["groonga", "crud", "search", "dump", "system"],
-  
-* Your `catalog.json` must not have any information in its `schema` section.
-  Otherwise, you must make the `schema` section empty, like:
-  
-      "schema": {},
-  
+This tutorial assumes that there are two existing Droonga nodes prepared by the [previous tutorial](../groonga/): `node0` and `node1`.
+If you have Droonga nodes with other names, read `node0` and `node1` in following descriptions as yours.
 
 ## Backup data in a Droonga cluster
 
