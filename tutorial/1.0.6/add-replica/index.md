@@ -16,12 +16,9 @@ Learning steps to add a new replica node, remove an existing replica, and replac
   Please complete the ["getting started" tutorial](../groonga/) before this.
 * You must know how to duplicate data between multiple clusters.
   Please complete the ["How to backup and restore the database?" tutorial](../dump-restore/) before this.
-* Your `catalog.json` must have `system` and `catalog` plugins in the list of plugins.
-  Otherwise, you must add them, like:
-  
-      - "plugins": ["groonga", "crud", "search", "dump"],
-      + "plugins": ["groonga", "crud", "search", "dump", "system", "catalog"],
-  
+
+This tutorial assumes that there are two existing Droonga nodes prepared by the [first tutorial](../groonga/): `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), and there is another computer `node2` (`192.168.100.52`) for a new node.
+If you have Droonga nodes with other names, read `node0`, `node1` and `node2` in following descriptions as yours.
 
 ## What's "replica"?
 

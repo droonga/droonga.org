@@ -15,8 +15,8 @@ Learning steps to backup and restore data by your hand.
 * You must have an existing [Droonga][] cluster with some data.
   Please complete the ["getting started" tutorial](../groonga/) before this.
 
-This tutorial assumes that there are two existing Droonga nodes prepared by the [previous tutorial](../groonga/): `node0` and `node1`.
-If you have Droonga nodes with other names, read `node0` and `node1` in following descriptions as yours.
+This tutorial assumes that there are two existing Droonga nodes prepared by the [previous tutorial](../groonga/): `node0` (`192.168.100.50`) and `node1` (`192.168.100.51`), and there is another computer `node2` (`192.168.100.52`) as a working environment.
+If you have Droonga nodes with other names, read `node0`, `node1` and `node2` in following descriptions as yours.
 
 ## Backup data in a Droonga cluster
 
