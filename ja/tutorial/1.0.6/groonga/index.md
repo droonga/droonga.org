@@ -131,7 +131,7 @@ Successfully installed droonga-http-server.
 各Droongaノードは、他のノードと通信するために、そのノード自身の*アクセス可能な名前*を把握している必要があります。
 
 インストールスクリプトはそのノードのアクセス可能なホスト名を自動的に推測します。
-どのような値がそのノード自身のホストメイトして認識されたかは、以下の手順で確認できます:
+どのような値がそのノード自身のホスト名として認識されたかは、以下の手順で確認できます:
 
 ~~~
 # cat ~droonga-engine/droonga/droonga-engine.yaml | grep host
