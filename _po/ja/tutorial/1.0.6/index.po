@@ -38,7 +38,7 @@ msgid ""
 " * [Basic usage of low-layer commands](basic/)\n"
 " * [How to setup Droonga services without installation script?](manual-install"
 "/)"
-msgstr ""
+msgstr " * [インストールスクリプトを使わずにDroongaの構成サービスをセットアップする手順](manual-install/)"
 
 msgid "## For plugin developers"
 msgstr "## プラグイン開発者向け"
