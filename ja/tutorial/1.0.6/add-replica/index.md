@@ -25,12 +25,9 @@ layout: ja
   このチュートリアルを始める前に、[「使ってみる」のチュートリアル](../groonga/)を完了している事が望ましいです
 * 複数のクラスタの間でのデータの複製方法を把握していること。
   このチュートリアルを始める前に、[バックアップと復元のチュートリアル](../dump-restore/)を完了しておいてください。
-* `catalog.json`に`system`と`catalog`プラグインが登録済みであること。
-  未登録の場合は、以下のようにして`plugins`の一覧に`system`と`catalog`を追加しておいて下さい：
-  
-      - "plugins": ["groonga", "crud", "search", "dump"],
-      + "plugins": ["groonga", "crud", "search", "dump", "system", "catalog"],
-  
+
+このチュートリアルでは、[最初のチュートリアル](../groonga/)で準備した2つの既存のDroongaノード：`node0` (`192.168.100.50`) 、 `node1` (`192.168.100.51`) と、新しいノードとして使うもう1台のコンピュータ `node2` (`192.168.100.52`) があると仮定します。
+あなたの手元にあるDroongaノードがこれとは異なる名前である場合には、以下の説明の中の`node0`、`node1`、`node2`は実際の物に読み替えて下さい。
 
 ## 「replica」とは？
 
@@ -56,81 +53,71 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 その一方で、クラスタへの新しいデータの流入は、新しいノードが動作を始めるまでの間停止しておく必要があります。
 （将来的には、新しいノードを完全に無停止で追加できるようにする予定ですが、今のところはそれはできません。）
 
-ここでは、`192.168.100.50` と `192.168.100.51` の2つのreplicaノードからなるDroongaクラスタがあり、新しいreplicaノードとして `192.168.100.52` を追加すると仮定します。
+ここでは、`node0` と `node1` の2つのreplicaノードからなるDroongaクラスタがあり、新しいreplicaノードとして `node2` を追加すると仮定します。
 
 ### 新しいノードをセットアップする
 
 まず、新しいコンピュータをセットアップし、必要なソフトウェアのインストールと設定を済ませます。
 
-    (on 192.168.100.52)
-    # apt-get update
-    # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-    # gem install droonga-engine
-    # npm install -g droonga-http-server
-    # mkdir ~/droonga
-    # echo "host: 192.168.100.52"    >  ~/droonga/droonga-engine.yaml
-    # echo "port:        10041"      >  ~/droonga/droonga-http-server.yaml
-    # echo "environment: production" >> ~/droonga/droonga-http-server.yaml
-
-新しく追加しようとしているノードのみをreplicaとして含む内容で、`catalog.json`を生成します：
-
-    (on 192.168.100.52)
-    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
-                                      --output=~/droonga/catalog.json
+~~~
+(on node2)
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=node2 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=node2 HOST=node2 bash
+~~~
 
 注意点として、空でないノードを既存のクラスタに追加することはできません。
 もしそのコンピュータがかつてDroongaノードとして使われていた事があった場合には、最初に古いデータを消去する必要があります。
 
-    (on 192.168.100.52)
-    # droonga-engine-stop
-    # rm -rf ~/droonga
-    # mkdir ~/droonga
-    # droonga-engine-catalog-generate --hosts=192.168.100.52 \
-                                      --output=~/droonga/catalog.json
+~~~
+(on node2)
+# droonga-engine-configure --quiet \
+                           --clear --reset-config --reset-catalog \
+                           --host=node2
+# droonga-http-server-configure --quiet --reset-config \
+                                --droonga-engine-host-name=node2 \
+                                --receive-host-name=node2
+~~~
 
-では、サーバを起動しましょう。
-
-    (on 192.168.100.52)
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
-
-この時点では、ノードの情報が `catalog.json` に含まれていないため、この新しいノードはクラスタのノードとしては動作していません。
-新しいノードにリクエストを送っても、それらはすべてクラスタ内の既存のノードに転送されます。
-
-この事は、`system.status` コマンドの結果を見ると確認できます:
+では、サービスを起動しましょう。
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+(on node2)
+# service start droonga-engine
+# service start droonga-http-server
+~~~
+
+この時点で、この新しいノードは既存のクラスタのノードとしては動作していません。
+この事は、`system.status`コマンドを通じて確認できます:
+
+~~~
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
-      "live": true
-    },
-    "192.168.100.51:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
@@ -162,35 +149,45 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 
 新しいreplicaノードを既存のクラスタに追加するには、いずれかの既存のノードもしくは新しいreplicaノードのいずれかにおいて、`catalog.json` が置かれているディレクトリで、`droonga-engine-join` コマンドを実行します:
 
-    (on 192.168.100.52)
-    # droonga-engine-join --host=192.168.100.52 \
-                          --replica-source-host=192.168.100.50
-    Joining new replica to the cluster...
-    ...
-    Update existing hosts in the cluster...
-    ...
-    Done.
+~~~
+(on node2)
+$ droonga-engine-join --host=node2 \
+                      --replica-source-host=node0
+Joining new replica to the cluster...
+...
+Update existing hosts in the cluster...
+...
+Done.
+~~~
 
- * `--host` オプションで、その新しいreplicaノードのホスト名またはIPアドレスを指定して下さい。
- * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名またはIPアドレスを指定して下さい。
+ * `--host` オプションで、その新しいreplicaノードのホスト名を指定して下さい。
+ * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名を指定して下さい。
 
 コマンドを実行すると、自動的に、クラスタのデータが新しいreplicaノードへと同期され始めます。
 データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。
 すべてのノードの`catalog.json`も同時に更新され、この時点をもって、新しいノードは晴れてそのクラスタのreplicaノードとして動作し始めます。
 
-この事は、`system.status` コマンドの結果を見ると確認できます:
+レスポンスキャッシュを空にするために、すべてのノードで`droonga-http-server`を再起動しておきます:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+(on node0, node1, node2)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
+これで、ノードがクラスタに参加しました。この事は `system.status` コマンドで確かめられます:
+
+~~~
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     },
-    "192.168.100.52:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
@@ -214,18 +211,19 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 もちろん、他の目的に転用したいといった理由から、正常動作中のノードを取り除きたいと考える場合もあるでしょう。
 
-ここでは、`192.168.100.50`、`192.168.100.51`、および `192.168.100.52` の3つのreplicaノードからなるDroongaクラスタが存在していて、最後のノード `192.168.100.52` をクラスタから取り除こうとしていると仮定します。
+ここでは、`node0` 、 `node1` 、`node2` の3つのreplicaノードからなるDroongaクラスタがあり、最後のノード `node2` をクラスタから離脱させようとしていると仮定します。
 
 ### 既存のreplicaをクラスタから分離する
 
 新しいreplicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で、`catalog.json` が置かれたディレクトリにおいて `droonga-engine-unjoin` コマンドを実行します:
 
-    (on 192.168.100.50)
-    # cd ~/droonga
-    # droonga-engine-unjoin --host=192.168.100.52
-    Unjoining replica from the cluster...
-    ...
-    Done.
+~~~
+(on node0)
+$ droonga-engine-unjoin --host=node2
+Unjoining replica from the cluster...
+...
+Done.
+~~~
 
  * `--host` オプションで、クラスタから削除するノードのホスト名またはIPアドレスを指定して下さい。
  * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
@@ -233,65 +231,86 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 すると、ノードがクラスタから自動的に離脱し、すべてのノードの `catalog.json` も同時に更新されます。
 これで、ノードはクラスタから無事離脱しました。
 
-この事は、`system.status` コマンドの結果を見ると確認できます:
+レスポンスキャッシュを空にするために、すべてのノードで`droonga-http-server`を再起動しておきます:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+(on node0, node1, node2)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
+これで、ノード `node2` がクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
+
+~~~
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.51:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.51:10031/droonga": {
+    "node1:10031/droonga": {
       "live": true
     }
   }
 }
 ~~~
+
+`node2` までもが、`node2` がクラスタの一員ではないと報告していることに注意して下さい。
+これは、クラスタから離脱したノードと新しいノードとの違いです。
+
 
 ## クラスタ内の既存のreplicaノードを新しいreplicaノードで置き換える
 
 ノードの置き換えは、上記の手順の組み合わせで行います。
 
-`192.168.100.50` と `192.168.100.51` の2つのノードからなるDroongaクラスタがあり、ノード `192.168.100.51` の動作が不安定になっていて、これを新しいノード `192.168.100.52` で置き換えようとしていると仮定します。
+ここでは、`node0` と `node1` の2つのreplicaノードからなるDroongaクラスタがあり、`node1` が不安定で、それを新しいreplicaノード `node2` で置き換えようとしていると仮定します。
 
 ### 既存のreplicaをクラスタから分離する
 
 まず、不安定になっているノードを取り除きます。以下のようにしてクラスタからノードを離脱させて下さい:
 
-    (on 192.168.100.50)
-    # cd ~/droonga
-    # droonga-engine-unjoin --host=192.168.100.51
+~~~
+(on node0)
+$ droonga-engine-unjoin --host=node1
+~~~
+
+レスポンスキャッシュを空にします:
+
+~~~
+(on node0, node1)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
 
 これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     }
   }
@@ -300,48 +319,68 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ### 新しいreplicaを追加する
 
-次に、新しいreplicaを用意します。
+次に、新しいreplica `node2`を用意します。
 必要なパッケージをインストールし、`catalog.json`を生成して、サービスを起動します。
 
-    (on 192.168.100.52)
-    # export DROONGA_BASE_DIR=$HOME/droonga
-    # echo "host: 192.168.100.52"    >  $DROONGA_BASE_DIR/droonga-engine.yaml
-    # echo "port:        10041"      >  $DROONGA_BASE_DIR/droonga-http-server.yaml
-    # echo "environment: production" >> $DROONGA_BASE_DIR/droonga-http-server.yaml
-    # droonga-engine-catalog-generate --hosts=$host \
-                                      --output=$DROONGA_BASE_DIR/catalog.json
-    # droonga-engine
-    # droonga-http-server --cache-size=-1
+~~~
+(on node2)
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    HOST=node2 bash
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    ENGINE_HOST=node2 HOST=node2 bash
+~~~
+
+そのコンピュータがかつてDroongaノードの一員だったことがある場合は、インストール作業の代わりに、古いデータを消去する必要があります:
+
+~~~
+(on node2)
+# droonga-engine-configure --quiet \
+                           --clear --reset-config --reset-catalog \
+                           --host=node2
+# droonga-http-server-configure --quiet --reset-config \
+                                --droonga-engine-host-name=node2 \
+                                --receive-host-name=node2
+~~~
 
 そうしたら、そのノードをクラスタに参加させましょう。
 
-    (on 192.168.100.52)
-    # droonga-engine-join --host=192.168.100.52 \
-                          --replica-source-host=192.168.100.50
+~~~
+(on node2)
+$ droonga-engine-join --host=node2 \
+                      --replica-source-host=node0
+~~~
 
-最終的に、`192.168.100.50` と `192.168.100.52` の2つのノードからなるDroongaクラスタができあがりました。
+そして、レスポンスキャッシュを空にします:
+
+~~~
+(on node0, node2)
+# service droonga-http-server restart
+ * Restarting  droonga-http-server             [ OK ]
+~~~
+
+最終的に、`node0` と `node2` の2つのノードからなるDroongaクラスタができあがりました。
 
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-# curl "http://192.168.100.50:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.52:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
 }
-# curl "http://192.168.100.52:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "192.168.100.50:10031/droonga": {
+    "node0:10031/droonga": {
       "live": true
     },
-    "192.168.100.52:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
