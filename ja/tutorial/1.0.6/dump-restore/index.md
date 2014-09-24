@@ -344,7 +344,7 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 (on node0)
 # service droonga-http-server restart
  * Restarting  droonga-http-server             [ OK ]
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node0
 ~~~
@@ -353,7 +353,7 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 (on node1)
 # service droonga-http-server restart
  * Restarting  droonga-http-server             [ OK ]
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node1
 $ endpoint="http://node1:10041"
@@ -543,7 +543,7 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 
 ~~~
 (on node0)
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node1
 # service droonga-http-server restart
@@ -552,7 +552,7 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 
 ~~~
 (on node1)
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node0
 # service droonga-http-server restart

@@ -339,7 +339,7 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 (on node0)
 # service droonga-http-server restart
  * Restarting  droonga-http-server             [ OK ]
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node0
 ~~~
@@ -348,7 +348,7 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 (on node1)
 # service droonga-http-server restart
  * Restarting  droonga-http-server             [ OK ]
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node1
 $ endpoint="http://node1:10041"
@@ -538,7 +538,7 @@ Run following command lines to unite these two clusters:
 
 ~~~
 (on node0)
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node1
 # service droonga-http-server restart
@@ -547,7 +547,7 @@ Run following command lines to unite these two clusters:
 
 ~~~
 (on node1)
-# droonga-engine-catalog-modify --source=~/droonga/catalog.json \
+# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node0
 # service droonga-http-server restart
