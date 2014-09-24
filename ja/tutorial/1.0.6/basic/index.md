@@ -81,61 +81,38 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
 
 ホストが `192.168.100.50` だと仮定します。
 
-## セットアップに必要なパッケージをインストールする
-
-Droonga をセットアップするために必要になるパッケージをインストールします。
-
-Ubuntu:
-
-    # apt-get update
-    # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-
-CentOS 7:
-
-    # apt-get update
-    # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-
-CentOS 6.5:
-
-    # yum -y groupinstall development
-    # yum -y install epel-release ruby-devel
-    # yum -y install npm
-
-要するに、`gem`と`npm`を使えるようにした上で、ネイティブ拡張をビルドするためのいくつかのパッケージをインストールする必要があるということです。
-
-## Droonga Engine を構築する
+### Droonga Engineをインストールする
 
 Droonga Engine は、データベースを保持し、実際の検索を担当する部分です。
 このセクションでは、 droonga-engine をインストールし、検索対象となるデータを準備します。
 
 ### `droonga-engine`をインストールする
 
-    # gem install droonga-engine
+インストールスクリプトをダウンロードし、root権限で`bash`で実行して下さい:
 
-Droonga Engine を構築するのに必要なパッケージがセットアップできました。引き続き設定に移ります。
+~~~
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    bash
+...
+Installing droonga-engine from RubyGems...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+This node is configured with a hostname XXXXXXXX.
+
+Registering droonga-engine as a service...
+...
+Successfully installed droonga-engine.
+~~~
 
 ### `droonga-engine`を起動するための設定ファイルを用意する
 
-`droonga-engine`サービス用のユーザを作成し、設定ディレクトリを作成します。
-すべての設定ファイルと物理的なデータベースはこのディレクトリの下に置かれます:
+すべての設定ファイルと物理的なデータベースは、`droonga-engine`サービス用のユーザのホームディレクトリ内にある`droonga`ディレクトリの下に置かれます:
 
-    # useradd -m droonga-engine
-    $ sudo -u droonga-engine -H mkdir ~droonga-engine/droonga
     $ cd ~droonga-engine/droonga
 
-以下の内容で設定ファイル `droonga-engine.yaml` をディレクトリ内に作成します。
-
-droonga-engine.yaml:
-
-    host: 192.168.100.50
-    port: 10031
-    tag:  droonga
-
-そのコンピュータ自身の正しいホスト名またはIPアドレスを書く必要があります。
-
-次に、以下の内容で別の設定ファイル `catalog.json` をディレクトリ内に作成します。
+では、以下の内容で設定ファイル `catalog.json` を上書きしましょう:
 
 catalog.json:
 
@@ -246,29 +223,25 @@ catalog.json:
 
 `catalog.json` の詳細については [catalog.json](/ja/reference/catalog) を参照してください。
 
-### `droonga-engine`をサーバプロセスを起動する
+### `droonga-engine`サービスの起動と終了
 
-`droonga-engine`のサーバプロセスを起動します。これは`droonga-engine`コマンドを使って以下のように行います:
+`droonga-engine`サービスは`service`コマンドを使って起動できます:
 
-    $ sudo -u droonga-engine -H droonga-engine
+~~~
+# service droonga-engine start
+~~~
 
-### `droonga-engine` のサーバプロセスを停止する
+終了する場合も、`service`コマンドを使います:
 
-最初に`droonga-engine`のサーバプロセスを終了する方法を知っておきましょう。
+~~~
+# service droonga-engine stop
+~~~
 
-droonga-engineのサービスを停止するためのユーティリティコマンド `droonga-engine-stop` を実行します。
+確認できたら、再び`droonga-engine`を起動します。
 
-    $ sudo -u droonga-engine -H droonga-engine-stop
-
-または、droonga-engineに直接SIGTERMを送ります。
-
-    $ sudo -u droonga-engine -H  kill $(cat ~droonga-engine/droonga/droonga-engine.pid)
-
-これがdroonga-engineを終了する方法です。
-
-再度droonga-engineを起動します。
-
-    $ sudo -u droonga-engine -H droonga-engine
+~~~
+# service droonga-engine start
+~~~
 
 ### データベースを作成する
 
@@ -935,39 +908,46 @@ HTTP Protocol Adapterとして`droonga-http-server`を使用しましょう。
 
 ### droonga-http-serverをインストールする
 
-`droonga-http-server`は、Node.js のパッケージなので、`npm`コマンドで簡単にインストールすることができます：
+インストールスクリプトをダウンロードし、root権限で`bash`で実行して下さい:
 
-    # npm install -g droonga-http-server
+~~~
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    bash
+...
+Installing droonga-http-server from npmjs.org...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+The droonga-engine service is detected on this node.
+The droonga-http-server is configured to be connected
+to this node (XXXXXXXX).
+This node is configured with a hostname XXXXXXXX.
 
-次に、サービス用のユーザを用意します。
+Registering droonga-http-server as a service...
+...
+Successfully installed droonga-http-server.
+~~~
 
-    # useradd -m droonga-http-server
-    $ sudo -u droonga-http-server -H mkdir ~droonga-http-server/droonga
-    $ cd ~droonga-http-server/droonga
+### `droonga-engine`サービスの起動と終了
 
-以下の内容で設定ファイル `droonga-http-server.yaml` を設定ディレクトリ内に作成します。
+`droonga-http-server`サービスは`service`コマンドを使って起動できます:
 
-droonga-http-server.yaml:
+~~~
+# service droonga-http-server start
+~~~
 
-    port:        10041
-    environment: production
+終了する場合も、`service`コマンドを使います:
 
-`droogna-engine.yaml`が存在する場合、droonga-http-serverは自動的にそのファイルの内容を参照するため、`droonga-http-server.yaml`にはごく一部の情報だけを置けば十分です。
-そのコンピュータ上でdroonga-engineが動作していない場合には、droonga-engineサーバと通信するために、必要な情報尾すべて書く必要があります。
-例えば、そのコンピュータが `192.168.100.51` で、droogna-engineサーバである別のコンピュータ `192.168.100.50` が存在している場合では、`droonga-http-server.yaml`の内容は以下の要領となります：
+~~~
+# service droonga-http-server stop
+~~~
 
-droonga-http-server.yaml:
+確認できたら、再び`droonga-http-server`を起動します。
 
-    port:        10041
-    environment: production
-    engine:
-      host:         192.168.100.50
-      receive_host: 192.168.100.51
-
-では、サーバを起動しましょう。
-
-    $ sudo -u droonga-http-server -H droonga-http-server
-
+~~~
+# service droonga-engine start
+~~~
 
 ### HTTPでの検索リクエスト
 

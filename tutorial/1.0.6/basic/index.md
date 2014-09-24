@@ -73,61 +73,38 @@ NOTE: Make sure to use instances with >= 2GB memory equipped, at least during in
 
 Assume that the host is `192.168.100.50`.
 
-## Install packages required for the setup process
-
-Install packages required to setup a Droonga engine.
-
-Ubuntu:
-
-    # apt-get update
-    # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-
-CentOS 7:
-
-    # apt-get update
-    # apt-get -y upgrade
-    # apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-
-CentOS 6.5:
-
-    # yum -y groupinstall development
-    # yum -y install epel-release ruby-devel
-    # yum -y install npm
-
-Yes, in short, you have to activate `gem` and `npm` commands, and install some packages to build native extensions.
-
-## Build a Droonga engine
+## Install Droonga engine
 
 The part "Droonga engine" stores the database and provides the search feature actually.
 In this section we install a droonga-engine and load searchable data to the database.
 
 ### Install `droonga-engine`
 
-    # gem install droonga-engine
+Download the installation script and run it by `bash` as the root user:
 
-Required packages are prepared by the command above. Let's continue to the configuration step.
+~~~
+# curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    bash
+...
+Installing droonga-engine from RubyGems...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+This node is configured with a hostname XXXXXXXX.
+
+Registering droonga-engine as a service...
+...
+Successfully installed droonga-engine.
+~~~
 
 ### Prepare configuration files to start `droonga-engine`
 
-Create a user for the `droonga-engine` service and the configuration directory.
-All configuration files and physical databases are placed under the directory:
+All configuration files and physical databases are placed under a `droonga` directory in the home directory of the service user `droonga-engine`:
 
-    # useradd -m droonga-engine
-    $ sudo -u droonga-engine -H mkdir ~droonga-engine/droonga
     $ cd ~droonga-engine/droonga
 
-Then put a configuration file `droonga-engine.yaml` like following, into the directory:
-
-droonga-engine.yaml:
-
-    host: 192.168.100.50
-    port: 10031
-    tag:  droonga
-
-You must put correct host name or IP address of the computer itself.
-
-Next, put another configuration file `catalog.json` like following, into the directory:
+Then, put (overwrite) a configuration file `catalog.json` like following, into the directory:
 
 catalog.json:
 
@@ -238,29 +215,25 @@ The `"address"` indicates the location of the corresponding physical storage whi
 
 For more details of the configuration file `catalog.json`, see [the reference manual of catalog.json](/reference/catalog).
 
-### Start the `droonga-engine` server process
+### Start and stop the `droonga-engine` service
 
-Start the `droonga-engine` server process. You can do it with the command `droonga-engine`, like:
+The `droonga-engine` service can be started via the `service` command:
 
-    $ sudo -u droonga-engine -H droonga-engine
+~~~
+# service droonga-engine start
+~~~
 
-### Stop the `droonga-engine` server process
+To stop it, you also have to use the `service` command:
 
-You need to know how to stop `droonga-engine` server process.
+~~~
+# service droonga-engine stop
+~~~
 
-Run `droonga-engine-stop`, a utility command to stop droonga-engine service:
+After confirmation, start the `droonga-engine` again.
 
-    $ sudo -u droonga-engine -H droonga-engine-stop
-
-or, send SIGTERM to droonga-engine directly:
-
-    $ sudo -u droonga-engine -H  kill $(cat ~droonga-engine/droonga/droonga-engine.pid)
-
-This is the way to stop droonga-engine.
-
-Start droonga-engine again:
-
-    $ sudo -u droonga-engine -H droonga-engine
+~~~
+# service droonga-engine start
+~~~
 
 ### Create a database
 
@@ -928,39 +901,46 @@ Let's use the `droonga-http-server` as an HTTP protocol adapter.
 
 ### Install the droonga-http-server
 
-It is an npm package for the Node.js so you can install it by `npm` command easily:
+Download the installation script and run it by `bash` as the root user:
 
-    # npm install -g droonga-http-server
+~~~
+# curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    bash
+...
+Installing droonga-http-server from npmjs.org...
+...
+Preparing the user...
+...
+Setting up the configuration directory...
+The droonga-engine service is detected on this node.
+The droonga-http-server is configured to be connected
+to this node (XXXXXXXX).
+This node is configured with a hostname XXXXXXXX.
 
-Next, prepare a user for the service.
+Registering droonga-http-server as a service...
+...
+Successfully installed droonga-http-server.
+~~~
 
-    # useradd -m droonga-http-server
-    $ sudo -u droonga-http-server -H mkdir ~droonga-http-server/droonga
-    $ cd ~droonga-http-server/droonga
+### Start and stop the `droonga-http-server` service
 
-Then put a configuration file `droonga-http-server.yaml` into the configuration directory.
+The `droonga-http-server` service can be started via the `service` command:
 
-droonga-http-server.yaml:
+~~~
+# service droonga-http-server start
+~~~
 
-    port:        10041
-    environment: production
+To stop it, you also have to use the `service` command:
 
-Because there is `droogna-engine.yaml` and droonga-http-server automatically loads some information from `droogna-engine.yaml`, you only have to put very few information to the `droonga-http-server.yaml`.
-If no droonga-engine is working on the computer, you have to specify required information completely, to communicate with a droonga-engine server.
-For example, if the computer is `192.168.100.51` and there is a droonga-engine server `192.168.100.50`, then `droonga-http-server.yaml` on `192.168.100.51` should be:
+~~~
+# service droonga-http-server stop
+~~~
 
-droonga-http-server.yaml:
+After confirmation, start the `droonga-http-server` again.
 
-    port:        10041
-    environment: production
-    engine:
-      host:         192.168.100.50
-      receive_host: 192.168.100.51
-
-OK, let's run it.
-
-    $ sudo -u droonga-http-server -H droonga-http-server
-
+~~~
+# service droonga-engine start
+~~~
 
 ### Search request via HTTP
 
