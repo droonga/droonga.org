@@ -173,19 +173,11 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 ]
 ~~~
 
-そうしたら、レスポンスキャッシュを空にするために`droonga-http-server`サービスを再起動しましょう:
-
-~~~
-(on node0, node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 これでクラスタは空になりました。確かめてみましょう:
 
 ~~~
 $ endpoint="http://node0:10041"
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list?_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -229,7 +221,7 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)"" | jq "."
 [
   [
     0,
@@ -247,18 +239,13 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 ]
 ~~~
 
+注意: レスポンスキャッシュを無視するために、追加のパラメータとして `_=$(date +%s)` を加えていることに注意して下さい。
+これを忘れると、古い設定に基づく異キャッシュされたレスポンス（期待に反した内容）を目にしてしまうことになるでしょう。
+
 ### ダンプ結果から空のDroongaクラスタへデータを復元する
 
 `drndump` の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
 やり方は単純で、単にダンプファイルを `droonga-send` コマンドを使ってからのクラスタに流し込むだけです。
-
-復元の前に、レスポンスキャッシュを空にするために`droonga-http-server`サービスを再起動しておきます:
-
-~~~
-(on node0, node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
 
 ダンプファイルからクラスタの内容を復元するには、以下のようなコマンドを実行します:
 
@@ -267,16 +254,14 @@ $ droonga-send --server=node0  \
                     dump.jsons
 ~~~
 
-以下の点に注意して下さい:
+注意:
 
- * `--host` オプションには、クラスタ内のいずれかのノードの正しいホスト名またはIPアドレスを指定します。
- * `--receiver-host` オプションには、今操作しているコンピュータ自身の正しいホスト名またはIPアドレスを指定します。
-   この情報は、Droongaクラスタがメッセージを送り返すために使われます。
+ * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
 
 これで、データが完全に復元されました。確かめてみましょう:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -328,6 +313,8 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
   ]
 ]
 ~~~
+
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 ## 既存のクラスタを別の空のクラスタに直接複製する
 
@@ -342,8 +329,6 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 
 ~~~
 (on node0)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node0
@@ -351,8 +336,6 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 
 ~~~
 (on node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node1
@@ -362,13 +345,11 @@ $ curl "$endpoint/d/table_remove?name=Store"
 $ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
-クラスタを分割する前に、レスポンスキャッシュを空にするために`droonga-http-server`サービスを再起動するのを忘れないように注意して下さい。
-
 これで、ノード `node0` を含む複製元クラスタと、ノード `node1` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
 
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -376,7 +357,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -427,7 +408,7 @@ $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | 
     ]
   ]
 ]
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node1:10031/droonga": {
@@ -435,7 +416,7 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -452,6 +433,8 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
   ]
 ]
 ~~~
+
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 
 ### 2つのDroongaクラスタの間でデータを複製する
@@ -473,18 +456,10 @@ Absorbing...
 Done.
 ~~~
 
-レスポンスキャッシュを空にするために、複製先ノードの`droonga-http-server`サービスを再起動します:
-
-~~~
-(on node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
 
 ~~~
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -537,6 +512,8 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 ]
 ~~~
 
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
+
 ### 2つのDroongaクラスタを結合する
 
 これらの2つのクラスタを結合するために、以下のコマンド列を実行しましょう:
@@ -546,8 +523,6 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node1
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 ~~~
 
 ~~~
@@ -555,16 +530,12 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node0
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 ~~~
-
-レスポンスキャッシュを空にするために、常に`droonga-http-server`サービスを再起動する必要があることに注意しましょう。
 
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -576,6 +547,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 ## まとめ
 

@@ -167,18 +167,10 @@ Done.
 データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。
 すべてのノードの`catalog.json`も同時に更新され、この時点をもって、新しいノードは晴れてそのクラスタのreplicaノードとして動作し始めます。
 
-レスポンスキャッシュを空にするために、すべてのノードで`droonga-http-server`を再起動しておきます:
-
-~~~
-(on node0, node1, node2)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 これで、ノードがクラスタに参加しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -193,6 +185,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 ### 書き込みを伴うリクエストの流入を再開する
 
@@ -231,18 +225,10 @@ Done.
 すると、ノードがクラスタから自動的に離脱し、すべてのノードの `catalog.json` も同時に更新されます。
 これで、ノードはクラスタから無事離脱しました。
 
-レスポンスキャッシュを空にするために、すべてのノードで`droonga-http-server`を再起動しておきます:
-
-~~~
-(on node0, node1, node2)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 これで、ノード `node2` がクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -253,7 +239,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -264,7 +250,7 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -277,7 +263,9 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
 }
 ~~~
 
-`node2` までもが、`node2` がクラスタの一員ではないと報告していることに注意して下さい。
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
+
+`node2` までもが、`node2` がクラスタの一員ではないと報告していることに注目して下さい。
 これは、クラスタから離脱したノードと新しいノードとの違いです。
 
 
@@ -298,16 +286,10 @@ $ droonga-engine-unjoin --host=node1
 
 レスポンスキャッシュを空にします:
 
-~~~
-(on node0, node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -316,6 +298,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 ### 新しいreplicaを追加する
 
@@ -350,20 +334,12 @@ $ droonga-engine-join --host=node2 \
                       --replica-source-host=node0
 ~~~
 
-そして、レスポンスキャッシュを空にします:
-
-~~~
-(on node0, node2)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 最終的に、`node0` と `node2` の2つのノードからなるDroongaクラスタができあがりました。
 
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -374,7 +350,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -386,6 +362,8 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 ## まとめ
 
