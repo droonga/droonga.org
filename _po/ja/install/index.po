@@ -63,6 +63,11 @@ msgid ""
 "~~~"
 msgstr ""
 
+msgid ""
+"Now you are ready for building your own data processing system with Droonga. S"
+"ee [tutorial](/tutorial/) to get started."
+msgstr "以上で、Droongaベースのデータ処理システムを構築する準備が整いました。ここから先は[チュートリアル](/ja/tutorial/)を参照して下さい。"
+
 msgid "NOTE: currently the installation script works only on several environments:"
 msgstr "注意: 今の所、インストールスクリプトは以下の環境でのみ動作します:"
 
@@ -81,11 +86,6 @@ msgid ""
 msgstr ""
 "それ以外の環境では、コンポーネントを手動でインストールする必要があります。\n"
 "以下の説明を参照して下さい。"
-
-msgid ""
-"Now you are ready for building your own data processing system with Droonga. S"
-"ee [tutorial](/tutorial/) to get started."
-msgstr "以上で、Droongaベースのデータ処理システムを構築する準備が整いました。ここから先は[チュートリアル](/ja/tutorial/)を参照して下さい。"
 
 msgid "## Details for manual installation"
 msgstr "## 手動インストールのための詳細情報"

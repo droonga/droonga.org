@@ -84,9 +84,8 @@ layout: ja
         # cd ~droonga-engine/droonga
         # droonga-engine-configure --quiet --reset-config --reset-catalog \
                                    --host=$host \
-                                   --daemon \
-                                   --pid-file=droogna-engine.pid
-        # chown -R droogna-engine:droonga-engine ~droonga-engine/droonga
+                                   --daemon
+        # chown -R droonga-engine:droonga-engine ~droonga-engine/droonga
     
  8. `droonga-http-server`用の設定ファイル`droonga-http-server.yaml`を作成する。
     今の所、指定する必要があるのは接続先にするdroonga-engineノードの名前と、そのノード自身の名前だけです。
@@ -95,10 +94,9 @@ layout: ja
         # cd ~droonga-http-server/droonga
         # droonga-http-server-configure --quiet --reset-config \
                                         --droonga-engine-host-name=$host \
-                                        --receiver-host-name=$host \
-                                        --daemon \
-                                        --pid-file=droonga-http-server.pid
-        # chown -R droogna-http-server:droonga-http-server ~droonga-http-server/droonga
+                                        --receive-host-name=$host \
+                                        --daemon
+        # chown -R droonga-http-server:droonga-http-server ~droonga-http-server/droonga
 
 ## サービスの起動方法 {#start-services}
 

@@ -75,9 +75,8 @@ This tutorial describes how to setup `droonga-engine` and `droonga-http-server` 
         # cd ~droonga-engine/droonga
         # droonga-engine-configure --quiet --reset-config --reset-catalog \
                                    --host=$host \
-                                   --daemon \
-                                   --pid-file=droogna-engine.pid
-        # chown -R droogna-engine:droonga-engine ~droonga-engine/droonga
+                                   --daemon
+        # chown -R droonga-engine:droonga-engine ~droonga-engine/droonga
     
  8. Create a `droonga-http-server.yaml` for `droonga-http-server`.
     Currently you have to specify the host name of the droonga-engine node and the name of the node itself.
@@ -86,10 +85,9 @@ This tutorial describes how to setup `droonga-engine` and `droonga-http-server` 
         # cd ~droonga-http-server/droonga
         # droonga-http-server-configure --quiet --reset-config \
                                         --droonga-engine-host-name=$host \
-                                        --receiver-host-name=$host \
-                                        --daemon \
-                                        --pid-file=droonga-http-server.pid
-        # chown -R droogna-http-server:droonga-http-server ~droonga-http-server/droonga
+                                        --receive-host-name=$host \
+                                        --daemon
+        # chown -R droonga-http-server:droonga-http-server ~droonga-http-server/droonga
 
 ## How to start services {#start-services}
 
