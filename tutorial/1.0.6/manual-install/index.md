@@ -94,12 +94,12 @@ This tutorial describes how to setup `droonga-engine` and `droonga-http-server` 
 To start the `droonga-engine` service, run the `droonga-engine` command in the configuration directory, like:
 
     # cd ~droonga-engine/droonga
-    # sudo -u droogna-engine -H droonga-engine
+    # sudo -u droonga-engine -H droonga-engine
 
 To start the `droonga-http-server` service, run the `droonga-http-server` command in the configuration directory, like:
 
     # cd ~droonga-http-server/droonga
-    # sudo -u droogna-http-server -H droonga-http-server
+    # sudo -u droonga-http-server -H droonga-http-server
 
 Then, PID files are automatically generated and services start as daemons.
 
@@ -108,12 +108,12 @@ Then, PID files are automatically generated and services start as daemons.
 To stop the `droonga-engine` service, run the `droonga-engine-stop` command, like:
 
     # cd ~droonga-engine/droonga
-    # sudo -u droogna-engine -H droonga-engine-stop
+    # sudo -u droonga-engine -H droonga-engine-stop
 
 To start the `droonga-http-server-stop` service, run the `droonga-http-server` command, like:
 
     # cd ~droonga-http-server/droonga
-    # sudo -u droogna-http-server -H droonga-http-server-stop
+    # sudo -u droonga-http-server -H droonga-http-server-stop
 
 These commands automatically detect the location of PID files and stop daemon processes.
 

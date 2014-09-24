@@ -103,12 +103,12 @@ layout: ja
 `droonga-engine`サービスを起動するには、以下のように、設定ディレクトリで`droonga-engine`コマンドを実行します:
 
     # cd ~droonga-engine/droonga
-    # sudo -u droogna-engine -H droonga-engine
+    # sudo -u droonga-engine -H droonga-engine
 
 `droonga-http-server`サービスを起動するには、以下のように、設定ディレクトリで`droonga-http-server`コマンドを実行します:
 
     # cd ~droonga-http-server/droonga
-    # sudo -u droogna-http-server -H droonga-http-server
+    # sudo -u droonga-http-server -H droonga-http-server
 
 すると、PIDファイルが自動的に作成され、サービスがデーモンとして動作し始めます。
 
@@ -117,12 +117,12 @@ layout: ja
 `droonga-engine`サービスを停止するには、以下のように`droonga-engine-stop`コマンドを実行します:
 
     # cd ~droonga-engine/droonga
-    # sudo -u droogna-engine -H droonga-engine-stop
+    # sudo -u droonga-engine -H droonga-engine-stop
 
 `droonga-http-server`サービスを停止するには、以下のように`droonga-http-server-stop`コマンドを実行します:
 
     # cd ~droonga-http-server/droonga
-    # sudo -u droogna-http-server -H droonga-http-server-stop
+    # sudo -u droonga-http-server -H droonga-http-server-stop
 
 これらのコマンドはPIDファイルの位置を自動的に検出し、デーモンのプロセスを停止します。
 

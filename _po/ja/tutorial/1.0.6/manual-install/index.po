@@ -207,7 +207,7 @@ msgstr "`droonga-engine`サービスを起動するには、以下のように�
 
 msgid ""
 "    # cd ~droonga-engine/droonga\n"
-"    # sudo -u droogna-engine -H droonga-engine"
+"    # sudo -u droonga-engine -H droonga-engine"
 msgstr ""
 
 msgid ""
@@ -219,7 +219,7 @@ msgstr ""
 
 msgid ""
 "    # cd ~droonga-http-server/droonga\n"
-"    # sudo -u droogna-http-server -H droonga-http-server"
+"    # sudo -u droonga-http-server -H droonga-http-server"
 msgstr ""
 
 msgid "Then, PID files are automatically generated and services start as daemons."
@@ -235,7 +235,7 @@ msgstr "`droonga-engine`サービスを停止するには、以下のように`d
 
 msgid ""
 "    # cd ~droonga-engine/droonga\n"
-"    # sudo -u droogna-engine -H droonga-engine-stop"
+"    # sudo -u droonga-engine -H droonga-engine-stop"
 msgstr ""
 
 msgid ""
@@ -245,7 +245,7 @@ msgstr "`droonga-http-server`サービスを停止するには、以下のよう
 
 msgid ""
 "    # cd ~droonga-http-server/droonga\n"
-"    # sudo -u droogna-http-server -H droonga-http-server-stop"
+"    # sudo -u droonga-http-server -H droonga-http-server-stop"
 msgstr ""
 
 msgid ""
