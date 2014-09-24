@@ -369,7 +369,7 @@ msgid ""
 "# droonga-engine-catalog-generate --hosts=node0,node1 \\\n"
 "                                  --output=~droonga-engine/droonga/catalog.jso"
 "n\n"
-"# chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json\n"
+"# chown droonga-engine:droonga-engine ~droonga-engine/droonga/catalog.json\n"
 "~~~"
 msgstr ""
 

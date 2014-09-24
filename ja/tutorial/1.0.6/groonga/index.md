@@ -188,7 +188,7 @@ host: XXXXXXXX
 ~~~
 # droonga-engine-catalog-generate --hosts=node0,node1 \
                                   --output=~droonga-engine/droonga/catalog.json
-# chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json
+# chown droonga-engine:droonga-engine ~droonga-engine/droonga/catalog.json
 ~~~
 
 当然ながら、`--hosts`オプションには各ノードの正しいホスト名を指定する必要があります。

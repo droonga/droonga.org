@@ -179,7 +179,7 @@ Run commands like this, on each node:
 ~~~
 # droonga-engine-catalog-generate --hosts=node0,node1 \
                                   --output=~droonga-engine/droonga/catalog.json
-# chown droogna-engine:droonga-engine ~droonga-engine/droonga/catalog.json
+# chown droonga-engine:droonga-engine ~droonga-engine/droonga/catalog.json
 ~~~
 
 Of course you must specify correct host name of nodes by the `--hosts` option.
