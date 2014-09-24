@@ -159,18 +159,10 @@ Then the command automatically starts to synchronize all data of the cluster to 
 After data is successfully synchronized, the node restarts and joins to the cluster automatically.
 All nodes' `catalog.json` are also updated, and now, yes, the new node starts working as a replica in the cluster.
 
-To refresh response cacnes, restart the `droonga-http-server` on all nodes:
-
-~~~
-(on node0, node1, node2)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 You can confirm that they are working as a cluster, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -185,6 +177,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ### Resume inpouring of "write" requests
 
@@ -223,18 +217,10 @@ Done.
 Then the specified node automatically unjoins from the cluster, and all nedes' `catalog.json` are also updated.
 Now, the node has been successfully unjoined from the cluster.
 
-To refresh response cacnes, restart the `droonga-http-server` on all nodes:
-
-~~~
-(on node0, node1, node2)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 You can confirm that the `node2` is successfully unjoined, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -245,7 +231,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -256,7 +242,7 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -269,7 +255,9 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
 }
 ~~~
 
-Note that the `node2` also says that the `node2` is not a member of the cluster.
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
+
+Look at the point that the `node2` also says `node2` is not a member of the cluster.
 This is the difference between a node unjoined from a cluster and a new node.
 
 
@@ -291,17 +279,11 @@ $ droonga-engine-unjoin --host=node1
 
 Refresh response caches:
 
-~~~
-(on node0, node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 Now the node has been gone.
 You can confirm that via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -310,6 +292,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ### Add a new replica
 
@@ -344,20 +328,12 @@ $ droonga-engine-join --host=node2 \
                       --replica-source-host=node0
 ~~~
 
-And, refresh response caches:
-
-~~~
-(on node0, node2)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 Finally a Droonga cluster constructed with two nodes `node0` and `node2` is here.
 
 You can confirm that, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -368,7 +344,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -380,6 +356,8 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ## Conclusion
 
