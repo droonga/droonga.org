@@ -112,8 +112,6 @@ Registering droonga-http-server as a service...
 Successfully installed droonga-http-server.
 ~~~
 
-If installation scripts didn't work as expected and you couldn't install them, see [the tutorial to install services without installation script](../manual-install/).
-
 After that, do same operations on another computer `node1` (`192.168.100.51`) also.
 Then two computers successfully prepared to work as Droonga nodes.
 
@@ -219,8 +217,6 @@ To start them, run commands like following on each Droonga node:
 # service droonga-http-server start
 ~~~
 
-If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#start-services) to know how to start daemons.
-
 By these commands, services start to work.
 Now two nodes construct a cluster and they monitor each other.
 If one of nodes dies and there is any still alive node, survivor(s) will work as the Droonga cluster.
@@ -266,8 +262,6 @@ To stop services, run commands like following on each Droonga node:
 # service droonga-engine stop
 # service droonga-http-server stop
 ~~~
-
-If you set up your Droonga nodes manually, see [the manual installation tutorial](../manual-install/#stop-services) to know how to stop daemons.
 
 After verification, start services again, on each Droonga node.
 

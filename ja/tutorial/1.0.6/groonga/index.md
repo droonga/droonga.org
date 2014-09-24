@@ -121,8 +121,6 @@ Registering droonga-http-server as a service...
 Successfully installed droonga-http-server.
 ~~~
 
-インストールスクリプトが期待通りに動作せずインストールできない場合は、[インストールスクリプトを使わない手動インストールの手順](../manual-install/)を参照して下さい。
-
 ここまでの操作が終わったら、同じ操作をもう1台のコンピュータ `node1` (`192.168.100.51`) に対しても行います。
 これで、無事に2台のコンピュータをDroongaノードとして動作させるための準備が整いました。
 
@@ -228,8 +226,6 @@ Droongaノードをインストールスクリプトを使ってセットアッ�
 # service droonga-http-server start
 ~~~
 
-Droongaノードを手動でセットアップした場合のデーモンの起動方法は、[手動インストールの手順の説明](../manual-install/#start-services)を参照して下さい。
-
 これらのコマンドにより、各サービスが動作し始めます。
 これで、2つのノードは1つのクラスタを形成し、お互いの状態を監視し合う状態になりました。
 もしノードが1つ停止しても、他のノードが生存していれば、それらの生存ノードだけでDroongaクラスタは動作し続けます。
@@ -275,8 +271,6 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 # service droonga-engine stop
 # service droonga-http-server stop
 ~~~
-
-Droongaノードを手動でセットアップした場合のデーモンの停止方法は、[手動インストールの手順の説明](../manual-install/#stop-services)を参照して下さい。
 
 確認が終わったら、再度サービスを起動しておきましょう：
 

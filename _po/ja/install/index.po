@@ -80,16 +80,6 @@ msgstr ""
 " * Ubuntu (最新のリリース、最新のLTS)\n"
 " * CentOS 7"
 
-msgid ""
-"Otherwise you have to install components manually.\n"
-"See following descriptions."
-msgstr ""
-"それ以外の環境では、コンポーネントを手動でインストールする必要があります。\n"
-"以下の説明を参照して下さい。"
-
-msgid "## Details for manual installation"
-msgstr "## 手動インストールのための詳細情報"
-
 msgid "-->"
 msgstr ""
 
@@ -130,11 +120,6 @@ msgstr "## droonga-http-serverのインストール"
 
 msgid "    sudo npm install -g droonga-http-server"
 msgstr ""
-
-msgid ""
-"For more details, see [tutorial for manual installation](../tutorial/manual-in"
-"stall/)."
-msgstr "詳細は[手動インストールのチュートリアル](../tutorial/manual-install/)を参照して下さい。"
 
 msgid ""
 "  [Ruby]: http://www.ruby-lang.org/\n"

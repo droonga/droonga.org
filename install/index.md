@@ -38,11 +38,6 @@ NOTE: currently the installation script works only on several environments:
  * Ubuntu (latest release, latest LTS)
  * CentOS 7
 
-Otherwise you have to install components manually.
-See following descriptions.
-
-## Details for manual installation
-
 -->
 
 ## Dependencies
@@ -72,11 +67,6 @@ See following descriptions.
 
 Now you are ready for building your own data processing system with Droonga. See [tutorial](/tutorial/) to get started.
 
-<!--
-
-For more details, see [tutorial for manual installation](../tutorial/manual-install/).
-
--->
 
   [Ruby]: http://www.ruby-lang.org/
   [Node.js]: http://nodejs.org/
