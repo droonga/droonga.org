@@ -166,19 +166,11 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 ]
 ~~~
 
-And, restart the `droonga-http-server` service on each node to refresh response caches:
-
-~~~
-(on node0, node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 After that the cluster becomes empty. Confirm it:
 
 ~~~
 $ endpoint="http://node0:10041"
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list?_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -222,7 +214,7 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)"" | jq "."
 [
   [
     0,
@@ -240,18 +232,13 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 ]
 ~~~
 
+Note: you have to add an extra parameter `_=$(date +%s)` to bypass the response cache.
+If you forget to add it, you'll see unexpected cached result based on old configurations.
+
 ### Restore data from a dump result, to an empty Droonga cluster
 
 Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
 You just have to pour the contents of the dump file to an empty cluster, by the `droonga-send` command.
-
-Before restoration, restart the `droonga-http-server` service on each node to refresh response caches:
-
-~~~
-(on node0, node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
 
 To restore the cluster from the dump file, run a command line like:
 
@@ -260,16 +247,14 @@ $ droonga-send --server=node0  \
                     dump.jsons
 ~~~
 
-Note to these things:
+Note:
 
  * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
- * You must specify valid host name or IP address of the computer you are logged in, via the option `--receiver-host`.
-   It is used by the Droonga cluster, to send response messages.
 
 Then the data is completely restored. Confirm it:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -321,6 +306,8 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
   ]
 ]
 ~~~
+
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ## Duplicate an existing Droonga cluster to another empty cluster directly
 
@@ -337,8 +324,6 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 
 ~~~
 (on node0)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node0
@@ -346,8 +331,6 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 
 ~~~
 (on node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --replica-hosts=node1
@@ -357,13 +340,11 @@ $ curl "$endpoint/d/table_remove?name=Store"
 $ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
-Note, don't forget to restart the `droonga-http-server` service on each node to refresh response caches, before separation.
-
 After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
 
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -371,7 +352,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -422,7 +403,7 @@ $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | 
     ]
   ]
 ]
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node1:10031/droonga": {
@@ -430,7 +411,7 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -447,6 +428,8 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
   ]
 ]
 ~~~
+
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 
 ### Duplicate data between two Droonga clusters
@@ -468,18 +451,10 @@ Absorbing...
 Done.
 ~~~
 
-To refresh response cacnes, restart the `droonga-http-server` on the destination node:
-
-~~~
-(on node1)
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
-~~~
-
 After that contents of these two clusters are completely synchronized. Confirm it:
 
 ~~~
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
@@ -532,6 +507,8 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 ]
 ~~~
 
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
+
 ### Unite two Droonga clusters
 
 Run following command lines to unite these two clusters:
@@ -541,8 +518,6 @@ Run following command lines to unite these two clusters:
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node1
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 ~~~
 
 ~~~
@@ -550,16 +525,12 @@ Run following command lines to unite these two clusters:
 # droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
                                 --update \
                                 --add-replica-hosts=node0
-# service droonga-http-server restart
- * Restarting  droonga-http-server             [ OK ]
 ~~~
-
-Note that you always have to restart the `droonga-http-server` service on nodes to refresh response caches.
 
 After that there is just one cluster - yes, it's the initial state.
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -571,6 +542,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ## Conclusion
 
