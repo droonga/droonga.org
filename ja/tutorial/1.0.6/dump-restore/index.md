@@ -329,16 +329,12 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s
 
 ~~~
 (on node0)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --replica-hosts=node0
+# droonga-engine-catalog-modify --replica-hosts=node0
 ~~~
 
 ~~~
 (on node1)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --replica-hosts=node1
+# droonga-engine-catalog-modify --replica-hosts=node1
 $ endpoint="http://node1:10041"
 $ curl "$endpoint/d/table_remove?name=Location"
 $ curl "$endpoint/d/table_remove?name=Store"
@@ -520,16 +516,12 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$
 
 ~~~
 (on node0)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --add-replica-hosts=node1
+# droonga-engine-catalog-modify --add-replica-hosts=node1
 ~~~
 
 ~~~
 (on node1)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --add-replica-hosts=node0
+# droonga-engine-catalog-modify --add-replica-hosts=node0
 ~~~
 
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。

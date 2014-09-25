@@ -366,10 +366,7 @@ msgstr "以下のようなコマンドを各ノードで実行して下さい:"
 
 msgid ""
 "~~~\n"
-"# droonga-engine-catalog-generate --hosts=node0,node1 \\\n"
-"                                  --output=~droonga-engine/droonga/catalog.jso"
-"n\n"
-"# chown droonga-engine:droonga-engine ~droonga-engine/droonga/catalog.json\n"
+"# droonga-engine-catalog-generate --hosts=node0,node1\n"
 "~~~"
 msgstr ""
 
@@ -383,10 +380,7 @@ msgstr ""
 
 msgid ""
 "~~~\n"
-"# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \\\n"
-"                                  --output=~droonga-engine/droonga/catalog.jso"
-"n\n"
-"...\n"
+"# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51\n"
 "~~~"
 msgstr ""
 

@@ -186,18 +186,14 @@ host: XXXXXXXX
 以下のようなコマンドを各ノードで実行して下さい:
 
 ~~~
-# droonga-engine-catalog-generate --hosts=node0,node1 \
-                                  --output=~droonga-engine/droonga/catalog.json
-# chown droonga-engine:droonga-engine ~droonga-engine/droonga/catalog.json
+# droonga-engine-catalog-generate --hosts=node0,node1
 ~~~
 
 当然ながら、`--hosts`オプションには各ノードの正しいホスト名を指定する必要があります。
 もしこれらのノードがIPアドレスをホスト名として設定されている場合には、コマンド列は以下のようになります:
 
 ~~~
-# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                  --output=~droonga-engine/droonga/catalog.json
-...
+# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51
 ~~~
 
 これで、Droongaクラスタの準備が完了しました。
