@@ -176,7 +176,6 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 これでクラスタは空になりました。確かめてみましょう:
 
 ~~~
-$ endpoint="http://node0:10041"
 $ curl "$endpoint/d/table_list?_=$(date +%s)" | jq "."
 [
   [
@@ -221,7 +220,7 @@ $ curl "$endpoint/d/table_list?_=$(date +%s)" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)"" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
 [
   [
     0,
