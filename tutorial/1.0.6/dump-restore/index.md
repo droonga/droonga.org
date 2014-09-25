@@ -330,9 +330,9 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 (on node1)
 # droonga-engine-catalog-modify --replica-hosts=node1
 $ endpoint="http://node1:10041"
-$ curl "$endpoint/d/table_remove?name=Location"
-$ curl "$endpoint/d/table_remove?name=Store"
-$ curl "$endpoint/d/table_remove?name=Term"
+$ curl "$endpoint/d/table_remove?name=Location&_=$(date +%s)"
+$ curl "$endpoint/d/table_remove?name=Store&_=$(date +%s)"
+$ curl "$endpoint/d/table_remove?name=Term&_=$(date +%s)"
 ~~~
 
 After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:

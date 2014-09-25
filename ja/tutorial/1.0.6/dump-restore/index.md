@@ -335,9 +335,9 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s
 (on node1)
 # droonga-engine-catalog-modify --replica-hosts=node1
 $ endpoint="http://node1:10041"
-$ curl "$endpoint/d/table_remove?name=Location"
-$ curl "$endpoint/d/table_remove?name=Store"
-$ curl "$endpoint/d/table_remove?name=Term"
+$ curl "$endpoint/d/table_remove?name=Location&_=$(date +%s)"
+$ curl "$endpoint/d/table_remove?name=Store&_=$(date +%s)"
+$ curl "$endpoint/d/table_remove?name=Term&_=$(date +%s)"
 ~~~
 
 これで、ノード `node0` を含む複製元クラスタと、ノード `node1` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
