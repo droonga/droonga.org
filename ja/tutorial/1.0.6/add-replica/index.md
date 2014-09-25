@@ -92,7 +92,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 この事は、`system.status`コマンドを通じて確認できます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -103,7 +103,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -114,7 +114,7 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node2:10031/droonga": {

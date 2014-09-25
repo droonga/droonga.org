@@ -83,7 +83,7 @@ Currently, the new node doesn't work as a node of the existing cluster.
 You can confirm that, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -94,7 +94,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -105,7 +105,7 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
 {
   "nodes": {
     "node2:10031/droonga": {
