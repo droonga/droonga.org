@@ -177,18 +177,14 @@ Let's configure them to work together as a cluster.
 Run commands like this, on each node:
 
 ~~~
-# droonga-engine-catalog-generate --hosts=node0,node1 \
-                                  --output=~droonga-engine/droonga/catalog.json
-# chown droonga-engine:droonga-engine ~droonga-engine/droonga/catalog.json
+# droonga-engine-catalog-generate --hosts=node0,node1
 ~~~
 
 Of course you must specify correct host name of nodes by the `--hosts` option.
 If your nodes are configured with raw IP addresses, the command line is:
 
 ~~~
-# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51 \
-                                  --output=~droonga-engine/droonga/catalog.json
-...
+# droonga-engine-catalog-generate --hosts=192.168.100.50,192.168.100.51
 ~~~
 
 OK, now your Droonga cluster is correctly prepared.

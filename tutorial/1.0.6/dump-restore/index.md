@@ -324,16 +324,12 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 
 ~~~
 (on node0)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --replica-hosts=node0
+# droonga-engine-catalog-modify --replica-hosts=node0
 ~~~
 
 ~~~
 (on node1)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --replica-hosts=node1
+# droonga-engine-catalog-modify --replica-hosts=node1
 $ endpoint="http://node1:10041"
 $ curl "$endpoint/d/table_remove?name=Location"
 $ curl "$endpoint/d/table_remove?name=Store"
@@ -515,16 +511,12 @@ Run following command lines to unite these two clusters:
 
 ~~~
 (on node0)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --add-replica-hosts=node1
+# droonga-engine-catalog-modify --add-replica-hosts=node1
 ~~~
 
 ~~~
 (on node1)
-# droonga-engine-catalog-modify --source=~droonga-engine/droonga/catalog.json \
-                                --update \
-                                --add-replica-hosts=node0
+# droonga-engine-catalog-modify --add-replica-hosts=node0
 ~~~
 
 After that there is just one cluster - yes, it's the initial state.
