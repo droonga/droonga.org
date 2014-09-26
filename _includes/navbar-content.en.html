@@ -36,7 +36,9 @@
     </li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
-    {% if relative_path != "" %}
+    {% if page.upper_level != null %}
+      <li><a href="{{ page.upper_level }}"><i class="fa fa-arrow-circle-up"></i> Up one level</a></li>
+    {% elsif relative_path != "" %}
       <li><a href="../"><i class="fa fa-arrow-circle-up"></i> Up one level</a></li>
     {% endif %}
     <li>
