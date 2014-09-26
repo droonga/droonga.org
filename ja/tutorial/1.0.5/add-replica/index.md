@@ -1,5 +1,5 @@
 ---
-title: "Droonga tutorial: 既存クラスタへのreplicaの追加"
+title: "Droongaチュートリアル: 既存クラスタへのreplicaの追加"
 layout: ja
 ---
 

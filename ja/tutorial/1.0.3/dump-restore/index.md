@@ -1,5 +1,5 @@
 ---
-title: "Droonga tutorial: データベースのバックアップと復元"
+title: "Droongaチュートリアル: データベースのバックアップと復元"
 layout: ja
 ---
 
