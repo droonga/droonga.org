@@ -124,7 +124,7 @@ vagrant@node0:~$ exit
 ### Register your VMs to your SSH client
 
 You have to use `vagrant ssh` instead of regular `ssh`, to log in VMs.
-Moreover you have to `cd` before running the command.
+Moreover you have to `cd` to the `Vagrantfile`'s directory before running the command.
 It is annoying a little.
 
 So, let's register VMs to your local config file of the SSH client, like:

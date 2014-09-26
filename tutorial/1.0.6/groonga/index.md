@@ -38,6 +38,8 @@ Prepare computers for Droonga nodes at first.
 This tutorial describes steps to set up Droonga cluster based on existing computers.
 Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 14.04 x64` or `CentOS 7 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
+If you just want to try Droong casually, see another tutorial: [how to prepare multiple virtual machines on your own computer](../virtual-machines-for-experiments/).
+
 NOTE:
 
  * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
