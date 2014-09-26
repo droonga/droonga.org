@@ -5,7 +5,8 @@ use_social_widgets: true
 ---
 
 {% for post in site.posts %}
-  {% if post.language == "en" %}
+  {% if post.path contains "ja/news/" %}
+  {% else %}
     {% include news-item.html %}
   {% endif %}
 {% endfor %}

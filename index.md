@@ -34,7 +34,8 @@ The following documentations will help you to use Droonga more effectively:
 
 <ul class="posts">
   {% for post in site.posts %}
-    {% if post.language == "en" %}
+    {% if post.path contains "ja/news/" %}
+    {% else %}
     <li>
       <a href="{{ post.url }}">{{ post.title }}</a>
       <span class="date">({{ post.date | date: "%Y-%m-%d" }})</span>

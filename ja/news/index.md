@@ -4,10 +4,9 @@ layout: ja
 use_social_widgets: true
 ---
 
-日本語版はまだありません。[英語版](/news/)を参照して下さい。
-
 {% for post in site.posts %}
-  {% if post.language == "ja" %}
-    {% include news-item.html %}
+  {% if post.path contains "ja/news/" %}
+    {% include news-item.ja.html %}
+  {% else %}
   {% endif %}
 {% endfor %}
