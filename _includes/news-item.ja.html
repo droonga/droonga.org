@@ -1,0 +1,14 @@
+<article>
+  <div class="well">
+    <h2>
+      <a href="{{ post.url }}">
+        {{ post.title }}
+      </a>
+    </h2>
+    <i class="fa fa-calendar-o"></i>
+    {{ post.date | date: '%Y-%m-%d' }}
+  </div>
+  {{ post.content }}
+
+  {% include social-widgets.html target=post %}
+</article>
