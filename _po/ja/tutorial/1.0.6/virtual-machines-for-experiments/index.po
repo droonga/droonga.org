@@ -271,7 +271,7 @@ msgid ""
 "~~~"
 msgstr ""
 
-msgid "### Configure your MVs to access each other by their host name"
+msgid "### Configure your VMs to access each other by their host name"
 msgstr "### 仮想マシン同士で互いのホスト名を名前解決できるように設定する"
 
 msgid ""

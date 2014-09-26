@@ -141,7 +141,7 @@ After that you can log in to your VMs from the host computer by their name, with
 $ ssh node0
 ~~~
 
-### Configure your MVs to access each other by their host name
+### Configure your VMs to access each other by their host name
 
 Because there is no name server, each VM cannot resolve host names of others.
 So you have to type their raw IP addresses for now.
