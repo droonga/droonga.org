@@ -6,6 +6,7 @@ layout: en
 ## For beginners and Groonga users
 
  * [Getting started/How to migrate from Groonga?](groonga/)
+   * [How to prepare virtual machines for experiments?](virtual-machines-for-experiments/)
  * [How to backup and restore the database?](dump-restore/)
  * [How to add a new replica to an existing cluster?](add-replica/)
 

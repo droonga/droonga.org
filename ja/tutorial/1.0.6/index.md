@@ -15,6 +15,7 @@ layout: ja
 ## 初心者とGroonga利用者向け
 
  * [使ってみる/Groongaからの移行手順](groonga/)
+   * [実験用の仮想マシンを用意する手順](virtual-machines-for-experiments/)
  * [データベースのバックアップと復元](dump-restore/)
  * [既存クラスタへのreplicaの追加](add-replica/)
 
