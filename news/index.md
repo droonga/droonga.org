@@ -5,5 +5,7 @@ use_social_widgets: true
 ---
 
 {% for post in site.posts %}
-  {% include news-item.html %}
+  {% if post.language == "en" %}
+    {% include news-item.html %}
+  {% endif %}
 {% endfor %}
