@@ -50,7 +50,6 @@ Go to the [Vagrant web site][Vagrant] and install it as instructed.
 For example, if you use an Ubuntu PC (x64):
 
 ~~~
-$ sudo apt-get install virtualbox
 $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
 $ sudo dpkg -i vagrant_1.6.5_x86_64.deb
 ~~~
