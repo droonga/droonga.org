@@ -59,7 +59,6 @@ $ sudo apt-get install virtualbox
 例えば、ホストマシンがx64のUbuntu　PCなのであれば、以下の要領です:
 
 ~~~
-$ sudo apt-get install virtualbox
 $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
 $ sudo dpkg -i vagrant_1.6.5_x86_64.deb
 ~~~
