@@ -176,8 +176,8 @@ In other words, Droonga nodes can work with less RAM, if there are existing (alr
 
 So there are two options for you:
 
- A. Install pre-built binary library from the [Groonga][]'s repository.
- B. Install Droonga services for each VM step by step.
+ 1. Install pre-built binary library from the [Groonga][]'s repository.
+ 2. Install Droonga services for each VM step by step.
 
 The first option is available only for some platforms.
 [Groonga][] provides its own repository of packages.
