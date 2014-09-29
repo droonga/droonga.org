@@ -183,13 +183,12 @@ $ vagrant halt
 
 これで、Vagrantがすべての仮想マシンを完全に終了させてくれます。
 
-### Cleanup VMs
+### 仮想マシンで行った変更を取り消す
 
-If you want to clear all changes in VMs, then simply remove the hidden `.vagrant` directory in the `Vagrantfile`'s directory:
+仮想マシンの中で行ったすべての変更を取り消したい場合は、単純に`vagrant destroy -f`というコマンドを実行すればOKです:
 
 ~~~
-$ vagrant halt
-$ rm -rf .vagrant
+$ vagrant destroy -f
 $ vagrant up
 ~~~
 

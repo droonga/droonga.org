@@ -177,11 +177,10 @@ Then Vagrant shuts down all VMs completely.
 
 ### Cleanup VMs
 
-If you want to clear all changes in VMs, then simply remove the hidden `.vagrant` directory in the `Vagrantfile`'s directory:
+If you want to clear all changes in VMs, then simply run the command `vagrant destroy -f`:
 
 ~~~
-$ vagrant halt
-$ rm -rf .vagrant
+$ vagrant destroy -f
 $ vagrant up
 ~~~
 
