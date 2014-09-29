@@ -7,8 +7,6 @@ layout: en
 
 The main part of Droonga consists of two components: [droonga-engine][] and [droonga-http-server][].
 
-<!--
-
 ## Steps to install Droonga by the installation script
 
 There are useful installation scripts.
@@ -38,8 +36,6 @@ NOTE: currently the installation script works only on several environments:
  * Ubuntu (latest release, latest LTS)
  * CentOS 7
 
--->
-
 ## Dependencies
 
 ### Ruby
@@ -49,23 +45,6 @@ NOTE: currently the installation script works only on several environments:
 ### Node.js
 
 [droonga-http-server][] requires [Node.js][].
-
-
-# Ubuntu 14.04
-
-## Install dependencies
-
-    sudo apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-
-## Install droonga-engine
-
-    sudo gem install droonga-engine
-
-## Install droonga-http-server
-
-    sudo npm install -g droonga-http-server
-
-Now you are ready for building your own data processing system with Droonga. See [tutorial](/tutorial/) to get started.
 
 
   [Ruby]: http://www.ruby-lang.org/
