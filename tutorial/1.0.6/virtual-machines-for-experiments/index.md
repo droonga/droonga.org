@@ -27,9 +27,12 @@ This tutorial describes *how to prepare three virtual machines* by Vagrant.
 ## Prepare a host machine
 
 First, you have to prepare a PC as the host of VMs.
-Because each VM requires much RAM, the host machine should have much more RAM - hopefully, 8GB or larger.
+Because each VM possibly requires much size RAM for building of native extensions, the host machine should have much more RAM - hopefully, 8GB or larger.
 
-(However, there are some loopholes. See the [appendix of this tutorial](#less-size-memory).)
+In most cases you don't have to prepare much size RAM for each VM because there are pre-built binaries for major platforms.
+However, if your VM is running with a minor distribution or an edge version, there may be no binary package for your platform. Then it will be compiled automatically, requiring 2GB RAM.
+If you see any strange error while building native extensions, enlarge the size of RAM of each VM and try installation again.
+(See also the [appendix of this tutorial](#less-size-memory).)
 
 ## Steps to prepare VMs
 
@@ -172,30 +175,9 @@ Then Vagrant shuts down all VMs completely.
 Even if your computer has less size RAM, you don't have to give up.
 
 2GB RAM for each virtual machine is required just for building native extensions of [Rroonga][].
-In other words, Droonga nodes can work with less RAM, if there are existing (already built) binary libraries.
+In other words, Droonga nodes can work with less size RAM, if there are existing (already built) binary libraries.
 
-So there are two options for you:
-
- 1. Install pre-built binary library from the [Groonga][]'s repository.
- 2. Install Droonga services for each VM step by step.
-
-The first option is available only for some platforms.
-[Groonga][] provides its own repository of packages.
-See the [installation guide](http://groonga.org/docs/install.html), and register Groonga's repository for your platform, as described.
-Then you can install pre-built binary library as the package `libgroonga-dev`.
-
-For example, if your VM is running with Ubuntu:
-
-~~~
-$ sudo add-apt-repository -y ppa:groonga/ppa
-$ sudo apt-get update
-$ sudo apt-get install -y libgroonga-dev
-~~~
-
-After that, installation of `droonga-engine` will finish quickly.
-
-The second option is simple.
-You can install Droonga services for each VM step by step, like:
+So you can install Droonga services for each VM step by step, like:
 
  1. Shutdown all VMs by `vagrant halt`.
  2. Open the VirtualBox console by `virtualbox`.
