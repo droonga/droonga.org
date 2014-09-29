@@ -183,6 +183,19 @@ $ vagrant halt
 
 これで、Vagrantがすべての仮想マシンを完全に終了させてくれます。
 
+### Cleanup VMs
+
+If you want to clear all changes in VMs, then simply remove the hidden `.vagrant` directory in the `Vagrantfile`'s directory:
+
+~~~
+$ vagrant halt
+$ rm -rf .vagrant
+$ vagrant up
+~~~
+
+これで、すべての変更を取り消して、仮想マシンをまっさらの状態で起動し直すことができます。
+この方法はインストールスクリプトの改修などの作業をする時に便利でしょう。
+
 ### 付録: ホストマシンのRAMがそれほど多くない場合 {#less-size-memory}
 
 手持ちのコンピュータが十分なサイズのメモリを搭載していないとしても、諦める必要はありません。

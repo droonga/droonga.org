@@ -175,6 +175,19 @@ $ vagrant halt
 
 Then Vagrant shuts down all VMs completely.
 
+### Cleanup VMs
+
+If you want to clear all changes in VMs, then simply remove the hidden `.vagrant` directory in the `Vagrantfile`'s directory:
+
+~~~
+$ vagrant halt
+$ rm -rf .vagrant
+$ vagrant up
+~~~
+
+Then all changes will go away and you can start fresh VMs again.
+This will help you to improve installation scripts or something.
+
 ### Appendix: if your host machine has less size RAM... {#less-size-memory}
 
 Even if your computer has less size RAM, you don't have to give up.
