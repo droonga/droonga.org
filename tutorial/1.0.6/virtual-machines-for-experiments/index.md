@@ -45,8 +45,11 @@ For example, if you use an [Ubuntu][] PC, it can be installed via the `apt` comm
 $ sudo apt-get install virtualbox
 ~~~
 
+Otherwise go to the [VirtualBox web site][VirtualBox] and install it as instructed.
+
 ### Install the Vagrant
 
+Next, install [Vagrant][].
 Go to the [Vagrant web site][Vagrant] and install it as instructed.
 For example, if you use an Ubuntu PC (x64):
 
@@ -54,6 +57,8 @@ For example, if you use an Ubuntu PC (x64):
 $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
 $ sudo dpkg -i vagrant_1.6.5_x86_64.deb
 ~~~
+
+NOTE: You can install Vagrant via `apt-get install vagrant` on Ubuntu 14.04, but don't use it because the version is too old to import boxes from [Vagrant Cloud][].
 
 ### Determine a box and prepare a Vagrantfile
 

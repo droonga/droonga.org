@@ -54,15 +54,19 @@ Vagrantには、仮想マシンを実行するためのバックエンドが必�
 $ sudo apt-get install virtualbox
 ~~~
 
+その他の環境では、[VirtualBoxのWebサイト][VirtualBox]にある手順に従ってVirtualBoxをインストールして下さい。
+
 ### Vagrantをインストールする
 
-[VagrantのWebサイト][Vagrant]にある手順に従って、Vagrantをインストールします。
+次に、[Vagrant][]をインストールします。[VagrantのWebサイト][Vagrant]にある手順に従って、Vagrantをインストールして下さい。
 例えば、ホストマシンがx64のUbuntu　PCなのであれば、以下の要領です:
 
 ~~~
 $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
 $ sudo dpkg -i vagrant_1.6.5_x86_64.deb
 ~~~
+
+注意: Ubuntu 14.04では`apt-get install vagrant`でもVagrantをインストールできますが、これは使わないで下さい。この方法でインストールできるVagrantはバージョンが古いため、[Vagrant Cloud][]からboxをインポートできません。
 
 ### boxの種類を決めて、Vagrantfileを用意する
 
