@@ -43,9 +43,7 @@ If you just want to try Droong casually, see another tutorial: [how to prepare m
 NOTE:
 
  * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
-   Otherwise, you may experience a strange build error.
-   (However, there is a loophole for some platforms.
-   See also [the instruction to install Droonga services on less size RAM environment.](../virtual-machines-for-experiments/#less-size-memory).)
+   Otherwise, you possibly experience a strange build error.
  * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` is accessible from each other computer in your cluster.
 
 You need to prepare two or more nodes for effective replication.
