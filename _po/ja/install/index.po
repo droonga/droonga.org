@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"PO-Revision-Date: 2014-03-05 12:52+0900\n"
+"PO-Revision-Date: 2014-09-26 18:21+0900\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,9 +26,6 @@ msgid ""
 "The main part of Droonga consists of two components: [droonga-engine][] and [d"
 "roonga-http-server][]."
 msgstr "Droongaは主に、[droonga-engine][]と[droonga-http-server][]の2つのコンポーネントから構成されています。"
-
-msgid "<!--"
-msgstr ""
 
 msgid "## Steps to install Droonga by the installation script"
 msgstr "## インストールスクリプトを使ったDroongaのインストール手順"
@@ -80,9 +77,6 @@ msgstr ""
 " * Ubuntu (最新のリリース、最新のLTS)\n"
 " * CentOS 7"
 
-msgid "-->"
-msgstr ""
-
 msgid "## Dependencies"
 msgstr "## 依存関係"
 
@@ -97,29 +91,6 @@ msgstr ""
 
 msgid "[droonga-http-server][] requires [Node.js][]."
 msgstr "[droonga-http-server][]は[Node.js][]を必要とします。"
-
-msgid "# Ubuntu 14.04"
-msgstr ""
-
-msgid "## Install dependencies"
-msgstr "## 依存パッケージのインストール"
-
-msgid ""
-"    sudo apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy"
-" npm"
-msgstr ""
-
-msgid "## Install droonga-engine"
-msgstr "## droonga-engineのインストール"
-
-msgid "    sudo gem install droonga-engine"
-msgstr ""
-
-msgid "## Install droonga-http-server"
-msgstr "## droonga-http-serverのインストール"
-
-msgid "    sudo npm install -g droonga-http-server"
-msgstr ""
 
 msgid ""
 "  [Ruby]: http://www.ruby-lang.org/\n"

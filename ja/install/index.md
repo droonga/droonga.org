@@ -16,8 +16,6 @@ layout: ja
 
 Droongaは主に、[droonga-engine][]と[droonga-http-server][]の2つのコンポーネントから構成されています。
 
-<!--
-
 ## インストールスクリプトを使ったDroongaのインストール手順
 
 Droongaは便利なインストールスクリプトを提供しています。
@@ -47,8 +45,6 @@ Droongaは便利なインストールスクリプトを提供しています。
  * Ubuntu (最新のリリース、最新のLTS)
  * CentOS 7
 
--->
-
 ## 依存関係
 
 ### Ruby
@@ -58,23 +54,6 @@ Droongaは便利なインストールスクリプトを提供しています。
 ### Node.js
 
 [droonga-http-server][]は[Node.js][]を必要とします。
-
-
-# Ubuntu 14.04
-
-## 依存パッケージのインストール
-
-    sudo apt-get install -y ruby ruby-dev build-essential nodejs nodejs-legacy npm
-
-## droonga-engineのインストール
-
-    sudo gem install droonga-engine
-
-## droonga-http-serverのインストール
-
-    sudo npm install -g droonga-http-server
-
-以上で、Droongaベースのデータ処理システムを構築する準備が整いました。ここから先は[チュートリアル](/ja/tutorial/)を参照して下さい。
 
 
   [Ruby]: http://www.ruby-lang.org/
