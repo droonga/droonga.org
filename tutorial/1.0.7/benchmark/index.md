@@ -242,7 +242,7 @@ Assume that you use a computer `192.168.100.53` as the client:
 (on 192.168.100.53)
 % sudo apt-get update
 % sudo apt-get -y upgrade
-% sudo apt-get install -y ruby curl
+% sudo apt-get install -y ruby curl jq
 % sudo gem install drnbench
 ~~~
 
