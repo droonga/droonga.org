@@ -28,6 +28,8 @@ And, assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogna 
  * `192.168.100.52`
  * `192.168.100.53`
 
+One is client, others are Droonga nodes.
+
 ## Why benchmarking?
 
 Because Droonga has compatibility to Groonga, you'll plan to migrate your application based on Groonga to Droonga.
