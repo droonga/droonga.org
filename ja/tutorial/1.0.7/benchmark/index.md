@@ -249,9 +249,9 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 
 ## クライアントをセットアップする
 
-You must install the benchmark client to the computer.
+クライアントにするマシンには、ベンチマーク用のクライアントをインストールする必要があります。
 
-Assume that you use a computer `192.168.100.53` as the client:
+`192.168.100.53`をクライアントとして使うと仮定します:
 
 ~~~
 (on 192.168.100.53)
@@ -262,15 +262,15 @@ Assume that you use a computer `192.168.100.53` as the client:
 ~~~
 
 
-## Prepare request patterns
+## リクエストパターンを用意する
 
-Let's prepare request pattern files for benchmarking.
+ベンチマーク用のリクエストパターンファイルを用意しましょう。
 
-### Determine the expected cache hit rate
+### キャッシュヒット率を決める
 
-First, you have to determine the cache hit rate.
+まず、キャッシュヒット率を決める必要があります。
 
-If you have any existing service based on Groonga, you can get the actual cache hit rate of the Groonga database via `status` command, like:
+もし既に運用中のGroongaベースのサービスがあるのであれば、以下のようにして、`status`コマンドを使ってGroongaデータベースのキャッシュヒット率を調べることができます:
 
 ~~~
 % curl "http://192.168.100.50:10041/d/status" | jq .
@@ -294,21 +294,21 @@ If you have any existing service based on Groonga, you can get the actual cache 
 ]
 ~~~
 
-The cache hit rate appears as `"cache_hit_rate"`.
-`0.5` means 50%, then a half of responses are returned from cached results.
+キャッシュヒット率は`"cache_hit_rate"`として返却されます。
+`0.5`は50%という意味で、レスポンスのうちの半分がキャッシュされた結果に基づいて返されているということです。
 
-If you have no existing service, you should assume that the cache hit rate becomes 50%.
+運用中のサービスが無いのであれば、ひとまずキャッシュヒット率は50％と過程すると良いでしょう。
 
-To measure and compare performance of Groonga and Droonga properly, you should prepare request patterns for benchmarking which make the cache hit rate near the actual rate.
-So, how do it?
+GroongaとDroongaの性能を正確に比較するためには、キャッシュヒット率が実際の値に近くなるようにリクエストパターンを用意する必要があります。
+さて、どのようにすればよいのでしょうか？
 
-You can control the cache hit rate by the number of unique request patterns, calculated with the expression:
-`N = 100 / (cache hit rate)`, because Groonga and Droonga (`droonga-http-server`) cache 100 results at a maximum by default.
-When the expected cache hit rate is 50%, the number of unique requests is calculated as: `N = 100 / 0.5 = 200`
+キャッシュヒット率は、`N = 100 ÷ (キャッシュヒット率)`という式で計算した、ユニーク（一意）なリクエストパターンの数で制御できます。
+これは、GroongaとDroonga（`droonga-http-server`）が既定の状態で最大で100件までの結果をキャッシュするためです。
+期待されるキャッシュヒット率が50%なのであれば、用意するべきユニークなリクエストの数は`N = 100 ÷ 0.5 = 200`と計算できます。
 
-### Prepare list of search terms
+### 検索語句のリストを用意する
 
-The package `drnbench` includes a utility command `drnbench-generate-select-patterns` to generate request patterns for benchmarking, from a list of unique terms, like:
+`drnbench`パッケージは、以下のようなユニークな語句の一覧からベンチマーク用のリクエストパターンを生成する、`drnbench-generate-select-patterns`というユーティリティコマンドを含んでいます:
 
 ~~~
 AAA
@@ -316,12 +316,12 @@ BBB
 CCC
 ~~~
 
-To generate 200 unique request patterns, you have to prepare 200 terms.
-Moreover, all of terms must be effective search term for the Groonga database.
-If you use randomly generated terms (like `P2qyNJ9L`, `Hy4pLKc5`, `D5eftuTp`, ...), you won't get effective benchmark result, because "not found" results will be returned for most requests.
+200件のユニークなリクエストパターンを作るには、200個の語句を用意する必要があります。
+しかも、それらはすべて実際にGroongaのデータベースで有効な検索結果を返すものでなくてはなりません。
+もしランダムに生成した単語（例えば`P2qyNJ9L`, `Hy4pLKc5`, `D5eftuTp`……といった具合）を使った場合、ほとんどのリクエストに対して「ヒット無し」という検索結果が返されてしまうため、有効なベンチマーク結果を得ることができません。
 
-So there is another utility command `drnbench-extract-searchterms`.
-It generates list of terms from Groonga's select result, like:
+こんな時のために、もう1つ、`drnbench-extract-searchterms`という別のユーティリティコマンドがあります。
+これは、以下のようにしてGroongaの検索結果から単語のリストを生成します:
 
 ~~~
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=10&output_columns=title" | \
@@ -333,13 +333,13 @@ title3
 title10
 ~~~
 
-`drnbench-extract-searchterms` extracts terms from the first column of records.
-To collect 200 effective search terms, you just have to give a select result with an option `limit=200`.
+`drnbench-extract-searchterms`は検索結果のレコードの最初の列の値を単語として取り出します。
+200件の有効な検索語句を得るには、単に`limit=200`と指定して検索結果を得ればOKです。
 
 
-### Generate request pattern file from given terms
+### 与えられた語句からリクエストパターンファイルを生成する
 
-OK, let's generate request patterns by `drnbench-generate-select-patterns` and `drnbench-extract-searchterms`, from a select result.
+それでは、`drnbench-generate-select-patterns`と`drnbench-extract-searchterms`を使って、検索結果からリクエストパターンを生成してみましょう。
 
 ~~~
 % n_unique_requests=200
@@ -349,7 +349,7 @@ OK, let's generate request patterns by `drnbench-generate-select-patterns` and `
     > ./patterns.json
 ~~~
 
-The generated file `patterns.json` becomes like following:
+生成されたファイル `patterns.json` は以下のような内容になります:
 
 ~~~
 {
@@ -369,11 +369,11 @@ The generated file `patterns.json` becomes like following:
 }
 ~~~
 
-Like above, request patterns for the `select` command are generated with the parameter `query`, based on given terms.
+上の例のように、与えられた単語に基づく`query`パラメータを伴って、`select`コマンド用のリクエストパターンが生成されます。
 
-However, these requests are too simple.
-No table is specified, there is no output, no drilldown.
-To construct more effective select requests, you can give extra parameters to the `drnbench-generate-select-patterns` via its `--base-params` option, like:
+しかしながら、この生成結果は内容がシンプルすぎます。
+テーブルが指定されていませんし、結果の出力も、ドリルダウンの指定もありません。
+より有効な検索リクエストを生成するためには、以下のように、`drnbench-generate-select-patterns`コマンドに`--base-params`オプションを使って追加のパラメータを指定します:
 
 ~~~
 % n_unique_requests=200
@@ -384,7 +384,7 @@ To construct more effective select requests, you can give extra parameters to th
     > ./patterns.json
 ~~~
 
-Then the generated file becomes:
+すると、以下のようなファイルが生成されます:
 
 ~~~
 {
@@ -405,10 +405,10 @@ Then the generated file becomes:
 ~~~
 
 
-## Run the benchmark
+## ベンチマークを実行する
 
-OK, it's ready to run.
-Let's benchmark Groonga and Droonga.
+以上で、準備が整いました。
+それではGroongaとDroongaのベンチマークを取得してみましょう。
 
 ### Benchmark Groonga
 
