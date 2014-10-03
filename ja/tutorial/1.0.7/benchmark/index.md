@@ -180,13 +180,13 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
     % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
     ~~~
 
-OK, now we can use this node as the reference for benchmarking.
+これで、このノードをベンチマーク測定の対照として使う準備が整いました。
 
 
 ## Droongaクラスタをセットアップする
 
-Install Droonga to all nodes.
-Because we are benchmarking it via HTTP, you have to install both services `droonga-engine` and `droonga-http-server` for each node.
+Droongaをすべてのノードにインストールします。
+HTTP経由での動作をベンチマーク測定するので、`droonga-engine`と`droonga-http-server`の両方をインストールする必要があります。
 
 ~~~
 (on 192.168.100.50)
@@ -213,13 +213,13 @@ Because we are benchmarking it via HTTP, you have to install both services `droo
 ...
 ~~~
 
-Note: to start `droonga-http-server` with a port number different from Groonga, we should specify another port `10042` via the `PORT` environment variable, like above.
+注意: `droonga-http-server`をGroongaとは別のポート番号で起動するために、ここでは`PORT`環境変数を使って上記のようにして`10042`のポートで起動するように指定しています。
 
 
-## Synchronize data from Groonga to Droonga
+## GroongaからDroongaへとデータを同期する
 
-Next, prepare the Droonga database.
-Send Droonga messages from dump files, like:
+次に、Droongaのデータベースを用意します。.
+ダンプファイルを元にして、以下のようにDroongaのメッセージを送りましょう:
 
 ~~~
 (on 192.168.100.50)
@@ -240,14 +240,14 @@ Send Droonga messages from dump files, like:
                        --report-throughput)
 ~~~
 
-Note that you must send requests for schema and indexes to just one endpoint.
-Parallel sending of schema definition requests for multiple nodes will break the database.
+スキーマ定義とインデックスの定義については単一のエンドポイントに送るように注意して下さい。
+スキーマ定義のリクエストを複数のノードに並行してバラバラに流し込むと、データベースが壊れた状態になる事があります。
 
-This may take much time.
-After all, now you have two HTTP servers: Groonga HTTP server with the port `10041`, and Droonga HTTP Servers with the port `10042`.
+この操作にも時間がかかります。
+それが完了したら、`10041`ポートを監視するGroonga HTTPサーバと、`10042`ポートを監視するDroonga HTTPサーバの、2つのHTTPサーバがある状態となります。
 
 
-## Set up the client
+## クライアントをセットアップする
 
 You must install the benchmark client to the computer.
 
