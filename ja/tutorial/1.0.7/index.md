@@ -18,6 +18,7 @@ layout: ja
    * [実験用の仮想マシンを用意する手順](virtual-machines-for-experiments/)
  * [データベースのバックアップと復元](dump-restore/)
  * [既存クラスタへのreplicaの追加](add-replica/)
+ * [DroongaとGroongaのベンチマークの取り方](benchmark/)
 
 ## 低レイヤのアプリケーション開発者向け
 
