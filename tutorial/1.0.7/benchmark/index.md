@@ -570,9 +570,12 @@ OK, now you have four results:
  * `droonga-result-3nodes.csv`
 
 [As described](#how-to-analyze), you can analyze them.
+
 For example, you can plot a graph from these results like:
 
 ![A layered graph of throughput](/images/tutorial/benchmark/throughput-mixed.png)
+
+You can explain this graph as: "On this condition Droonga has better performance when there are multiple nodes", "Single Droonga node's performance is lesser than Groonga's one, on this setting", and so on.
 
 (Note: Performance results fluctuate from various factors.
 This graph is just an example on a specific version, specific environment.)
