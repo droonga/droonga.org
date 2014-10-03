@@ -58,7 +58,7 @@ Anyway, "10 QPS" means that the Groonga actually accepted and responded for 10 r
     They starts to send requests.
  4. After a while, the master process kills all clients.
     Then total number of processed requests sent by all clients is reported as QPS of the two clients case.
- 5. Repeated with three clients, four clients ... and more.
+ 5. Repeated with three clients, four clients ... and more progressively.
  6. Finally, the master process reports QPS and other extra information for each case, as a CSV file like:
     
     ~~~
