@@ -42,13 +42,14 @@ Benchmarking will make it clear.
 ### How the benchmark tool measures the performance?
 
 You can run benchmark with the command `drnbench-request-response`, introduced by the Gem package [drnbench]().
-It measures how many request the target can process in a time and reports the result as "*queries per second* (*QPS*)".
+It measures the throughput performance of the target service - how many request can be processed in a time.
+The performance index is described as "*queries per second* (*QPS*)".
 
 For example, if a Groonga server processed 10 requests in one second, that is described as "10 QPS".
 Possibly there are 10 users (clients), or, there are 2 users and each user opens 5 tabs in his web browser.
 Anyway, "10 QPS" means that the Groonga actually accepted and responded for 10 requests while one second is passing.
 
-`drnbench-request-response` benchmarks the target endpoint, by steps like following:
+`drnbench-request-response` benchmarks the target service, by steps like following:
 
  1. The master process generates one virtual client.
     The client starts to send many requests to the target sequentially and frequently.
@@ -80,15 +81,17 @@ Anyway, "10 QPS" means that the Groonga actually accepted and responded for 10 r
 
 ### How read and analyze the result? {#how-to-analyze}
 
-Look at the result above.
+![A graph of throughput](/images/tutorial/benchmark/throughput-groonga.png)
+
+Look at the result above, and this graph.
 You'll see that the QPS stagnated around 250, for 12 or more clients.
 This means that the target service can process 250 requests in one second, at a maximum.
 
-In other words, 250 QPS is the maximum performance of the system.
+In other words, we can describe the result as: 250 QPS is the maximum throughput performance of this system - generic performance of hardware, software, and network.
 If the number of requests for your service is growing up and it is going to reach the limit, you have to do something about it - optimize queries, replace the computer with more powerful one, and so on.
 
 And, sending same request patterns to Groonga and Droonga, you can compare maximum QPS for each system.
-If Droonga's QPS is larger than Groonga's one, it will become good reason to migrate your service from Groogna to Droonga.
+If Droonga's QPS is larger than Groonga's one (=Droonga has better performance about throughput), it will become good reason to migrate your service from Groogna to Droonga.
 Moreover, comparing multiple results from different number of Droogna nodes, you can analyze the cost-benefit performance for newly introduced nodes.
 
 
@@ -564,6 +567,9 @@ OK, now you have four results:
  * `droonga-result-3nodes.csv`
 
 [As described](#how-to-analyze), you can analyze them.
+For example, you can plot a graph from these results like:
+
+![A layered graph of throughput](/images/tutorial/benchmark/throughput-mixed.png)
 
 
 ## Conclusion
