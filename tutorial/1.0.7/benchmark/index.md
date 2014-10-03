@@ -502,7 +502,7 @@ Before benchmarking, make your cluster with only one node.
     --hosts=192.168.100.50
 ~~~
 
-After that the endpoint 192.168.100.50 works as a Droonga cluster with single node.
+After that the endpoint `192.168.100.50` works as a Droonga cluster with single node.
 Run the benchmark.
 
 ~~~
@@ -533,7 +533,7 @@ Before benchmarking, join the second node to the cluster.
     --hosts=192.168.100.50,192.168.100.51
 ~~~
 
-After that both endpoints 192.168.100.50 and 192.168.100.51 work as a Droonga cluster with two nodes.
+After that both endpoints `192.168.100.50` and `192.168.100.51` work as a Droonga cluster with two nodes.
 Run the benchmark.
 
 ~~~
@@ -565,7 +565,7 @@ Before benchmarking, join the last node to the cluster.
     --hosts=192.168.100.50,192.168.100.51,192.168.100.52
 ~~~
 
-After that all endpoints 192.168.100.50, 192.168.100.51, and 192.168.100.52 work as a Droonga cluster with three nodes.
+After that all endpoints `192.168.100.50`, `192.168.100.51`, and `192.168.100.52` work as a Droonga cluster with three nodes.
 Run the benchmark.
 
 ~~~
