@@ -70,9 +70,8 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     % git clone https://github.com/droonga/wikipedia-search.git
     % cd wikipedia-search
     % bundle install
-    % MAX_N_RECORDS=100000 \
-        time bundle exec rake data:convert:groonga:ja \
-          data/groonga/ja-pages.grn
+    % time (MAX_N_RECORDS=100000 bundle exec rake data:convert:groonga:ja \
+                                   data/groonga/ja-pages.grn)
     ~~~
     
     Because the archive is very large, downloading and data conversion may take time.
