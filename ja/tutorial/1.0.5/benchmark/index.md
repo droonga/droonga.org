@@ -1,6 +1,6 @@
 ---
-title: "How to benchmark Droonga with Groonga?"
-layout: en
+title: "DroongaとGroongaのベンチマークの取り方"
+layout: ja
 ---
 
 {% comment %}
@@ -26,10 +26,10 @@ Learning steps to benchmark a [Droonga][] cluster and compare it to a [Groonga][
 * You must have basic knowledge to construct a [Droonga][] cluster by your hand.
   Please complete the ["getting started" tutorial](../groonga/) before this.
 
-## Why benchmarking?
+## ベンチマークの必要性について
 
-Because Droonga has compatibility to Groonga, you'll plan to migrate your application based on Groonga to Droonga.
-Before that, you should benchmark Droonga and confirm that it is better alternative for your application.
+DroongaはGroongaと互換性があるため、GroongaベースのアプリケーションをDroongaに移行することを検討することもあるでしょう。
+そんな時は、実際に移行する前に、Droongaの性能を測定して、より良い移行先であるかどうかを確認しておくべきです。
 
 For example, assume that your application has following spec:
 
