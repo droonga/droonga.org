@@ -78,6 +78,9 @@ Anyway, "10 QPS" means that the Groonga actually accepted and responded for 10 r
     ~~~
     
     You can analyze it, draw a graph from it, and so on.
+    
+    (Note: Performance results fluctuate from various factors.
+    This is just an example on a specific version, specific environment.)
 
 ### How read and analyze the result? {#how-to-analyze}
 
@@ -571,6 +574,8 @@ For example, you can plot a graph from these results like:
 
 ![A layered graph of throughput](/images/tutorial/benchmark/throughput-mixed.png)
 
+(Note: Performance results fluctuate from various factors.
+This graph is just an example on a specific version, specific environment.)
 
 ## Conclusion
 
