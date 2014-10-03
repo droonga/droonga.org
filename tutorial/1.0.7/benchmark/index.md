@@ -365,7 +365,7 @@ To construct more effective select requests, you can give extra parameters to th
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms | \
     drnbench-generate-select-patterns \
-      --base-params="table=Pages&limit=10&match_columns=title&output_columns=title,text" \
+      --base-params="table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key" \
     > ./patterns.json
 ~~~
 
@@ -378,53 +378,16 @@ Then the generated file becomes:
     "method": "get",
     "patterns": [
       {
-        "path": "/d/select?table=Pages&limit=10&match_columns=title&output_columns=title,text&query=AAA"
+        "path": "/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=AAA"
       },
       {
-        "path": "/d/select?table=Pages&limit=10&match_columns=title&output_columns=title,text&query=BBB"
+        "path": "/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=BBB"
       },
       ...
     ]
   }
 }
 ~~~
-
-
-### Generate request pattern files for multiple endpoints
-
-One more note, you should prepare multiple request pattern files to distribute requests to multiple endpoints.
-
-If you send all requests to a single endpoint, `droonga-http-server` will become a bottleneck, because it works as a single process for now.
-Moreover, `droonga-http-server` and `droonga-engine` will scramble for CPU resources.
-To measure the performance of your Droonga cluster effectively, you should average out CPU load per capita.
-(Of course, on production environments, it should be done by a load balancer.)
-
-You can specify endpoints as a comma-separated list of hosts, for the `--hosts` option of the `drnbench-generate-select-patterns` command, like:
-
-~~~
-% n_unique_requests=200
-% select_request="http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title"
-% base_params="table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key"
-% curl "$select_request" | \
-    drnbench-extract-searchterms | \
-    drnbench-generate-select-patterns \
-      --base-params="$base_params" \
-    > ./patterns-1node.json
-% curl "$select_request" | \
-    drnbench-extract-searchterms | \
-    drnbench-generate-select-patterns \
-      --base-params="$base_params" \
-      --hosts=192.168.100.50,192.168.100.51 \
-    > ./patterns-2nodes.json
-% curl "$select_request" | \
-    drnbench-extract-searchterms | \
-    drnbench-generate-select-patterns \
-      --base-params="$base_params" \
-      --hosts=192.168.100.50,192.168.100.51,192.168.100.52 \
-    > ./patterns-3nodes.json
-~~~
-
-To compare overheads per nodes, here I generated three pattern files: single endpoint, two endpoints, and three endpoints.
 
 
 ## Run the benchmark
@@ -452,8 +415,8 @@ You can run benchmark with the command `drnbench-request-response`, like:
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns-1node.json \
-    --default-host=192.168.100.50 \
+    --request-patterns-file=$PWD/patterns.json \
+    --default-hosts=192.168.100.50 \
     --default-port=10041 \
     --output-path=$PWD/groonga-result.csv
 ~~~
@@ -472,8 +435,8 @@ Important parameters are:
    This should be long enough to finish previous benchmark.
    `10` (seconds) seems good for my case.
  * `--request-patterns-file` is the path to the pattern file.
- * `--default-host` is the host name of the target endpoint.
-   If the given request pattern has its own `host`, this will be ignored.
+ * `--default-hosts` is the list of host names of target endpoints.
+   By specifying multiple hosts as a comma-separated list, you can simulate load balancing.
  * `--default-port` is the port number of the target endpoint.
  * `--output-path` is the path to the result file.
    Statistics of all benchmarks is saved as a file at the location.
@@ -513,8 +476,8 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns-1node.json \
-    --default-host=192.168.100.50 \
+    --request-patterns-file=$PWD/patterns.json \
+    --default-hosts=192.168.100.50 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-1node.csv
 ~~~
@@ -544,15 +507,22 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns-2nodes.json \
-    --default-host=192.168.100.50 \
+    --request-patterns-file=$PWD/patterns.json \
+    --default-hosts=192.168.100.50,192.168.100.51 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-2nodes.csv
 ~~~
 
-Note that the path to the patterns file is changed.
-To simulate a load balancer, you should distribute requests for both endpoints.
-Moreover, the path to the result file also changed.
+Note that two hosts are specified via the `--default-hosts` option.
+
+If you send all requests to single endpoint, `droonga-http-server` will become a bottleneck, because it works as a single process for now.
+Moreover, `droonga-http-server` and `droonga-engine` will scramble for CPU resources.
+To measure the performance of your Droonga cluster effectively, you should average out CPU load per capita.
+
+Of course, on the production environment, it should be done by a load balancer, but It's a hassle to set up a load balancer for just benchmarking.
+Instead, you can specify multiple endpoint host names as a comma-separated list for the `--default-hosts` option.
+
+And, the path to the result file also changed.
 
 
 #### Benchmark Droonga with three nodes
@@ -576,13 +546,13 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns-3nodes.json \
-    --default-host=192.168.100.50 \
+    --request-patterns-file=$PWD/patterns.json \
+    --default-hosts=192.168.100.50,192.168.100.51,192.168.100.52 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-3nodes.csv
 ~~~
 
-Note that both paths to the patterns file and the result file are changed.
+Note that both `--default-hosts` and `--output-path` are changed again.
 
 ## Analyze the result
 
