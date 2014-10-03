@@ -21,7 +21,7 @@ this is based on https://github.com/droonga/presentation-droonga-meetup-1-introd
 
 ## チュートリアルのゴール
 
-[Droonga][]クラスタのベンチマークの測定し、[Groonga][groonga]での結果と比較するまでの、一連の手順を学ぶこと。
+[Droonga][]クラスタのベンチマークを測定し、[Groonga][groonga]での結果と比較するまでの、一連の手順を学ぶこと。
 
 ## 前提条件
 
@@ -52,24 +52,24 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
 
 ベンチマークは、[drnbench]()というGemパッケージによって導入される`drnbench-request-response`コマンドで行うことができます。
 このツールは、対象サービスのスループット性能、つまり、一度にどれだけの数のリクエストを捌けるかを計測します。
-性能の指標は「*クエリ毎秒*（Queries Per Second, *QPS*）」という単位で表されます。
+性能の指標は「*クエリ毎秒*（Queries Per Second, *qps*）」という単位で表されます。
 
-For example, if a Groonga server processed 10 requests in one second, that is described as "10 QPS".
-Possibly there are 10 users (clients), or, there are 2 users and each user opens 5 tabs in his web browser.
-Anyway, "10 QPS" means that the Groonga actually accepted and responded for 10 requests while one second is passing.
+例えば、あるGroongaサーバが1秒に10件のリクエストを処理できたとき、これを「10qps」と表現します。
+10人のユーザ（クライアント）がいるのかもしれませんし、2人のユーザがそれぞれブラウザ上で5つのタブを開いているのかもしれません。
+ともかく、「10qps」という数値は、1秒が経過する間にそのGroongaサーバが実際に10件のリクエストを受け付けて、レスポンスを返したということを意味します。
 
 `drnbench-request-response` benchmarks the target service, by steps like following:
 
  1. The master process generates one virtual client.
     The client starts to send many requests to the target sequentially and frequently.
  2. After a while, the master process kills the client.
-    Then he counts up the number of requests actually processed by the target, and reports it as QPS of the single client case.
+    Then he counts up the number of requests actually processed by the target, and reports it as "qps" of the single client case.
  3. The master process generates two virtual clients.
     They starts to send requests.
  4. After a while, the master process kills all clients.
-    Then total number of processed requests sent by all clients is reported as QPS of the two clients case.
+    Then total number of processed requests sent by all clients is reported as "qps" of the two clients case.
  5. Repeated with three clients, four clients ... and more progressively.
- 6. Finally, the master process reports QPS and other extra information for each case, as a CSV file like:
+ 6. Finally, the master process reports "qps" and other extra information for each case, as a CSV file like:
     
     ~~~
     n_clients,total_n_requests,queries_per_second,min_elapsed_time,max_elapsed_time,average_elapsed_time,0,200
@@ -96,14 +96,14 @@ Anyway, "10 QPS" means that the Groonga actually accepted and responded for 10 r
 ![A graph of throughput](/images/tutorial/benchmark/throughput-groonga.png)
 
 Look at the result above, and this graph.
-You'll see that the QPS stagnated around 250, for 12 or more clients.
+You'll see that the "qps" stagnated around 250, for 12 or more clients.
 This means that the target service can process 250 requests in one second, at a maximum.
 
-In other words, we can describe the result as: 250 QPS is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
+In other words, we can describe the result as: 250qps is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
 If the number of requests for your service is growing up and it is going to reach the limit, you have to do something about it - optimize queries, replace the computer with more powerful one, and so on.
 
-And, sending same request patterns to Groonga and Droonga, you can compare maximum QPS for each system.
-If Droonga's QPS is larger than Groonga's one (=Droonga has better performance about throughput), it will become good reason to migrate your service from Groogna to Droonga.
+And, sending same request patterns to Groonga and Droonga, you can compare maximum "qps" for each system.
+If Droonga's "qps" is larger than Groonga's one (=Droonga has better performance about throughput), it will become good reason to migrate your service from Groogna to Droonga.
 Moreover, comparing multiple results from different number of Droogna nodes, you can analyze the cost-benefit performance for newly introduced nodes.
 
 
