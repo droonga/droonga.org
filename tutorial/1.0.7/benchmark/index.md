@@ -90,7 +90,7 @@ Look at the result above, and this graph.
 You'll see that the QPS stagnated around 250, for 12 or more clients.
 This means that the target service can process 250 requests in one second, at a maximum.
 
-In other words, we can describe the result as: 250 QPS is the maximum throughput performance of this system - generic performance of hardware, software, and network.
+In other words, we can describe the result as: 250 QPS is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
 If the number of requests for your service is growing up and it is going to reach the limit, you have to do something about it - optimize queries, replace the computer with more powerful one, and so on.
 
 And, sending same request patterns to Groonga and Droonga, you can compare maximum QPS for each system.
