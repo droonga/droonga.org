@@ -51,25 +51,29 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     For example, if there are three nodes `192.168.100.50` (8GB RAM), `192.168.100.51` (8GB RAM), and `192.168.100.52` (6GB RAM), then the database should be smaller than 6GB.
  2. Set up the Groonga server, as instructed on [the installation guide](http://groonga.org/docs/install.html).
     
-        (on 192.168.100.50)
-        % sudo apt-get -y install software-properties-common
-        % sudo add-apt-repository -y universe
-        % sudo add-apt-repository -y ppa:groonga/ppa
-        % sudo apt-get update
-        % sudo apt-get -y install groonga
+    ~~~
+    (on 192.168.100.50)
+    % sudo apt-get -y install software-properties-common
+    % sudo add-apt-repository -y universe
+    % sudo add-apt-repository -y ppa:groonga/ppa
+    % sudo apt-get update
+    % sudo apt-get -y install groonga
+    ~~~
     
     Then the Groonga becomes available.
  3. Download the archive of Wikipedia pages and convert it to a dump file for Groonga, with the rake task `data:convert:groonga:ja`.
     You can specify the number of records (pages) to be converted via the environment variable `MAX_N_RECORDS` (default=5000).
     
-        (on 192.168.100.50)
-        % cd ~/
-        % git clone https://github.com/droonga/wikipedia-search.git
-        % cd wikipedia-search
-        % bundle install
-        % MAX_N_RECORDS=100000 \
-            time bundle exec rake data:convert:groonga:ja \
-              data/groonga/ja-pages.grn
+    ~~~
+    (on 192.168.100.50)
+    % cd ~/
+    % git clone https://github.com/droonga/wikipedia-search.git
+    % cd wikipedia-search
+    % bundle install
+    % MAX_N_RECORDS=100000 \
+        time bundle exec rake data:convert:groonga:ja \
+          data/groonga/ja-pages.grn
+    ~~~
     
     Because the archive is very large, downloading and data conversion may take time.
     
@@ -77,12 +81,14 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     Create a new database and load the dump file to it.
     This also may take more time:
     
-        (on 192.168.100.50)
-        % mkdir -p $HOME/groonga/db/
-        % groonga -n $HOME/groonga/db/db quit
-        % time (cat ~/wikipedia-search/config/groonga/schema.grn | groonga $HOME/groonga/db/db)
-        % time (cat ~/wikipedia-search/config/groonga/indexes.grn | groonga $HOME/groonga/db/db)
-        % time (cat ~/wikipedia-search/data/groonga/ja-pages.grn | groonga $HOME/groonga/db/db)
+    ~~~
+    (on 192.168.100.50)
+    % mkdir -p $HOME/groonga/db/
+    % groonga -n $HOME/groonga/db/db quit
+    % time (cat ~/wikipedia-search/config/groonga/schema.grn | groonga $HOME/groonga/db/db)
+    % time (cat ~/wikipedia-search/config/groonga/indexes.grn | groonga $HOME/groonga/db/db)
+    % time (cat ~/wikipedia-search/data/groonga/ja-pages.grn | groonga $HOME/groonga/db/db)
+    ~~~
     
     Note: number of records affects to the database size.
     Just for information, my results are here:
@@ -94,8 +100,10 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     
  4. Start the Groonga as an HTTP server.
     
-        (on 192.168.100.50)
-        % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
+    ~~~
+    (on 192.168.100.50)
+    % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
+    ~~~
 
 OK, now we can use this node as the reference for benchmarking.
 
@@ -105,24 +113,30 @@ OK, now we can use this node as the reference for benchmarking.
 Install Droonga to all nodes.
 Because we are benchmarking it via HTTP, you have to install both services `droonga-engine` and `droonga-http-server` for each node.
 
-    (on 192.168.100.50)
-    % host=192.168.100.50
-    % curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
-        sudo HOST=$host bash
-    % curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
-        sudo ENGINE_HOST=$host HOST=$host PORT=10042 bash
-    % sudo droonga-engine-catalog-generate \
-        --hosts=192.168.100.50,192.168.100.51,192.168.100.52
-    % sudo service droonga-engine start
-    % sudo service droonga-http-server start
+~~~
+(on 192.168.100.50)
+% host=192.168.100.50
+% curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
+    sudo HOST=$host bash
+% curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
+    sudo ENGINE_HOST=$host HOST=$host PORT=10042 bash
+% sudo droonga-engine-catalog-generate \
+    --hosts=192.168.100.50,192.168.100.51,192.168.100.52
+% sudo service droonga-engine start
+% sudo service droonga-http-server start
+~~~
 
-    (on 192.168.100.51)
-    % host=192.168.100.51
-    ...
+~~~
+(on 192.168.100.51)
+% host=192.168.100.51
+...
+~~~
 
-    (on 192.168.100.52)
-    % host=192.168.100.52
-    ...
+~~~
+(on 192.168.100.52)
+% host=192.168.100.52
+...
+~~~
 
 Note: to start `droonga-http-server` with a port number different from Groonga, we should specify another port `10042` via the `PORT` environment variable, like above.
 
@@ -132,22 +146,24 @@ Note: to start `droonga-http-server` with a port number different from Groonga, 
 Next, prepare the Droonga database.
 Send Droonga messages from dump files, like:
 
-    (on 192.168.100.50)
-    % sudo gem install grn2drn
-    % time (cat ~/wikipedia-search/config/groonga/schema.grn | \
-              grn2drn | \
-              droonga-send --server=192.168.100.50 \
-                           --report-throughput)
-    % time (cat ~/wikipedia-search/config/groonga/indexes.grn | \
-              grn2drn | \
-              droonga-send --server=192.168.100.50 \
-                           --report-throughput)
-    % time (cat ~/wikipedia-search/data/groonga/ja-pages.grn | \
-              grn2drn | \
-              droonga-send --server=192.168.100.50 \
-                           --server=192.168.100.51 \
-                           --server=192.168.100.52 \
-                           --report-throughput)
+~~~
+(on 192.168.100.50)
+% sudo gem install grn2drn
+% time (cat ~/wikipedia-search/config/groonga/schema.grn | \
+          grn2drn | \
+          droonga-send --server=192.168.100.50 \
+                       --report-throughput)
+% time (cat ~/wikipedia-search/config/groonga/indexes.grn | \
+          grn2drn | \
+          droonga-send --server=192.168.100.50 \
+                       --report-throughput)
+% time (cat ~/wikipedia-search/data/groonga/ja-pages.grn | \
+          grn2drn | \
+          droonga-send --server=192.168.100.50 \
+                       --server=192.168.100.51 \
+                       --server=192.168.100.52 \
+                       --report-throughput)
+~~~
 
 Note that you must send requests for schema and indexes to just one endpoint.
 Parallel sending of schema definition requests for multiple nodes will break the database.
