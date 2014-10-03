@@ -452,22 +452,19 @@ You can run benchmark with the command `drnbench-request-response`, like:
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --wait=0.01 \
-    --mode=http \
     --request-patterns-file=$PWD/patterns-1node.json \
     --default-host=192.168.100.50 \
     --default-port=10041 \
-    --n-slow-requests=5 \
     --output-path=$PWD/groonga-result.csv
 ~~~
 
 Important parameters are:
 
- * `--step` is the number of virtual clients added on each iteration.
+ * `--step` is the number of virtual clients increased on each progress.
  * `--start-n-clients` is the initial number of virtual clients.
    Even if you specify `0`, initially one client is always generated.
  * `--end-n-clients` is the maximum number of virtual clients.
-   This tool repeats benchmark until the number of clients is reached to this limit.
+   Benchmark is performed progressively until the number of clients is reached to this limit.
  * `--duration` is the duration of each benchmark.
    This should be long enough to average out the result.
    `30` (seconds) seems good for my case.
@@ -478,19 +475,8 @@ Important parameters are:
  * `--default-host` is the host name of the target endpoint.
    If the given request pattern has its own `host`, this will be ignored.
  * `--default-port` is the port number of the target endpoint.
-   If the given request pattern has its own `port`, this will be ignored.
  * `--output-path` is the path to the result file.
-   This tool outputs the result to the specified location.
-
-And, there are more parameters:
-
- * `--wait` is the inverval of each request sent by a client.
-   `0.01` (seconds) means "send requests continuously".
- * `--mode` specifies the request mode of the tool.
-   You must specify `http` for now.
- * `--n-slow-requests` is the number of reported "slow requests".
-   Slow requests are reported after the benchmark.
-   It will help you to do debugging.
+   Statistics of all benchmarks is saved as a file at the location.
 
 Then you'll get the reference result of the Groonga.
 After that you should stop Groonga to release CPU and RAM resources.
@@ -527,12 +513,9 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --wait=0.01 \
-    --mode=http \
     --request-patterns-file=$PWD/patterns-1node.json \
     --default-host=192.168.100.50 \
     --default-port=10042 \
-    --n-slow-requests=5 \
     --output-path=$PWD/droonga-result-1node.csv
 ~~~
 
@@ -561,12 +544,9 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --wait=0.01 \
-    --mode=http \
     --request-patterns-file=$PWD/patterns-2nodes.json \
     --default-host=192.168.100.50 \
     --default-port=10042 \
-    --n-slow-requests=5 \
     --output-path=$PWD/droonga-result-2nodes.csv
 ~~~
 
@@ -596,12 +576,9 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --wait=0.01 \
-    --mode=http \
     --request-patterns-file=$PWD/patterns-3nodes.json \
     --default-host=192.168.100.50 \
     --default-port=10042 \
-    --n-slow-requests=5 \
     --output-path=$PWD/droonga-result-3nodes.csv
 ~~~
 
