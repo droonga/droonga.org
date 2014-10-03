@@ -58,18 +58,18 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
 10人のユーザ（クライアント）がいるのかもしれませんし、2人のユーザがそれぞれブラウザ上で5つのタブを開いているのかもしれません。
 ともかく、「10qps」という数値は、1秒が経過する間にそのGroongaサーバが実際に10件のリクエストを受け付けて、レスポンスを返したということを意味します。
 
-`drnbench-request-response` benchmarks the target service, by steps like following:
+`drnbench-request-response`は、対象サービスの性能を以下のようにして計測します:
 
- 1. The master process generates one virtual client.
-    The client starts to send many requests to the target sequentially and frequently.
- 2. After a while, the master process kills the client.
-    Then he counts up the number of requests actually processed by the target, and reports it as "qps" of the single client case.
- 3. The master process generates two virtual clients.
-    They starts to send requests.
- 4. After a while, the master process kills all clients.
-    Then total number of processed requests sent by all clients is reported as "qps" of the two clients case.
- 5. Repeated with three clients, four clients ... and more progressively.
- 6. Finally, the master process reports "qps" and other extra information for each case, as a CSV file like:
+ 1. マスタープロセスが仮想クライアントを1つ生成する。
+    このクライアントは即座に動き始め、対象サービスに対して多数のリクエストを連続して頻繁に送り続ける。
+ 2. しばらくしたら、マスタープロセスがクライアントを終了させる。
+    そして、実際に対象サービスによって処理されたリクエストの件数を集計し、結果を1クライアントの場合のqps値として報告する。
+ 3. マスタープロセスが仮想クライアントを2つ生成する。
+    これらのクライアントはリクエストを送り始める。
+ 4. しばらくしたら、マスタープロセスがすべてのクライアントを終了させる。
+    そして、実際に対象サービスに処理されたリクエストの件数を集計し、結果を2クライアントの場合のqps値として報告する。
+ 5. 3クライアントの場合、4クライアントの場合……と、クライアント数を増やしながら繰り返す。
+ 6. 最後に、マスタープロセスが結果のqps値とその他の情報をまとめたものを、以下のようなCSVファイルとして保存する:
     
     ~~~
     n_clients,total_n_requests,queries_per_second,min_elapsed_time,max_elapsed_time,average_elapsed_time,0,200
@@ -86,28 +86,28 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
     20,7506,250.2,0.001759464,0.404634447,0.06887332192845741,0.21316280309086064,99.78683719690913
     ~~~
     
-    You can analyze it, draw a graph from it, and so on.
+    この結果は、分析や、グラフ描画など、様々な使い方ができます。
     
-    (Note: Performance results fluctuate from various factors.
-    This is just an example on a specific version, specific environment.)
+    (注意: 性能測定の結果は様々な要因によって変動します。
+    これはあくまで特定のバージョン、特定の環境での結果の例です。)
 
-### How read and analyze the result? {#how-to-analyze}
+### 結果の読み方と分析の仕方 {#how-to-analyze}
 
-![A graph of throughput](/images/tutorial/benchmark/throughput-groonga.png)
+![スループットのグラフ](/images/tutorial/benchmark/throughput-groonga.png)
 
-Look at the result above, and this graph.
-You'll see that the "qps" stagnated around 250, for 12 or more clients.
-This means that the target service can process 250 requests in one second, at a maximum.
+先の例と、このグラフを見て下さい。
+12クライアントを超えたあたりで、qps値が250前後で頭打ちになっているのを見て取れるでしょう。
+これは、計測対象のサービスが1秒あたり最大で250件のリクエストを処理できるということを意味しています。
 
-In other words, we can describe the result as: 250qps is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
-If the number of requests for your service is growing up and it is going to reach the limit, you have to do something about it - optimize queries, replace the computer with more powerful one, and so on.
+言い直すと、この結果は「（ハードウェア、ソフトウェア、ネットワーク、データベースの大きさ、クエリの内容など、様々な要素をひっくるめた）このシステムのスループットの性能限界は250qpsである」という風に読み取ることができます。
+もしサービスに対するリクエストの件数が増加しつつあり、この限界に近づいているようであれば、クエリの最適化やコンピュータ自体のアップグレードなど、何らかの対策を取ることを検討する必要があると言えます。
 
-And, sending same request patterns to Groonga and Droonga, you can compare maximum "qps" for each system.
-If Droonga's "qps" is larger than Groonga's one (=Droonga has better performance about throughput), it will become good reason to migrate your service from Groogna to Droonga.
-Moreover, comparing multiple results from different number of Droogna nodes, you can analyze the cost-benefit performance for newly introduced nodes.
+また、同じリクエストのパターンをGroongaとDroongaに送ることで、各システムのqps値の上限（性能限界）を比較することができます。
+もじDroongaのqps値がGroongaのそれよりも大きい（つまり、DroongaがGroongaよりも高いスループット性能を発揮している）のであれば、サービスのバックエンドをGroongaからDroongaに移行する根拠になり得ます。
+また、異なるノード数での結果を比較すると、新しくノードを追加する際のコストパフォーマンスを分析することもできます。
 
 
-### Ensure an existing reference database (and the data source)
+### 比較対照のデータベース（およびそのデータソース）を用意する
 
 If you have any existing service based on Groonga, it becomes the reference.
 Then you just have to dump all data in your Groonga database and load them to a new Droonga cluster.
