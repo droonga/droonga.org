@@ -120,9 +120,9 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
  1. データベースのサイズを決める。
     ベンチマーク測定のためには、十分に大きいサイズのデータベースを使う必要があります。
     
-    * If it is too small, you'll see "too bad" benchmark result for Droonga, because the percentage of the Droonga's overhead becomes relatively too large.
-    * If it is too large, you'll see "too unstable" result because swapping of RAM will slow the performance down randomly.
-    * If RAM size of all nodes are different, you should determine the size of the database for the minimum size RAM.
+    * もしデータベースが小さすぎれば、Droongaのオーバーヘッドが相対的に大きくなるため、Droongaにとって過度に悲観的なベンチマーク結果となるでしょう。
+    * もしデータベースが大きすぎれば、メモリのスワップが発生してシステムの性能がランダムに劣化するために、過度に不安定なベンチマーク結果となるでしょう。
+    * 各ノードのメモリの搭載量が異なる場合、その中で最もメモリ搭載量が少ないノードに合わせてデータベースのサイズを決めるのが望ましいです。
 
     例えば、`192.168.100.50` (8GB RAM), `192.168.100.51` (8GB RAM), `192.168.100.52` (6GB RAM)の3つのノードがあるとすれば、データベースは6GBよりも小さくするべきです。
  2. [インストール手順](http://groonga.org/ja/docs/install.html)に従ってGroongaサーバをセットアップする。
