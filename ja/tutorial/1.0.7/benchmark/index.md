@@ -410,17 +410,17 @@ title10
 以上で、準備が整いました。
 それではGroongaとDroongaのベンチマークを取得してみましょう。
 
-### Benchmark Groonga
+### Groongaのベンチマークを行う
 
-First, run benchmark for Groonga as the reference.
-Start Groonga's HTTP server before running.
+まず、比較対照としてGroongaでのベンチマーク結果を取得します。
+ベンチマークの実行前に、GroongaのHTTPサーバを起動しておいて下さい。
 
 ~~~
 (on 192.168.100.50)
 % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
 ~~~
 
-You can run benchmark with the command `drnbench-request-response`, like:
+ベンチマークは以下の要領で、`drnbench-request-response`コマンドを実行すると測定できます:
 
 ~~~
 (on 192.168.100.53)
@@ -436,33 +436,33 @@ You can run benchmark with the command `drnbench-request-response`, like:
     --output-path=$PWD/groonga-result.csv
 ~~~
 
-Important parameters are:
+重要なパラメータは以下の通りです:
 
- * `--step` is the number of virtual clients increased on each progress.
- * `--start-n-clients` is the initial number of virtual clients.
-   Even if you specify `0`, initially one client is always generated.
- * `--end-n-clients` is the maximum number of virtual clients.
-   Benchmark is performed progressively until the number of clients is reached to this limit.
- * `--duration` is the duration of each benchmark.
-   This should be long enough to average out the result.
-   `30` (seconds) seems good for my case.
- * `--interval` is the interval between each benchmark.
-   This should be long enough to finish previous benchmark.
-   `10` (seconds) seems good for my case.
- * `--request-patterns-file` is the path to the pattern file.
- * `--default-hosts` is the list of host names of target endpoints.
-   By specifying multiple hosts as a comma-separated list, you can simulate load balancing.
- * `--default-port` is the port number of the target endpoint.
- * `--output-path` is the path to the result file.
-   Statistics of all benchmarks is saved as a file at the location.
+ * `--step` は、各段階で増やす仮想クライアントの数です。
+ * `--start-n-clients` は、仮想クライアントの最初の数です。
+   例え`0`を指定したとしても、最初の実行時には必ず1つはクライアントが生成されます。
+ * `--end-n-clients` は、仮想クライアントの最大数です。
+   ベンチマークは、クライアントの数がこの上限に達するまでの間繰り返し実行されます。
+ * `--duration` は、1回あたりのベンチマークの実行にかける時間です。
+   この値は、結果が安定するまでに十分な長さの時間を指定するのが望ましいです。
+   筆者の場合は`30`（秒）が最適でした。
+ * `--interval` は、ベンチマークの合間に設ける待ち時間です。
+   これは、前回のベンチマークが終了するのに十分な長さの時間を指定するのが望ましいです。
+   筆者の場合は`10`（秒）が最適でした。
+ * `--request-patterns-file` じゃ、パターンファイルへのパスです。
+ * `--default-hosts` は、リクエストの送信先のホスト名の一覧です。
+   複数のホストをカンマで区切って指定すると、ロードバランサーの動作をシミュレートすることもできます。
+ * `--default-port` は、リクエストの送信先のポート番号です。
+ * `--output-path` は、結果の出力先ファイルへのパスです。
+   すべてのベンチマークの統計情報が、この位置にファイルとして保存されます。
 
-Then you'll get the reference result of the Groonga.
-After that you should stop Groonga to release CPU and RAM resources.
+これで、対照用のGroongaでの結果を得る事ができます。
+CPU資源とメモリ資源を解放するために、ベンチマーク取得後はGroongaを停止しておきましょう。
 
 
-### Benchmark Droonga
+### Droongaのベンチマークを行う
 
-To clear effects from previous benchmark, you should restart services before each test.
+前回のベンチマークの影響をなくすために、各ベンチマークの実行前にはサービスを再起動することをおすすめします。
 
 ~~~
 (on 192.168.100.50, 192.168.100.51, 192.168.100.52)
@@ -470,9 +470,9 @@ To clear effects from previous benchmark, you should restart services before eac
 % sudo service droonga-http-server restart
 ~~~
 
-#### Benchmark Droonga with single node
+#### 1ノード構成でのDroongaのベンチマーク
 
-Before benchmarking, make your cluster with only one node.
+ベンチマークの前に、ノードが1つだけの状態にクラスタを設定します。
 
 ~~~
 (on 192.168.100.50)
@@ -480,8 +480,8 @@ Before benchmarking, make your cluster with only one node.
     --hosts=192.168.100.50
 ~~~
 
-After that the endpoint `192.168.100.50` works as a Droonga cluster with single node.
-Run the benchmark.
+これにより、`192.168.100.50`は1ノード構成のクラスタとして動作するようになります。
+ベンチマークを実行しましょう。
 
 ~~~
 (on 192.168.100.53)
@@ -497,13 +497,13 @@ Run the benchmark.
     --output-path=$PWD/droonga-result-1node.csv
 ~~~
 
-Note that the default port is changed from `10041` (Groonga's HTTP server) to `10042` (Droonga).
-Moreover, the path to the result file also changed.
+デフォルトのポートが`10041`（GroongaのHTTPサーバのポート）から`10042`（Droongaのポート）に変わっていることに注意して下さい。
+また、結果の保存先のパスも変わっています。
 
 
-#### Benchmark Droonga with two nodes
+#### 2ノード構成でのDroongaのベンチマーク
 
-Before benchmarking, join the second node to the cluster.
+ベンチマークの前に、2番目のノードをクラスタに参加させます。
 
 ~~~
 (on 192.168.100.50, 192.168.100.51)
@@ -511,8 +511,8 @@ Before benchmarking, join the second node to the cluster.
     --hosts=192.168.100.50,192.168.100.51
 ~~~
 
-After that both endpoints `192.168.100.50` and `192.168.100.51` work as a Droonga cluster with two nodes.
-Run the benchmark.
+これにより、`192.168.100.50`と`192.168.100.51`は2ノード構成のDroongaクラスタとして動作するようになります。
+ベンチマークを実行しましょう。
 
 ~~~
 (on 192.168.100.53)
@@ -528,21 +528,21 @@ Run the benchmark.
     --output-path=$PWD/droonga-result-2nodes.csv
 ~~~
 
-Note that two hosts are specified via the `--default-hosts` option.
+`--default-hosts` で2つのホストを指定していることに注意して下さい。
 
-If you send all requests to single endpoint, `droonga-http-server` will become a bottleneck, because it works as a single process for now.
-Moreover, `droonga-http-server` and `droonga-engine` will scramble for CPU resources.
-To measure the performance of your Droonga cluster effectively, you should average out CPU load per capita.
+今の所、`droonga-http-server`はシングルプロセスのため、すべてのリクエストを1つだけのホストに送ると`droonga-http-server`がボトルネックとなってしまいます。
+また、`droonga-http-server`と`droonga-engine`がCPU資源を奪い合うことにもなります。
+Droongaクラスタの性能を有効に測定するためには、各ノードのCPU使用率を平滑化する必要があります。
 
-Of course, on the production environment, it should be done by a load balancer, but It's a hassle to set up a load balancer for just benchmarking.
-Instead, you can specify multiple endpoint host names as a comma-separated list for the `--default-hosts` option.
+もちろん、実際のプロダクション環境ではこのようなリクエストの分配はロードバランサーによって行われるべきですが、ベンチマークのためだけにロードバランサーを設定するのは煩雑です。
+`--default-hosts`オプションにカンマ区切りで複数のホスト名を指定することで、その代替とすることができます。
 
-And, the path to the result file also changed.
+また、結果の保存先のパスも変わっています。
 
 
-#### Benchmark Droonga with three nodes
+#### 3ノード構成でのDroongaのベンチマーク
 
-Before benchmarking, join the last node to the cluster.
+ベンチマークの前に、最後のノードをクラスタに参加させましょう。
 
 ~~~
 (on 192.168.100.50, 192.168.100.51)
@@ -550,8 +550,8 @@ Before benchmarking, join the last node to the cluster.
     --hosts=192.168.100.50,192.168.100.51,192.168.100.52
 ~~~
 
-After that all endpoints `192.168.100.50`, `192.168.100.51`, and `192.168.100.52` work as a Droonga cluster with three nodes.
-Run the benchmark.
+これで、`192.168.100.50`, `192.168.100.51`, `192.168.100.52`のすべてのノードが3ノード構成のクラスタとして動作するようになります。
+ベンチマークを実行しましょう。
 
 ~~~
 (on 192.168.100.53)
@@ -567,32 +567,32 @@ Run the benchmark.
     --output-path=$PWD/droonga-result-3nodes.csv
 ~~~
 
-Note that both `--default-hosts` and `--output-path` are changed again.
+また`--default-hosts`と`--output-path`の指定が変わっていることに注意して下さい。
 
-## Analyze the result
+## 結果を分析する
 
-OK, now you have four results:
+これで、手元に4つの結果が集まりました:
 
  * `groonga-result.csv`
  * `droonga-result-1node.csv`
  * `droonga-result-2nodes.csv`
  * `droonga-result-3nodes.csv`
 
-[As described](#how-to-analyze), you can analyze them.
+[先に述べた通り](#how-to-analyze)、これらを使って傾向を分析することができます。
 
-For example, you can plot a graph from these results like:
+例えば、これらの結果は以下のようにグラフ化できます:
 
-![A layered graph of throughput](/images/tutorial/benchmark/throughput-mixed.png)
+![それぞれの場合のスループットを重ねたグラフ](/images/tutorial/benchmark/throughput-mixed.png)
 
-You can explain this graph as: "On this condition Droonga has better performance when there are multiple nodes", "Single Droonga node's performance is lesser than Groonga's one, on this setting", and so on.
+このグラフは、「この条件下では、Droongaは複数ノードであれば良い性能が出ている」「この設定だと、1ノード構成ではDroongaの性能はGroongaに及ばない」などのように読み取ることができます。
 
-(Note: Performance results fluctuate from various factors.
-This graph is just an example on a specific version, specific environment.)
+(注意: 性能測定の結果は様々な要因によって変動します。
+これはあくまで特定のバージョン、特定の環境での結果の例です。)
 
 ## まとめ
 
-In this tutorial, you did prepare a reference [Groonga][] server and [Droonga][] cluster.
-And, you studied how to prepare request patterns, how measure your systems, and how analyze the result.
+このチュートリアルでは、比較対照としての[Groonga][]サーバと、[Droonga]クラスタを用意しました。
+また、リクエストパターンを用意する手順、システムの性能の測定方法、結果の分析方法なども学びました。
 
   [Ubuntu]: http://www.ubuntu.com/
   [CentOS]: https://www.centos.org/
