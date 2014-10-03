@@ -103,29 +103,29 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
 もしサービスに対するリクエストの件数が増加しつつあり、この限界に近づいているようであれば、クエリの最適化やコンピュータ自体のアップグレードなど、何らかの対策を取ることを検討する必要があると言えます。
 
 また、同じリクエストのパターンをGroongaとDroongaに送ることで、各システムのqps値の上限（性能限界）を比較することができます。
-もじDroongaのqps値がGroongaのそれよりも大きい（つまり、DroongaがGroongaよりも高いスループット性能を発揮している）のであれば、サービスのバックエンドをGroongaからDroongaに移行する根拠になり得ます。
+もしDroongaのqps値がGroongaのそれよりも大きい（つまり、DroongaがGroongaよりも高いスループット性能を発揮している）のであれば、サービスのバックエンドをGroongaからDroongaに移行する根拠になり得ます。
 また、異なるノード数での結果を比較すると、新しくノードを追加する際のコストパフォーマンスを分析することもできます。
 
 
 ### 比較対照のデータベース（およびそのデータソース）を用意する
 
-If you have any existing service based on Groonga, it becomes the reference.
-Then you just have to dump all data in your Groonga database and load them to a new Droonga cluster.
+もしすでにGroongaベースのサービスを運用しているのであれば、それ自体が比較対照となります。
+この場合、Groongaデータベースの内容すべてをダンプ出力し、新しく用意したDroongaクラスタに流し込みさえすれば、性能比較を行えます。
 
-Otherwise - if you have no existing service, prepare a new reference database with much data for effective benchmark.
-The repository [wikipedia-search][] includes some helper scripts to construct your Groonga server (and Droonga cluster), with [Japanese Wikipedia](http://ja.wikipedia.org/) pages.
+特に運用中のサービスが無いということであれば、有効なベンチマークを取るために大量のデータを格納したデータベースを、対照として用意する必要があります。
+[wikipedia-search][]リポジトリには、[Wikipedia日本語版](http://ja.wikipedia.org/)のページを格納したGroongaサーバ（およびDroongaクラスタ）を用意する手助けとなるスクリプトが含まれています。
 
-So let's prepare a new Groonga database including Wikipedia pages, on a node `192.168.100.50`.
+では、Wikipediaのページを格納したGroongaデータベースを、`192.168.100.50`のノードに準備しましょう。
 
- 1. Determine the size of the database.
-    You have to use good enough size database for benchmarking.
+ 1. データベースのサイズを決める。
+    ベンチマーク測定のためには、十分に大きいサイズのデータベースを使う必要があります。
     
     * If it is too small, you'll see "too bad" benchmark result for Droonga, because the percentage of the Droonga's overhead becomes relatively too large.
     * If it is too large, you'll see "too unstable" result because swapping of RAM will slow the performance down randomly.
     * If RAM size of all nodes are different, you should determine the size of the database for the minimum size RAM.
 
-    For example, if there are three nodes `192.168.100.50` (8GB RAM), `192.168.100.51` (8GB RAM), and `192.168.100.52` (6GB RAM), then the database should be smaller than 6GB.
- 2. Set up the Groonga server, as instructed on [the installation guide](http://groonga.org/docs/install.html).
+    例えば、`192.168.100.50` (8GB RAM), `192.168.100.51` (8GB RAM), `192.168.100.52` (6GB RAM)の3つのノードがあるとすれば、データベースは6GBよりも小さくするべきです。
+ 2. [インストール手順](http://groonga.org/ja/docs/install.html)に従ってGroongaサーバをセットアップする。
     
     ~~~
     (on 192.168.100.50)
@@ -136,9 +136,9 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     % sudo apt-get -y install groonga
     ~~~
     
-    Then the Groonga becomes available.
- 3. Download the archive of Wikipedia pages and convert it to a dump file for Groonga, with the rake task `data:convert:groonga:ja`.
-    You can specify the number of records (pages) to be converted via the environment variable `MAX_N_RECORDS` (default=5000).
+    これでGroongaを利用できるようになります。.
+ 3. Rakeのタスク `data:convert:groonga:ja` を使って、Wikipediaのページのアーカイブをダウンロードし、Groongaのダンプファイルに変換する。
+    変換するレコード（ページ）の数は、環境変数 `MAX_N_RECORDS`（初期値は5000）で指定することができます。
     
     ~~~
     (on 192.168.100.50)
@@ -150,11 +150,11 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
                                    data/groonga/ja-pages.grn)
     ~~~
     
-    Because the archive is very large, downloading and data conversion may take time.
+    アーカイブは非常に大きいため、ダウンロードと変換には時間がかかります。
     
-    After that, a dump file `~/wikipedia-search/data/groonga/ja-pages.grn` is there.
-    Create a new database and load the dump file to it.
-    This also may take more time:
+    変換が終わったら、`~/wikipedia-search/data/groonga/ja-pages.grn`の位置にダンプファイルが生成されています。
+    新しいデータベースを作成し、ダンプファイルの内容を流し込みましょう。
+    この操作にも時間がかかります:
     
     ~~~
     (on 192.168.100.50)
@@ -165,15 +165,15 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     % time (cat ~/wikipedia-search/data/groonga/ja-pages.grn | groonga $HOME/groonga/db/db)
     ~~~
     
-    Note: number of records affects to the database size.
-    Just for information, my results are here:
+    注意: レコードの数がデータベースのサイズに影響します。
+    参考までに、検証環境での結果を以下に示します:
     
-     * 1.1GB database was constructed from 300000 records.
-       Data conversion took 17 min, data loading took 6 min.
-     * 4.3GB database was constructed from 1500000 records.
-       Data conversion took 53 min, data loading took 64 min.
+     * 30万件のレコードから、1.1GBのデータベースができました。
+       データの変換には17分、流し込みには6分を要しました。
+     * 150万件のレコードから、4.3GBのデータベースができました。
+       データの変換には53分、流し込みには64分を要しました。
     
- 4. Start the Groonga as an HTTP server.
+ 4. GroongaをHTTPサーバとして起動する
     
     ~~~
     (on 192.168.100.50)
