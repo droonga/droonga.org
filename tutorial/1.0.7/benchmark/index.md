@@ -68,13 +68,14 @@ It measures both response time and throughput of the target service.
  1. The master process generates one virtual client.
     The client starts to send many requests to the target sequentially and frequently.
  2. After a while, the master process kills the client.
-    Then he counts up the number of requests actually processed by the target, and reports it as "qps" of the single client case.
+    Then he calculates minimum, maximum, and average elapsed time, from response data.
+    And, he counts up the number of requests actually processed by the target, and reports it as "qps" of the single client case.
  3. The master process generates two virtual clients.
     They starts to send requests.
  4. After a while, the master process kills all clients.
-    Then total number of processed requests sent by all clients is reported as "qps" of the two clients case.
+    Then minimum, maximum, and average elapsed time is calculated, and total number of processed requests sent by all clients is reported as "qps" of the two clients case.
  5. Repeated with three clients, four clients ... and more progressively.
- 6. Finally, the master process reports "qps" and other extra information for each case, as a CSV file like:
+ 6. Finally, the master process reports minimum/maximum/average elapsed time, "qps", and other extra information for each case, as a CSV file like:
     
     ~~~
     n_clients,total_n_requests,queries_per_second,min_elapsed_time,max_elapsed_time,average_elapsed_time,0,200
