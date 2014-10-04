@@ -406,12 +406,17 @@ title10
 ~~~
 % n_unique_requests=200
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
-    drnbench-extract-searchterms | \
+    drnbench-extract-searchterms --sanitize --escape | \
     sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&;" \
     > ./patterns.txt
 ~~~
 
-sedスクリプトの中の`&`は、前にバックスラッシュを置いて`\&`のようにエスケープする必要があることに注意して下さい。
+注意:
+
+ * sedスクリプトの中の`&`は、前にバックスラッシュを置いて`\&`のようにエスケープする必要があることに注意して下さい。
+ * `drnbench-extract-searchterms`コマンドには、`--sanitize`と`--escape`の2つのオプションを指定すると良いでしょう。
+   `--sanitize`は、クエリ構文において特殊文字として解釈される文字を単語から取り除きます。
+   `--escape`は、URIに含められない文字をエスケープします。
 
 生成されたファイル `patterns.txt` は以下のような内容になります:
 

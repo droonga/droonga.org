@@ -397,12 +397,17 @@ OK, let's generate request patterns by `drnbench-extract-searchterms`, from a se
 ~~~
 % n_unique_requests=200
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
-    drnbench-extract-searchterms | \
+    drnbench-extract-searchterms --sanitize --escape | \
     sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&;" \
     > ./patterns.txt
 ~~~
 
-Note that you must escape `&` in the sed script with prefixed backslash, like `\&`.
+Note:
+
+ * You must escape `&` in the sed script with prefixed backslash, like `\&`.
+ * You should specify both `--sanitize` and `--escape` options for `drnbench-extract-searchterms`.
+   `--sanitize` removes some special characters for the `query` parameter.
+   `--escape` escapes characters unsafe for URI strings.
 
 The generated file `patterns.txt` becomes like following:
 
