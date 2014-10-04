@@ -39,15 +39,29 @@ Of course you may simply hope to know the difference in performance between Groo
 Benchmarking will make it clear.
 
 
-### How the benchmark tool measures the performance?
+### How visualize the performance?
 
-You can run benchmark with the command `drnbench-request-response`, introduced by the Gem package [drnbench]().
-It measures the throughput performance of the target service - how many request can be processed in a time.
+There are two major indexes to indicate performance of a system.
+
+ * response time
+ * throughput
+
+Response time is the actual elapsed time between two moments: when the system receives a request, and when it returns a response.
+In other words, for clients, it is the time to wait for each request.
+At this index, the smaller is the better.
+In general, response time becomes small for lightweight queries, small size database, or less clients.
+
+Throughput means how many request can be processed in a time.
 The performance index is described as "*queries per second* (*qps*)".
-
 For example, if a Groonga server processed 10 requests in one second, that is described as "10qps".
 Possibly there are 10 users (clients), or, there are 2 users and each user opens 5 tabs in his web browser.
 Anyway, "10qps" means that the Groonga actually accepted and responded for 10 requests while one second is passing.
+
+You can run benchmark with the command `drnbench-request-response`, introduced by the Gem package [drnbench]().
+It measures both response time and throughput of the target service.
+
+
+### How the benchmark tool measures the performance?
 
 `drnbench-request-response` benchmarks the target service, by steps like following:
 
