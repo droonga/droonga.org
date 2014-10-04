@@ -243,7 +243,7 @@ Note: to start `droonga-http-server` with a port number different from Groonga, 
 Next, prepare the Droonga database.
 
 You can generate messages for Droonga from Groonga's dump result, by the `grn2drn` command.
-Install `grn2drn` Gem package to activate the command.
+Install `grn2drn` Gem package to activate the command, to the Groonga server computer.
 
 ~~~
 (on 192.168.100.50)
@@ -251,7 +251,27 @@ Install `grn2drn` Gem package to activate the command.
 ~~~
 
 And, the `grndump` command introduced as a part of `rroonga` Gem package provides ability to extract all data of an existing Groonga database, flexibly.
-Dump schemas and data separately and load them to the Droonga cluster.
+If you are going to extract data from an existing Groonga server, you have to install `rroonga` before that.
+
+~~~
+(on Ubuntu server)
+% sudo apt-get -y install software-properties-common
+% sudo add-apt-repository -y universe
+% sudo add-apt-repository -y ppa:groonga/ppa
+% sudo apt-get update
+% sudo apt-get -y install libgroonga-dev
+% sudo gem install rroonga
+~~~
+
+~~~
+(on CentOS server)
+# rpm -ivh http://packages.groonga.org/centos/groonga-release-1.1.0-1.noarch.rpm
+# yum -y makecache
+# yum -y ruby-devel groonga-devel
+# gem install rroonga
+~~~
+
+Then dump schemas and data separately and load them to the Droonga cluster.
 
 ~~~
 (on 192.168.100.50)

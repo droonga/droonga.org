@@ -252,7 +252,7 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 次に、Droongaのデータベースを用意します。
 
 `grn2drn`コマンドを使うと、Groongaのダンプ出力をDroonga用のメッセージに変換することができます。
-コマンドを利用できるようにするために、`grn2drn` Gemパッケージをインストールしましょう。
+コマンドを利用できるようにするために、Groongaサーバとなっているコンピュータに`grn2drn` Gemパッケージをインストールしましょう。
 
 ~~~
 (on 192.168.100.50)
@@ -260,7 +260,27 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 ~~~
 
 また、`rroonga` Gemパッケージの一部として導入される`grndump`コマンドは、既存のGroongaのデータベースからすべてのデータを柔軟に取り出す機能を提供しています。
-スキーマ定義とデータを別々にダンプ出力し、Droongaクラスタに流し込みましょう。
+もし既存のGroongaサーバからデータを取り出そうとしているのであれば、事前に`rroonga`をインストールしておく必要があります。
+
+~~~
+(on Ubuntu server)
+% sudo apt-get -y install software-properties-common
+% sudo add-apt-repository -y universe
+% sudo add-apt-repository -y ppa:groonga/ppa
+% sudo apt-get update
+% sudo apt-get -y install libgroonga-dev
+% sudo gem install rroonga
+~~~
+
+~~~
+(on CentOS server)
+# rpm -ivh http://packages.groonga.org/centos/groonga-release-1.1.0-1.noarch.rpm
+# yum -y makecache
+# yum -y ruby-devel groonga-devel
+# gem install rroonga
+~~~
+
+それでは、スキーマ定義とデータを別々にダンプ出力し、Droongaクラスタに流し込みましょう。
 
 ~~~
 (on 192.168.100.50)
