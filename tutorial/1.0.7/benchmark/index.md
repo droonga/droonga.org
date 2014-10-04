@@ -108,8 +108,9 @@ The maximum time is affected by slow queries, system's page-in/page-out, unexpec
 See also the last two columns, `0` and `200`.
 They mean the percentage of HTTP response statuses.
 `200` is "OK", `0` is "timed out".
-In this case, because some requests are timed out by some reasons, `200` is not 100% in many cases.
+If clients got `400`, `500` and other errors, they will be also reported.
 These information will help you to detect unexpected slow down.
+(Because in-progress requests are shut down on the end of each case and they are reported as "timed out", `200` is not 100% in this result.)
 
 To analyze throughput, a graph is useful.
 
