@@ -99,16 +99,29 @@ It measures both response time and throughput of the target service.
 
 ### How read and analyze the result? {#how-to-analyze}
 
+Look at the result above.
+
+Elapsed response time is easily analyzed - the smaller is the better.
+The minimum and average response time becomes small if any cache system is working correctly on the target.
+The maximum time is affected by slow queries, system's page-in/page-out, unexpected errors, and so on, 
+
+See also the last two columns, `0` and `200`.
+They mean the percentage of HTTP response statuses.
+`200` is "OK", `0` is "timed out".
+In this case, because some requests are timed out by some reasons, `200` is not 100% in many cases.
+These information will help you to detect unexpected slow down.
+
+To analyze throughput, a graph is useful.
+
 ![A graph of throughput](/images/tutorial/benchmark/throughput-groonga.png)
 
-Look at the result above, and this graph.
 You'll see that the "qps" stagnated around 250, for 12 or more clients.
 This means that the target service can process 250 requests in one second, at a maximum.
 
 In other words, we can describe the result as: 250qps is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
 If the number of requests for your service is growing up and it is going to reach the limit, you have to do something about it - optimize queries, replace the computer with more powerful one, and so on.
 
-And, sending same request patterns to Groonga and Droonga, you can compare maximum "qps" for each system.
+And, sending same request patterns to Groonga and Droonga, you can compare response times and maximum "qps" for each system.
 If Droonga's "qps" is larger than Groonga's one (=Droonga has better performance about throughput), it will become good reason to migrate your service from Groogna to Droonga.
 Moreover, comparing multiple results from different number of Droogna nodes, you can analyze the cost-benefit performance for newly introduced nodes.
 
@@ -127,7 +140,7 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     You have to use good enough size database for benchmarking.
     
     * If it is too small, you'll see "too bad" benchmark result for Droonga, because the percentage of the Droonga's overhead becomes relatively too large.
-    * If it is too large, you'll see "too unstable" result because swapping of RAM will slow the performance down randomly.
+    * If it is too large, you'll see "too unstable" result because page-in and page-out of RAM will slow the performance down randomly.
     * If RAM size of all nodes are different, you should determine the size of the database for the minimum size RAM.
 
     For example, if there are three nodes `192.168.100.50` (8GB RAM), `192.168.100.51` (8GB RAM), and `192.168.100.52` (6GB RAM), then the database should be smaller than 6GB.
