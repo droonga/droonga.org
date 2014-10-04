@@ -378,7 +378,7 @@ To generate 200 unique request patterns, you have to prepare 200 terms.
 Moreover, all of terms must be effective search term for the Groonga database.
 If you use randomly generated terms (like `P2qyNJ9L`, `Hy4pLKc5`, `D5eftuTp`, ...), you won't get effective benchmark result, because "not found" results will be returned for most requests.
 
-So there is another utility command `drnbench-extract-searchterms`.
+So there is a utility command `drnbench-extract-searchterms`.
 It generates list of terms from Groonga's select result, like:
 
 ~~~

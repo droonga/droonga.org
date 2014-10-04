@@ -754,10 +754,10 @@ msgstr ""
 "対して「ヒット無し」という検索結果が返されてしまうため、有効なベンチマーク結果を得ることができません。"
 
 msgid ""
-"So there is another utility command `drnbench-extract-searchterms`.\n"
+"So there is a utility command `drnbench-extract-searchterms`.\n"
 "It generates list of terms from Groonga's select result, like:"
 msgstr ""
-"こんな時のために、もう1つ、`drnbench-extract-searchterms`という別のユーティリティコマンドがあります。\n"
+"こんな時のために、`drnbench-extract-searchterms`というユーティリティコマンドがあります。\n"
 "これは、以下のようにしてGroongaの検索結果から単語のリストを生成します:"
 
 msgid ""
