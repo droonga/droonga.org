@@ -481,16 +481,12 @@ Important parameters are:
 Then you'll get the reference result of the Groonga.
 After that you should stop Groonga to release CPU and RAM resources.
 
+~~~
+(on 192.168.100.50)
+% pkill groonga
+~~~
 
 ### Benchmark Droonga
-
-To clear effects from previous benchmark, you should restart services before each test.
-
-~~~
-(on 192.168.100.50, 192.168.100.51, 192.168.100.52)
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
-~~~
 
 #### Benchmark Droonga with single node
 
@@ -500,7 +496,11 @@ Before benchmarking, make your cluster with only one node.
 (on 192.168.100.50)
 % sudo droonga-engine-catalog-generate \
     --hosts=192.168.100.50
+% sudo service droonga-engine restart
+% sudo service droonga-http-server restart
 ~~~
+
+To clear effects from previous benchmark, you should restart services before each test.
 
 After that the endpoint `192.168.100.50` works as a Droonga cluster with single node.
 Run the benchmark.
@@ -531,6 +531,8 @@ Before benchmarking, join the second node to the cluster.
 (on 192.168.100.50, 192.168.100.51)
 % sudo droonga-engine-catalog-generate \
     --hosts=192.168.100.50,192.168.100.51
+% sudo service droonga-engine restart
+% sudo service droonga-http-server restart
 ~~~
 
 After that both endpoints `192.168.100.50` and `192.168.100.51` work as a Droonga cluster with two nodes.
@@ -570,6 +572,8 @@ Before benchmarking, join the last node to the cluster.
 (on 192.168.100.50, 192.168.100.51)
 % sudo droonga-engine-catalog-generate \
     --hosts=192.168.100.50,192.168.100.51,192.168.100.52
+% sudo service droonga-engine restart
+% sudo service droonga-http-server restart
 ~~~
 
 After that all endpoints `192.168.100.50`, `192.168.100.51`, and `192.168.100.52` work as a Droonga cluster with three nodes.

@@ -490,16 +490,12 @@ title10
 これで、対照用のGroongaでの結果を得る事ができます。
 CPU資源とメモリ資源を解放するために、ベンチマーク取得後はGroongaを停止しておきましょう。
 
+~~~
+(on 192.168.100.50)
+% pkill groonga
+~~~
 
 ### Droongaのベンチマークを行う
-
-前回のベンチマークの影響をなくすために、各ベンチマークの実行前にはサービスを再起動することをおすすめします。
-
-~~~
-(on 192.168.100.50, 192.168.100.51, 192.168.100.52)
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
-~~~
 
 #### 1ノード構成でのDroongaのベンチマーク
 
@@ -509,7 +505,11 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
 (on 192.168.100.50)
 % sudo droonga-engine-catalog-generate \
     --hosts=192.168.100.50
+% sudo service droonga-engine restart
+% sudo service droonga-http-server restart
 ~~~
+
+前回のベンチマークの影響をなくすために、各ベンチマークの実行前にはサービスを再起動することをおすすめします。
 
 これにより、`192.168.100.50`は1ノード構成のクラスタとして動作するようになります。
 ベンチマークを実行しましょう。
@@ -540,6 +540,8 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
 (on 192.168.100.50, 192.168.100.51)
 % sudo droonga-engine-catalog-generate \
     --hosts=192.168.100.50,192.168.100.51
+% sudo service droonga-engine restart
+% sudo service droonga-http-server restart
 ~~~
 
 これにより、`192.168.100.50`と`192.168.100.51`は2ノード構成のDroongaクラスタとして動作するようになります。
@@ -579,6 +581,8 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 (on 192.168.100.50, 192.168.100.51)
 % sudo droonga-engine-catalog-generate \
     --hosts=192.168.100.50,192.168.100.51,192.168.100.52
+% sudo service droonga-engine restart
+% sudo service droonga-http-server restart
 ~~~
 
 これで、`192.168.100.50`, `192.168.100.51`, `192.168.100.52`のすべてのノードが3ノード構成のクラスタとして動作するようになります。
