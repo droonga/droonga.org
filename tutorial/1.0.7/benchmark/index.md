@@ -241,20 +241,25 @@ Note: to start `droonga-http-server` with a port number different from Groonga, 
 ### Synchronize data from Groonga to Droonga
 
 Next, prepare the Droonga database.
-Send Droonga messages from dump files, like:
+
+You can generate messages for Droonga from Groonga's dump result, by the `grn2drn` command.
+Install `grn2drn` Gem package to activate the command.
 
 ~~~
 (on 192.168.100.50)
 % sudo gem install grn2drn
-% time (cat ~/wikipedia-search/config/groonga/schema.grn | \
+~~~
+
+And, the `grndump` command introduced as a part of `rroonga` Gem package provides ability to extract all data of an existing Groonga database, flexibly.
+Dump schemas and data separately and load them to the Droonga cluster.
+
+~~~
+(on 192.168.100.50)
+% time (grndump --no-dump-tables $HOME/groonga/db/db | \
           grn2drn | \
           droonga-send --server=192.168.100.50 \
                        --report-throughput)
-% time (cat ~/wikipedia-search/config/groonga/indexes.grn | \
-          grn2drn | \
-          droonga-send --server=192.168.100.50 \
-                       --report-throughput)
-% time (cat ~/wikipedia-search/data/groonga/ja-pages.grn | \
+% time (grndump --no-dump-schema --no-dump-indexes $HOME/groonga/db/db | \
           grn2drn | \
           droonga-send --server=192.168.100.50 \
                        --server=192.168.100.51 \
@@ -263,7 +268,7 @@ Send Droonga messages from dump files, like:
 ~~~
 
 Note that you must send requests for schema and indexes to just one endpoint.
-Parallel sending of schema definition requests for multiple nodes will break the database.
+Parallel sending of schema definition requests for multiple endpoints will break the database, because Droonga cannot sort schema changing commands sent to each node in parallel.
 
 This may take much time.
 After all, now you have two HTTP servers: Groonga HTTP server with the port `10041`, and Droonga HTTP Servers with the port `10042`.

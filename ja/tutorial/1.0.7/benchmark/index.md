@@ -249,21 +249,26 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 
 ### GroongaからDroongaへとデータを同期する
 
-次に、Droongaのデータベースを用意します。.
-ダンプファイルを元にして、以下のようにDroongaのメッセージを送りましょう:
+次に、Droongaのデータベースを用意します。
+
+`grn2drn`コマンドを使うと、Groongaのダンプ出力をDroonga用のメッセージに変換することができます。
+コマンドを利用できるようにするために、`grn2drn` Gemパッケージをインストールしましょう。
 
 ~~~
 (on 192.168.100.50)
 % sudo gem install grn2drn
-% time (cat ~/wikipedia-search/config/groonga/schema.grn | \
+~~~
+
+また、`rroonga` Gemパッケージの一部として導入される`grndump`コマンドは、既存のGroongaのデータベースからすべてのデータを柔軟に取り出す機能を提供しています。
+スキーマ定義とデータを別々にダンプ出力し、Droongaクラスタに流し込みましょう。
+
+~~~
+(on 192.168.100.50)
+% time (grndump --no-dump-tables $HOME/groonga/db/db | \
           grn2drn | \
           droonga-send --server=192.168.100.50 \
                        --report-throughput)
-% time (cat ~/wikipedia-search/config/groonga/indexes.grn | \
-          grn2drn | \
-          droonga-send --server=192.168.100.50 \
-                       --report-throughput)
-% time (cat ~/wikipedia-search/data/groonga/ja-pages.grn | \
+% time (grndump --no-dump-schema --no-dump-indexes $HOME/groonga/db/db | \
           grn2drn | \
           droonga-send --server=192.168.100.50 \
                        --server=192.168.100.51 \
@@ -272,7 +277,7 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 ~~~
 
 スキーマ定義とインデックスの定義については単一のエンドポイントに送るように注意して下さい。
-スキーマ定義のリクエストを複数のノードに並行してバラバラに流し込むと、データベースが壊れた状態になる事があります。
+Droongaは複数のノードに並行してバラバラに送られたスキーマ変更コマンドをソートすることができないので、スキーマ定義のリクエストを複数のエンドポイントに流し込むと、データベースが壊れてしまいます。
 
 この操作にも時間がかかります。
 それが完了したら、`10041`ポートを監視するGroonga HTTPサーバと、`10042`ポートを監視するDroonga HTTPサーバの、2つのHTTPサーバがある状態となります。
