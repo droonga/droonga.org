@@ -362,15 +362,21 @@ GroongaとDroongaの性能を正確に比較するためには、キャッシュ
 これは、GroongaとDroonga（`droonga-http-server`）が既定の状態で最大で100件までの結果をキャッシュするためです。
 期待されるキャッシュヒット率が50%なのであれば、用意するべきユニークなリクエストの数は`N = 100 ÷ 0.5 = 200`と計算できます。
 
+
+### リクエストパターンファイルの書式
+
+`drnbench-request-response`用のリクエストパターンのリストは、HTTPリクエストのパスのリストであるプレーンテキスト形式で作成します。
+以下はGroongaの`select`コマンド用のリクエストの一覧の例です:
+
+~~~
+/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=AAA
+/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=BBB
+...
+~~~
+
+
+
 ### 検索語句のリストを用意する
-
-`drnbench`パッケージは、以下のようなユニークな語句の一覧からベンチマーク用のリクエストパターンを生成する、`drnbench-generate-select-patterns`というユーティリティコマンドを含んでいます:
-
-~~~
-AAA
-BBB
-CCC
-~~~
 
 200件のユニークなリクエストパターンを作るには、200個の語句を用意する必要があります。
 しかも、それらはすべて実際にGroongaのデータベースで有効な検索結果を返すものでなくてはなりません。
@@ -395,69 +401,24 @@ title10
 
 ### 与えられた語句からリクエストパターンファイルを生成する
 
-それでは、`drnbench-generate-select-patterns`と`drnbench-extract-searchterms`を使って、検索結果からリクエストパターンを生成してみましょう。
+では、`drnbench-extract-searchterms`を使って、Groongaの検索結果からリクエストパターンを生成してみましょう。
 
 ~~~
 % n_unique_requests=200
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms | \
-    drnbench-generate-select-patterns \
-    > ./patterns.json
+    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&;" \
+    > ./patterns.txt
 ~~~
 
-生成されたファイル `patterns.json` は以下のような内容になります:
+sedスクリプトの中の`&`は、前にバックスラッシュを置いて`\$`のようにエスケープする必要があることに注意して下さい。
+
+生成されたファイル `patterns.txt` は以下のような内容になります:
 
 ~~~
-{
-  "with-query": {
-    "frequency": 1.0,
-    "method": "get",
-    "patterns": [
-      {
-        "path": "/d/select?limit=10&offset=0&query=AAA"
-      },
-      {
-        "path": "/d/select?limit=10&offset=0&query=BBB"
-      },
-      ...
-    ]
-  }
-}
-~~~
-
-上の例のように、与えられた単語に基づく`query`パラメータを伴って、`select`コマンド用のリクエストパターンが生成されます。
-
-しかしながら、この生成結果は内容がシンプルすぎます。
-テーブルが指定されていませんし、結果の出力も、ドリルダウンの指定もありません。
-より有効な検索リクエストを生成するためには、以下のように、`drnbench-generate-select-patterns`コマンドに`--base-params`オプションを使って追加のパラメータを指定します:
-
-~~~
-% n_unique_requests=200
-% curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
-    drnbench-extract-searchterms | \
-    drnbench-generate-select-patterns \
-      --base-params="table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key" \
-    > ./patterns.json
-~~~
-
-すると、以下のようなファイルが生成されます:
-
-~~~
-{
-  "with-query": {
-    "frequency": 1.0,
-    "method": "get",
-    "patterns": [
-      {
-        "path": "/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=AAA"
-      },
-      {
-        "path": "/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=BBB"
-      },
-      ...
-    ]
-  }
-}
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=AAA
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=BBB
+...
 ~~~
 
 
@@ -486,7 +447,7 @@ title10
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50 \
     --default-port=10041 \
     --output-path=$PWD/groonga-result.csv
@@ -547,7 +508,7 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-1node.csv
@@ -580,7 +541,7 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50,192.168.100.51 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-2nodes.csv
@@ -621,7 +582,7 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50,192.168.100.51,192.168.100.52 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-3nodes.csv

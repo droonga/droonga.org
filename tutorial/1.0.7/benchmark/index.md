@@ -353,15 +353,21 @@ You can control the cache hit rate by the number of unique request patterns, cal
 `N = 100 / (cache hit rate)`, because Groonga and Droonga (`droonga-http-server`) cache 100 results at a maximum by default.
 When the expected cache hit rate is 50%, the number of unique requests is calculated as: `N = 100 / 0.5 = 200`
 
+
+### Format of request patterns file
+
+The format of the request patterns list for `drnbench-request-response` is the plain text, a list of request paths for the host.
+Here is a short example of requests for Groonga's `select` command:
+
+~~~
+/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=AAA
+/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=BBB
+...
+~~~
+
+
+
 ### Prepare list of search terms
-
-The package `drnbench` includes a utility command `drnbench-generate-select-patterns` to generate request patterns for benchmarking, from a list of unique terms, like:
-
-~~~
-AAA
-BBB
-CCC
-~~~
 
 To generate 200 unique request patterns, you have to prepare 200 terms.
 Moreover, all of terms must be effective search term for the Groonga database.
@@ -386,69 +392,24 @@ To collect 200 effective search terms, you just have to give a select result wit
 
 ### Generate request pattern file from given terms
 
-OK, let's generate request patterns by `drnbench-generate-select-patterns` and `drnbench-extract-searchterms`, from a select result.
+OK, let's generate request patterns by `drnbench-extract-searchterms`, from a select result.
 
 ~~~
 % n_unique_requests=200
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms | \
-    drnbench-generate-select-patterns \
-    > ./patterns.json
+    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&;" \
+    > ./patterns.txt
 ~~~
 
-The generated file `patterns.json` becomes like following:
+Note that you must escape `&` in the sed script with prefixed backslash, like `\$`.
+
+The generated file `patterns.txt` becomes like following:
 
 ~~~
-{
-  "with-query": {
-    "frequency": 1.0,
-    "method": "get",
-    "patterns": [
-      {
-        "path": "/d/select?limit=10&offset=0&query=AAA"
-      },
-      {
-        "path": "/d/select?limit=10&offset=0&query=BBB"
-      },
-      ...
-    ]
-  }
-}
-~~~
-
-Like above, request patterns for the `select` command are generated with the parameter `query`, based on given terms.
-
-However, these requests are too simple.
-No table is specified, there is no output, no drilldown.
-To construct more effective select requests, you can give extra parameters to the `drnbench-generate-select-patterns` via its `--base-params` option, like:
-
-~~~
-% n_unique_requests=200
-% curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
-    drnbench-extract-searchterms | \
-    drnbench-generate-select-patterns \
-      --base-params="table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key" \
-    > ./patterns.json
-~~~
-
-Then the generated file becomes:
-
-~~~
-{
-  "with-query": {
-    "frequency": 1.0,
-    "method": "get",
-    "patterns": [
-      {
-        "path": "/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=AAA"
-      },
-      {
-        "path": "/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=BBB"
-      },
-      ...
-    ]
-  }
-}
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=AAA
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=BBB
+...
 ~~~
 
 
@@ -477,7 +438,7 @@ You can run benchmark with the command `drnbench-request-response`, like:
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50 \
     --default-port=10041 \
     --output-path=$PWD/groonga-result.csv
@@ -538,7 +499,7 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-1node.csv
@@ -571,7 +532,7 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50,192.168.100.51 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-2nodes.csv
@@ -612,7 +573,7 @@ Run the benchmark.
     --end-n-clients=20 \
     --duration=30 \
     --interval=10 \
-    --request-patterns-file=$PWD/patterns.json \
+    --request-patterns-file=$PWD/patterns.txt \
     --default-hosts=192.168.100.50,192.168.100.51,192.168.100.52 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-3nodes.csv
