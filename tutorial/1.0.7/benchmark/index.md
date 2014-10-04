@@ -402,7 +402,7 @@ OK, let's generate request patterns by `drnbench-extract-searchterms`, from a se
     > ./patterns.txt
 ~~~
 
-Note that you must escape `&` in the sed script with prefixed backslash, like `\$`.
+Note that you must escape `&` in the sed script with prefixed backslash, like `\&`.
 
 The generated file `patterns.txt` becomes like following:
 

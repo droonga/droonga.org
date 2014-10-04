@@ -784,8 +784,8 @@ msgstr ""
 
 msgid ""
 "Note that you must escape `&` in the sed script with prefixed backslash, like "
-"`\\$`."
-msgstr "sedスクリプトの中の`&`は、前にバックスラッシュを置いて`\\$`のようにエスケープする必要があることに注意して下さい。"
+"`\\&`."
+msgstr "sedスクリプトの中の`&`は、前にバックスラッシュを置いて`\\&`のようにエスケープする必要があることに注意して下さい。"
 
 msgid "The generated file `patterns.txt` becomes like following:"
 msgstr "生成されたファイル `patterns.txt` は以下のような内容になります:"
