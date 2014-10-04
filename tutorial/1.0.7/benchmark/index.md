@@ -365,7 +365,12 @@ Here is a short example of requests for Groonga's `select` command:
 ...
 ~~~
 
+If you have any existing service based on Groonga, the list should be generated from the actual access log, query log, and so on.
+Patterns similar to actual requests will measure performance of your system more effectively.
+To generate 200 unique request patterns, you just have to collect 200 unique paths from your log.
 
+Otherwise, you'll have to generate list of request paths from something.
+See the next section.
 
 ### Prepare list of search terms
 
