@@ -55,21 +55,6 @@ msgstr ""
 "* [Droonga][]クラスタの構築手順について基本的な知識があること。\n"
 "  このチュートリアルの前に、[「始めてみる」のチュートリアル](../groonga/)を完了しておいて下さい。"
 
-msgid ""
-"And, assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogn"
-"a cluster:"
-msgstr "また、新しいDroongaクラスタのために以下の4つの[Ubuntu][] 14.04LTSのサーバがあると仮定します:"
-
-msgid ""
-" * `192.168.100.50`\n"
-" * `192.168.100.51`\n"
-" * `192.168.100.52`\n"
-" * `192.168.100.53`"
-msgstr ""
-
-msgid "One is client, others are Droonga nodes."
-msgstr "1つはクライアント用で、残りの3つはDroongaノード用です。"
-
 msgid "## Why benchmarking?"
 msgstr "## ベンチマークの必要性について"
 
@@ -295,6 +280,24 @@ msgstr ""
 "サービスのバックエンドをGroongaからDroongaに移行する根拠になり得ます。\n"
 "また、異なるノード数での結果を比較すると、新しくノードを追加する際のコストパフォーマンスを分析することもできます。"
 
+msgid "## Prepare environments for benchmarking"
+msgstr "## ベンチマーク環境を用意する"
+
+msgid ""
+"Assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogna clu"
+"ster:"
+msgstr "新しいDroongaクラスタのために以下の4つの[Ubuntu][] 14.04LTSのサーバがあると仮定します:"
+
+msgid ""
+" * `192.168.100.50`\n"
+" * `192.168.100.51`\n"
+" * `192.168.100.52`\n"
+" * `192.168.100.53`"
+msgstr ""
+
+msgid "One is client, others are Droonga nodes."
+msgstr "1つはクライアント用で、残りの3つはDroongaノード用です。"
+
 msgid "### Ensure an existing reference database (and the data source)"
 msgstr "### 比較対照のデータベース（およびそのデータソース）を用意する"
 
@@ -451,8 +454,8 @@ msgstr ""
 msgid "OK, now we can use this node as the reference for benchmarking."
 msgstr "これで、このノードをベンチマーク測定の対照として使う準備が整いました。"
 
-msgid "## Set up a Droonga cluster"
-msgstr "## Droongaクラスタをセットアップする"
+msgid "### Set up a Droonga cluster"
+msgstr "### Droongaクラスタをセットアップする"
 
 msgid ""
 "Install Droonga to all nodes.\n"
@@ -504,8 +507,8 @@ msgstr ""
 "注意: `droonga-http-server`をGroongaとは別のポート番号で起動するために、ここでは`PORT`環境変数を使って上記のようにして`"
 "10042`のポートで起動するように指定しています。"
 
-msgid "## Synchronize data from Groonga to Droonga"
-msgstr "## GroongaからDroongaへとデータを同期する"
+msgid "### Synchronize data from Groonga to Droonga"
+msgstr "### GroongaからDroongaへとデータを同期する"
 
 msgid ""
 "Next, prepare the Droonga database.\n"
@@ -552,8 +555,8 @@ msgstr ""
 "それが完了したら、`10041`ポートを監視するGroonga HTTPサーバと、`10042`ポートを監視するDroonga HTTPサーバの、2つのHT"
 "TPサーバがある状態となります。"
 
-msgid "## Set up the client"
-msgstr "## クライアントをセットアップする"
+msgid "### Set up the client"
+msgstr "### クライアントをセットアップする"
 
 msgid "You must install the benchmark client to the computer."
 msgstr "クライアントにするマシンには、ベンチマーク用のクライアントをインストールする必要があります。"

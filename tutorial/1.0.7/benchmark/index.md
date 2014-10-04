@@ -21,15 +21,6 @@ Learning steps to benchmark a [Droonga][] cluster and compare it to a [Groonga][
 * You must have basic knowledge to construct a [Droonga][] cluster.
   Please complete the ["getting started" tutorial](../groonga/) before this.
 
-And, assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogna cluster:
-
- * `192.168.100.50`
- * `192.168.100.51`
- * `192.168.100.52`
- * `192.168.100.53`
-
-One is client, others are Droonga nodes.
-
 ## Why benchmarking?
 
 Because Droonga has compatibility to Groonga, you'll plan to migrate your application based on Groonga to Droonga.
@@ -127,6 +118,17 @@ If Droonga's "qps" is larger than Groonga's one (=Droonga has better performance
 Moreover, comparing multiple results from different number of Droogna nodes, you can analyze the cost-benefit performance for newly introduced nodes.
 
 
+## Prepare environments for benchmarking
+
+Assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogna cluster:
+
+ * `192.168.100.50`
+ * `192.168.100.51`
+ * `192.168.100.52`
+ * `192.168.100.53`
+
+One is client, others are Droonga nodes.
+
 ### Ensure an existing reference database (and the data source)
 
 If you have any existing service based on Groonga, it becomes the reference.
@@ -203,7 +205,7 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
 OK, now we can use this node as the reference for benchmarking.
 
 
-## Set up a Droonga cluster
+### Set up a Droonga cluster
 
 Install Droonga to all nodes.
 Because we are benchmarking it via HTTP, you have to install both services `droonga-engine` and `droonga-http-server` for each node.
@@ -236,7 +238,7 @@ Because we are benchmarking it via HTTP, you have to install both services `droo
 Note: to start `droonga-http-server` with a port number different from Groonga, we should specify another port `10042` via the `PORT` environment variable, like above.
 
 
-## Synchronize data from Groonga to Droonga
+### Synchronize data from Groonga to Droonga
 
 Next, prepare the Droonga database.
 Send Droonga messages from dump files, like:
@@ -267,7 +269,7 @@ This may take much time.
 After all, now you have two HTTP servers: Groonga HTTP server with the port `10041`, and Droonga HTTP Servers with the port `10042`.
 
 
-## Set up the client
+### Set up the client
 
 You must install the benchmark client to the computer.
 
