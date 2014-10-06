@@ -503,7 +503,22 @@ Before benchmarking, make your cluster with only one node.
 
 To clear effects from previous benchmark, you should restart services before each test.
 
+
 After that the endpoint `node0` works as a Droonga cluster with single node.
+Make sure that only one node is actually detected:
+
+~~~
+(on node3)
+% curl "http://node0:10042/droonga/system/status" | jq .
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 Run the benchmark.
 
 ~~~
