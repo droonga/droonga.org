@@ -436,7 +436,7 @@ Let's benchmark Groonga and Droonga.
 ### Benchmark Groonga
 
 First, run benchmark for Groonga as the reference.
-Start Groonga's HTTP server before running.
+Start Groonga's HTTP server before running, if you configured a node as a reference Groonga server and daemon is stopped.
 
 ~~~
 (on node0)
