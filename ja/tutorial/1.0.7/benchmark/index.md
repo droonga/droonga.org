@@ -586,7 +586,6 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 
 ~~~
 (on node3)
-% sudo apt-get install -y jq
 % curl "http://node0:10042/droonga/system/status" | jq .
 {
   "nodes": {
@@ -645,7 +644,6 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 
 ~~~
 (on node3)
-% sudo apt-get install -y jq
 % curl "http://node0:10042/droonga/system/status" | jq .
 {
   "nodes": {

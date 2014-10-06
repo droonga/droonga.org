@@ -577,7 +577,6 @@ Make sure that two nodes are actually detected:
 
 ~~~
 (on node3)
-% sudo apt-get install -y jq
 % curl "http://node0:10042/droonga/system/status" | jq .
 {
   "nodes": {
@@ -636,7 +635,6 @@ Make sure that three nodes are actually detected:
 
 ~~~
 (on node3)
-% sudo apt-get install -y jq
 % curl "http://node0:10042/droonga/system/status" | jq .
 {
   "nodes": {
