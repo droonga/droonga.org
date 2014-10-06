@@ -559,6 +559,8 @@ Run the benchmark.
 Note that the default port is changed from `10041` (Groonga's HTTP server) to `10042` (Droonga).
 Moreover, the path to the result file also changed.
 
+And, while running, you should monitor the system status of the `node0`, by `top` or something.
+It may help you to analyze what is the bottleneck.
 
 #### Benchmark Droonga with two nodes
 
@@ -616,6 +618,7 @@ Of course, on the production environment, it should be done by a load balancer, 
 Instead, you can specify multiple endpoint host names as a comma-separated list for the `--default-hosts` option.
 
 And, the path to the result file also changed.
+Don't forget to monitor system status of both nodes also.
 
 
 #### Benchmark Droonga with three nodes
@@ -668,6 +671,7 @@ Run the benchmark.
 ~~~
 
 Note that both `--default-hosts` and `--output-path` are changed again.
+Monitoring of system status of all nodes is also important.
 
 ## Analyze the result
 
