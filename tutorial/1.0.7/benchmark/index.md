@@ -402,23 +402,25 @@ OK, let's generate request patterns by `drnbench-extract-searchterms`, from a se
 ~~~
 % n_unique_requests=200
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
-    drnbench-extract-searchterms --sanitize --escape | \
-    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&;" \
+    drnbench-extract-searchterms --escape | \
+    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
     > ./patterns.txt
 ~~~
 
 Note:
 
  * You must escape `&` in the sed script with prefixed backslash, like `\&`.
- * You should specify both `--sanitize` and `--escape` options for `drnbench-extract-searchterms`.
-   `--sanitize` removes some special characters for the `query` parameter.
-   `--escape` escapes characters unsafe for URI strings.
+ * You should specify the `--escape` option for `drnbench-extract-searchterms`.
+   It escapes characters unsafe for URI strings.
+ * You should specify `query_flags=NONE` as a part of parameters, if you use search terms by the `query` parameter.
+   It forces ignoring of special characters in the `query` parameter, to Groonga.
+   Otherwise you may see some errors from invalid queries.
 
 The generated file `patterns.txt` becomes like following:
 
 ~~~
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=AAA
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=BBB
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=AAA
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=BBB
 ...
 ~~~
 

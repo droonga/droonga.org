@@ -411,23 +411,25 @@ title10
 ~~~
 % n_unique_requests=200
 % curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
-    drnbench-extract-searchterms --sanitize --escape | \
-    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&;" \
+    drnbench-extract-searchterms --escape | \
+    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
     > ./patterns.txt
 ~~~
 
 注意:
 
  * sedスクリプトの中の`&`は、前にバックスラッシュを置いて`\&`のようにエスケープする必要があることに注意して下さい。
- * `drnbench-extract-searchterms`コマンドには、`--sanitize`と`--escape`の2つのオプションを指定すると良いでしょう。
-   `--sanitize`は、クエリ構文において特殊文字として解釈される文字を単語から取り除きます。
-   `--escape`は、URIに含められない文字をエスケープします。
+ * `drnbench-extract-searchterms`コマンドには、`--escape`オプションを指定すると良いでしょう。
+   この指定により、URIに含められない文字がエスケープされます。
+ * 得られた検索語句を`query`パラメータに使用する場合、`query_flags=NONE`も同時に指定すると良いでしょう。
+   この指定により、Groongaは`query`パラメータの中に含まれる特殊文字を無視するようになります。
+   この指定を忘れると、不正なクエリのエラーに遭遇することになるかもしれません。
 
 生成されたファイル `patterns.txt` は以下のような内容になります:
 
 ~~~
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=AAA
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query=BBB
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=AAA
+/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=BBB
 ...
 ~~~
 
