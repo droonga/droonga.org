@@ -582,6 +582,24 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 ~~~
 
 これにより、`node0`と`node1`は2ノード構成のDroongaクラスタとして動作するようになります。
+実際にノードが2つ認識されていることを確認しましょう:
+
+~~~
+(on node3)
+% sudo apt-get install -y jq
+% curl "http://node0:10042/droonga/system/status" | jq .
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "live": true
+    },
+    "node1:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 ベンチマークを実行しましょう。
 
 ~~~
@@ -607,7 +625,7 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 もちろん、実際のプロダクション環境ではこのようなリクエストの分配はロードバランサーによって行われるべきですが、ベンチマークのためだけにロードバランサーを設定するのは煩雑です。
 `--default-hosts`オプションにカンマ区切りで複数のホスト名を指定することで、その代替とすることができます。
 
-また、結果の保存先のパスも変わっています。
+また、結果の保存先のパスも変えています。
 
 
 #### 3ノード構成でのDroongaのベンチマーク
@@ -623,6 +641,27 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 ~~~
 
 これで、`node0`, `node1`, `node2`のすべてのノードが3ノード構成のクラスタとして動作するようになります。
+実際にノードが3つ認識されていることを確認しましょう:
+
+~~~
+(on node3)
+% sudo apt-get install -y jq
+% curl "http://node0:10042/droonga/system/status" | jq .
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "live": true
+    },
+    "node1:10031/droonga": {
+      "live": true
+    },
+    "node2:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 ベンチマークを実行しましょう。
 
 ~~~
@@ -639,7 +678,7 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
     --output-path=$PWD/droonga-result-3nodes.csv
 ~~~
 
-また`--default-hosts`と`--output-path`の指定が変わっていることに注意して下さい。
+また`--default-hosts`と`--output-path`の指定も変えていることに注意して下さい。
 
 ## 結果を分析する
 

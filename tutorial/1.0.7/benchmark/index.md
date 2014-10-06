@@ -573,6 +573,24 @@ Before benchmarking, join the second node to the cluster.
 ~~~
 
 After that both endpoints `node0` and `node1` work as a Droonga cluster with two nodes.
+Make sure that two nodes are actually detected:
+
+~~~
+(on node3)
+% sudo apt-get install -y jq
+% curl "http://node0:10042/droonga/system/status" | jq .
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "live": true
+    },
+    "node1:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 Run the benchmark.
 
 ~~~
@@ -614,6 +632,27 @@ Before benchmarking, join the last node to the cluster.
 ~~~
 
 After that all endpoints `node0`, `node1`, and `node2` work as a Droonga cluster with three nodes.
+Make sure that three nodes are actually detected:
+
+~~~
+(on node3)
+% sudo apt-get install -y jq
+% curl "http://node0:10042/droonga/system/status" | jq .
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "live": true
+    },
+    "node1:10031/droonga": {
+      "live": true
+    },
+    "node2:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 Run the benchmark.
 
 ~~~
