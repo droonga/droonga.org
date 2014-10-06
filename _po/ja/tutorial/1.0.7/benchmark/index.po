@@ -698,6 +698,14 @@ msgstr ""
 "これは、GroongaとDroonga（`droonga-http-server`）が既定の状態で最大で100件までの結果をキャッシュするためです。\n"
 "期待されるキャッシュヒット率が50%なのであれば、用意するべきユニークなリクエストの数は`N = 100 ÷ 0.5 = 200`と計算できます。"
 
+msgid ""
+"Note: if the actual rate is near zero, the number of unique requests becomes t"
+"oo huge!\n"
+"For such case you should carry up the rate to 0.01 (1%) or something."
+msgstr ""
+"注意: 実際のキャッシュヒット率が0に近い場合、必要となるユニークなリクエストの件数が巨大になってしまいます。\n"
+"このような場合は、キャッシュヒット率を`0.01`（1%）程度と見なすとよいでしょう。"
+
 msgid "### Format of request patterns file"
 msgstr "### リクエストパターンファイルの書式"
 

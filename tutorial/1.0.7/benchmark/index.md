@@ -353,6 +353,9 @@ You can control the cache hit rate by the number of unique request patterns, cal
 `N = 100 / (cache hit rate)`, because Groonga and Droonga (`droonga-http-server`) cache 100 results at a maximum by default.
 When the expected cache hit rate is 50%, the number of unique requests is calculated as: `N = 100 / 0.5 = 200`
 
+Note: if the actual rate is near zero, the number of unique requests becomes too huge!
+For such case you should carry up the rate to 0.01 (1%) or something.
+
 
 ### Format of request patterns file
 
