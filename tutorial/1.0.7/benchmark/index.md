@@ -237,6 +237,27 @@ Because we are benchmarking it via HTTP, you have to install both services `droo
 
 Note: to start `droonga-http-server` with a port number different from Groonga, we should specify another port `10042` via the `PORT` environment variable, like above.
 
+Make sure that Droonga's HTTP server is actualy listening the port `10042` and it is working as a cluster with three nodes:
+
+~~~
+(on node0)
+% sudo apt-get install -y jq
+% curl "http://node0:10042/droonga/system/status" | jq .
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "live": true
+    },
+    "node1:10031/droonga": {
+      "live": true
+    },
+    "node2:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 
 ### Synchronize data from Groonga to Droonga
 

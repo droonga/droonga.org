@@ -246,6 +246,27 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 
 注意: `droonga-http-server`をGroongaとは別のポート番号で起動するために、ここでは`PORT`環境変数を使って上記のようにして`10042`のポートで起動するように指定しています。
 
+DroongaのHTTPサーバが動作しており、`10042`番のポートを監視していることと、3つのノードからなるクラスタとして動作していることを確認しておきましょう:
+
+~~~
+(on node0)
+% sudo apt-get install -y jq
+% curl "http://node0:10042/droonga/system/status" | jq .
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "live": true
+    },
+    "node1:10031/droonga": {
+      "live": true
+    },
+    "node2:10031/droonga": {
+      "live": true
+    }
+  }
+}
+~~~
+
 
 ### GroongaからDroongaへとデータを同期する
 
