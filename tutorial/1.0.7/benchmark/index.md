@@ -120,12 +120,12 @@ Moreover, comparing multiple results from different number of Droogna nodes, you
 
 ## Prepare environments for benchmarking
 
-Assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogna cluster:
+Assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogna cluster and they can resolve their names each other:
 
- * `192.168.100.50`
- * `192.168.100.51`
- * `192.168.100.52`
- * `192.168.100.53`
+ * `192.168.100.50`, the host name is `node0`
+ * `192.168.100.51`, the host name is `node1`
+ * `192.168.100.52`, the host name is `node2`
+ * `192.168.100.53`, the host name is `node3`
 
 One is client, others are Droonga nodes.
 
@@ -137,7 +137,7 @@ Then you just have to dump all data in your Groonga database and load them to a 
 Otherwise - if you have no existing service, prepare a new reference database with much data for effective benchmark.
 The repository [wikipedia-search][] includes some helper scripts to construct your Groonga server (and Droonga cluster), with [Japanese Wikipedia](http://ja.wikipedia.org/) pages.
 
-So let's prepare a new Groonga database including Wikipedia pages, on a node `192.168.100.50`.
+So let's prepare a new Groonga database including Wikipedia pages, on the `node0`.
 
  1. Determine the size of the database.
     You have to use good enough size database for benchmarking.
@@ -146,11 +146,11 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     * If it is too large, you'll see "too unstable" result because page-in and page-out of RAM will slow the performance down randomly.
     * If RAM size of all nodes are different, you should determine the size of the database for the minimum size RAM.
 
-    For example, if there are three nodes `192.168.100.50` (8GB RAM), `192.168.100.51` (8GB RAM), and `192.168.100.52` (6GB RAM), then the database should be smaller than 6GB.
+    For example, if there are three nodes `node0` (8GB RAM), `node1` (8GB RAM), and `node2` (6GB RAM), then the database should be smaller than 6GB.
  2. Set up the Groonga server, as instructed on [the installation guide](http://groonga.org/docs/install.html).
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % sudo apt-get -y install software-properties-common
     % sudo add-apt-repository -y universe
     % sudo add-apt-repository -y ppa:groonga/ppa
@@ -163,7 +163,7 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     You can specify the number of records (pages) to be converted via the environment variable `MAX_N_RECORDS` (default=5000).
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % cd ~/
     % git clone https://github.com/droonga/wikipedia-search.git
     % cd wikipedia-search
@@ -179,7 +179,7 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
     This also may take more time:
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % mkdir -p $HOME/groonga/db/
     % groonga -n $HOME/groonga/db/db quit
     % time (cat ~/wikipedia-search/config/groonga/schema.grn | groonga $HOME/groonga/db/db)
@@ -198,7 +198,7 @@ So let's prepare a new Groonga database including Wikipedia pages, on a node `19
  4. Start the Groonga as an HTTP server.
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
     ~~~
 
@@ -211,27 +211,27 @@ Install Droonga to all nodes.
 Because we are benchmarking it via HTTP, you have to install both services `droonga-engine` and `droonga-http-server` for each node.
 
 ~~~
-(on 192.168.100.50)
-% host=192.168.100.50
+(on node0)
+% host=node0
 % curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
     sudo HOST=$host bash
 % curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
     sudo ENGINE_HOST=$host HOST=$host PORT=10042 bash
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50,192.168.100.51,192.168.100.52
+    --hosts=node0,node1,node2
 % sudo service droonga-engine start
 % sudo service droonga-http-server start
 ~~~
 
 ~~~
-(on 192.168.100.51)
-% host=192.168.100.51
+(on node1)
+% host=node1
 ...
 ~~~
 
 ~~~
-(on 192.168.100.52)
-% host=192.168.100.52
+(on node2)
+% host=node2
 ...
 ~~~
 
@@ -246,7 +246,7 @@ You can generate messages for Droonga from Groonga's dump result, by the `grn2dr
 Install `grn2drn` Gem package to activate the command, to the Groonga server computer.
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % sudo gem install grn2drn
 ~~~
 
@@ -274,16 +274,16 @@ If you are going to extract data from an existing Groonga server, you have to in
 Then dump schemas and data separately and load them to the Droonga cluster.
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % time (grndump --no-dump-tables $HOME/groonga/db/db | \
           grn2drn | \
-          droonga-send --server=192.168.100.50 \
+          droonga-send --server=node0 \
                        --report-throughput)
 % time (grndump --no-dump-schema --no-dump-indexes $HOME/groonga/db/db | \
           grn2drn | \
-          droonga-send --server=192.168.100.50 \
-                       --server=192.168.100.51 \
-                       --server=192.168.100.52 \
+          droonga-send --server=node0 \
+                       --server=node1 \
+                       --server=node2 \
                        --report-throughput)
 ~~~
 
@@ -298,10 +298,10 @@ After all, now you have two HTTP servers: Groonga HTTP server with the port `100
 
 You must install the benchmark client to the computer.
 
-Assume that you use a computer `192.168.100.53` as the client:
+Assume that you use a computer `node3` as the client:
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % sudo apt-get update
 % sudo apt-get -y upgrade
 % sudo apt-get install -y ruby curl jq
@@ -320,7 +320,7 @@ First, you have to determine the cache hit rate.
 If you have any existing service based on Groonga, you can get the actual cache hit rate of the Groonga database via `status` command, like:
 
 ~~~
-% curl "http://192.168.100.50:10041/d/status" | jq .
+% curl "http://node0:10041/d/status" | jq .
 [
   [
     0,
@@ -382,7 +382,7 @@ So there is a utility command `drnbench-extract-searchterms`.
 It generates list of terms from Groonga's select result, like:
 
 ~~~
-% curl "http://192.168.100.50:10041/d/select?table=Pages&limit=10&output_columns=title" | \
+% curl "http://node0:10041/d/select?table=Pages&limit=10&output_columns=title" | \
     drnbench-extract-searchterms
 title1
 title2
@@ -401,7 +401,7 @@ OK, let's generate request patterns by `drnbench-extract-searchterms`, from a se
 
 ~~~
 % n_unique_requests=200
-% curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
+% curl "http://node0:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms --escape | \
     sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
     > ./patterns.txt
@@ -436,14 +436,14 @@ First, run benchmark for Groonga as the reference.
 Start Groonga's HTTP server before running.
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
 ~~~
 
 You can run benchmark with the command `drnbench-request-response`, like:
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -451,7 +451,7 @@ You can run benchmark with the command `drnbench-request-response`, like:
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50 \
+    --default-hosts=node0 \
     --default-port=10041 \
     --output-path=$PWD/groonga-result.csv
 ~~~
@@ -480,7 +480,7 @@ Then you'll get the reference result of the Groonga.
 After that you should stop Groonga to release CPU and RAM resources.
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % pkill groonga
 ~~~
 
@@ -491,20 +491,20 @@ After that you should stop Groonga to release CPU and RAM resources.
 Before benchmarking, make your cluster with only one node.
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50
+    --hosts=node0
 % sudo service droonga-engine restart
 % sudo service droonga-http-server restart
 ~~~
 
 To clear effects from previous benchmark, you should restart services before each test.
 
-After that the endpoint `192.168.100.50` works as a Droonga cluster with single node.
+After that the endpoint `node0` works as a Droonga cluster with single node.
 Run the benchmark.
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -512,7 +512,7 @@ Run the benchmark.
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50 \
+    --default-hosts=node0 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-1node.csv
 ~~~
@@ -526,18 +526,18 @@ Moreover, the path to the result file also changed.
 Before benchmarking, join the second node to the cluster.
 
 ~~~
-(on 192.168.100.50, 192.168.100.51)
+(on node0, node1)
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50,192.168.100.51
+    --hosts=node0,node1
 % sudo service droonga-engine restart
 % sudo service droonga-http-server restart
 ~~~
 
-After that both endpoints `192.168.100.50` and `192.168.100.51` work as a Droonga cluster with two nodes.
+After that both endpoints `node0` and `node1` work as a Droonga cluster with two nodes.
 Run the benchmark.
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -545,7 +545,7 @@ Run the benchmark.
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50,192.168.100.51 \
+    --default-hosts=node0,node1 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-2nodes.csv
 ~~~
@@ -567,18 +567,18 @@ And, the path to the result file also changed.
 Before benchmarking, join the last node to the cluster.
 
 ~~~
-(on 192.168.100.50, 192.168.100.51)
+(on node0, node1)
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50,192.168.100.51,192.168.100.52
+    --hosts=node0,node1,node2
 % sudo service droonga-engine restart
 % sudo service droonga-http-server restart
 ~~~
 
-After that all endpoints `192.168.100.50`, `192.168.100.51`, and `192.168.100.52` work as a Droonga cluster with three nodes.
+After that all endpoints `node0`, `node1`, and `node2` work as a Droonga cluster with three nodes.
 Run the benchmark.
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -586,7 +586,7 @@ Run the benchmark.
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50,192.168.100.51,192.168.100.52 \
+    --default-hosts=node0,node1,node2 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-3nodes.csv
 ~~~

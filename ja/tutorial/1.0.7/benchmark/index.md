@@ -129,12 +129,12 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
 
 ## ベンチマーク環境を用意する
 
-新しいDroongaクラスタのために以下の4つの[Ubuntu][] 14.04LTSのサーバがあると仮定します:
+新しいDroongaクラスタのために、以下の、互いにホスト名で名前解決できる4つの[Ubuntu][] 14.04LTSのサーバがあると仮定します:
 
- * `192.168.100.50`
- * `192.168.100.51`
- * `192.168.100.52`
- * `192.168.100.53`
+ * `192.168.100.50`、ホスト名：`node0`
+ * `192.168.100.51`、ホスト名：`node1`
+ * `192.168.100.52`、ホスト名：`node2`
+ * `192.168.100.53`、ホスト名：`node3`
 
 1つはクライアント用で、残りの3つはDroongaノード用です。
 
@@ -146,7 +146,7 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
 特に運用中のサービスが無いということであれば、有効なベンチマークを取るために大量のデータを格納したデータベースを、対照として用意する必要があります。
 [wikipedia-search][]リポジトリには、[Wikipedia日本語版](http://ja.wikipedia.org/)のページを格納したGroongaサーバ（およびDroongaクラスタ）を用意する手助けとなるスクリプトが含まれています。
 
-では、Wikipediaのページを格納したGroongaデータベースを、`192.168.100.50`のノードに準備しましょう。
+では、Wikipediaのページを格納したGroongaデータベースを、`node0`のノードに準備しましょう。
 
  1. データベースのサイズを決める。
     ベンチマーク測定のためには、十分に大きいサイズのデータベースを使う必要があります。
@@ -155,11 +155,11 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
     * もしデータベースが大きすぎれば、メモリのスワップが発生してシステムの性能がランダムに劣化するために、過度に不安定なベンチマーク結果となるでしょう。
     * 各ノードのメモリの搭載量が異なる場合、その中で最もメモリ搭載量が少ないノードに合わせてデータベースのサイズを決めるのが望ましいです。
 
-    例えば、`192.168.100.50` (8GB RAM), `192.168.100.51` (8GB RAM), `192.168.100.52` (6GB RAM)の3つのノードがあるとすれば、データベースは6GBよりも小さくするべきです。
+    例えば、`node0` (8GB RAM), `node1` (8GB RAM), `node2` (6GB RAM)の3つのノードがあるとすれば、データベースは6GBよりも小さくするべきです。
  2. [インストール手順](http://groonga.org/ja/docs/install.html)に従ってGroongaサーバをセットアップする。
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % sudo apt-get -y install software-properties-common
     % sudo add-apt-repository -y universe
     % sudo add-apt-repository -y ppa:groonga/ppa
@@ -172,7 +172,7 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
     変換するレコード（ページ）の数は、環境変数 `MAX_N_RECORDS`（初期値は5000）で指定することができます。
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % cd ~/
     % git clone https://github.com/droonga/wikipedia-search.git
     % cd wikipedia-search
@@ -188,7 +188,7 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
     この操作にも時間がかかります:
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % mkdir -p $HOME/groonga/db/
     % groonga -n $HOME/groonga/db/db quit
     % time (cat ~/wikipedia-search/config/groonga/schema.grn | groonga $HOME/groonga/db/db)
@@ -207,7 +207,7 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
  4. GroongaをHTTPサーバとして起動する
     
     ~~~
-    (on 192.168.100.50)
+    (on node0)
     % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
     ~~~
 
@@ -220,27 +220,27 @@ Droongaをすべてのノードにインストールします。
 HTTP経由での動作をベンチマーク測定するので、`droonga-engine`と`droonga-http-server`の両方をインストールする必要があります。
 
 ~~~
-(on 192.168.100.50)
-% host=192.168.100.50
+(on node0)
+% host=node0
 % curl https://raw.githubusercontent.com/droonga/droonga-engine/master/install.sh | \
     sudo HOST=$host bash
 % curl https://raw.githubusercontent.com/droonga/droonga-http-server/master/install.sh | \
     sudo ENGINE_HOST=$host HOST=$host PORT=10042 bash
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50,192.168.100.51,192.168.100.52
+    --hosts=node0,node1,node2
 % sudo service droonga-engine start
 % sudo service droonga-http-server start
 ~~~
 
 ~~~
-(on 192.168.100.51)
-% host=192.168.100.51
+(on node1)
+% host=node1
 ...
 ~~~
 
 ~~~
-(on 192.168.100.52)
-% host=192.168.100.52
+(on node2)
+% host=node2
 ...
 ~~~
 
@@ -255,7 +255,7 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 コマンドを利用できるようにするために、Groongaサーバとなっているコンピュータに`grn2drn` Gemパッケージをインストールしましょう。
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % sudo gem install grn2drn
 ~~~
 
@@ -283,16 +283,16 @@ HTTP経由での動作をベンチマーク測定するので、`droonga-engine`
 それでは、スキーマ定義とデータを別々にダンプ出力し、Droongaクラスタに流し込みましょう。
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % time (grndump --no-dump-tables $HOME/groonga/db/db | \
           grn2drn | \
-          droonga-send --server=192.168.100.50 \
+          droonga-send --server=node0 \
                        --report-throughput)
 % time (grndump --no-dump-schema --no-dump-indexes $HOME/groonga/db/db | \
           grn2drn | \
-          droonga-send --server=192.168.100.50 \
-                       --server=192.168.100.51 \
-                       --server=192.168.100.52 \
+          droonga-send --server=node0 \
+                       --server=node1 \
+                       --server=node2 \
                        --report-throughput)
 ~~~
 
@@ -307,10 +307,10 @@ Droongaは複数のノードに並行してバラバラに送られたスキー�
 
 クライアントにするマシンには、ベンチマーク用のクライアントをインストールする必要があります。
 
-`192.168.100.53`をクライアントとして使うと仮定します:
+`node3`をクライアントとして使うと仮定します:
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % sudo apt-get update
 % sudo apt-get -y upgrade
 % sudo apt-get install -y ruby curl jq
@@ -329,7 +329,7 @@ Droongaは複数のノードに並行してバラバラに送られたスキー�
 もし既に運用中のGroongaベースのサービスがあるのであれば、以下のようにして、`status`コマンドを使ってGroongaデータベースのキャッシュヒット率を調べることができます:
 
 ~~~
-% curl "http://192.168.100.50:10041/d/status" | jq .
+% curl "http://node0:10041/d/status" | jq .
 [
   [
     0,
@@ -391,7 +391,7 @@ GroongaとDroongaの性能を正確に比較するためには、キャッシュ
 これは、以下のようにしてGroongaの検索結果から単語のリストを生成します:
 
 ~~~
-% curl "http://192.168.100.50:10041/d/select?table=Pages&limit=10&output_columns=title" | \
+% curl "http://node0:10041/d/select?table=Pages&limit=10&output_columns=title" | \
     drnbench-extract-searchterms
 title1
 title2
@@ -410,7 +410,7 @@ title10
 
 ~~~
 % n_unique_requests=200
-% curl "http://192.168.100.50:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
+% curl "http://node0:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms --escape | \
     sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
     > ./patterns.txt
@@ -445,14 +445,14 @@ title10
 ベンチマークの実行前に、GroongaのHTTPサーバを起動しておいて下さい。
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % groonga -p 10041 -d --protocol http $HOME/groonga/db/db
 ~~~
 
 ベンチマークは以下の要領で、`drnbench-request-response`コマンドを実行すると測定できます:
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -460,7 +460,7 @@ title10
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50 \
+    --default-hosts=node0 \
     --default-port=10041 \
     --output-path=$PWD/groonga-result.csv
 ~~~
@@ -489,7 +489,7 @@ title10
 CPU資源とメモリ資源を解放するために、ベンチマーク取得後はGroongaを停止しておきましょう。
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % pkill groonga
 ~~~
 
@@ -500,20 +500,20 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
 ベンチマークの前に、ノードが1つだけの状態にクラスタを設定します。
 
 ~~~
-(on 192.168.100.50)
+(on node0)
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50
+    --hosts=node0
 % sudo service droonga-engine restart
 % sudo service droonga-http-server restart
 ~~~
 
 前回のベンチマークの影響をなくすために、各ベンチマークの実行前にはサービスを再起動することをおすすめします。
 
-これにより、`192.168.100.50`は1ノード構成のクラスタとして動作するようになります。
+これにより、`node0`は1ノード構成のクラスタとして動作するようになります。
 ベンチマークを実行しましょう。
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -521,7 +521,7 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50 \
+    --default-hosts=node0 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-1node.csv
 ~~~
@@ -535,18 +535,18 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
 ベンチマークの前に、2番目のノードをクラスタに参加させます。
 
 ~~~
-(on 192.168.100.50, 192.168.100.51)
+(on node0, node1)
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50,192.168.100.51
+    --hosts=node0,node1
 % sudo service droonga-engine restart
 % sudo service droonga-http-server restart
 ~~~
 
-これにより、`192.168.100.50`と`192.168.100.51`は2ノード構成のDroongaクラスタとして動作するようになります。
+これにより、`node0`と`node1`は2ノード構成のDroongaクラスタとして動作するようになります。
 ベンチマークを実行しましょう。
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -554,7 +554,7 @@ CPU資源とメモリ資源を解放するために、ベンチマーク取得�
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50,192.168.100.51 \
+    --default-hosts=node0,node1 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-2nodes.csv
 ~~~
@@ -576,18 +576,18 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 ベンチマークの前に、最後のノードをクラスタに参加させましょう。
 
 ~~~
-(on 192.168.100.50, 192.168.100.51)
+(on node0, node1)
 % sudo droonga-engine-catalog-generate \
-    --hosts=192.168.100.50,192.168.100.51,192.168.100.52
+    --hosts=node0,node1,node2
 % sudo service droonga-engine restart
 % sudo service droonga-http-server restart
 ~~~
 
-これで、`192.168.100.50`, `192.168.100.51`, `192.168.100.52`のすべてのノードが3ノード構成のクラスタとして動作するようになります。
+これで、`node0`, `node1`, `node2`のすべてのノードが3ノード構成のクラスタとして動作するようになります。
 ベンチマークを実行しましょう。
 
 ~~~
-(on 192.168.100.53)
+(on node3)
 % drnbench-request-response \
     --step=2 \
     --start-n-clients=0 \
@@ -595,7 +595,7 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
     --duration=30 \
     --interval=10 \
     --request-patterns-file=$PWD/patterns.txt \
-    --default-hosts=192.168.100.50,192.168.100.51,192.168.100.52 \
+    --default-hosts=node0,node1,node2 \
     --default-port=10042 \
     --output-path=$PWD/droonga-result-3nodes.csv
 ~~~
