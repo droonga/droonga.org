@@ -28,7 +28,7 @@ this is based on https://github.com/droonga/presentation-droonga-meetup-1-introd
 * [Ubuntu][]または[CentOS][]のサーバの操作に関する基本的な知識と経験があること。
 * [Groonga][groonga]をHTTP経由で操作する際の基本的な知識と経験があること。
 * [Droonga][]クラスタの構築手順について基本的な知識があること。
-  このチュートリアルの前に、[「始めてみる」のチュートリアル](../groonga/)を完了しておいて下さい。
+  このチュートリアルの前に、[「使ってみる」のチュートリアル](../groonga/)を完了しておいて下さい。
 
 ## ベンチマークの必要性について
 
