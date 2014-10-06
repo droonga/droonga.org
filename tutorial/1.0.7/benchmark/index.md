@@ -480,7 +480,7 @@ Important parameters are:
    Statistics of all benchmarks is saved as a file at the location.
 
 Then you'll get the reference result of the Groonga.
-After that you should stop Groonga to release CPU and RAM resources.
+After that you should stop Groonga to release CPU and RAM resources, if it is running on a Droonga node.
 
 ~~~
 (on node0)
