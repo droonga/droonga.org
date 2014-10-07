@@ -817,6 +817,10 @@ In this pattern, you'll specify a search condition as a hash like:
 : A boolean value to allow (`true`) or disallow (`false`) to specify column name for each query in the `query`, like `name:Alice`.
   This parameter is optional, the default value is `true`.
 
+`allowLeadingNot`
+: A boolean value to allow (`true`) or disallow (`false`) to appear "negative expression" on the first query in the `query`, like `-foobar`.
+  This parameter is optional, the default value is `false`.
+
 `matchEscalationThreshold`
 : An integer to specify the threshold to escalate search methods.
   When the number of search results by indexes is smaller than this value, then Droonga does the search based on partial matching, etc.
