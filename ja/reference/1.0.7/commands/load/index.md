@@ -80,7 +80,7 @@ This is compatible to [the `load` command of the Groonga](http://groonga.org/doc
 
 `table` 以外のパラメータはすべて省略可能です。
 
-また、バージョン {{ site.droonga_version }} の時点では以下のパラメータのみが動作します。
+また、バージョン 1.0.7 の時点では以下のパラメータのみが動作します。
 これら以外のパラメータは未実装のため無視されます。
 
  * `values`
