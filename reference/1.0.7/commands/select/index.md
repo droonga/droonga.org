@@ -83,6 +83,7 @@ On the version {{ site.droonga_version }}, only following parameters are availab
  * `table`
  * `match_columns`
  * `query`
+ * `query_flags`
  * `filter`
  * `output_columns`
  * `offset`
