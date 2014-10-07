@@ -93,6 +93,7 @@ layout: ja
  * `table`
  * `match_columns`
  * `query`
+ * `query_flags`
  * `filter`
  * `output_columns`
  * `offset`
