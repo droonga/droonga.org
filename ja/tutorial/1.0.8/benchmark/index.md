@@ -393,8 +393,8 @@ GroongaとDroongaの性能を正確に比較するためには、キャッシュ
 以下はGroongaの`select`コマンド用のリクエストの一覧の例です:
 
 ~~~
-/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=AAA
-/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=BBB
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title&output_columns=title&query=AAA
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title&output_columns=title&query=BBB
 ...
 ~~~
 
@@ -415,7 +415,7 @@ GroongaとDroongaの性能を正確に比較するためには、キャッシュ
 これは、以下のようにしてGroongaの検索結果から単語のリストを生成します:
 
 ~~~
-% curl "http://node0:10041/d/select?table=Pages&limit=10&output_columns=title" | \
+% curl "http://node0:10041/d/select?command_version=2&table=Pages&limit=10&output_columns=title" | \
     drnbench-extract-searchterms
 title1
 title2
@@ -434,9 +434,9 @@ title10
 
 ~~~
 % n_unique_requests=200
-% curl "http://node0:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
+% curl "http://node0:10041/d/select?command_version=2&table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms --escape | \
-    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
+    sed -r -e "s;^;/d/select?command_version=2\&table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
     > ./patterns.txt
 ~~~
 
@@ -452,8 +452,8 @@ title10
 生成されたファイル `patterns.txt` は以下のような内容になります:
 
 ~~~
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=AAA
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=BBB
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=AAA
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=BBB
 ...
 ~~~
 
