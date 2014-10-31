@@ -384,8 +384,8 @@ The format of the request patterns list for `drnbench-request-response` is the p
 Here is a short example of requests for Groonga's `select` command:
 
 ~~~
-/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=AAA
-/d/select?table=Pages&limit=10&match_columns=title&output_columns=title&query=BBB
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title&output_columns=title&query=AAA
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title&output_columns=title&query=BBB
 ...
 ~~~
 
@@ -406,7 +406,7 @@ So there is a utility command `drnbench-extract-searchterms`.
 It generates list of terms from Groonga's select result, like:
 
 ~~~
-% curl "http://node0:10041/d/select?table=Pages&limit=10&output_columns=title" | \
+% curl "http://node0:10041/d/select?command_version=2&table=Pages&limit=10&output_columns=title" | \
     drnbench-extract-searchterms
 title1
 title2
@@ -425,9 +425,9 @@ OK, let's generate request patterns by `drnbench-extract-searchterms`, from a se
 
 ~~~
 % n_unique_requests=200
-% curl "http://node0:10041/d/select?table=Pages&limit=$n_unique_requests&output_columns=title" | \
+% curl "http://node0:10041/d/select?command_version=2&table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms --escape | \
-    sed -r -e "s;^;/d/select?table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
+    sed -r -e "s;^;/d/select?command_version=2\&table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
     > ./patterns.txt
 ~~~
 
@@ -443,8 +443,8 @@ Note:
 The generated file `patterns.txt` becomes like following:
 
 ~~~
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=AAA
-/d/select?table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=BBB
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=AAA
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=BBB
 ...
 ~~~
 
