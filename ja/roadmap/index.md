@@ -17,6 +17,10 @@ layout: ja
 
 # `droonga-engine`
 
+## 1.0.8
+
+ * Make drop-in replacement of log search system based on Groonga.
+
 ## 1.x.x
 
  * Optimize performance of `search` for unsharded replicas.
