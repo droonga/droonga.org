@@ -27,6 +27,12 @@ msgstr ""
 msgid "# `droonga-engine`"
 msgstr ""
 
+msgid "## 1.0.8"
+msgstr ""
+
+msgid " * Make drop-in replacement of log search system based on Groonga."
+msgstr ""
+
 msgid "## 1.x.x"
 msgstr ""
 
