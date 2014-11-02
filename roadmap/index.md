@@ -26,8 +26,6 @@ layout: en
    2) synchronize data from the source replica to the new destination replica,
    3) join those replicas to the cluster,
    and 3) wait to dispatch search requests to newly joined replicas until buffered updating requests are completely processed.)
- * Restart workers after schema change.
-   (Currently, old schema information cached by workers can break indexes for newly added records.)
  * Support various type system notifications.
    (Currently, munin or something can be available to monitor status of nodes.
    However it should be integrated.)
