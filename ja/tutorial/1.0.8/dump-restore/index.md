@@ -260,7 +260,7 @@ $ droonga-send --server=node0  \
 
 注意:
 
- * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
+ * `--host` オプションには、クラスタ内のいずれかのノードの正しいホスト名またはIPアドレスを指定します。
 
 これで、データが完全に復元されました。確かめてみましょう:
 
