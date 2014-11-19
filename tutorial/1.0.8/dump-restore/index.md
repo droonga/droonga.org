@@ -169,7 +169,7 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 After that the cluster becomes empty. Confirm it:
 
 ~~~
-$ curl "$endpoint/d/table_list?_=$(date +%s)" | jq "."
+$ curl "$endpoint/d/table_list" | jq "."
 [
   [
     0,
@@ -330,16 +330,16 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 (on node1)
 # droonga-engine-catalog-modify --replica-hosts=node1
 $ endpoint="http://node1:10041"
-$ curl "$endpoint/d/table_remove?name=Location&_=$(date +%s)"
-$ curl "$endpoint/d/table_remove?name=Store&_=$(date +%s)"
-$ curl "$endpoint/d/table_remove?name=Term&_=$(date +%s)"
+$ curl "$endpoint/d/table_remove?name=Location"
+$ curl "$endpoint/d/table_remove?name=Store"
+$ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
 After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
 
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -398,7 +398,7 @@ $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10&_=$
     ]
   ]
 ]
-$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node1:10031/droonga": {
@@ -521,7 +521,7 @@ Run following command lines to unite these two clusters:
 After that there is just one cluster - yes, it's the initial state.
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {

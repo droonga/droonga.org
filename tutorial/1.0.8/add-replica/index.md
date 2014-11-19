@@ -83,7 +83,7 @@ Currently, the new node doesn't work as a node of the existing cluster.
 You can confirm that, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -94,7 +94,7 @@ $ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -105,7 +105,7 @@ $ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node2:10031/droonga": {
@@ -162,7 +162,7 @@ All nodes' `catalog.json` are also updated, and now, yes, the new node starts wo
 You can confirm that they are working as a cluster, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -177,8 +177,6 @@ $ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
   }
 }
 ~~~
-
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ### Resume inpouring of "write" requests
 
@@ -220,7 +218,7 @@ Now, the node has been successfully unjoined from the cluster.
 You can confirm that the `node2` is successfully unjoined, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -231,7 +229,7 @@ $ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -242,7 +240,7 @@ $ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -254,8 +252,6 @@ $ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
   }
 }
 ~~~
-
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 Look at the point that the `node2` also says `node2` is not a member of the cluster.
 This is the difference between a node unjoined from a cluster and a new node.
@@ -283,7 +279,7 @@ Now the node has been gone.
 You can confirm that via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -292,8 +288,6 @@ $ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
   }
 }
 ~~~
-
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ### Add a new replica
 
@@ -333,7 +327,7 @@ Finally a Droonga cluster constructed with two nodes `node0` and `node2` is here
 You can confirm that, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -344,7 +338,7 @@ $ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
     }
   }
 }
-$ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -356,8 +350,6 @@ $ curl "http://node2:10041/droonga/system/status?_=$(date +%s)" | jq "."
   }
 }
 ~~~
-
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ## Conclusion
 
