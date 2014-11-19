@@ -173,7 +173,9 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 ]
 ~~~
 
-これでクラスタは空になりました。確かめてみましょう:
+これでクラスタは空になりました。
+確かめてみましょう。
+以下のように、`select`と`table_list`コマンドは空の結果を返します：
 
 ~~~
 $ curl "$endpoint/d/table_list" | jq "."
@@ -220,7 +222,9 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "$endpoint/cache" | jq "."
+true
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -238,8 +242,9 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s
 ]
 ~~~
 
-注意: レスポンスキャッシュを無視するために、追加のパラメータとして `_=$(date +%s)` を加えていることに注意して下さい。
-これを忘れると、古い設定に基づく異キャッシュされたレスポンス（期待に反した内容）を目にしてしまうことになるでしょう。
+注意: `select`コマンド利にクエストを送る前に、まずキャッシュを削除しておいてください。
+これを怠ると、古い情報に基づいて、キャッシュされた結果が意図せず返されてしまいます。
+レスポンスキャッシュを削除するには、上記のように、`/cache`のパスの位置にHTTPの`DELETE`のリクエストを送信します。
 
 ### ダンプ結果から空のDroongaクラスタへデータを復元する
 
@@ -260,7 +265,9 @@ $ droonga-send --server=node0  \
 これで、データが完全に復元されました。確かめてみましょう:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "$endpoint/cache" | jq "."
+true
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -313,8 +320,6 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s
 ]
 ~~~
 
-古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
-
 ## 既存のクラスタを別の空のクラスタに直接複製する
 
 複数のDroongaクラスタが存在する場合、片方のクラスタの内容をもう片方のクラスタに複製することができます。
@@ -352,7 +357,9 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "http://node0:10041/cache" | jq "."
+true
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -411,7 +418,9 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "http://node1:10041/cache" | jq "."
+true
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -428,8 +437,6 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$
   ]
 ]
 ~~~
-
-古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 
 ### 2つのDroongaクラスタの間でデータを複製する
@@ -454,7 +461,9 @@ Done.
 以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
 
 ~~~
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "http://node1:10041/cache" | jq "."
+true
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -507,8 +516,6 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$
 ]
 ~~~
 
-古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
-
 ### 2つのDroongaクラスタを結合する
 
 これらの2つのクラスタを結合するために、以下のコマンド列を実行しましょう:
@@ -538,8 +545,6 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
-
-古いレスポンスキャッシュを無視するために、各リクエストに追加の一意なパラメータを加えていることに注意して下さい。
 
 ## まとめ
 

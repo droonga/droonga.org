@@ -166,7 +166,9 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 ]
 ~~~
 
-After that the cluster becomes empty. Confirm it:
+After that the cluster becomes empty.
+Let's confirm it.
+You'll see empty result by `select` and `table_list` commands, like:
 
 ~~~
 $ curl "$endpoint/d/table_list" | jq "."
@@ -213,7 +215,9 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "$endpoint/cache" | jq "."
+true
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -231,8 +235,9 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s
 ]
 ~~~
 
-Note: you have to add an extra parameter `_=$(date +%s)` to bypass the response cache.
-If you forget to add it, you'll see unexpected cached result based on old configurations.
+Note: before sending a request for the `select` command, clear the response cache.
+Otherwise you'll see unexpected cached result based on old configurations.
+You can clear all response caches by sending an HTTP `DELETE` request to the path `/cache`, like above.
 
 ### Restore data from a dump result, to an empty Droonga cluster
 
@@ -253,7 +258,9 @@ Note:
 Then the data is completely restored. Confirm it:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "$endpoint/cache" | jq "."
+true
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -306,8 +313,6 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s
 ]
 ~~~
 
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
-
 ## Duplicate an existing Droonga cluster to another empty cluster directly
 
 If you have multiple Droonga clusters, then you can duplicate one to another.
@@ -347,7 +352,9 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "http://node0:10041/cache" | jq "."
+true
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -406,7 +413,9 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     }
   }
 }
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "http://node1:10041/cache" | jq "."
+true
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -423,8 +432,6 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$
   ]
 ]
 ~~~
-
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 
 ### Duplicate data between two Droonga clusters
@@ -449,7 +456,9 @@ Done.
 After that contents of these two clusters are completely synchronized. Confirm it:
 
 ~~~
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s)" | jq "."
+$ curl -X DELETE "http://node1:10041/cache" | jq "."
+true
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
 [
   [
     0,
@@ -502,8 +511,6 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$
 ]
 ~~~
 
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
-
 ### Unite two Droonga clusters
 
 Run following command lines to unite these two clusters:
@@ -533,8 +540,6 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
-
-Note that adding an extra unique parameter for each request, to bypass old resposne caches.
 
 ## Conclusion
 

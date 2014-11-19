@@ -273,8 +273,6 @@ Remove the node from the cluster, like:
 $ droonga-engine-unjoin --host=node1
 ~~~
 
-Refresh response caches:
-
 Now the node has been gone.
 You can confirm that via the `system.status` command:
 

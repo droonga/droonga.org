@@ -502,9 +502,6 @@ msgid ""
 "~~~"
 msgstr ""
 
-msgid "Refresh response caches:"
-msgstr "レスポンスキャッシュを空にします:"
-
 msgid ""
 "Now the node has been gone.\n"
 "You can confirm that via the `system.status` command:"

@@ -280,8 +280,6 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
 $ droonga-engine-unjoin --host=node1
 ~~~
 
-レスポンスキャッシュを空にします:
-
 これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
