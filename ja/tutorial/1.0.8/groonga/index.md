@@ -295,76 +295,9 @@ $ curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortTe
 ]
 ~~~
 
-
 リクエストの送信先として、Droongaノード中でdroonga-http-serverが動作しているDroongaノードのどれか1つを指定する必要がある事に注意して下さい。
 言い換えると、接続先（エンドポイント）としてはクラスタ中のどのノードでも好きな物を使う事ができます。
 すべてのリクエストは、クラスタ中の適切なノードに配送されます。
-
-次は、`column_create` コマンドを使って `Store` テーブルに `name` と `location` という新しいカラムを作ります:
-
-~~~
-$ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText" | jq "."
-[
-  [
-    0,
-    1401358348.6541538,
-    0.0004096031188964844
-  ],
-  true
-]
-$ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint" | jq "."
-[
-  [
-    0,
-    1401358359.084659,
-    0.002511262893676758
-  ],
-  true
-]
-~~~
-
-インデックスも作成しましょう。
-
-~~~
-$ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto" | jq "."
-[
-  [
-    0,
-    1401358475.7229664,
-    0.002419710159301758
-  ],
-  true
-]
-$ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name" | jq "."
-[
-  [
-    0,
-    1401358494.1656318,
-    0.006799221038818359
-  ],
-  true
-]
-$ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint" | jq "."
-[
-  [
-    0,
-    1401358505.708896,
-    0.0016951560974121094
-  ],
-  true
-]
-$ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location" | jq "."
-[
-  [
-    0,
-    1401358519.6187897,
-    0.024788379669189453
-  ],
-  true
-]
-~~~
-
-*注意*: テーブルが完全にできあがるまでは、`table_list` や `column_list` といったコマンドを実行しないでください。テーブルができあがる前にこれらのコマンドを実行してしまうと、インデックスが破損した状態になってしまいます。これはバージョン{{ site.droonga_version }}での既知の不具合で、将来のバージョンで修正される予定です。
 
 さて、テーブルを正しく作成できました。
 `table_list` コマンドを使って、作成されたテーブルの情報を見てみましょう:
@@ -480,6 +413,355 @@ $ curl "http://node1:10041/d/table_list" | jq "."
       null,
       null,
       null
+    ]
+  ]
+]
+~~~
+
+次は、`column_create` コマンドを使って `Store` テーブルに `name` と `location` という新しいカラムを作ります:
+
+~~~
+$ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText" | jq "."
+[
+  [
+    0,
+    1401358348.6541538,
+    0.0004096031188964844
+  ],
+  true
+]
+$ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint" | jq "."
+[
+  [
+    0,
+    1401358359.084659,
+    0.002511262893676758
+  ],
+  true
+]
+~~~
+
+インデックスも作成しましょう。
+
+~~~
+$ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto" | jq "."
+[
+  [
+    0,
+    1401358475.7229664,
+    0.002419710159301758
+  ],
+  true
+]
+$ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name" | jq "."
+[
+  [
+    0,
+    1401358494.1656318,
+    0.006799221038818359
+  ],
+  true
+]
+$ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint" | jq "."
+[
+  [
+    0,
+    1401358505.708896,
+    0.0016951560974121094
+  ],
+  true
+]
+$ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location" | jq "."
+[
+  [
+    0,
+    1401358519.6187897,
+    0.024788379669189453
+  ],
+  true
+]
+~~~
+
+結果を確認してみましょう：
+
+~~~
+$ curl "$endpoint/d/table_list" | jq "."
+[
+  [
+    0,
+    1416390011.7194495,
+    0.0015704631805419922
+  ],
+  [
+    [
+      [
+        "id",
+        "UInt32"
+      ],
+      [
+        "name",
+        "ShortText"
+      ],
+      [
+        "path",
+        "ShortText"
+      ],
+      [
+        "flags",
+        "ShortText"
+      ],
+      [
+        "domain",
+        "ShortText"
+      ],
+      [
+        "range",
+        "ShortText"
+      ],
+      [
+        "default_tokenizer",
+        "ShortText"
+      ],
+      [
+        "normalizer",
+        "ShortText"
+      ]
+    ],
+    [
+      261,
+      "Location",
+      "/home/droonga-engine/droonga/databases/000/db.0000105",
+      "TABLE_PAT_KEY|PERSISTENT",
+      "WGS84GeoPoint",
+      null,
+      null,
+      null
+    ],
+    [
+      256,
+      "Store",
+      "/home/droonga-engine/droonga/databases/000/db.0000100",
+      "TABLE_PAT_KEY|PERSISTENT",
+      "ShortText",
+      null,
+      null,
+      null
+    ],
+    [
+      259,
+      "Term",
+      "/home/droonga-engine/droonga/databases/000/db.0000103",
+      "TABLE_PAT_KEY|PERSISTENT",
+      "ShortText",
+      null,
+      "TokenBigram",
+      "NormalizerAuto"
+    ]
+  ]
+]
+$ curl "$endpoint/d/column_list?table=Store" | jq "."
+[
+  [
+    0,
+    1416390069.515929,
+    0.001077413558959961
+  ],
+  [
+    [
+      [
+        "id",
+        "UInt32"
+      ],
+      [
+        "name",
+        "ShortText"
+      ],
+      [
+        "path",
+        "ShortText"
+      ],
+      [
+        "type",
+        "ShortText"
+      ],
+      [
+        "flags",
+        "ShortText"
+      ],
+      [
+        "domain",
+        "ShortText"
+      ],
+      [
+        "range",
+        "ShortText"
+      ],
+      [
+        "source",
+        "ShortText"
+      ]
+    ],
+    [
+      256,
+      "_key",
+      "",
+      "",
+      "COLUMN_SCALAR",
+      "Store",
+      "ShortText",
+      []
+    ],
+    [
+      258,
+      "location",
+      "/home/droonga-engine/droonga/databases/000/db.0000102",
+      "fix",
+      "COLUMN_SCALAR",
+      "Store",
+      "WGS84GeoPoint",
+      []
+    ],
+    [
+      257,
+      "name",
+      "/home/droonga-engine/droonga/databases/000/db.0000101",
+      "var",
+      "COLUMN_SCALAR",
+      "Store",
+      "ShortText",
+      []
+    ]
+  ]
+]
+$ curl "$endpoint/d/column_list?table=Term" | jq "."
+[
+  [
+    0,
+    1416390110.143951,
+    0.0013172626495361328
+  ],
+  [
+    [
+      [
+        "id",
+        "UInt32"
+      ],
+      [
+        "name",
+        "ShortText"
+      ],
+      [
+        "path",
+        "ShortText"
+      ],
+      [
+        "type",
+        "ShortText"
+      ],
+      [
+        "flags",
+        "ShortText"
+      ],
+      [
+        "domain",
+        "ShortText"
+      ],
+      [
+        "range",
+        "ShortText"
+      ],
+      [
+        "source",
+        "ShortText"
+      ]
+    ],
+    [
+      259,
+      "_key",
+      "",
+      "",
+      "COLUMN_SCALAR",
+      "Term",
+      "ShortText",
+      []
+    ],
+    [
+      260,
+      "store_name",
+      "/home/droonga-engine/droonga/databases/000/db.0000104",
+      "index",
+      "COLUMN_INDEX|WITH_POSITION",
+      "Term",
+      "Store",
+      [
+        "name"
+      ]
+    ]
+  ]
+]
+$ curl "$endpoint/d/column_list?table=Location" | jq "."
+[
+  [
+    0,
+    1416390163.0140722,
+    0.0009713172912597656
+  ],
+  [
+    [
+      [
+        "id",
+        "UInt32"
+      ],
+      [
+        "name",
+        "ShortText"
+      ],
+      [
+        "path",
+        "ShortText"
+      ],
+      [
+        "type",
+        "ShortText"
+      ],
+      [
+        "flags",
+        "ShortText"
+      ],
+      [
+        "domain",
+        "ShortText"
+      ],
+      [
+        "range",
+        "ShortText"
+      ],
+      [
+        "source",
+        "ShortText"
+      ]
+    ],
+    [
+      261,
+      "_key",
+      "",
+      "",
+      "COLUMN_SCALAR",
+      "Location",
+      "WGS84GeoPoint",
+      []
+    ],
+    [
+      262,
+      "store",
+      "/home/droonga-engine/droonga/databases/000/db.0000106",
+      "index",
+      "COLUMN_INDEX",
+      "Location",
+      "Store",
+      [
+        "location"
+      ]
     ]
   ]
 ]

@@ -176,7 +176,7 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 これでクラスタは空になりました。確かめてみましょう:
 
 ~~~
-$ curl "$endpoint/d/table_list?_=$(date +%s)" | jq "."
+$ curl "$endpoint/d/table_list" | jq "."
 [
   [
     0,
@@ -335,16 +335,16 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10&_=$(date +%s
 (on node1)
 # droonga-engine-catalog-modify --replica-hosts=node1
 $ endpoint="http://node1:10041"
-$ curl "$endpoint/d/table_remove?name=Location&_=$(date +%s)"
-$ curl "$endpoint/d/table_remove?name=Store&_=$(date +%s)"
-$ curl "$endpoint/d/table_remove?name=Term&_=$(date +%s)"
+$ curl "$endpoint/d/table_remove?name=Location"
+$ curl "$endpoint/d/table_remove?name=Store"
+$ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
 これで、ノード `node0` を含む複製元クラスタと、ノード `node1` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
 
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -403,7 +403,7 @@ $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10&_=$
     ]
   ]
 ]
-$ curl "http://node1:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node1:10031/droonga": {
@@ -526,7 +526,7 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10&_=$
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status?_=$(date +%s)" | jq "."
+$ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
