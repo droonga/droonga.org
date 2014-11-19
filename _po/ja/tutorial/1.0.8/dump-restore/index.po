@@ -350,7 +350,7 @@ msgid ""
 "You can clear all response caches by sending an HTTP `DELETE` request to the p"
 "ath `/cache`, like above."
 msgstr ""
-"注意: `select`コマンド利にクエストを送る前に、まずキャッシュを削除しておいてください。\n"
+"注意: `select`コマンドにクエストを送る前に、まずキャッシュを削除しておいてください。\n"
 "これを怠ると、古い情報に基づいて、キャッシュされた結果が意図せず返されてしまいます。\n"
 "レスポンスキャッシュを削除するには、上記のように、`/cache`のパスの位置にHTTPの`DELETE`のリクエストを送信します。"
 
