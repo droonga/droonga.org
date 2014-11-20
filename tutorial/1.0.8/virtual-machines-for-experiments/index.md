@@ -205,6 +205,28 @@ So you can install Droonga services for each VM step by step, like:
  7. Go to `properties` of the VM, and decrease the size of RAM to the original size.
  8. Repeat steps from 3 to 7 for each VM.
 
+### Appendix: tunneling for a VM
+
+If the host machine is just a (remote) server and you are mainly using another local PC, then you'll hope to access HTTP servers running on VMs from your PC.
+For example, testing the administration page on an web browser (Google Chrome, Mozilla Firefox, and so on.)
+
+Port forwarding of OpenSSH will help you.
+Let's run following command on your host machine.
+
+~~~
+% ssh vagrant@192.168.100.50 \
+      -i ~/.vagrant.d/insecure_private_key \
+      -g \
+      -L 20041:localhost:10041
+~~~
+
+Then, actually you can see the administraton page provided by `droonga-http-server`, with the URL:
+`http://(IP address of hostname of the host machine):20041/`
+OpenSSH client running on the host machine automatically forwards inpouring packets from the host machine's port `20041` to the VM's port `10041`.
+
+ * Don't forget to specify the username `vagrant@` and the identity file.
+ * The option `-g` is required to accept requests from outside of the host computer itself.
+
 ## Conclusion
 
 In this tutorial, you did prepare three virtual machines for Droonga nodes.
