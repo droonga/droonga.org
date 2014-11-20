@@ -205,7 +205,7 @@ So you can install Droonga services for each VM step by step, like:
  7. Go to `properties` of the VM, and decrease the size of RAM to the original size.
  8. Repeat steps from 3 to 7 for each VM.
 
-### Appendix: tunneling for a VM
+### Appendix: direct access to services running on a VM, from other computers
 
 If the host machine is just a (remote) server and you are mainly using another local PC, then you may hope to access HTTP servers running on VMs from your PC directly.
 For example, testing the administration page on an web browser (Google Chrome, Mozilla Firefox, and so on.)
