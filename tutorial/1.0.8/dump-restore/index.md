@@ -235,9 +235,11 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 ]
 ~~~
 
-Note: before sending a request for the `select` command, clear the response cache.
+Note, clear the response cache before sending a request for the `select` command.
 Otherwise you'll see unexpected cached result based on old configurations.
-You can clear all response caches by sending an HTTP `DELETE` request to the path `/cache`, like above.
+
+Response caches are stored for recent 100 requests, and their lifetime is 1 minute, by default.
+You can clear all response caches manually by sending an HTTP `DELETE` request to the path `/cache`, like above.
 
 ### Restore data from a dump result, to an empty Droonga cluster
 
