@@ -207,7 +207,7 @@ So you can install Droonga services for each VM step by step, like:
 
 ### Appendix: tunneling for a VM
 
-If the host machine is just a (remote) server and you are mainly using another local PC, then you'll hope to access HTTP servers running on VMs from your PC.
+If the host machine is just a (remote) server and you are mainly using another local PC, then you may hope to access HTTP servers running on VMs from your PC directly.
 For example, testing the administration page on an web browser (Google Chrome, Mozilla Firefox, and so on.)
 
 Port forwarding of OpenSSH will help you.
@@ -220,7 +220,7 @@ Let's run following command on your host machine.
       -L 20041:localhost:10041
 ~~~
 
-Then, actually you can see the administraton page provided by `droonga-http-server`, with the URL:
+Then, actually you can see the administraton page provided by `droonga-http-server` on the VM `node0` (`192.168.100.50`), with the URL:
 `http://(IP address of hostname of the host machine):20041/`
 OpenSSH client running on the host machine automatically forwards inpouring packets from the host machine's port `20041` to the VM's port `10041`.
 
