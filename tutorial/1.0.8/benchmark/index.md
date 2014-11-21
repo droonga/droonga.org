@@ -305,13 +305,19 @@ Then dump schemas and data separately and load them to the Droonga cluster.
           droonga-send --server=node0 \
                        --server=node1 \
                        --server=node2 \
+                       --messages-per-second=100 \
                        --report-throughput)
 ~~~
 
 Note that you must send requests for schema and indexes to just one endpoint.
 Parallel sending of schema definition requests for multiple endpoints will break the database, because Droonga cannot sort schema changing commands sent to each node in parallel.
 
+To reduce traffic and system load, you should specify maximum number of inpouring messages per second by the `--messages-per-second` option.
+If too many messages rush into the Droonga cluster, they may overflow - Droonga may eat up the RAM and slow down the system.
+
 This may take much time.
+For example, with the option `--messages-per-second=100`, 1500000 records will be synchronized in about 4 hours (we can estimate the required time like: `150000 / 100 / 60 / 60`).
+
 After all, now you have two HTTP servers: Groonga HTTP server with the port `10041`, and Droonga HTTP Servers with the port `10042`.
 
 
