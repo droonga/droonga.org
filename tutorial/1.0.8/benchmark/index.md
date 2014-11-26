@@ -167,7 +167,7 @@ So let's prepare a new Groonga database including Wikipedia pages, on the `node0
     % cd ~/
     % git clone https://github.com/droonga/wikipedia-search.git
     % cd wikipedia-search
-    % bundle install
+    % bundle install --path vendor/
     % time (MAX_N_RECORDS=100000 bundle exec rake data:convert:groonga:ja \
                                    data/groonga/ja-pages.grn)
     ~~~

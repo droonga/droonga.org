@@ -176,7 +176,7 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
     % cd ~/
     % git clone https://github.com/droonga/wikipedia-search.git
     % cd wikipedia-search
-    % bundle install
+    % bundle install --path vendor/
     % time (MAX_N_RECORDS=100000 bundle exec rake data:convert:groonga:ja \
                                    data/groonga/ja-pages.grn)
     ~~~
