@@ -442,7 +442,7 @@ title10
 % n_unique_requests=200
 % curl "http://node0:10041/d/select?command_version=2&table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms --escape | \
-    sed -r -e "s;^;/d/select?command_version=2\&table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&drilldown=categories\&drilldown_limit=10\&drilldown_output_columns=_key,_nsubrecs\&query=;" \
+    sed -r -e "s;^;/d/select?command_version=2\&table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&sortby=title\&drilldown=categories\&drilldown_limit=10\&drilldown_output_columns=_id,_key,_nsubrecs\&drilldown_sortby=_nsubrecs\&query=;" \
     > ./patterns.txt
 ~~~
 
@@ -458,8 +458,8 @@ title10
 生成されたファイル `patterns.txt` は以下のような内容になります:
 
 ~~~
-/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&drilldown=categories&drilldown_limit=10&drilldown_output_columns=_key,_nsubrecs&query=AAA
-/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&drilldown=categories&drilldown_limit=10&drilldown_output_columns=_key,_nsubrecs&query=BBB
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&sortby=title&drilldown=categories&drilldown_limit=10&drilldown_output_columns=_id,_key,_nsubrecs&drilldown_sortby=_nsubrecs&query=AAA
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&sortby=title&drilldown=categories&drilldown_limit=10&drilldown_output_columns=_id,_key,_nsubrecs&drilldown_sortby=_nsubrecs&query=BBB
 ...
 ~~~
 
