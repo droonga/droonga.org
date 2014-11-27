@@ -530,6 +530,12 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 ベンチマークの前に、ノードが1つだけの状態にクラスタを設定します。
 
 ~~~
+(on node1, node2)
+% sudo service droonga-engine stop
+% sudo service droonga-http-server stop
+~~~
+
+~~~
 (on node0)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0

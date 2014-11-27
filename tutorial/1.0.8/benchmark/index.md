@@ -521,6 +521,12 @@ After that you should stop Groonga to release CPU and RAM resources, if it is ru
 Before benchmarking, make your cluster with only one node.
 
 ~~~
+(on node1, node2)
+% sudo service droonga-engine stop
+% sudo service droonga-http-server stop
+~~~
+
+~~~
 (on node0)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0

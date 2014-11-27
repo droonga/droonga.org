@@ -1019,6 +1019,14 @@ msgstr "ベンチマークの前に、ノードが1つだけの状態にクラ�
 
 msgid ""
 "~~~\n"
+"(on node1, node2)\n"
+"% sudo service droonga-engine stop\n"
+"% sudo service droonga-http-server stop\n"
+"~~~"
+msgstr ""
+
+msgid ""
+"~~~\n"
 "(on node0)\n"
 "% sudo droonga-engine-catalog-generate \\\n"
 "    --hosts=node0\n"
