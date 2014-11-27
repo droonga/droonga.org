@@ -433,7 +433,7 @@ OK, let's generate request patterns by `drnbench-extract-searchterms`, from a se
 % n_unique_requests=200
 % curl "http://node0:10041/d/select?command_version=2&table=Pages&limit=$n_unique_requests&output_columns=title" | \
     drnbench-extract-searchterms --escape | \
-    sed -r -e "s;^;/d/select?command_version=2\&table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&query=;" \
+    sed -r -e "s;^;/d/select?command_version=2\&table=Pages\&limit=10\&match_columns=title,text\&output_columns=snippet_html(title),snippet_html(text),categories,_key\&query_flags=NONE\&drilldown=categories\&drilldown_limit=10\&drilldown_output_columns=_key,_nsubrecs\&query=;" \
     > ./patterns.txt
 ~~~
 
@@ -449,8 +449,8 @@ Note:
 The generated file `patterns.txt` becomes like following:
 
 ~~~
-/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=AAA
-/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&query=BBB
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&drilldown=categories&drilldown_limit=10&drilldown_output_columns=_key,_nsubrecs&query=AAA
+/d/select?command_version=2&table=Pages&limit=10&match_columns=title,text&output_columns=snippet_html(title),snippet_html(text),categories,_key&query_flags=NONE&drilldown=categories&drilldown_limit=10&drilldown_output_columns=_key,_nsubrecs&query=BBB
 ...
 ~~~
 
