@@ -22,7 +22,7 @@ If you have Droonga nodes with other names, read `node0`, `node1` and `node2` in
 
 ### Install `drndump`
 
-First, install a command line tool named `drndump` via rubygems:
+First, install a command line tool named `drndump` via rubygems, to your working machine:
 
 ~~~
 # gem install drndump

@@ -60,8 +60,10 @@ msgstr "## Droongaクラスタのデータをバックアップする"
 msgid "### Install `drndump`"
 msgstr "### `drndump` のインストール"
 
-msgid "First, install a command line tool named `drndump` via rubygems:"
-msgstr "最初に、Rubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:"
+msgid ""
+"First, install a command line tool named `drndump` via rubygems, to your worki"
+"ng machine:"
+msgstr "最初に、作業マシンにRubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:"
 
 msgid ""
 "~~~\n"
