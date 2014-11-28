@@ -75,8 +75,8 @@ Let's start services.
 
 ~~~
 (on node2)
-# service start droonga-engine
-# service start droonga-http-server
+# service droonga-engine start
+# service droonga-http-server start
 ~~~
 
 Currently, the new node doesn't work as a node of the existing cluster.
