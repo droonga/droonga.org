@@ -133,7 +133,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 
 ~~~
 $ droonga-send --version
-droonga-send 0.1.9
+droonga-send 0.2.0
 ~~~
 
 ### 空のDroongaクラスタを用意する

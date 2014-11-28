@@ -125,7 +125,7 @@ After that, establish that the `droonga-send` command has been installed success
 
 ~~~
 $ droonga-send --version
-droonga-send 0.1.9
+droonga-send 0.2.0
 ~~~
 
 ### Prepare an empty Droonga cluster
