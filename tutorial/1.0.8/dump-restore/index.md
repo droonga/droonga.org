@@ -255,7 +255,7 @@ $ droonga-send --server=node0  \
 
 Note:
 
- * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--host`.
+ * You must specify valid host name or IP address of one of nodes in the cluster, via the option `--server`.
 
 Then the data is completely restored. Confirm it:
 
