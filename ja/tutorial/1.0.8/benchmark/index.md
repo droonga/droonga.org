@@ -687,9 +687,9 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 
 また、結果の保存先のパスも変えています。
 
-Don't forget to monitor system status of both nodes while benchmarking.
-If only one node is busy and another is idling, something wrong - for example, they are not working as a cluster.
-You also must check the actual cache hit rate of all nodes.
+ベンチマークの実行中、両方のノードのシステムの状態を監視することを忘れないでください。
+もし片方のノードだけに負荷がかかっていてもう片方がアイドル状態なのであれば、両者が1つのクラスタとして働いていないなどのように、何か異常が起こっていると分かります。
+すべてのノードの実際のキャッシュヒット率も忘れずに確認しておきましょう。
 
 #### 3ノード構成でのDroongaのベンチマーク
 
@@ -741,7 +741,7 @@ You also must check the actual cache hit rate of all nodes.
 ~~~
 
 また`--default-hosts`と`--output-path`の指定も変えていることに注意して下さい。
-各ノードのシステムの状態を監視することもやはり重要です。
+各ノードのシステムの状態の監視と、実際のキャッシュヒット率の確認も忘れてはいけません。
 
 ## 結果を分析する
 

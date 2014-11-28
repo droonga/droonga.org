@@ -733,7 +733,7 @@ Run the benchmark.
 ~~~
 
 Note that both `--default-hosts` and `--output-path` are changed again.
-Monitoring of system status of all nodes is also important.
+Monitoring of system status and checking cache hit rate of all nodes are also important.
 
 ## Analyze the result
 
