@@ -604,47 +604,23 @@ Run the benchmark.
 Note that the default port is changed from `10041` (Groonga's HTTP server) to `10042` (Droonga).
 Moreover, the path to the result file also changed.
 
-And, while running, you should monitor the system status of the `node0`, by `top` or something.
+While running, you should monitor the system status of the `node0`, by `top` or something.
 It may help you to analyze what is the bottleneck.
 
-
-
-
-
-
-
-To confirm the result is valid, check the response of the `status` command:
+And, to confirm the result is valid, you should check the actual cache hit rate:
 
 ~~~
-% curl "http://node0:10041/d/status" | jq .
-[
-  [
-    0,
-    1412326645.19701,
-    3.76701354980469e-05
-  ],
-  {
-    "max_command_version": 2,
-    "alloc_count": 158,
-    "starttime": 1412326485,
-    "uptime": 160,
-    "version": "4.0.6",
-    "n_queries": 1000,
-    "cache_hit_rate": 0.49,
-    "command_version": 1,
-    "default_command_version": 1
-  }
-]
+% curl "http://node0:10042/statistics/cache" | jq .
+{
+  "hitRatio": 49.830717830807124,
+  "nHits": 66968,
+  "nGets": 134391
+}
 ~~~
 
-Look at the value of `"cache_hit_rate"`.
-If it is far from the expected cache hit rate (ex. `0.5`), something wrong - for example, too few request patterns.
-Too high cache hit rate produces too high throughput unexpectedly.
-
-
-
-
-
+Look at the value of `"hitRatio"`.
+Actual cache hit rate of the HTTP server is reported in percentage like above (the value `49.830717830807124` means `49.830717830807124%`.)
+If it is far from the expected cache hit rate, something wrong.
 
 #### Benchmark Droonga with two nodes
 
@@ -702,8 +678,10 @@ Of course, on the production environment, it should be done by a load balancer, 
 Instead, you can specify multiple endpoint host names as a comma-separated list for the `--default-hosts` option.
 
 And, the path to the result file also changed.
-Don't forget to monitor system status of both nodes also.
 
+Don't forget to monitor system status of both nodes while benchmarking.
+If only one node is busy and another is idling, something wrong - for example, they are not working as a cluster.
+You also must check the actual cache hit rate of all nodes.
 
 #### Benchmark Droonga with three nodes
 
