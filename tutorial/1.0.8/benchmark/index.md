@@ -773,8 +773,8 @@ For example, you can plot a graph from these results like:
 
 You can explain this graph of latency as:
 
- * Graphs of Groonga and single node Droonga are alike.
-   There is less performance loss between Groonga and Droonga.
+ * Minimum latency of Droonga is larger than Groonga.
+   There are some overhead in Droonga.
  * Latency of multiple nodes Droonga slowly increases than Groonga.
    Droonga can process more requests in same time without extra waiting time.
 
