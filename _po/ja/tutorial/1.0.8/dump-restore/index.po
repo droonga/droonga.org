@@ -195,10 +195,11 @@ msgstr "`drndump` コマンドの実行結果は、Droonga用のメッセージ�
 
 msgid ""
 "You need to use `droonga-send` command to send it to your Droogna cluster.\n"
-"Install the command included in the package `droonga-client`, via rubygems:"
+"Install the command included in the package `droonga-client`, via rubygems, to"
+" the working machine `node2`:"
 msgstr ""
 "Droongaクラスタにそれらのメッセージを送信するには、`droonga-send` コマンドを使います。\n"
-"このコマンドを含んでいるGemパッケージ `droonga-client` をインストールして下さい:"
+"このコマンドを含んでいるGemパッケージ `droonga-client` を、作業マシンである`node2`にインストールして下さい:"
 
 msgid ""
 "~~~\n"

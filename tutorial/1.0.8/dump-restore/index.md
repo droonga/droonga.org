@@ -115,7 +115,7 @@ $ drndump --host=node0 \
 The result of `drndump` command is a list of Droonga messages.
 
 You need to use `droonga-send` command to send it to your Droogna cluster.
-Install the command included in the package `droonga-client`, via rubygems:
+Install the command included in the package `droonga-client`, via rubygems, to the working machine `node2`:
 
 ~~~
 # gem install droonga-client

@@ -123,7 +123,7 @@ $ drndump --host=node0 \
 `drndump` コマンドの実行結果は、Droonga用のメッセージの一覧です。
 
 Droongaクラスタにそれらのメッセージを送信するには、`droonga-send` コマンドを使います。
-このコマンドを含んでいるGemパッケージ `droonga-client` をインストールして下さい:
+このコマンドを含んでいるGemパッケージ `droonga-client` を、作業マシンである`node2`にインストールして下さい:
 
 ~~~
 # gem install droonga-client
