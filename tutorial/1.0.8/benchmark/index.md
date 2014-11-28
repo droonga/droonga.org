@@ -769,7 +769,7 @@ OK, now you have four results:
 
 For example, you can plot a graph from these results like:
 
-![A layered graph of latency](/images/tutorial/benchmark/throughput-latency-1.0.8.png)
+![A layered graph of latency](/images/tutorial/benchmark/latency-mixed-1.0.8.png)
 
 You can explain this graph of latency as:
 

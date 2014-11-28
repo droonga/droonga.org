@@ -1398,11 +1398,9 @@ msgid "For example, you can plot a graph from these results like:"
 msgstr "例えば、これらの結果は以下のようにグラフ化できます:"
 
 msgid ""
-"![A layered graph of latency](/images/tutorial/benchmark/throughput-latency-1."
-"0.8.png)"
-msgstr ""
-"![それぞれの場合のレイテンシーを重ねたグラフ](/images/tutorial/benchmark/throughput-latency-1.0.8.p"
+"![A layered graph of latency](/images/tutorial/benchmark/latency-mixed-1.0.8.p"
 "ng)"
+msgstr "![それぞれの場合のレイテンシーを重ねたグラフ](/images/tutorial/benchmark/latency-mixed-1.0.8.png)"
 
 msgid "You can explain this graph of latency as:"
 msgstr "このレイテンシーのグラフは以下のように読み取れます："

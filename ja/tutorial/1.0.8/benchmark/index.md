@@ -777,7 +777,7 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 
 例えば、これらの結果は以下のようにグラフ化できます:
 
-![それぞれの場合のレイテンシーを重ねたグラフ](/images/tutorial/benchmark/throughput-latency-1.0.8.png)
+![それぞれの場合のレイテンシーを重ねたグラフ](/images/tutorial/benchmark/latency-mixed-1.0.8.png)
 
 このレイテンシーのグラフは以下のように読み取れます：
 
