@@ -769,9 +769,22 @@ OK, now you have four results:
 
 For example, you can plot a graph from these results like:
 
+![A layered graph of latency](/images/tutorial/benchmark/throughput-latency-1.0.8.png)
+
+You can explain this graph of latency as:
+
+ * Graphs of Groonga and single node Droonga are alike.
+   There is less performance loss between Groonga and Droonga.
+ * Latency of multiple nodes Droonga slowly increases than Groonga.
+   Droonga can process more requests in same time without extra waiting time.
+
 ![A layered graph of throughput](/images/tutorial/benchmark/throughput-mixed-1.0.8.png)
 
-You can explain this graph as: "On this condition Droonga has better performance when there are multiple nodes", "Single Droonga node's performance is lesser than Groonga's one, on this setting", and so on.
+You can explain this graph of throughput as:
+
+ * Graphs of Groonga and single node Droonga are alike.
+   There is less performance loss between Groonga and Droonga.
+ * Maximum throughput of Droonga is incdeased by number of nodes.
 
 (Note: Performance results fluctuate from various factors.
 This graph is just an example on a specific version, specific environment.)
