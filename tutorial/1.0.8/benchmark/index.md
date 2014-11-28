@@ -125,14 +125,17 @@ A graph helps you to analyze throughput performance.
 
 ![A graph of throughput](/images/tutorial/benchmark/throughput-groonga-1.0.8.png)
 
-You'll see that the "qps" stagnated around 150, for 12 or more clients.
+You'll see that the "qps" stagnated around 150, for 6 or more clients.
 This means that the target service can process 150 requests in one second, at a maximum.
 
 In other words, we can describe the result as: 150qps is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
 If the number of requests for your service is growing up and it is going to reach the limit, you have to do something about it - optimize queries, replace the computer with more powerful one, and so on.
 
-And, sending same request patterns to Groonga and Droonga, you can compare response times and maximum "qps" for each system.
-If Droonga's "qps" is larger than Groonga's one (=Droonga has better performance about throughput), it will become good reason to migrate your service from Groogna to Droonga.
+#### Performance comparison
+
+Sending same request patterns to Groonga and Droonga, you can compare performance of each system.
+If Droonga has better performance, it will become good reason to migrate your service from Groogna to Droonga.
+
 Moreover, comparing multiple results from different number of Droogna nodes, you can analyze the cost-benefit performance for newly introduced nodes.
 
 
