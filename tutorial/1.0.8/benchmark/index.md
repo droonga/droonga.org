@@ -34,13 +34,13 @@ Benchmarking will make it clear.
 
 There are two major indexes to indicate performance of a system.
 
- * response time
+ * latency
  * throughput
 
-Response time is the actual elapsed time between two moments: when the system receives a request, and when it returns a response.
+Latency is the response time, actual elapsed time between two moments: when the system receives a request, and when it returns a response.
 In other words, for clients, it is the time to wait for each request.
 At this index, the smaller is the better.
-In general, response time becomes small for lightweight queries, small size database, or less clients.
+In general, latency becomes small for lightweight queries, small size database, or less clients.
 
 Throughput means how many request can be processed in a time.
 The performance index is described as "*queries per second* (*qps*)".
@@ -49,7 +49,7 @@ Possibly there are 10 users (clients), or, there are 2 users and each user opens
 Anyway, "10qps" means that the Groonga actually accepted and responded for 10 requests while one second is passing.
 
 You can run benchmark with the command `drnbench-request-response`, introduced by the Gem package [drnbench]().
-It measures both response time and throughput of the target service.
+It measures both latency and throughput of the target service.
 
 
 ### How the benchmark tool measures the performance?
@@ -69,18 +69,18 @@ It measures both response time and throughput of the target service.
  6. Finally, the master process reports minimum/maximum/average elapsed time, "qps", and other extra information for each case, as a CSV file like:
     
     ~~~
-    n_clients,total_n_requests,queries_per_second,min_elapsed_time,max_elapsed_time,average_elapsed_time,0,200
-    1,164,5.466666666666667,0.002184631,1.951960432,0.1727086823963415,0,100.0
-    2,1618,53.93333333333333,0.001466091,1.587372312,0.026789948272558754,0.12360939431396785,99.87639060568603
-    4,4690,156.33333333333334,0.001065161,0.26070575,0.015224578191897657,0.042643923240938165,99.95735607675907
-    6,6287,209.56666666666666,0.000923332,0.25709169,0.018191428254970568,0.09543502465404805,99.90456497534595
-    8,6628,220.93333333333334,0.000979707,0.288406006,0.02557014875603507,0.030175015087507546,99.96982498491249
-    10,7117,237.23333333333332,0.001235846,0.303093461,0.03160425060474918,0.1405086412814388,99.85949135871857
-    12,7403,246.76666666666668,0.001111115,0.33163911,0.03792291040199917,0.09455626097528029,99.90544373902472
-    14,7454,248.46666666666667,0.00151987,0.335161281,0.04522922885028168,0.174403005097934,99.82559699490207
-    16,7357,245.23333333333332,0.000763487,0.356862003,0.05435767224085904,0.08155498165012913,99.91844501834987
-    18,7494,249.8,0.001017168,0.378661333,0.061178927504003194,0.20016012810248196,99.79983987189752
-    20,7506,250.2,0.001759464,0.404634447,0.06887332192845741,0.21316280309086064,99.78683719690913
+    n_clients,total_n_requests,queries_per_second,min_elapsed_time,max_elapsed_time,average_elapsed_time,200
+    1,996,33.2,0.001773766,0.238031643,0.019765581680722916,100.0
+    2,1973,65.76666666666667,0.001558398,0.272225481,0.020047345673086702,100.0
+    4,3559,118.63333333333334,0.001531184,0.39942581,0.023357554419499882,100.0
+    6,4540,151.33333333333334,0.001540704,0.501663069,0.042344890696916264,100.0
+    8,4247,141.56666666666666,0.001483995,0.577100609,0.045836844514480835,100.0
+    10,4466,148.86666666666667,0.001987089,0.604507078,0.06949704923846833,100.0
+    12,4500,150.0,0.001782343,0.612596799,0.06902839555222215,100.0
+    14,4183,139.43333333333334,0.001980711,0.60754769,0.1033681068718623,100.0
+    16,4519,150.63333333333333,0.00284654,0.653204575,0.09473386513387955,100.0
+    18,4362,145.4,0.002330049,0.640683693,0.12581190483929405,100.0
+    20,4228,140.93333333333334,0.003710795,0.662666076,0.1301649290901133,100.0
     ~~~
     
     You can analyze it, draw a graph from it, and so on.
@@ -92,25 +92,43 @@ It measures both response time and throughput of the target service.
 
 Look at the result above.
 
-Elapsed response time is easily analyzed - the smaller is the better.
-The minimum and average response time becomes small if any cache system is working correctly on the target.
-The maximum time is affected by slow queries, system's page-in/page-out, unexpected errors, and so on, 
+#### HTTP response statuses
 
-See also the last two columns, `0` and `200`.
-They mean the percentage of HTTP response statuses.
+See the last columns named `200`.
+It means the percentage of HTTP response statuses.
 `200` is "OK", `0` is "timed out".
 If clients got `400`, `500` and other errors, they will be also reported.
 These information will help you to detect unexpected slow down.
-(Because in-progress requests are shut down on the end of each case and they are reported as "timed out", `200` is not 100% in this result.)
+
+#### Latency
+
+Latency is easily analyzed - the smaller is the better.
+The minimum and average elapsed time becomes small if any cache system is working correctly on the target.
+The maximum time is affected by slow queries, system's page-in/page-out, unexpected errors, and so on.
+
+A graph of latency also reveals the maximum number of effectively acceptable connections in same time.
+
+![A graph of latency](/images/tutorial/benchmark/latency-groonga-1.0.8.png)
+
+This is a graph of `average_elapsed_time`.
+You'll see that the time is increased for over 4 clients.
+What it means?
+
+Groonga can process multiple requests completely parallelly, until the number of available processors.
+When the computer has 4 processors, the system can process 4 or less requests in same time, without extra latency.
+And, if more requests are sent, 5th and later requests will be processed after a preceding request is processed.
+The graph confirms that the logical limitation is true.
+
+#### Throughput
 
 To analyze throughput, a graph is useful.
 
-![A graph of throughput](/images/tutorial/benchmark/throughput-groonga.png)
+![A graph of throughput](/images/tutorial/benchmark/throughput-groonga-1.0.8.png)
 
-You'll see that the "qps" stagnated around 250, for 12 or more clients.
-This means that the target service can process 250 requests in one second, at a maximum.
+You'll see that the "qps" stagnated around 150, for 12 or more clients.
+This means that the target service can process 150 requests in one second, at a maximum.
 
-In other words, we can describe the result as: 250qps is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
+In other words, we can describe the result as: 150qps is the maximum throughput performance of this system - generic performance of hardware, software, network, size of the database, queries, and more.
 If the number of requests for your service is growing up and it is going to reach the limit, you have to do something about it - optimize queries, replace the computer with more powerful one, and so on.
 
 And, sending same request patterns to Groonga and Droonga, you can compare response times and maximum "qps" for each system.
@@ -748,7 +766,7 @@ OK, now you have four results:
 
 For example, you can plot a graph from these results like:
 
-![A layered graph of throughput](/images/tutorial/benchmark/throughput-mixed.png)
+![A layered graph of throughput](/images/tutorial/benchmark/throughput-mixed-1.0.8.png)
 
 You can explain this graph as: "On this condition Droonga has better performance when there are multiple nodes", "Single Droonga node's performance is lesser than Groonga's one, on this setting", and so on.
 
