@@ -507,6 +507,35 @@ Important parameters are:
    Statistics of all benchmarks is saved as a file at the location.
 
 Then you'll get the reference result of the Groonga.
+
+To confirm the result is valid, check the response of the `status` command:
+
+~~~
+% curl "http://node0:10041/d/status" | jq .
+[
+  [
+    0,
+    1412326645.19701,
+    3.76701354980469e-05
+  ],
+  {
+    "max_command_version": 2,
+    "alloc_count": 158,
+    "starttime": 1412326485,
+    "uptime": 160,
+    "version": "4.0.6",
+    "n_queries": 1000,
+    "cache_hit_rate": 0.49,
+    "command_version": 1,
+    "default_command_version": 1
+  }
+]
+~~~
+
+Look at the value of `"cache_hit_rate"`.
+If it is far from the expected cache hit rate (ex. `0.5`), something wrong - for example, too few request patterns.
+Too high cache hit rate produces too high throughput unexpectedly.
+
 After that you should stop Groonga to release CPU and RAM resources, if it is running on a Droonga node.
 
 ~~~
