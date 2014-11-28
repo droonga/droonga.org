@@ -31,7 +31,7 @@ layout: ja
 
 ### `drndump` のインストール
 
-最初に、作業マシンにRubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:
+最初に、作業マシンの`node2`にRubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:
 
 ~~~
 # gem install drndump

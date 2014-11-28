@@ -61,9 +61,9 @@ msgid "### Install `drndump`"
 msgstr "### `drndump` のインストール"
 
 msgid ""
-"First, install a command line tool named `drndump` via rubygems, to your worki"
-"ng machine:"
-msgstr "最初に、作業マシンにRubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:"
+"First, install a command line tool named `drndump` via rubygems, to the workin"
+"g machine `node2`:"
+msgstr "最初に、作業マシンの`node2`にRubygems経由で `drndump` と名付けられたコマンドラインツールをインストールします:"
 
 msgid ""
 "~~~\n"
