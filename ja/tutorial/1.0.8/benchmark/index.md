@@ -101,7 +101,7 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
 
 上の例を見て下さい。
 
-#### HTTP response statuses
+#### HTTPレスポンスのステータス
 
 最後の列、`200`を見て下さい。
 これはHTTPレスポンスのステータスの割合を示しています。
@@ -109,28 +109,28 @@ DroongaはGroongaと互換性があるため、Groongaベースのアプリケ�
 `400`や`500`などのエラーレスポンスが得られた場合も、同様に報告されます。
 これらの情報は、意図しない速度低下の原因究明に役立つでしょう。
 
-#### Latency
+#### レイテンシー
 
 レイテンシーは簡単に分析できます。値が小さければ小さいほどよいと言えます。
 対象サービスのキャッシュ機構が正常に動作している場合、最小と平均の応答時間は小さくなります。
 最大応答時間は、重たいクエリ、システムのメモリのスワップの発生、意図しないエラーの発生などの影響を受けます。
 
-A graph of latency also reveals the maximum number of effectively acceptable connections in same time.
+レイテンシーのグラフは、有用な同時接続数の上限も明らかにします。
 
-![A graph of latency](/images/tutorial/benchmark/latency-groonga-1.0.8.png)
+![レイテンシーのグラフ](/images/tutorial/benchmark/latency-groonga-1.0.8.png)
 
-This is a graph of `average_elapsed_time`.
-You'll see that the time is increased for over 4 clients.
-What it means?
+これは`average_elapsed_time`のグラフです。
+4クライアントを越えた所で経過時間が増加していることが見て取れるでしょう。
+これは何を意味するのでしょうか？
 
-Groonga can process multiple requests completely parallelly, until the number of available processors.
-When the computer has 4 processors, the system can process 4 or less requests in same time, without extra latency.
-And, if more requests are sent, 5th and later requests will be processed after a preceding request is processed.
-The graph confirms that the logical limitation is true.
+Groongaは利用可能なプロセッサ数と同じ数だけのリクエストを完全に並行処理できます。
+コンピュータのプロセッサ数が4である場合、そのシステムは4件以下のリクエストについては余計な待ち時間無しで同時に処理することができます。
+それ以上の数のリクエストが来た場合、5番目以降のリクエストは、それ以前に受け付けたリクエストの処理完了後に処理されます。
+先のグラフは、この理論上の上限が事実であることを示しています。
 
-#### Throughput
+#### スループット
 
-スループットの分析には、グラフが便利です。
+スループット性能の分析にも、グラフが便利です。
 
 ![スループットのグラフ](/images/tutorial/benchmark/throughput-groonga-1.0.8.png)
 

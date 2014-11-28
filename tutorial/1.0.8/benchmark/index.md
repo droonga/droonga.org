@@ -121,7 +121,7 @@ The graph confirms that the logical limitation is true.
 
 #### Throughput
 
-To analyze throughput, a graph is useful.
+A graph helps you to analyze throughput performance.
 
 ![A graph of throughput](/images/tutorial/benchmark/throughput-groonga-1.0.8.png)
 
