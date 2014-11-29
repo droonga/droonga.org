@@ -152,7 +152,12 @@ cronjobとして実行されるバッチスクリプトによって `load` コ�
 ~~~
 (on node2)
 $ droonga-engine-join --host=node2 \
-                      --replica-source-host=node0
+                      --replica-source-host=node0 \
+                      --receiver-host=node2
+Start to join a new node node2
+       to the cluster of node0
+                     via node2 (this host)"
+
 Joining new replica to the cluster...
 ...
 Update existing hosts in the cluster...
@@ -160,8 +165,21 @@ Update existing hosts in the cluster...
 Done.
 ~~~
 
+このコマンドは、以下のようにして別のノード上で実行することもできます：
+
+~~~
+(on node1)
+$ droonga-engine-join --host=node2 \
+                      --replica-source-host=node0 \
+                      --receiver-host=node1
+Start to join a new node node2
+       to the cluster of node0
+                     via node1 (this host)"
+~~~
+
  * `--host` オプションで、その新しいreplicaノードのホスト名を指定して下さい。
  * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名を指定して下さい。
+ * `--receiver-host` オプションで、コマンドを実行しているマシン自身のホスト名を必ず指定して下さい。
 
 コマンドを実行すると、自動的に、クラスタのデータが新しいreplicaノードへと同期され始めます。
 データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。

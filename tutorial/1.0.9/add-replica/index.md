@@ -144,7 +144,12 @@ To add a new replica node to an existing cluster, you just run a command `droong
 ~~~
 (on node2)
 $ droonga-engine-join --host=node2 \
-                      --replica-source-host=node0
+                      --replica-source-host=node0 \
+                      --receiver-host=node2
+Start to join a new node node2
+       to the cluster of node0
+                     via node2 (this host)"
+
 Joining new replica to the cluster...
 ...
 Update existing hosts in the cluster...
@@ -152,8 +157,21 @@ Update existing hosts in the cluster...
 Done.
 ~~~
 
+You can run the command on different node, like:
+
+~~~
+(on node1)
+$ droonga-engine-join --host=node2 \
+                      --replica-source-host=node0 \
+                      --receiver-host=node1
+Start to join a new node node2
+       to the cluster of node0
+                     via node1 (this host)"
+~~~
+
  * You must specify the host name of the new replica node, via the `--host` option.
  * You must specify the host name of an existing node of the cluster, via the `--replica-source-host` option.
+ * You must specify the host name of the working machine via the `--receiver-host` option.
 
 Then the command automatically starts to synchronize all data of the cluster to the new replica node.
 After data is successfully synchronized, the node restarts and joins to the cluster automatically.

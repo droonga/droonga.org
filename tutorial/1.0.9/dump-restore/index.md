@@ -441,11 +441,13 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 To copy data between two clusters, run the `droonga-engine-absorb-data` command on a node, like:
 
 ~~~
-(on node0 or node1)
+(on node1)
 $ droonga-engine-absorb-data --source-host=node0 \
-                             --destination-host=node1
+                             --destination-host=node1 \
+                             --receiver-host=node1
 Start to absorb data from node0
                        to node1
+                      via node1 (this host)
   dataset = Default
   port    = 10031
   tag     = droonga
@@ -454,6 +456,21 @@ Absorbing...
 ...
 Done.
 ~~~
+
+You can run the command on different node, like:
+
+~~~
+(on node2)
+$ droonga-engine-absorb-data --source-host=node0 \
+                             --destination-host=node1 \
+                             --receiver-host=node2
+Start to absorb data from node0
+                       to node1
+                      via node2 (this host)
+...
+~~~
+
+Note that you must specify the host name (or the IP address) of the working machine via the `--receiver-host` option.
 
 After that contents of these two clusters are completely synchronized. Confirm it:
 

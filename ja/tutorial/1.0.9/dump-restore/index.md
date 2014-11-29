@@ -446,11 +446,13 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 2つのクラスタの間でデータをコピーするには、いずれかのノード上で以下のように `droonga-engine-absorb-data` コマンドを実行します:
 
 ~~~
-(on node0 or node1)
+(on node1)
 $ droonga-engine-absorb-data --source-host=node0 \
-                             --destination-host=node1
+                             --destination-host=node1 \
+                             --receiver-host=node1
 Start to absorb data from node0
                        to node1
+                      via node1 (this host)
   dataset = Default
   port    = 10031
   tag     = droonga
@@ -459,6 +461,21 @@ Absorbing...
 ...
 Done.
 ~~~
+
+このコマンドは、以下のようにして別のノード上で実行することもできます：
+
+~~~
+(on node2)
+$ droonga-engine-absorb-data --source-host=node0 \
+                             --destination-host=node1 \
+                             --receiver-host=node2
+Start to absorb data from node0
+                       to node1
+                      via node2 (this host)
+...
+~~~
+
+この時、コマンドを実行するノードのホスト名かIPアドレスを`--receiver-host`オプションで指定する必要があることに注意してください。
 
 以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
 
