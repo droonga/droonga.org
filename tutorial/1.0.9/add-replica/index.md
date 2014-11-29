@@ -265,18 +265,12 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "node0:10031/droonga": {
-      "live": true
-    },
-    "node1:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
 }
 ~~~
-
-Look at the point that the `node2` also says `node2` is not a member of the cluster.
-This is the difference between a node unjoined from a cluster and a new node.
 
 
 ## Replace an existing replica node in a cluster with a new one

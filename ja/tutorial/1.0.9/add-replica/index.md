@@ -273,18 +273,12 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
-    "node0:10031/droonga": {
-      "live": true
-    },
-    "node1:10031/droonga": {
+    "node2:10031/droonga": {
       "live": true
     }
   }
 }
 ~~~
-
-`node2` までもが、`node2` がクラスタの一員ではないと報告していることに注目して下さい。
-これは、クラスタから離脱したノードと新しいノードとの違いです。
 
 
 ## クラスタ内の既存のreplicaノードを新しいreplicaノードで置き換える
