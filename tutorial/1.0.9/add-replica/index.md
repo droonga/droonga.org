@@ -169,9 +169,9 @@ Start to join a new node node2
                      via node1 (this host)"
 ~~~
 
- * You must specify the host name of the new replica node, via the `--host` option.
- * You must specify the host name of an existing node of the cluster, via the `--replica-source-host` option.
- * You must specify the host name of the working machine via the `--receiver-host` option.
+ * You must specify the host name (or the IP address) of the new replica node, via the `--host` option.
+ * You must specify the host name (or the IP address) of an existing node of the cluster, via the `--replica-source-host` option.
+ * You must specify the host name (or the IP address) of the working machine via the `--receiver-host` option.
 
 Then the command automatically starts to synchronize all data of the cluster to the new replica node.
 After data is successfully synchronized, the node restarts and joins to the cluster automatically.
@@ -217,18 +217,22 @@ Assume that there is a Droonga cluster constructed with trhee replica nodes `nod
 
 ### Unjoin an existing replica from the cluster
 
-To remove a replica from an existing cluster, you just run the `droonga-engine-unjoin` command on any existing node in the cluster, in the directory the `catalog.json` is located, like:
+To remove a replica from an existing cluster, you just run the `droonga-engine-unjoin` command on any existing node in the cluster, like:
 
 ~~~
 (on node0)
-$ droonga-engine-unjoin --host=node2
+$ droonga-engine-unjoin --host=node2 \
+                        --receiver-host=node0
+Start to unjoin a node node2
+                    by node0 (this host)
+
 Unjoining replica from the cluster...
 ...
 Done.
 ~~~
 
- * You must specify the host name or the IP address of an existing node to be removed from the cluster, via the `--host` option.
- * You must run the command in the directory `catalog.json` is located, or specify path to the directory via the `--base-dir` option.
+ * You must specify the host name (or the IP address) of an existing node to be removed from the cluster, via the `--host` option.
+ * You must specify the host name (or the IP address) of the working machine via the `--receiver-host` option.
 
 Then the specified node automatically unjoins from the cluster, and all nedes' `catalog.json` are also updated.
 Now, the node has been successfully unjoined from the cluster.

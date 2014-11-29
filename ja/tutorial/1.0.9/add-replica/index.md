@@ -165,7 +165,7 @@ Update existing hosts in the cluster...
 Done.
 ~~~
 
-このコマンドは、以下のようにして別のノード上で実行することもできます：
+このコマンドは以下のように、別のノード上で実行することもできます：
 
 ~~~
 (on node1)
@@ -177,9 +177,9 @@ Start to join a new node node2
                      via node1 (this host)"
 ~~~
 
- * `--host` オプションで、その新しいreplicaノードのホスト名を指定して下さい。
- * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名を指定して下さい。
- * `--receiver-host` オプションで、コマンドを実行しているマシン自身のホスト名を必ず指定して下さい。
+ * `--host` オプションで、その新しいreplicaノードのホスト名（またはIPアドレス）を指定して下さい。
+ * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名（またはIPアドレス）を指定して下さい。
+ * `--receiver-host` オプションで、コマンドを実行しているマシン自身のホスト名（またはIPアドレス）を必ず指定して下さい。
 
 コマンドを実行すると、自動的に、クラスタのデータが新しいreplicaノードへと同期され始めます。
 データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。
@@ -225,18 +225,22 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ### 既存のreplicaをクラスタから分離する
 
-新しいreplicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で、`catalog.json` が置かれたディレクトリにおいて `droonga-engine-unjoin` コマンドを実行します:
+replicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で、以下のようにして `droonga-engine-unjoin` コマンドを実行します:
 
 ~~~
 (on node0)
-$ droonga-engine-unjoin --host=node2
+$ droonga-engine-unjoin --host=node2 \
+                        --receiver-host=node0
+Start to unjoin a node node2
+                    by node0 (this host)
+
 Unjoining replica from the cluster...
 ...
 Done.
 ~~~
 
- * `--host` オプションで、クラスタから削除するノードのホスト名またはIPアドレスを指定して下さい。
- * コマンドは `catalog.json` が置かれたディレクトリで実行するか、もしくはそのディレクトリのパスを `--base-dir` オプションで指定して下さい。
+ * `--host` オプションで、クラスタから削除するノードのホスト名（またはIPアドレス）を指定して下さい。
+ * `--receiver-host` オプションで、コマンドを実行しているマシン自身のホスト名（またはIPアドレス）を必ず指定して下さい。
 
 すると、ノードがクラスタから自動的に離脱し、すべてのノードの `catalog.json` も同時に更新されます。
 これで、ノードはクラスタから無事離脱しました。
