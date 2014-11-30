@@ -3,7 +3,7 @@ markdown: kramdown
 permalink: /news/:year/:month/:day/:title.html
 url: http://droonga.org
 blog_base_url: /news/
-droonga_version: 1.0.8
+droonga_version: 1.0.9
 copyright_year: 2013-2014
 exclude: ["Rakefile", "Gemfile", "Gemfile.lock", "README.md", "vendor"]
 description: Droonga is a distributed full text search engine.
