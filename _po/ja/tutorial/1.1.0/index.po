@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"PO-Revision-Date: 2014-11-30 23:19+0900\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid ""
+"---\n"
+"title: Droonga tutorial\n"
+"layout: en\n"
+"---"
+msgstr ""
+
+msgid "## For beginners and Groonga users"
+msgstr ""
+
+msgid ""
+" * [Getting started/How to migrate from Groonga?](groonga/)\n"
+"   * [How to prepare virtual machines for experiments?](virtual-machines-for-e"
+"xperiments/)\n"
+" * [How to backup and restore the database?](dump-restore/)\n"
+" * [How to add a new replica to an existing cluster?](add-replica/)\n"
+" * [How to benchmark Droonga with Groonga?](benchmark/)"
+msgstr ""
+
+msgid "## For low-layer application developers"
+msgstr ""
+
+msgid " * [Basic usage of low-layer commands](basic/)"
+msgstr ""
+
+msgid "## For plugin developers"
+msgstr ""
+
+msgid " * [Plugin development tutorial](plugin-development/)"
+msgstr ""
