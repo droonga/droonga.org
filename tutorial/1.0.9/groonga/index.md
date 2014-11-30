@@ -223,6 +223,11 @@ Now two nodes construct a cluster and they monitor each other.
 If one of nodes dies and there is any still alive node, survivor(s) will work as the Droonga cluster.
 Then you can recover the dead node and re-join it to the cluster secretly.
 
+Important note: both `droonga-engine` and `droonga-http-server` resolve dependencies automatically on the startup.
+For example, they download [Serf](https://www.serfdom.io/)'s binary.
+After all dependencies are resolved, they start working.
+So, you may have to wait for a while, on the initial startup.
+
 Let's make sure that the cluster works, by a Droonga command, `system.status`.
 You can see the result via HTTP, like:
 

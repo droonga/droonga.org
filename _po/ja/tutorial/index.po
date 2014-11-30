@@ -27,19 +27,20 @@ msgstr "次期リリースも含めすべてのリリースのチュートリア
 msgid "## The current release"
 msgstr "## 現行リリース"
 
-msgid "* [1.0.8](1.0.8/)"
+msgid "* [1.0.9](1.0.9/)"
 msgstr ""
 
 msgid "## The next release"
 msgstr "## 次期リリース"
 
-msgid "* [1.0.9](1.0.9/)"
+msgid "* [1.1.0](1.1.0/)"
 msgstr ""
 
 msgid "## Old releases"
 msgstr "## 古いリリース"
 
 msgid ""
+"* [1.0.8](1.0.8/)\n"
 "* [1.0.7](1.0.7/)\n"
 "* [1.0.6](1.0.6/)\n"
 "* [1.0.5](1.0.5/)\n"
