@@ -148,7 +148,7 @@ $ droonga-engine-join --host=node2 \
                       --receiver-host=node2
 Start to join a new node node2
        to the cluster of node0
-                     via node2 (this host)"
+                     via node2 (this host)
 
 Joining new replica to the cluster...
 ...
@@ -166,7 +166,7 @@ $ droonga-engine-join --host=node2 \
                       --receiver-host=node1
 Start to join a new node node2
        to the cluster of node0
-                     via node1 (this host)"
+                     via node1 (this host)
 ~~~
 
  * You must specify the host name (or the IP address) of the new replica node, via the `--host` option.
