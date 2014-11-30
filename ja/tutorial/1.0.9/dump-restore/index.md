@@ -440,6 +440,10 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 ]
 ~~~
 
+`droonga-http-server`は同じコンピュータ上の`droonga-engine`に関連付けられていることに注意してください。
+上記の手順でクラスタを2つに分割した後は、`node0`の`droonga-http-server`は`node0`の`droonga-engine`とだけ通信し、`node1`の`droonga-http-server`は`node1`の`droonga-engine`とだけ通信します。
+詳しくは次のチュートリアルも参照して下さい。
+
 
 ### 2つのDroongaクラスタの間でデータを複製する
 

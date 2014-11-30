@@ -266,6 +266,9 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 }
 ~~~
 
+`droonga-http-server`はクラスタ内のすべての`droonga-engine`に接続し、ロードバランサーのように、リクエストをそれらへ分配します。
+また、もしいくつかの`droonga-engine`が停止しても、`droonga-http-server`はそれらの死んだノードを自動的に回避するため、クラスタは正常に動作し続けます。
+
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
 ~~~

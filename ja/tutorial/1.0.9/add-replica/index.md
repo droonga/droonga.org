@@ -204,6 +204,9 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 }
 ~~~
 
+新しいノード`node2`がクラスタに参加したため、各ノードの`droonga-http-server`は自動的に、メッセージを`node2`にも分配するようになります。
+
+
 ### 書き込みを伴うリクエストの流入を再開する
 
 さて、準備ができました。
@@ -245,7 +248,7 @@ Done.
 すると、ノードがクラスタから自動的に離脱し、すべてのノードの `catalog.json` も同時に更新されます。
 これで、ノードはクラスタから無事離脱しました。
 
-これで、ノード `node2` がクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
+`node2` が本当にクラスタから離脱しているかどうかは `system.status` コマンドで確かめられます:
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
@@ -279,6 +282,10 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+ノード`node2`はもはやクラスタの一員ではないため、`node0`と`node1`の`droonga-http-server`は`node2`の`droonga-engine`へはもうメッセージを送りません。
+またその一方で、`node2`の`droonga-http-server`はそのノード上の`droonga-engine`にのみ関連付けられており、他のノードへはメッセージを送りません。
+
 
 
 ## クラスタ内の既存のreplicaノードを新しいreplicaノードで置き換える

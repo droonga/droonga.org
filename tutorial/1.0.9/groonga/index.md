@@ -257,6 +257,9 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 }
 ~~~
 
+`droonga-http-server` connects to all `droonga-engine` in the cluster, and distributes requests to them like a load balancer.
+Moreover, even if some `droonga-engine`s stop, `droonga-http-server` wards off those dead engines automatically, and the cluster keeps itself correctly working.
+
 To stop services, run commands like following on each Droonga node:
 
 ~~~

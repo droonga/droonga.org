@@ -435,6 +435,10 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 ]
 ~~~
 
+Note, `droonga-http-server` is associated to the `droonga-engine` working on same computer.
+After you split the cluster like above, `droonga-http-server` on `node0` communicates only with `droonga-engine` on `node0`, `droonga-http-server` on `node1` communicates only with `droonga-engine` on `node1`.
+See also the next tutorial for more details.
+
 
 ### Duplicate data between two Droonga clusters
 

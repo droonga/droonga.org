@@ -504,6 +504,18 @@ msgid ""
 "~~~"
 msgstr ""
 
+msgid ""
+"`droonga-http-server` connects to all `droonga-engine` in the cluster, and dis"
+"tributes requests to them like a load balancer.\n"
+"Moreover, even if some `droonga-engine`s stop, `droonga-http-server` wards off"
+" those dead engines automatically, and the cluster keeps itself correctly work"
+"ing."
+msgstr ""
+"`droonga-http-server`はクラスタ内のすべての`droonga-engine`に接続し、ロードバランサーのように、リクエストをそれらへ分配"
+"します。\n"
+"また、もしいくつかの`droonga-engine`が停止しても、`droonga-http-server`はそれらの死んだノードを自動的に回避するため、ク"
+"ラスタは正常に動作し続けます。"
+
 msgid "To stop services, run commands like following on each Droonga node:"
 msgstr "サービスを停止するには、以下のコマンドを各Droongaノード上で実行します："
 

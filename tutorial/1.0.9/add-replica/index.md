@@ -196,6 +196,9 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 }
 ~~~
 
+Because the new node `node2` has become a member of the cluster, `droonga-http-server` on each node distributes messages to `node2` also automatically.
+
+
 ### Resume inpouring of "write" requests
 
 OK, it's the time.
@@ -271,6 +274,10 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
   }
 }
 ~~~
+
+Because the node `node2` is not a member of the cluster anymore, `droonga-http-server` on `node0` and `node1` never send messages to the `droonga-engine` on `node2`.
+On the other hand, because `droonga-http-server` on `node2` is associated only to the `droonga-engine` on same node, it never sends messages to other nodes.
+
 
 
 ## Replace an existing replica node in a cluster with a new one
