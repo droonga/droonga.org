@@ -16,6 +16,7 @@ The basic format of a request message is like following:
       "type"    : "<Type of the message>",
       "replyTo" : "<Route to the receiver>",
       "dataset" : "<Name of the target dataset>",
+      "timeout" : <Seconds to wait for the result>,
       "body"    : <Body of the message>
     }
 
@@ -62,6 +63,17 @@ Value
 
 Default value
 : Nothing. This is required information.
+
+### `timeout` {#request-timeout}
+
+Abstract
+: Time to expire the request message, in seconds.
+
+Value
+: A float number, for example: `0.5`.
+
+Default value
+: `60` (means one minute). This is optional.
 
 ### `body` {#request-body}
 
