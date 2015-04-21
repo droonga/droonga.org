@@ -71,7 +71,8 @@ For example:
              "192.168.0.11:10031/droonga": {
                "live": false
              }
-           }
+           },
+           "reporter": "192.168.0.10:49707/droonga @ 192.168.0.10:10031/droonga"
          }
        }
 
@@ -87,7 +88,8 @@ This returns a hash like following as the response's `body`, with `200` as its `
         },
         "<Identifier of the node 2>" : { ... },
         ...
-      }
+      },
+      "reporter": "<Internal identifier of the reporter> @ <Identifier of the reporter node>"
     }
 
 `nodes`
@@ -100,6 +102,9 @@ This returns a hash like following as the response's `body`, with `200` as its `
     If `true`, the node can process messages, and messages are delivered to it.
     Otherwise, the node doesn't process any message for now, because it is down or some reasons.
 
+`reporter`
+: A string indicating who returns the result.
+  It is useful for finding a broken node which detect status of other nodes wrongly.
 
 ## Error types {#errors}
 
