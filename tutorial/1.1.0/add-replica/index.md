@@ -92,7 +92,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     "node1:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 $ curl "http://node1:10041/droonga/system/status" | jq "."
 {
@@ -103,7 +104,8 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     "node1:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
@@ -111,7 +113,8 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
     "node2:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -192,7 +195,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     "node2:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -252,7 +256,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     "node1:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 $ curl "http://node1:10041/droonga/system/status" | jq "."
 {
@@ -263,7 +268,8 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     "node1:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
@@ -271,7 +277,8 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
     "node2:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -306,7 +313,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     "node0:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -357,7 +365,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     "node2:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
@@ -368,7 +377,8 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
     "node2:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
