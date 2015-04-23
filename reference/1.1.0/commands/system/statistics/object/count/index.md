@@ -65,26 +65,6 @@ or
       ]
     }
 
-## Parameter details {#parameters}
-
-All parameters are optional.
-
-### `output` {#parameter-output}
-
-Abstract
-: Targets to be reported their count.
-
-Value
-: An array. Values are target names. Possible values are:
-  
-   * `tables`
-   * `columns`
-   * `records`
-   * `total`
-
-Default value
-: `[]`
-
 ## Usage {#usage}
 
 This command counts and reports the physical numbers of specified targets.
@@ -111,6 +91,28 @@ For example:
            "total":   3
          }
        }
+
+
+## Parameter details {#parameters}
+
+All parameters are optional.
+
+### `output` {#parameter-output}
+
+Abstract
+: Targets to be reported their count.
+
+Value
+: An array of targets. Only specified targets are counted.
+  Possible values are:
+  
+   * `tables`
+   * `columns`
+   * `records`
+   * `total`
+
+Default value
+: `[]`
 
 
 ## Responses {#response}
