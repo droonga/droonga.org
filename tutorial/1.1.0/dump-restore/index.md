@@ -446,8 +446,8 @@ To copy data between two clusters, run the `droonga-engine-absorb-data` command 
 
 ~~~
 (on node1)
-$ droonga-engine-absorb-data --source-host=node0 \
-                             --destination-host=node1 \
+$ droonga-engine-absorb-data --host=node1 \
+                             --source-host=node0 \
                              --receiver-host=node1
 Start to absorb data from node0
                        to node1
@@ -465,8 +465,8 @@ You can run the command on different node, like:
 
 ~~~
 (on node2)
-$ droonga-engine-absorb-data --source-host=node0 \
-                             --destination-host=node1 \
+$ droonga-engine-absorb-data --host=node1 \
+                             --source-host=node0 \
                              --receiver-host=node2
 Start to absorb data from node0
                        to node1
