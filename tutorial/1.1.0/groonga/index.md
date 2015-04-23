@@ -241,7 +241,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     "node1:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -258,7 +259,8 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
     "node1:10031/droonga": {
       "live": true
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
