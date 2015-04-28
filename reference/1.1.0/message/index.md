@@ -17,6 +17,7 @@ The basic format of a request message is like following:
       "replyTo" : "<Route to the receiver>",
       "dataset" : "<Name of the target dataset>",
       "timeout" : <Seconds to wait for the result>,
+      "targetRole" : "<Name of the target role>",
       "body"    : <Body of the message>
     }
 
@@ -74,6 +75,23 @@ Value
 
 Default value
 : `60` (means one minute). This is optional.
+
+### `targetRole` {#request-targetRole}
+
+Abstract
+: The role of the target engine node.
+  If the node received the message has a role different to this field, the message will be bounced to another engine node with the role.
+  Messages with no `targetRole` or the special value `"any"` will be processed by the receiver node.
+
+Value
+: `null`, `"any"`, or one of following role:
+  
+   * `"service-provider"`
+   * `"absorb-source"`
+   * `"absorb-destination"`
+
+Default value
+: `null`. This is optional.
 
 ### `body` {#request-body}
 
