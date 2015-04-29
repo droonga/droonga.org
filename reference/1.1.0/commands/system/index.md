@@ -9,4 +9,5 @@ layout: en
  * system.statistics
    * system.statistics.object
      * [system.statistics.object.count](statistics/object/count): Counts and reports numbers of physical objects in the dataset
+     * [system.statistics.object.count.per-volume](statistics/object/count/per-volume): Counts and reports numbers of physical objects in each volume
 
