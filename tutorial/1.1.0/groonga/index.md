@@ -245,10 +245,10 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -263,10 +263,10 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
