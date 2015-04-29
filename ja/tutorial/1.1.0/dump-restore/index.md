@@ -41,7 +41,7 @@ layout: ja
 
 ~~~
 $ drndump --version
-drndump 1.0.0
+drndump 1.0.1
 ~~~
 
 ### Droongaクラスタ内のデータをダンプする
@@ -133,7 +133,7 @@ Droongaクラスタにそれらのメッセージを送信するには、`droong
 
 ~~~
 $ droonga-send --version
-droonga-send 0.2.0
+droonga-send 0.2.1
 ~~~
 
 ### 空のDroongaクラスタを用意する
@@ -242,8 +242,8 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 ]
 ~~~
 
-`select`コマンドにクエストを送る前に、まずキャッシュを削除しておくことに注意が必要です。
-これを怠ると、古い情報に基づいて、キャッシュされた結果が意図せず返されてしまいます。
+`select`コマンドにクエストを送る前に、まずキャッシュを削除しておくことに注意して下さい。
+これを忘れると、古い情報に基づいて、キャッシュされた結果が意図せず返されてしまいます。
 
 既定の設定では、レスポンスキャッシュは直近の100リクエストに対して保存され、保持期間は1分間です。
 上記のように、`/cache`のパスの位置にHTTPの`DELETE`のリクエストを送信すると、手動でレスポンスキャッシュを削除できます。
@@ -341,24 +341,78 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 ~~~
 (on node1)
 # droonga-engine-catalog-modify --replica-hosts=node1
-$ endpoint="http://node1:10041"
-$ curl "$endpoint/d/table_remove?name=Location"
-$ curl "$endpoint/d/table_remove?name=Store"
-$ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
-これで、ノード `node0` を含む複製元クラスタと、ノード `node1` を含む複製先の空のクラスタの、2つのクラスタができました。確かめてみましょう:
+これらのコマンドによって、2ノードからなる1つのクラスタが、それぞれ1ノードからなる2つのクラスタへ分割されます。
+カタログ定義ファイルの変更は`droonga-engine`サービスによって自動的に検出され、プロセスが自動的に再起動されます。
 
+この処理には時間がかかるため、完了まで1分程度待つ必要があります。
+もしそのノード上で動作中の`droonga-engine-service`のプロセスが2つ以上あるのであれば、そのノードはまだ再起動処理の途中です。
+（新しいサービスのプロセスが動作し始めたら、古いプロセスが自動的に終了します。）
+
+~~~
+(on node0, node1)
+$ ps aux | grep droonga-engine-service | grep -v grep | wc -l
+2
+~~~
+
+しばらく待つと、各ノード上でサービスのプロセスが1つだけ動作している状態になります：
+
+~~~
+(on node0, node1)
+$ ps aux | grep droonga-engine-service | grep -v grep | wc -l
+1
+~~~
+
+これで、2つの別々のクラスタができました：
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
+$ curl "http://node1:10041/droonga/system/status" | jq "."
+{
+  "nodes": {
+    "node1:10031/droonga": {
+      "status": "active"
+    }
+  },
+  "reporter": "..."
+}
+~~~
+
+では、片方のクラスタを空にしましょう：
+
+~~~
+(on node1)
+$ endpoint="http://node1:10041"
+$ curl "$endpoint/d/table_remove?name=Location"
+$ curl "$endpoint/d/table_remove?name=Store"
+$ curl "$endpoint/d/table_remove?name=Term"
+$ curl -X DELETE "http://node1:10041/cache" | jq "."
+true
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363465.610241,
+    0
+  ],
+  [
+    [
+      [
+        null
+      ],
+      []
+    ]
+  ]
+]
 $ curl -X DELETE "http://node0:10041/cache" | jq "."
 true
 $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
@@ -412,32 +466,6 @@ $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | 
     ]
   ]
 ]
-$ curl "http://node1:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node1:10031/droonga": {
-      "live": true
-    }
-  }
-}
-$ curl -X DELETE "http://node1:10041/cache" | jq "."
-true
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
-[
-  [
-    0,
-    1401363465.610241,
-    0
-  ],
-  [
-    [
-      [
-        null
-      ],
-      []
-    ]
-  ]
-]
 ~~~
 
 `droonga-http-server`は同じコンピュータ上の`droonga-engine`に関連付けられていることに注意してください。
@@ -451,18 +479,18 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 
 ~~~
 (on node1)
-$ droonga-engine-absorb-data --source-host=node0 \
-                             --destination-host=node1 \
+$ droonga-engine-absorb-data --host=node1 \
+                             --source-host=node0 \
                              --receiver-host=node1
-Start to absorb data from node0
-                       to node1
+Start to absorb data from Default at node0:10031/droonga
+                       to Default at node1:10031/droonga
                       via node1 (this host)
-  dataset = Default
-  port    = 10031
-  tag     = droonga
 
 Absorbing...
-...
+Getting the timestamp of the last processed message in the source node...
+The timestamp of the last processed message in the source node: 2015-04-29T10:07:08.230158Z
+Setting the destination node to ignore messages older than the timestamp...
+100% done (maybe 00:00:00 remaining)
 Done.
 ~~~
 
@@ -470,11 +498,11 @@ Done.
 
 ~~~
 (on node2)
-$ droonga-engine-absorb-data --source-host=node0 \
-                             --destination-host=node1 \
+$ droonga-engine-absorb-data --host=node1 \
+                             --source-host=node0 \
                              --receiver-host=node2
-Start to absorb data from node0
-                       to node1
+Start to absorb data from Default at node0:10031/droonga
+                       to Default at node1:10031/droonga
                       via node2 (this host)
 ...
 ~~~
@@ -554,18 +582,20 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 ~~~
 
 これで、1つだけクラスタがある状態になりました。最初の状態に戻ったという事になります。
+（もちろん、サービスが完全に再起動されるまでしばらく待つ必要があります。）
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
