@@ -360,7 +360,7 @@ $ ps aux | grep droonga-engine-service | grep -v grep | wc -l
 1
 ~~~
 
-Now you'll see two separate clusters: one contains `node0` with data, another contains `node1`, like:
+Now you'll see two separate clusters like:
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
@@ -487,7 +487,8 @@ Getting the timestamp of the last processed message in the source node...
 The timestamp of the last processed message in the source node: 2015-04-29T10:07:08.230158Z
 Setting the destination node to ignore messages older than the timestamp...
 100% done (maybe 00:00:00 remaining)
-Done.~~~
+Done.
+~~~
 
 You can run the command on different node, like:
 
@@ -577,6 +578,7 @@ Run following command lines to unite these two clusters:
 ~~~
 
 After that there is just one cluster - yes, it's the initial state.
+(Of course you will have to wait for a while until services are completely restarted.)
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
@@ -588,7 +590,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
     "node1:10031/droonga": {
       "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
