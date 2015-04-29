@@ -141,13 +141,13 @@ This returns a hash like following as the response's `body`, with `200` as its `
     }
 
 `tables`
-: The number of physical tables in the dataset.
+: The number of physical tables in the volume.
 
 `columns`
-: The number of physical columns in the dataset.
+: The number of physical columns in the volume.
 
 `records`
-: The number of physical records in the dataset.
+: The number of physical records in the volume.
 
 `total`
 : The total number of `tables`, `columns`, and `records`.
