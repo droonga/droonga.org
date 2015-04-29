@@ -10,6 +10,8 @@ layout: en
 
 The `system.statistics.object.count` command counts and reports numbers of physical objects in the dataset.
 
+See also ['system.statistics.object.count.per-volume'](per-volume/).
+
 ## API types {#api-types}
 
 ### HTTP {#api-types-http}

@@ -10,6 +10,8 @@ layout: en
 
 The `system.statistics.object.count.per-volume` command counts and reports numbers of physical objects in each volume.
 
+See also ['system.statistics.object.count'](../).
+
 ## API types {#api-types}
 
 ### HTTP {#api-types-http}
