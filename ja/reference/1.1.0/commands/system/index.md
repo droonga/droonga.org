@@ -15,4 +15,7 @@ layout: ja
 `system` は、クラスタのシステム情報を取得するためのコマンド群のための名前空間です。
 
  * [system.status](status/): クラスタのステータス情報を取得します。
+ * system.statistics
+   * system.statistics.object
+     * [system.statistics.object.count](statistics/object/count): データセット内の物理的なオブジェクト数を数えて報告します。
 
