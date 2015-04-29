@@ -32,7 +32,7 @@ After that, establish that the `drndump` command has been installed successfully
 
 ~~~
 $ drndump --version
-drndump 1.0.0
+drndump 1.0.1
 ~~~
 
 ### Dump all data in a Droonga cluster
@@ -125,7 +125,7 @@ After that, establish that the `droonga-send` command has been installed success
 
 ~~~
 $ droonga-send --version
-droonga-send 0.2.0
+droonga-send 0.2.1
 ~~~
 
 ### Prepare an empty Droonga cluster
@@ -336,24 +336,79 @@ Construct two clusters by `droonga-engine-catalog-modify` and make one cluster e
 ~~~
 (on node1)
 # droonga-engine-catalog-modify --replica-hosts=node1
-$ endpoint="http://node1:10041"
-$ curl "$endpoint/d/table_remove?name=Location"
-$ curl "$endpoint/d/table_remove?name=Store"
-$ curl "$endpoint/d/table_remove?name=Term"
 ~~~
 
-After that there are two clusters: one contains `node0` with data, another contains `node1` with no data. Confirm it:
+By these commands, a single cluster with two nodes has split to two clusters with single node for each.
+Modification of catalog definition file is automatically detected by the `droonga-engine` service, processes are automatically restarted.
 
+Because this operation takes time, so you possibly have to wait for a while about 1 minute or less.
+If there are two or more running `droonga-engine-service` processes, it is still restarting.
+(After a new service process starts working, the old process dies.)
+
+~~~
+(on node0, node1)
+$ ps aux | grep droonga-engine-service | grep -v grep | wc -l
+2
+~~~
+
+Then you have to wait for a while.
+After that there is only one running process on each node like:
+
+~~~
+(on node0, node1)
+$ ps aux | grep droonga-engine-service | grep -v grep | wc -l
+1
+~~~
+
+Now you'll see two separate clusters: one contains `node0` with data, another contains `node1`, like:
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
+$ curl "http://node1:10041/droonga/system/status" | jq "."
+{
+  "nodes": {
+    "node1:10031/droonga": {
+      "status": "active"
+    }
+  },
+  "reporter": "..."
+}
+~~~
+
+Let's make one of them empty, like:
+
+~~~
+(on node1)
+$ endpoint="http://node1:10041"
+$ curl "$endpoint/d/table_remove?name=Location"
+$ curl "$endpoint/d/table_remove?name=Store"
+$ curl "$endpoint/d/table_remove?name=Term"
+$ curl -X DELETE "http://node1:10041/cache" | jq "."
+true
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+[
+  [
+    0,
+    1401363465.610241,
+    0
+  ],
+  [
+    [
+      [
+        null
+      ],
+      []
+    ]
+  ]
+]
 $ curl -X DELETE "http://node0:10041/cache" | jq "."
 true
 $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
@@ -407,32 +462,6 @@ $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | 
     ]
   ]
 ]
-$ curl "http://node1:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node1:10031/droonga": {
-      "live": true
-    }
-  }
-}
-$ curl -X DELETE "http://node1:10041/cache" | jq "."
-true
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
-[
-  [
-    0,
-    1401363465.610241,
-    0
-  ],
-  [
-    [
-      [
-        null
-      ],
-      []
-    ]
-  ]
-]
 ~~~
 
 Note, `droonga-http-server` is associated to the `droonga-engine` working on same computer.
@@ -449,17 +478,16 @@ To copy data between two clusters, run the `droonga-engine-absorb-data` command 
 $ droonga-engine-absorb-data --host=node1 \
                              --source-host=node0 \
                              --receiver-host=node1
-Start to absorb data from node0
-                       to node1
+Start to absorb data from Default at node0:10031/droonga
+                       to Default at node1:10031/droonga
                       via node1 (this host)
-  dataset = Default
-  port    = 10031
-  tag     = droonga
 
 Absorbing...
-...
-Done.
-~~~
+Getting the timestamp of the last processed message in the source node...
+The timestamp of the last processed message in the source node: 2015-04-29T10:07:08.230158Z
+Setting the destination node to ignore messages older than the timestamp...
+100% done (maybe 00:00:00 remaining)
+Done.~~~
 
 You can run the command on different node, like:
 
@@ -468,8 +496,8 @@ You can run the command on different node, like:
 $ droonga-engine-absorb-data --host=node1 \
                              --source-host=node0 \
                              --receiver-host=node2
-Start to absorb data from node0
-                       to node1
+Start to absorb data from Default at node0:10031/droonga
+                       to Default at node1:10031/droonga
                       via node2 (this host)
 ...
 ~~~
@@ -555,10 +583,10 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   }
 }
