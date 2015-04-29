@@ -212,6 +212,27 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 
 Because the new node `node2` has become a member of the cluster, `droonga-http-server` on each node distributes messages to `node2` also automatically.
 
+Equivalence of all replicas can be confirmed with the command `system.statistics.object.count.per-volume`, like:
+
+~~~
+(on node0)
+$ curl "http://node0:10041/droonga/system/statistics/object/count/per-volume?output\[\]=total" | jq "."
+{
+  "node0:10031/droonga.000": {
+    "total": 540
+  },
+  "node1:10031/droonga.000": {
+    "total": 540
+  },
+  "node2:10031/droonga.000": {
+    "total": 540
+  }
+}
+~~~
+
+Those numbers indicates how many objects are stored in each node.
+Because all values are same, they replicas are equal to each other.
+
 
 ## Remove an existing replica node from an existing cluster
 
