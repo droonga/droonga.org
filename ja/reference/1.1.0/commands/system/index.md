@@ -17,5 +17,5 @@ layout: ja
  * [system.status](status/): クラスタのステータス情報を取得します。
  * system.statistics
    * system.statistics.object
-     * [system.statistics.object.count](statistics/object/count): データセット内の物理的なオブジェクト数を数えて報告します。
+     * [system.statistics.object.count](statistics/object/count): データセット内の物理的なオブジェクト数を数えて報告します。     * [system.statistics.object.count.per-volume](statistics/object/count/per-volume): 各ボリューム内の物理的なオブジェクト数を数えて報告します。
 
