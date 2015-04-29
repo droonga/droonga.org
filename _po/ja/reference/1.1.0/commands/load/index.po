@@ -116,6 +116,8 @@ msgid ""
 "On the version {{ site.droonga_version }}, only following parameters are avail"
 "able. Others are simply ignored because they are not implemented."
 msgstr ""
+"また、バージョン {{ site.droonga_version }} の時点では以下のパラメータのみが動作します。これら以外のパラメータは未実装のため無視"
+"されます。"
 
 msgid ""
 " * `values`\n"
