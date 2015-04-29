@@ -41,7 +41,7 @@ Here we go!
 *To do "hot-add" (dynamic changing of cluster members without downtime) a new replica to a cluster, you must have two or more existing replicas in the cluster.*
 While the operation is in progress, one of existing replicas becomes the "source" to copy data to the newly added replica, and other replicas provide the service.
 
-If you have only one replica in the cluster, *you must stop any modification on the database until the operation completely finishes*.
+If you have only one replica in the cluster, *you must stop any modification on the database until the operation completely finishes* - cronjob batches, crawlers, and so on.
 Otherwise, databases in each replica can be irregularity.
 This is the list of typical built-in commands which can modify the database:
 
