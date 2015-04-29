@@ -198,7 +198,16 @@ Two nodes are configured to work together as a Droonga cluster.
 Let's continue to [the next step, "how to use the cluster"](#use).
 
 
-## Use the Droonga cluster, via HTTP {#use}
+## Use the Droonga cluster, via HTTP (and its native protocol) {#use}
+
+There are two different interfaces to communicate with a Droonga cluster: HTTP and Droonga's native protocol (same to fluentd's one).
+
+ * HTTP interface is useful for Web applications.
+   If your application is based on Groonga with its HTTP interface, it can migrate to Droonga easily.
+ * The native protocol has better performance, but difficult to use a little.
+   However, there are a client library and command line utilities supporting it.
+
+This section's instructions are mainly based on HTTP.
 
 ### Start and stop services on each Droonga node
 
@@ -275,6 +284,38 @@ To stop services, run commands like following on each Droonga node:
 ~~~
 
 After verification, start services again, on each Droonga node.
+
+
+### Communicating with Droonga cluster via its native protocol
+
+On the other hand, you can send any native message to `droonga-engine` servers by the command line utility `droonca-request`, included in the gem package `droonga-client`.
+For example, you can send a `system.status` request to a `droonga-engine` node bypassing `droonga-http-server` service, like:
+
+~~~
+$ echo '{"dataset":"Default","type":"system.status"}' | \
+    droonga-request --host node0 --receiver-host node0
+Elapsed time: 0.023726995
+{
+  "inReplyTo": "1430292510.4677904",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "..."
+  }
+}
+~~~
+
+As above, Droonga's native message is written in the JSON format.
+Because it is very different from Groonga's method, this tutorial doesn't describe details of this way, for now.
+
 
 ### Create a table, columns, and indexes
 
