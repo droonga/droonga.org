@@ -131,7 +131,7 @@ msgid "All parameters except `table` are optional."
 msgstr ""
 
 msgid ""
-"On the version {{ site.droonga_version }}, only following parameters are avail"
+"On the version 1.1.0, only following parameters are avail"
 "able. Others are simply ignored because they are not implemented."
 msgstr ""
 
