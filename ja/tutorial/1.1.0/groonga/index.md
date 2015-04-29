@@ -207,7 +207,16 @@ host: XXXXXXXX
 引き続き、[クラスタの使い方の説明](#use)に進みましょう。
 
 
-## DroongaクラスタをHTTP経由で使用する
+## DroongaクラスタをHTTP経由（およびネイティブプロトコル）で使用する {#use}
+
+Droongaクラスタと通信する方法としては、HTTPとDroongaネイティブプロトコル（fluentdのプロトコルと同じ物）の2つの異なるインターフェースがあります。
+
+ * HTTPインターフェースは、Webアプリケーションから利用しやすいです。
+   もしあなたのWebアプリケーションがGroongaのHTTPインターフェースを利用して開発されているのであれば、Droongaに簡単に移行できます。
+ * ネイティブプロトコルはパフォーマンスが比較的良いですが、使い方が少し難しいです。
+   しかし、クライアントライブラリや支援用のコマンドラインユーティリティがあります。
+
+このセクションでの説明は、主にHTTPでの使い方について述べます。
 
 ### 各Droongaノードの上でのサービスの開始と停止
 
@@ -245,12 +254,13 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -262,12 +272,13 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -282,6 +293,38 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 ~~~
 
 確認が終わったら、再度サービスを起動しておきましょう：
+
+
+### Droongaクラスタとネイティブプロトコルで通信する
+
+ここまでに述べたHTTPでの使い方に対して、Gemパッケージ`droonga-client`に含まれるコマンドラインユーティリティの`droonca-request`コマンドを使うと、`droonga-engine`のサービスに対してネイティブ形式のメッセージを送ることができます。
+例えば、`droonga-http-server`のサービスを経由せずに`droonga-engine`ノードに`system.status`のリクエストを送る場合は以下の要領です:
+
+~~~
+$ echo '{"dataset":"Default","type":"system.status"}' | \
+    droonga-request --host node0 --receiver-host node0
+Elapsed time: 0.023726995
+{
+  "inReplyTo": "1430292510.4677904",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "..."
+  }
+}
+~~~
+
+上記の通り、Droongaのネイティブ形式のメッセージはJSON形式で書かれます。
+これはGroongaのやり方と大きく異なるので、このチュートリアルではひとまず詳細は割愛します。
+
 
 ### テーブル、カラム、インデックスの作成
 
