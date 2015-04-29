@@ -233,7 +233,7 @@ msgid ""
 "active` each other, when they have different role."
 msgstr ""
 "    これらのステータスは相対的なもので、ノード同士がお互いの状態を個別に認識して報告します。\n"
-"    例えば、異なる役割を持った2つのノードは、お互いに自分を`active`と認識し、相手を`inactive`と認識する場合があります。"
+"    例えば、異なるロールを持った2つのノードは、お互いに自分を`active`と認識し、相手を`inactive`と認識する場合があります。"
 
 msgid ""
 "`reporter`\n"

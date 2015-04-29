@@ -120,7 +120,7 @@ layout: ja
    * `records`
    * `total`
 
-既定値
+省略時の既定値
 : `[]`
 
 

@@ -206,7 +206,7 @@ msgid ""
 "Default value\n"
 ": `[]`"
 msgstr ""
-"既定値\n"
+"省略時の既定値\n"
 ": `[]`"
 
 msgid "## Responses {#response}"
