@@ -252,36 +252,23 @@ To remove a replica from an existing cluster, you just run the `droonga-engine-u
 (on node0)
 $ droonga-engine-unjoin --host=node2 \
                         --receiver-host=node0
-Start to unjoin a node node2
+Start to unjoin a node node2:10031/droonga
                     by node0 (this host)
 
 Unjoining replica from the cluster...
-...
 Done.
 ~~~
 
  * You must specify the host name (or the IP address) of an existing node to be removed from the cluster, via the `--host` option.
  * You must specify the host name (or the IP address) of the working machine via the `--receiver-host` option.
 
-Then the specified node automatically unjoins from the cluster, and all nedes' `catalog.json` are also updated.
-Now, the node has been successfully unjoined from the cluster.
+Then the specified node automatically unjoins from the cluster.
 
-You can confirm that the `node2` is successfully unjoined, via the `system.status` command:
+Now, the node has been successfully unjoined from the cluster.
+You can confirm that the `node2` is unjoined, via the `system.status` command:
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node0:10031/droonga": {
-      "status": "active"
-    },
-    "node1:10031/droonga": {
-      "status": "active"
-    }
-  },
-  "reporter": "..."
-}
-$ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -379,18 +366,6 @@ You can confirm that, via the `system.status` command:
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node0:10031/droonga": {
-      "status": "active"
-    },
-    "node2:10031/droonga": {
-      "status": "active"
-    }
-  },
-  "reporter": "..."
-}
-$ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
