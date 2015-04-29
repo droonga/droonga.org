@@ -66,10 +66,10 @@ For example:
          "body" : {
            "nodes": {
              "192.168.0.10:10031/droonga": {
-               "live": true
+               "status": "active"
              },
              "192.168.0.11:10031/droonga": {
-               "live": false
+               "status": "dead"
              }
            },
            "reporter": "192.168.0.10:49707/droonga @ 192.168.0.10:10031/droonga"
@@ -84,7 +84,7 @@ This returns a hash like following as the response's `body`, with `200` as its `
     {
       "nodes" : {
         "<Identifier of the node 1>" : {
-          "live" : <Vital status of the node>
+          "status" : "<Vital status of the node>"
         },
         "<Identifier of the node 2>" : { ... },
         ...
@@ -97,10 +97,23 @@ This returns a hash like following as the response's `body`, with `200` as its `
   Keys of the hash are identifiers of nodes defined in the `catalog.json`, with the format: `hostname:port/tag`.
   Each value indicates status information of corresponding node, and have following information:
   
-  `live`
-  : A boolean value indicating vital state of the node.
-    If `true`, the node can process messages, and messages are delivered to it.
-    Otherwise, the node doesn't process any message for now, because it is down or some reasons.
+  `status`
+  : A string indicating vital status of the node.
+    Possible values are:
+    
+    * `active`:
+      The node is working, and in service.
+      Messages are delivered to it normally.
+    * `inactive`:
+      The node is working, but not in service temporarily.
+      Messages are not delivered to it just in time.
+      The node is ignored for read-only messages completely.
+      Messages modifying the database (like `add`) are buffered and delivered to the node after it is back to `active`.
+    * `dead`:
+      The node is not working permanently. For example, the service is down.
+    
+    Those statuses are relatively detected by each node.
+    For example, two nodes can detect themselves as `active` and detect as `inactive` each other, when they have different role.
 
 `reporter`
 : A string indicating who returns the result.
