@@ -38,11 +38,23 @@ Here we go!
 
 ## Add a new replica node to an existing cluster
 
-In this case you don't have to stop the cluster working, for any read-only requests like "search".
-You can add a new replica, in the backstage, without downing your service.
+*To do "hot-add" (dynamic changing of cluster members without downtime) a new replica to a cluster, you must have two or more existing replicas in the cluster.*
+While the operation is in progress, one of existing replicas becomes the "source" to copy data to the newly added replica, and other replicas provide the service.
 
-On the other hand, you have to stop inpouring of new data to the cluster until the new node starts working.
-(In the future we'll provide mechanism to add new nodes completely silently without any stopping of data-flow, but currently can't.)
+If you have only one replica in the cluster, *you must stop any modification on the database until the operation completely finishes*.
+Otherwise, databases in each replica can be irregularity.
+This is the list of typical built-in commands which can modify the database:
+
+ * `add`
+ * `column_create`
+ * `column_remove`
+ * `delete`
+ * `load`
+ * `table_create`
+ * `table_remove`
+
+However, messages which never change existing data (like `search`, `system.status`, and others) are still acceptable.
+In short, *you only have to stop your crawler while new replica is being added*, when there is no extra existing replica.
 
 Assume that there is a Droonga cluster constructed with two replica nodes `node0` and `node1`, and we are going to add a new replica node `node2`.
 
@@ -87,22 +99,10 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
-    }
-  },
-  "reporter": "..."
-}
-$ curl "http://node1:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node0:10031/droonga": {
-      "live": true
-    },
-    "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -111,38 +111,35 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
 }
 ~~~
 
-### Suspend inpouring of "write" requests
+### Setting up constant inpouring messages
 
-Before starting to change cluster composition, you must suspend inpouring of "write" requests to the cluster, because we have to synchronize data to the new replica.
-Otherwise, the new added replica will contain incomplete data and results for requests to the cluster become unstable.
+If you are reading this tutorial sequentially after the [previous topic](../dump-restore/), you'll have no inpouring messages to the cluster yet.
+To try hot-adding, let's prepare a virtual data source which adds new records constantly, like:
 
-What's "write" request?
-In particular, these commands modify data in the cluster:
+~~~
+(on node0)
+$ count=0; maxcount=500; \
+  while [ "$count" -lt "$maxcount" ]; \
+  do \
+    droonga-add --host node0 --table Store --key "dummy-store$count" --name "Dummy Store $count"; \
+    count=$(($count + 1)); \
+    sleep 1; \
+  done
+~~~
 
- * `add`
- * `column_create`
- * `column_remove`
- * `delete`
- * `load`
- * `table_create`
- * `table_remove`
-
-If you load new data via the `load` command triggered by a batch script started as a cronjob, disable the job.
-If a crawler agent adds new data via the `add` command, stop it.
-If you put a fluentd as a buffer between crawler or loader and the cluster, stop outgoing messages from the buffer. 
-
-If you are reading this tutorial sequentially after the [previous topic](../dump-restore/), there is no incoming requests, so you have nothing to do.
+This is an example to add totally 500 records (1 record for every seconds.)
+`droonga-add` is one of Droonga's command line utilities, but currently you don't have to know details.
 
 ### Joining a new replica node to the cluster
 
-To add a new replica node to an existing cluster, you just run a command `droonga-engine-join` on one of existing replica nodes or the new replica node, in the directory the `catalog.json` is located, like:
+To add a new replica node to an existing cluster, you just run the command `droonga-engine-join` on one of existing replica nodes or the new replica node, like:
 
 ~~~
 (on node2)
@@ -190,9 +187,9 @@ Start to join a new node node2
  * You must specify the host name (or the IP address) of the working machine via the `--receiver-host` option.
 
 Then the command automatically starts to synchronize all data of the cluster to the new replica node.
-After data is successfully synchronized, the node restarts and joins to the cluster automatically.
-All nodes' `catalog.json` are also updated, and now, yes, the new node starts working as a replica in the cluster.
+After all data is successfully synchronized, the new node starts working as a replica in the cluster seamlessly.
 
+With that, a new replica node has successfully joined to your Droonga cluster.
 You can confirm that they are working as a cluster, via the `system.status` command:
 
 ~~~
@@ -200,13 +197,13 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -214,15 +211,6 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 ~~~
 
 Because the new node `node2` has become a member of the cluster, `droonga-http-server` on each node distributes messages to `node2` also automatically.
-
-
-### Resume inpouring of "write" requests
-
-OK, it's the time.
-Because all replica nodes are completely synchronized, the cluster now can process any request stably.
-Resume inpouring of requests which can modify the data in the cluster - cronjobs, crawlers, buffers, and so on.
-
-With that, a new replica node has joined to your Droonga cluster successfully.
 
 
 ## Remove an existing replica node from an existing cluster
@@ -264,10 +252,10 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -276,10 +264,10 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -288,7 +276,7 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -324,7 +312,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -373,10 +361,10 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
@@ -385,10 +373,10 @@ $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
   },
   "reporter": "..."
