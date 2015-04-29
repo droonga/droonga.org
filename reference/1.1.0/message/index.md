@@ -69,19 +69,20 @@ Default value
 
 Abstract
 : Time to expire the request message, in seconds.
+  If no result for the request is returned until this period, system aborts all tracking for messages originated from the request, and the client can report it as "operation timed out".
 
 Value
 : A float number, for example: `0.5`.
 
 Default value
-: `60` (means one minute). This is optional.
+: `60` (means one minute)
 
 ### `targetRole` {#request-targetRole}
 
 Abstract
 : The role of the target engine node.
   If the node received the message has a role different to this field, the message will be bounced to another engine node with the role.
-  Messages with no `targetRole` or the special value `"any"` will be processed by the receiver node.
+  Messages with no `targetRole` or the special value `"any"` will be processed by the receiver node with any role.
 
 Value
 : `null`, `"any"`, or one of following role:
@@ -91,7 +92,7 @@ Value
    * `"absorb-destination"`
 
 Default value
-: `null`. This is optional.
+: `null`
 
 ### `body` {#request-body}
 
