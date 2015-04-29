@@ -47,11 +47,23 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 
 ## 既存のクラスタに新しいreplicaノードを追加する
 
-このケースでは、検索のように読み取りのみを行うリクエストに対しては、クラスタの動作を止める必要はありません。
-サービスを停止することなく、その裏側でシームレスに新しいreplicaを追加することができます。
+*クラスタへのreplicaノードの「Hot-Add」（サービスのダウンタイム無しでクラスタ構成を動的に変更すること。この場合はreplicaの動的な追加）を行うためには、クラスタ内に2つ以上の既存replicaが存在している必要があります。*
+この操作の進行中は、既存のreplicaのうち1つが新しいreplicaに対する「データのコピー元」となり、それ以外のノードがサービスを提供することになります。
 
-その一方で、クラスタへの新しいデータの流入は、新しいノードが動作を始めるまでの間停止しておく必要があります。
-（将来的には、新しいノードを完全に無停止で追加できるようにする予定ですが、今のところはそれはできません。）
+クラスタ内に既存のreplicaが1つしかない場合には、cronjobによるバッチ処理、クローラなどの*データベースに対する変更操作を、操作が完了するまでの間全て停止しておく必要があります*。
+でないと、追加したreplicaと既存のreplicaの内容に不整合が発生します。
+以下は、データベースに変更を加える代表的な組み込みのコマンドの一覧です：
+
+ * `add`
+ * `column_create`
+ * `column_remove`
+ * `delete`
+ * `load`
+ * `table_create`
+ * `table_remove`
+
+ただし、既存のデータに一切変更を加えない種類のメッセージ（`search`や`sytem.status`など）については、この操作の間も利用できます。
+端的に言うと、既存のreplicaが1つだけしかない場合は、*新しいreplicaを追加する操作の間はクローリングを停止する必要がある*、という事ですね。
 
 ここでは、`node0` と `node1` の2つのreplicaノードからなるDroongaクラスタがあり、新しいreplicaノードとして `node2` を追加すると仮定します。
 
@@ -96,58 +108,47 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
-}
-$ curl "http://node1:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node0:10031/droonga": {
-      "live": true
-    },
-    "node1:10031/droonga": {
-      "live": true
-    }
-  }
+  },
+  "reporter": "..."
 }
 $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
-### 書き込みを伴うリクエストの流入を一時的に停止する
+### 継続的に流入するメッセージの準備
 
-新しいreplicaとの間でデータを完全に同期する必要があるので、クラスタの構成を変更する前に、クラスタへのデータの書き込みを行うリクエストの流入を一時停止する必要があります。
-そうしないと、新しく追加したreplicaが中途半端なデータしか持たない矛盾した状態となってしまい、リクエストに対してクラスタが返す処理結果が不安定になります。
+[前の項目](../dump-restore/)に引き続いてこのチュートリアルを順番に読み進めている場合、クラスタに対してはデータの流入がまだ無い状態になっているはずです。
+Hot-Addを試してみるために、以下のようにして、継続的に新しいレコードを追加する仮想的なデータソースを準備しましょう：
 
-データの書き込みを伴うリクエストとは、具体的には、クラスタ内のデータを変更する以下のコマンドです:
+~~~
+(on node0)
+$ count=0; maxcount=500; \
+  while [ "$count" -lt "$maxcount" ]; \
+  do \
+    droonga-add --host node0 --table Store --key "dummy-store$count" --name "Dummy Store $count"; \
+    count=$(($count + 1)); \
+    sleep 1; \
+  done
+~~~
 
- * `add`
- * `column_create`
- * `column_remove`
- * `delete`
- * `load`
- * `table_create`
- * `table_remove`
-
-cronjobとして実行されるバッチスクリプトによって `load` コマンド経由で新しいデータを投入している場合は、cronjobを停止して下さい。
-クローラが `add` コマンド経由で新しいデータを投入している場合は、クローラを停止して下さい。
-あるいは、クローラやローダーとクラスタの間にFluentdを置いてバッファとして利用しているのであれば、バッファからのメッセージ出力を停止して下さい。 
-
-[前項](../dump-restore/)から順番にチュートリアルを読んでいる場合、クラスタに流入しているリクエストはありませんので、ここでは特に何もする必要はありません。
+これは、合計で500件のレコードを1秒ごとに1レコードずつ追加する例です。
+`droonga-add`はDroongaが提供しているコマンドラインユーティリティですが、今のところは詳細について理解していなくても大丈夫です。
 
 ### 新しいreplicaをクラスタに参加させる
 
-新しいreplicaノードを既存のクラスタに追加するには、いずれかの既存のノードもしくは新しいreplicaノードのいずれかにおいて、`catalog.json` が置かれているディレクトリで、`droonga-engine-join` コマンドを実行します:
+既存のクラスタに新しいreplicaを追加するには、いずれかの既存のreplicaまたは新しく追加するreplicaの上で、`droonga-engine-join`というコマンドを以下のようにして実行します：
 
 ~~~
 (on node2)
@@ -157,11 +158,23 @@ $ droonga-engine-join --host=node2 \
 Start to join a new node node2
        to the cluster of node0
                      via node2 (this host)
+    port    = 10031
+    tag     = droonga
+    dataset = Default
 
-Joining new replica to the cluster...
-...
-Update existing hosts in the cluster...
-...
+Source Cluster ID: 8951f1b01583c1ffeb12ed5f4093210d28955988
+
+Changing role of the joining node...
+Configuring the joining node as a new replica for the cluster...
+Registering new node to existing nodes...
+Changing role of the source node...
+Getting the timestamp of the last processed message in the source node...
+The timestamp of the last processed message at the source node: xxxx-xx-xxTxx:xx:xx.xxxxxxZ
+Setting new node to ignore messages older than the timestamp...
+Copying data from the source node...
+100% done (maybe 00:00:00 remaining)
+Restoring role of the source node...
+Restoring role of the joining node...
 Done.
 ~~~
 
@@ -175,45 +188,59 @@ $ droonga-engine-join --host=node2 \
 Start to join a new node node2
        to the cluster of node0
                      via node1 (this host)
+...
 ~~~
 
  * `--host` オプションで、その新しいreplicaノードのホスト名（またはIPアドレス）を指定して下さい。
  * `--replica-source-host` オプションで、クラスタ中の既存のノードの1つのホスト名（またはIPアドレス）を指定して下さい。
  * `--receiver-host` オプションで、コマンドを実行しているマシン自身のホスト名（またはIPアドレス）を必ず指定して下さい。
 
-コマンドを実行すると、自動的に、クラスタのデータが新しいreplicaノードへと同期され始めます。
-データの同期が完了すると、ノードが自動的に再起動してクラスタに参加します。
-すべてのノードの`catalog.json`も同時に更新され、この時点をもって、新しいノードは晴れてそのクラスタのreplicaノードとして動作し始めます。
+すると、このコマンドは自動的にクラスタ内のデータを新しいreplicaに同期し始めます。
+全てのデータを無事に同期し終えたら、新しいノードはクラスタのreplicaとしてそのまま働き始めます。
 
-これで、ノードがクラスタに参加しました。この事は `system.status` コマンドで確かめられます:
+以上の操作で、新しいreplicaノードがDroongaクラスタへ無事に追加されました。
+`system.status`コマンドを使って、これらのノードがクラスタとして動作していることを確かめましょう：
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
 新しいノード`node2`がクラスタに参加したため、各ノードの`droonga-http-server`は自動的に、メッセージを`node2`にも分配するようになります。
 
+全てのreplicaが同等になっているかどうかは、`system.statistics.object.count.per-volume`を使って以下のように確かめられます：
 
-### 書き込みを伴うリクエストの流入を再開する
+~~~
+(on node0)
+$ curl "http://node0:10041/droonga/system/statistics/object/count/per-volume?output\[\]=total" | jq "."
+{
+  "node0:10031/droonga.000": {
+    "total": 540
+  },
+  "node1:10031/droonga.000": {
+    "total": 540
+  },
+  "node2:10031/droonga.000": {
+    "total": 540
+  }
+}
+~~~
 
-さて、準備ができました。
-すべてのreplicaは完全に同期した状態となっているので、このクラスタはリクエストを安定して処理できます。
-cronjobを有効化する、クローラの動作を再開する、バッファからのメッセージ送出を再開する、などの操作を行って、クラスタ内のデータを変更するリクエストの流入を再開して下さい。
-
-以上で、Droongaクラスタに新しいreplicaノードを無事参加させる事ができました。
+出力されている数値は、各ノードのデータベースに何個のオブジェクトが保持されているかを示しています。
+全ての値が同じなので、各レプリカはお互いに同等の状態になっているということが分かります。
 
 
 ## 既存のクラスタからreplicaノードを削除する
@@ -234,52 +261,42 @@ replicaノードを既存のクラスタから削除するには、クラスタ�
 (on node0)
 $ droonga-engine-unjoin --host=node2 \
                         --receiver-host=node0
-Start to unjoin a node node2
+Start to unjoin a node node2:10031/droonga
                     by node0 (this host)
 
 Unjoining replica from the cluster...
-...
 Done.
 ~~~
 
  * `--host` オプションで、クラスタから削除するノードのホスト名（またはIPアドレス）を指定して下さい。
  * `--receiver-host` オプションで、コマンドを実行しているマシン自身のホスト名（またはIPアドレス）を必ず指定して下さい。
 
-すると、ノードがクラスタから自動的に離脱し、すべてのノードの `catalog.json` も同時に更新されます。
-これで、ノードはクラスタから無事離脱しました。
+すると、指定されたノードがクラスタから自動的に離脱します。
 
-`node2` が本当にクラスタから離脱しているかどうかは `system.status` コマンドで確かめられます:
+これで、ノードのクラスタからの切り離しは無事に完了しました。
+`node2`が本当にクラスタから離脱しているかどうかは、`system.status コマンドを使って以下のように確かめられます：
 
 ~~~
 $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node1:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
-}
-$ curl "http://node1:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node0:10031/droonga": {
-      "live": true
-    },
-    "node1:10031/droonga": {
-      "live": true
-    }
-  }
+  },
+  "reporter": "..."
 }
 $ curl "http://node2:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -310,9 +327,10 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
@@ -358,23 +376,13 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 {
   "nodes": {
     "node0:10031/droonga": {
-      "live": true
+      "status": "active"
     },
     "node2:10031/droonga": {
-      "live": true
+      "status": "active"
     }
-  }
-}
-$ curl "http://node2:10041/droonga/system/status" | jq "."
-{
-  "nodes": {
-    "node0:10031/droonga": {
-      "live": true
-    },
-    "node2:10031/droonga": {
-      "live": true
-    }
-  }
+  },
+  "reporter": "..."
 }
 ~~~
 
