@@ -190,7 +190,7 @@ msgid ""
 ": `null`, `\"any\"`, or one of following role:"
 msgstr ""
 "値\n"
-": `null`, `\"any\"`, or one of following role:"
+": `null`、`\"any\"`、または以下のいずれか："
 
 msgid ""
 "   * `\"service-provider\"`\n"

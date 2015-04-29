@@ -95,7 +95,7 @@ layout: ja
   `targetRole`が無い、または特別な値`"any"`が指定された場合、そのノードのロールが何であるかに関わらず、メッセージを受信したノードがメッセージを処理します。
 
 値
-: `null`, `"any"`, or one of following role:
+: `null`、`"any"`、または以下のいずれか：
   
    * `"service-provider"`
    * `"absorb-source"`
