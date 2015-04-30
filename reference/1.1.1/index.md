@@ -13,7 +13,7 @@ layout: en
 : Describes details of built-in commands available on the Droonga Engines.
 
 [Command line tools](command-line-tools/)
-: Describes details of built-in commands available on the Droonga Engines.
+: Describes usage of command line tools provided by Droonga.
 
 [HTTP Server](http-server/)
 : Describes usage of the [droonga-http-server](https://github.com/droonga/droonga-http-server).

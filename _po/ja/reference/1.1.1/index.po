@@ -43,8 +43,10 @@ msgstr ""
 
 msgid ""
 "[Command line tools](command-line-tools/)\n"
-": Describes details of built-in commands available on the Droonga Engines."
+": Describes usage of command line tools provided by Droonga."
 msgstr ""
+"[コマンドラインツール](command-line-tools/)\n"
+": Droongaが提供するコマンドラインツールの使い方の説明。"
 
 msgid ""
 "[HTTP Server](http-server/)\n"
