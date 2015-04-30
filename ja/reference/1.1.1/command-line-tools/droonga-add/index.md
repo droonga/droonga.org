@@ -73,18 +73,18 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
   以下のいずれかを指定します:
   
   * `service-provider`:
-    The message is processed by service provider nodes in the cluster.
-    For absorb-source nodes and absrob-destination nodes, the message will be dispatched later.
+    メッセージは、クラスタ内でサービスを提供中のノードで処理されます。
+    データ抽出操作に関わるノードには、後から遅れてメッセージが伝搬します。
   * `absorb-source`:
-    The message is processed by absorb-source nodes in the cluster.
-    For service provider nodes and absrob-destination nodes, the message is never dispatched.
+    メッセージは、クラスタへのノード追加操作におけるデータコピー元となっているノードで処理されます。
+    サービスを提供中のノード、並びにデータコピー先となっているノードへは、メッセージは伝搬しません。
   * `absorb-destination`:
-    The message is processed by absorb-destination nodes in the cluster.
-    For service provider nodes and absrob-source nodes, the message is never dispatched.
+    メッセージは、クラスタへのノード追加操作におけるデータコピー先となっているノードで処理されます。
+    サービスを提供中のノード、並びにデータコピー元となっているノードへは、メッセージは伝搬しません。
   * `any`:
-    The message is always processed by the node specified via the option `--host`.
+    メッセージは、`--host`で指定されたノードで処理されます。
   
-  `any` by default.
+  既定値は`any`です。
 
 `--timeout=SECONDS`
 : 応答がない接続を打ち切るまでの待ち時間（単位：秒）です。
