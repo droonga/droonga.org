@@ -66,6 +66,9 @@ msgid ""
 "~~~"
 msgstr ""
 
+msgid "See also [the reference of the `add` command](../../commands/add/)."
+msgstr "[`add`コマンドのリファレンス](../../commands/add/)も併せて参照して下さい。"
+
 msgid "## Parameters {#parameters}"
 msgstr "## パラメータ {#parameters}"
 

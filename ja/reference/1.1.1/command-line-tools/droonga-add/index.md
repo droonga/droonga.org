@@ -36,6 +36,8 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
 ~~~
 
+[`add`コマンドのリファレンス](../../commands/add/)も併せて参照して下さい。
+
 ## パラメータ {#parameters}
 
 `--table=TABLE` *(必須)*

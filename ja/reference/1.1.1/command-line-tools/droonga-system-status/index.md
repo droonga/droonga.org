@@ -35,6 +35,8 @@ $ echo '{"type":"system.status"}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
 ~~~
 
+[`system.status`コマンドのリファレンス](../../commands/system/status/)も併せて参照して下さい。
+
 ## パラメータ {#parameters}
 
 `--pretty`

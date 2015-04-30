@@ -63,6 +63,11 @@ msgid ""
 "~~~"
 msgstr ""
 
+msgid ""
+"See also [the reference of the `system.status` command](../../commands/system/"
+"status/)."
+msgstr "[`system.status`コマンドのリファレンス](../../commands/system/status/)も併せて参照して下さい。"
+
 msgid "## Parameters {#parameters}"
 msgstr "## パラメータ {#parameters}"
 
