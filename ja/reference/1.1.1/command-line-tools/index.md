@@ -17,24 +17,24 @@ Droongaはいくつかのコマンドラインツールを提供しています�
 
 ## Droongaクラスタとの通信
 
- * [droonga-add](droonga-add/): Adds a new record to a cluster.
- * [droonga-groonga](droonga-groonga/): Sends Groonga commands to a cluster.
- * [droonga-system-status](droonga-system-status/): Reports status of members in a cluster.
- * [droonga-request](droonga-request/): Sends any message to a cluster and reports the response.
- * [droonga-send](droonga-send/): Sends any message to a cluster.
- * [drndump](drndump/): Extracts all schema definitions and records from a cluster.
+ * [droonga-add](droonga-add/): クラスタに新しいレコードを追加します。
+ * [droonga-groonga](droonga-groonga/): クラスタにGroongaコマンドを送信します。
+ * [droonga-system-status](droonga-system-status/): クラスタ内のメンバーの状態を出力します。
+ * [droonga-request](droonga-request/): 任意のメッセージをクラスタに送信し、レスポンスを出力します。
+ * [droonga-send](droonga-send/): 任意のメッセージをクラスタに送信します。
+ * [drndump](drndump/): クラスタから全てのスキーマ定義およびレコードの情報を抽出します。
 
 ## クラスタの管理
 
- * [droonga-engine-join](droonga-engine-join/): Adds a new replica node to a cluster.
- * [droonga-engine-unjoin](droonga-engine-unjoin/): Removes an existing replica node from a cluster.
- * [droonga-engine-absorb-data](droonga-engine-absorb-data/): Copy all schema definitions and records from a cluster to another.
- * [droonga-engine-set-role](droonga-engine-set-role/): Sets the role of a node in a cluster.
+ * [droonga-engine-join](droonga-engine-join/): クラスタに新しいreplicaを追加します。
+ * [droonga-engine-unjoin](droonga-engine-unjoin/): クラスタから既存のreplicaを削除します。
+ * [droonga-engine-absorb-data](droonga-engine-absorb-data/): クラスタ間で全てのスキーマ定義およびレコードの情報をコピーします。
+ * [droonga-engine-set-role](droonga-engine-set-role/): クラスタ内のノードのroleを設定します。
 
 ## 低レイヤのシステム管理
 
- * [droonga-engine-configure](droonga-engine-configure/): Configures the `droonga-engine` service on a computer.
- * [droonga-engine-catalog-generate](droonga-engine-catalog-generate/): Generates a new cluster definition file.
- * [droonga-engine-catalog-modify](droonga-engine-catalog-modify/): Modifies an existing cluster definition file.
- * [droonga-http-server-configure](droonga-http-server-configure/): Configures the `droonga-http-server` service on a computer.
+ * [droonga-engine-configure](droonga-engine-configure/): コンピュータ上の`droonga-engine`サービスを設定します。
+ * [droonga-engine-catalog-generate](droonga-engine-catalog-generate/): クラスタ定義ファイルを新たに生成します。
+ * [droonga-engine-catalog-modify](droonga-engine-catalog-modify/): 既存のクラスタ定義ファイルを更新します。
+ * [droonga-http-server-configure](droonga-http-server-configure/): コンピュータ上の`droonga-http-server`サービスを設定します。
 
