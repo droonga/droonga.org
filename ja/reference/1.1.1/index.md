@@ -21,6 +21,9 @@ layout: ja
 [コマンドリファレンス](commands/)
 : Droonga Engineで利用可能な組み込みのコマンドの詳細。
 
+[Command line tools](command-line-tools/)
+: Describes details of built-in commands available on the Droonga Engines.
+
 [HTTPサーバ](http-server/)
 : [droonga-http-server](https://github.com/droonga/droonga-http-server)の使用方法。
 

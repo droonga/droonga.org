@@ -42,6 +42,11 @@ msgstr ""
 ": Droonga Engineで利用可能な組み込みのコマンドの詳細。"
 
 msgid ""
+"[Command line tools](command-line-tools/)\n"
+": Describes details of built-in commands available on the Droonga Engines."
+msgstr ""
+
+msgid ""
 "[HTTP Server](http-server/)\n"
 ": Describes usage of the [droonga-http-server](https://github.com/droonga/droo"
 "nga-http-server)."
