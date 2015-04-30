@@ -1,6 +1,6 @@
 ---
 title: droonga-add
-layout: en
+layout: ja
 ---
 
 {% comment %}
@@ -17,9 +17,9 @@ layout: en
 
 ## 概要 {#abstract}
 
-`droonga-add` adds a new record or updates an existing record, to the specified table in a Droonga cluster.
+`droonga-add`は、Droongaクラスタ内の指定されたテーブルについて、新しいレコードの追加および既存レコードの更新を行います。
 
-For example, if there is a Droonga node `192.168.100.50` and your are logged in to a computer `192.168.100.10` in the same network segment, the command line to add a new record to the table `User` in the cluster is:
+例えば、`192.168.100.50`というDroongaノードがあり、同一ネットワークセグメント内のコンピュータ`192.168.100.10`にログインしている場合、クラスタ内の`User`テーブルにレコードを1つ追加するコマンド列は以下のようになります：
 
 ~~~
 (on 192.168.100.10)
@@ -27,8 +27,8 @@ $ droonga-add --host 192.168.100.50 --receiver-host 192.168.100.10 \
     --table User --key id1 --name Adam --age 20
 ~~~
 
-This command is just a shorthand of [`droonga-request`](../droonga-request/) with a message with the type [`add`](../../commands/add/).
-The result produced by the following command line completely equals to the one of above:
+このコマンドは、typeが[`add`](../../commands/add/)であるメッセージを[`droonga-request`](../droonga-request/)を用いて送信する操作を簡単に行う物です。
+上記コマンド列によってもたらされる結果は、以下のコマンド列の結果と完全に同一です:
 
 ~~~
 (on 192.168.100.10)
@@ -36,41 +36,41 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
 ~~~
 
-### Parameters {#parameters}
+### パラメータ {#parameters}
 
-`--table=TABLE` *(required)*
-: Name of the target table.
+`--table=TABLE` *(必須)*
+: レコードを追加するテーブルの名前。
 
 `--key=KEY`
-: A unique key of the adding or updating record.
+: 追加または更新するレコードの一意なキー。
 
 `--(COLUMN NAME)=(VALUE)`, `--value:(COLUMN NAME)=(VALUE)`
-: Value of the column for the record.
-  Columns with names same to other existing parameter like `host` must be specified with the prefix `--value:`.
+: レコードのカラムの値。
+  `host`のように既存の他のパラメータと同じ名前のカラムの値を指定する場合は、`--value:`という接頭辞を付ける必要があります。
 
 `--host=NAME`
-: Host name of the engine node.
-  A guessed host name of the computer you are running the command, by default.
+: メッセージの送信先となるEngineノードのホスト名。
+  既定値は、コマンドを実行しているコンピュータ自身の推測されたホスト名です。
 
 `--port=PORT`
-: Port number to communicate with the engine.
-  `10031` by default.
+: Engineノードとの通信に使うポート番号。
+  既定値は`10031`です。
 
 `--tag=TAG`
-: Tag name to communicate with the engine.
-  `droonga` by default.
+: Engineノードとの通信に使うタグ名。
+  既定値は`droonga`です。
 
 `--dataset=NAME`
-: Dataset name for the sending message.
-  `Default` by default.
+: メッセージの送信先データセット名。
+  既定値は`Default`です。
 
 `--receiver-host=NAME`
-: Host name of the computer you are running the command.
-  A guessed host name of the computer, by default.
+: コマンドを実行しているコンピュータのホスト名。
+  既定値は、そのコンピュータのホスト名として推測される名前です。
 
 `--target-role=ROLE`
-: Role of engine nodes which should process the message.
-  Possible values:
+: メッセージを処理できるEngineノードのロール。
+  以下のいずれかを指定します:
   
   * `service-provider`:
     The message is processed by service provider nodes in the cluster.
@@ -87,16 +87,16 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
   `any` by default.
 
 `--timeout=SECONDS`
-: Time to terminate unresponsive connections, in seconds.
-  `3` by default.
+: 応答がない接続を打ち切るまでの待ち時間（単位：秒）です。
+  既定値は`3`です。
 
 `-h`, `--help`
-: Shows the usage of the command.
+: コマンドの使い方の説明を表示します。
 
 
-### How to install {#install}
+### インストール方法 {#install}
 
-This is installed as a part of a rubygems package `droonga-client`.
+このコマンドは、Rubygemsのパッケージ`droonga-client`の一部としてインストールされます。
 
 ~~~
 # gem install droonga-client
