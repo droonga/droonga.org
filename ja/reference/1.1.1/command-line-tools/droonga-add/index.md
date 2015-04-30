@@ -36,7 +36,7 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
 ~~~
 
-### パラメータ {#parameters}
+## パラメータ {#parameters}
 
 `--table=TABLE` *(必須)*
 : レコードを追加するテーブルの名前。
@@ -94,7 +94,7 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
 : コマンドの使い方の説明を表示します。
 
 
-### インストール方法 {#install}
+## インストール方法 {#install}
 
 このコマンドは、Rubygemsのパッケージ`droonga-client`の一部としてインストールされます。
 

@@ -66,8 +66,8 @@ msgid ""
 "~~~"
 msgstr ""
 
-msgid "### Parameters {#parameters}"
-msgstr "### パラメータ {#parameters}"
+msgid "## Parameters {#parameters}"
+msgstr "## パラメータ {#parameters}"
 
 msgid ""
 "`--table=TABLE` *(required)*\n"
@@ -180,8 +180,8 @@ msgstr ""
 "`-h`, `--help`\n"
 ": コマンドの使い方の説明を表示します。"
 
-msgid "### How to install {#install}"
-msgstr "### インストール方法 {#install}"
+msgid "## How to install {#install}"
+msgstr "## インストール方法 {#install}"
 
 msgid "This is installed as a part of a rubygems package `droonga-client`."
 msgstr "このコマンドは、Rubygemsのパッケージ`droonga-client`の一部としてインストールされます。"

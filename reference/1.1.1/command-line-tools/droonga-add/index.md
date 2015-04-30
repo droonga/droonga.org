@@ -27,7 +27,7 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
 ~~~
 
-### Parameters {#parameters}
+## Parameters {#parameters}
 
 `--table=TABLE` *(required)*
 : Name of the target table.
@@ -85,7 +85,7 @@ $ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
 : Shows the usage of the command.
 
 
-### How to install {#install}
+## How to install {#install}
 
 This is installed as a part of a rubygems package `droonga-client`.
 
