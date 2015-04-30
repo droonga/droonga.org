@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "---\n"
 "title: コマンドラインツール\n"
-"layout: en\n"
+"layout: ja\n"
 "---"
 
 msgid ""

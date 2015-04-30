@@ -1,6 +1,6 @@
 ---
 title: コマンドラインツール
-layout: en
+layout: ja
 ---
 
 {% comment %}
