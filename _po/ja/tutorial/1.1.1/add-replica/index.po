@@ -75,7 +75,7 @@ msgid ""
 "You can increase the capacity of your cluster to process increasing requests, "
 "by adding new replicas."
 msgstr ""
-"「replica」のノード群は、完全に同一のデータを持っており、検索などのリクエストを各ノードが並行して処理する事ができます\n"
+"「replica」のノード群は、完全に同一のデータを持っており、検索などのリクエストを各ノードが並行して処理する事ができます。\n"
 "新しいreplicaを追加する事によって、増加するリクエストに対して処理能力を増強することができます。"
 
 msgid ""
