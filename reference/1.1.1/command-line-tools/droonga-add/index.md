@@ -58,7 +58,7 @@ See also [the reference of the `add` command](../../commands/add/).
   `Default` by default.
 
 `--receiver-host=NAME`
-: Host name of the computer you are running the command.
+: Host name of the computer you are running this command.
   A guessed host name of the computer, by default.
 
 `--target-role=ROLE`
