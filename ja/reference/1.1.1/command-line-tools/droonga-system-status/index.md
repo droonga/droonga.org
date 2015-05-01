@@ -59,7 +59,7 @@ $ echo '{"type":"system.status"}' |
   既定値は`Default`です。
 
 `--receiver-host=NAME`
-: コマンドを実行しているコンピュータのホスト名。
+: このコマンドを実行しているコンピュータのホスト名。
   既定値は、そのコンピュータのホスト名として推測される名前です。
 
 `--target-role=ROLE`

@@ -31,7 +31,7 @@ See also [the reference of the `system.status` command](../../commands/system/st
 ## Parameters {#parameters}
 
 `--pretty`
-: Output result as a pretty print JSON.
+: Output result as a pretty printed JSON.
 
 `--host=NAME`
 : Host name of the engine node.
@@ -50,7 +50,7 @@ See also [the reference of the `system.status` command](../../commands/system/st
   `Default` by default.
 
 `--receiver-host=NAME`
-: Host name of the computer you are running the command.
+: Host name of the computer you are running this command.
   A guessed host name of the computer, by default.
 
 `--target-role=ROLE`
