@@ -250,15 +250,15 @@ Elapsed time: 0.026170325
 
 
 `--host=NAME`
-: Host name of the engine node.
+: Host name of the endpoint of the Droonga cluster.
   A guessed host name of the computer you are running the command, by default.
 
 `--port=PORT`
-: Port number to communicate with the engine.
+: Port number to communicate with the endpoint of the Droonga cluster.
   `10031` by default.
 
 `--tag=TAG`
-: Tag name to communicate with the engine.
+: Tag name to communicate with the endpoint of the Droonga cluster.
   `droonga` by default.
 
 `--protocol=PROTOCOL`
