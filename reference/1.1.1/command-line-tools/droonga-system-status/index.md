@@ -29,7 +29,7 @@ $ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10 --p
 ~~~
 
 This command is just a shorthand of [`droonga-request`](../droonga-request/) with a message with the type [`system.status`](../../commands/system/status/).
-The result produced by the following command line completely equals to the one of above:
+The result produced by the following command line almost equals to the one of above:
 
 ~~~
 (on 192.168.100.10)
