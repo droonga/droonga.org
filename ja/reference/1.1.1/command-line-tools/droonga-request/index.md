@@ -1,6 +1,6 @@
 ---
 title: droonga-request
-layout: en
+layout: ja
 ---
 
 {% comment %}
@@ -17,17 +17,17 @@ layout: en
 
 ## 概要 {#abstract}
 
-`droonga-request` sends any message to a Droonga cluster, and reports the response.
+`droonga-request`は、任意のメッセージをDroongaクラスタに送り、レスポンスとして得られた結果を出力します。
 
-This command supports both Droonga native protocol and HTTP.
-For Droonga Engine nodes you can send a Droonga native message directly.
-And, for HTTP protocol adapter nodes you can send HTTP requests also.
+このコマンドはDroongaネイティブプロトコルとHTTPの両方に対応しています。
+Droonga Engineノードに対しては、Droongaネイティブのメッセージを直接送れます。
+
 
 ## 使い方 {#usage}
 
-### Basic usage
+### 基本的な使い方
 
-For example, if there is a Droonga Engine node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to send a [`system.status`](../../commands/system/status/) command is:
+例えば、`192.168.100.50`というDroonga Engineノードがあり、同一ネットワークセグメント内のコンピュータ`192.168.100.10`にログインしている場合、[`system.status`](../../commands/system/status/)コマンドのメッセージを送信するコマンド列は以下のようになります：
 
 ~~~
 (on 192.168.100.10)
@@ -52,12 +52,12 @@ Elapsed time: 0.00900742
 }
 ~~~
 
-The first line is the elapsed time to get the response.
-Following lines are the response message.
+1行目はレスポンスを得るまでにかかった時間です。
+後の行はレスポンスメッセージとして得られた内容です。
 
-As described at the [message format reference](../../message/), `id`, `date`, and `dataset` are required fields of request messages.
-If the given message doesn't have them, this command guesses or generates applicable values automatically by default.
-You can see the completed message actually sent with the option `--report-request`, like:
+[メッセージの形式のリファレンス](../../message/)の説明にある通り、`id`、`date`、`dataset`の各フィールドはリクエストメッセージの必須フィールドです。
+与えられたメッセージがそれらを持っていなかった場合、このコマンドは初期状態で、適切な値を推測または生成して補います。
+実際に送信された補完後のメッセージを見るには、`--report-request`オプションを指定して下さい：
 
 ~~~
 (on 192.168.100.10)
@@ -73,13 +73,13 @@ Elapsed time: 0.00900742
 ...
 ~~~
 
-For the complete list of available commands, see also [the command reference](../../commands/).
+利用可能な全てのコマンドの一覧については、[コマンドリファレンス](../../commands/)を併せて参照して下さい。
 
-### Combination with other commands
+### 他のコマンドとの連携
 
-This command accepts messages to be sent via standard input.
-As above, `echo`, `cat`, or any other command can be the source for this command.
-For example, you'll be able to use [`drndump`](../drndump/)'s output as the source:
+このメッセージは標準入力を通じて送信するメッセージを受け取れます。
+上記の例のように、`echo`、`cat`、およびその他のコマンドをこのコマンドのための入力ソースとして利用できます。
+例えば、[`drndump`](../drndump/)の出力もそのまま入力ソースとして利用できます：
 
 ~~~
 (on 192.168.100.10)
@@ -88,10 +88,10 @@ $ drndump --host 192.168.100.50 --receiver-host 192.168.100.10 | \
     > /dev/null
 ~~~
 
-### Input from file
+### ファイルからの入力
 
-You can use a text file as the source.
-This command reads the file specified as an command line argument, like:
+テキストファイルを入力ソースとして使うこともできます。
+このコマンドは以下のように、コマンドライン引数として指定されたファイルの内容を読み込んで利用します：
 
 ~~~
 (on 192.168.100.10)
@@ -117,10 +117,10 @@ Elapsed time: 0.00900742
 }
 ~~~
 
-### Sending multiple messages at once
+### 複数のメッセージを一度に送る
 
-This command can send multiple messages at once.
-To do it, you simply give multiple messages as the input, like:
+このコマンドは複数のメッセージを一度に送る事もできます。
+複数メッセージの一括送信は、単に、複数のメッセージを入力として与えるだけで行えます：
 
 ~~~
 (on 192.168.100.10)
@@ -154,9 +154,9 @@ Elapsed time: 0.014172429
 }
 ~~~
 
-All results with responses are printed to the standard output sequentially like above.
+全てのレスポンスに伴う処理結果は、順番に標準出力に出力されます。
 
-Of course, you can include multiple messages to the source file like:
+もちろん、以下のようにしてソースファイル内に複数のメッセージを含めることもできます：
 
 ~~~
 (on 192.168.100.10)
@@ -194,10 +194,9 @@ Elapsed time: 0.014172429
 ~~~
 
 
-### Communication with the Droonga cluster in HTTP
+### DroongaクラスタとHTTPで通信する
 
-This command can communicate not only with Droonga Engine nodes but with HTTP protocol adapters.
-You just have to give the option `--protocol=http`, like:
+このコマンドはDroonga Engineとの接続だけでなく、以下のようにしてHTTPプロトコルアダプターとも通信できます：
 
 ~~~
 (on 192.168.100.10)
@@ -218,18 +217,18 @@ Elapsed time: 0.026170325
 }
 ~~~
 
-For HTTP protocol adapters, there are some differences:
+HTTPプロトコルアダプタに接続する場合は、使い方が若干変わります：
 
- * You have to give a new option `--protocol http` (`--protocol=http`).
- * You have to specify correct port number of the HTTP protocol adapter via the `--port` option.
-   (It is `10031` by default for Droonga Engine nodes, but HTTP protocol adapters ordinarily listen with the port `10041`.)
- * The option `--receiver-host` is never been used.
+ * `--protocol http` (`--protocol=http`)オプションを指定する必要があります。
+ * `--port`オプションを使って、HTTPプロトコルアダプター用に正しいポート番号を指定する必要があります。
+   (このオプションの値は既定の状態ではDroonga Engineノード用に`10031`になっていますが、通常、HTTPプロトコルアダプターは`10041`番ポートを使います。)
+ * `--receiver-host`オプションは使用しません。
 
-In this case you can use HTTP specific request message as the input.
-Regular Droonga native protocol messages are automatically converted to HTTP request messages like above.
+この利用形態においては、HTTP用のリクエストメッセージを入力として与えることができます。
+通常のDroongaネイティブプロトコルのメッセージは、上記の例のように自動的にHTTP用のリクエストメッセージに変換されます。
 
-You can use such custom HTTP request messages as the input.
-This is an example to send HTTP POST request with a custom user agent string:
+同様の体裁で、独自のHTTPリクエストメッセージを入力として与えることもできます。
+以下は、POSTメソッドで、独自のユーザーエージェント文字列を伴ったPOSTメソッドのHTTPリクエストを送信する例です：
 
 ~~~
 (on 192.168.100.10)
@@ -266,44 +265,43 @@ Elapsed time: 0.026170325
 : Engineノードとの通信に使うタグ名。
   既定値は`droonga`です。
 
-`--protocol=PROTOCOL`
-: Protocol to communicate with the endpoint of the Droonga cluster.
-  Possible values:
+: Droongaクラスタとの通信に使うプロトコル。
+  取り得る値は以下の通りです：
   
-  * `droonga` (default): the native protocol of Droonga Engine nodes.
-  * `http`: for HTTP protocol adapters.
+  * `droonga` (既定値): Droonga Engineノードのネイティブプロトコル。
+  * `http`: HTTP。
 
 `--timeout=SECONDS`
-: Time to terminate unresponsive connections, in seconds.
-  `1` by default.
+: 応答がない接続を打ち切るまでの待ち時間（単位：秒）です。
+  既定値は`1`です。
 
 `--[no-]exit-on-response`
-: Exits when just one response is received or don't.
-  `--exit-on-response` is given by default.
-  For any subscription type command (it returns multiple response messages for a request message with delay), you have to keep connected for a while with the option `--no-exit-on-response`.
-  Then the connection is kept until disconnected from the Droonga Engine node.
+: レスポンスを1つ受け取った時点で終了するかどうか。
+  既定の状態は、`--exit-on-response`が指定されている場合に等しいです。
+  サブスクリプション型のコマンド（1つのリクエストに対して、遅れて複数のレスポンスが返ってくる）に対しては、しばらくの間接続を維持し続けるために`--no-exit-on-response`オプションを指定する必要があります。
+  そうすると、Droonga Engineノード側から切断されるまでは接続を維持するようになります。
 
 `--receiver-host=NAME`
 : このコマンドを実行しているコンピュータのホスト名。
   既定値は、そのコンピュータのホスト名として推測される名前です。
 
 `--[no-]report-request`
-: Reports request messages actually sent or don't.
-  `--no-report-request` is given by default.
-  To report actually sent messages, you have to specify the option `--report-request` manually.
+: 実際に送信されたリクエストのメッセージを報告するかどうか。
+  既定の状態は、`--no-report-request`が指定されている場合に等しいです。
+  実際に送られたメッセージを見るためには、`--report-request`オプションを手動で指定する必要があります。
 
 `--[no-]report-elapsed-time`
-: Reports elapsed time between a request and a response or don't.
-  `--report-elapsed-time` is given by default.
-  To remove the `Elapsed time:` line from the output, you have to specify the option `--no-report-elapsed-time` manually.
+: リクエストに対してレスポンスが得られるまでにかかった時間を報告するかどうか。
+  既定の状態は、`--report-elapsed-time`が指定されている場合に等しいです。
+  出力から`Elapsed time:`の行を消したい場合は、`--no-report-elapsed-time`オプションを手動で指定する必要があります。
 
 `--default-dataset=NAME`
-: Default dataset name for sending messages.
-  `Default` by default.
+: メッセージの既定の送信先データセット名。
+  既定値は`Default`です。
 
 `--default-target-role=ROLE`
-: Default role of engine nodes which should process messages.
-  Possible values:
+: メッセージを処理できるEngineノードの既定のロール。
+  以下のいずれかを指定します:
   
   * `service-provider`:
     メッセージは、クラスタ内でサービスを提供中のノードで処理されます。
@@ -319,18 +317,18 @@ Elapsed time: 0.026170325
   
   既定値は`any`です。
 
-`--[no-]completion`
-: Do completion of required fields for input messages or not.
-  `--completion` is given by default.
-  To send broken message (missing any required field) intentionally, you have to specify the option `--no-completion` manually.
+`--[no-]validation`
+: 入力メッセージの妥当性を検証するかどうか。
+  既定の状態は、`--validation`が指定されている場合に等しいです。
+  妥当でない内容のメッセージを意図的に送りたい場合は、`--no-validation`オプションを手動で指定する必要があります。
 
 `--[no-]validation`
-: Do validation for input messages or not.
-  `--validation` is given by default.
-  To send invalid message intentionally, you have to specify the option `--no-validation` manually.
+: 入力メッセージの妥当性を検証するかどうか。
+  既定の状態は、`--validation`が指定されている場合に等しいです。
+  妥当でない内容のメッセージを意図的に送りたい場合は、`--no-validation`オプションを手動で指定する必要があります。
 
 `--help`
-: Shows the usage of the command.
+: コマンドの使い方の説明を表示します。
 
 
 
