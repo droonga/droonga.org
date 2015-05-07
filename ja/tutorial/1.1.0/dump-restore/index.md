@@ -611,6 +611,6 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   [Groonga]: http://groonga.org/ja/
   [command reference]: /ja/reference/commands/
   [drndump-command]: /ja/reference/command-line-tools/drndump/
-  [droonga-send-command]: /rja/eference/command-line-tools/droonga-send/
+  [droonga-send-command]: /ja/reference/command-line-tools/droonga-send/
   [droonga-engine-absorb-data-command]: /ja/reference/command-line-tools/droonga-engine-absorb-data/
   [droonga-engine-catalog-modify-command]: /ja/reference/command-line-tools/droonga-engine-catalog-modify/
