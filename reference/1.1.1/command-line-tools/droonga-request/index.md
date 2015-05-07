@@ -8,7 +8,15 @@ layout: en
 
 ## Abstract {#abstract}
 
-`droonga-request` sends any message to an Engine node of a Droonga cluster directly in Droonga native protocol, and reports the response.
+`droonga-request` sends any message to a Droonga cluster, and reports the response.
+
+This command supports both Droonga native protocol and HTTP.
+For Droonga Engine nodes you can send a Droonga native message directly.
+And, for HTTP protocol adapter nodes you can send HTTP requests also.
+
+## Usage {#usage}
+
+### Basic usage
 
 For example, if there is a Droonga Engine node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to send a [`system.status`](../../commands/system/status/) command is:
 
@@ -58,11 +66,9 @@ Elapsed time: 0.00900742
 
 For the complete list of available commands, see also [the command reference](../../commands/).
 
-## Usage {#usage}
+### Combination with other commands
 
-### Basic usage
-
-This command accepts messages to be sent via standard input or a file.
+This command accepts messages to be sent via standard input.
 As above, `echo`, `cat`, or any other command can be the source for this command.
 For example, you'll be able to use [`drndump`](../drndump/)'s output as the source:
 
@@ -73,14 +79,16 @@ $ drndump --host 192.168.100.50 --receiver-host 192.168.100.10 | \
     > /dev/null
 ~~~
 
-Another case, you can use a text file as the source.
+### Input from file
+
+You can use a text file as the source.
 This command reads the file specified as an command line argument, like:
 
 ~~~
 (on 192.168.100.10)
-$ cat /tmp/message
+$ cat /tmp/message.json
 {"type":"system.status"}
-$ droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/message
+$ droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/message.json
 Elapsed time: 0.00900742
 {
   "inReplyTo": "1430963525.9829412",
@@ -143,11 +151,11 @@ Of course, you can include multiple messages to the source file like:
 
 ~~~
 (on 192.168.100.10)
-$ cat /tmp/messages
+$ cat /tmp/messages.jsons
 {"type":"system.status"}
 {"type":"system.statistics.object.count",
  "body":{"output":["total"]}}
-$ droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/messages
+$ droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/messages.jsons
 Elapsed time: 0.007365724
 {
   "inReplyTo": "1430964599.844579",
