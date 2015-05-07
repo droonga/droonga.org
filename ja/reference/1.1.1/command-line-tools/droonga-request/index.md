@@ -24,11 +24,7 @@ For example, if there is a Droonga node `192.168.100.50` and you are logged in t
 ~~~
 (on 192.168.100.10)
 $ echo '{"type":"system.status"}' |
-    droonga-request --report-request --host 192.168.100.50 --receiver-host 192.168.100.10
-Request: {
-  "type": "system.status",
-  "dataset": "Default"
-}
+    droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
 Elapsed time: 0.00900742
 {
   "inReplyTo": "1430963525.9829412",
@@ -72,11 +68,7 @@ This command reads the file specified as an command line argument, like:
 (on 192.168.100.10)
 $ cat /tmp/message
 {"type":"system.status"}
-$ droonga-request --report-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/message
-Request: {
-  "type": "system.status",
-  "dataset": "Default"
-}
+$ droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/message
 Elapsed time: 0.00900742
 {
   "inReplyTo": "1430963525.9829412",
