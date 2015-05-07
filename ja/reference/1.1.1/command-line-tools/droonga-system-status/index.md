@@ -43,7 +43,11 @@ $ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10 --p
 ~~~
 (on 192.168.100.10)
 $ echo '{"type":"system.status"}' |
-    droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
+    droonga-request --report-request --host 192.168.100.50 --receiver-host 192.168.100.10
+Request: {
+  "type": "system.status",
+  "dataset": "Default"
+}
 Elapsed time: 0.00900742
 {
   "inReplyTo": "1430963525.9829412",
