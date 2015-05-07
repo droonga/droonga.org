@@ -22,7 +22,7 @@ Adding new record...
   "key": "id1",
   "values": {
     "name": "Adam",
-    "age": 20
+    "age": "20"
   }
 }
 Done.
@@ -42,7 +42,7 @@ Request: {
     "key": "id1",
     "values": {
       "name": "Adam",
-      "age": 20
+      "age": "20"
     }
   },
   "dataset": "Default"
