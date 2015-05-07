@@ -135,11 +135,11 @@ $ count=0; maxcount=500; \
 ~~~
 
 This is an example to add totally 500 records (1 record for every seconds.)
-`droonga-add` is one of Droonga's command line utilities, but currently you don't have to know details.
+[`droonga-add` is one of Droonga's command line utilities][droonga-add-command], but currently you don't have to know details.
 
 ### Joining a new replica node to the cluster
 
-To add a new replica node to an existing cluster, you just run the command `droonga-engine-join` on one of existing replica nodes or the new replica node, like:
+To add a new replica node to an existing cluster, you just run [the command `droonga-engine-join`][droonga-engine-join-command] on one of existing replica nodes or the new replica node, like:
 
 ~~~
 (on node2)
@@ -246,7 +246,7 @@ Assume that there is a Droonga cluster constructed with trhee replica nodes `nod
 
 ### Unjoin an existing replica from the cluster
 
-To remove a replica from an existing cluster, you just run the `droonga-engine-unjoin` command on any existing node in the cluster, like:
+To remove a replica from an existing cluster, you just run [the `droonga-engine-unjoin` command][droonga-engine-unjoin-command] on any existing node in the cluster, like:
 
 ~~~
 (on node0)
@@ -387,4 +387,7 @@ Moreover, you did remove an existing replica, and did replace a replica with a n
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
-  [command reference]: ../../reference/commands/
+  [drndump-command]: /reference/command-line-tools/drndump/
+  [droonga-add-command]: /reference/command-line-tools/droonga-add/
+  [droonga-engine-join-command]: /reference/command-line-tools/droonga-engine-join/
+  [droonga-engine-unjoin-command]: /reference/command-line-tools/droonga-engine-unjoin/

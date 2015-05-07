@@ -28,7 +28,7 @@ First, install a command line tool named `drndump` via rubygems, to the working 
 # gem install drndump
 ~~~
 
-After that, establish that the `drndump` command has been installed successfully:
+After that, establish that [the `drndump` command][drndump-command] has been installed successfully:
 
 ~~~
 $ drndump --version
@@ -112,16 +112,16 @@ $ drndump --host=node0 \
 
 ### Install `droonga-client`
 
-The result of `drndump` command is a list of Droonga messages.
+The result of [`drndump` command][drndump-command] is a list of Droonga messages.
 
-You need to use `droonga-send` command to send it to your Droogna cluster.
+You need to use [`droonga-send` command][droonga-send-command] to send it to your Droogna cluster.
 Install the command included in the package `droonga-client`, via rubygems, to the working machine `node2`:
 
 ~~~
 # gem install droonga-client
 ~~~
 
-After that, establish that the `droonga-send` command has been installed successfully:
+After that, establish that [the `droonga-send` command][droonga-send-command] has been installed successfully:
 
 ~~~
 $ droonga-send --version
@@ -243,8 +243,8 @@ You can clear all response caches manually by sending an HTTP `DELETE` request t
 
 ### Restore data from a dump result, to an empty Droonga cluster
 
-Because the result of the `drndump` command includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
-You just have to pour the contents of the dump file to an empty cluster, by the `droonga-send` command.
+Because the result of [the `drndump` command][drndump-command] includes complete information to construct a dataset same to the source, you can re-construct your cluster from a dump file, even if the cluster is broken.
+You just have to pour the contents of the dump file to an empty cluster, by [the `droonga-send` command][droonga-send-command].
 
 To restore the cluster from the dump file, run a command line like:
 
@@ -318,7 +318,7 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 ## Duplicate an existing Droonga cluster to another empty cluster directly
 
 If you have multiple Droonga clusters, then you can duplicate one to another.
-For this purpose, the package `droonga-engine` includes a utility command `droonga-engine-absorb-data`.
+For this purpose, the package `droonga-engine` includes [a utility command `droonga-engine-absorb-data`][droonga-engine-absorb-data-command].
 It copies all data from an existing cluster to another one directly, so it is recommended if you don't need to save dump file locally.
 
 ### Prepare multiple Droonga clusters
@@ -326,7 +326,7 @@ It copies all data from an existing cluster to another one directly, so it is re
 Assume that there are two clusters: the source has a node `node0` (`192.168.100.50`), and the destination has a node `node1' (`192.168.100.51`).
 
 If you are reading this tutorial sequentially, you'll have an existing cluster with two nodes.
-Construct two clusters by `droonga-engine-catalog-modify` and make one cluster empty, with these commands:
+Construct two clusters by [`droonga-engine-catalog-modify`][droonga-engine-catalog-modify-command] and make one cluster empty, with these commands:
 
 ~~~
 (on node0)
@@ -471,7 +471,7 @@ See also the next tutorial for more details.
 
 ### Duplicate data between two Droonga clusters
 
-To copy data between two clusters, run the `droonga-engine-absorb-data` command on a node, like:
+To copy data between two clusters, run [the `droonga-engine-absorb-data` command][droonga-engine-absorb-data-command] on a node, like:
 
 ~~~
 (on node1)
@@ -605,4 +605,8 @@ Next, let's learn [how to add a new replica to an existing Droonga cluster](../a
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
-  [command reference]: ../../reference/commands/
+  [command reference]: /reference/commands/
+  [drndump-command]: /reference/command-line-tools/drndump/
+  [droonga-send-command]: /reference/command-line-tools/droonga-send/
+  [droonga-engine-absorb-data-command]: /reference/command-line-tools/droonga-engine-absorb-data/
+  [droonga-engine-catalog-modify-command]: /reference/command-line-tools/droonga-engine-catalog-modify/
