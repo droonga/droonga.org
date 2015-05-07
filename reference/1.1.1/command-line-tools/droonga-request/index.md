@@ -187,8 +187,7 @@ Elapsed time: 0.014172429
 
 ### Communication with the Droonga cluster in HTTP
 
-This command can communicate not only with Droonga Engine nodes but with HTTP protocol adapters.
-You just have to give the option `--protocol=http`, like:
+This command can communicate not only with Droonga Engine nodes but with HTTP protocol adapters, like:
 
 ~~~
 (on 192.168.100.10)
