@@ -15,7 +15,28 @@ For example, if there is a Droonga node `192.168.100.50` and you are logged in t
 ~~~
 (on 192.168.100.10)
 $ echo '{"type":"system.status"}' |
-    droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
+    droonga-request --report-request --host 192.168.100.50 --receiver-host 192.168.100.10
+Request: {
+  "type": "system.status",
+  "dataset": "Default"
+}
+Elapsed time: 0.00900742
+{
+  "inReplyTo": "1430963525.9829412",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "node0:55329/droonga @ node0:10031/droonga"
+  }
+}
 ~~~
 
 For the complete list of available commands, see also [the command reference](../../commands/).
@@ -31,7 +52,8 @@ For example, you'll be able to use [`drndump`](../drndump/)'s output as the sour
 ~~~
 (on 192.168.100.10)
 $ drndump --host 192.168.100.50 --receiver-host 192.168.100.10 | \
-    droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10
+    droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 \
+    > /dev/null
 ~~~
 
 Another case, you can use a text file as the source.
@@ -41,7 +63,28 @@ This command reads the file specified as an command line argument, like:
 (on 192.168.100.10)
 $ cat /tmp/message
 {"type":"system.status"}
-$ droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/message
+$ droonga-request --report-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/message
+Request: {
+  "type": "system.status",
+  "dataset": "Default"
+}
+Elapsed time: 0.00900742
+{
+  "inReplyTo": "1430963525.9829412",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "node0:55329/droonga @ node0:10031/droonga"
+  }
+}
 ~~~
 
 ### Sending multiple messages at once
@@ -53,7 +96,35 @@ To do it, you simply give multiple messages as the input, like:
 (on 192.168.100.10)
 $ echo '{"type":"system.status"} {"type":"system.statistics.object.count","body":{"output":["total"]}}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
+Elapsed time: 0.007365724
+{
+  "inReplyTo": "1430964599.844579",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "node0:55329/droonga @ node0:10031/droonga"
+  }
+}
+Elapsed time: 0.014172429
+{
+  "inReplyTo": "1430964599.8521488",
+  "statusCode": 200,
+  "type": "system.statistics.object.count.result",
+  "body": {
+    "total": 549
+  }
+}
 ~~~
+
+All results with responses are printed to the standard output sequentially like above.
 
 Of course, you can include multiple messages to the source file like:
 
@@ -64,6 +135,32 @@ $ cat /tmp/messages
 {"type":"system.statistics.object.count",
  "body":{"output":["total"]}}
 $ droonga-request --host 192.168.100.60 --receiver-host 192.168.100.10 /tmp/messages
+Elapsed time: 0.007365724
+{
+  "inReplyTo": "1430964599.844579",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "node0:55329/droonga @ node0:10031/droonga"
+  }
+}
+Elapsed time: 0.014172429
+{
+  "inReplyTo": "1430964599.8521488",
+  "statusCode": 200,
+  "type": "system.statistics.object.count.result",
+  "body": {
+    "total": 549
+  }
+}
 ~~~
 
 
