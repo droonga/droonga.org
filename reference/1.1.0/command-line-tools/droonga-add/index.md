@@ -34,7 +34,7 @@ The result produced by the following command line almost equals to the one of ab
 ~~~
 (on 192.168.100.10)
 $ echo '{"type":"add","body":{"key":"id1","values":{"name":"Adam","age":20}}}' |
-    droonga-request --report-reqest --host 192.168.100.50 --receiver-host 192.168.100.10
+    droonga-request --report-request --host 192.168.100.50 --receiver-host 192.168.100.10
 Request: {
   "type": "add",
   "body": {
