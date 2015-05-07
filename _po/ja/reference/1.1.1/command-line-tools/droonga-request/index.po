@@ -394,6 +394,7 @@ msgid ""
 ": Protocol to communicate with the endpoint of the Droonga cluster.\n"
 "  Possible values:"
 msgstr ""
+"`--protocol=PROTOCOL`\n"
 ": Droongaクラスタとの通信に使うプロトコル。\n"
 "  取り得る値は以下の通りです："
 
