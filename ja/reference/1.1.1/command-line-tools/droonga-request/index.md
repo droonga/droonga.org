@@ -271,7 +271,7 @@ Elapsed time: 0.026170325
   既定値は`droonga`です。
 
 `--protocol=PROTOCOL`
-: Droongaクラスタとの通信に使うプロトコル。
+: Droongaクラスタの接続先との通信に使うプロトコル。
   取り得る値は以下の通りです：
   
   * `droonga` (既定値): Droonga Engineノードのネイティブプロトコル。
