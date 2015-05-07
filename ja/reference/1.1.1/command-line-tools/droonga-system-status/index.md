@@ -46,6 +46,8 @@ $ echo '{"type":"system.status"}' |
     droonga-request --report-request --host 192.168.100.50 --receiver-host 192.168.100.10
 Request: {
   "type": "system.status",
+  "id": "1430963525.9829412",
+  "date": "2015-05-07T02:39:50.334377Z",
   "dataset": "Default"
 }
 Elapsed time: 0.00900742
