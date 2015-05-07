@@ -391,9 +391,9 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 このチュートリアルでは、既存の[Droonga][]クラスタに新しいreplicaノードを追加する方法を学びました。
 また、既存のreplicaを取り除く方法と、既存のreplicaを新しいreplicaで置き換える方法も学びました。
 
-  [Ubuntu]: http://www.ubuntu.com/
-  [Droonga]: https://droonga.org/
-  [Groonga]: http://groonga.org/
+  [Ubuntu]: http://http://ubuntulinux.jp/
+  [Droonga]: https://droonga.org/ja/
+  [Groonga]: http://groonga.org/ja/
   [drndump-command]: /ja/reference/command-line-tools/drndump/
   [droonga-add-command]: /ja/reference/command-line-tools/droonga-add/
   [droonga-engine-join-command]: /ja/reference/command-line-tools/droonga-engine-join/

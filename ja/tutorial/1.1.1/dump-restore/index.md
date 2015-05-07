@@ -606,9 +606,9 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 
 続いて、[既存のDroongaクラスタに新しいreplicaを追加する手順](../add-replica/)を学びましょう。
 
-  [Ubuntu]: http://www.ubuntu.com/
-  [Droonga]: https://droonga.org/
-  [Groonga]: http://groonga.org/
+  [Ubuntu]: http://http://ubuntulinux.jp/
+  [Droonga]: https://droonga.org/ja/
+  [Groonga]: http://groonga.org/ja/
   [command reference]: /ja/reference/commands/
   [drndump-command]: /ja/reference/command-line-tools/drndump/
   [droonga-send-command]: /rja/eference/command-line-tools/droonga-send/
