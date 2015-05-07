@@ -14,6 +14,8 @@ This command supports both Droonga native protocol and HTTP.
 For Droonga Engine nodes you can send a Droonga native message directly.
 And, for HTTP protocol adapter nodes you can send HTTP requests also.
 
+When you hope to send too much messages at once, see also [descriptions of the `droonga-send` command](../droonga-send/).
+
 ## Usage {#usage}
 
 ### Basic usage
@@ -110,7 +112,7 @@ Elapsed time: 0.00900742
 
 ### Sending multiple messages at once
 
-This command can send multiple messages at once.
+This command can send multiple messages sequentially.
 To do it, you simply give multiple messages as the input, like:
 
 ~~~
@@ -183,6 +185,9 @@ Elapsed time: 0.014172429
   }
 }
 ~~~
+
+Because each request is sent after the response for the previous request is got, it takes too much time to send very large number of messages.
+So there is an alternative: [the `droonga-send` command](../droonga-send/).
 
 
 ### Communication with the Droonga cluster in HTTP
