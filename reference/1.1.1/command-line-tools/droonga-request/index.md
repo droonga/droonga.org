@@ -244,7 +244,85 @@ Elapsed time: 0.026170325
 
 ## Parameters {#parameters}
 
-(TBD)
+
+`--host=NAME`
+: Host name of the engine node.
+  A guessed host name of the computer you are running the command, by default.
+
+`--port=PORT`
+: Port number to communicate with the engine.
+  `10031` by default.
+
+`--tag=TAG`
+: Tag name to communicate with the engine.
+  `droonga` by default.
+
+`--protocol=PROTOCOL`
+: Protocol to communicate with the endpoint of the Droonga cluster.
+  Possible values:
+  
+  * `droonga` (default): the native protocol of Droonga Engine nodes.
+  * `http`: for HTTP protocol adapters.
+
+`--timeout=SECONDS`
+: Time to terminate unresponsive connections, in seconds.
+  `1` by default.
+
+`--[no-]exit-on-response`
+: Exits when just one response is received or don't.
+  `--exit-on-response` is given by default.
+  For any subscription type command (it returns multiple response messages for a request message with delay), you have to keep connected for a while with the option `--no-exit-on-response`.
+  Then the connection is kept until disconnected from the Droonga Engine node.
+
+`--receiver-host=NAME`
+: Host name of the computer you are running this command.
+  A guessed host name of the computer, by default.
+
+`--[no-]report-request`
+: Reports request messages actually sent or don't.
+  `--no-report-request` is given by default.
+  To report actually sent messages, you have to specify the option `--report-request` manually.
+
+`--[no-]report-elapsed-time`
+: Reports elapsed time between a request and a response or don't.
+  `--report-elapsed-time` is given by default.
+  To remove the `Elapsed time:` line from the output, you have to specify the option `--no-report-elapsed-time` manually.
+
+`--default-dataset=NAME`
+: Default dataset name for sending messages.
+  `Default` by default.
+
+`--default-target-role=ROLE`
+: Default role of engine nodes which should process messages.
+  Possible values:
+  
+  * `service-provider`:
+    The message is processed by service provider nodes in the cluster.
+    For absorb-source nodes and absrob-destination nodes, the message will be dispatched later.
+  * `absorb-source`:
+    The message is processed by absorb-source nodes in the cluster.
+    For service provider nodes and absrob-destination nodes, the message is never dispatched.
+  * `absorb-destination`:
+    The message is processed by absorb-destination nodes in the cluster.
+    For service provider nodes and absrob-source nodes, the message is never dispatched.
+  * `any`:
+    The message is always processed by the node specified via the option `--host`.
+  
+  `any` by default.
+
+`--[no-]completion`
+: Do completion of required fields for input messages or not.
+  `--completion` is given by default.
+  To send broken message (missing any required field) intentionally, you have to specify the option `--no-completion` manually.
+
+`--[no-]validation`
+: Do validation for input messages or not.
+  `--validation` is given by default.
+  To send invalid message intentionally, you have to specify the option `--no-validation` manually.
+
+`--help`
+: Shows the usage of the command.
+
 
 
 ## How to install {#install}
