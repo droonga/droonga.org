@@ -23,16 +23,44 @@ layout: ja
 
 ~~~
 (on 192.168.100.10)
-$ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10
+$ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10 --pretty
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "status": "active"
+    },
+    "node1:10031/droonga": {
+      "status": "active"
+    }
+  },
+  "reporter": "node0:55329/droonga @ node0:10031/droonga"
+}
 ~~~
 
 このコマンドは、typeが[`system.status`](../../commands/system/status/)であるメッセージを[`droonga-request`](../droonga-request/)を用いて送信する操作を簡単に行う物です。
-上記コマンド列によってもたらされる結果は、以下のコマンド列の結果と完全に同一です:
+上記コマンド列によってもたらされる結果は、以下のコマンド列の結果と実質的に同一です:
 
 ~~~
 (on 192.168.100.10)
 $ echo '{"type":"system.status"}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
+Elapsed time: 0.00900742
+{
+  "inReplyTo": "1430963525.9829412",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "node0:55329/droonga @ node0:10031/droonga"
+  }
+}
 ~~~
 
 [`system.status`コマンドのリファレンス](../../commands/system/status/)も併せて参照して下さい。

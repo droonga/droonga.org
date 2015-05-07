@@ -29,7 +29,7 @@ Done.
 ~~~
 
 This command is just a shorthand of [`droonga-request`](../droonga-request/) with a message with the type [`add`](../../commands/add/).
-The result produced by the following command line completely equals to the one of above:
+The result produced by the following command line almost equals to the one of above:
 
 ~~~
 (on 192.168.100.10)

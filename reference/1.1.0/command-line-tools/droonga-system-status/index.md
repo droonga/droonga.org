@@ -14,16 +14,44 @@ For example, if there is a Droonga node `192.168.100.50` and you are logged in t
 
 ~~~
 (on 192.168.100.10)
-$ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10
+$ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10 --pretty
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "status": "active"
+    },
+    "node1:10031/droonga": {
+      "status": "active"
+    }
+  },
+  "reporter": "node0:55329/droonga @ node0:10031/droonga"
+}
 ~~~
 
 This command is just a shorthand of [`droonga-request`](../droonga-request/) with a message with the type [`system.status`](../../commands/system/status/).
-The result produced by the following command line completely equals to the one of above:
+The result produced by the following command line almost equals to the one of above:
 
 ~~~
 (on 192.168.100.10)
 $ echo '{"type":"system.status"}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
+Elapsed time: 0.00900742
+{
+  "inReplyTo": "1430963525.9829412",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "node0:55329/droonga @ node0:10031/droonga"
+  }
+}
 ~~~
 
 See also [the reference of the `system.status` command](../../commands/system/status/).
@@ -31,7 +59,7 @@ See also [the reference of the `system.status` command](../../commands/system/st
 ## Parameters {#parameters}
 
 `--pretty`
-: Output result as a pretty print JSON.
+: Output result as a pretty printed JSON.
 
 `--host=NAME`
 : Host name of the engine node.
@@ -50,7 +78,7 @@ See also [the reference of the `system.status` command](../../commands/system/st
   `Default` by default.
 
 `--receiver-host=NAME`
-: Host name of the computer you are running the command.
+: Host name of the computer you are running this command.
   A guessed host name of the computer, by default.
 
 `--target-role=ROLE`
