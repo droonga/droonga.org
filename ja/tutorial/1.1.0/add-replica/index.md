@@ -394,7 +394,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
-  [drndump-command]: /reference/command-line-tools/drndump/
-  [droonga-add-command]: /reference/command-line-tools/droonga-add/
-  [droonga-engine-join-command]: /reference/command-line-tools/droonga-engine-join/
-  [droonga-engine-unjoin-command]: /reference/command-line-tools/droonga-engine-unjoin/
+  [drndump-command]: /ja/reference/command-line-tools/drndump/
+  [droonga-add-command]: /ja/reference/command-line-tools/droonga-add/
+  [droonga-engine-join-command]: /ja/reference/command-line-tools/droonga-engine-join/
+  [droonga-engine-unjoin-command]: /ja/reference/command-line-tools/droonga-engine-unjoin/
