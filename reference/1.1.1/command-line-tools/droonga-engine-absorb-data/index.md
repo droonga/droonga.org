@@ -13,7 +13,7 @@ layout: en
 For example, if there is a Droonga Engine node `192.168.100.50` which is a node in the source cluster and you are logged in to a computer `192.168.200.10` which is another Droonga Engine node in the destination cluster, the command line to copy all data from `192.168.100.50` to `192.168.200.10` is:
 
 ~~~
-(on 192.168.100.10)
+(on 192.168.200.10)
 $ droonga-engine-absorb-data --host 192.168.200.10 \
                              --receiver-host 192.168.200.10 \
                              --source-host 192.168.100.50
@@ -29,6 +29,22 @@ Setting the destination node to ignore messages older than the timestamp...
 Done.
 ~~~
 
+This command can copy all data from a dataset to another dataset in a Droonga cluster.
+For example, this is a command line to copy existing master dataset to another dataset for testing:
+
+~~~
+(on 192.168.100.50)
+$ droonga-engine-absorb-data --receiver-host 192.168.100.50 \
+                             --host 192.168.100.50 \
+                             --dataset Testing \
+                             --source-host 192.168.100.50 \
+                             --source-dataset Default
+Start to absorb data from Default at 192.168.100.50:10031/droonga
+                       to Testing at 192.168.100.50:10031/droonga
+                      via 192.168.100.50 (this host)
+...
+~~~
+
 See also [the tutorial about copying data between multiple Droonga clusters](/tutorial/dump-restore/).
 
 
@@ -36,7 +52,7 @@ See also [the tutorial about copying data between multiple Droonga clusters](/tu
 
 `--host=NAME`
 : Host name of the destination engine node to copy data.
-  This is a required parameter.
+  A guessed host name of the computer you are running the command, by default.
 
 `--port=PORT`
 : Port number to communicate with the destination engine node.
@@ -52,7 +68,7 @@ See also [the tutorial about copying data between multiple Droonga clusters](/tu
 
 `--source-host=NAME`
 : Host name of the soruce engine node to copy data.
-  This is a required parameter.
+  A guessed host name of the computer you are running the command, by default.
 
 `--source-port=PORT`
 : Port number to communicate with the soruce engine node.
