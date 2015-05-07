@@ -144,11 +144,11 @@ $ count=0; maxcount=500; \
 ~~~
 
 これは、合計で500件のレコードを1秒ごとに1レコードずつ追加する例です。
-`droonga-add`はDroongaが提供しているコマンドラインユーティリティですが、今のところは詳細について理解していなくても大丈夫です。
+[`droonga-add`はDroongaが提供しているコマンドラインユーティリティです][droonga-add-command]が、今のところは詳細について理解していなくてもも大丈夫です。
 
 ### 新しいreplicaをクラスタに参加させる
 
-既存のクラスタに新しいreplicaを追加するには、いずれかの既存のreplicaまたは新しく追加するreplicaの上で、`droonga-engine-join`というコマンドを以下のようにして実行します：
+既存のクラスタに新しいreplicaを追加するには、いずれかの既存のreplicaまたは新しく追加するreplicaの上で、[`droonga-engine-join`というコマンド][droonga-engine-join-command]を以下のようにして実行します：
 
 ~~~
 (on node2)
@@ -255,7 +255,7 @@ Droongaクラスタ内のノードは互いに監視しあっており、動作�
 
 ### 既存のreplicaをクラスタから分離する
 
-replicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で、以下のようにして `droonga-engine-unjoin` コマンドを実行します:
+replicaノードを既存のクラスタから削除するには、クラスタ内のいずれかのノードの上で、以下のようにして[`droonga-engine-unjoin`コマンド][droonga-engine-unjoin-command]を実行します:
 
 ~~~
 (on node0)
@@ -394,4 +394,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
-  [command reference]: ../../reference/commands/
+  [drndump-command]: /reference/command-line-tools/drndump/
+  [droonga-add-command]: /reference/command-line-tools/droonga-add/
+  [droonga-engine-join-command]: /reference/command-line-tools/droonga-engine-join/
+  [droonga-engine-unjoin-command]: /reference/command-line-tools/droonga-engine-unjoin/

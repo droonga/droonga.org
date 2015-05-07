@@ -37,7 +37,7 @@ layout: ja
 # gem install drndump
 ~~~
 
-その後、`drndump` コマンドが正しくインストールできたかどうかを確認します:
+その後、[`drndump`コマンド][drndump-command]が正しくインストールできたかどうかを確認します:
 
 ~~~
 $ drndump --version
@@ -120,16 +120,16 @@ $ drndump --host=node0 \
 
 ### `droonga-client`のインストール
 
-`drndump` コマンドの実行結果は、Droonga用のメッセージの一覧です。
+[`drndump`コマンド][drndump-command]の実行結果は、Droonga用のメッセージの一覧です。
 
-Droongaクラスタにそれらのメッセージを送信するには、`droonga-send` コマンドを使います。
+Droongaクラスタにそれらのメッセージを送信するには、[`droonga-send`コマンド][droonga-send-command]を使います。
 このコマンドを含んでいるGemパッケージ `droonga-client` を、作業マシンである`node2`にインストールして下さい:
 
 ~~~
 # gem install droonga-client
 ~~~
 
-`droonga-send` コマンドが正しくインストールされた事を確認しましょう:
+[`droonga-send`コマンド][droonga-send-command]が正しくインストールされた事を確認しましょう:
 
 ~~~
 $ droonga-send --version
@@ -250,8 +250,8 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 
 ### ダンプ結果から空のDroongaクラスタへデータを復元する
 
-`drndump` の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
-やり方は単純で、単にダンプファイルを `droonga-send` コマンドを使ってからのクラスタに流し込むだけです。
+[`drndump`コマンド][drndump-command]の実行結果はダンプ出力元と同じ内容のデータセットを作るために必要な情報をすべて含んでいます。そのため、クラスタが壊れた場合でも、ダンプファイルからクラスタを再構築する事ができます。
+やり方は単純で、単にダンプファイルを[`droonga-send`コマンド][droonga-send-command]を使って空のクラスタに流し込むだけです。
 
 ダンプファイルからクラスタの内容を復元するには、以下のようなコマンドを実行します:
 
@@ -325,13 +325,13 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 ## 既存のクラスタを別の空のクラスタに直接複製する
 
 複数のDroongaクラスタが存在する場合、片方のクラスタの内容をもう片方のクラスタに複製することができます。
-`droonga-engine` パッケージは `droonga-engine-absorb-data` というユーティリティコマンドを含んでおり、これを使うと、既存のクラスタから別のクラスタへ直接データをコピーする事ができます。ローカルにダンプファイルを保存する必要がない場合には、この方法がおすすめです。
+`droonga-engine` パッケージは[`droonga-engine-absorb-data`というユーティリティコマンド][droonga-engine-absorb-data-command]を含んでおり、これを使うと、既存のクラスタから別のクラスタへ直接データをコピーする事ができます。ローカルにダンプファイルを保存する必要がない場合には、この方法がおすすめです。
 
 ### 複数のDroongaクラスタを用意する
 
 ノード `node0` (`192.168.100.50`) を含む複製元クラスタと、ノード `node1' (`192.168.100.51`) を含む複製先クラスタの2つのクラスタがあると仮定します。
 
-もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。`droonga-engine-catalog-modify` を使って2つのクラスタを作り、1つを空にしましょう。手順は以下の通りです:
+もし順番にこのチュートリアルを読み進めているのであれば、2つのノードを含むクラスタが手元にあるはずです。[`droonga-engine-catalog-modify`][droonga-engine-catalog-modify-command]を使って2つのクラスタを作り、1つを空にしましょう。手順は以下の通りです:
 
 ~~~
 (on node0)
@@ -475,7 +475,7 @@ $ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | 
 
 ### 2つのDroongaクラスタの間でデータを複製する
 
-2つのクラスタの間でデータをコピーするには、いずれかのノード上で以下のように `droonga-engine-absorb-data` コマンドを実行します:
+2つのクラスタの間でデータをコピーするには、いずれかのノード上で以下のように[`droonga-engine-absorb-data`コマンド][droonga-engine-absorb-data-command]を実行します:
 
 ~~~
 (on node1)
@@ -609,4 +609,8 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [Groonga]: http://groonga.org/
-  [command reference]: ../../reference/commands/
+  [command reference]: /reference/commands/
+  [drndump-command]: /reference/command-line-tools/drndump/
+  [droonga-send-command]: /reference/command-line-tools/droonga-send/
+  [droonga-engine-absorb-data-command]: /reference/command-line-tools/droonga-engine-absorb-data/
+  [droonga-engine-catalog-modify-command]: /reference/command-line-tools/droonga-engine-catalog-modify/
