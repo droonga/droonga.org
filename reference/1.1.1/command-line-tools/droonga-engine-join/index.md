@@ -40,7 +40,7 @@ Restoring role of the joining node...
 Done.
 ~~~
 
-See also [the tutorial about adding new replica to a Droonga node](/tutorial/add-replica/).
+See also [the tutorial about adding new replica to a Droonga cluster](/tutorial/add-replica/).
 
 
 ## Parameters {#parameters}
