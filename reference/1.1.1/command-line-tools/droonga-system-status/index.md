@@ -14,7 +14,18 @@ For example, if there is a Droonga node `192.168.100.50` and you are logged in t
 
 ~~~
 (on 192.168.100.10)
-$ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10
+$ droonga-system-status --host 192.168.100.50 --receiver-host 192.168.100.10 --pretty
+{
+  "nodes": {
+    "node0:10031/droonga": {
+      "status": "active"
+    },
+    "node1:10031/droonga": {
+      "status": "active"
+    }
+  },
+  "reporter": "node0:55329/droonga @ node0:10031/droonga"
+}
 ~~~
 
 This command is just a shorthand of [`droonga-request`](../droonga-request/) with a message with the type [`system.status`](../../commands/system/status/).
@@ -24,6 +35,23 @@ The result produced by the following command line completely equals to the one o
 (on 192.168.100.10)
 $ echo '{"type":"system.status"}' |
     droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
+Elapsed time: 0.00900742
+{
+  "inReplyTo": "1430963525.9829412",
+  "statusCode": 200,
+  "type": "system.status.result",
+  "body": {
+    "nodes": {
+      "node0:10031/droonga": {
+        "status": "active"
+      },
+      "node1:10031/droonga": {
+        "status": "active"
+      }
+    },
+    "reporter": "node0:55329/droonga @ node0:10031/droonga"
+  }
+}
 ~~~
 
 See also [the reference of the `system.status` command](../../commands/system/status/).
