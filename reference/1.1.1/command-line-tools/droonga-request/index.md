@@ -15,11 +15,7 @@ For example, if there is a Droonga node `192.168.100.50` and you are logged in t
 ~~~
 (on 192.168.100.10)
 $ echo '{"type":"system.status"}' |
-    droonga-request --report-request --host 192.168.100.50 --receiver-host 192.168.100.10
-Request: {
-  "type": "system.status",
-  "dataset": "Default"
-}
+    droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
 Elapsed time: 0.00900742
 {
   "inReplyTo": "1430963525.9829412",
@@ -37,6 +33,24 @@ Elapsed time: 0.00900742
     "reporter": "node0:55329/droonga @ node0:10031/droonga"
   }
 }
+~~~
+
+The first line is the elapsed time to get the response.
+Following lines are the response message.
+
+This command automatically fixups requred fields of the request message.
+You can see the completed message actually sent with the option `--report-request`, like:
+
+~~~
+(on 192.168.100.10)
+$ echo '{"type":"system.status"}' |
+    droonga-request --report-request --host 192.168.100.50 --receiver-host 192.168.100.10
+Request: {
+  "type": "system.status",
+  "dataset": "Default"
+}
+Elapsed time: 0.00900742
+...
 ~~~
 
 For the complete list of available commands, see also [the command reference](../../commands/).
