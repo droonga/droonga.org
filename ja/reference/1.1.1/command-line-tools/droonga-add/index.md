@@ -25,6 +25,16 @@ layout: ja
 (on 192.168.100.10)
 $ droonga-add --host 192.168.100.50 --receiver-host 192.168.100.10 \
     --table User --key id1 --name Adam --age 20
+Adding new record...
+{
+  "table": "Store",
+  "key": "id1",
+  "values": {
+    "name": "Adam",
+    "age": 20
+  }
+}
+Done.
 ~~~
 
 このコマンドは、typeが[`add`](../../commands/add/)であるメッセージを[`droonga-request`](../droonga-request/)を用いて送信する操作を簡単に行う物です。
@@ -32,8 +42,27 @@ $ droonga-add --host 192.168.100.50 --receiver-host 192.168.100.10 \
 
 ~~~
 (on 192.168.100.10)
-$ echo '{"type":"key","key":"id1","values":{"name":"Adam","age":20}}' |
-    droonga-request --host 192.168.100.50 --receiver-host 192.168.100.10
+$ echo '{"type":"add","body":{"key":"id1","values":{"name":"Adam","age":20}}}' |
+    droonga-request --report-reqest --host 192.168.100.50 --receiver-host 192.168.100.10
+Request: {
+  "type": "add",
+  "body": {
+    "table": "Store",
+    "key": "id1",
+    "values": {
+      "name": "Adam",
+      "age": 20
+    }
+  },
+  "dataset": "Default"
+}
+Elapsed time: 0.023309135
+{
+  "inReplyTo": "1430961788.4171028",
+  "statusCode": 200,
+  "type": "add.result",
+  "body": true
+}
 ~~~
 
 [`add`コマンドのリファレンス](../../commands/add/)も併せて参照して下さい。
