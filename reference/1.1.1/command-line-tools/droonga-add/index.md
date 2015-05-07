@@ -10,7 +10,7 @@ layout: en
 
 `droonga-add` adds a new record or updates an existing record, to the specified table in a Droonga cluster.
 
-For example, if there is a Droonga node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to add a new record to the table `User` in the cluster is:
+For example, if there is a Droonga Engine node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to add a new record to the table `User` in the cluster is:
 
 ~~~
 (on 192.168.100.10)

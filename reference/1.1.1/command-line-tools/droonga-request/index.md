@@ -8,9 +8,9 @@ layout: en
 
 ## Abstract {#abstract}
 
-`droonga-request` sends any message to a Droonga cluster and reports the response.
+`droonga-request` sends any message to an Engine node of a Droonga cluster directly in Droonga native protocol, and reports the response.
 
-For example, if there is a Droonga node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to send a [`system.status`](../../commands/system/status/) command is:
+For example, if there is a Droonga Engine node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to send a [`system.status`](../../commands/system/status/) command is:
 
 ~~~
 (on 192.168.100.10)
@@ -60,7 +60,7 @@ For the complete list of available commands, see also [the command reference](..
 
 ## Usage {#usage}
 
-### How to give message for this command?
+### Basic usage
 
 This command accepts messages to be sent via standard input or a file.
 As above, `echo`, `cat`, or any other command can be the source for this command.
@@ -175,6 +175,11 @@ Elapsed time: 0.014172429
   }
 }
 ~~~
+
+
+### Communication with the Droonga cluster in HTTP
+
+This command can communicate with any HTTP protocol adapter in a Droonga cluster.
 
 
 

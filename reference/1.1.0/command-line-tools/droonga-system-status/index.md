@@ -10,7 +10,7 @@ layout: en
 
 `droonga-system-status` reports current status of a Droonga cluster.
 
-For example, if there is a Droonga node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to report status of the cluster is:
+For example, if there is a Droonga Engine node `192.168.100.50` and you are logged in to a computer `192.168.100.10` in the same network segment, the command line to report status of the cluster is:
 
 ~~~
 (on 192.168.100.10)
