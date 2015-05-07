@@ -38,7 +38,8 @@ Elapsed time: 0.00900742
 The first line is the elapsed time to get the response.
 Following lines are the response message.
 
-This command automatically fixups requred fields of the request message.
+As described at the [message format reference](../../message/), `id`, `date`, and `dataset` are required fields of request messages.
+If the given message doesn't have them, this command guesses or generates applicable values automatically by default.
 You can see the completed message actually sent with the option `--report-request`, like:
 
 ~~~
