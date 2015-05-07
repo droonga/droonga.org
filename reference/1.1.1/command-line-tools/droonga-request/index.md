@@ -187,9 +187,59 @@ Elapsed time: 0.014172429
 
 ### Communication with the Droonga cluster in HTTP
 
-This command can communicate with any HTTP protocol adapter in a Droonga cluster.
+This command can communicate not only with Droonga Engine nodes but with HTTP protocol adapters.
+You just have to give the option `--protocol=http`, like:
 
+~~~
+(on 192.168.100.10)
+$ echo '{"type":"system.statistics.object.count","body":{"output":["total"]}}' |
+    droonga-request --report-request --protocol http --host 192.168.100.50 --port 10041
+Request: {
+  "method": "GET",
+  "path": "/droonga/system/statistics/object/count?output[]=total",
+  "headers": {
+    "Accept": "*/*",
+    "User-Agent": "Ruby"
+  },
+  "body": null
+}
+Elapsed time: 0.026170325
+{
+  "total": 549
+}
+~~~
 
+For HTTP protocol adapters, there are some differences:
+
+ * You have to give a new option `--protocol http` (`--protocol=http`).
+ * You have to specify correct port number of the HTTP protocol adapter via the `--port` option.
+   (It is `10031` by default for Droonga Engine nodes, but HTTP protocol adapters ordinarily listen with the port `10041`.)
+ * The option `--receiver-host` is never been used.
+
+In this case you can use HTTP specific request message as the input.
+Regular Droonga native protocol messages are automatically converted to HTTP request messages like above.
+
+You can use such custom HTTP request messages as the input.
+This is an example to send HTTP POST request with a custom user agent string:
+
+~~~
+(on 192.168.100.10)
+$ echo '{"method":"POST","path": "/droonga/system/statistics/object/count","headers":{"User-Agent":"Droonga Client"},"body":{"output":["total"]}}' |
+    droonga-request --report-request --protocol http --host 192.168.100.50 --port 10041
+Request: {
+  "method": "POST",
+  "path": "/droonga/system/statistics/object/count",
+  "headers": {
+    "User-Agent": "Droonga Client",
+    "Accept": "*/*"
+  },
+  "body": "{\"output\":[\"total\"]}"
+}
+Elapsed time: 0.026170325
+{
+  "total": 549
+}
+~~~
 
 
 ## Parameters {#parameters}
