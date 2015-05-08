@@ -8,7 +8,48 @@ layout: en
 
 ## Abstract {#abstract}
 
-(TBD)
+`droonga-http-server-configure` configures the computer itself as a `droonga-http-server` node.
+
+The most major usecase of this command is to reset a computer as a clean HTTP server node.
+This command asks you interactively how to configure the computer, like:
+
+~~~
+# droonga-http-server-configure 
+Do you want the configuration file "droonga-http-server.yaml" to be regenerated? (y/N): y
+IP address to accept requests from clients (0.0.0.0 means "any IP address") [0.0.0.0]: 
+port [10041]: 
+hostname of this node [nodeX]: 
+hostnames of droonga-engine nodes (comma, vertical bar, or white-space separated) [nodeX]: 
+port number of the droonga-engine node [10031]: 
+tag of the droonga-engine node [droonga]: 
+default dataset [Default]: 
+timeout for unresponsive connections (in seconds) [3]: 
+path to the access log file [droonga-http-server.access.log]: 
+path to the system log file [droonga-http-server.system.log]: 
+log level for the system log (silly,debug,verbose,info,warn,error) [warn]: 
+maximum size of the response cache [100]: 
+time to live of cached responses, in seconds [60]: 
+enable "trust proxy" configuration (y/N): 
+path to the document root [/usr/local/lib/node_modules/droonga-http-server/public/groonga-admin]: 
+environment [production]: 
+~~~
+
+This command can work silently with command line options when you have complete plan, like:
+
+~~~
+# droonga-http-server-configure \
+    --no-prompt \
+    --reset-config \
+    --host 0.0.0.0 \
+    --port 10041 \
+    --droonga-engine-host-names node0,node1,node2 \
+    --droonga-engine-port 10031 \
+    --tag droonga \
+    --system-log-level info
+~~~
+
+If the `droonga-http-server` service is correctly registered as a service, this command works only to configure the installed service and some options (not used for the service) are ignored.
+
 
 ## Parameters {#parameters}
 
@@ -41,16 +82,17 @@ layout: en
 : List of Droonga Engine nodes' host name to try to connect on the startup.
   A guessed host name of the computer you are running the command, by default.
 
+`--droonga-engine-port=PORT`
+: Port number to communicate with Droonga Engine nodes.
+  `10031` by default.
+
 `--tag=TAG`
 : Tag name to communicate with Droonga Engine nodes.
   `droonga` by default.
 
-`--port=PORT`
-: Port number to communicate with Droonga Engine nodes.
-  `10031` by default.
-
 `--default-dataset=NAME`
 : Default dataset name for sending messages.
+  `Default` by default.
 
 `--default-timeout=SECONDS`
 : Time to terminate unresponsive connections, in seconds.
@@ -112,8 +154,8 @@ layout: en
 : Running environment of the server.
   Possible values:
   
-  * `development` (default)
-  * `production`
+  * `development`
+  * `production` (default)
   * `testing`
 
 `-h`, `--help`
