@@ -209,7 +209,7 @@ Modified `catalog.json` is:
 }
 ~~~
 
-All replica nodes can be removed from the cluster:
+All replica nodes can be removed from the dataset:
 
 ~~~
 $ droonga-engine-catalog-modify \
