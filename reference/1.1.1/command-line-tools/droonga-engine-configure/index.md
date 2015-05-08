@@ -8,7 +8,42 @@ layout: en
 
 ## Abstract {#abstract}
 
-(TBD)
+`droonga-engine-configure` configures the computer itself as a `droonga-engine` node.
+
+The most major usecase of this command is to reset a computer as a clean, blank Droonga Engine node for [the `droonga-engine-join` command](../droonga-engine-join/).
+
+This command asks you interactively how to configure the computer, like:
+
+~~~
+# droonga-engine-configure
+The droonga-engine service is now running.
+Before reconfiguration, the service is going to be stopped and this node will be unjoined from the cluster.
+Are you sure you want to continue reconfiguration? (y/N): y
+Do you want all data to be cleared? (y/N): y
+Do you want the configuration file "droonga-engine.yaml" to be regenerated? (y/N): y
+Do you want the file "catalog.json" to be regenerated? (y/N): y
+host [192.168.100.50]: 
+port [10031]: 
+tag [droonga]: 
+log level (trace,debug,info,warn,error,fatal) [warn]: 
+~~~
+
+This command can work silently with command line options when you have complete plan, like:
+
+~~~
+# droonga-engine-configure \
+    --no-prompt \
+    --clear \
+    --reset-config \
+    --reset-catalog \
+    --host nodeX \
+    --port 20032 \
+    --tag droonga \
+    --log-level info
+~~~
+
+If the `droonga-engine` service is correctly registered as a service, this command works only to configure the installed service and some options (not used for the service) are ignored.
+
 
 ## Parameters {#parameters}
 
