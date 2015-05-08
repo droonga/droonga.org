@@ -17,19 +17,112 @@ Instead, use [the `droonga-engine-configure` command](../droonga-engine-configur
 
 ### Orphan cluster with single volume
 
-(TBD)
+Most popular usage is generating `catalog.json` for an orphan Engine node as a new replica node managed by [the `droonga-engine-join` command](../droonga-engine-join/). For example, if you are logged in to an unprepared node `192.168.100.50`, the command line is:
+
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate --hosts 192.168.100.50
+~~~
+
+Full version with omitted options is:
+
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate \
+    --output  /home/droonga-engine/droonga/catalog.json \
+    --dataset Default             \
+      --n-workers 4               \
+      --hosts     192.168.100.50  \
+      --port      10031           \
+      --tag       droonga         \
+      --n-slices  1               \
+      --plugins   groonga,search,crud,dump,system,catalog
+~~~
 
 ### Cluster with two replica nodes
 
 (TBD)
 
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate \
+    --hosts 192.168.100.50,192.168.100.51
+~~~
+
+Full version with omitted options is:
+
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate \
+    --output  /home/droonga-engine/droonga/catalog.json \
+    --dataset Default             \
+      --n-workers 4               \
+      --hosts     192.168.100.50,192.168.100.51 \
+      --port      10031           \
+      --tag       droonga         \
+      --n-slices  1               \
+      --plugins   groonga,search,crud,dump,system,catalog
+~~~
+
 ### Cluster with two replica nodes and prepare two slices for each replica
 
 (TBD)
 
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate \
+    --hosts    192.168.100.50,192.168.100.51 \
+    --n-slices 2
+~~~
+
+Full version with omitted options is:
+
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate \
+    --output  /home/droonga-engine/droonga/catalog.json \
+    --dataset Default             \
+      --n-workers 4               \
+      --hosts     192.168.100.50,192.168.100.51 \
+      --port      10031           \
+      --tag       droonga         \
+      --n-slices  2               \
+      --plugins   groonga,search,crud,dump,system,catalog
+~~~
+
 ### Cluster including two datasets
 
 (TBD)
+
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate \
+    --hosts    192.168.100.50,192.168.100.51 \
+    --dataset  Testing \
+    --hosts    192.168.100.60,192.168.100.61
+~~~
+
+Full version with omitted options is:
+
+~~~
+(on 192.168.100.50)
+# droonga-engine-catalog-generate \
+    --output  /home/droonga-engine/droonga/catalog.json \
+    --dataset Default             \
+      --n-workers 4               \
+      --hosts     192.168.100.50,192.168.100.51 \
+      --port      10031           \
+      --tag       droonga         \
+      --n-slices  1               \
+      --plugins   groonga,search,crud,dump,system,catalog \
+    --dataset Testing             \
+      --n-workers 4               \
+      --hosts     192.168.100.60,192.168.100.61 \
+      --port      10031           \
+      --tag       droonga         \
+      --n-slices  1               \
+      --plugins   groonga,search,crud,dump,system,catalog
+~~~
 
 
 ## Parameters {#parameters}
