@@ -13,6 +13,9 @@ layout: en
 For most usecase you don't need to use this command.
 Instead, use [the `droonga-engine-configure` command](../droonga-engine-configure/) to initialize an Engine node and change cluster's structure via management commands like [`droonga-engine-join`](../droonga-engine-join/) or [`droonga-engine-unjoin`](../droonga-engine-unjoin/).
 
+This command is designed to generate a new `catalog.json` from scratch.
+When you hope to modify only the list of replica nodes, [the `droonga-engine-catalog-modify` command](../droonga-engine-catalog-modify/) is better choice.
+
 ## Examples {#examples}
 
 ### Orphan cluster with single volume
