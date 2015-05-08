@@ -8,7 +8,416 @@ layout: en
 
 ## Abstract {#abstract}
 
-(TBD)
+`droonga-engine-catalog-modify` modifies an existing `catalog.json` to change the structure of the Droonga clsuter.
+
+For most usecase you don't need to use this command.
+Instead, use management commands like [`droonga-engine-join`](../droonga-engine-join/) or [`droonga-engine-unjoin`](../droonga-engine-unjoin/).
+
+## Examples {#examples}
+
+For example, if there is an existing `catalog.json` at `/tmp/catalog.json` with the content:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.51:10031/droonga.000" } }
+          ]
+        }
+      ]
+    },
+    "Testing": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.60:20031/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+### Adding new replicas
+
+A command line to add a new replica node `192.168.100.52` to the cluster's dataset `Default` is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --no-update \
+    --add-replica-hosts 192.168.100.52
+~~~
+
+Full version with omitted options is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --output - \
+    --no-update \
+    --dataset Default \
+      --add-replica-hosts 192.168.100.52
+~~~
+
+This command automatically applies the port number and the tag name same to existing other replicas.
+You don't have to specify such information.
+
+Modified `catalog.json` is:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.51:10031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.52:10031/droonga.000" } }
+          ]
+        }
+      ]
+    },
+    "Testing": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.60:20031/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+### Removing existing replicas
+
+A command line to remove an existing replica node `192.168.100.51` from the cluster's dataset `Default` is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --no-update \
+    --remove-replica-hosts 192.168.100.51
+~~~
+
+Full version with omitted options is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --output - \
+    --no-update \
+    --dataset Default \
+      --remove-replica-hosts 192.168.100.51
+~~~
+
+Modified `catalog.json` is:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" } }
+          ]
+        }
+      ]
+    },
+    "Testing": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.60:20031/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+All replica nodes can be removed from the cluster:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --no-update \
+    --remove-replica-hosts 192.168.100.52,192.168.100.51
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": []
+    },
+    "Testing": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.60:20031/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+However, it is an invalid `catalog.json`.
+You never can add replicas to the blank dataset again by this command itself.
+To fix such a broken `catalog.json`, you need to regenerate it again by [the `droonga-engine-catalog-generate` command](../droonga-engine-catalog-generate/).
+
+
+### Updating list of replica nodes for multiple datasets at once
+
+A command line to produce two changes: adding a new replica node `192.168.100.52` to the dataset `Default` and adding another new replica node `192.168.100.61` to the dataset `Testing`, is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --no-update \
+    --add-replica-hosts 192.168.100.52 \
+    --dataset Testing \
+    --add-replica-hosts 192.168.100.61
+~~~
+
+Full version with omitted options is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --output - \
+    --no-update \
+    --dataset Default \
+      --add-replica-hosts 192.168.100.52 \
+    --dataset Testing \
+      --add-replica-hosts 192.168.100.61
+~~~
+
+Modified `catalog.json` is:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.51:10031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.52:10031/droonga.000" } }
+          ]
+        }
+      ]
+    },
+    "Testing": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.60:20031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.61:20031/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+Because this command recognizes the port number and the tag name as dataset-specific configurations, `10031` is used for new replica node under the `Default` dataset and `20031` is used for the one under the `Testing` dataset.
+
+Another case, a command line to swap replica nodes of two datasets `Default` and `Testing` is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --no-update \
+    --replica-hosts 192.168.100.60 \
+    --dataset Testing \
+    --replica-hosts 192.168.100.50,192.168.100.51
+~~~
+
+Full version with omitted options is:
+
+~~~
+$ droonga-engine-catalog-modify \
+    --source /tmp/catalog.json \
+    --output - \
+    --no-update \
+    --dataset Default \
+      --replica-hosts 192.168.100.60 \
+    --dataset Testing \
+      --replica-hosts 192.168.100.50,192.168.100.51
+~~~
+
+Modified `catalog.json` is:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.60:10031/droonga.000" } }
+          ]
+        }
+      ]
+    },
+    "Testing": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:20031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.51:20031/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+Note that each volume's port number is changed.
+Because port numbers are associated to their owner dataset, port numbers are also swapped.
 
 ## Parameters {#parameters}
 
