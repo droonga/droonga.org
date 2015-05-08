@@ -21,6 +21,9 @@ layout: ja
 
 多くの場合において、このコマンドを使う必要はまずありません。代わりに、Engineノードの初期化には[`droonga-engine-configure`コマンド](../droonga-engine-configure/)を使い、クラスタ構成の変更には[`droonga-engine-join`](../droonga-engine-join/)や[`droonga-engine-unjoin`](../droonga-engine-unjoin/)のような管理コマンドを使って下さい。
 
+このコマンドは、新しい`catalog.json`をゼロから生成する事に特化して設計されています。
+replicaノードのリストだけを変更したい場合には、[`droonga-engine-catalog-modify`コマンド](../droonga-engine-catalog-modify/)の方が便利です。
+
 ## 例 {#examples}
 
 ### 1つだけのボリュームを持つ孤立したクラスタ
