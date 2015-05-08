@@ -272,12 +272,6 @@ Elapsed time: 0.026170325
 : Time to terminate unresponsive connections, in seconds.
   `1` by default.
 
-`--[no-]exit-on-response`
-: Exits when just one response is received or don't.
-  `--exit-on-response` is given by default.
-  For any subscription type command (it returns multiple response messages for a request message with delay), you have to keep connected for a while with the option `--no-exit-on-response`.
-  Then the connection is kept until disconnected from the Droonga Engine node.
-
 `--receiver-host=NAME`
 : Host name of the computer you are running this command.
   A guessed host name of the computer, by default.
