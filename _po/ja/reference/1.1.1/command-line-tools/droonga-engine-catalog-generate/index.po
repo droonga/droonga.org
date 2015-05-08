@@ -279,7 +279,7 @@ msgid ""
 msgstr ""
 "`2`またはそれより大きな数を`--n-slices`オプションで指定すると、複数のsliceが各replicaノード自身の上に生成されます。\n"
 "有効なslice分けのためには1つのsliceごとに1ノードを割り当てるべきですが、現在のところこのコマンドはそのようなパターンに対応していません。\n"
-"また、sliceは以下のreplicaの定義にもまだ対応できていません。\n"
+"また、slice配下のreplicaの定義にもまだ対応できていません。\n"
 "これらの制限事項は将来のバージョンで解消される予定です。"
 
 msgid "### Cluster including two or more datasets"
