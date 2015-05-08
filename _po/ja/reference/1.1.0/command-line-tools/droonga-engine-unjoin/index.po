@@ -100,7 +100,7 @@ msgid ""
 "  `Default` by default."
 msgstr ""
 "`--dataset=NAME`\n"
-": ノードをを取り除く対象のデータセットの名前。\n"
+": ノードを取り除く対象のデータセットの名前。\n"
 "  既定値は`Default`です。"
 
 msgid ""

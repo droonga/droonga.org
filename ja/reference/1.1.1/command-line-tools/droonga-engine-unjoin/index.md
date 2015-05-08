@@ -50,7 +50,7 @@ Done.
   既定値は`droonga`です。
 
 `--dataset=NAME`
-: ノードをを取り除く対象のデータセットの名前。
+: ノードを取り除く対象のデータセットの名前。
   既定値は`Default`です。
 
 `--receiver-host=NAME`
