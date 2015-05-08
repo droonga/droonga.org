@@ -39,9 +39,13 @@ Full version with omitted options is:
       --plugins   groonga,search,crud,dump,system,catalog
 ~~~
 
+These options `--n-workers`, `--hosts`, `--port`, `--tag`, `--n-slices` and `--plugins` are bundled to the nearest preceding `--dataset` option.
+All these options preceding to any user defined `--dataset` option are automatically bundled to the default dataset named `Default`.
+
+
 ### Cluster with two replica nodes
 
-(TBD)
+To define a dataset with two replica nodes, you have to give multiple host names separated with `,` (comma) via the `--hosts` option, like:
 
 ~~~
 (on 192.168.100.50)
