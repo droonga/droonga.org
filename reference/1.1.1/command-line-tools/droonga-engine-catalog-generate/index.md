@@ -42,10 +42,38 @@ Full version with omitted options is:
 These options `--n-workers`, `--hosts`, `--port`, `--tag`, `--n-slices` and `--plugins` are bundled to the nearest preceding `--dataset` option.
 All these options preceding to any user defined `--dataset` option are automatically bundled to the default dataset named `Default`.
 
+Generated `catalog.json` is:
 
-### Cluster with two replica nodes
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            {
+              "weight": 100,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
 
-To define a dataset with two replica nodes, you have to give multiple host names separated with `,` (comma) via the `--hosts` option, like:
+
+### Cluster with multiple replica nodes
+
+To define a dataset with multiple replica nodes, you have to give all host names used as replica nodes separated with `,` (comma) via the `--hosts` option, like:
 
 ~~~
 (on 192.168.100.50)
@@ -68,9 +96,44 @@ Full version with omitted options is:
       --plugins   groonga,search,crud,dump,system,catalog
 ~~~
 
-### Cluster with two replica nodes and prepare two slices for each replica
+Generated `catalog.json` is:
 
-(TBD)
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.51:10031/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+
+### Cluster with multiple replica nodes and multiple slices for each replica
+
+To define a dataset with sliced replicas, you have to add one more option `--n-slices` for the dataset, like:
 
 ~~~
 (on 192.168.100.50)
@@ -94,16 +157,61 @@ Full version with omitted options is:
       --plugins   groonga,search,crud,dump,system,catalog
 ~~~
 
-### Cluster including two datasets
+Generated `catalog.json` is:
 
-(TBD)
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 50,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" } },
+            { "weight": 50,
+              "volume": { "address": "192.168.100.50:10031/droonga.001" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 50,
+              "volume": { "address": "192.168.100.51:10031/droonga.000" } },
+            { "weight": 50,
+              "volume": { "address": "192.168.100.51:10031/droonga.001" } }
+          ]
+        }
+      ]
+    }
+  }
+}
+~~~
+
+`2` or larger number for the `--n-slices` option produces multiple slices on each replica node itself.
+For effective slicing we should use one node per one slice, but currently it is not supported by this command.
+Moreover, we still don't support replicas under a slice yet.
+These limitations will be solved on future versions.
+
+### Cluster including two or more datasets
+
+To define multiple datasets in a cluster you have to use the `--dataset` option, like:
 
 ~~~
 (on 192.168.100.50)
 # droonga-engine-catalog-generate \
-    --hosts    192.168.100.50,192.168.100.51 \
-    --dataset  Testing \
-    --hosts    192.168.100.60,192.168.100.61
+    --hosts   192.168.100.50,192.168.100.51 \
+    --port    20031 \
+    --dataset Testing \
+    --hosts   192.168.100.60,192.168.100.61 \
+    --port    20032
 ~~~
 
 Full version with omitted options is:
@@ -115,17 +223,76 @@ Full version with omitted options is:
     --dataset Default             \
       --n-workers 4               \
       --hosts     192.168.100.50,192.168.100.51 \
-      --port      10031           \
+      --port      20031           \
       --tag       droonga         \
       --n-slices  1               \
       --plugins   groonga,search,crud,dump,system,catalog \
     --dataset Testing             \
       --n-workers 4               \
       --hosts     192.168.100.60,192.168.100.61 \
-      --port      10031           \
+      --port      20032           \
       --tag       droonga         \
       --n-slices  1               \
       --plugins   groonga,search,crud,dump,system,catalog
+~~~
+
+As above, dataset-bundled options affect to the dataset defined by their nearest preceding `--dataset` option.
+
+Generated `catalog.json` is:
+
+~~~
+{
+  "version": 2,
+  "effectiveDate": "2015-05-08T09:02:12+00:00",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:20031/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.51:20031/droonga.000" } }
+          ]
+        }
+      ]
+    },
+    "Testing": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "search", "crud", "dump", "system", "catalog"],
+      "schema": {},
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.60:20032/droonga.000" } }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            { "weight": 100,
+              "volume": { "address": "192.168.100.61:20032/droonga.000" } }
+          ]
+        }
+      ]
+    }
+  }
+}
 ~~~
 
 
