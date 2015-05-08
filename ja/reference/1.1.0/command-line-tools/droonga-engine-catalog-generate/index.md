@@ -19,7 +19,7 @@ layout: ja
 
 `droonga-engine-catalog-generate`は、Droonga Engineノード用の新しい[`catalog.json`ファイル](../../catalog/version2/)を生成します。
 
-多くの場合において、このコマンドを使う必要はまずありません。代わりに、Engineノードの初期化には[`droonga-engine-configure`コマンド](../droonga-engine-configure/)を使い、クラスタ構成の変更には[`droonga-engine-join`](../droonga-engine-join/)や['droonga-engine-unjoin`](../droonga-engine-unjoin/)のような管理コマンドを使って下さい。
+多くの場合において、このコマンドを使う必要はまずありません。代わりに、Engineノードの初期化には[`droonga-engine-configure`コマンド](../droonga-engine-configure/)を使い、クラスタ構成の変更には[`droonga-engine-join`](../droonga-engine-join/)や[`droonga-engine-unjoin`](../droonga-engine-unjoin/)のような管理コマンドを使って下さい。
 
 ## 例 {#examples}
 

@@ -11,7 +11,7 @@ layout: en
 `droonga-engine-catalog-generate` generates new [`catalog.json` file](../../catalog/version2/) for a Droonga Engine node.
 
 For most usecase you don't need to use this command.
-Instead, use [the `droonga-engine-configure` command](../droonga-engine-configure/) to initialize an Engine node and change cluster's structure via management commands like [`droonga-engine-join`](../droonga-engine-join/) or ['droonga-engine-unjoin`](../droonga-engine-unjoin/).
+Instead, use [the `droonga-engine-configure` command](../droonga-engine-configure/) to initialize an Engine node and change cluster's structure via management commands like [`droonga-engine-join`](../droonga-engine-join/) or [`droonga-engine-unjoin`](../droonga-engine-unjoin/).
 
 ## Examples {#examples}
 
