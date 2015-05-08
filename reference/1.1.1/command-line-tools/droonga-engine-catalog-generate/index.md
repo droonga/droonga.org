@@ -13,7 +13,24 @@ layout: en
 For most usecase you don't need to use this command.
 Instead, use [the `droonga-engine-configure` command](../droonga-engine-configure/) to initialize an Engine node and change cluster's structure via management commands like [`droonga-engine-join`](../droonga-engine-join/) or ['droonga-engine-unjoin`](../droonga-engine-unjoin/).
 
+## Examples {#examples}
+
+### Orphan cluster with single volume
+
 (TBD)
+
+### Cluster with two replica nodes
+
+(TBD)
+
+### Cluster with two replica nodes and prepare two slices for each replica
+
+(TBD)
+
+### Cluster including two datasets
+
+(TBD)
+
 
 ## Parameters {#parameters}
 
