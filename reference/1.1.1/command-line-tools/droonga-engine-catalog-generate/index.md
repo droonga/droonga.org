@@ -61,10 +61,8 @@ Generated `catalog.json` is:
           "dimension": "_key",
           "slicer": "hash",
           "slices": [
-            {
-              "weight": 100,
-              "volume": { "address": "192.168.100.50:10031/droonga.000" }
-            }
+            { "weight": 100,
+              "volume": { "address": "192.168.100.50:10031/droonga.000" } }
           ]
         }
       ]
