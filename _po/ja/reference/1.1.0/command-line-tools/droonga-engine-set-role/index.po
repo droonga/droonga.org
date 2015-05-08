@@ -124,6 +124,11 @@ msgstr ""
 "  既定値は`10031`です。"
 
 msgid ""
+"  This value is not used to process this operation actually, but used to ident"
+"ify the node itself."
+msgstr "  この値は、実際にはこの操作の処理のためには使われませんが、ノード自体を識別するために使われます。"
+
+msgid ""
 "`--tag=TAG`\n"
 ": Tag name to communicate with the engine node.\n"
 "  `droonga` by default."

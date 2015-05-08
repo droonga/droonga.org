@@ -48,10 +48,14 @@ See also [the tutorial about adding new replica to a Droonga cluster](/tutorial/
 `--port=PORT`
 : Port number to communicate with the engine node.
   `10031` by default.
+  
+  This value is not used to process this operation actually, but used to identify the node itself.
 
 `--tag=TAG`
 : Tag name to communicate with the engine node.
   `droonga` by default.
+  
+  This value is not used to process this operation actually, but used to identify the node itself.
 
 `--verbose`
 : Output details for internal operations.
