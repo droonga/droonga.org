@@ -16,7 +16,19 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require "bundler/setup"
+
+require "pathname"
+require "yaml"
+
 require "jekyll/task/i18n"
+
+def env_value(name)
+  value = ENV[name]
+  raise "Specify #{name} environment variable" if value.nil?
+  value
+end
+
+task :default => "jekyll:i18n:translate"
 
 Jekyll::Task::I18n.define do |task|
   task.locales = ["ja"]
@@ -51,4 +63,27 @@ Jekyll::Task::I18n.define do |task|
   end
 end
 
-task :default => "jekyll:i18n:translate"
+desc "Release a new version"
+task :release do
+  new_version = env_value("NEW_VERSION")
+  config_yaml_path = Pathname.new("_config.yml")
+  config_yaml_data = config_yaml_path.read
+  config = YAML.load(config_yaml_data)
+  current_version = config["droonga_version"]
+
+  targets = []
+  targets.concat(Pathname.glob("_po/*/{tutorial,reference}/"))
+  targets.concat(Pathname.glob("{tutorial,reference}/"))
+  targets.each do |target|
+    new_dir = target + new_version
+    current_dir = target + current_version
+    next unless current_dir.exist?
+    rm_rf(new_dir)
+    cp_r(current_dir, new_dir)
+  end
+
+  new_config = config.merge("droonga_version" => new_version)
+  config_yaml_path.open("w") do |config_yaml|
+    config_yaml.print(new_config.to_yaml)
+  end
+end
