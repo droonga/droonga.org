@@ -64,7 +64,7 @@ layout: ja
 
 ~~~json
 {
-  "dataset" : "Starbucks",
+  "dataset" : "Default",
   "type"    : "countRecords",
   "body"    : {
     "table": "Store"
@@ -220,7 +220,7 @@ Add `"count-records"` to `"plugins"`.
 ~~~
 (snip)
       "datasets": {
-        "Starbucks": {
+        "Default": {
           (snip)
           "plugins": ["count-records", "groonga", "crud", "search", "dump", "status"],
 (snip)
@@ -264,7 +264,7 @@ Look at these points:
 
 There are three elements in the array. Why?
 
- * Remember that the `Starbucks` dataset was configured with two replicas and three sub volumes for each replica, in the `catalog.json` of [the basic tutorial][basic].
+ * Remember that the `Default` dataset was configured with two replicas and three sub volumes for each replica, in the `catalog.json` of [the basic tutorial][basic].
  * Because it is a read-only command, a request is delivered to only one replica (and it is chosen at random).
    Then only three single volumes receive the command, so only three results appear, not six.
    (TODO: I have to add a figure to indicate active nodes: [000, 001, 002, 010, 011, 012] => [000, 001, 002])
@@ -341,7 +341,7 @@ The request must have the condition to select records to be deleted, like:
 
 ~~~json
 {
-  "dataset" : "Starbucks",
+  "dataset" : "Default",
   "type"    : "deleteStores",
   "body"    : {
     "keyword": "Broadway"
@@ -478,7 +478,7 @@ Add `"delete-stores"` to `"plugins"`.
 ~~~
 (snip)
       "datasets": {
-        "Starbucks": {
+        "Default": {
           (snip)
           "plugins": ["delete-stores", "count-records", "groonga", "crud", "search", "dump", "status"],
 (snip)
