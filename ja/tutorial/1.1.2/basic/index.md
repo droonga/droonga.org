@@ -116,101 +116,103 @@ Successfully installed droonga-engine.
 
 catalog.json:
 
-    {
-      "version": 2,
-      "effectiveDate": "2013-09-01T00:00:00Z",
-      "datasets": {
-        "Default": {
-          "nWorkers": 4,
-          "plugins": ["groonga", "crud", "search", "dump", "system"],
-          "schema": {
-            "Store": {
-              "type": "Hash",
-              "keyType": "ShortText",
-              "columns": {
-                "location": {
-                  "type": "Scalar",
-                  "valueType": "WGS84GeoPoint"
-                }
-              }
-            },
-            "Location": {
-              "type": "PatriciaTrie",
-              "keyType": "WGS84GeoPoint",
-              "columns": {
-                "store": {
-                  "type": "Index",
-                  "valueType": "Store",
-                  "indexOptions": {
-                    "sources": ["location"]
-                  }
-                }
-              }
-            },
-            "Term": {
-              "type": "PatriciaTrie",
-              "keyType": "ShortText",
-              "normalizer": "NormalizerAuto",
-              "tokenizer": "TokenBigram",
-              "columns": {
-                "stores__key": {
-                  "type": "Index",
-                  "valueType": "Store",
-                  "indexOptions": {
-                    "position": true,
-                    "sources": ["_key"]
-                  }
-                }
+~~~json
+{
+  "version": 2,
+  "effectiveDate": "2013-09-01T00:00:00Z",
+  "datasets": {
+    "Default": {
+      "nWorkers": 4,
+      "plugins": ["groonga", "crud", "search", "dump", "system"],
+      "schema": {
+        "Store": {
+          "type": "Hash",
+          "keyType": "ShortText",
+          "columns": {
+            "location": {
+              "type": "Scalar",
+              "valueType": "WGS84GeoPoint"
+            }
+          }
+        },
+        "Location": {
+          "type": "PatriciaTrie",
+          "keyType": "WGS84GeoPoint",
+          "columns": {
+            "store": {
+              "type": "Index",
+              "valueType": "Store",
+              "indexOptions": {
+                "sources": ["location"]
               }
             }
-          },
-          "replicas": [
+          }
+        },
+        "Term": {
+          "type": "PatriciaTrie",
+          "keyType": "ShortText",
+          "normalizer": "NormalizerAuto",
+          "tokenizer": "TokenBigram",
+          "columns": {
+            "stores__key": {
+              "type": "Index",
+              "valueType": "Store",
+              "indexOptions": {
+                "position": true,
+                "sources": ["_key"]
+              }
+            }
+          }
+        }
+      },
+      "replicas": [
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
             {
-              "dimension": "_key",
-              "slicer": "hash",
-              "slices": [
-                {
-                  "volume": {
-                    "address": "192.168.100.50:10031/droonga.000"
-                  }
-                },
-                {
-                  "volume": {
-                    "address": "192.168.100.50:10031/droonga.001"
-                  }
-                },
-                {
-                  "volume": {
-                    "address": "192.168.100.50:10031/droonga.002"
-                  }
-                }
-              ]
+              "volume": {
+                "address": "192.168.100.50:10031/droonga.000"
+              }
             },
             {
-              "dimension": "_key",
-              "slicer": "hash",
-              "slices": [
-                {
-                  "volume": {
-                    "address": "192.168.100.50:10031/droonga.010"
-                  }
-                },
-                {
-                  "volume": {
-                    "address": "192.168.100.50:10031/droonga.011"
-                  }
-                },
-                {
-                  "volume": {
-                    "address": "192.168.100.50:10031/droonga.012"
-                  }
-                }
-              ]
+              "volume": {
+                "address": "192.168.100.50:10031/droonga.001"
+              }
+            },
+            {
+              "volume": {
+                "address": "192.168.100.50:10031/droonga.002"
+              }
+            }
+          ]
+        },
+        {
+          "dimension": "_key",
+          "slicer": "hash",
+          "slices": [
+            {
+              "volume": {
+                "address": "192.168.100.50:10031/droonga.010"
+              }
+            },
+            {
+              "volume": {
+                "address": "192.168.100.50:10031/droonga.011"
+              }
+            },
+            {
+              "volume": {
+                "address": "192.168.100.50:10031/droonga.012"
+              }
             }
           ]
         }
-      }
+      ]
     }
+  }
+}
+~~~
 
 この`catalog.json`では、データセット`Starbucks`を以下のように定義しています：
 
@@ -250,7 +252,7 @@ Dronga Engine が起動したので、データを投入しましょう。
 
 stores.jsons:
 
-~~~
+~~~json
 {
   "dataset": "Default",
   "type": "add",
@@ -732,7 +734,7 @@ Droonga engineを用いてスターバックスの店舗データベースを検
 
 search-all-stores.json:
 
-~~~
+~~~json
 {
   "dataset": "Default",
   "type": "search",
