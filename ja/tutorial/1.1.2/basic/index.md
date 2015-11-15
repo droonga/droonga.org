@@ -122,7 +122,7 @@ catalog.json:
       "datasets": {
         "Default": {
           "nWorkers": 4,
-          "plugins": ["groonga", "crud", "search", "dump", "status"],
+          "plugins": ["groonga", "crud", "search", "dump", "system"],
           "schema": {
             "Store": {
               "type": "Hash",
