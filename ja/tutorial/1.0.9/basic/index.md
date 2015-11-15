@@ -929,7 +929,7 @@ Registering droonga-http-server as a service...
 Successfully installed droonga-http-server.
 ~~~
 
-### `droonga-engine`サービスの起動と終了
+### `droonga-http-server`サービスの起動と終了
 
 `droonga-http-server`サービスは`service`コマンドを使って起動できます:
 

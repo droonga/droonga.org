@@ -1119,7 +1119,7 @@ msgid ""
 msgstr ""
 
 msgid "### Start and stop the `droonga-http-server` service"
-msgstr "### `droonga-engine`サービスの起動と終了"
+msgstr "### `droonga-http-server`サービスの起動と終了"
 
 msgid "The `droonga-http-server` service can be started via the `service` command:"
 msgstr "`droonga-http-server`サービスは`service`コマンドを使って起動できます:"
