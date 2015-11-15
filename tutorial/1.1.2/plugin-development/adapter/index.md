@@ -93,7 +93,7 @@ catalog.json:
 ~~~
 (snip)
       "datasets": {
-        "Starbucks": {
+        "Default": {
           (snip)
           "plugins": ["sample-logger", "groonga", "crud", "search", "dump", "status"],
 (snip)
@@ -118,7 +118,7 @@ search-columbus.json:
 
 ~~~json
 {
-  "dataset" : "Starbucks",
+  "dataset" : "Default",
   "type"    : "search",
   "body"    : {
     "queries" : {
@@ -251,7 +251,7 @@ Elapsed time: 0.014714
 You will see something like below fluentd's log in `fluentd.log`:
 
 ~~~
-2014-02-17 15:20:37 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f8ae3e1dd98 @raw_message={"dataset"=>"Starbucks", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64591/droonga"}, "id"=>"1392618037.935901", "date"=>"2014-02-17 15:20:37 +0900", "appliedAdapters"=>[]}>
+2014-02-17 15:20:37 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f8ae3e1dd98 @raw_message={"dataset"=>"Default", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64591/droonga"}, "id"=>"1392618037.935901", "date"=>"2014-02-17 15:20:37 +0900", "appliedAdapters"=>[]}>
 ~~~
 
 This shows the message is received by our `SampleLoggerPlugin::Adapter` and then passed to Droonga. Here we can modify the message before the actual data processing.
@@ -316,7 +316,7 @@ Note that `count` is still `2` because `limit` does not affect to `count`. See [
 You will see something like below fluentd's log in `fluentd.log`:
 
 ~~~
-2014-02-17 15:24:39 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f956685c908 @raw_message={"dataset"=>"Starbucks", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64616/droonga"}, "id"=>"1392618279.0578449", "date"=>"2014-02-17 15:24:39 +0900", "appliedAdapters"=>[]}>
+2014-02-17 15:24:39 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::InputMessage:0x007f956685c908 @raw_message={"dataset"=>"Default", "type"=>"search", "body"=>{"queries"=>{"stores"=>{"source"=>"Store", "condition"=>{"query"=>"Columbus", "matchTo"=>"_key"}, "output"=>{"elements"=>["startTime", "elapsedTime", "count", "attributes", "records"], "attributes"=>["_key"], "limit"=>-1}}}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64616/droonga"}, "id"=>"1392618279.0578449", "date"=>"2014-02-17 15:24:39 +0900", "appliedAdapters"=>[]}>
 ~~~
 
 
@@ -395,7 +395,7 @@ Elapsed time: 0.015491
 The fluentd's log should be like as follows:
 
 ~~~
-2014-02-17 15:41:09 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fddcad4d5a0 @raw_message={"dataset"=>"Starbucks", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64724/droonga"}, "id"=>"1392619269.184789", "date"=>"2014-02-17 15:41:09 +0900", "appliedAdapters"=>["Droonga::Plugins::SampleLoggerPlugin::Adapter", "Droonga::Plugins::Error::Adapter"]}>
+2014-02-17 15:41:09 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fddcad4d5a0 @raw_message={"dataset"=>"Default", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64724/droonga"}, "id"=>"1392619269.184789", "date"=>"2014-02-17 15:41:09 +0900", "appliedAdapters"=>["Droonga::Plugins::SampleLoggerPlugin::Adapter", "Droonga::Plugins::Error::Adapter"]}>
 ~~~
 
 This shows that the result of `search` is passed to the `adapt_output` method (and logged), then outputted.
@@ -462,7 +462,7 @@ Now you can see `completedAt` attribute containing the time completed the reques
 The results in `fluentd.log` will be like this:
 
 ~~~
-2014-02-17 15:45:28 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fd384f3ab60 @raw_message={"dataset"=>"Starbucks", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64849/droonga"}, "id"=>"1392619528.235121", "date"=>"2014-02-17 15:45:28 +0900", "appliedAdapters"=>["Droonga::Plugins::SampleLoggerPlugin::Adapter", "Droonga::Plugins::Error::Adapter"]}>
+2014-02-17 15:45:28 +0900 [info]: SampleLoggerPlugin::Adapter message=#<Droonga::OutputMessage:0x007fd384f3ab60 @raw_message={"dataset"=>"Default", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"search.result", "to"=>"127.0.0.1:64849/droonga"}, "id"=>"1392619528.235121", "date"=>"2014-02-17 15:45:28 +0900", "appliedAdapters"=>["Droonga::Plugins::SampleLoggerPlugin::Adapter", "Droonga::Plugins::Error::Adapter"]}>
 ~~~
 
 
@@ -542,7 +542,7 @@ catalog.json:
 ~~~
 (snip)
       "datasets": {
-        "Starbucks": {
+        "Default": {
           (snip)
           "plugins": ["store-search", "groonga", "crud", "search", "dump", "status"],
 (snip)
@@ -563,7 +563,7 @@ store-search-columbus.json:
 
 ~~~json
 {
-  "dataset" : "Starbucks",
+  "dataset" : "Default",
   "type"    : "storeSearch",
   "body"    : {
     "query" : "Columbus"
@@ -603,7 +603,7 @@ Elapsed time: 0.01494
 And you will see the result on fluentd's log in `fluentd.log`:
 
 ~~~
-2014-02-17 16:12:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007fe4791d3958 @raw_message={"dataset"=>"Starbucks", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49934/droonga"}, "id"=>"1392621168.0119512", "date"=>"2014-02-17 16:12:48 +0900", "appliedAdapters"=>[]}>
+2014-02-17 16:12:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007fe4791d3958 @raw_message={"dataset"=>"Default", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49934/droonga"}, "id"=>"1392621168.0119512", "date"=>"2014-02-17 16:12:48 +0900", "appliedAdapters"=>[]}>
 2014-02-17 16:12:48 +0900 [info]: storeSearch query="Columbus"
 ~~~
 
@@ -673,9 +673,9 @@ Elapsed time: 0.014859
 The log in `fluentd.log` will be like this:
 
 ~~~
-2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ffb8ada9d68 @raw_message={"dataset"=>"Starbucks", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>[]}>
+2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::InputMessage:0x007ffb8ada9d68 @raw_message={"dataset"=>"Default", "type"=>"storeSearch", "body"=>{"query"=>"Columbus"}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>[]}>
 2014-02-17 16:14:48 +0900 [info]: storeSearch query="Columbus"
-2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007ffb8ad78e48 @raw_message={"dataset"=>"Starbucks", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>["Droonga::Plugins::StoreSearchPlugin::Adapter", "Droonga::Plugins::Error::Adapter"], "originalTypes"=>["storeSearch"]}>
+2014-02-17 16:14:48 +0900 [info]: StoreSearchPlugin::Adapter message=#<Droonga::OutputMessage:0x007ffb8ad78e48 @raw_message={"dataset"=>"Default", "type"=>"dispatcher", "body"=>{"stores"=>{"count"=>2, "records"=>[["Columbus @ 67th - New York NY  (W)"], ["2 Columbus Ave. - New York NY  (W)"]]}}, "replyTo"=>{"type"=>"storeSearch.result", "to"=>"127.0.0.1:49960/droonga"}, "id"=>"1392621288.158763", "date"=>"2014-02-17 16:14:48 +0900", "appliedAdapters"=>["Droonga::Plugins::StoreSearchPlugin::Adapter", "Droonga::Plugins::Error::Adapter"], "originalTypes"=>["storeSearch"]}>
 ~~~
 
 Now you've got the simplified response.
