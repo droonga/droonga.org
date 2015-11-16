@@ -2,9 +2,7 @@
 <html lang="{{ page.language }}">
   <head>
     {% capture title %}{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}{% endcapture %}
-    {% unless page.categories contains "news" %}
     {% capture relative_path %}{{ page.url | remove_first: page.path_prefix | remove: "index.html" }}{% endcapture %}
-    {% endunless %}
 
     {% if page.description %}
       {% assign description = page.description %}
