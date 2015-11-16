@@ -177,10 +177,10 @@ msgid "All parameters except `table` are optional."
 msgstr "`table` 以外のパラメータはすべて省略可能です。"
 
 msgid ""
-"On the version {{ site.droonga_version }}, only following parameters are avail"
+"On the version {{ site.version.current }}, only following parameters are avail"
 "able. Others are simply ignored because they are not implemented."
 msgstr ""
-"また、バージョン {{ site.droonga_version }} の時点では以下のパラメータのみが動作します。これら以外のパラメータは未実装のため無視"
+"また、バージョン {{ site.version.current }} の時点では以下のパラメータのみが動作します。これら以外のパラメータは未実装のため無視"
 "されます。"
 
 msgid ""

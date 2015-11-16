@@ -4,7 +4,19 @@ markdown: kramdown
 permalink: "/news/:year/:month/:day/:title.html"
 url: http://droonga.org
 blog_base_url: "/news/"
-droonga_version: 1.1.2
+version:
+  current: 1.1.1
+  next: 1.1.2
+  olds:
+    - 1.1.0
+    - 1.0.9
+    - 1.0.8
+    - 1.0.7
+    - 1.0.6
+    - 1.0.5
+    - 1.0.4
+    - 1.0.3
+    - 1.0.2
 copyright_year: 2013-2015
 exclude:
 - Rakefile

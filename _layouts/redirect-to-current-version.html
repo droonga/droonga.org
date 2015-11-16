@@ -1,7 +1,7 @@
 ---
 layout: empty
 ---
-{% capture current_version_path %}{{ page.unversioned_path }}{{ site.droonga_version }}/{% endcapture %}
+{% capture current_version_path %}{{ page.unversioned_path }}{{ site.version.current }}/{% endcapture %}
 {% capture current_version_url %}{{ page.url | replace_first: page.unversioned_path, current_version_path | remove: "index.html" }}{% endcapture %}
 
 <head>

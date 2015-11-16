@@ -8,19 +8,14 @@ release.
 
 ## The current release
 
-* [1.1.0](1.1.0/)
+* [{{ site.version.current }}]({{ site.version.current }}/)
 
 ## The next release
 
-* [1.1.1](1.1.1/)
+* [{{ site.version.next }}]({{ site.version.next }}/)
 
 ## Old releases
 
-* [1.0.9](1.0.9/)
-* [1.0.8](1.0.8/)
-* [1.0.7](1.0.7/)
-* [1.0.6](1.0.6/)
-* [1.0.5](1.0.5/)
-* [1.0.4](1.0.4/)
-* [1.0.3](1.0.3/)
-* [1.0.2](1.0.2/)
+{% for old_version in site.version.olds %}
+* [{{ old_version }}]({{ old_version }}/)
+{% endfor %}
