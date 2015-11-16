@@ -1495,7 +1495,7 @@ In this tutorial, you did setup both packages [droonga-engine][] and [droonga-ht
 Moreover, you built a search system based on an HTTP protocol adapter with a Droonga engine, and successfully searched.
 
 
-  [http-server]: ../../reference/http-server/
+  [http-server]: ../../../reference/http-server/
   [Ubuntu]: http://www.ubuntu.com/
   [Droonga]: https://droonga.org/
   [droonga-engine]: https://github.com/droonga/droonga-engine

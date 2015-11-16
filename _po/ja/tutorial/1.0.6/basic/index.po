@@ -1344,7 +1344,7 @@ msgstr ""
 "ました。"
 
 msgid ""
-"  [http-server]: ../../reference/http-server/\n"
+"  [http-server]: ../../../reference/http-server/\n"
 "  [Ubuntu]: http://www.ubuntu.com/\n"
 "  [CentOS]: https://www.centos.org/\n"
 "  [Droonga]: https://droonga.org/\n"

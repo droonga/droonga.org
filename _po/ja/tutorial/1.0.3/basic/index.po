@@ -1736,7 +1736,7 @@ msgstr ""
 "ました。"
 
 msgid ""
-"  [http-server]: ../../reference/http-server/\n"
+"  [http-server]: ../../../reference/http-server/\n"
 "  [Ubuntu]: http://www.ubuntu.com/\n"
 "  [Droonga]: https://droonga.org/\n"
 "  [droonga-engine]: https://github.com/droonga/droonga-engine\n"

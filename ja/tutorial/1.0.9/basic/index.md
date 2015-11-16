@@ -1112,7 +1112,7 @@ Droonga HTTP Serverの詳細については[リファレンスマニュアル][h
 これらのパッケージを利用することで、HTTP Protocol Adapter と Droonga Engine からなるシステムを構築し、実際に検索を行いました。
 
 
-  [http-server]: ../../reference/http-server/
+  [http-server]: ../../../reference/http-server/
   [Ubuntu]: http://www.ubuntu.com/
   [CentOS]: https://www.centos.org/
   [Droonga]: https://droonga.org/
