@@ -65,25 +65,28 @@ end
 
 desc "Release a new version"
 task :release do
-  new_version = env_value("NEW_VERSION")
+  next_version = env_value("NEXT_VERSION")
   config_yaml_path = Pathname.new("_config.yml")
   config_yaml_data = config_yaml_path.read
   config = YAML.load(config_yaml_data)
-  current_version = config["droonga_version"]
+  version = config["version"]
+  current_version = version["current"]
 
   targets = []
   targets.concat(Pathname.glob("_po/*/{tutorial,reference}/"))
   targets.concat(Pathname.glob("{tutorial,reference}/"))
   targets.each do |target|
-    new_dir = target + new_version
+    next_dir = target + next_version
     current_dir = target + current_version
     next unless current_dir.exist?
-    rm_rf(new_dir)
-    cp_r(current_dir, new_dir)
+    rm_rf(next_dir)
+    cp_r(current_dir, next_dir)
   end
 
-  new_config = config.merge("droonga_version" => new_version)
+  version["olds"].unshift(current_version)
+  version["current"] = version["next"]
+  version["next"] = next_version
   config_yaml_path.open("w") do |config_yaml|
-    config_yaml.print(new_config.to_yaml)
+    config_yaml.print(config.to_yaml)
   end
 end
