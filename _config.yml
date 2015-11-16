@@ -1,13 +1,18 @@
+---
 title: Droonga
 markdown: kramdown
-permalink: /news/:year/:month/:day/:title.html
+permalink: "/news/:year/:month/:day/:title.html"
 url: http://droonga.org
-blog_base_url: /news/
-droonga_version: 1.1.1
+blog_base_url: "/news/"
+droonga_version: 1.1.2
 copyright_year: 2013-2015
-exclude: ["Rakefile", "Gemfile", "Gemfile.lock", "README.md", "vendor"]
+exclude:
+- Rakefile
+- Gemfile
+- Gemfile.lock
+- README.md
+- vendor
 description: Droonga is a distributed full text search engine.
-
 kramdown:
   enable_coderay: true
   coderay_line_numbers: table
