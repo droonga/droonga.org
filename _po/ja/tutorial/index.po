@@ -27,22 +27,20 @@ msgstr "次期リリースも含めすべてのリリースのチュートリア
 msgid "## The current release"
 msgstr "## 現行リリース"
 
-msgid "* [1.0.7](1.0.7/)"
+msgid "* [{{ site.version.current }}]({{ site.version.current }}/)"
 msgstr ""
 
 msgid "## The next release"
 msgstr "## 次期リリース"
 
-msgid "* [1.0.8](1.0.8/)"
+msgid "* [{{ site.version.next }}]({{ site.version.next }}/)"
 msgstr ""
 
 msgid "## Old releases"
 msgstr "## 古いリリース"
 
 msgid ""
-"* [1.0.6](1.0.6/)\n"
-"* [1.0.5](1.0.5/)\n"
-"* [1.0.4](1.0.4/)\n"
-"* [1.0.3](1.0.3/)\n"
-"* [1.0.2](1.0.2/)"
+"{% for old_version in site.version.olds %}\n"
+"* [{{ old_version }}]({{ old_version }}/)\n"
+"{% endfor %}"
 msgstr ""
