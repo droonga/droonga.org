@@ -1165,7 +1165,7 @@ msgid "stores.json:"
 msgstr ""
 
 msgid ""
-"~~~\n"
+"~~~json\n"
 "[\n"
 "[\"_key\",\"name\",\"location\"],\n"
 "[\"store0\",\"1st Avenue & 75th St. - New York NY  (W)\",\"40.770262,-73.954798\"],\n"

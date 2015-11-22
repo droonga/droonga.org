@@ -816,7 +816,7 @@ First, prepare the data as a JSON file `stores.json`.
 
 stores.json:
 
-~~~
+~~~json
 [
 ["_key","name","location"],
 ["store0","1st Avenue & 75th St. - New York NY  (W)","40.770262,-73.954798"],
