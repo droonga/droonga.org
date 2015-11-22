@@ -121,7 +121,7 @@ msgid ""
 msgstr "[プラグイン開発のチュートリアル](../../../tutorial/plugin-development/adapter/)も参照して下さい。"
 
 msgid "### How an adapter works? {#how-works}"
-msgstr "### アダプターはどのように操作するか {#how-works}"
+msgstr "### アダプターはどのように動作するか {#how-works}"
 
 msgid "An adapter works like following:"
 msgstr "アダプターは以下のように動作します："
