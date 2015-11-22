@@ -103,7 +103,7 @@ msgid ""
 msgstr "[プラグイン開発チュートリアル](../../../tutorial/plugin-development/handler/)も併せて参照して下さい。"
 
 msgid "### How a handler works? {#how-works}"
-msgstr "### ハンドラーはどのように操作するか {#how-works}"
+msgstr "### ハンドラーはどのように動作するか {#how-works}"
 
 msgid "A handler works like following:"
 msgstr "ハンドラーは以下のように動作します："
