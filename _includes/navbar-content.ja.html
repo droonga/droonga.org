@@ -37,6 +37,9 @@
     </li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
+    {% unless page.categories contains "news" %}
+      <li><a href="/{{ relative_path }}">English</a></li>
+    {% endunless %}
     {% if page.upper_level != null %}
       <li><a href="{{ page.upper_level }}"><i class="fa fa-arrow-circle-up"></i> 1つ上の階層へ戻る</a></li>
     {% elsif relative_path != "" %}
