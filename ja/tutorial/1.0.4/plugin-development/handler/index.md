@@ -189,12 +189,12 @@ end
 現時点で、このハンドラーは何も処理を行わず、単に数値1つからなる配列を含む処理結果を返すだけです。
 戻り値はレスポンスのbodyを組み立てるのに使われます。
 
-The handler is bound to the step with the configuration `step.handler`.
-Because we define the class `Handler` after `define_single_step`, we specify the handler class with a symbol `:Handler`.
-If you define the handler class before `define_single_step`, then you can write as `step.handler = Handler` simply.
-Moreover, a class path string like `"OtherPlugin::Handler"` is also available.
+ハンドラーは`step.handler`設定でステップに紐付けられます。
+ここでは`Handler`クラスを`define_single_step`の後で定義しているため、`:Handler`というシンボルでハンドラークラスを指定しています。
+もしハンドラークラスを`define_single_step`よりも前で定義していれば、単に`step.handler = Handler`と書くことができます。
+更に、`"OtherPlugin::Handler"`のようなクラスパスの文字列も使用できます。
 
-Then, we also have to bind a collector to the step, with the configuration `step.collector`.
+次に、`step.collector`設定を使ってコレクターをステップに紐付ける必要があります。
 
 lib/droonga/plugins/count-records.rb:
 
@@ -208,8 +208,8 @@ lib/droonga/plugins/count-records.rb:
 # (snip)
 ~~~
 
-The `Collectors::Sum` is one of built-in collectors.
-It merges results returned from handler instances for each volume to one result.
+`Collectors::Sum`は組み込みコレクターの一つです。
+これは、各ボリュームのハンドラーインスタンスから返って来た結果を結合して一つの結果にします。
 
 
 ### `catalog.json`でプラグインを有効化する
