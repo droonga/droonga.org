@@ -12,7 +12,7 @@ layout: ja
 {% endcomment %}
 
 
-Droonga Engineはプラグインに対して、処理の各段階ごとに異なるAPIセットを提供します。[プラグイン開発のチュートリアル](../../tutorial/plugin-development/)も参照してください。
+Droonga Engineはプラグインに対して、処理の各段階ごとに異なるAPIセットを提供します。[プラグイン開発のチュートリアル](../../../tutorial/plugin-development/)も参照してください。
 
  * [適合フェーズでのAPI](adapter/)
  * [ハンドリング・フェーズでのAPI](handler/)
