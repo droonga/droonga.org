@@ -87,7 +87,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.box = box
       node_config.vm.network(:private_network,
                              :ip => "192.168.100.#{50 + index}")
-      node_config.vm.host_name = "node#{index}"
+      node_config.vm.hostname = "node#{index}"
       node_config.vm.provider("virtualbox") do |virtual_box|
         virtual_box.memory = 2048
       end
