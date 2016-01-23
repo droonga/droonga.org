@@ -71,12 +71,12 @@ $ sudo dpkg -i vagrant_1.6.5_x86_64.deb
 ### boxの種類を決めて、Vagrantfileを用意する
 
 [Vagrant Cloud][]のサイトから、実験に使うためのboxを選びます。
-例えば[Ubuntu Trusty (x64)のbox](https://vagrantcloud.com/ubuntu/boxes/trusty64)を使うのであれば、以下のようにします:
+例えば[Ubuntu Wily (x64)のbox](https://vagrantcloud.com/ubuntu/boxes/trusty64)を使うのであれば、以下のようにします:
 
 ~~~
-$ mkdir droonga-ubuntu-trusty
-$ cd droonga-ubuntu-trusty
-$ vagrant init ubuntu/trusty64
+$ mkdir droonga-ubuntu-wily
+$ cd droonga-ubuntu-wily
+$ vagrant init ubuntu/wily64
 ~~~
 
 この操作で、設定ファイルの`Vagrantfile`が自動生成されます。
@@ -86,7 +86,7 @@ $ vagrant init ubuntu/trusty64
 
 ~~~
 n_machines = 3
-box        = "ubuntu/trusty64"
+box        = "ubuntu/wily64"
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
