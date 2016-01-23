@@ -87,8 +87,8 @@ Let's start services.
 
 ~~~
 (on node2)
-# service droonga-engine start
-# service droonga-http-server start
+# systemctl start droonga-engine
+# systemctl start droonga-http-server
 ~~~
 
 Currently, the new node doesn't work as a node of the existing cluster.

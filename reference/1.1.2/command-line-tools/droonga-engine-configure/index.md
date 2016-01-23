@@ -92,15 +92,15 @@ If the `droonga-engine` service is correctly registered as a service, this comma
 
 `--daemon`, `--no-daemon`
 : Run as a daemon or a regular process.
-  However, the `droonga-engine` service always started as a daemon by the command line `service droonga-engine start`, even if these options are given.
+  However, the `droonga-engine` service always started as a daemon by the command line `systemctl start droonga-engine`, even if these options are given.
 
 `--pid-file=PATH`
 : Path to put the process ID of the daemon process.
-  However, the process ID of the `droonga-engine` service always stored at the platform specific location by the command line `service droonga-engine start`, even if this option is given.
+  However, the process ID of the `droonga-engine` service always stored at the platform specific location by the command line `systemctl start droonga-engine`, even if this option is given.
 
 `--base-dir=PATH`
 : Path to the directory all `droonga-engine` related files are stored into.
-  However, the location `/home/droonga-engine/droonga/` is always used for the `droonga-engine` service started by the command line `service droonga-engine start`, even if this option is given.
+  However, the location `/home/droonga-engine/droonga/` is always used for the `droonga-engine` service started by the command line `systemctl start droonga-engine`, even if this option is given.
 
 ## How to install {#install}
 

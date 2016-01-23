@@ -576,16 +576,16 @@ Before benchmarking, make your cluster with only one node.
 
 ~~~
 (on node1, node2)
-% sudo service droonga-engine stop
-% sudo service droonga-http-server stop
+% sudo systemctl stop droonga-engine
+% sudo systemctl stop droonga-http-server
 ~~~
 
 ~~~
 (on node0)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
+% sudo systemctl restart droonga-engine
+% sudo systemctl restart droonga-http-server
 ~~~
 
 To clear effects from previous benchmark, you should restart services before each test.
@@ -651,8 +651,8 @@ Before benchmarking, join the second node to the cluster.
 (on node0, node1)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0,node1
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
+% sudo systemctl restart droonga-engine
+% sudo systemctl droonga-http-server
 ~~~
 
 After that both endpoints `node0` and `node1` work as a Droonga cluster with two nodes.
@@ -712,8 +712,8 @@ Before benchmarking, join the last node to the cluster.
 (on node0, node1)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0,node1,node2
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
+% sudo systemctl restart droonga-engine
+% sudo systemctl restart droonga-http-server
 ~~~
 
 After that all endpoints `node0`, `node1`, and `node2` work as a Droonga cluster with three nodes.

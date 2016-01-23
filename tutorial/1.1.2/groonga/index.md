@@ -219,12 +219,12 @@ You can run Groonga as an HTTP server daemon with the option `-d`, like:
 
 On the other hand, you have to run multiple server daemons for each Droonga node to use your Droonga cluster via HTTP.
 
-If you set up your Droonga nodes by installation scripts, daemons are already been configured as system services managed via the `service` command.
+If you set up your Droonga nodes by installation scripts, daemons are already been configured as system services managed via the `systemctl` command.
 To start them, run commands like following on each Droonga node:
 
 ~~~
-# service droonga-engine start
-# service droonga-http-server start
+# systemctl start droonga-engine
+# systemctl start droonga-http-server
 ~~~
 
 By these commands, services start to work.
@@ -279,8 +279,8 @@ Moreover, even if some `droonga-engine`s stop, `droonga-http-server` wards off t
 To stop services, run commands like following on each Droonga node:
 
 ~~~
-# service droonga-engine stop
-# service droonga-http-server stop
+# systemctl stop droonga-engine
+# systemctl stop droonga-http-server
 ~~~
 
 After verification, start services again, on each Droonga node.
