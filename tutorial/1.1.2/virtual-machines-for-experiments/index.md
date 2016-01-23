@@ -120,7 +120,7 @@ You can log in those VMs by the command `vagrant ssh`, like:
 
 ~~~
 $ vagrant ssh node0
-Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-36-generic x86_64)
+Welcome to Ubuntu 15.10 (GNU/Linux 4.2.0-23-generic x86_64)
 ...
 vagrant@node0:~$ exit
 ~~~
