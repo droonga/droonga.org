@@ -66,7 +66,7 @@ $ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
 $ sudo dpkg -i vagrant_1.6.5_x86_64.deb
 ~~~
 
-注意: Ubuntu 14.04では`apt-get install vagrant`でもVagrantをインストールできますが、これは使わないで下さい。この方法でインストールできるVagrantはバージョンが古いため、[Vagrant Cloud][]からboxをインポートできません。
+注意: Ubuntu 15.10では`apt-get install vagrant`でもVagrantをインストールできますが、これは使わないで下さい。この方法でインストールできるVagrantはバージョンが古いため、[Vagrant Cloud][]からboxをインポートできません。
 
 ### boxの種類を決めて、Vagrantfileを用意する
 
