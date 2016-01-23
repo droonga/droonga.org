@@ -75,7 +75,7 @@ Droonga Engine自体は通信プロトコルとしてfluentdプロトコルに�
 ## 実験用のマシンを用意する
 
 まずコンピュータを調達しましょう。このチュートリアルでは、既存のコンピュータにDroongaによる検索システムを構築する手順を解説します。
-以降の説明は基本的に、[DigitalOcean](https://www.digitalocean.com/)で `Ubuntu 14.04 x64`、`CentOS 6.5 x64`、 または `CentOS 7 x64` の仮想マシンのセットアップを完了し、コンソールにアクセスできる状態になった後を前提として進めます。
+以降の説明は基本的に、[DigitalOcean](https://www.digitalocean.com/)で `Ubuntu 15.10 x64`、`CentOS 6.5 x64`、 または `CentOS 7 x64` の仮想マシンのセットアップを完了し、コンソールにアクセスできる状態になった後を前提として進めます。
 
 注意：Droongaが必要とするパッケージをインストールする前に、マシンが2GB以上のメモリを備えていることを確認して下さい。メモリが不足していると、パッケージのインストール中にネイティブ拡張のビルドに失敗する場合があります。
 
@@ -227,22 +227,22 @@ catalog.json:
 
 ### `droonga-engine`サービスの起動と終了
 
-`droonga-engine`サービスは`service`コマンドを使って起動できます:
+`droonga-engine`サービスは`systemctl`コマンドを使って起動できます:
 
 ~~~
-# service droonga-engine start
+# systemctl start droonga-engine
 ~~~
 
-終了する場合も、`service`コマンドを使います:
+終了する場合も、`systemctl`コマンドを使います:
 
 ~~~
-# service droonga-engine stop
+# systemctl stop droonga-engine
 ~~~
 
 確認できたら、再び`droonga-engine`を起動します。
 
 ~~~
-# service droonga-engine start
+# systemctl start droonga-engine
 ~~~
 
 ### データベースを作成する
@@ -933,22 +933,22 @@ Successfully installed droonga-http-server.
 
 ### `droonga-http-server`サービスの起動と終了
 
-`droonga-http-server`サービスは`service`コマンドを使って起動できます:
+`droonga-http-server`サービスは`systemctl`コマンドを使って起動できます:
 
 ~~~
-# service droonga-http-server start
+# systemctl start droonga-http-server
 ~~~
 
-終了する場合も、`service`コマンドを使います:
+終了する場合も、`systemctl`コマンドを使います:
 
 ~~~
-# service droonga-http-server stop
+# systemctl stop droonga-http-server
 ~~~
 
 確認できたら、再び`droonga-http-server`を起動します。
 
 ~~~
-# service droonga-engine start
+# systemctl start droonga-engine
 ~~~
 
 ### HTTPでの検索リクエスト
