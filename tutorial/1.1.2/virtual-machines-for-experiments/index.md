@@ -54,8 +54,8 @@ Go to the [Vagrant web site][Vagrant] and install it as instructed.
 For example, if you use an Ubuntu PC (x64):
 
 ~~~
-$ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
-$ sudo dpkg -i vagrant_1.6.5_x86_64.deb
+$ wget https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+$ sudo dpkg -i vagrant_1.8.1_x86_64.deb
 ~~~
 
 NOTE: You can install Vagrant via `apt-get install vagrant` on Ubuntu 15.10, but don't use it because the version is too old to import boxes from [Vagrant Cloud][].
