@@ -33,7 +33,7 @@ Now you are ready for building your own data processing system with Droonga. See
 NOTE: currently the installation script works only on several environments:
 
  * Debian GNU/Linux (latest release)
- * Ubuntu (latest release, latest LTS)
+ * Ubuntu (latest release)
  * CentOS 7
 
 ## Dependencies

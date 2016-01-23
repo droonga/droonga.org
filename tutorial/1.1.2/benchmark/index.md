@@ -141,7 +141,7 @@ Moreover, comparing multiple results from different number of Droogna nodes, you
 
 ## Prepare environments for benchmarking
 
-Assume that there are four [Ubuntu][] 14.04LTS servers for the new Droogna cluster and they can resolve their names each other:
+Assume that there are four [Ubuntu][] 15.10 servers for the new Droogna cluster and they can resolve their names each other:
 
  * `192.168.100.50`, the host name is `node0`
  * `192.168.100.51`, the host name is `node1`

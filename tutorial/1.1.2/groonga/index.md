@@ -36,7 +36,7 @@ A Droonga cluster is constructed from one or more computers, called *Droonga nod
 Prepare computers for Droonga nodes at first.
 
 This tutorial describes steps to set up Droonga cluster based on existing computers.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 14.04 x64` or `CentOS 7 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 15.10 x64` or `CentOS 7 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
 If you just want to try Droong casually, see another tutorial: [how to prepare multiple virtual machines on your own computer](../virtual-machines-for-experiments/).
 

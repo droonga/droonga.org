@@ -67,7 +67,7 @@ For example, let's try to build a database system to find [Starbucks stores in N
 ## Prepare an environment for experiments
 
 Prepare a computer at first. This tutorial describes steps to develop a search service based on the Droonga, on an existing computer.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 14.04 x64`, `CentOS 7 x64`, or or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 15.10 x64`, `CentOS 7 x64`, or or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
 NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga. Otherwise, you possibly experience a strange build error.
 
