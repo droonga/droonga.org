@@ -28,13 +28,13 @@ Droongaは便利なインストールスクリプトを提供しています。
     bash
 ~~~
 
-サービスがインストールされた後は、`service`コマンドを使って起動・終了することができます:
+サービスがインストールされた後は、`systemctl	`コマンドを使って起動・終了することができます:
 
 ~~~
-# service droonga-engine start
-# service droonga-engine stop
-# service droonga-http-server start
-# service droonga-http-server stop
+# systemctl start droonga-engine
+# systemctl stop droonga-engine
+# systemctl start droonga-http-server
+# systemctl stop droonga-http-server
 ~~~
 
 以上で、Droongaベースのデータ処理システムを構築する準備が整いました。ここから先は[チュートリアル](/ja/tutorial/)を参照して下さい。
@@ -42,7 +42,7 @@ Droongaは便利なインストールスクリプトを提供しています。
 注意: 今の所、インストールスクリプトは以下の環境でのみ動作します:
 
  * Debian GNU/Linux (最新のリリース)
- * Ubuntu (最新のリリース、最新のLTS)
+ * Ubuntu (最新のリリース)
  * CentOS 7
 
 ## 依存関係
