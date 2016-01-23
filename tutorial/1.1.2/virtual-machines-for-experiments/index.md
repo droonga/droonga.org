@@ -63,12 +63,12 @@ NOTE: You can install Vagrant via `apt-get install vagrant` on Ubuntu 15.10, but
 ### Determine a box and prepare a Vagrantfile
 
 Go to the [Vagrant Cloud][] and find a box for your experiments.
-For example, if you use a [box for Ubuntu Trusty (x64)](https://vagrantcloud.com/ubuntu/boxes/trusty64), you just have to do:
+For example, if you use a [box for Ubuntu Wily (x64)](https://vagrantcloud.com/ubuntu/boxes/wily64), you just have to do:
 
 ~~~
-$ mkdir droonga-ubuntu-trusty
-$ cd droonga-ubuntu-trusty
-$ vagrant init ubuntu/trusty64
+$ mkdir droonga-ubuntu-wily
+$ cd droonga-ubuntu-wily
+$ vagrant init ubuntu/wily64
 ~~~
 
 Then a file `Vagrantfile` is automatically generated there.
@@ -78,7 +78,7 @@ However you should rewrite it completely for experiments of Droonga cluster, lik
 
 ~~~
 n_machines = 3
-box        = "ubuntu/trusty64"
+box        = "ubuntu/wily64"
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
