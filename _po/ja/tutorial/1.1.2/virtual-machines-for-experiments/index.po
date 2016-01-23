@@ -135,8 +135,8 @@ msgstr ""
 
 msgid ""
 "~~~\n"
-"$ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb\n"
-"$ sudo dpkg -i vagrant_1.6.5_x86_64.deb\n"
+"$ wget https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb\n"
+"$ sudo dpkg -i vagrant_1.8.1_x86_64.deb\n"
 "~~~"
 msgstr ""
 

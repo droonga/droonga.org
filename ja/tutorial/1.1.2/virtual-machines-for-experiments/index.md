@@ -62,8 +62,8 @@ $ sudo apt-get install virtualbox
 例えば、ホストマシンがx64のUbuntu　PCなのであれば、以下の要領です:
 
 ~~~
-$ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
-$ sudo dpkg -i vagrant_1.6.5_x86_64.deb
+$ wget https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+$ sudo dpkg -i vagrant_1.8.1_x86_64.deb
 ~~~
 
 注意: Ubuntu 15.10では`apt-get install vagrant`でもVagrantをインストールできますが、これは使わないで下さい。この方法でインストールできるVagrantはバージョンが古いため、[Vagrant Cloud][]からboxをインポートできません。
