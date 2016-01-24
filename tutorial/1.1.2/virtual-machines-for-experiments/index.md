@@ -91,6 +91,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.provider("virtualbox") do |virtual_box|
         virtual_box.memory = 2048
       end
+      node_config.vm.provision 'shell', :inline => 'apt-get -y purge chef && apt-get -y autoremove'
     end
   end
 end
