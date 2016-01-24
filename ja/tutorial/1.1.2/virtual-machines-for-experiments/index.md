@@ -71,7 +71,7 @@ $ sudo dpkg -i vagrant_1.8.1_x86_64.deb
 ### boxの種類を決めて、Vagrantfileを用意する
 
 [Vagrant Cloud][]のサイトから、実験に使うためのboxを選びます。
-例えば[Ubuntu Wily (x64)のbox](https://vagrantcloud.com/ubuntu/boxes/trusty64)を使うのであれば、以下のようにします:
+例えば[Ubuntu Wily (x64)のbox](https://vagrantcloud.com/ubuntu/boxes/wily64)を使うのであれば、以下のようにします:
 
 ~~~
 $ mkdir droonga-ubuntu-wily
@@ -95,10 +95,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.box = box
       node_config.vm.network(:private_network,
                              :ip => "192.168.100.#{50 + index}")
-      node_config.vm.host_name = "node#{index}"
+      node_config.vm.hostname = "node#{index}"
       node_config.vm.provider("virtualbox") do |virtual_box|
         virtual_box.memory = 2048
       end
+      node_config.vm.provision 'shell', :inline => 'apt-get -y purge chef && apt-get -y autoremove'
     end
   end
 end
