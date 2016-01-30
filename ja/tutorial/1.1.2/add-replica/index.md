@@ -104,7 +104,7 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 この事は、`system.status`コマンドを通じて確認できます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -116,7 +116,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   },
   "reporter": "..."
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status"
 {
   "nodes": {
     "node2:10031/droonga": {
@@ -202,7 +202,7 @@ Start to join a new node node2
 `system.status`コマンドを使って、これらのノードがクラスタとして動作していることを確かめましょう：
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -225,7 +225,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 
 ~~~
 (on node0)
-$ curl "http://node0:10041/droonga/system/statistics/object/count/per-volume?output\[\]=total" | jq "."
+$ curl "http://node0:10041/droonga/system/statistics/object/count/per-volume?output\[\]=total"
 {
   "node0:10031/droonga.000": {
     "total": 540
@@ -277,7 +277,7 @@ Done.
 `node2`が本当にクラスタから離脱しているかどうかは、`system.status コマンドを使って以下のように確かめられます：
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -289,7 +289,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   },
   "reporter": "..."
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status"
 {
   "nodes": {
     "node2:10031/droonga": {
@@ -323,7 +323,7 @@ $ droonga-engine-unjoin --host=node1
 これで、ノードがクラスタから離脱しました。この事は `system.status` コマンドで確かめられます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -372,7 +372,7 @@ $ droonga-engine-join --host=node2 \
 この事は、`system.status` コマンドの結果を見ると確認できます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
