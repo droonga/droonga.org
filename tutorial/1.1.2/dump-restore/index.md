@@ -137,7 +137,7 @@ Make it empty with these commands:
 
 ~~~
 $ endpoint="http://node0:10041"
-$ curl "$endpoint/d/table_remove?name=Location" | jq "."
+$ curl "$endpoint/d/table_remove?name=Location"
 [
   [
     0,
@@ -146,7 +146,7 @@ $ curl "$endpoint/d/table_remove?name=Location" | jq "."
   ],
   true
 ]
-$ curl "$endpoint/d/table_remove?name=Store" | jq "."
+$ curl "$endpoint/d/table_remove?name=Store"
 [
   [
     0,
@@ -155,7 +155,7 @@ $ curl "$endpoint/d/table_remove?name=Store" | jq "."
   ],
   true
 ]
-$ curl "$endpoint/d/table_remove?name=Term" | jq "."
+$ curl "$endpoint/d/table_remove?name=Term"
 [
   [
     0,
@@ -171,7 +171,7 @@ Let's confirm it.
 You'll see empty result by `select` and `table_list` commands, like:
 
 ~~~
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list"
 [
   [
     0,
@@ -215,9 +215,9 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl -X DELETE "$endpoint/cache" | jq "."
+$ curl -X DELETE "$endpoint/cache"
 true
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -260,9 +260,9 @@ Note:
 Then the data is completely restored. Confirm it:
 
 ~~~
-$ curl -X DELETE "$endpoint/cache" | jq "."
+$ curl -X DELETE "$endpoint/cache"
 true
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -363,7 +363,7 @@ $ ps aux | grep droonga-engine-service | grep -v grep | wc -l
 Now you'll see two separate clusters like:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -372,7 +372,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   },
   "reporter": "..."
 }
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status"
 {
   "nodes": {
     "node1:10031/droonga": {
@@ -391,9 +391,9 @@ $ endpoint="http://node1:10041"
 $ curl "$endpoint/d/table_remove?name=Location"
 $ curl "$endpoint/d/table_remove?name=Store"
 $ curl "$endpoint/d/table_remove?name=Term"
-$ curl -X DELETE "http://node1:10041/cache" | jq "."
+$ curl -X DELETE "http://node1:10041/cache"
 true
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -409,9 +409,9 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
     ]
   ]
 ]
-$ curl -X DELETE "http://node0:10041/cache" | jq "."
+$ curl -X DELETE "http://node0:10041/cache"
 true
-$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -508,9 +508,9 @@ Note that you must specify the host name (or the IP address) of the working mach
 After that contents of these two clusters are completely synchronized. Confirm it:
 
 ~~~
-$ curl -X DELETE "http://node1:10041/cache" | jq "."
+$ curl -X DELETE "http://node1:10041/cache"
 true
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -581,7 +581,7 @@ After that there is just one cluster - yes, it's the initial state.
 (Of course you will have to wait for a while until services are completely restarted.)
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
