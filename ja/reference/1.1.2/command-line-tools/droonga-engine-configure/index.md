@@ -105,7 +105,7 @@ log level (trace,debug,info,warn,error,fatal) [warn]:
 
 `--pid-file=PATH`
 : デーモンとして実行されたプロセスのプロセスIDの出力先ファイルのパス。
-  ただし、`systemcctl start droonga-engine`コマンドで開始されるサービスについては、プロセスIDは常にプラットフォームごとの適切な位置に出力されます。
+  ただし、`systemctl start droonga-engine`コマンドで開始されるサービスについては、プロセスIDは常にプラットフォームごとの適切な位置に出力されます。
 
 `--base-dir=PATH`
 : すべての`droonga-engine`関係のファイルが格納されるデータディレクトリのパス。
