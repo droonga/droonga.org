@@ -652,7 +652,7 @@ Before benchmarking, join the second node to the cluster.
 % sudo droonga-engine-catalog-generate \
     --hosts=node0,node1
 % sudo systemctl restart droonga-engine
-% sudo systemctl droonga-http-server
+% sudo systemctl restart droonga-http-server
 ~~~
 
 After that both endpoints `node0` and `node1` work as a Droonga cluster with two nodes.

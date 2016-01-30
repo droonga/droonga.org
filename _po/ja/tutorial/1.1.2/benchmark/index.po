@@ -1225,7 +1225,7 @@ msgid ""
 "% sudo droonga-engine-catalog-generate \\\n"
 "    --hosts=node0,node1\n"
 "% sudo systemctl restart droonga-engine\n"
-"% sudo systemctl droonga-http-server\n"
+"% sudo systemctl restart droonga-http-server\n"
 "~~~"
 msgstr ""
 

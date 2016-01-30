@@ -660,7 +660,7 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 % sudo droonga-engine-catalog-generate \
     --hosts=node0,node1
 % sudo systemctl restart droonga-engine
-% sudo systemctl droonga-http-server
+% sudo systemctl restart droonga-http-server
 ~~~
 
 これにより、`node0`と`node1`は2ノード構成のDroongaクラスタとして動作するようになります。
