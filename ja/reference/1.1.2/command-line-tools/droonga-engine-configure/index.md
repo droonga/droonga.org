@@ -101,15 +101,15 @@ log level (trace,debug,info,warn,error,fatal) [warn]:
 
 `--daemon`, `--no-daemon`
 : デーモンとして実行するか、通常のプロセスとして実行するか。
-  ただし、`service droonga-engine start`コマンドで開始されるサービスについては常にデーモンとして実行されます。
+  ただし、`systemctl start droonga-engine`コマンドで開始されるサービスについては常にデーモンとして実行されます。
 
 `--pid-file=PATH`
 : デーモンとして実行されたプロセスのプロセスIDの出力先ファイルのパス。
-  ただし、`service droonga-engine start`コマンドで開始されるサービスについては、プロセスIDは常にプラットフォームごとの適切な位置に出力されます。
+  ただし、`systemcctl start droonga-engine`コマンドで開始されるサービスについては、プロセスIDは常にプラットフォームごとの適切な位置に出力されます。
 
 `--base-dir=PATH`
 : すべての`droonga-engine`関係のファイルが格納されるデータディレクトリのパス。
-  ただし、`service droonga-engine start`コマンドで開始されるサービスについては、必ず`/home/droonga-engine/droonga/`が使われます。
+  ただし、`systemctl start droonga-engine`コマンドで開始されるサービスについては、必ず`/home/droonga-engine/droonga/`が使われます。
 
 ## インストール方法 {#install}
 

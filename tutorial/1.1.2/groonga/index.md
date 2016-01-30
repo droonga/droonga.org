@@ -36,7 +36,7 @@ A Droonga cluster is constructed from one or more computers, called *Droonga nod
 Prepare computers for Droonga nodes at first.
 
 This tutorial describes steps to set up Droonga cluster based on existing computers.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 14.04 x64` or `CentOS 7 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 15.10 x64` or `CentOS 7 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
 If you just want to try Droong casually, see another tutorial: [how to prepare multiple virtual machines on your own computer](../virtual-machines-for-experiments/).
 
@@ -219,12 +219,12 @@ You can run Groonga as an HTTP server daemon with the option `-d`, like:
 
 On the other hand, you have to run multiple server daemons for each Droonga node to use your Droonga cluster via HTTP.
 
-If you set up your Droonga nodes by installation scripts, daemons are already been configured as system services managed via the `service` command.
+If you set up your Droonga nodes by installation scripts, daemons are already been configured as system services managed via the `systemctl` command.
 To start them, run commands like following on each Droonga node:
 
 ~~~
-# service droonga-engine start
-# service droonga-http-server start
+# systemctl start droonga-engine
+# systemctl start droonga-http-server
 ~~~
 
 By these commands, services start to work.
@@ -279,8 +279,8 @@ Moreover, even if some `droonga-engine`s stop, `droonga-http-server` wards off t
 To stop services, run commands like following on each Droonga node:
 
 ~~~
-# service droonga-engine stop
-# service droonga-http-server stop
+# systemctl stop droonga-engine
+# systemctl stop droonga-http-server
 ~~~
 
 After verification, start services again, on each Droonga node.

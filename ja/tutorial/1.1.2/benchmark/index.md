@@ -150,7 +150,7 @@ Groongaは利用可能なプロセッサ数と同じ数だけのリクエスト�
 
 ## ベンチマーク環境を用意する
 
-新しいDroongaクラスタのために、以下の、互いにホスト名で名前解決できる4つの[Ubuntu][] 14.04LTSのサーバがあると仮定します:
+新しいDroongaクラスタのために、以下の、互いにホスト名で名前解決できる4つの[Ubuntu][] 15.10のサーバがあると仮定します:
 
  * `192.168.100.50`、ホスト名：`node0`
  * `192.168.100.51`、ホスト名：`node1`
@@ -585,16 +585,16 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 
 ~~~
 (on node1, node2)
-% sudo service droonga-engine stop
-% sudo service droonga-http-server stop
+% sudo systemctl stop droonga-engine
+% sudo systemctl stop droonga-http-server
 ~~~
 
 ~~~
 (on node0)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
+% sudo systemctl restart droonga-engine
+% sudo systemctl restart droonga-http-server
 ~~~
 
 前回のベンチマークの影響をなくすために、各ベンチマークの実行前にはサービスを再起動することをおすすめします。
@@ -659,8 +659,8 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 (on node0, node1)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0,node1
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
+% sudo systemctl restart droonga-engine
+% sudo systemctl droonga-http-server
 ~~~
 
 これにより、`node0`と`node1`は2ノード構成のDroongaクラスタとして動作するようになります。
@@ -720,8 +720,8 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 (on node0, node1)
 % sudo droonga-engine-catalog-generate \
     --hosts=node0,node1,node2
-% sudo service droonga-engine restart
-% sudo service droonga-http-server restart
+% sudo systemctl restart droonga-engine
+% sudo systemctl restart droonga-http-server
 ~~~
 
 これで、`node0`, `node1`, `node2`のすべてのノードが3ノード構成のクラスタとして動作するようになります。

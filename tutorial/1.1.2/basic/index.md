@@ -67,7 +67,7 @@ For example, let's try to build a database system to find [Starbucks stores in N
 ## Prepare an environment for experiments
 
 Prepare a computer at first. This tutorial describes steps to develop a search service based on the Droonga, on an existing computer.
-Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 14.04 x64`, `CentOS 7 x64`, or or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
+Following instructions are basically written for a successfully prepared virtual machine of the `Ubuntu 15.10 x64`, `CentOS 7 x64`, or or `CentOS 6.5 x64` on the service [DigitalOcean](https://www.digitalocean.com/), with an available console.
 
 NOTE: Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga. Otherwise, you possibly experience a strange build error.
 
@@ -219,22 +219,22 @@ For more details of the configuration file `catalog.json`, see [the reference ma
 
 ### Start and stop the `droonga-engine` service
 
-The `droonga-engine` service can be started via the `service` command:
+The `droonga-engine` service can be started via the `systemctl` command:
 
 ~~~
-# service droonga-engine start
+# systemctl start droonga-engine
 ~~~
 
-To stop it, you also have to use the `service` command:
+To stop it, you also have to use the `systemctl` command:
 
 ~~~
-# service droonga-engine stop
+# systemctl stop droonga-engine
 ~~~
 
 After confirmation, start the `droonga-engine` again.
 
 ~~~
-# service droonga-engine start
+# systemctl start droonga-engine
 ~~~
 
 ### Create a database
@@ -926,22 +926,22 @@ Successfully installed droonga-http-server.
 
 ### Start and stop the `droonga-http-server` service
 
-The `droonga-http-server` service can be started via the `service` command:
+The `droonga-http-server` service can be started via the `systemctl` command:
 
 ~~~
-# service droonga-http-server start
+# systemctl start droonga-http-server
 ~~~
 
-To stop it, you also have to use the `service` command:
+To stop it, you also have to use the `systemctl` command:
 
 ~~~
-# service droonga-http-server stop
+# systemctl stop droonga-http-server
 ~~~
 
 After confirmation, start the `droonga-http-server` again.
 
 ~~~
-# service droonga-engine start
+# systemctl start droonga-engine
 ~~~
 
 ### Search request via HTTP

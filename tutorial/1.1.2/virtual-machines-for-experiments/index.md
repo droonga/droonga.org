@@ -54,21 +54,21 @@ Go to the [Vagrant web site][Vagrant] and install it as instructed.
 For example, if you use an Ubuntu PC (x64):
 
 ~~~
-$ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
-$ sudo dpkg -i vagrant_1.6.5_x86_64.deb
+$ wget https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+$ sudo dpkg -i vagrant_1.8.1_x86_64.deb
 ~~~
 
-NOTE: You can install Vagrant via `apt-get install vagrant` on Ubuntu 14.04, but don't use it because the version is too old to import boxes from [Vagrant Cloud][].
+NOTE: You can install Vagrant via `apt-get install vagrant` on Ubuntu 15.10, but don't use it because the version is too old to import boxes from [Vagrant Cloud][].
 
 ### Determine a box and prepare a Vagrantfile
 
 Go to the [Vagrant Cloud][] and find a box for your experiments.
-For example, if you use a [box for Ubuntu Trusty (x64)](https://vagrantcloud.com/ubuntu/boxes/trusty64), you just have to do:
+For example, if you use a [box for Ubuntu Wily (x64)](https://vagrantcloud.com/ubuntu/boxes/wily64), you just have to do:
 
 ~~~
-$ mkdir droonga-ubuntu-trusty
-$ cd droonga-ubuntu-trusty
-$ vagrant init ubuntu/trusty64
+$ mkdir droonga-ubuntu-wily
+$ cd droonga-ubuntu-wily
+$ vagrant init ubuntu/wily64
 ~~~
 
 Then a file `Vagrantfile` is automatically generated there.
@@ -78,7 +78,7 @@ However you should rewrite it completely for experiments of Droonga cluster, lik
 
 ~~~
 n_machines = 3
-box        = "ubuntu/trusty64"
+box        = "ubuntu/wily64"
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -87,10 +87,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.box = box
       node_config.vm.network(:private_network,
                              :ip => "192.168.100.#{50 + index}")
-      node_config.vm.host_name = "node#{index}"
+      node_config.vm.hostname = "node#{index}"
       node_config.vm.provider("virtualbox") do |virtual_box|
         virtual_box.memory = 2048
       end
+      node_config.vm.provision 'shell', :inline => 'apt-get -y purge chef && apt-get -y autoremove'
     end
   end
 end
@@ -120,7 +121,7 @@ You can log in those VMs by the command `vagrant ssh`, like:
 
 ~~~
 $ vagrant ssh node0
-Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-36-generic x86_64)
+Welcome to Ubuntu 15.10 (GNU/Linux 4.2.0-23-generic x86_64)
 ...
 vagrant@node0:~$ exit
 ~~~

@@ -62,21 +62,21 @@ $ sudo apt-get install virtualbox
 例えば、ホストマシンがx64のUbuntu　PCなのであれば、以下の要領です:
 
 ~~~
-$ wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb
-$ sudo dpkg -i vagrant_1.6.5_x86_64.deb
+$ wget https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+$ sudo dpkg -i vagrant_1.8.1_x86_64.deb
 ~~~
 
-注意: Ubuntu 14.04では`apt-get install vagrant`でもVagrantをインストールできますが、これは使わないで下さい。この方法でインストールできるVagrantはバージョンが古いため、[Vagrant Cloud][]からboxをインポートできません。
+注意: Ubuntu 15.10では`apt-get install vagrant`でもVagrantをインストールできますが、これは使わないで下さい。この方法でインストールできるVagrantはバージョンが古いため、[Vagrant Cloud][]からboxをインポートできません。
 
 ### boxの種類を決めて、Vagrantfileを用意する
 
 [Vagrant Cloud][]のサイトから、実験に使うためのboxを選びます。
-例えば[Ubuntu Trusty (x64)のbox](https://vagrantcloud.com/ubuntu/boxes/trusty64)を使うのであれば、以下のようにします:
+例えば[Ubuntu Wily (x64)のbox](https://vagrantcloud.com/ubuntu/boxes/wily64)を使うのであれば、以下のようにします:
 
 ~~~
-$ mkdir droonga-ubuntu-trusty
-$ cd droonga-ubuntu-trusty
-$ vagrant init ubuntu/trusty64
+$ mkdir droonga-ubuntu-wily
+$ cd droonga-ubuntu-wily
+$ vagrant init ubuntu/wily64
 ~~~
 
 この操作で、設定ファイルの`Vagrantfile`が自動生成されます。
@@ -86,7 +86,7 @@ $ vagrant init ubuntu/trusty64
 
 ~~~
 n_machines = 3
-box        = "ubuntu/trusty64"
+box        = "ubuntu/wily64"
 
 VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -95,10 +95,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node_config.vm.box = box
       node_config.vm.network(:private_network,
                              :ip => "192.168.100.#{50 + index}")
-      node_config.vm.host_name = "node#{index}"
+      node_config.vm.hostname = "node#{index}"
       node_config.vm.provider("virtualbox") do |virtual_box|
         virtual_box.memory = 2048
       end
+      node_config.vm.provision 'shell', :inline => 'apt-get -y purge chef && apt-get -y autoremove'
     end
   end
 end
@@ -128,7 +129,7 @@ Bringing machine 'node2' up with 'virtualbox' provider...
 
 ~~~
 $ vagrant ssh node0
-Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-36-generic x86_64)
+Welcome to Ubuntu 15.10 (GNU/Linux 4.2.0-23-generic x86_64)
 ...
 vagrant@node0:~$ exit
 ~~~

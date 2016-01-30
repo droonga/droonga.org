@@ -96,8 +96,8 @@ Droongaのノードの集合には、「replica」と「slice」という2つの
 
 ~~~
 (on node2)
-# service droonga-engine start
-# service droonga-http-server start
+# systemctl start droonga-engine
+# systemctl start droonga-http-server
 ~~~
 
 この時点で、この新しいノードは既存のクラスタのノードとしては動作していません。

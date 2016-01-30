@@ -19,13 +19,13 @@ Download them and run it by `bash`, as the root:
     bash
 ~~~
 
-After services are installed, you can run/stop them via the `service` command:
+After services are installed, you can run/stop them via the `systemctl` command:
 
 ~~~
-# service droonga-engine start
-# service droonga-engine stop
-# service droonga-http-server start
-# service droonga-http-server stop
+# systemctl start droonga-engine
+# systemctl stop droonga-engine
+# systemctl start droonga-http-server
+# systemctl stop droonga-http-server
 ~~~
 
 Now you are ready for building your own data processing system with Droonga. See [tutorial](/tutorial/) to get started.
@@ -33,7 +33,7 @@ Now you are ready for building your own data processing system with Droonga. See
 NOTE: currently the installation script works only on several environments:
 
  * Debian GNU/Linux (latest release)
- * Ubuntu (latest release, latest LTS)
+ * Ubuntu (latest release)
  * CentOS 7
 
 ## Dependencies

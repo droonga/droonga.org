@@ -45,7 +45,7 @@ Droongaクラスタは、*Droongaノード*と呼ばれる1つ以上のコンピ
 まず、Droongaノードにするためのコンピュータを用意しましょう。
 
 このチュートリアルは、既存のコンピュータを使ってDroongaクラスタを構築する手順について解説しています。
-以下の説明は基本的には、[DigitalOcean](https://www.digitalocean.com/)上のサーバで`Ubuntu 14.04 x64`または`CentOS 7 x64`の仮想マシンが正しく準備されており、コンソールが利用できる状態になっている、という前提に基づいています。
+以下の説明は基本的には、[DigitalOcean](https://www.digitalocean.com/)上のサーバで`Ubuntu 15.10 x64`または`CentOS 7 x64`の仮想マシンが正しく準備されており、コンソールが利用できる状態になっている、という前提に基づいています。
 
 単にDroongaを試したいだけの場合は、[自分のコンピュータ上に複数台の仮想マシンを用意する手順の解説](../virtual-machines-for-experiments/)も参照してみて下さい。
 
@@ -228,12 +228,12 @@ GroongaをHTTPサーバとして使う場合は、以下のように `-d` オプ
 
 一方、DroongaクラスタをHTTP経由で使うためには、各Droongaノードにおいて複数のサーバ・デーモンを起動する必要があります。
 
-Droongaノードをインストールスクリプトを使ってセットアップした場合、デーモンは既に、`service`コマンドによって管理されるシステムのサービスとして設定されています。
+Droongaノードをインストールスクリプトを使ってセットアップした場合、デーモンは既に、`systemctl`コマンドによって管理されるシステムのサービスとして設定されています。
 サービスを起動するには、以下のようなコマンドを各Droongaノードで実行して下さい:
 
 ~~~
-# service droonga-engine start
-# service droonga-http-server start
+# systemctl start droonga-engine
+# systemctl start droonga-http-server
 ~~~
 
 これらのコマンドにより、各サービスが動作し始めます。
@@ -288,8 +288,8 @@ $ curl "http://node1:10041/droonga/system/status" | jq "."
 サービスを停止するには、以下のコマンドを各Droongaノード上で実行します：
 
 ~~~
-# service droonga-engine stop
-# service droonga-http-server stop
+# systemctl stop droonga-engine
+# systemctl stop droonga-http-server
 ~~~
 
 確認が終わったら、再度サービスを起動しておきましょう：
