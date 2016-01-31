@@ -45,9 +45,8 @@ NOTE:
  * Make sure to use instances with >= 2GB memory equipped, at least during installation of required packages for Droonga.
    Otherwise, you possibly experience a strange build error.
  * Make sure the hostname reported by `hostname -f` or the IP address reported by `hostname -i` is accessible from each other computer in your cluster.
- * Make sure that commands `curl` and `jq` are installed in your computers.
+ * Make sure that command `curl` is installed in your computers.
    `curl` is required to download installation scripts.
-   `jq` is not required for installation, but it will help you to read response JSONs returned from Droonga.
 
 You need to prepare two or more nodes for effective replication.
 So this tutorial assumes that you have two computers:
@@ -241,7 +240,7 @@ Let's make sure that the cluster works, by a Droonga command, `system.status`.
 You can see the result via HTTP, like:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -259,7 +258,7 @@ The result says that two nodes are working correctly.
 Because it is a cluster, another endpoint returns same result.
 
 ~~~
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -326,7 +325,7 @@ To create a new table `Store`, you just have to send a GET request for the `tabl
 
 ~~~
 $ endpoint="http://node0:10041"
-$ curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
+$ curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText"
 [
   [
     0,
@@ -345,7 +344,7 @@ OK, now the table has been created successfully.
 Let's see it by the `table_list` command:
 
 ~~~
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list"
 [
   [
     0,
@@ -404,7 +403,7 @@ $ curl "$endpoint/d/table_list" | jq "."
 Because it is a cluster, another endpoint returns same result.
 
 ~~~
-$ curl "http://node1:10041/d/table_list" | jq "."
+$ curl "http://node1:10041/d/table_list"
 [
   [
     0,
@@ -463,7 +462,7 @@ $ curl "http://node1:10041/d/table_list" | jq "."
 Next, create new columns `name` and `location` to the `Store` table by the `column_create` command, like:
 
 ~~~
-$ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText" | jq "."
+$ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText"
 [
   [
     0,
@@ -472,7 +471,7 @@ $ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type
   ],
   true
 ]
-$ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint" | jq "."
+$ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
 [
   [
     0,
@@ -486,7 +485,7 @@ $ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&
 Create indexes also.
 
 ~~~
-$ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto" | jq "."
+$ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
 [
   [
     0,
@@ -495,7 +494,7 @@ $ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortTex
   ],
   true
 ]
-$ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name" | jq "."
+$ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name"
 [
   [
     0,
@@ -504,7 +503,7 @@ $ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|
   ],
   true
 ]
-$ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint" | jq "."
+$ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint"
 [
   [
     0,
@@ -513,7 +512,7 @@ $ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS8
   ],
   true
 ]
-$ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location" | jq "."
+$ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
 [
   [
     0,
@@ -527,7 +526,7 @@ $ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&t
 Let's confirm results:
 
 ~~~
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list"
 [
   [
     0,
@@ -601,7 +600,7 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/column_list?table=Store" | jq "."
+$ curl "$endpoint/d/column_list?table=Store"
 [
   [
     0,
@@ -675,7 +674,7 @@ $ curl "$endpoint/d/column_list?table=Store" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/column_list?table=Term" | jq "."
+$ curl "$endpoint/d/column_list?table=Term"
 [
   [
     0,
@@ -741,7 +740,7 @@ $ curl "$endpoint/d/column_list?table=Term" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/column_list?table=Location" | jq "."
+$ curl "$endpoint/d/column_list?table=Location"
 [
   [
     0,
@@ -865,7 +864,7 @@ stores.json:
 Then, send it as a POST request of the `load` command, like:
 
 ~~~
-$ curl --data "@stores.json" "$endpoint/d/load?table=Store" | jq "."
+$ curl --data "@stores.json" "$endpoint/d/load?table=Store"
 [
   [
     0,
@@ -887,7 +886,7 @@ OK, all data is now ready.
 As the starter, let's select initial ten records with the `select` command:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -943,7 +942,7 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 Of course you can specify conditions via the `query` option:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10"
 [
   [
     0,
@@ -970,7 +969,7 @@ $ curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_
     ]
   ]
 ]
-$ curl "$endpoint/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10"
 [
   [
     0,

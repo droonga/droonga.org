@@ -144,7 +144,7 @@ droonga-send 0.2.1
 
 ~~~
 $ endpoint="http://node0:10041"
-$ curl "$endpoint/d/table_remove?name=Location" | jq "."
+$ curl "$endpoint/d/table_remove?name=Location"
 [
   [
     0,
@@ -153,7 +153,7 @@ $ curl "$endpoint/d/table_remove?name=Location" | jq "."
   ],
   true
 ]
-$ curl "$endpoint/d/table_remove?name=Store" | jq "."
+$ curl "$endpoint/d/table_remove?name=Store"
 [
   [
     0,
@@ -162,7 +162,7 @@ $ curl "$endpoint/d/table_remove?name=Store" | jq "."
   ],
   true
 ]
-$ curl "$endpoint/d/table_remove?name=Term" | jq "."
+$ curl "$endpoint/d/table_remove?name=Term"
 [
   [
     0,
@@ -178,7 +178,7 @@ $ curl "$endpoint/d/table_remove?name=Term" | jq "."
 以下のように、`select`と`table_list`コマンドは空の結果を返します：
 
 ~~~
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list"
 [
   [
     0,
@@ -222,9 +222,9 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl -X DELETE "$endpoint/cache" | jq "."
+$ curl -X DELETE "$endpoint/cache"
 true
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -267,9 +267,9 @@ $ droonga-send --server=node0  \
 これで、データが完全に復元されました。確かめてみましょう:
 
 ~~~
-$ curl -X DELETE "$endpoint/cache" | jq "."
+$ curl -X DELETE "$endpoint/cache"
 true
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -367,7 +367,7 @@ $ ps aux | grep droonga-engine-service | grep -v grep | wc -l
 これで、2つの別々のクラスタができました：
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -376,7 +376,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   },
   "reporter": "..."
 }
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status"
 {
   "nodes": {
     "node1:10031/droonga": {
@@ -395,9 +395,9 @@ $ endpoint="http://node1:10041"
 $ curl "$endpoint/d/table_remove?name=Location"
 $ curl "$endpoint/d/table_remove?name=Store"
 $ curl "$endpoint/d/table_remove?name=Term"
-$ curl -X DELETE "http://node1:10041/cache" | jq "."
+$ curl -X DELETE "http://node1:10041/cache"
 true
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -413,9 +413,9 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
     ]
   ]
 ]
-$ curl -X DELETE "http://node0:10041/cache" | jq "."
+$ curl -X DELETE "http://node0:10041/cache"
 true
-$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node0:10041/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -512,9 +512,9 @@ Start to absorb data from Default at node0:10031/droonga
 以上の操作で、2つのクラスタの内容が完全に同期されました。確かめてみましょう:
 
 ~~~
-$ curl -X DELETE "http://node1:10041/cache" | jq "."
+$ curl -X DELETE "http://node1:10041/cache"
 true
-$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -585,7 +585,7 @@ $ curl "http://node1:10041/d/select?table=Store&output_columns=name&limit=10" | 
 （もちろん、サービスが完全に再起動されるまでしばらく待つ必要があります。）
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {

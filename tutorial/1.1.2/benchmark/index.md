@@ -262,8 +262,7 @@ Make sure that Droonga's HTTP server is actualy listening the port `10042` and i
 
 ~~~
 (on node0)
-% sudo apt-get install -y jq
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -352,7 +351,7 @@ Assume that you use a computer `node3` as the client:
 (on node3)
 % sudo apt-get update
 % sudo apt-get -y upgrade
-% sudo apt-get install -y ruby curl jq
+% sudo apt-get install -y ruby curl
 % sudo gem install drnbench
 ~~~
 
@@ -368,7 +367,7 @@ First, you have to determine the cache hit rate.
 If you have any existing service based on Groonga, you can get the actual cache hit rate of the Groonga database via `status` command, like:
 
 ~~~
-% curl "http://node0:10041/d/status" | jq .
+% curl "http://node0:10041/d/status"
 [
   [
     0,
@@ -536,7 +535,7 @@ Then you'll get the reference result of the Groonga.
 To confirm the result is valid, check the response of the `status` command:
 
 ~~~
-% curl "http://node0:10041/d/status" | jq .
+% curl "http://node0:10041/d/status"
 [
   [
     0,
@@ -596,7 +595,7 @@ Make sure that only one node is actually detected:
 
 ~~~
 (on node3)
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -631,7 +630,7 @@ It may help you to analyze what is the bottleneck.
 And, to confirm the result is valid, you should check the actual cache hit rate:
 
 ~~~
-% curl "http://node0:10042/statistics/cache" | jq .
+% curl "http://node0:10042/statistics/cache"
 {
   "hitRatio": 49.830717830807124,
   "nHits": 66968,
@@ -660,7 +659,7 @@ Make sure that two nodes are actually detected:
 
 ~~~
 (on node3)
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -721,7 +720,7 @@ Make sure that three nodes are actually detected:
 
 ~~~
 (on node3)
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {

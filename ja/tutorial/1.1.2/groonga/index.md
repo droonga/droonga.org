@@ -54,9 +54,8 @@ Droongaクラスタは、*Droongaノード*と呼ばれる1つ以上のコンピ
  * Droongaの依存パッケージをインストールする前に、仮想マシンのインスタンスが少なくとも2GB以上のメモリを備えていることを確認して下さい。
    メモリが足りないと、パッケージのインストール中にネイティブ拡張のビルドに失敗する場合があります。
  * `hostname -f`で報告されるホスト名、または`hostname -i`で報告されるIPアドレスが、クラスタ内の他のコンピュータからアクセス可能なものであることを確認して下さい。
- * `curl`コマンドと`jq`コマンドがインストールされていることを確認して下さい。
+ * `curl`コマンドがインストールされていることを確認して下さい。
    `curl`はインストールスクリプトをダウンロードするために必要です。
-   `jq`はインストールのためには必要ではありませんが、Droongaが返却するJSON形式のレスポンスを読むのに役立つでしょう。
 
 有効なレプリケーションを実現するためには2台以上のコンピュータを用意する必要があります。
 ですので、このチュートリアルでは以下のような2台のコンピュータがあると仮定して説明を進めます:
@@ -250,7 +249,7 @@ Droongaノードをインストールスクリプトを使ってセットアッ�
 コマンドはHTTP経由で実行できます:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -268,7 +267,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
 ~~~
-$ curl "http://node1:10041/droonga/system/status" | jq "."
+$ curl "http://node1:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -335,7 +334,7 @@ Elapsed time: 0.023726995
 
 ~~~
 $ endpoint="http://node0:10041"
-$ curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText" | jq "."
+$ curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortText"
 [
   [
     0,
@@ -354,7 +353,7 @@ $ curl "$endpoint/d/table_create?name=Store&flags=TABLE_PAT_KEY&key_type=ShortTe
 `table_list` コマンドを使って、作成されたテーブルの情報を見てみましょう:
 
 ~~~
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list"
 [
   [
     0,
@@ -413,7 +412,7 @@ $ curl "$endpoint/d/table_list" | jq "."
 Droongaはクラスタで動作するので、他のエンドポイントも同じ結果を返します。
 
 ~~~
-$ curl "http://node1:10041/d/table_list" | jq "."
+$ curl "http://node1:10041/d/table_list"
 [
   [
     0,
@@ -472,7 +471,7 @@ $ curl "http://node1:10041/d/table_list" | jq "."
 次は、`column_create` コマンドを使って `Store` テーブルに `name` と `location` という新しいカラムを作ります:
 
 ~~~
-$ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText" | jq "."
+$ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type=ShortText"
 [
   [
     0,
@@ -481,7 +480,7 @@ $ curl "$endpoint/d/column_create?table=Store&name=name&flags=COLUMN_SCALAR&type
   ],
   true
 ]
-$ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint" | jq "."
+$ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&type=WGS84GeoPoint"
 [
   [
     0,
@@ -495,7 +494,7 @@ $ curl "$endpoint/d/column_create?table=Store&name=location&flags=COLUMN_SCALAR&
 インデックスも作成しましょう。
 
 ~~~
-$ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto" | jq "."
+$ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortText&default_tokenizer=TokenBigram&normalizer=NormalizerAuto"
 [
   [
     0,
@@ -504,7 +503,7 @@ $ curl "$endpoint/d/table_create?name=Term&flags=TABLE_PAT_KEY&key_type=ShortTex
   ],
   true
 ]
-$ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name" | jq "."
+$ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|WITH_POSITION&type=Store&source=name"
 [
   [
     0,
@@ -513,7 +512,7 @@ $ curl "$endpoint/d/column_create?table=Term&name=store_name&flags=COLUMN_INDEX|
   ],
   true
 ]
-$ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint" | jq "."
+$ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS84GeoPoint"
 [
   [
     0,
@@ -522,7 +521,7 @@ $ curl "$endpoint/d/table_create?name=Location&flags=TABLE_PAT_KEY&key_type=WGS8
   ],
   true
 ]
-$ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location" | jq "."
+$ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&type=Store&source=location"
 [
   [
     0,
@@ -536,7 +535,7 @@ $ curl "$endpoint/d/column_create?table=Location&name=store&flags=COLUMN_INDEX&t
 結果を確認してみましょう：
 
 ~~~
-$ curl "$endpoint/d/table_list" | jq "."
+$ curl "$endpoint/d/table_list"
 [
   [
     0,
@@ -610,7 +609,7 @@ $ curl "$endpoint/d/table_list" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/column_list?table=Store" | jq "."
+$ curl "$endpoint/d/column_list?table=Store"
 [
   [
     0,
@@ -684,7 +683,7 @@ $ curl "$endpoint/d/column_list?table=Store" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/column_list?table=Term" | jq "."
+$ curl "$endpoint/d/column_list?table=Term"
 [
   [
     0,
@@ -750,7 +749,7 @@ $ curl "$endpoint/d/column_list?table=Term" | jq "."
     ]
   ]
 ]
-$ curl "$endpoint/d/column_list?table=Location" | jq "."
+$ curl "$endpoint/d/column_list?table=Location"
 [
   [
     0,
@@ -874,7 +873,7 @@ stores.json:
 データが準備できたら、`load` コマンドのPOSTリクエストとして送信します:
 
 ~~~
-$ curl --data "@stores.json" "$endpoint/d/load?table=Store" | jq "."
+$ curl --data "@stores.json" "$endpoint/d/load?table=Store"
 [
   [
     0,
@@ -896,7 +895,7 @@ $ curl --data "@stores.json" "$endpoint/d/load?table=Store" | jq "."
 試しに、`select` コマンドを使って最初の10レコードを取り出してみましょう:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10"
 [
   [
     0,
@@ -952,7 +951,7 @@ $ curl "$endpoint/d/select?table=Store&output_columns=name&limit=10" | jq "."
 もちろん、`query` オプションを使って検索条件を指定する事もできます:
 
 ~~~
-$ curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_columns=name&limit=10"
 [
   [
     0,
@@ -979,7 +978,7 @@ $ curl "$endpoint/d/select?table=Store&query=Columbus&match_columns=name&output_
     ]
   ]
 ]
-$ curl "$endpoint/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10" | jq "."
+$ curl "$endpoint/d/select?table=Store&filter=name@'Ave'&output_columns=name&limit=10"
 [
   [
     0,

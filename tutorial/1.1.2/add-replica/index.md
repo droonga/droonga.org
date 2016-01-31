@@ -95,7 +95,7 @@ Currently, the new node doesn't work as a node of the existing cluster.
 You can confirm that, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -107,7 +107,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   },
   "reporter": "..."
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status"
 {
   "nodes": {
     "node2:10031/droonga": {
@@ -193,7 +193,7 @@ With that, a new replica node has successfully joined to your Droonga cluster.
 You can confirm that they are working as a cluster, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -216,7 +216,7 @@ Equivalence of all replicas can be confirmed with the command `system.statistics
 
 ~~~
 (on node0)
-$ curl "http://node0:10041/droonga/system/statistics/object/count/per-volume?output\[\]=total" | jq "."
+$ curl "http://node0:10041/droonga/system/statistics/object/count/per-volume?output\[\]=total"
 {
   "node0:10031/droonga.000": {
     "total": 540
@@ -268,7 +268,7 @@ Now, the node has been successfully unjoined from the cluster.
 You can confirm that the `node2` is unjoined, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -280,7 +280,7 @@ $ curl "http://node0:10041/droonga/system/status" | jq "."
   },
   "reporter": "..."
 }
-$ curl "http://node2:10041/droonga/system/status" | jq "."
+$ curl "http://node2:10041/droonga/system/status"
 {
   "nodes": {
     "node2:10031/droonga": {
@@ -316,7 +316,7 @@ Now the node has been gone.
 You can confirm that via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -365,7 +365,7 @@ Finally a Droonga cluster constructed with two nodes `node0` and `node2` is here
 You can confirm that, via the `system.status` command:
 
 ~~~
-$ curl "http://node0:10041/droonga/system/status" | jq "."
+$ curl "http://node0:10041/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {

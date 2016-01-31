@@ -271,8 +271,7 @@ DroongaのHTTPサーバが動作しており、`10042`番のポートを監視�
 
 ~~~
 (on node0)
-% sudo apt-get install -y jq
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -361,7 +360,7 @@ Droongaは複数のノードに並行してバラバラに送られたスキー�
 (on node3)
 % sudo apt-get update
 % sudo apt-get -y upgrade
-% sudo apt-get install -y ruby curl jq
+% sudo apt-get install -y ruby curl
 % sudo gem install drnbench
 ~~~
 
@@ -377,7 +376,7 @@ Droongaは複数のノードに並行してバラバラに送られたスキー�
 もし既に運用中のGroongaベースのサービスがあるのであれば、以下のようにして、`status`コマンドを使ってGroongaデータベースのキャッシュヒット率を調べることができます:
 
 ~~~
-% curl "http://node0:10041/d/status" | jq .
+% curl "http://node0:10041/d/status"
 [
   [
     0,
@@ -545,7 +544,7 @@ title10
 結果が妥当かどうかを確かめるために、`status`コマンドの結果を確認しましょう：
 
 ~~~
-% curl "http://node0:10041/d/status" | jq .
+% curl "http://node0:10041/d/status"
 [
   [
     0,
@@ -605,7 +604,7 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 
 ~~~
 (on node3)
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -640,7 +639,7 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 また、結果が正しいかどうかを確かめるために、実際のキャッシュヒット率を確認しておきましょう：
 
 ~~~
-% curl "http://node0:10042/statistics/cache" | jq .
+% curl "http://node0:10042/statistics/cache"
 {
   "hitRatio": 49.830717830807124,
   "nHits": 66968,
@@ -668,7 +667,7 @@ Droongaノードの上でGroongaを動かしている場合は、CPU資源とメ
 
 ~~~
 (on node3)
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
@@ -729,7 +728,7 @@ Droongaクラスタの性能を有効に測定するためには、各ノード�
 
 ~~~
 (on node3)
-% curl "http://node0:10042/droonga/system/status" | jq .
+% curl "http://node0:10042/droonga/system/status"
 {
   "nodes": {
     "node0:10031/droonga": {
